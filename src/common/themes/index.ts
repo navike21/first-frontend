@@ -1,1 +1,1 @@
-export * from "./navikeTheme";
+export * from './navikeTheme'

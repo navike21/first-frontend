@@ -1,6 +1,6 @@
-import { ESizes } from "@Enums/sizes";
-import { ThemeOptions } from "@mui/material";
-import { TMaterialTheme } from "@Types/theme";
+import { ESizes } from '@Enums/sizes'
+import { ThemeOptions } from '@mui/material'
+import { TMaterialTheme } from '@Types/theme'
 
 const htmlFontSize = {
   [ESizes.XS]: 20,
@@ -10,13 +10,13 @@ const htmlFontSize = {
   [ESizes.XL]: 10,
   [ESizes.XXL]: 8,
   [ESizes.XXXL]: 6,
-};
+}
 
 export const navikeTheme = ({
   themeMode,
   textSize,
 }: TMaterialTheme): ThemeOptions => ({
-  direction: "rtl",
+  direction: 'rtl',
   palette: {
     mode: themeMode,
   },
@@ -24,4 +24,4 @@ export const navikeTheme = ({
     fontFamily: '"Poppins", sans-serif',
     htmlFontSize: htmlFontSize[textSize],
   },
-});
+})

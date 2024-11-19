@@ -1,1 +1,1 @@
-export * from "./MuiThemeProvider";
+export * from './MuiThemeProvider'

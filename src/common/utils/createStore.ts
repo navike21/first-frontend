@@ -1,5 +1,5 @@
-import { create, StateCreator } from "zustand";
-import { persist, devtools, PersistOptions } from "zustand/middleware";
+import { create, StateCreator } from 'zustand'
+import { persist, devtools, PersistOptions } from 'zustand/middleware'
 
 /**
  * @description
@@ -45,14 +45,14 @@ export const createStore = <T>(
   config: StateCreator<T, [], []>,
   persistConfig?: PersistOptions<T>
 ) => {
-  let enhancedConfig: StateCreator<T, [], []>;
+  let enhancedConfig: StateCreator<T, [], []>
 
   if (persistConfig) {
-    const withPersist = persist(config, persistConfig);
-    enhancedConfig = devtools(withPersist) as StateCreator<T, [], []>;
+    const withPersist = persist(config, persistConfig)
+    enhancedConfig = devtools(withPersist) as StateCreator<T, [], []>
   } else {
-    enhancedConfig = devtools(config) as StateCreator<T, [], []>;
+    enhancedConfig = devtools(config) as StateCreator<T, [], []>
   }
 
-  return create<T>(enhancedConfig);
-};
+  return create<T>(enhancedConfig)
+}

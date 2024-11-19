@@ -1,19 +1,19 @@
-import { EThemeBrowser } from "@Enums/browser";
-import { ESizes } from "@Enums/sizes";
+import { EThemeBrowser } from '@Enums/browser'
+import { ESizes } from '@Enums/sizes'
 
-export type TThemeBrowser = Exclude<EThemeBrowser, EThemeBrowser.SYSTEM>;
+export type TThemeBrowser = Exclude<EThemeBrowser, EThemeBrowser.SYSTEM>
 
 export interface ITheme {
-  theme: EThemeBrowser;
-  themeValue: TThemeBrowser;
+  theme: EThemeBrowser
+  themeValue: TThemeBrowser
 }
 
 export interface IOptionsBrowser {
-  textSize: ESizes;
+  textSize: ESizes
 }
 
 export interface IThemeStore extends ITheme, IOptionsBrowser {
-  toggleTheme: () => void;
-  setTheme: (params: ITheme) => void;
-  setTextSize: (size: ESizes) => void;
+  toggleTheme: () => void
+  setTheme: (params: ITheme) => void
+  setTextSize: (size: ESizes) => void
 }

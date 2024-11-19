@@ -1,1 +1,1 @@
-export * from "./useSystemTheme";
+export * from './useSystemTheme'

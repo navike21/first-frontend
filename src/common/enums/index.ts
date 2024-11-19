@@ -1,2 +1,2 @@
-export * from "./browser";
-export * from "./sizes";
+export * from './browser'
+export * from './sizes'

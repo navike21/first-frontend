@@ -1,1 +1,1 @@
-export const STORAGE_KEY_THEME_STORE = "theme-storage";
+export const STORAGE_KEY_THEME_STORE = 'theme-storage'

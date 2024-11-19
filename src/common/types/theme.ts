@@ -1,7 +1,7 @@
-import { ESizes } from "@Enums/sizes";
-import { TThemeBrowser } from "@Store/index";
+import { ESizes } from '@Enums/sizes'
+import { TThemeBrowser } from '@Store/index'
 
 export type TMaterialTheme = {
-  themeMode: TThemeBrowser;
-  textSize: ESizes;
-};
+  themeMode: TThemeBrowser
+  textSize: ESizes
+}
