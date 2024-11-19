@@ -1,6 +1,6 @@
-import { ESizes } from "../enums";
-import { TMaterialTheme } from "../types";
+import { ESizes } from "@Enums/sizes";
 import { ThemeOptions } from "@mui/material";
+import { TMaterialTheme } from "@Types/theme";
 
 const htmlFontSize = {
   [ESizes.XS]: 20,

@@ -1,11 +1,12 @@
-import { ESizes, EThemeBrowser } from "../enums";
+import { EThemeBrowser } from "@Enums/browser";
+import { ESizes } from "@Enums/sizes";
 import {
   IOptionsBrowser,
   ITheme,
   STORAGE_KEY_THEME_STORE,
   useThemeStore,
-} from "../store";
-import { getLocalStorageObject } from "../utils";
+} from "@Store/index";
+import { getLocalStorageObject } from "@Utils/localStorage";
 
 export const initializeTheme = () => {
   const { theme, textSize } = getLocalStorageObject(

@@ -1,4 +1,5 @@
-import { EThemeBrowser, ESizes } from "../../enums";
+import { EThemeBrowser } from "@Enums/browser";
+import { ESizes } from "@Enums/sizes";
 
 export type TThemeBrowser = Exclude<EThemeBrowser, EThemeBrowser.SYSTEM>;
 

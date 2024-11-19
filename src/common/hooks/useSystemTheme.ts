@@ -1,6 +1,6 @@
+import { EThemeBrowser } from "@Enums/browser";
+import { useThemeStore } from "@Store/config";
 import { useEffect } from "react";
-import { useThemeStore } from "../store";
-import { EThemeBrowser } from "../enums";
 
 export const useSystemTheme = () => {
   const { setTheme, theme } = useThemeStore((state) => state);
@@ -21,5 +21,5 @@ export const useSystemTheme = () => {
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
-  }, [setTheme]);
+  }, [theme, setTheme]);
 };

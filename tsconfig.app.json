@@ -20,7 +20,21 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Alias config */
+    "baseUrl": "./",
+    "paths": {
+      "@Constants/*": ["src/common/constants/*"],
+      "@Enums/*": ["src/common/enums/*"],
+      "@Helpers/*": ["src/common/helpers/*"],
+      "@Hooks/*": ["src/common/hooks/*"],
+      "@Providers/*": ["src/common/providers/*"],
+      "@Store/*": ["src/common/store/*"],
+      "@Themes/*": ["src/common/themes/*"],
+      "@Types/*": ["src/common/types/*"],
+      "@Utils/*": ["src/common/utils/*"]
+    }
   },
   "include": ["src"]
 }
