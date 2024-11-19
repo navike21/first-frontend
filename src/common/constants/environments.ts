@@ -1,5 +1,5 @@
 type TEnvironments = {
-  [key: string]: string | undefined
+  VITE_API_URL: string
 }
 
 export const environments: TEnvironments = {
