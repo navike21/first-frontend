@@ -1,9 +1,9 @@
 import { EThemeBrowser } from '@Enums/browser'
-import { useThemeStore } from '@Store/config'
 import { useEffect } from 'react'
+import { useTheme } from './useTheme'
 
 export const useSystemTheme = () => {
-  const { setTheme, theme } = useThemeStore((state) => state)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')

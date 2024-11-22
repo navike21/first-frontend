@@ -7,7 +7,7 @@
     "build": "tsc -b && vite build",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "start:dev": "vite",
+    "start:dev": "vite --host",
     "start:preview": "vite preview"
   },
   "dependencies": {

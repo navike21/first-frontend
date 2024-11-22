@@ -1,0 +1,33 @@
+import { createTheme, ThemeOptions } from '@mui/material'
+import { TMaterialTheme } from '@Types/theme'
+import { htmlFontSize } from './htmlFontSize'
+import { typography } from './typography'
+import { backgroundColor, colors, grayColors } from './colors'
+
+export const navikeTheme = ({
+  themeMode,
+  textSize,
+  color,
+}: TMaterialTheme): ThemeOptions => ({
+  direction: 'rtl',
+  palette: {
+    mode: themeMode,
+    primary: colors[color],
+    background: backgroundColor(themeMode),
+    grey: grayColors,
+  },
+  typography: {
+    fontFamily: '"Poppins", sans-serif',
+    htmlFontSize: htmlFontSize[textSize],
+  },
+})
+
+export const createNavikeTheme = (themeOptions: TMaterialTheme) => {
+  const baseTheme = createTheme(navikeTheme(themeOptions))
+  baseTheme.typography = {
+    ...baseTheme.typography,
+    ...typography(baseTheme),
+  }
+
+  return baseTheme
+}

@@ -4,9 +4,11 @@ import { getSystemTheme } from '@Utils/themeUtils'
 import { ESizes } from '@Enums/sizes'
 import { STORAGE_KEY_THEME_STORE } from './constant'
 import { IThemeStore } from './types'
+import { EColors } from '@Enums/color'
 
 export const useThemeStore = createStore<IThemeStore>(
   (set, get) => ({
+    color: EColors.GREEN,
     theme: EThemeBrowser.SYSTEM,
     themeValue: getSystemTheme(),
     textSize: ESizes.MD,

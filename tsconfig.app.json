@@ -25,11 +25,15 @@
     /* Alias config */
     "baseUrl": "./",
     "paths": {
+      "@Assets/*": ["src/common/assets/*"],
       "@Constants/*": ["src/common/constants/*"],
       "@Enums/*": ["src/common/enums/*"],
       "@Helpers/*": ["src/common/helpers/*"],
       "@Hooks/*": ["src/common/hooks/*"],
+      "@Layouts/*": ["src/common/layouts/*"],
+      "@Pages/*": ["src/pages/*"],
       "@Providers/*": ["src/common/providers/*"],
+      "@Routes/*": ["src/routes/*"],
       "@Store/*": ["src/common/store/*"],
       "@Themes/*": ["src/common/themes/*"],
       "@Types/*": ["src/common/types/*"],
