@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@mui/material'
 import { FormContainer, formContainer, loginContainer } from './styles'
+import { Password } from '@Components/index'
 
 export const Login = () => {
   return (
@@ -27,12 +28,7 @@ export const Login = () => {
               variant="outlined"
               type="email"
             />
-            <TextField
-              autoComplete="current-password"
-              label="Password"
-              variant="outlined"
-              type="password"
-            />
+            <Password />
             <Button variant="contained" color="primary" type="submit">
               Sign in
             </Button>

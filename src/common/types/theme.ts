@@ -1,5 +1,4 @@
-import { EColors } from '@Enums/color'
-import { ESizes } from '@Enums/sizes'
+import { EColors, ESizes } from '@Enums/index'
 import { TThemeBrowser } from '@Store/index'
 
 export type TMaterialTheme = {

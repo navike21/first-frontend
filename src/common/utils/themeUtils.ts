@@ -1,5 +1,5 @@
-import { EThemeBrowser } from '@Enums/browser'
-import { TThemeBrowser } from '@Store/config'
+import { EThemeBrowser } from '@Enums/index'
+import { TThemeBrowser } from '@Store/index'
 
 export const getSystemTheme = (): TThemeBrowser => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches

@@ -26,6 +26,7 @@
     "baseUrl": "./",
     "paths": {
       "@Assets/*": ["src/common/assets/*"],
+      "@Components/*": ["src/common/components/*"],
       "@Constants/*": ["src/common/constants/*"],
       "@Enums/*": ["src/common/enums/*"],
       "@Helpers/*": ["src/common/helpers/*"],

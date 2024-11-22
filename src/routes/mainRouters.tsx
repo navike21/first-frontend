@@ -1,5 +1,5 @@
 import { MainLayout } from '@Layouts/MainLayout'
-import { Login } from '@Pages/Login'
+import { Login } from '@Pages/index'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const mainRouter = createBrowserRouter(

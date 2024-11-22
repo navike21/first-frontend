@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@Assets': path.resolve(__dirname, 'src/common/assets'),
+        '@Components': path.resolve(__dirname, 'src/common/components'),
         '@Constants': path.resolve(__dirname, 'src/common/constants'),
         '@Enums': path.resolve(__dirname, 'src/common/enums'),
         '@Helpers': path.resolve(__dirname, 'src/common/helpers'),

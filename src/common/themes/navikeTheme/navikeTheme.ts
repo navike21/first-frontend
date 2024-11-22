@@ -1,5 +1,5 @@
 import { createTheme, ThemeOptions } from '@mui/material'
-import { TMaterialTheme } from '@Types/theme'
+import { TMaterialTheme } from '@Types/index'
 import { htmlFontSize } from './htmlFontSize'
 import { typography } from './typography'
 import { backgroundColor, colors, grayColors } from './colors'

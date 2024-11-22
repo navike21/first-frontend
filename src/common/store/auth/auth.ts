@@ -1,4 +1,4 @@
-import { createStore } from '@Utils/createStore'
+import { createStore } from '@Utils/index'
 import { IAuthState, IAuthStore } from './types'
 import { STORAGE_KEY_AUTH_STORE } from './constant'
 

@@ -1,10 +1,7 @@
-import { createStore } from '@Utils/createStore'
-import { EThemeBrowser } from '@Enums/browser'
-import { getSystemTheme } from '@Utils/themeUtils'
-import { ESizes } from '@Enums/sizes'
+import { createStore, getSystemTheme } from '@Utils/index'
+import { EColors, ESizes, EThemeBrowser } from '@Enums/index'
 import { STORAGE_KEY_THEME_STORE } from './constant'
 import { IThemeStore } from './types'
-import { EColors } from '@Enums/color'
 
 export const useThemeStore = createStore<IThemeStore>(
   (set, get) => ({

@@ -1,4 +1,3 @@
-import { EThemeBrowser } from '@Enums/browser'
 import {
   EBaseColors,
   EBlue,
@@ -9,9 +8,10 @@ import {
   EOrange,
   EPurple,
   ERed,
-} from '@Enums/color'
+  EThemeBrowser,
+} from '@Enums/index'
 import { Color, PaletteColorOptions, TypeBackground } from '@mui/material'
-import { TThemeBrowser } from '@Store/config'
+import { TThemeBrowser } from '@Store/index'
 
 type TColor = {
   [key in EColors]: PaletteColorOptions
