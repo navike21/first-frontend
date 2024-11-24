@@ -6,19 +6,22 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material'
-import { useState } from 'react'
+import { useId, useState } from 'react'
+import { TPasswordProps } from './types'
 
-export const Password = () => {
+export const Password = ({ label }: TPasswordProps) => {
   const [showPassword, setShowPassword] = useState(false)
+  const idElement = useId()
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
   return (
     <FormControl variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+      <InputLabel htmlFor={idElement}>{label}</InputLabel>
       <OutlinedInput
-        id="outlined-adornment-password"
+        id={idElement}
         type={showPassword ? 'text' : 'password'}
+        autoComplete="current-password"
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -26,14 +29,12 @@ export const Password = () => {
                 showPassword ? 'hide the password' : 'display the password'
               }
               onClick={handleClickShowPassword}
-              edge="end"
-              size="small"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }
-        label="Password"
+        label={label}
       />
     </FormControl>
   )
