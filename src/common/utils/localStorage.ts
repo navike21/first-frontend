@@ -1,20 +1,20 @@
-export const getLocalStorage = (key: string): string | null =>
+export const getItemLocalStorage = (key: string): string | null =>
   localStorage.getItem(key)
 
-export const setLocalStorage = (key: string, value: string): void =>
+export const setItemLocalStorage = (key: string, value: string): void =>
   localStorage.setItem(key, value)
 
-export const removeLocalStorage = (key: string): void =>
+export const removeItemLocalStorage = (key: string): void =>
   localStorage.removeItem(key)
 
 export const clearLocalStorage = (): void => localStorage.clear()
 
-export const getLocalStorageObject = (key: string) => {
-  const item = getLocalStorage(key)
+export const getItemLocalStorageObject = (key: string) => {
+  const item = getItemLocalStorage(key)
   return item ? JSON.parse(item) : {}
 }
 
-export const setLocalStorageObject = (
+export const setItemLocalStorageObject = (
   key: string,
   value: Record<string, unknown>
-): void => setLocalStorage(key, JSON.stringify(value))
+): void => setItemLocalStorage(key, JSON.stringify(value))
