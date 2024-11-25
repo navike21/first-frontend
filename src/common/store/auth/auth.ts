@@ -20,7 +20,7 @@ export const useAuthStore = createStore<IAuthStore>(
       set({
         token: params.token,
         user: params.user,
-        isLogged: true,
+        isLogged: !!params.token && !!params.user.id,
       })
     },
     setLogout: () => {

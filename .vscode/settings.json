@@ -1,4 +1,6 @@
-// {
+{
+  "cSpell.words": ["xsmall", "xxlarge", "xxxlarge"]
+} // {
 //   "editor.formatOnSave": true,
 //   "editor.defaultFormatter": "esbenp.prettier-vscode",
 //   "files.autoSave": "onWindowChange",

@@ -4,20 +4,6 @@ import { ESizes } from '@Enums/sizes'
 import { STORAGE_KEY_THEME_STORE, useThemeStore } from '@Store/index'
 import { getItemLocalStorageObject } from '@Utils/localStorage'
 
-// export const initializeTheme = () => {
-//   const { theme, textSize, color } = getItemLocalStorageObject(
-//     STORAGE_KEY_THEME_STORE
-//   ) as ITheme & IOptionsBrowser
-
-//   useThemeStore.getState().setTheme({
-//     theme: theme || EThemeBrowser.SYSTEM,
-//     themeValue: theme === EThemeBrowser.SYSTEM ? EThemeBrowser.LIGHT : theme,
-//     color: color || EColors.GREEN,
-//   })
-
-//   useThemeStore.getState().setTextSize(textSize || ESizes.MD)
-// }
-
 export const initializeTheme = () => {
   const themeStore = useThemeStore.getState()
   const storedTheme = getItemLocalStorageObject(STORAGE_KEY_THEME_STORE)
