@@ -11,7 +11,11 @@ export const clearLocalStorage = (): void => localStorage.clear()
 
 export const getItemLocalStorageObject = (key: string) => {
   const item = getItemLocalStorage(key)
-  return item ? JSON.parse(item) : {}
+  try {
+    return item ? JSON.parse(item) : {}
+  } catch {
+    return {}
+  }
 }
 
 export const setItemLocalStorageObject = (
