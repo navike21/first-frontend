@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useTheme } from './useTheme'
 
 export const useSystemTheme = () => {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, color } = useTheme()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -13,6 +13,7 @@ export const useSystemTheme = () => {
         setTheme({
           theme: EThemeBrowser.SYSTEM,
           themeValue: e.matches ? EThemeBrowser.DARK : EThemeBrowser.LIGHT,
+          color,
         })
     }
 
@@ -21,5 +22,5 @@ export const useSystemTheme = () => {
     return () => {
       mediaQuery.removeEventListener('change', handleChange)
     }
-  }, [theme, setTheme])
+  }, [color, theme, setTheme])
 }

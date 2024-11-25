@@ -9,8 +9,8 @@ describe('useThemeStore', () => {
     global.matchMedia = vi.fn().mockImplementation((query) => ({
       matches: query === '(prefers-color-scheme: dark)', // Simula la preferencia por tema oscuro
       media: query,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     }))
 
     useThemeStore.setState({
