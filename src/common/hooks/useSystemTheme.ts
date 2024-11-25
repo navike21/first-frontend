@@ -8,6 +8,8 @@ export const useSystemTheme = () => {
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
+    if (theme !== EThemeBrowser.SYSTEM) return
+
     const handleChange = (e: MediaQueryListEvent) => {
       if (theme === EThemeBrowser.SYSTEM)
         setTheme({
