@@ -107,13 +107,13 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   caption: {
     ...baseTheme.typography.caption,
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(6),
-    },
-    [baseTheme.breakpoints.up('sm')]: {
       fontSize: baseTheme.typography.pxToRem(8),
     },
-    [baseTheme.breakpoints.up('md')]: {
+    [baseTheme.breakpoints.up('sm')]: {
       fontSize: baseTheme.typography.pxToRem(10),
+    },
+    [baseTheme.breakpoints.up('md')]: {
+      fontSize: baseTheme.typography.pxToRem(12),
     },
   },
   body1: {

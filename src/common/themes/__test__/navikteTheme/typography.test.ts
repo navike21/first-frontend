@@ -158,9 +158,9 @@ describe('typography', () => {
     const smFontSize = caption[baseTheme.breakpoints.up('sm')]?.fontSize
     const mdFontSize = caption[baseTheme.breakpoints.up('md')]?.fontSize
 
-    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(6))
-    expect(smFontSize).toBe(baseTheme.typography.pxToRem(8))
-    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(10))
+    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(8))
+    expect(smFontSize).toBe(baseTheme.typography.pxToRem(10))
+    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(12))
   })
 
   it('should return typography options with correct font sizes for body1', () => {

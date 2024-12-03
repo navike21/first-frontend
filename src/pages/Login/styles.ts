@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
 import { TStyleProps } from '@Types/styles'
 import background from '@Assets/images/background-3-blur.webp'
+import { styled } from '@mui/material/styles'
 
 export const formContainer: TStyleProps = (theme) => ({
   [theme.breakpoints.up('xs')]: {
@@ -12,6 +12,7 @@ export const formContainer: TStyleProps = (theme) => ({
     gap: theme.spacing(4),
     justifyContent: 'center',
     paddingY: theme.spacing(5),
+    paddingX: theme.spacing(4),
     width: '80%',
   },
   [theme.breakpoints.up('sm')]: {
@@ -46,6 +47,12 @@ export const loginContainer: TStyleProps = () => ({
   },
 })
 
-export const FormContainer = styled('form')({
-  width: '70%',
-})
+export const FormContainer = styled('form')(({ theme }) => ({
+  [theme.breakpoints.up('xs')]: {
+    width: '100%',
+    maxWidth: theme.spacing(35),
+  },
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: theme.spacing(40),
+  },
+}))

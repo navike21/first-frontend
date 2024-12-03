@@ -1,41 +1,41 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from '@mui/material'
-import { useId, useState } from 'react'
+import { IconButton, TextField } from '@mui/material'
+import { forwardRef, useId, useState } from 'react'
 import { TPasswordProps } from './types'
 
-export const Password = ({ label }: TPasswordProps) => {
-  const [showPassword, setShowPassword] = useState(false)
-  const idElement = useId()
+export const Password = forwardRef<HTMLInputElement, TPasswordProps>(
+  ({ label, name, error, helperText, prefix, ...props }, ref) => {
+    const idElement = useId()
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const { message: errorMessage } = (error && error[name]) ?? {}
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
-
-  return (
-    <FormControl variant="outlined">
-      <InputLabel htmlFor={idElement}>{label}</InputLabel>
-      <OutlinedInput
-        id={idElement}
-        type={showPassword ? 'text' : 'password'}
-        autoComplete="current-password"
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label={
-                showPassword ? 'hide the password' : 'display the password'
-              }
-              onClick={handleClickShowPassword}
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
+    return (
+      <TextField
+        error={Boolean(errorMessage)}
         label={label}
+        id={idElement}
+        helperText={`${errorMessage || helperText || ''}`}
+        type={showPassword ? 'text' : 'password'}
+        slotProps={{
+          input: {
+            startAdornment: prefix,
+            endAdornment: (
+              <IconButton
+                color={errorMessage ? 'error' : 'primary'}
+                aria-label={
+                  showPassword ? 'hide the password' : 'display the password'
+                }
+                onClick={() => setShowPassword((show) => !show)}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            ),
+          },
+        }}
+        name={name}
+        inputRef={ref}
+        {...props}
       />
-    </FormControl>
-  )
-}
+    )
+  }
+)
