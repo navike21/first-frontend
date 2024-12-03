@@ -1,6 +1,6 @@
 import { TextFieldProps } from '@mui/material'
 import { TErrorField } from '@Types/hooksForm'
-import { ReactNode } from 'react'
+import { ReactNode, ReactElement } from 'react'
 
 export type TInputTextProps = Omit<TextFieldProps, 'error'> & {
   label?: string
@@ -8,5 +8,5 @@ export type TInputTextProps = Omit<TextFieldProps, 'error'> & {
   error?: TErrorField
   helperText?: string
   suffix?: ReactNode
-  prefix?: ReactNode
+  prefix?: ReactNode | ReactElement
 }

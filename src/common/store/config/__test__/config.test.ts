@@ -55,4 +55,14 @@ describe('useThemeStore', () => {
     setTextSize(ESizes.LG)
     expect(useThemeStore.getState().textSize).toBe(ESizes.LG)
   })
+
+  it('should set theme value to system when theme is SYSTEM', () => {
+    const { setTheme } = useThemeStore.getState()
+    setTheme({
+      theme: EThemeBrowser.SYSTEM,
+      themeValue: EThemeBrowser.LIGHT,
+      color: EColors.GREEN,
+    })
+    expect(useThemeStore.getState().themeValue).toBe(EThemeBrowser.DARK)
+  })
 })

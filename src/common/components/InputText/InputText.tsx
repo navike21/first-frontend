@@ -1,10 +1,10 @@
-import { TextField } from '@mui/material'
+import { TextField, InputAdornment } from '@mui/material'
 import { forwardRef, useId } from 'react'
 import { TInputTextProps } from './types'
 
 export const InputText = forwardRef<HTMLInputElement, TInputTextProps>(
   ({ label, name, error, helperText, suffix, prefix, ...props }, ref) => {
-    const idElement = useId()
+    const idElement = `${useId()}-input`
     const { message: errorMessage } = (error && error[name]) ?? {}
 
     return (
@@ -15,8 +15,12 @@ export const InputText = forwardRef<HTMLInputElement, TInputTextProps>(
         helperText={`${errorMessage || helperText || ''}`}
         slotProps={{
           input: {
-            startAdornment: prefix,
-            endAdornment: suffix,
+            startAdornment: prefix ? (
+              <InputAdornment position="start">{prefix}</InputAdornment>
+            ) : undefined,
+            endAdornment: suffix ? (
+              <InputAdornment position="end">{suffix}</InputAdornment>
+            ) : undefined,
           },
         }}
         name={name}

@@ -5,7 +5,7 @@ import { TPasswordProps } from './types'
 
 export const Password = forwardRef<HTMLInputElement, TPasswordProps>(
   ({ label, name, error, helperText, prefix, ...props }, ref) => {
-    const idElement = useId()
+    const idElement = `${useId()}-password`
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const { message: errorMessage } = (error && error[name]) ?? {}
 
