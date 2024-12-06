@@ -39,6 +39,7 @@ export const Login = () => {
               label="Email"
               variant="outlined"
               autoComplete="username"
+              type="email"
               {...register('email')}
               onInput={sanitizeInputEvent}
             />
@@ -48,7 +49,12 @@ export const Login = () => {
               autoComplete="current-password"
               {...register('password')}
             />
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              size="large"
+            >
               Sign in
             </Button>
           </Grid>
