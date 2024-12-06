@@ -119,10 +119,10 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   body1: {
     ...baseTheme.typography.body1,
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(11),
+      fontSize: baseTheme.typography.pxToRem(12),
     },
     [baseTheme.breakpoints.up('sm')]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(13),
     },
     [baseTheme.breakpoints.up('md')]: {
       fontSize: baseTheme.typography.pxToRem(14),
@@ -143,14 +143,18 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   button: {
     ...baseTheme.typography.button,
     fontWeight: 600,
+    textTransform: 'none',
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(13),
+      padding: baseTheme.typography.pxToRem(12),
     },
     [baseTheme.breakpoints.up('sm')]: {
       fontSize: baseTheme.typography.pxToRem(14),
+      padding: baseTheme.typography.pxToRem(10),
     },
     [baseTheme.breakpoints.up('md')]: {
-      fontSize: baseTheme.typography.pxToRem(16),
+      fontSize: baseTheme.typography.pxToRem(14),
+      padding: baseTheme.typography.pxToRem(9),
     },
   },
 })

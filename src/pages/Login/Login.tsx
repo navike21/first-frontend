@@ -1,6 +1,6 @@
 import { Button, Grid2 as Grid, Paper, Typography } from '@mui/material'
 import { FormContainer, formContainer, loginContainer } from './styles'
-import { InputText, Logo, Password } from '@Components/index'
+import { InputText, Link, Logo, Password } from '@Components/index'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TLoginFields } from './types'
@@ -36,7 +36,7 @@ export const Login = () => {
               Sign in to your account
             </Typography>
             <Typography color="textSecondary" align="center">
-              Don’t have an account? Get started
+              Don’t have an account? <Link>Get started</Link>
             </Typography>
           </Grid>
         </Grid>
@@ -51,12 +51,22 @@ export const Login = () => {
               {...register('email')}
               onInput={sanitizeInputEvent}
             />
-            <Password
-              label="Password"
-              error={errors}
-              autoComplete="current-password"
-              {...register('password')}
-            />
+            <Grid
+              display="flex"
+              flexDirection="column"
+              alignItems="stretch"
+              gap={1}
+            >
+              <Link align="right" color="textPrimary">
+                Forgot password?
+              </Link>
+              <Password
+                label="Password"
+                error={errors}
+                autoComplete="current-password"
+                {...register('password')}
+              />
+            </Grid>
             <Button
               variant="contained"
               color="primary"

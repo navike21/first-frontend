@@ -17,7 +17,7 @@ export const ContentLogo = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing(2),
+    padding: theme.spacing(2.5),
   },
 }))
 

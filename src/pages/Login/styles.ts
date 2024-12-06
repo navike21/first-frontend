@@ -14,6 +14,7 @@ export const formContainer: TStyleProps = (theme) => ({
     paddingY: theme.spacing(5),
     paddingX: theme.spacing(4),
     width: '80%',
+    marginY: theme.spacing(5),
   },
   [theme.breakpoints.up('sm')]: {
     maxWidth: theme.spacing(60),
@@ -24,7 +25,6 @@ export const formContainer: TStyleProps = (theme) => ({
 })
 
 export const loginContainer: TStyleProps = () => ({
-  height: '100dvh',
   minHeight: '100dvh',
   width: '100vw',
   display: 'flex',
@@ -36,8 +36,8 @@ export const loginContainer: TStyleProps = () => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
     backgroundImage: `url(${background})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',

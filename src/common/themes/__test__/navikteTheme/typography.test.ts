@@ -175,8 +175,8 @@ describe('typography', () => {
     const smFontSize = body1[baseTheme.breakpoints.up('sm')]?.fontSize
     const mdFontSize = body1[baseTheme.breakpoints.up('md')]?.fontSize
 
-    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(11))
-    expect(smFontSize).toBe(baseTheme.typography.pxToRem(12))
+    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(12))
+    expect(smFontSize).toBe(baseTheme.typography.pxToRem(13))
     expect(mdFontSize).toBe(baseTheme.typography.pxToRem(14))
   })
 
@@ -209,8 +209,8 @@ describe('typography', () => {
     const smFontSize = button[baseTheme.breakpoints.up('sm')]?.fontSize
     const mdFontSize = button[baseTheme.breakpoints.up('md')]?.fontSize
 
-    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(12))
+    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(13))
     expect(smFontSize).toBe(baseTheme.typography.pxToRem(14))
-    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(16))
+    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(14))
   })
 })
