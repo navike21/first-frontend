@@ -1,6 +1,6 @@
 import { Button, Grid2 as Grid, Paper, Typography } from '@mui/material'
 import { FormContainer, formContainer, loginContainer } from './styles'
-import { InputText, Password } from '@Components/index'
+import { InputText, Logo, Password } from '@Components/index'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TLoginFields } from './types'
@@ -24,13 +24,21 @@ export const Login = () => {
   return (
     <Grid sx={loginContainer}>
       <Paper elevation={0} variant="elevation" sx={formContainer}>
-        <Grid display="flex" gap={1} flexDirection="column">
-          <Typography variant="h5" align="center">
-            Sign in to your account
-          </Typography>
-          <Typography variant="body1" align="center">
-            Don’t have an account? Get started
-          </Typography>
+        <Grid display="flex" gap={2} flexDirection="column" alignItems="center">
+          <Logo />
+          <Grid
+            display="flex"
+            gap={1}
+            flexDirection="column"
+            alignItems="center"
+          >
+            <Typography variant="h5" align="center">
+              Sign in to your account
+            </Typography>
+            <Typography color="textSecondary" align="center">
+              Don’t have an account? Get started
+            </Typography>
+          </Grid>
         </Grid>
         <FormContainer onSubmit={handleSubmit(handleLogin)}>
           <Grid display="flex" gap={2} flexDirection="column">

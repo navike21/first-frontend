@@ -1,6 +1,6 @@
 import { TStyleProps } from '@Types/styles'
 import background from '@Assets/images/background-3-blur.webp'
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material'
 
 export const formContainer: TStyleProps = (theme) => ({
   [theme.breakpoints.up('xs')]: {
