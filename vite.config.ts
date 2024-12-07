@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
         '@Providers': path.resolve(__dirname, 'src/common/providers'),
         '@Routes': path.resolve(__dirname, 'src/routes'),
         '@Store': path.resolve(__dirname, 'src/common/store'),
+        '@Styles': path.resolve(__dirname, 'src/common/styles'),
         '@Themes': path.resolve(__dirname, 'src/common/themes'),
         '@Types': path.resolve(__dirname, 'src/common/types'),
         '@Utils': path.resolve(__dirname, 'src/common/utils'),

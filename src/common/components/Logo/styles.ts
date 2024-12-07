@@ -1,13 +1,5 @@
-import { keyframes, styled } from '@mui/material'
-
-const rotate = keyframes({
-  '0%': {
-    transform: 'rotate(0deg)',
-  },
-  '100%': {
-    transform: 'rotate(360deg)',
-  },
-})
+import { styled } from '@mui/material'
+import { rotate } from '@Styles/animations'
 
 export const ContentLogo = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {

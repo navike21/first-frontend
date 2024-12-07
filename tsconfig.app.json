@@ -37,6 +37,7 @@
       "@Providers/*": ["src/common/providers/*"],
       "@Routes/*": ["src/routes/*"],
       "@Store/*": ["src/common/store/*"],
+      "@Styles/*": ["src/common/styles/*"],
       "@Themes/*": ["src/common/themes/*"],
       "@Types/*": ["src/common/types/*"],
       "@Utils/*": ["src/common/utils/*"]
