@@ -3,6 +3,7 @@ import { useTheme } from '../useTheme'
 import { ITheme, useThemeStore } from '@Store/config'
 import { ESizes } from '@Enums/sizes'
 import { EThemeBrowser } from '@Enums/browser'
+import { ELanguages } from '@Enums/language'
 
 vi.mock('@Store/config', () => ({
   useThemeStore: vi.fn(),
@@ -17,30 +18,36 @@ describe('useTheme', () => {
     ;(useThemeStore as unknown as Mock).mockImplementation((selector) => {
       const state = {
         color: 'blue',
+        language: 'en',
         theme: 'light',
         themeValue: 'default',
         textSize: 'medium',
         setTheme: vi.fn(),
         toggleTheme: vi.fn(),
         setTextSize: vi.fn(),
+        setLanguage: vi.fn(),
       }
       return selector(state)
     })
 
     const {
       color,
+      language,
       theme,
       themeValue,
       textSize,
+      setLanguage,
       setTheme,
       toggleTheme,
       setTextSize,
     } = useTheme()
 
     expect(color).toBe('blue')
+    expect(language).toBe('en')
     expect(theme).toBe('light')
     expect(themeValue).toBe('default')
     expect(textSize).toBe('medium')
+    expect(setLanguage).toBeInstanceOf(Function)
     expect(setTheme).toBeInstanceOf(Function)
     expect(toggleTheme).toBeInstanceOf(Function)
     expect(setTextSize).toBeInstanceOf(Function)
@@ -124,5 +131,36 @@ describe('useTheme', () => {
     const invalidSize = 'invalid-size' as unknown as ESizes
     setTextSize(invalidSize)
     expect(setTextSizeMock).toHaveBeenCalledWith(invalidSize)
+  })
+
+  it('should call setLanguage when setLanguage is invoked', () => {
+    const setLanguageMock = vi.fn()
+    ;(useThemeStore as unknown as Mock).mockImplementation((selector) => {
+      const state = {
+        setLanguage: setLanguageMock,
+      }
+      return selector(state)
+    })
+
+    const { setLanguage } = useTheme()
+    setLanguage(ELanguages.ES)
+
+    expect(setLanguageMock).toHaveBeenCalledWith('es')
+  })
+
+  it('should handle invalid input for setLanguage', () => {
+    const setLanguageMock = vi.fn()
+    ;(useThemeStore as unknown as Mock).mockImplementation((selector) => {
+      const state = {
+        setLanguage: setLanguageMock,
+      }
+      return selector(state)
+    })
+
+    const { setLanguage } = useTheme()
+
+    const invalidLanguage = 'invalid-language' as unknown as ELanguages
+    setLanguage(invalidLanguage)
+    expect(setLanguageMock).toHaveBeenCalledWith(invalidLanguage)
   })
 })

@@ -1,13 +1,16 @@
-import { Button, Grid2 as Grid, Paper, Typography } from '@mui/material'
-import { FormContainer, formContainer, loginContainer } from './styles'
+import { Button, Grid2 as Grid, Typography } from '@mui/material'
+import { FormLogin, LoginContainer, FormContainer } from './styles'
 import { InputText, Link, Logo, Password } from '@Components/index'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TLoginFields } from './types'
 import { loginSchema } from './schema'
 import { sanitizeInputEvent } from '@Utils/sanitizeInputEvent'
+import { useTheme } from '@Hooks/useTheme'
 
 export const Login = () => {
+  const { language } = useTheme()
+
   const {
     register,
     handleSubmit,
@@ -22,8 +25,8 @@ export const Login = () => {
   }
 
   return (
-    <Grid sx={loginContainer}>
-      <Paper elevation={0} variant="elevation" sx={formContainer}>
+    <LoginContainer>
+      <FormContainer elevation={0} variant="elevation">
         <Grid display="flex" gap={2} flexDirection="column" alignItems="center">
           <Logo />
           <Grid
@@ -40,7 +43,7 @@ export const Login = () => {
             </Typography>
           </Grid>
         </Grid>
-        <FormContainer onSubmit={handleSubmit(handleLogin)}>
+        <FormLogin onSubmit={handleSubmit(handleLogin)}>
           <Grid display="flex" gap={2} flexDirection="column">
             <InputText
               error={errors}
@@ -73,11 +76,11 @@ export const Login = () => {
               type="submit"
               size="large"
             >
-              Sign in
+              Sign in {language}
             </Button>
           </Grid>
-        </FormContainer>
-      </Paper>
-    </Grid>
+        </FormLogin>
+      </FormContainer>
+    </LoginContainer>
   )
 }

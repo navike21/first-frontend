@@ -1,4 +1,5 @@
 export * from './createStore'
+export * from './getBrowserLanguage'
 export * from './localStorage'
 export * from './themeUtils'
 export * from './sanitizeInputEvent'

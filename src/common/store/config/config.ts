@@ -1,4 +1,4 @@
-import { createStore, getSystemTheme } from '@Utils/index'
+import { createStore, getBrowserLanguage, getSystemTheme } from '@Utils/index'
 import { EColors, ESizes, EThemeBrowser } from '@Enums/index'
 import { STORAGE_KEY_THEME_STORE } from './constant'
 import { IThemeStore } from './types'
@@ -9,6 +9,7 @@ export const useThemeStore = createStore<IThemeStore>(
     theme: EThemeBrowser.SYSTEM,
     themeValue: getSystemTheme(),
     textSize: ESizes.MD,
+    language: getBrowserLanguage(),
     toggleTheme: () => {
       const { theme } = get()
       const newTheme =
@@ -29,6 +30,11 @@ export const useThemeStore = createStore<IThemeStore>(
     setTextSize: (size) => {
       set({
         textSize: size,
+      })
+    },
+    setLanguage: (language) => {
+      set({
+        language,
       })
     },
   }),
