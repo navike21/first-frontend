@@ -1,15 +1,22 @@
 import { Button, Grid2 as Grid, Typography } from '@mui/material'
-import { FormLogin, LoginContainer, FormContainer } from './styles'
+import { FormLogin, LoginContainer, FormContainer } from '../styles'
 import { InputText, Link, Logo, Password } from '@Components/index'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TLoginFields } from './types'
-import { loginSchema } from './schema'
+import { TLoginFields } from '../types'
+import { loginSchema } from '../schema'
 import { sanitizeInputEvent } from '@Utils/sanitizeInputEvent'
 import { useTheme } from '@Hooks/useTheme'
+import { loginForm } from '../language'
 
 export const Login = () => {
   const { language } = useTheme()
+  const {
+    fields: { email, password, submit },
+    title,
+    subtitle,
+    links: { getStarted, forgotPassword },
+  } = loginForm[language]
 
   const {
     register,
@@ -17,7 +24,7 @@ export const Login = () => {
     formState: { errors },
   } = useForm<TLoginFields>({
     mode: 'all',
-    resolver: yupResolver(loginSchema()),
+    resolver: yupResolver(loginSchema(language)),
   })
 
   const handleLogin: SubmitHandler<TLoginFields> = (data) => {
@@ -36,10 +43,10 @@ export const Login = () => {
             alignItems="center"
           >
             <Typography variant="h5" align="center">
-              Sign in to your account
+              {title}
             </Typography>
             <Typography color="textSecondary" align="center">
-              Don’t have an account? <Link>Get started</Link>
+              {subtitle} <Link>{getStarted}</Link>
             </Typography>
           </Grid>
         </Grid>
@@ -47,7 +54,7 @@ export const Login = () => {
           <Grid display="flex" gap={2} flexDirection="column">
             <InputText
               error={errors}
-              label="Email"
+              label={email.label}
               variant="outlined"
               autoComplete="username"
               type="email"
@@ -61,10 +68,10 @@ export const Login = () => {
               gap={1}
             >
               <Link align="right" color="textPrimary">
-                Forgot password?
+                {forgotPassword}
               </Link>
               <Password
-                label="Password"
+                label={password.label}
                 error={errors}
                 autoComplete="current-password"
                 {...register('password')}
@@ -76,7 +83,7 @@ export const Login = () => {
               type="submit"
               size="large"
             >
-              Sign in {language}
+              {submit.label}
             </Button>
           </Grid>
         </FormLogin>
