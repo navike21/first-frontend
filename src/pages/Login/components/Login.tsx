@@ -11,6 +11,7 @@ import { loginForm } from '../language'
 import { useToast } from '@Hooks/useToast'
 import { EStatusType } from '@Enums/statusType'
 import { ToasterContent } from '@Components/ToasterContent'
+import { decryptData, encryptData } from '@Utils/encryptAndDecryptData'
 
 export const Login = () => {
   const { language } = useTheme()
@@ -33,6 +34,13 @@ export const Login = () => {
 
   const handleLogin: SubmitHandler<TLoginFields> = (data) => {
     console.log(data)
+
+    const formEncrypted = encryptData(JSON.stringify(data))
+    console.log(formEncrypted)
+
+    const formDecrypted = decryptData(formEncrypted)
+    console.log(formDecrypted)
+
     openToast({
       title: 'Login',
       type: EStatusType.SUCCESS,

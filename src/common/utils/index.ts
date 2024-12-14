@@ -1,4 +1,5 @@
 export * from './createStore'
+export * from './encryptAndDecryptData'
 export * from './getBrowserLanguage'
 export * from './localStorage'
 export * from './themeUtils'
