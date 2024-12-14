@@ -10,7 +10,6 @@ import { useTheme } from '@Hooks/useTheme'
 import { loginForm } from '../language'
 import { useToast } from '@Hooks/useToast'
 import { EStatusType } from '@Enums/statusType'
-import { ToasterContent } from '@Components/ToasterContent'
 import { decryptData, encryptData } from '@Utils/encryptAndDecryptData'
 
 export const Login = () => {
@@ -49,70 +48,62 @@ export const Login = () => {
   }
 
   return (
-    <>
-      <LoginContainer>
-        <FormContainer elevation={0} variant="elevation">
+    <LoginContainer>
+      <FormContainer elevation={0} variant="elevation">
+        <Grid display="flex" gap={2} flexDirection="column" alignItems="center">
+          <Logo />
           <Grid
             display="flex"
-            gap={2}
+            gap={1}
             flexDirection="column"
             alignItems="center"
           >
-            <Logo />
+            <Typography variant="h5" align="center">
+              {title}
+            </Typography>
+            <Typography color="textSecondary" align="center">
+              {subtitle} <Link>{getStarted}</Link>
+            </Typography>
+          </Grid>
+        </Grid>
+        <FormLogin onSubmit={handleSubmit(handleLogin)}>
+          <Grid display="flex" gap={2} flexDirection="column">
+            <InputText
+              error={errors}
+              label={email.label}
+              variant="outlined"
+              autoComplete="username"
+              type="email"
+              {...register('email')}
+              onInput={sanitizeInputEvent}
+            />
             <Grid
               display="flex"
-              gap={1}
               flexDirection="column"
-              alignItems="center"
+              alignItems="stretch"
+              gap={1}
             >
-              <Typography variant="h5" align="center">
-                {title}
-              </Typography>
-              <Typography color="textSecondary" align="center">
-                {subtitle} <Link>{getStarted}</Link>
-              </Typography>
-            </Grid>
-          </Grid>
-          <FormLogin onSubmit={handleSubmit(handleLogin)}>
-            <Grid display="flex" gap={2} flexDirection="column">
-              <InputText
+              <Link align="right" color="textPrimary">
+                {forgotPassword}
+              </Link>
+              <Password
+                label={password.label}
                 error={errors}
-                label={email.label}
-                variant="outlined"
-                autoComplete="username"
-                type="email"
-                {...register('email')}
-                onInput={sanitizeInputEvent}
+                autoComplete="current-password"
+                {...register('password')}
               />
-              <Grid
-                display="flex"
-                flexDirection="column"
-                alignItems="stretch"
-                gap={1}
-              >
-                <Link align="right" color="textPrimary">
-                  {forgotPassword}
-                </Link>
-                <Password
-                  label={password.label}
-                  error={errors}
-                  autoComplete="current-password"
-                  {...register('password')}
-                />
-              </Grid>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                size="large"
-              >
-                {submit.label}
-              </Button>
             </Grid>
-          </FormLogin>
-        </FormContainer>
-      </LoginContainer>
-      <ToasterContent />
-    </>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              size="large"
+            >
+              {submit.label}
+            </Button>
+          </Grid>
+        </FormLogin>
+      </FormContainer>
+    </LoginContainer>
   )
 }

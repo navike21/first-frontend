@@ -13,4 +13,14 @@ describe('MuiThemeProvider', () => {
 
     expect(getByText('Test Child')).toBeInTheDocument()
   })
+
+  it('should render children correctly with theme', () => {
+    const { getByText } = render(
+      <MuiThemeProvider theme={{ palette: { primary: { main: '#000' } } }}>
+        <div>Test Child</div>
+      </MuiThemeProvider>
+    )
+
+    expect(getByText('Test Child')).toBeInTheDocument()
+  })
 })

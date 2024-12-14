@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { ToasterContent } from './ToasterContent'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { Toaster } from 'sonner'
 
 vi.mock('sonner', () => ({
