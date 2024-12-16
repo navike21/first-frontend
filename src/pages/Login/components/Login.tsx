@@ -1,6 +1,6 @@
-import { Button, Grid2 as Grid, Typography } from '@mui/material'
+import { Grid2 as Grid, Typography } from '@mui/material'
 import { FormLogin, LoginContainer, FormContainer } from '../styles'
-import { InputText, Link, Logo, Password } from '@Components/index'
+import { Button, InputText, Link, Logo, Password } from '@Components/index'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TLoginFields } from '../types'
@@ -8,18 +8,15 @@ import { loginSchema } from '../schema'
 import { sanitizeInputEvent } from '@Utils/sanitizeInputEvent'
 import { useTheme } from '@Hooks/useTheme'
 import { loginForm } from '../language'
-import { useToast } from '@Hooks/useToast'
-import { EStatusType } from '@Enums/statusType'
-import { decryptData, encryptData } from '@Utils/encryptAndDecryptData'
+import { encryptData } from '@Utils/encryptAndDecryptData'
+import { usePostLogin } from '../api/postLogin'
 
 export const Login = () => {
   const { language } = useTheme()
-  const { openToast } = useToast()
   const {
     fields: { email, password, submit },
     title,
-    subtitle,
-    links: { getStarted, forgotPassword },
+    links: { forgotPassword },
   } = loginForm[language]
 
   const {
@@ -31,19 +28,15 @@ export const Login = () => {
     resolver: yupResolver(loginSchema(language)),
   })
 
-  const handleLogin: SubmitHandler<TLoginFields> = (data) => {
-    console.log(data)
+  const { mutateAsync, isPending } = usePostLogin()
 
-    const formEncrypted = encryptData(JSON.stringify(data))
-    console.log(formEncrypted)
+  const handleLogin: SubmitHandler<TLoginFields> = async (data) => {
+    const dataLoginEncrypted = encryptData(JSON.stringify(data))
 
-    const formDecrypted = decryptData(formEncrypted)
-    console.log(formDecrypted)
-
-    openToast({
-      title: 'Login',
-      type: EStatusType.SUCCESS,
-      message: 'Login success',
+    await mutateAsync({
+      data: {
+        dataLoginEncrypted,
+      },
     })
   }
 
@@ -61,9 +54,6 @@ export const Login = () => {
             <Typography variant="h5" align="center">
               {title}
             </Typography>
-            <Typography color="textSecondary" align="center">
-              {subtitle} <Link>{getStarted}</Link>
-            </Typography>
           </Grid>
         </Grid>
         <FormLogin onSubmit={handleSubmit(handleLogin)}>
@@ -74,6 +64,7 @@ export const Login = () => {
               variant="outlined"
               autoComplete="username"
               type="email"
+              disabled={isPending}
               {...register('email')}
               onInput={sanitizeInputEvent}
             />
@@ -89,6 +80,7 @@ export const Login = () => {
               <Password
                 label={password.label}
                 error={errors}
+                disabled={isPending}
                 autoComplete="current-password"
                 {...register('password')}
               />
@@ -98,6 +90,7 @@ export const Login = () => {
               color="primary"
               type="submit"
               size="large"
+              loading={isPending}
             >
               {submit.label}
             </Button>

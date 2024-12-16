@@ -26,4 +26,9 @@ export const loginFormRu: TLoginForm = {
   },
   title: 'Войдите в свой аккаунт',
   subtitle: 'У вас нет аккаунта?',
+  api: {
+    error: {
+      unexpected: 'Произошла непредвиденная ошибка при входе в систему',
+    },
+  },
 }

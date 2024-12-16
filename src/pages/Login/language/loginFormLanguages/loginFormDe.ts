@@ -26,4 +26,9 @@ export const loginFormDe: TLoginForm = {
   },
   title: 'Melden Sie sich bei Ihrem Konto an',
   subtitle: 'Sie haben noch kein Konto?',
+  api: {
+    error: {
+      unexpected: 'Ein unerwarteter Fehler ist beim Anmelden aufgetreten',
+    },
+  },
 }

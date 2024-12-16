@@ -26,4 +26,9 @@ export const loginFormJp: TLoginForm = {
   },
   title: 'アカウントにログインする',
   subtitle: 'アカウントをお持ちではありませんか？',
+  api: {
+    error: {
+      unexpected: 'ログイン中に予期しないエラーが発生しました',
+    },
+  },
 }

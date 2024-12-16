@@ -26,4 +26,9 @@ export const loginFormIt: TLoginForm = {
   },
   title: 'Accedi al tuo account',
   subtitle: 'Non hai un account?',
+  api: {
+    error: {
+      unexpected: "Si è verificato un errore imprevisto durante l'accesso",
+    },
+  },
 }

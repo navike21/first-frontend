@@ -26,4 +26,9 @@ export const loginFormPt: TLoginForm = {
   },
   title: 'Entre na sua conta',
   subtitle: 'Não tem uma conta?',
+  api: {
+    error: {
+      unexpected: 'Ocorreu um erro inesperado ao entrar',
+    },
+  },
 }

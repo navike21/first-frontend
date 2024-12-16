@@ -26,4 +26,9 @@ export const loginFormEn: TLoginForm = {
   },
   title: 'Log in to your account',
   subtitle: 'Don’t have an account?',
+  api: {
+    error: {
+      unexpected: 'An unexpected error occurred while logging in',
+    },
+  },
 }

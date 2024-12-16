@@ -3,6 +3,7 @@ export type TLoginForm = {
   links: TLoginFormLinks
   title: string
   subtitle: string
+  api: TLoginFormApi
 }
 
 export type TLoginFormFields = {
@@ -33,4 +34,12 @@ export type TLoginFormSubmit = {
 export type TLoginFormLinks = {
   forgotPassword: string
   getStarted: string
+}
+
+export type TLoginFormApi = {
+  error: TLoginFormApiError
+}
+
+export type TLoginFormApiError = {
+  unexpected: string
 }

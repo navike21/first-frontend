@@ -26,4 +26,9 @@ export const loginFormZh: TLoginForm = {
   },
   title: '登录您的账户',
   subtitle: '还没有账户？',
+  api: {
+    error: {
+      unexpected: '登录时出现意外错误',
+    },
+  },
 }

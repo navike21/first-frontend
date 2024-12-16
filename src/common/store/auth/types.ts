@@ -1,6 +1,5 @@
 export interface IUserSession {
-  id: number
-  name: string
+  names: string
   email: string
   role: string
 }
@@ -12,6 +11,6 @@ export interface IAuthState {
 }
 
 export interface IAuthStore extends IAuthState {
-  setLogin: (params: IAuthState) => void
+  setLogin: (params: Omit<IAuthState, 'isLogged'>) => void
   setLogout: () => void
 }

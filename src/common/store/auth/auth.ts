@@ -5,8 +5,7 @@ import { STORAGE_KEY_AUTH_STORE } from './constant'
 const defaultUserState: IAuthState = {
   token: '',
   user: {
-    id: 0,
-    name: '',
+    names: '',
     email: '',
     role: '',
   },
@@ -20,7 +19,7 @@ export const useAuthStore = createStore<IAuthStore>(
       set({
         token: params.token,
         user: params.user,
-        isLogged: !!params.token && !!params.user.id,
+        isLogged: !!params.token,
       })
     },
     setLogout: () => {

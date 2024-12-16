@@ -7,8 +7,7 @@ describe('useAuthStore', () => {
   const defaultUserState: IAuthState = {
     token: '',
     user: {
-      id: 0,
-      name: '',
+      names: '',
       email: '',
       role: '',
     },
@@ -18,8 +17,7 @@ describe('useAuthStore', () => {
   const loginState: IAuthState = {
     token: 'token',
     user: {
-      id: 1,
-      name: 'John Doe',
+      names: 'John Doe',
       email: 'jhon@doe.com',
       role: 'admin',
     },

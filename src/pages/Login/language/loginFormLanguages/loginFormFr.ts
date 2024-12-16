@@ -26,4 +26,9 @@ export const loginFormFr: TLoginForm = {
   },
   title: 'Connectez-vous à votre compte',
   subtitle: 'Vous n’avez pas de compte ?',
+  api: {
+    error: {
+      unexpected: 'Une erreur inattendue s’est produite lors de la connexion',
+    },
+  },
 }

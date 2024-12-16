@@ -26,4 +26,9 @@ export const loginFormEs: TLoginForm = {
   },
   title: 'Inicia sesión en tu cuenta',
   subtitle: '¿No tienes una cuenta?',
+  api: {
+    error: {
+      unexpected: 'Ha ocurrido un error inesperado al iniciar sesión',
+    },
+  },
 }

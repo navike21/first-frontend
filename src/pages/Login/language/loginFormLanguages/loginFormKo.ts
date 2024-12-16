@@ -26,4 +26,9 @@ export const loginFormKo: TLoginForm = {
   },
   title: '계정에 로그인하세요',
   subtitle: '계정이 없으신가요?',
+  api: {
+    error: {
+      unexpected: '로그인 중 예기치 않은 오류가 발생했습니다',
+    },
+  },
 }
