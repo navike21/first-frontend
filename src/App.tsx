@@ -12,7 +12,7 @@ export function App() {
     <ReactQueryProvider>
       <MuiThemeProvider>
         <RouterProvider router={mainRouter} />
-        <ToasterContent />
+        <ToasterContent richColors />
       </MuiThemeProvider>
     </ReactQueryProvider>
   )

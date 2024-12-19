@@ -5,10 +5,12 @@ import { useTheme } from '@Hooks/useTheme'
 import { loginForm } from '../language'
 import { TDataLogin } from '../types/responseLogin'
 import { useAuth } from '@Hooks/useAuth'
+import { useNavigate } from 'react-router'
 
 export const usePostLogin = () => {
   const { language } = useTheme()
   const { setLogin } = useAuth()
+  const navigate = useNavigate()
 
   const {
     api: {
@@ -31,6 +33,8 @@ export const usePostLogin = () => {
           role: '',
         },
       })
+
+      navigate('/')
     },
   })
 }

@@ -1,4 +1,4 @@
-import { create, StateCreator } from 'zustand'
+import { create, StateCreator, StoreApi } from 'zustand'
 import { persist, devtools, PersistOptions } from 'zustand/middleware'
 
 /**
@@ -44,7 +44,7 @@ import { persist, devtools, PersistOptions } from 'zustand/middleware'
 export const createStore = <T>(
   config: StateCreator<T, [], []>,
   persistConfig?: PersistOptions<T>
-) => {
+): StoreApi<T> => {
   let enhancedConfig: StateCreator<T, [], []>
 
   if (persistConfig) {

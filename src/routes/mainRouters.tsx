@@ -10,7 +10,6 @@ export const mainRouter = createBrowserRouter(
       element: <MainLayout />,
       children: [
         {
-          caseSensitive: true,
           element: <div>Hola</div>,
           path: 'contact',
         },

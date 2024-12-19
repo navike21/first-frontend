@@ -1,9 +1,16 @@
 import { Toaster, ToasterProps } from 'sonner'
 
 export const ToasterContent = ({
-  richColors = true,
+  richColors,
   position = 'top-center',
+  className,
   ...props
 }: ToasterProps) => (
-  <Toaster richColors={richColors} position={position} {...props} />
+  <Toaster
+    key={'toast'}
+    richColors={richColors}
+    position={position}
+    className={className}
+    {...props}
+  />
 )
