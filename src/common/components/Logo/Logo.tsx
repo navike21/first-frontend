@@ -1,13 +1,19 @@
 import { useTheme } from '@mui/material'
 import { ContentLogo, RadarLogo } from './styles'
+import { ESizes } from '@Enums/sizes'
 
-export const Logo = () => {
+type TLogoProps = {
+  showRadar?: boolean
+  size?: ESizes
+}
+
+export const Logo = ({ showRadar = false, size = ESizes.MD }: TLogoProps) => {
   const theme = useTheme()
   return (
-    <ContentLogo>
-      <RadarLogo />
+    <ContentLogo size={size}>
+      {showRadar && <RadarLogo />}
       <svg
-        width="100%"
+        width={showRadar ? '65%' : '100%'}
         height="100%"
         viewBox="0 0 512 512"
         fill="none"

@@ -1,6 +1,7 @@
 import { useAuth } from '@Hooks/useAuth'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { Header } from './components'
 
 export const MainLayout = () => {
   const { token, isLogged } = useAuth()
@@ -14,6 +15,7 @@ export const MainLayout = () => {
 
   return (
     <>
+      <Header />
       <Outlet />
     </>
   )

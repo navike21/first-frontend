@@ -7,3 +7,11 @@ export enum ESizes {
   XXL = 'xxlarge',
   XXXL = 'xxxlarge',
 }
+
+export enum EScreenSize {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}

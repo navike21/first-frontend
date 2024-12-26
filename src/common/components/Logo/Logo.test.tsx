@@ -48,4 +48,48 @@ describe('Logo component', () => {
     expect(gradientStops[4]).toHaveAttribute('stop-color', '#add8e6')
     expect(gradientStops[5]).toHaveAttribute('stop-color', '#0000ff')
   })
+
+  it('renders radar element when showRadar is true', () => {
+    const theme = createTheme()
+    const { container } = render(
+      <ThemeProvider theme={theme}>
+        <Logo showRadar />
+      </ThemeProvider>
+    )
+    const radarElement = container.querySelector('span')
+    expect(radarElement).toBeInTheDocument()
+  })
+
+  it('renders radar element when showRadar is false', () => {
+    const theme = createTheme()
+    const { container } = render(
+      <ThemeProvider theme={theme}>
+        <Logo />
+      </ThemeProvider>
+    )
+    const radarElement = container.querySelector('span')
+    expect(radarElement).not.toBeInTheDocument()
+  })
+
+  it('sets the correct SVG width when showRadar is true', () => {
+    const theme = createTheme()
+    const { container } = render(
+      <ThemeProvider theme={theme}>
+        <Logo showRadar />
+      </ThemeProvider>
+    )
+    const svgElement = container.querySelector('svg')
+    expect(svgElement).toHaveAttribute('width', '65%')
+  })
+
+  it('sets the correct SVG width when showRadar is false', () => {
+    const theme = createTheme()
+    const { container } = render(
+      <ThemeProvider theme={theme}>
+        <Logo showRadar={false} />
+      </ThemeProvider>
+    )
+    const svgElement = container.querySelector('svg')
+    expect(svgElement).toHaveAttribute('width', '100%')
+  })
 })

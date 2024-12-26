@@ -16,6 +16,7 @@ import { usePostLogin } from '../api/postLogin'
 import { useNavigate } from 'react-router'
 import { useEffect } from 'react'
 import { PublicPagesProvider } from '@Providers/PublicPagesProvider'
+import { ESizes } from '@Enums/sizes'
 
 export const Login = () => {
   const { token, isLogged } = useAuth()
@@ -76,7 +77,7 @@ export const Login = () => {
             flexDirection="column"
             alignItems="center"
           >
-            <Logo />
+            <Logo showRadar size={ESizes.LG} />
             <Grid
               display="flex"
               gap={1}
