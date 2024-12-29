@@ -9,7 +9,6 @@ export const navikeTheme = ({
   textSize,
   color,
 }: TMaterialTheme): ThemeOptions => ({
-  direction: 'rtl',
   palette: {
     mode: themeMode,
     primary: colors[color],

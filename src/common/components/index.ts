@@ -1,4 +1,6 @@
 export * from './Button'
+export * from './Drawer'
+export * from './IconButton'
 export * from './InputText'
 export * from './Link'
 export * from './Logo'
