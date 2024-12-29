@@ -71,13 +71,13 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
     ...baseTheme.typography.h6,
     fontWeight: 600,
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(12),
-    },
-    [baseTheme.breakpoints.up('sm')]: {
       fontSize: baseTheme.typography.pxToRem(14),
     },
-    [baseTheme.breakpoints.up('md')]: {
+    [baseTheme.breakpoints.up('sm')]: {
       fontSize: baseTheme.typography.pxToRem(16),
+    },
+    [baseTheme.breakpoints.up('md')]: {
+      fontSize: baseTheme.typography.pxToRem(18),
     },
   },
   subtitle1: {

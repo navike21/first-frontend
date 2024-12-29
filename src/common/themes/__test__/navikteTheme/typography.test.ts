@@ -107,9 +107,9 @@ describe('typography', () => {
     const smFontSize = h6[baseTheme.breakpoints.up('sm')]?.fontSize
     const mdFontSize = h6[baseTheme.breakpoints.up('md')]?.fontSize
 
-    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(12))
-    expect(smFontSize).toBe(baseTheme.typography.pxToRem(14))
-    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(16))
+    expect(xsFontSize).toBe(baseTheme.typography.pxToRem(14))
+    expect(smFontSize).toBe(baseTheme.typography.pxToRem(16))
+    expect(mdFontSize).toBe(baseTheme.typography.pxToRem(18))
   })
 
   it('should return typography options with correct font sizes for subtitle1', () => {
