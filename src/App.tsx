@@ -1,19 +1,25 @@
-import { useSystemTheme } from '@Hooks/useSystemTheme'
-import { mainRouter } from '@Routes/mainRouters'
-import { MuiThemeProvider } from '@Providers/MuiThemeProvider'
-import { RouterProvider } from 'react-router-dom'
+import { environments } from '@Constants/environments'
+import { ESizes } from '@Enums/size'
+import { EThemeOption } from '@Enums/themeOption'
+import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 
-export function App() {
-  useSystemTheme()
-
+function App() {
+  const { language, setThemeOption, setTextSize } = useOptionsBrowserStore()
   return (
-    <MuiThemeProvider>
-      <RouterProvider
-        router={mainRouter}
-        future={{
-          v7_startTransition: true,
-        }}
-      />
-    </MuiThemeProvider>
+    <span>
+      {language}
+      <button onClick={() => setThemeOption(EThemeOption.DARK)}>
+        Change Theme
+      </button>
+      <button onClick={() => setThemeOption(EThemeOption.LIGHT)}>
+        Change Light Theme
+      </button>
+      <button onClick={() => setTextSize(ESizes.MD)}>
+        Change size of text
+      </button>
+      {environments.VITE_API_URL}
+    </span>
   )
 }
+
+export default App

@@ -8,13 +8,12 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals"],
 
     /* Linting */
     "strict": true,
@@ -37,6 +36,7 @@
       "@Providers/*": ["src/common/providers/*"],
       "@Routes/*": ["src/routes/*"],
       "@Store/*": ["src/common/store/*"],
+      "@Styles/*": ["src/common/styles/*"],
       "@Themes/*": ["src/common/themes/*"],
       "@Types/*": ["src/common/types/*"],
       "@Utils/*": ["src/common/utils/*"]

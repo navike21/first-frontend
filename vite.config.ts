@@ -1,21 +1,20 @@
 /// <reference types="vitest" />
 
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(() => {
   return {
-    define: {
-      'import.meta.env': JSON.stringify(env),
-    },
     plugins: [react()],
     test: {
       globals: true,
       environment: 'jsdom',
-      setupFiles: ['./vitest.setup.ts'],
+      setupFiles: './src/setupTests.ts',
+    },
+    server: {
+      port: 3000,
     },
     resolve: {
       alias: {
@@ -30,6 +29,7 @@ export default defineConfig(({ mode }) => {
         '@Providers': path.resolve(__dirname, 'src/common/providers'),
         '@Routes': path.resolve(__dirname, 'src/routes'),
         '@Store': path.resolve(__dirname, 'src/common/store'),
+        '@Styles': path.resolve(__dirname, 'src/common/styles'),
         '@Themes': path.resolve(__dirname, 'src/common/themes'),
         '@Types': path.resolve(__dirname, 'src/common/types'),
         '@Utils': path.resolve(__dirname, 'src/common/utils'),
