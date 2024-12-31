@@ -5,6 +5,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   h1: {
     ...baseTheme.typography.h1,
     fontWeight: 600,
+    margin: baseTheme.spacing(2, 0),
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(32),
     },
@@ -32,6 +33,8 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
     ...baseTheme.typography.h3,
     fontWeight: 600,
     [baseTheme.breakpoints.up('xs')]: {
+      margin: 0,
+      padding: 0,
       fontSize: baseTheme.typography.pxToRem(24),
     },
     [baseTheme.breakpoints.up('sm')]: {
