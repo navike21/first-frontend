@@ -34,7 +34,7 @@
       "@Layouts/*": ["src/common/layouts/*"],
       "@Pages/*": ["src/pages/*"],
       "@Providers/*": ["src/common/providers/*"],
-      "@Routes/*": ["src/routes/*"],
+      "@Router/*": ["src/router/*"],
       "@Store/*": ["src/common/store/*"],
       "@Styles/*": ["src/common/styles/*"],
       "@Themes/*": ["src/common/themes/*"],

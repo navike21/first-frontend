@@ -28,7 +28,7 @@ export default defineConfig(() => {
         '@Layouts': path.resolve(__dirname, 'src/common/layouts'),
         '@Pages': path.resolve(__dirname, 'src/pages'),
         '@Providers': path.resolve(__dirname, 'src/common/providers'),
-        '@Routes': path.resolve(__dirname, 'src/routes'),
+        '@Router': path.resolve(__dirname, 'src/router'),
         '@Store': path.resolve(__dirname, 'src/common/store'),
         '@Styles': path.resolve(__dirname, 'src/common/styles'),
         '@Themes': path.resolve(__dirname, 'src/common/themes'),

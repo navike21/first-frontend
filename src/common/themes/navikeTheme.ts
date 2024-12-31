@@ -24,7 +24,8 @@ export const navikeTheme = ({
     grey: grayColors,
   },
   typography: {
-    fontFamily: '"Poppins", sans-serif',
+    // fontFamily: '"Poppins", sans-serif',
+    fontFamily: '"Quicksand", serif',
     htmlFontSize: htmlFontSize[textSize],
   },
 })

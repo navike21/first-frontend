@@ -4,8 +4,7 @@ import { TypographyOptions } from '@mui/material/styles/createTypography'
 export const typography = (baseTheme: Theme): TypographyOptions => ({
   h1: {
     ...baseTheme.typography.h1,
-    fontWeight: 600,
-    margin: baseTheme.spacing(2, 0),
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(32),
     },
@@ -18,7 +17,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h2: {
     ...baseTheme.typography.h2,
-    fontWeight: 600,
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(28),
     },
@@ -31,7 +30,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h3: {
     ...baseTheme.typography.h3,
-    fontWeight: 600,
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
       margin: 0,
       padding: 0,
@@ -46,7 +45,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h4: {
     ...baseTheme.typography.h4,
-    fontWeight: 600,
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(20),
     },
@@ -59,20 +58,20 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h5: {
     ...baseTheme.typography.h5,
-    fontWeight: 600,
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(16),
+      fontSize: baseTheme.typography.pxToRem(18),
     },
     [baseTheme.breakpoints.up('sm')]: {
-      fontSize: baseTheme.typography.pxToRem(16),
+      fontSize: baseTheme.typography.pxToRem(18),
     },
     [baseTheme.breakpoints.up('md')]: {
-      fontSize: baseTheme.typography.pxToRem(18),
+      fontSize: baseTheme.typography.pxToRem(20),
     },
   },
   h6: {
     ...baseTheme.typography.h6,
-    fontWeight: 600,
+    fontWeight: 500,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(14),
     },
@@ -146,8 +145,8 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   button: {
     ...baseTheme.typography.button,
-    fontWeight: 600,
-    textTransform: 'none',
+    fontWeight: 700,
+    // textTransform: 'none',
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(13),
       padding: baseTheme.typography.pxToRem(12),
