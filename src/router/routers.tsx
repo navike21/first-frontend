@@ -3,10 +3,13 @@ import {
   createRoute,
   createRouter,
   lazyRouteComponent,
+  redirect,
 } from '@tanstack/react-router'
 import { Title } from '@Components/Title/Title'
 import { loginRoute } from './publicRoutes'
 import { dashboardRoute } from './privateRoutes'
+import { useAuthInformationStore } from '@Store/authInformation/authInformation'
+import { URL_LOGIN } from '@Constants/publicPagesURL'
 
 const rootRoute = createRootRoute({
   component: lazyRouteComponent(
@@ -29,6 +32,14 @@ export const privateRoute = createRoute({
     () => import('@Layouts/PrivateLayout/PrivateLayout'),
     'PrivateLayout'
   ),
+  beforeLoad: () => {
+    const { isAuth } = useAuthInformationStore.getState()
+    if (!isAuth) {
+      throw redirect({
+        to: URL_LOGIN,
+      })
+    }
+  },
 })
 
 const indexRoute = createRoute({
