@@ -3,7 +3,7 @@ import { ReactQueryProvider } from '@Providers/ReactQueryProvider'
 import { ReactRouterProvider } from '@Providers/ReactRouterProvider'
 import { ToasterContent } from '@Components/ToasterContent/ToasterContent.tsx'
 
-function App() {
+export const App = () => {
   return (
     <MUIProvider>
       <ReactQueryProvider>
@@ -13,5 +13,3 @@ function App() {
     </MUIProvider>
   )
 }
-
-export default App
