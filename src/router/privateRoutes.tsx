@@ -4,7 +4,7 @@ import { privateRoute } from './routers'
 
 export const dashboardRoute = createRoute({
   getParentRoute: () => privateRoute,
-  path: 'dashboard',
+  path: '/',
   component: function Dashboard() {
     return (
       <div className="p-2">

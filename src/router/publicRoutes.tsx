@@ -11,7 +11,7 @@ export const loginRoute = createRoute({
   getParentRoute: () => publicRoute,
   path: 'login',
   component: lazyRouteComponent(
-    () => import('@Pages/public/Login/components/Login'),
+    () => import('@Pages/public/Login/Login'),
     'Login'
   ),
   beforeLoad: () => {
