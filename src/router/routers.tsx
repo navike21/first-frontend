@@ -5,7 +5,6 @@ import {
   lazyRouteComponent,
   redirect,
 } from '@tanstack/react-router'
-// import { Title } from '@Components/Title/Title'
 import { loginRoute } from './publicRoutes'
 import { dashboardRoute } from './privateRoutes'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
@@ -42,20 +41,7 @@ export const privateRoute = createRoute({
   },
 })
 
-// const indexRoute = createRoute({
-//   getParentRoute: () => rootRoute,
-//   path: '/',
-//   component: function Index() {
-//     return (
-//       <div className="p-2">
-//         <Title>Bienvenido a la Página Principal</Title>
-//       </div>
-//     )
-//   },
-// })
-
 const routeTree = rootRoute.addChildren([
-  // indexRoute,
   publicRoute.addChildren([loginRoute]),
   privateRoute.addChildren([dashboardRoute]),
 ])

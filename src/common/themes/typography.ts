@@ -4,7 +4,7 @@ import { TypographyOptions } from '@mui/material/styles/createTypography'
 export const typography = (baseTheme: Theme): TypographyOptions => ({
   h1: {
     ...baseTheme.typography.h1,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(32),
     },
@@ -17,7 +17,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h2: {
     ...baseTheme.typography.h2,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(28),
     },
@@ -30,7 +30,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h3: {
     ...baseTheme.typography.h3,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
       margin: 0,
       padding: 0,
@@ -45,7 +45,7 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   h4: {
     ...baseTheme.typography.h4,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(20),
     },
@@ -53,25 +53,25 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
       fontSize: baseTheme.typography.pxToRem(24),
     },
     [baseTheme.breakpoints.up('md')]: {
-      fontSize: baseTheme.typography.pxToRem(28),
+      fontSize: baseTheme.typography.pxToRem(26),
     },
   },
   h5: {
     ...baseTheme.typography.h5,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(18),
+      fontSize: baseTheme.typography.pxToRem(19),
     },
     [baseTheme.breakpoints.up('sm')]: {
-      fontSize: baseTheme.typography.pxToRem(18),
+      fontSize: baseTheme.typography.pxToRem(20),
     },
     [baseTheme.breakpoints.up('md')]: {
-      fontSize: baseTheme.typography.pxToRem(20),
+      fontSize: baseTheme.typography.pxToRem(22),
     },
   },
   h6: {
     ...baseTheme.typography.h6,
-    fontWeight: 500,
+    fontWeight: 700,
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(14),
     },
@@ -122,13 +122,13 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
     ...baseTheme.typography.body1,
     fontFamily: '"Poppins", sans-serif',
     [baseTheme.breakpoints.up('xs')]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(14),
     },
     [baseTheme.breakpoints.up('sm')]: {
-      fontSize: baseTheme.typography.pxToRem(13),
+      fontSize: baseTheme.typography.pxToRem(15),
     },
     [baseTheme.breakpoints.up('md')]: {
-      fontSize: baseTheme.typography.pxToRem(14),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
   },
   body2: {

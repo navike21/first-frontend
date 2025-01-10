@@ -1,5 +1,5 @@
-import { IconButton as IconButtonMUI, IconButtonOwnProps } from '@mui/material'
+import { IconButton as IconButtonMUI, IconButtonProps } from '@mui/material'
 
-export const IconButton = ({ children, ...props }: IconButtonOwnProps) => (
+export const IconButton = ({ children, ...props }: IconButtonProps) => (
   <IconButtonMUI {...props}>{children}</IconButtonMUI>
 )

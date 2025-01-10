@@ -15,7 +15,7 @@ export const Button = ({
   <MUIButton disabled={loading} size={size} variant={variant} {...props}>
     {loading && (
       <ContentLoader>
-        <CircularProgress size={25} />
+        <CircularProgress size={20} />
       </ContentLoader>
     )}
     <ContentButton loading={loading}>{children}</ContentButton>

@@ -23,6 +23,7 @@ export const LogoContent = styled('div')(({ theme }) => ({
 
 export const Navigation = styled('nav')(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
+    alignItems: 'center',
     display: 'flex',
     gap: theme.spacing(2),
   },

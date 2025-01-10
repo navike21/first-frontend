@@ -3,7 +3,7 @@ import { Button, styled } from '@mui/material'
 export const MUIButton = styled(Button)(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
     position: 'relative',
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(1.5, 2),
   },
 }))
 

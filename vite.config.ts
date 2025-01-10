@@ -25,6 +25,7 @@ export default defineConfig(() => {
         '@Enums': path.resolve(__dirname, 'src/common/enums'),
         '@Helpers': path.resolve(__dirname, 'src/common/helpers'),
         '@Hooks': path.resolve(__dirname, 'src/common/hooks'),
+        '@Json': path.resolve(__dirname, 'src/common/json'),
         '@Layouts': path.resolve(__dirname, 'src/common/layouts'),
         '@Pages': path.resolve(__dirname, 'src/pages'),
         '@Providers': path.resolve(__dirname, 'src/common/providers'),

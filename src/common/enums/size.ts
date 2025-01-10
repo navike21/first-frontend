@@ -1,9 +1,9 @@
 export enum ESizes {
-  XS = 'xsmall',
-  SM = 'small',
-  MD = 'medium',
-  LG = 'large',
-  XL = 'xlarge',
-  XXL = 'xxlarge',
-  XXXL = 'xxxlarge',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  XXL = 'xxl',
+  XXXL = 'xxxl',
 }

@@ -31,6 +31,7 @@
       "@Enums/*": ["src/common/enums/*"],
       "@Helpers/*": ["src/common/helpers/*"],
       "@Hooks/*": ["src/common/hooks/*"],
+      "@Json/*": ["src/common/json/*"],
       "@Layouts/*": ["src/common/layouts/*"],
       "@Pages/*": ["src/pages/*"],
       "@Providers/*": ["src/common/providers/*"],
