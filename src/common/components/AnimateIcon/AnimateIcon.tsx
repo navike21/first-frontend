@@ -16,7 +16,7 @@ export const AnimateIcon = ({
   const playerRef = useRef<Player>(null)
   const {
     colors: {
-      primary: { contrastText },
+      text: { primary: colorIcons },
     },
   } = useThemeInfo()
 
@@ -41,7 +41,7 @@ export const AnimateIcon = ({
         ref={playerRef}
         direction={toggleAnimation ? 1 : -1}
         onComplete={handleLoopAnimation}
-        colors={`primary:${contrastText},secondary:${contrastText}`}
+        colors={`primary:${colorIcons},secondary:${colorIcons}`}
       />
     </div>
   )

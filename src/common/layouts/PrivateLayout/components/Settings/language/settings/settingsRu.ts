@@ -6,6 +6,7 @@ export const settingsRu: TSettingsLang = {
     themeMode: {
       light: 'Светлый режим',
       dark: 'Темный режим',
+      title: 'Режим темы',
     },
     compact: {
       title: 'Компактный',

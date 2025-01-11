@@ -120,7 +120,6 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
   },
   body1: {
     ...baseTheme.typography.body1,
-    fontFamily: '"Poppins", sans-serif',
     [baseTheme.breakpoints.up('xs')]: {
       fontSize: baseTheme.typography.pxToRem(14),
     },

@@ -4,13 +4,19 @@ import { ESizes } from '@Enums/size'
 import { IconButton } from '@Components/IconButton/IconButton'
 import { HiMiniBars3 } from 'react-icons/hi2'
 import { Settings } from '../Settings/Settings'
+import { useThemeInfo } from '@Hooks/useThemeInfo'
 
 export const Header = () => {
+  const {
+    colors: {
+      text: { primary: colorIcons },
+    },
+  } = useThemeInfo()
   return (
     <HeaderContent>
       <LogoContent>
         <IconButton>
-          <HiMiniBars3 />
+          <HiMiniBars3 color={colorIcons} />
         </IconButton>
         <Logo size={ESizes.SM} />
       </LogoContent>

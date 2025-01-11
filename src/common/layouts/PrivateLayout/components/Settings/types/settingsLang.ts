@@ -7,6 +7,7 @@ export type TSettingsLang = {
 export type TThemeMode = {
   light: string
   dark: string
+  title: string
 }
 
 export type TCompact = {

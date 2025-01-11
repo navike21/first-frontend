@@ -6,6 +6,7 @@ export const settingsKo: TSettingsLang = {
     themeMode: {
       light: '라이트 모드',
       dark: '다크 모드',
+      title: '테마 모드',
     },
     compact: {
       title: '콤팩트',

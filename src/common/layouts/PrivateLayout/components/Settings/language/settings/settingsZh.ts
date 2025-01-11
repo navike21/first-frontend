@@ -6,6 +6,7 @@ export const settingsZh: TSettingsLang = {
     themeMode: {
       light: '浅色模式',
       dark: '深色模式',
+      title: '主题模式',
     },
     compact: {
       title: '紧凑',

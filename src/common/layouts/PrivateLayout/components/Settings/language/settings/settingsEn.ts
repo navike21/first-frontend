@@ -6,6 +6,7 @@ export const settingsEn: TSettingsLang = {
     themeMode: {
       light: 'Light Mode',
       dark: 'Dark Mode',
+      title: 'Theme Mode',
     },
     compact: {
       title: 'Compact',

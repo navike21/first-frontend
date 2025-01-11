@@ -6,6 +6,7 @@ export const settingsJp: TSettingsLang = {
     themeMode: {
       light: 'ライトモード',
       dark: 'ダークモード',
+      title: 'テーマモード',
     },
     compact: {
       title: 'コンパクト',
