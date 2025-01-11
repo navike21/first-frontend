@@ -1,11 +1,28 @@
-import { styled } from '@mui/material'
+import { EThemeOption } from '@Enums/themeOption'
+import { Drawer, styled } from '@mui/material'
+
+export const DrawerMUI = styled(Drawer, {
+  shouldForwardProp: (prop) => prop !== 'themeOption',
+})<{
+  themeOption: EThemeOption
+}>(({ theme, themeOption }) => ({
+  [theme.breakpoints.up('xs')]: {
+    '& .MuiDrawer-paper': {
+      backdropFilter: 'blur(3px)',
+      backgroundColor:
+        themeOption === EThemeOption.LIGHT
+          ? `rgba(255, 255, 255, 0.6)`
+          : `rgba(20, 26, 33 , 0.6)`,
+      borderLeft: `${theme.palette.divider} solid 1px`,
+    },
+  },
+}))
 
 export const ContentDrawer = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    padding: theme.spacing(2),
     maxWidth: theme.typography.pxToRem(450),
     minWidth: theme.typography.pxToRem(300),
     width: '80vw',
@@ -17,10 +34,12 @@ export const HeaderDrawer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     gap: theme.spacing(2),
+    padding: theme.spacing(2),
     alignItems: 'center',
     position: 'sticky',
     top: 0,
     zIndex: 100,
+    backdropFilter: 'blur(4px)',
   },
 }))
 

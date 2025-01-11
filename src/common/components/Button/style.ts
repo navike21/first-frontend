@@ -28,5 +28,6 @@ export const ContentButton = styled('div', {
 }>(({ theme, loading }) => ({
   [theme.breakpoints.up('xs')]: {
     opacity: loading ? 0 : 1,
+    display: 'flex',
   },
 }))

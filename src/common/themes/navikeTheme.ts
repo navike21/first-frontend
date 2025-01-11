@@ -27,6 +27,9 @@ export const navikeTheme = ({
     fontFamily: '"Quicksand", serif',
     htmlFontSize: htmlFontSize[textSize],
   },
+  shape: {
+    borderRadius: 10,
+  },
 })
 
 export const createNavikeTheme = (themeOptions: TMaterialTheme) => {

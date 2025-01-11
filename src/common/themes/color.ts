@@ -10,10 +10,10 @@ import {
   ERed,
 } from '@Enums/color'
 import { EThemeOption } from '@Enums/themeOption'
-import { Color, PaletteColorOptions, TypeBackground } from '@mui/material'
+import { Color, PaletteColor, TypeBackground } from '@mui/material'
 
 type TColor = {
-  [key in EColors]: PaletteColorOptions
+  [key in EColors]: PaletteColor
 }
 
 export const colors: TColor = {
@@ -43,8 +43,8 @@ export const colors: TColor = {
   },
   [EColors.PURPLE]: {
     main: EPurple.PURPLE_500,
-    light: EPurple.PURPLE_300,
-    dark: EPurple.PURPLE_700,
+    light: EPurple.PURPLE_400,
+    dark: EPurple.PURPLE_600,
     contrastText: EBaseColors.WHITE,
   },
   [EColors.RED]: {

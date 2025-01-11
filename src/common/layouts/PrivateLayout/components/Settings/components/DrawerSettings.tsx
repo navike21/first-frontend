@@ -1,6 +1,7 @@
 import { Drawer } from '@Components/Drawer/Drawer'
 import {
   ContentDrawerSettings,
+  SectionDrawerPrimaryColor,
   SectionDrawerSettings,
 } from '../styles/settingsStyles'
 import { IconSwitch } from '@Components/IconSwitch/IconSwitch'
@@ -8,8 +9,13 @@ import { EThemeOption } from '@Enums/themeOption'
 import { MdLightMode } from 'react-icons/md'
 import { MdDarkMode } from 'react-icons/md'
 import { CgCompress } from 'react-icons/cg'
+import { FaCircleHalfStroke } from 'react-icons/fa6'
 import { useDrawerSettings } from '../hooks/useDrawerSettings'
-import { ChangeEvent } from 'react'
+import { Title } from '@Components/Title/Title'
+import { EColors } from '@Enums/color'
+import { colors } from '@Themes/color'
+import { Button } from '@Components/Button/Button'
+import { Divider, Slider } from '@mui/material'
 
 interface IDrawerSettingsProps {
   open: boolean
@@ -19,23 +25,26 @@ interface IDrawerSettingsProps {
 export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
   const {
     colorIcons,
-    sizeIcon,
-    themeMode,
-    titleDrawer,
+    compact,
+    fontSize,
     principalSettings: {
       themeMode: { title: titleThemeMode },
       compact: { title: titleCompact },
+      principalColor: { title: titlePrincipalColor },
+      fontSize: { title: titleFontSize },
     },
-    setThemeMode,
+    primaryColor,
+    sizeIcon,
+    themeMode,
+    titleDrawer,
+    handleChangeThemeMode,
+    handleChangeCompact,
+    handleChangePrimaryColor,
   } = useDrawerSettings()
-
-  const handleChangeThemeMode = (event: ChangeEvent<HTMLInputElement>) => {
-    setThemeMode(event.target.checked ? EThemeOption.DARK : EThemeOption.LIGHT)
-  }
 
   return (
     <Drawer
-      title={titleDrawer}
+      titleDrawer={titleDrawer}
       anchor="right"
       open={open}
       onClose={() => setOpen(false)}
@@ -57,8 +66,38 @@ export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
           <IconSwitch
             title={titleCompact}
             icon={<CgCompress size={sizeIcon} color={colorIcons} />}
+            onChange={handleChangeCompact}
+            checked={compact}
           />
         </SectionDrawerSettings>
+        <Divider />
+        <Title variant="h6">{titlePrincipalColor}</Title>
+        <SectionDrawerPrimaryColor>
+          {Object.values(EColors).map((color) => (
+            <Button
+              key={color}
+              color="primary"
+              variant={color === primaryColor ? 'outlined' : 'text'}
+              onClick={() => {
+                handleChangePrimaryColor(color as EColors)
+              }}
+            >
+              <FaCircleHalfStroke size={sizeIcon} color={colors[color].main} />
+            </Button>
+          ))}
+        </SectionDrawerPrimaryColor>
+        <Divider />
+        <Title variant="h6">{titleFontSize}</Title>
+        <Slider
+          aria-label="Always visible"
+          defaultValue={16}
+          // getAriaValueText={valuetext}
+          step={2}
+          marks={fontSize}
+          valueLabelDisplay="on"
+          min={8}
+          max={16}
+        />
       </ContentDrawerSettings>
     </Drawer>
   )

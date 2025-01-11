@@ -9,10 +9,10 @@ interface IIconSwitchProps extends SwitchProps {
 
 export const IconSwitch = ({ icon, title, ...props }: IIconSwitchProps) => {
   return (
-    <IconSwitchContent elevation={0} variant="outlined">
+    <IconSwitchContent elevation={1} variant="elevation">
       <IconSwitchSection>
         {icon}
-        <Switch {...props} />
+        <Switch size="small" {...props} />
       </IconSwitchSection>
       <IconSwitchSection>
         <IconSwitchTitle>{title}</IconSwitchTitle>

@@ -11,12 +11,14 @@ export const useOptionsBrowserStore = createStore<IOptionsBrowserState>(
     language: ELanguages.EN,
     primaryColor: EColors.GREEN,
     textSize: ESizes.MD,
+    compact: false,
     setThemeOption: (themeOption) =>
       set((state) => ({ ...state, themeOption })),
     setLanguage: (language) => set((state) => ({ ...state, language })),
     setPrimaryColor: (primaryColor) =>
       set((state) => ({ ...state, primaryColor })),
     setTextSize: (textSize) => set((state) => ({ ...state, textSize })),
+    setCompact: (compact) => set((state) => ({ ...state, compact })),
   }),
   'options-browser-store'
 )

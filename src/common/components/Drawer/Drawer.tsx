@@ -1,34 +1,43 @@
-import { Drawer as DrawerMUI, DrawerProps } from '@mui/material'
-import { IoClose } from 'react-icons/io5'
+import { ReactNode } from 'react'
+import { DrawerProps } from '@mui/material'
 import { IconButton } from '@Components/IconButton/IconButton'
 import { Title } from '@Components/Title/Title'
-import { ContentActions, ContentDrawer, HeaderDrawer } from './styles'
-import { ReactNode } from 'react'
+import { IoClose } from 'react-icons/io5'
+import {
+  ContentActions,
+  ContentDrawer,
+  DrawerMUI,
+  HeaderDrawer,
+} from './styles'
+import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 
 interface IDrawerProps extends DrawerProps {
-  title?: string
+  titleDrawer?: string
   actionsButtons?: ReactNode
 }
 
-export const Drawer = ({ actionsButtons, ...props }: IDrawerProps) => {
-  const { title, children, onClose } = props
+export const Drawer = ({
+  actionsButtons,
+  titleDrawer,
+  ...props
+}: IDrawerProps) => {
+  const { children, onClose } = props
+  const { themeOption } = useOptionsBrowserStore()
   return (
-    <DrawerMUI {...props}>
-      <ContentDrawer>
-        <HeaderDrawer>
-          {title && <Title variant="h5">{title}</Title>}
-          <ContentActions>
-            {actionsButtons}
-            <IconButton
-              title="close-config"
-              onClick={(event) => onClose?.(event, 'backdropClick')}
-            >
-              <IoClose />
-            </IconButton>
-          </ContentActions>
-        </HeaderDrawer>
-        {children}
-      </ContentDrawer>
+    <DrawerMUI themeOption={themeOption} hideBackdrop elevation={0} {...props}>
+      <HeaderDrawer>
+        {titleDrawer && <Title variant="h5">{titleDrawer}</Title>}
+        <ContentActions>
+          {actionsButtons}
+          <IconButton
+            title="close-config"
+            onClick={(event) => onClose?.(event, 'backdropClick')}
+          >
+            <IoClose />
+          </IconButton>
+        </ContentActions>
+      </HeaderDrawer>
+      <ContentDrawer>{children}</ContentDrawer>
     </DrawerMUI>
   )
 }

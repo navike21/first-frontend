@@ -8,8 +8,10 @@ export interface IOptionsBrowserState {
   language: ELanguages
   primaryColor: EColors
   textSize: ESizes
+  compact: boolean
   setThemeOption: (themeOption: EThemeOption) => void
   setLanguage: (language: ELanguages) => void
   setPrimaryColor: (color: EColors) => void
   setTextSize: (size: ESizes) => void
+  setCompact: (compact: boolean) => void
 }
