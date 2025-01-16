@@ -1,11 +1,6 @@
-import {
-  createRoute,
-  lazyRouteComponent,
-  redirect,
-} from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router'
 import { publicRoute } from './routers'
-import { useAuthInformationStore } from '@Store/authInformation/authInformation'
-import { URL_HOME_PAGE } from '@Constants/privatePagesURL'
+import { handleValidateAuth } from '@Utils/handleValidateAuth'
 
 export const loginRoute = createRoute({
   getParentRoute: () => publicRoute,
@@ -14,12 +9,5 @@ export const loginRoute = createRoute({
     () => import('@Pages/public/Login/Login'),
     'Login'
   ),
-  beforeLoad: () => {
-    const { isAuth } = useAuthInformationStore.getState()
-    if (isAuth) {
-      throw redirect({
-        to: URL_HOME_PAGE,
-      })
-    }
-  },
+  beforeLoad: handleValidateAuth,
 })
