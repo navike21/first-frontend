@@ -1,6 +1,0 @@
-export * from './browser'
-export * from './color'
-export * from './httpMethod'
-export * from './language'
-export * from './sizes'
-export * from './statusType'
