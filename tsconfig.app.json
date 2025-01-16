@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* Alias config */
+    "baseUrl": "./",
+    "paths": {
+      "@Assets/*": ["src/common/assets/*"],
+      "@Components/*": ["src/common/components/*"],
+      "@Constants/*": ["src/common/constants/*"],
+      "@Enums/*": ["src/common/enums/*"],
+      "@Helpers/*": ["src/common/helpers/*"],
+      "@Hooks/*": ["src/common/hooks/*"],
+      "@Json/*": ["src/common/json/*"],
+      "@Layouts/*": ["src/common/layouts/*"],
+      "@Pages/*": ["src/pages/*"],
+      "@Providers/*": ["src/common/providers/*"],
+      "@Router/*": ["src/router/*"],
+      "@Store/*": ["src/common/store/*"],
+      "@Styles/*": ["src/common/styles/*"],
+      "@Themes/*": ["src/common/themes/*"],
+      "@Types/*": ["src/common/types/*"],
+      "@Utils/*": ["src/common/utils/*"]
+    }
+  },
+  "include": ["src"]
+}
