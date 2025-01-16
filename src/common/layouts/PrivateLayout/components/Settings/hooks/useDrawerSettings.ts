@@ -4,6 +4,8 @@ import { settingsLanguages } from '../language/settingsLanguage'
 import { EThemeOption } from '@Enums/themeOption'
 import { ChangeEvent } from 'react'
 import { EColors } from '@Enums/color'
+import { fontSize } from '../constants/fontSize'
+import { ESizes } from '@Enums/size'
 
 export const useDrawerSettings = () => {
   const {
@@ -11,10 +13,13 @@ export const useDrawerSettings = () => {
     themeOption,
     compact,
     primaryColor,
+    textSize,
     setCompact,
     setThemeOption,
     setPrimaryColor,
+    setTextSize,
   } = useOptionsBrowserStore()
+
   const {
     colors: {
       text: { primary: colorIcons },
@@ -22,29 +27,6 @@ export const useDrawerSettings = () => {
   } = useThemeInfo()
 
   const { title, principalSettings } = settingsLanguages[language]
-
-  const fontSize = [
-    {
-      value: 8,
-      label: '8',
-    },
-    {
-      value: 10,
-      label: '10',
-    },
-    {
-      value: 12,
-      label: '12',
-    },
-    {
-      value: 14,
-      label: '14',
-    },
-    {
-      value: 16,
-      label: '16',
-    },
-  ]
 
   const handleChangeThemeMode = (event: ChangeEvent<HTMLInputElement>) =>
     setThemeOption(
@@ -55,6 +37,48 @@ export const useDrawerSettings = () => {
     setCompact(event.target.checked)
 
   const handleChangePrimaryColor = (color: EColors) => setPrimaryColor(color)
+
+  const handleValueTextSlider = (_: Event, newValue: number | number[]) => {
+    if (newValue === 12) {
+      setTextSize(ESizes.XS)
+    }
+
+    if (newValue === 14) {
+      setTextSize(ESizes.SM)
+    }
+
+    if (newValue === 16) {
+      setTextSize(ESizes.MD)
+    }
+    if (newValue === 18) {
+      setTextSize(ESizes.LG)
+    }
+    if (newValue === 20) {
+      setTextSize(ESizes.XL)
+    }
+  }
+
+  const handleDefaultValueSlider = () => {
+    if (textSize === ESizes.XS) {
+      return 12
+    }
+
+    if (textSize === ESizes.SM) {
+      return 14
+    }
+
+    if (textSize === ESizes.MD) {
+      return 16
+    }
+
+    if (textSize === ESizes.LG) {
+      return 18
+    }
+
+    if (textSize === ESizes.XL) {
+      return 20
+    }
+  }
 
   return {
     colorIcons,
@@ -68,5 +92,7 @@ export const useDrawerSettings = () => {
     handleChangeCompact,
     handleChangePrimaryColor,
     handleChangeThemeMode,
+    handleDefaultValueSlider,
+    handleValueTextSlider,
   }
 }

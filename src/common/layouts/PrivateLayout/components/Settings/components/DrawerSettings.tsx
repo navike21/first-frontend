@@ -6,8 +6,7 @@ import {
 } from '../styles/settingsStyles'
 import { IconSwitch } from '@Components/IconSwitch/IconSwitch'
 import { EThemeOption } from '@Enums/themeOption'
-import { MdLightMode } from 'react-icons/md'
-import { MdDarkMode } from 'react-icons/md'
+import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { CgCompress } from 'react-icons/cg'
 import { FaCircleHalfStroke } from 'react-icons/fa6'
 import { useDrawerSettings } from '../hooks/useDrawerSettings'
@@ -40,6 +39,8 @@ export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
     handleChangeThemeMode,
     handleChangeCompact,
     handleChangePrimaryColor,
+    handleDefaultValueSlider,
+    handleValueTextSlider,
   } = useDrawerSettings()
 
   return (
@@ -89,14 +90,23 @@ export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
         <Divider />
         <Title variant="h6">{titleFontSize}</Title>
         <Slider
-          aria-label="Always visible"
-          defaultValue={16}
-          // getAriaValueText={valuetext}
+          defaultValue={handleDefaultValueSlider()}
           step={2}
           marks={fontSize}
+          onChange={handleValueTextSlider}
+          min={12}
+          max={20}
+          size="medium"
           valueLabelDisplay="on"
-          min={8}
-          max={16}
+          slotProps={{
+            markLabel: {
+              style: {
+                color: colorIcons,
+                alignItems: 'center',
+                display: 'none',
+              },
+            },
+          }}
         />
       </ContentDrawerSettings>
     </Drawer>

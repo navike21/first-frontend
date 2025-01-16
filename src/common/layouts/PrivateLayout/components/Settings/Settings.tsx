@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import { IconButton } from '@mui/material'
-import { AnimateIcon } from '@Components/AnimateIcon/AnimateIcon'
-import settingsIcon from '@Json/animateIcons/system-regular-63-settings-cog-loop-cog.json'
+import { useThemeInfo } from '@Hooks/useThemeInfo'
 import { DrawerSettings } from './components/DrawerSettings'
+import { IoIosSettings } from 'react-icons/io'
 
 export const Settings = () => {
   const [open, setOpen] = useState(false)
-
+  const {
+    colors: {
+      text: { primary: colorIcons },
+    },
+  } = useThemeInfo()
   return (
     <>
       <IconButton onClick={() => setOpen(!open)}>
-        <AnimateIcon icon={settingsIcon} />
+        <IoIosSettings color={colorIcons} />
       </IconButton>
       <DrawerSettings open={open} setOpen={setOpen} />
     </>

@@ -24,7 +24,7 @@ export const Drawer = ({
   const { children, onClose } = props
   const { themeOption } = useOptionsBrowserStore()
   return (
-    <DrawerMUI themeOption={themeOption} hideBackdrop elevation={0} {...props}>
+    <DrawerMUI themeOption={themeOption} elevation={0} {...props}>
       <HeaderDrawer>
         {titleDrawer && <Title variant="h5">{titleDrawer}</Title>}
         <ContentActions>

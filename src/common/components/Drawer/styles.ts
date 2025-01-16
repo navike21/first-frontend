@@ -11,8 +11,8 @@ export const DrawerMUI = styled(Drawer, {
       backdropFilter: 'blur(3px)',
       backgroundColor:
         themeOption === EThemeOption.LIGHT
-          ? `rgba(255, 255, 255, 0.6)`
-          : `rgba(20, 26, 33 , 0.6)`,
+          ? `rgba(255, 255, 255, 0.95)`
+          : `rgba(20, 26, 33 , 0.95)`,
       borderLeft: `${theme.palette.divider} solid 1px`,
     },
   },
@@ -23,8 +23,9 @@ export const ContentDrawer = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    maxWidth: theme.typography.pxToRem(450),
-    minWidth: theme.typography.pxToRem(300),
+    padding: theme.spacing(1),
+    maxWidth: 380,
+    minWidth: 300,
     width: '80vw',
   },
 }))

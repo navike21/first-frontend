@@ -8,6 +8,7 @@ import {
   EOrange,
   EPurple,
   ERed,
+  EYellow,
 } from '@Enums/color'
 import { EThemeOption } from '@Enums/themeOption'
 import { Color, PaletteColor, TypeBackground } from '@mui/material'
@@ -52,6 +53,12 @@ export const colors: TColor = {
     light: ERed.RED_300,
     dark: ERed.RED_700,
     contrastText: EBaseColors.WHITE,
+  },
+  [EColors.YELLOW]: {
+    main: EYellow.YELLOW_500,
+    light: EYellow.YELLOW_300,
+    dark: EYellow.YELLOW_700,
+    contrastText: EBaseColors.BLACK,
   },
 }
 

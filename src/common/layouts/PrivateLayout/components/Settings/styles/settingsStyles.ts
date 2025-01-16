@@ -20,7 +20,7 @@ export const SectionDrawerPrimaryColor = styled('section')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  justifyContent: 'space-between',
-  gap: theme.spacing(2),
+  justifyContent: 'flex-start',
+  gap: theme.spacing(1),
   width: '100%',
 }))

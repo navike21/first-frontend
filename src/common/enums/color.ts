@@ -130,4 +130,5 @@ export enum EColors {
   ORANGE = 'orange',
   PURPLE = 'purple',
   RED = 'red',
+  YELLOW = 'yellow',
 }
