@@ -1,6 +1,7 @@
-import { router } from '@Router/routers'
 import { RouterProvider } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { environments } from '@Constants/environments'
+import { router } from '@Router/routers'
 
 declare module '@tanstack/react-router' {
   interface IRegister {
@@ -11,6 +12,8 @@ declare module '@tanstack/react-router' {
 export const ReactRouterProvider = () => (
   <>
     <RouterProvider router={router} />
-    <TanStackRouterDevtools initialIsOpen={false} router={router} />
+    {environments.VITE_ENV === 'development' && (
+      <TanStackRouterDevtools initialIsOpen={false} router={router} />
+    )}
   </>
 )
