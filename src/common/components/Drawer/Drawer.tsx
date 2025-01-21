@@ -24,15 +24,12 @@ export const Drawer = ({
   const { children, onClose } = props
   const { themeOption } = useOptionsBrowserStore()
   return (
-    <DrawerMUI themeOption={themeOption} elevation={0} {...props}>
+    <DrawerMUI themeOption={themeOption} elevation={0} {...props} hideBackdrop>
       <HeaderDrawer>
         {titleDrawer && <Title variant="h5">{titleDrawer}</Title>}
         <ContentActions>
           {actionsButtons}
-          <IconButton
-            title="close-config"
-            onClick={(event) => onClose?.(event, 'backdropClick')}
-          >
+          <IconButton onClick={(event) => onClose?.(event, 'backdropClick')}>
             <IoClose />
           </IconButton>
         </ContentActions>

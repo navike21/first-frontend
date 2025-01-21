@@ -25,13 +25,16 @@ export const usePostLogin = () => {
     queryKey: ['login'],
     unexpectedErrorMessage: unexpected,
     onSuccess: ({ data }) => {
-      const { token, email, names } = data as TDataLogin
+      const { token, email, names, fatherLastName, motherLastName } =
+        data as TDataLogin
       setLogin({
         isAuth: true,
         token,
         userInformation: {
           email,
           names,
+          fatherLastName,
+          motherLastName,
           avatar: '',
           role: '',
         },

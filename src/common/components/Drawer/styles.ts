@@ -8,11 +8,11 @@ export const DrawerMUI = styled(Drawer, {
 }>(({ theme, themeOption }) => ({
   [theme.breakpoints.up('xs')]: {
     '& .MuiDrawer-paper': {
-      backdropFilter: 'blur(3px)',
+      backdropFilter: 'blur(10px)',
       backgroundColor:
         themeOption === EThemeOption.LIGHT
-          ? `rgba(255, 255, 255, 0.95)`
-          : `rgba(20, 26, 33 , 0.95)`,
+          ? `rgba(255, 255, 255, 0.90)`
+          : `rgba(20, 26, 33 , 0.90)`,
       borderLeft: `${theme.palette.divider} solid 1px`,
     },
   },
@@ -26,7 +26,7 @@ export const ContentDrawer = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
     maxWidth: 380,
     minWidth: 300,
-    width: '80vw',
+    width: '90vw',
   },
 }))
 

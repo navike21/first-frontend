@@ -1,5 +1,10 @@
-import { ReactNode } from 'react'
-import { IconSwitchContent, IconSwitchSection, IconSwitchTitle } from './styles'
+import { ReactNode, useId } from 'react'
+import {
+  IconSwitchContent,
+  IconSwitchContentLabel,
+  IconSwitchSection,
+  IconSwitchTitle,
+} from './styles'
 import { Switch, SwitchProps } from '@mui/material'
 
 interface IIconSwitchProps extends SwitchProps {
@@ -8,15 +13,19 @@ interface IIconSwitchProps extends SwitchProps {
 }
 
 export const IconSwitch = ({ icon, title, ...props }: IIconSwitchProps) => {
+  const idElement = useId()
+
   return (
-    <IconSwitchContent elevation={1} variant="elevation">
-      <IconSwitchSection>
-        {icon}
-        <Switch size="small" {...props} />
-      </IconSwitchSection>
-      <IconSwitchSection>
-        <IconSwitchTitle>{title}</IconSwitchTitle>
-      </IconSwitchSection>
-    </IconSwitchContent>
+    <IconSwitchContentLabel htmlFor={idElement}>
+      <IconSwitchContent elevation={1} variant="elevation">
+        <IconSwitchSection>
+          {icon}
+          <Switch size="small" {...props} id={idElement} />
+        </IconSwitchSection>
+        <IconSwitchSection>
+          <IconSwitchTitle>{title}</IconSwitchTitle>
+        </IconSwitchSection>
+      </IconSwitchContent>
+    </IconSwitchContentLabel>
   )
 }

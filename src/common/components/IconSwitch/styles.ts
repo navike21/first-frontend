@@ -1,5 +1,11 @@
 import { Paper, styled, Typography } from '@mui/material'
 
+export const IconSwitchContentLabel = styled('label')(() => ({
+  cursor: 'pointer',
+  width: '100%',
+  display: 'flex',
+}))
+
 export const IconSwitchContent = styled(Paper)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

@@ -5,6 +5,8 @@ export const defaultAuthInformationState: IAuthInformation = {
   isAuth: false,
   userInformation: {
     email: '',
+    fatherLastName: '',
+    motherLastName: '',
     names: '',
     avatar: '',
     role: '',

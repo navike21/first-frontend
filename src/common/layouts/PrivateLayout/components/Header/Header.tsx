@@ -5,6 +5,7 @@ import { IconButton } from '@Components/IconButton/IconButton'
 import { HiMiniBars3 } from 'react-icons/hi2'
 import { Settings } from '../Settings/Settings'
 import { useThemeInfo } from '@Hooks/useThemeInfo'
+import { UserSession } from '../UserSession/UserSession'
 
 export const Header = () => {
   const {
@@ -21,9 +22,8 @@ export const Header = () => {
         <Logo size={ESizes.SM} />
       </LogoContent>
       <Navigation>
-        <span>Home</span>
-        <span>Profile</span>
         <Settings />
+        <UserSession />
       </Navigation>
     </HeaderContent>
   )

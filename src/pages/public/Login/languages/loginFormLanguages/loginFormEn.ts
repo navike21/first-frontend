@@ -17,14 +17,14 @@ export const loginFormEn: TLoginForm = {
       togglePassword: 'Show or hide password',
     },
     submit: {
-      label: 'Log in',
+      label: 'Login',
     },
   },
   links: {
     forgotPassword: 'Forgot your password?',
     getStarted: 'Get started',
   },
-  title: 'Log in to your account',
+  title: 'Login to your account',
   subtitle: 'Don’t have an account?',
   api: {
     error: {

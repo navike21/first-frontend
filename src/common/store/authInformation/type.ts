@@ -15,6 +15,8 @@ export interface IAuthInformation {
 export interface IUserInformation {
   email: string
   names: string
+  fatherLastName: string
+  motherLastName: string
   avatar: string
   role: string
 }

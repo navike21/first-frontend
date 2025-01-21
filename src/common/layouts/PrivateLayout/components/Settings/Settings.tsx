@@ -1,20 +1,16 @@
 import { useState } from 'react'
-import { IconButton } from '@mui/material'
-import { useThemeInfo } from '@Hooks/useThemeInfo'
 import { DrawerSettings } from './components/DrawerSettings'
 import { IoIosSettings } from 'react-icons/io'
+import { IconButton } from '@Components/IconButton/IconButton'
+import { useDrawerSettings } from './hooks/useDrawerSettings'
 
 export const Settings = () => {
   const [open, setOpen] = useState(false)
-  const {
-    colors: {
-      text: { primary: colorIcons },
-    },
-  } = useThemeInfo()
+  const { colorIcons, sizeIcon } = useDrawerSettings()
   return (
     <>
       <IconButton onClick={() => setOpen(!open)}>
-        <IoIosSettings color={colorIcons} />
+        <IoIosSettings color={colorIcons} size={sizeIcon} />
       </IconButton>
       <DrawerSettings open={open} setOpen={setOpen} />
     </>

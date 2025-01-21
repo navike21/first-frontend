@@ -6,7 +6,7 @@ export const HeaderContent = styled('header')(({ theme }) => ({
     display: 'flex',
     height: theme.typography.pxToRem(70),
     justifyContent: 'space-between',
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 4),
     position: 'sticky',
     top: 0,
     width: '100%',
@@ -25,6 +25,6 @@ export const Navigation = styled('nav')(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
     alignItems: 'center',
     display: 'flex',
-    gap: theme.spacing(2),
+    gap: theme.spacing(1),
   },
 }))

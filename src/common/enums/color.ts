@@ -1,13 +1,13 @@
 export enum EPurple {
-  PURPLE_100 = '#E3E1FC',
-  PURPLE_200 = '#C7C2F9',
-  PURPLE_300 = '#EBD6FD',
-  PURPLE_400 = '#B985F4',
-  PURPLE_500 = '#7635dc',
-  PURPLE_600 = '#431A9E',
-  PURPLE_700 = '#200A69',
-  PURPLE_800 = '#5C52C0',
-  PURPLE_900 = '#564DB4',
+  PURPLE_100 = '#d7c6f4',
+  PURPLE_200 = '#bd9fee',
+  PURPLE_300 = '#a276e8',
+  PURPLE_400 = '#8c56e2',
+  PURPLE_500 = '#7535dc',
+  PURPLE_600 = '#6a30d6',
+  PURPLE_700 = '#5b27cd',
+  PURPLE_800 = '#4c20c6',
+  PURPLE_900 = '#310fbc',
 }
 
 export enum ESilver {
@@ -23,15 +23,15 @@ export enum ESilver {
 }
 
 export enum EGreen {
-  GREEN_100 = '#D4F4E2',
-  GREEN_200 = '#A9E9C5',
-  GREEN_300 = '#7EDDA9',
-  GREEN_400 = '#53D28C',
-  GREEN_500 = '#28C76F',
-  GREEN_600 = '#24B364',
-  GREEN_700 = '#22A95E',
-  GREEN_800 = '#209F59',
-  GREEN_900 = '#1E9553',
+  GREEN_100 = '#beebcc',
+  GREEN_200 = '#92deac',
+  GREEN_300 = '#5fd28a',
+  GREEN_400 = '#28c770',
+  GREEN_500 = '#00bc55',
+  GREEN_600 = '#00ad4b',
+  GREEN_700 = '#009a3f',
+  GREEN_800 = '#008933',
+  GREEN_900 = '#00691e',
 }
 
 export enum EGray {
@@ -48,51 +48,51 @@ export enum EGray {
 }
 
 export enum ERed {
-  RED_100 = '#FBDDDD',
-  RED_200 = '#F7BBBB',
-  RED_300 = '#F29899',
-  RED_400 = '#EE7677',
-  RED_500 = '#EA5455',
-  RED_600 = '#D34C4C',
-  RED_700 = '#C74748',
-  RED_800 = '#BB4344',
-  RED_900 = '#AF3F40',
+  RED_100 = '#FFCDD2',
+  RED_200 = '#EF9A9A',
+  RED_300 = '#E57373',
+  RED_400 = '#EF5350',
+  RED_500 = '#F44336',
+  RED_600 = '#E53935',
+  RED_700 = '#D32F2F',
+  RED_800 = '#C62828',
+  RED_900 = '#B71C1C',
 }
 
 export enum EYellow {
-  YELLOW_100 = '#FFECD9',
-  YELLOW_200 = '#FFD9B4',
-  YELLOW_300 = '#FFC58E',
-  YELLOW_400 = '#FFB269',
-  YELLOW_500 = '#FF9F43',
-  YELLOW_600 = '#E58F3C',
-  YELLOW_700 = '#D98739',
-  YELLOW_800 = '#CC7F36',
-  YELLOW_900 = '#BF7732',
+  YELLOW_100 = '#fff9c4',
+  YELLOW_200 = '#fff59d',
+  YELLOW_300 = '#fef075',
+  YELLOW_400 = '#fceb55',
+  YELLOW_500 = '#fae635',
+  YELLOW_600 = '#fdd835',
+  YELLOW_700 = '#fbc02d',
+  YELLOW_800 = '#f9a825',
+  YELLOW_900 = '#f57f17',
 }
 
 export enum ECyan {
-  CYAN_100 = '#CCF5FA',
-  CYAN_200 = '#99ECF6',
-  CYAN_300 = '#66E2F1',
-  CYAN_400 = '#33D9ED',
-  CYAN_500 = '#00CFE8',
-  CYAN_600 = '#00BAD1',
-  CYAN_700 = '#00B0C5',
-  CYAN_800 = '#00A6BA',
-  CYAN_900 = '#009BAE',
+  CYAN_100 = '#b2ebf2',
+  CYAN_200 = '#80deea',
+  CYAN_300 = '#4dcfe1',
+  CYAN_400 = '#26c5da',
+  CYAN_500 = '#00bbd4',
+  CYAN_600 = '#00abc1',
+  CYAN_700 = '#0096a7',
+  CYAN_800 = '#00828f',
+  CYAN_900 = '#005f64',
 }
 
 export enum EOrange {
-  ORANGE_100 = '#FFEEDB',
-  ORANGE_200 = '#FFDDB6',
-  ORANGE_300 = '#FFCC91',
-  ORANGE_400 = '#FFBB6C',
-  ORANGE_500 = '#FD7E14',
-  ORANGE_600 = '#E56F13',
-  ORANGE_700 = '#D96812',
-  ORANGE_800 = '#CC6011',
-  ORANGE_900 = '#BF5810',
+  ORANGE_100 = '#FFE0B2',
+  ORANGE_200 = '#FFCC80',
+  ORANGE_300 = '#FFB74D',
+  ORANGE_400 = '#FFA726',
+  ORANGE_500 = '#FF9800',
+  ORANGE_600 = '#FB8C00',
+  ORANGE_700 = '#F57C00',
+  ORANGE_800 = '#EF6C00',
+  ORANGE_900 = '#E65100',
 }
 
 export enum EBlue {
@@ -105,6 +105,18 @@ export enum EBlue {
   BLUE_700 = '#0065C2',
   BLUE_800 = '#005BA9',
   BLUE_900 = '#005094',
+}
+
+export enum EPink {
+  PINK_100 = '#F8BBD0',
+  PINK_200 = '#F48FB1',
+  PINK_300 = '#F06292',
+  PINK_400 = '#EC407A',
+  PINK_500 = '#E91E63',
+  PINK_600 = '#D81B60',
+  PINK_700 = '#C2185B',
+  PINK_800 = '#AD1457',
+  PINK_900 = '#880E4F',
 }
 
 export enum EBaseColors {
@@ -131,4 +143,5 @@ export enum EColors {
   PURPLE = 'purple',
   RED = 'red',
   YELLOW = 'yellow',
+  PINK = 'pink',
 }

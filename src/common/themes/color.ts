@@ -6,6 +6,7 @@ import {
   EGray,
   EGreen,
   EOrange,
+  EPink,
   EPurple,
   ERed,
   EYellow,
@@ -26,8 +27,8 @@ export const colors: TColor = {
   },
   [EColors.CYAN]: {
     main: ECyan.CYAN_500,
-    light: ECyan.CYAN_300,
-    dark: ECyan.CYAN_700,
+    light: ECyan.CYAN_200,
+    dark: ECyan.CYAN_600,
     contrastText: EBaseColors.WHITE,
   },
   [EColors.GREEN]: {
@@ -38,14 +39,14 @@ export const colors: TColor = {
   },
   [EColors.ORANGE]: {
     main: EOrange.ORANGE_500,
-    light: EOrange.ORANGE_300,
+    light: EOrange.ORANGE_200,
     dark: EOrange.ORANGE_700,
     contrastText: EBaseColors.WHITE,
   },
   [EColors.PURPLE]: {
     main: EPurple.PURPLE_500,
-    light: EPurple.PURPLE_400,
-    dark: EPurple.PURPLE_600,
+    light: EPurple.PURPLE_300,
+    dark: EPurple.PURPLE_700,
     contrastText: EBaseColors.WHITE,
   },
   [EColors.RED]: {
@@ -55,10 +56,16 @@ export const colors: TColor = {
     contrastText: EBaseColors.WHITE,
   },
   [EColors.YELLOW]: {
-    main: EYellow.YELLOW_500,
-    light: EYellow.YELLOW_300,
-    dark: EYellow.YELLOW_700,
+    main: EYellow.YELLOW_700,
+    light: EYellow.YELLOW_400,
+    dark: EYellow.YELLOW_900,
     contrastText: EBaseColors.BLACK,
+  },
+  [EColors.PINK]: {
+    main: EPink.PINK_400,
+    light: EPink.PINK_200,
+    dark: EPink.PINK_800,
+    contrastText: EBaseColors.WHITE,
   },
 }
 

@@ -15,13 +15,9 @@ import { EColors } from '@Enums/color'
 import { colors } from '@Themes/color'
 import { Button } from '@Components/Button/Button'
 import { Divider, Slider } from '@mui/material'
+import { IDrawerProps } from '@Types/typesDrawer'
 
-interface IDrawerSettingsProps {
-  open: boolean
-  setOpen: (open: boolean) => void
-}
-
-export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
+export const DrawerSettings = ({ open, setOpen }: IDrawerProps) => {
   const {
     colorIcons,
     compact,
@@ -90,7 +86,7 @@ export const DrawerSettings = ({ open, setOpen }: IDrawerSettingsProps) => {
         <Divider />
         <Title variant="h6">{titleFontSize}</Title>
         <Slider
-          defaultValue={handleDefaultValueSlider()}
+          value={handleDefaultValueSlider()}
           step={2}
           marks={fontSize}
           onChange={handleValueTextSlider}
