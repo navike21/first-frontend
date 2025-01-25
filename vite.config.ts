@@ -8,6 +8,18 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig(() => {
   return {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-icons/md'],
+            mui: ['@mui/material'],
+          },
+        },
+      },
+      sourcemap: false,
+      chunkSizeWarningLimit: 1024,
+    },
     plugins: [react(), TanStackRouterVite()],
     test: {
       globals: true,
