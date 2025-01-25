@@ -37,6 +37,15 @@ export const navikeTheme = ({
   shape: {
     borderRadius: 8,
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 340,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
 })
 
 export const createNavikeTheme = (themeOptions: TCreateNavikeTheme) => {
@@ -100,6 +109,23 @@ export const createNavikeTheme = (themeOptions: TCreateNavikeTheme) => {
           backgroundColor: baseTheme.palette.background.paper,
           transform: 'translate(0%, -50%)',
           opacity: 0.5,
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          borderRight: 'none',
+        },
+        modal: {
+          backgroundColor: 'transparent',
         },
       },
     },

@@ -1,15 +1,21 @@
 import { EHttpMethod } from '@Enums/httpMethod'
 import { TApiResponse } from '@Types/fetchApi'
 
+class FetchError extends Error {
+  status: number
+  constructor(message: string, status: number) {
+    super(message)
+    this.status = status
+  }
+}
+
 const handleFetchResponse = async (
   response: Response
 ): Promise<TApiResponse> => {
   if (!response.ok) {
     const errorText = await response.text()
-    throw {
-      status: response.status,
-      ...JSON.parse(errorText),
-    }
+    const error = new FetchError(errorText, response.status)
+    throw error
   }
   return {
     ...(await response.json()),

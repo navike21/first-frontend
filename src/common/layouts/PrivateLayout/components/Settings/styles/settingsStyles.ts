@@ -10,10 +10,15 @@ export const ContentDrawerSettings = styled('div')(({ theme }) => ({
 export const SectionDrawerSettings = styled('section')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
-  flexWrap: 'nowrap',
   justifyContent: 'space-between',
   gap: theme.spacing(2),
   width: '100%',
+  [theme.breakpoints.up('xs')]: {
+    flexWrap: 'wrap',
+  },
+  [theme.breakpoints.up('sm')]: {
+    flexWrap: 'nowrap',
+  },
 }))
 
 export const SectionDrawerPrimaryColor = styled('section')(({ theme }) => ({

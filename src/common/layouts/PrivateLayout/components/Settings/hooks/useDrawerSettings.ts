@@ -24,6 +24,7 @@ export const useDrawerSettings = () => {
     colors: {
       text: { primary: colorIcons },
     },
+    typography: { pxToRem },
   } = useThemeInfo()
 
   const { title, principalSettings } = settingsLanguages[language]
@@ -86,7 +87,7 @@ export const useDrawerSettings = () => {
     fontSize,
     principalSettings,
     primaryColor,
-    sizeIcon: 25,
+    sizeIcon: pxToRem(25),
     titleDrawer: title,
     themeMode: themeOption,
     handleChangeCompact,

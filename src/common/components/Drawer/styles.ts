@@ -27,6 +27,7 @@ export const ContentDrawer = styled('div')(({ theme }) => ({
     maxWidth: 380,
     minWidth: 300,
     width: '90vw',
+    height: '100%',
   },
 }))
 

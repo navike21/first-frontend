@@ -3,10 +3,12 @@ import { useAuthInformationStore } from '@Store/authInformation/authInformation'
 import { redirect } from '@tanstack/react-router'
 
 export const handleValidateAuth = () => {
-  const { isAuth } = useAuthInformationStore.getState()
+  const { isAuth, clearAuthInformation } = useAuthInformationStore.getState()
   if (isAuth) {
     throw redirect({
       to: URL_HOME_PAGE,
     })
+  } else {
+    clearAuthInformation()
   }
 }
