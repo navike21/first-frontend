@@ -1,0 +1,294 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatar > renders with custom children 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorSuccess css-sixkl8-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular css-1kztxqy-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorWarning css-7gkk5s-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom size 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1mppgx5-MuiAvatar-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-1mo2pzk-MuiSvgIcon-root-MuiAvatar-fallback"
+        data-testid="PersonIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+        />
+      </svg>
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorSuccess css-sixkl8-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom size and children 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1mppgx5-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorSuccess css-sixkl8-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom size, children, and props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular css-rojf4i-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorSuccess css-sixkl8-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1w41quc-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-1mo2pzk-MuiSvgIcon-root-MuiAvatar-fallback"
+        data-testid="PersonIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+        />
+      </svg>
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular css-aa1yeu-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status and children 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1w41quc-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular css-aa1yeu-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status and size 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1r2rvqh-MuiAvatar-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-1mo2pzk-MuiSvgIcon-root-MuiAvatar-fallback"
+        data-testid="PersonIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+        />
+      </svg>
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorError css-1gtayfo-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status, children, and props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular css-to4zyl-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorWarning css-7gkk5s-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status, size, and children 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1l8mqhq-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorWarning css-7gkk5s-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status, size, and props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular css-9ifpaw-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorError css-1gtayfo-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with custom status, size, children, and props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular css-9ifpaw-MuiAvatar-root"
+    >
+      <img
+        alt="Test Avatar"
+        class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+        src="/test-avatar.jpg"
+      />
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorError css-1gtayfo-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar > renders with default props 1`] = `
+<div>
+  <span
+    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+  >
+    <div
+      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-1mo2pzk-MuiSvgIcon-root-MuiAvatar-fallback"
+        data-testid="PersonIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+        />
+      </svg>
+    </div>
+    <span
+      class="MuiBadge-badge MuiBadge-dot MuiBadge-anchorOriginBottomRight MuiBadge-anchorOriginBottomRightCircular MuiBadge-overlapCircular MuiBadge-colorSuccess css-sixkl8-MuiBadge-badge"
+    />
+  </span>
+</div>
+`;
