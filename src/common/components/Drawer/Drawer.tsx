@@ -9,7 +9,6 @@ import {
   DrawerMUI,
   HeaderDrawer,
 } from './styles'
-import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 
 interface IDrawerProps extends DrawerProps {
   titleDrawer?: string
@@ -22,11 +21,11 @@ export const Drawer = ({
   ...props
 }: IDrawerProps) => {
   const { children, onClose } = props
-  const { themeOption } = useOptionsBrowserStore()
+
   return (
-    <DrawerMUI themeOption={themeOption} elevation={0} {...props}>
+    <DrawerMUI elevation={0} {...props}>
       <HeaderDrawer>
-        {titleDrawer && <Title variant="h5">{titleDrawer}</Title>}
+        {titleDrawer ? <Title variant="h5">{titleDrawer}</Title> : <span />}
         <ContentActions>
           {actionsButtons}
           <IconButton onClick={(event) => onClose?.(event, 'backdropClick')}>

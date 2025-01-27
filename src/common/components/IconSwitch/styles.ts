@@ -25,7 +25,6 @@ export const IconSwitchSection = styled('section')(({ theme }) => ({
 export const IconSwitchTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
     fontWeight: 500,
-    fontSize: theme.typography.pxToRem(14),
     color: theme.palette.text.primary,
   },
 }))

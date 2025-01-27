@@ -6,7 +6,7 @@ export const ContentDrawerUserSession = styled('div')(({ theme }) => ({
   gap: theme.spacing(3),
   height: '100%',
   justifyContent: 'space-between',
-  padding: theme.spacing(3),
+  padding: theme.spacing(0, 3, 3, 3),
 }))
 
 export const InfoUserSessionContent = styled('section')(({ theme }) => ({
@@ -14,7 +14,6 @@ export const InfoUserSessionContent = styled('section')(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   gap: theme.spacing(2.5),
-  height: '100%',
 }))
 
 export const InfoUserSession = styled('section')(({ theme }) => ({
@@ -27,6 +26,7 @@ export const InfoUserSession = styled('section')(({ theme }) => ({
 export const UserSessionName = styled(Typography)(() => ({
   margin: 0,
   fontWeight: 700,
+  textAlign: 'center',
 }))
 
 export const UserSessionEmail = styled(Typography)(() => ({

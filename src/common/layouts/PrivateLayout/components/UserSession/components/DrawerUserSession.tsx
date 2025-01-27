@@ -32,7 +32,7 @@ export const DrawerUserSession = ({ open, setOpen }: IDrawerProps) => {
         <InfoUserSessionContent>
           <Avatar avatarSize={ESizes.XXXL} src={avatar} alt={names} />
           <InfoUserSession>
-            <UserSessionName variant="h6">{`${names} ${fatherLastName} ${motherLastName}`}</UserSessionName>
+            <UserSessionName variant="h5">{`${names} ${fatherLastName} ${motherLastName}`}</UserSessionName>
             <UserSessionEmail>{email}</UserSessionEmail>
           </InfoUserSession>
           <Divider>{titleMainMenu}</Divider>

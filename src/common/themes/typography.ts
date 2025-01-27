@@ -92,13 +92,13 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
     ...baseTheme.typography.body1,
     fontWeight: 500,
     [baseTheme.breakpoints.up(ESizes.XS)]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(14),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
   },
   button: {
@@ -107,13 +107,13 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
     fontWeight: 600,
     textTransform: 'none',
     [baseTheme.breakpoints.up(ESizes.XS)]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(12),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(14),
+      fontSize: baseTheme.typography.pxToRem(16),
     },
   },
 })

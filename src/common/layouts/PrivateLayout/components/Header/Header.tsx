@@ -13,6 +13,7 @@ export const Header = () => {
       text: { primary: colorIcons },
     },
   } = useThemeInfo()
+
   return (
     <HeaderContent>
       <LogoContent>
