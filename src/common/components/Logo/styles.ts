@@ -2,11 +2,27 @@ import { ESizes } from '@Enums/size'
 import { styled } from '@mui/material'
 import { rotate } from '@Styles/animations'
 
-type TContentLogoProps = {
+type TContentIsoLogoProps = {
   size: ESizes
 }
 
-export const ContentLogo = styled('div')<TContentLogoProps>(({
+export type TContentLogoProps = {
+  direction: 'row' | 'column'
+}
+
+export const ContentLogo = styled('div')<TContentLogoProps>(
+  ({ theme, direction = 'row' }) => ({
+    [theme.breakpoints.up('xs')]: {
+      display: 'flex',
+      flexDirection: direction,
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: theme.spacing(1),
+    },
+  })
+)
+
+export const ContentIsoLogo = styled('div')<TContentIsoLogoProps>(({
   theme,
   size = ESizes.MD,
 }) => {
@@ -61,4 +77,13 @@ export const RadarLogo = styled('span')(({ theme }) => ({
     backgroundImage: `linear-gradient(135deg, transparent 50%, ${theme.palette.primary.dark} 100%)`,
     animation: `${rotate} 5s linear infinite`,
   },
+}))
+
+export const Version = styled('span')(({ theme }) => ({
+  position: 'relative',
+  fontSize: theme.typography.pxToRem(9),
+  color: theme.palette.primary.main,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '1px',
 }))

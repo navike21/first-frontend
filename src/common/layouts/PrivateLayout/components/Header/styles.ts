@@ -6,18 +6,21 @@ export const HeaderContent = styled('header')(({ theme }) => ({
     display: 'flex',
     height: theme.typography.pxToRem(70),
     justifyContent: 'space-between',
-    padding: theme.spacing(0, 4),
+    padding: theme.spacing(0, 1),
     position: 'sticky',
     top: 0,
     width: '100%',
     zIndex: 1000,
+  },
+  [theme.breakpoints.up('sm')]: {
+    padding: theme.spacing(0, 2),
   },
 }))
 
 export const LogoContent = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('xs')]: {
     display: 'flex',
-    gap: theme.spacing(2),
+    gap: theme.spacing(1),
   },
 }))
 

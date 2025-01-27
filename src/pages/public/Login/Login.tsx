@@ -53,7 +53,7 @@ export const Login = () => {
     <>
       <LoginBackground />
       <FormContainer elevation={0} variant="outlined">
-        <Logo showRadar size={ESizes.LG} />
+        <Logo showRadar size={ESizes.LG} direction="column" />
         <Title variant="h5">{title}</Title>
         <FormLogin onSubmit={handleSubmit(handleLogin)}>
           <InputText
