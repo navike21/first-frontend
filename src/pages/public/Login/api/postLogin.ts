@@ -6,7 +6,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { LOGIN_API_PATH } from '../constants/apiPath'
 import { TDataLogin } from '../styles/responseLogin'
 import { loginForm } from '../languages/loginForm'
-import { URL_HOME_PAGE } from '@Constants/privatePagesURL'
+import { EUrlPrivates } from '@Enums/urlPrivates'
 
 export const usePostLogin = () => {
   const { language } = useOptionsBrowserStore()
@@ -41,7 +41,7 @@ export const usePostLogin = () => {
       })
 
       navigate({
-        to: URL_HOME_PAGE,
+        to: EUrlPrivates.HOME_PAGE,
       })
     },
   })

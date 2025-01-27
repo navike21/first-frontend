@@ -1,4 +1,4 @@
-import { URL_HOME_PAGE } from '@Constants/privatePagesURL'
+import { EUrlPrivates } from '@Enums/urlPrivates'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
 import { redirect } from '@tanstack/react-router'
 
@@ -6,7 +6,7 @@ export const handleValidateAuth = () => {
   const { isAuth, clearAuthInformation } = useAuthInformationStore.getState()
   if (isAuth) {
     throw redirect({
-      to: URL_HOME_PAGE,
+      to: EUrlPrivates.HOME_PAGE,
     })
   } else {
     clearAuthInformation()

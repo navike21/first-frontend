@@ -8,7 +8,7 @@ import {
 import { loginRoute } from './publicRoutes'
 import { dashboardRoute } from './privateRoutes'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
-import { URL_LOGIN } from '@Constants/publicPagesURL'
+import { EUrlPublics } from '@Enums/urlPublics'
 
 const rootRoute = createRootRoute({
   component: lazyRouteComponent(
@@ -35,7 +35,7 @@ export const privateRoute = createRoute({
     const { isAuth } = useAuthInformationStore.getState()
     if (!isAuth) {
       throw redirect({
-        to: URL_LOGIN,
+        to: EUrlPublics.LOGIN,
       })
     }
   },

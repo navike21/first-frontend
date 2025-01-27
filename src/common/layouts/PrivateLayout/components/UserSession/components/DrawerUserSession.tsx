@@ -1,5 +1,12 @@
 import { Drawer } from '@Components/Drawer/Drawer'
 import { IDrawerProps } from '@Types/typesDrawer'
+import { Avatar } from '@Components/Avatar/Avatar'
+import { ESizes } from '@Enums/size'
+import { useUserSession } from '../hooks/useUserSession'
+import { MdLogout } from 'react-icons/md'
+import { MenuList } from '@Components/MenuList/MenuList'
+import { Button } from '@Components/Button/Button'
+import { Divider } from '@mui/material'
 import {
   ActionsProfile,
   ContentDrawerUserSession,
@@ -8,13 +15,6 @@ import {
   UserSessionEmail,
   UserSessionName,
 } from '../styles/userSessionStyles'
-import { Avatar } from '@Components/Avatar/Avatar'
-import { ESizes } from '@Enums/size'
-import { useUserSession } from '../hooks/useUserSession'
-import { MdLogout } from 'react-icons/md'
-import { MenuList } from '@Components/MenuList/MenuList'
-import { Button } from '@Components/Button/Button'
-import { Divider } from '@mui/material'
 
 export const DrawerUserSession = ({ open, setOpen }: IDrawerProps) => {
   const {

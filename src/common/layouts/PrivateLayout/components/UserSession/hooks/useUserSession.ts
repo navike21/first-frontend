@@ -1,4 +1,3 @@
-import { URL_LOGIN } from '@Constants/publicPagesURL'
 import { useThemeInfo } from '@Hooks/useThemeInfo'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
 import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
@@ -6,6 +5,9 @@ import { useNavigate } from '@tanstack/react-router'
 import { userSessionLanguage } from '../language/userSessionLanguage'
 import { generalIcons } from '@Utils/icons'
 import { IItemMenu } from '@Components/MenuList/MenuList'
+import { EUrlPublics } from '@Enums/urlPublics'
+import { EIcons } from '../enums/icons'
+import { EUrlPrivates } from '@Enums/urlPrivates'
 
 export const useUserSession = () => {
   const { userInformation, setIsAuth } = useAuthInformationStore()
@@ -30,8 +32,20 @@ export const useUserSession = () => {
   const handleLogout = () => {
     setIsAuth(false)
     navigate({
-      to: URL_LOGIN,
-      viewTransition: true,
+      to: EUrlPublics.LOGIN,
+    })
+  }
+
+  const handleMenuNavigation = (icon: EIcons) => {
+    const url = {
+      [EIcons.PROFILE]: EUrlPrivates.USER_PROFILE,
+      [EIcons.MESSAGES]: EUrlPrivates.MESSAGES,
+      [EIcons.SECURITY]: EUrlPrivates.SECURITY,
+      [EIcons.HELP]: EUrlPrivates.HELP_SUPPORT,
+      [EIcons.INFO]: EUrlPrivates.SYSTEM_INFORMATION,
+    }
+    navigate({
+      to: url[icon],
     })
   }
 
@@ -39,6 +53,7 @@ export const useUserSession = () => {
     itemsMainMenu.map(({ label, icon }) => ({
       icon: generalIcons(SIZE_ICON)[icon],
       label,
+      onClick: () => handleMenuNavigation(icon),
     }))
 
   return {
