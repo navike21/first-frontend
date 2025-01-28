@@ -66,7 +66,6 @@ export const Login = () => {
             onInput={sanitizeInputEvent}
             {...register('email')}
           />
-
           <InputPassword
             error={errors}
             label={password.label}
