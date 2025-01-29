@@ -10,8 +10,8 @@ export const StyledBadge = styled(Badge)(
       backgroundColor: colorBadge(theme)[color as EStatusType],
       color: colorBadge(theme)[color as EStatusType],
       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-      width: 10,
-      height: 10,
+      width: theme.typography.pxToRem(10),
+      height: theme.typography.pxToRem(10),
       borderRadius: '50%',
       ...(color === EStatusType.SUCCESS && {
         '&::before, &::after': {

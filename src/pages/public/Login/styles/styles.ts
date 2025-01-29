@@ -1,7 +1,8 @@
+import { ESizes } from '@Enums/size'
 import { Paper, styled } from '@mui/material'
 
 export const LoginBackground = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     height: '100%',
     width: '100%',
     position: 'absolute',
@@ -12,7 +13,7 @@ export const LoginBackground = styled('div')(({ theme }) => ({
 }))
 
 export const FormContainer = styled(Paper)(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     backdropFilter: 'blur(10px)',
     alignItems: 'center',
     borderRadius: theme.spacing(1),
@@ -25,20 +26,20 @@ export const FormContainer = styled(Paper)(({ theme }) => ({
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(5),
   },
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up(ESizes.SM)]: {
     maxWidth: theme.spacing(50),
   },
 }))
 
 export const FormLogin = styled('form')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     width: '100%',
     maxWidth: theme.spacing(35),
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(3),
   },
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up(ESizes.SM)]: {
     maxWidth: theme.spacing(40),
   },
 }))

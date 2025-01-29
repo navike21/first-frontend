@@ -110,10 +110,10 @@ export const typography = (baseTheme: Theme): TypographyOptions => ({
       fontSize: baseTheme.typography.pxToRem(16),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(16),
+      fontSize: baseTheme.typography.pxToRem(14),
     },
     [baseTheme.breakpoints.up(ESizes.SM)]: {
-      fontSize: baseTheme.typography.pxToRem(16),
+      fontSize: baseTheme.typography.pxToRem(14),
     },
   },
 })

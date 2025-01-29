@@ -1,14 +1,15 @@
+import { ESizes } from '@Enums/size'
 import { Button, styled } from '@mui/material'
 
 export const MUIButton = styled(Button)(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     position: 'relative',
     padding: theme.spacing(1.5, 2),
   },
 }))
 
 export const ContentLoader = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
@@ -26,7 +27,7 @@ export const ContentButton = styled('div', {
 })<{
   loading?: boolean
 }>(({ theme, loading }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     opacity: loading ? 0 : 1,
     display: 'flex',
   },

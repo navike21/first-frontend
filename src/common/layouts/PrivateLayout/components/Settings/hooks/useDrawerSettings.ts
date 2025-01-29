@@ -87,7 +87,7 @@ export const useDrawerSettings = () => {
     fontSize,
     principalSettings,
     primaryColor,
-    sizeIcon: pxToRem(25),
+    sizeIcon: pxToRem(26),
     titleDrawer: title,
     themeMode: themeOption,
     handleChangeCompact,

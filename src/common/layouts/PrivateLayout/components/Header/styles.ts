@@ -1,7 +1,8 @@
+import { ESizes } from '@Enums/size'
 import { styled } from '@mui/material'
 
 export const HeaderContent = styled('header')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     alignItems: 'center',
     display: 'flex',
     height: theme.typography.pxToRem(70),
@@ -12,22 +13,22 @@ export const HeaderContent = styled('header')(({ theme }) => ({
     width: '100%',
     zIndex: 1000,
   },
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up(ESizes.SM)]: {
     padding: theme.spacing(0, 2),
   },
 }))
 
 export const LogoContent = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     display: 'flex',
     gap: theme.spacing(1),
   },
 }))
 
 export const Navigation = styled('nav')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     alignItems: 'center',
     display: 'flex',
-    gap: theme.spacing(1),
+    gap: theme.spacing(0.25),
   },
 }))

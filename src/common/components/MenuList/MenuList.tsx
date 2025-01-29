@@ -1,25 +1,49 @@
-import { ListItemIcon, ListItemText } from '@mui/material'
+import { ListItemIcon, ListItemText, MenuProps } from '@mui/material'
 import { uuid } from '@Utils/uuid'
-import { MenuItemMUI, MenuListMUI } from './styles'
+import { MenuItemMUI, MenuListMUI, MenuMUI } from './styles'
 import { ReactNode } from 'react'
 
 export interface IItemMenu {
   icon?: ReactNode
   label: string
+  selected?: boolean
+  disabled?: boolean
   onClick?: () => void
 }
 
-export interface IMenuListProps {
-  items: IItemMenu[]
+interface IMenuProps extends MenuProps {
+  open: boolean
+  onClose: () => void
 }
 
-export const MenuList = ({ items }: IMenuListProps) => (
-  <MenuListMUI>
-    {items.map(({ icon, label, onClick }) => (
-      <MenuItemMUI key={uuid()} onClick={onClick}>
+interface IMenuListProps {
+  items: IItemMenu[]
+  menuSelectable?: IMenuProps
+}
+
+export const MenuList = ({ items, menuSelectable }: IMenuListProps) => {
+  const itemsMenu = items.map(
+    ({ disabled, icon, label, selected, onClick }) => (
+      <MenuItemMUI
+        key={uuid()}
+        onClick={onClick}
+        selected={selected}
+        disabled={disabled}
+      >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText>{label}</ListItemText>
       </MenuItemMUI>
-    ))}
-  </MenuListMUI>
-)
+    )
+  )
+
+  if (menuSelectable) {
+    const { open, onClose, ...props } = menuSelectable
+    return (
+      <MenuMUI {...props} open={open} onClose={onClose}>
+        {itemsMenu}
+      </MenuMUI>
+    )
+  }
+
+  return <MenuListMUI>{itemsMenu}</MenuListMUI>
+}

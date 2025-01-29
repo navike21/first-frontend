@@ -1,8 +1,10 @@
-import { MenuItem, MenuList, styled } from '@mui/material'
+import { Menu, MenuItem, MenuList, styled } from '@mui/material'
 
 export const MenuListMUI = styled(MenuList)(() => ({
   position: 'relative',
 }))
+
+export const MenuMUI = styled(Menu)()
 
 export const MenuItemMUI = styled(MenuItem)(({ theme }) => ({
   position: 'relative',

@@ -12,7 +12,7 @@ export type TContentLogoProps = {
 
 export const ContentLogo = styled('div')<TContentLogoProps>(
   ({ theme, direction = 'row' }) => ({
-    [theme.breakpoints.up('xs')]: {
+    [theme.breakpoints.up(ESizes.XS)]: {
       display: 'flex',
       flexDirection: direction,
       justifyContent: 'center',
@@ -57,7 +57,7 @@ export const ContentIsoLogo = styled('div')<TContentIsoLogoProps>(({
     },
   }
   return {
-    [theme.breakpoints.up('xs')]: {
+    [theme.breakpoints.up(ESizes.XS)]: {
       ...sizes[size],
       position: 'relative',
       display: 'flex',
@@ -68,7 +68,7 @@ export const ContentIsoLogo = styled('div')<TContentIsoLogoProps>(({
 })
 
 export const RadarLogo = styled('span')(({ theme }) => ({
-  [theme.breakpoints.up('xs')]: {
+  [theme.breakpoints.up(ESizes.XS)]: {
     position: 'absolute',
     width: '100%',
     height: '100%',
