@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button > Snapshot testing > matches snapshot 1`] = `
+<DocumentFragment>
+  <button
+    aria-busy="false"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1yydy6w-MuiButtonBase-root-MuiButton-root"
+    data-variant="contained"
+    id=":rc:"
+    tabindex="0"
+    type="button"
+  >
+    <div
+      class="css-ii3vx0"
+    >
+      Click me
+    </div>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button > Snapshot testing > matches snapshot with disabled 1`] = `
+<DocumentFragment>
+  <button
+    aria-busy="false"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1yydy6w-MuiButtonBase-root-MuiButton-root"
+    data-variant="contained"
+    disabled=""
+    id=":re:"
+    tabindex="-1"
+    type="button"
+  >
+    <div
+      class="css-ii3vx0"
+    >
+      Click me
+    </div>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button > Snapshot testing > matches snapshot with loading 1`] = `
+<DocumentFragment>
+  <button
+    aria-busy="true"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1yydy6w-MuiButtonBase-root-MuiButton-root"
+    data-variant="contained"
+    disabled=""
+    id=":rd:"
+    tabindex="-1"
+    type="button"
+  >
+    <div
+      aria-label="Loading..."
+      class="css-1qd8v5p"
+    >
+      <span
+        aria-hidden="true"
+        class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
+        role="progressbar"
+        style="width: 20px; height: 20px;"
+      >
+        <svg
+          class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+          viewBox="22 22 44 44"
+        >
+          <circle
+            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+            cx="44"
+            cy="44"
+            fill="none"
+            r="20.2"
+            stroke-width="3.6"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      class="css-1ynlw9g"
+    >
+      Loading...
+    </div>
+  </button>
+</DocumentFragment>
+`;

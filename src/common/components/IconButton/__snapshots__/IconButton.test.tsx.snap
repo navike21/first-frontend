@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IconButton > matches snapshot 1`] = `
+<DocumentFragment>
+  <button
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
+    id=":r3:"
+    tabindex="0"
+    type="button"
+  >
+    Click me
+  </button>
+</DocumentFragment>
+`;
+
+exports[`IconButton > matches snapshot with color 1`] = `
+<DocumentFragment>
+  <button
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeMedium css-1svfwy9-MuiButtonBase-root-MuiIconButton-root"
+    id=":r4:"
+    tabindex="0"
+    type="button"
+  >
+    Click me
+  </button>
+</DocumentFragment>
+`;
+
+exports[`IconButton > matches snapshot with disabled 1`] = `
+<DocumentFragment>
+  <button
+    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
+    disabled=""
+    id=":r5:"
+    tabindex="-1"
+    type="button"
+  >
+    Click me
+  </button>
+</DocumentFragment>
+`;

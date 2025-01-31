@@ -84,4 +84,21 @@ describe('Button', () => {
       expect(screen.getByRole('button')).toBeDisabled()
     })
   })
+
+  describe('Snapshot testing', () => {
+    it('matches snapshot', () => {
+      const { asFragment } = renderButton()
+      expect(asFragment()).toMatchSnapshot()
+    })
+
+    it('matches snapshot with loading', () => {
+      const { asFragment } = renderButton({ loading: true })
+      expect(asFragment()).toMatchSnapshot()
+    })
+
+    it('matches snapshot with disabled', () => {
+      const { asFragment } = renderButton({ disabled: true })
+      expect(asFragment()).toMatchSnapshot()
+    })
+  })
 })

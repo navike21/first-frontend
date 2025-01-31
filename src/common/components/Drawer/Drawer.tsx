@@ -28,7 +28,10 @@ export const Drawer = ({
         {titleDrawer ? <Title variant="h5">{titleDrawer}</Title> : <span />}
         <ContentActions>
           {actionsButtons}
-          <IconButton onClick={(event) => onClose?.(event, 'backdropClick')}>
+          <IconButton
+            aria-label="close"
+            onClick={(event) => onClose?.(event, 'backdropClick')}
+          >
             <IoClose />
           </IconButton>
         </ContentActions>
