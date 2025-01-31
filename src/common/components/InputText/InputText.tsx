@@ -12,7 +12,7 @@ export const InputText = forwardRef<HTMLInputElement, TInputTextProps>(
         error={Boolean(errorMessage)}
         label={label}
         id={idElement}
-        helperText={`${errorMessage || helperText || ''}`}
+        helperText={(errorMessage || helperText)?.toString()}
         slotProps={{
           input: {
             startAdornment: prefix ? (

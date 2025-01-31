@@ -33,7 +33,7 @@ export const useApiQuery = ({
         }
       },
       onError: (error: unknown) => {
-        const { status, message } = error as unknown as TErrorResponse
+        const { status, message } = error as TErrorResponse
         openToast({
           type: getStatusType(status),
           message: status ? message : unexpectedErrorMessage,
@@ -68,8 +68,8 @@ export const useApiMutation = <TBody>({
         })
       }
     },
-    onError: (error) => {
-      const { status, message } = error as unknown as TErrorResponse
+    onError: (error: unknown) => {
+      const { status, message } = error as TErrorResponse
       openToast({
         type: getStatusType(status),
         message: status ? message : unexpectedErrorMessage,
