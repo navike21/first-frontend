@@ -38,9 +38,8 @@ services:
     volumes:
       - .:/usr/src
     environment:
-      - SONAR_HOST_URL=http://sonarqube:9000
-      - SONAR_LOGIN=admin
-      - SONAR_PASSWORD=${SONAR_PASSWORD}
+      - SONAR_HOST_URL={$SONAR_HOST_URL}
+      - SONAR_TOKEN={$SONAR_TOKEN}
     depends_on:
       - sonarqube
 

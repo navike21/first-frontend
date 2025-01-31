@@ -3,7 +3,7 @@
 exports[`Avatar > renders with custom children 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+    class="MuiBadge-root css-8epl9m-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
@@ -23,7 +23,7 @@ exports[`Avatar > renders with custom children 1`] = `
 exports[`Avatar > renders with custom props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+    class="MuiBadge-root css-9hatr-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular css-1kztxqy-MuiAvatar-root"
@@ -44,7 +44,7 @@ exports[`Avatar > renders with custom props 1`] = `
 exports[`Avatar > renders with custom size 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+    class="MuiBadge-root css-8epl9m-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1mppgx5-MuiAvatar-root"
@@ -71,7 +71,7 @@ exports[`Avatar > renders with custom size 1`] = `
 exports[`Avatar > renders with custom size and children 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+    class="MuiBadge-root css-8epl9m-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1mppgx5-MuiAvatar-root"
@@ -91,7 +91,7 @@ exports[`Avatar > renders with custom size and children 1`] = `
 exports[`Avatar > renders with custom size, children, and props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+    class="MuiBadge-root css-8epl9m-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular css-rojf4i-MuiAvatar-root"
@@ -112,7 +112,7 @@ exports[`Avatar > renders with custom size, children, and props 1`] = `
 exports[`Avatar > renders with custom status 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1w41quc-MuiBadge-root"
+    class="MuiBadge-root css-l31hcr-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
@@ -139,7 +139,7 @@ exports[`Avatar > renders with custom status 1`] = `
 exports[`Avatar > renders with custom status and children 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1w41quc-MuiBadge-root"
+    class="MuiBadge-root css-l31hcr-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"
@@ -159,7 +159,7 @@ exports[`Avatar > renders with custom status and children 1`] = `
 exports[`Avatar > renders with custom status and size 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+    class="MuiBadge-root css-16gny9y-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1r2rvqh-MuiAvatar-root"
@@ -186,7 +186,7 @@ exports[`Avatar > renders with custom status and size 1`] = `
 exports[`Avatar > renders with custom status, children, and props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+    class="MuiBadge-root css-9hatr-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular css-to4zyl-MuiAvatar-root"
@@ -207,7 +207,7 @@ exports[`Avatar > renders with custom status, children, and props 1`] = `
 exports[`Avatar > renders with custom status, size, and children 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-lgbzmu-MuiBadge-root"
+    class="MuiBadge-root css-9hatr-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1l8mqhq-MuiAvatar-root"
@@ -227,7 +227,7 @@ exports[`Avatar > renders with custom status, size, and children 1`] = `
 exports[`Avatar > renders with custom status, size, and props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+    class="MuiBadge-root css-16gny9y-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular css-9ifpaw-MuiAvatar-root"
@@ -248,7 +248,7 @@ exports[`Avatar > renders with custom status, size, and props 1`] = `
 exports[`Avatar > renders with custom status, size, children, and props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-10xr0qn-MuiBadge-root"
+    class="MuiBadge-root css-16gny9y-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular css-9ifpaw-MuiAvatar-root"
@@ -269,7 +269,7 @@ exports[`Avatar > renders with custom status, size, children, and props 1`] = `
 exports[`Avatar > renders with default props 1`] = `
 <div>
   <span
-    class="MuiBadge-root css-1l6j6pm-MuiBadge-root"
+    class="MuiBadge-root css-8epl9m-MuiBadge-root"
   >
     <div
       class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-igsyxx-MuiAvatar-root"

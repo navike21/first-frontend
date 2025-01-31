@@ -12,7 +12,8 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "sonar": "vitest run --coverage && export $(cat .env | xargs) && sonar-scanner -X"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
