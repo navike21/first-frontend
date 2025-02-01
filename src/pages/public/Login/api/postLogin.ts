@@ -7,9 +7,10 @@ import { LOGIN_API_PATH } from '../constants/apiPath'
 import { TDataLogin } from '../styles/responseLogin'
 import { loginForm } from '../languages/loginForm'
 import { EUrlPrivates } from '@Enums/urlPrivates'
+import { EProcessName } from '@Enums/processName'
 
 export const usePostLogin = () => {
-  const { language } = useOptionsBrowserStore()
+  const { language, setProcessName } = useOptionsBrowserStore()
   const { setLogin } = useAuthInformationStore()
   const navigate = useNavigate()
 
@@ -40,6 +41,7 @@ export const usePostLogin = () => {
         },
       })
 
+      setProcessName(EProcessName.HOME)
       navigate({
         to: EUrlPrivates.HOME_PAGE,
       })

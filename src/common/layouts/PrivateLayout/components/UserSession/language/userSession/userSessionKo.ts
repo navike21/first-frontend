@@ -8,22 +8,27 @@ export const userSessionKo: TUserSessionLang = {
       {
         label: '프로필',
         icon: EIcons.PROFILE,
+        urlPath: 'profile',
       },
       {
         label: '메시지',
         icon: EIcons.MESSAGES,
+        urlPath: 'messages',
       },
       {
         label: '보안',
         icon: EIcons.SECURITY,
+        urlPath: 'security',
       },
       {
         label: '도움말 및 지원',
         icon: EIcons.HELP,
+        urlPath: 'help-and-support',
       },
       {
         label: '시스템 정보',
         icon: EIcons.INFO,
+        urlPath: 'system-information',
       },
     ],
   },

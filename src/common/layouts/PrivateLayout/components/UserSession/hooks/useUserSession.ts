@@ -5,14 +5,13 @@ import { useNavigate } from '@tanstack/react-router'
 import { userSessionLanguage } from '../language/userSessionLanguage'
 import { generalIcons } from '@Utils/icons'
 import { IItemMenu } from '@Components/MenuList/MenuList'
-import { EUrlPublics } from '@Enums/urlPublics'
-import { EIcons } from '../enums/icons'
-import { EUrlPrivates } from '@Enums/urlPrivates'
+import { urlLoginPath } from '@Pages/public/Login/languages/urlPath'
+import { EProcessName } from '@Enums/processName'
 
 export const useUserSession = () => {
   const { userInformation, setIsAuth } = useAuthInformationStore()
 
-  const { language } = useOptionsBrowserStore()
+  const { language, setProcessName } = useOptionsBrowserStore()
 
   const {
     mainMenu: { title: titleMainMenu, items: itemsMainMenu },
@@ -31,29 +30,24 @@ export const useUserSession = () => {
 
   const handleLogout = () => {
     setIsAuth(false)
+    setProcessName(EProcessName.LOGIN)
     navigate({
-      to: EUrlPublics.LOGIN,
+      to: urlLoginPath[language],
+      reloadDocument: true,
     })
   }
 
-  const handleMenuNavigation = (icon: EIcons) => {
-    const url = {
-      [EIcons.PROFILE]: EUrlPrivates.USER_PROFILE,
-      [EIcons.MESSAGES]: EUrlPrivates.MESSAGES,
-      [EIcons.SECURITY]: EUrlPrivates.SECURITY,
-      [EIcons.HELP]: EUrlPrivates.HELP_SUPPORT,
-      [EIcons.INFO]: EUrlPrivates.SYSTEM_INFORMATION,
-    }
+  const handleMenuNavigation = (urlPath: string) => {
     navigate({
-      to: url[icon],
+      to: urlPath,
     })
   }
 
   const handleGenerateMainMenu = (): IItemMenu[] =>
-    itemsMainMenu.map(({ label, icon }) => ({
+    itemsMainMenu.map(({ label, icon, urlPath }) => ({
       icon: generalIcons(SIZE_ICON)[icon],
       label,
-      onClick: () => handleMenuNavigation(icon),
+      onClick: () => handleMenuNavigation(urlPath),
     }))
 
   return {

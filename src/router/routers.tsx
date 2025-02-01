@@ -8,7 +8,9 @@ import {
 import { loginRoute } from './publicRoutes'
 import { dashboardRoute } from './privateRoutes'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
-import { EUrlPublics } from '@Enums/urlPublics'
+import { urlLoginPath } from '@Pages/public/Login/languages/urlPath'
+import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
+import { EProcessName } from '@Enums/processName'
 
 const rootRoute = createRootRoute({
   component: lazyRouteComponent(
@@ -33,9 +35,11 @@ export const privateRoute = createRoute({
   ),
   beforeLoad: () => {
     const { isAuth } = useAuthInformationStore.getState()
+    const { language, setProcessName } = useOptionsBrowserStore.getState()
     if (!isAuth) {
+      setProcessName(EProcessName.LOGIN)
       throw redirect({
-        to: EUrlPublics.LOGIN,
+        to: urlLoginPath[language],
       })
     }
   },

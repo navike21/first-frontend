@@ -72,7 +72,7 @@ export const useApiMutation = <TBody>({
       const { status, message } = error as TErrorResponse
       openToast({
         type: getStatusType(status),
-        message: status ? message : unexpectedErrorMessage,
+        message: status ? JSON.parse(message)?.message : unexpectedErrorMessage,
       })
     },
     mutationKey: queryKey,

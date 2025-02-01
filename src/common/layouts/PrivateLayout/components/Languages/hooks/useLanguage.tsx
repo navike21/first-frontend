@@ -7,14 +7,17 @@ import { IItemMenu } from '@Components/MenuList/MenuList'
 export const useLanguage = () => {
   const { language, setLanguage } = useOptionsBrowserStore()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const openSelectLanguage = Boolean(anchorEl)
 
   const { icon, text } = iconsFlag[language]
 
-  const handleItemsLangsMenu = () => {
-    const items: IItemMenu[] = Object.keys(iconsFlag).map((key) => {
-      const { icon, text } = iconsFlag[key as keyof typeof iconsFlag]
+  const handleOpenSelectLanguage = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorEl(event.currentTarget)
 
+  const handleCloseSelectLanguage = () => setAnchorEl(null)
+
+  const handleItemsLangsMenu = (): IItemMenu[] =>
+    Object.keys(iconsFlag).map((key) => {
+      const { icon, text } = iconsFlag[key as keyof typeof iconsFlag]
       return {
         icon: <IconFlag src={icon} alt={text} />,
         label: text,
@@ -26,24 +29,13 @@ export const useLanguage = () => {
       }
     })
 
-    return items
-  }
-
-  const handleOpenSelectLanguage = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleCloseSelectLanguage = () => {
-    setAnchorEl(null)
-  }
-
   return {
     anchorEl,
     languageIcon: icon,
     languageText: text,
     iconsFlag,
     idLanguage: 'select-language',
-    openSelectLanguage,
+    openSelectLanguage: Boolean(anchorEl),
     handleItemsLangsMenu,
     handleOpenSelectLanguage,
     handleCloseSelectLanguage,

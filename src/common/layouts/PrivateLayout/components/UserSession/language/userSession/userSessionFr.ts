@@ -8,22 +8,27 @@ export const userSessionFr: TUserSessionLang = {
       {
         label: 'Profil',
         icon: EIcons.PROFILE,
+        urlPath: 'profil',
       },
       {
         label: 'Messages',
         icon: EIcons.MESSAGES,
+        urlPath: 'messages',
       },
       {
         label: 'Sécurité',
         icon: EIcons.SECURITY,
+        urlPath: 'securite',
       },
       {
         label: 'Aide et Support',
         icon: EIcons.HELP,
+        urlPath: 'aide-et-support',
       },
       {
         label: 'Informations Système',
         icon: EIcons.INFO,
+        urlPath: 'informations-systeme',
       },
     ],
   },

@@ -8,22 +8,27 @@ export const userSessionJp: TUserSessionLang = {
       {
         label: 'プロフィール',
         icon: EIcons.PROFILE,
+        urlPath: 'profile',
       },
       {
         label: 'メッセージ',
         icon: EIcons.MESSAGES,
+        urlPath: 'messages',
       },
       {
         label: 'セキュリティ',
         icon: EIcons.SECURITY,
+        urlPath: 'security',
       },
       {
         label: 'ヘルプとサポート',
         icon: EIcons.HELP,
+        urlPath: 'help-and-support',
       },
       {
         label: 'システム情報',
         icon: EIcons.INFO,
+        urlPath: 'system-information',
       },
     ],
   },

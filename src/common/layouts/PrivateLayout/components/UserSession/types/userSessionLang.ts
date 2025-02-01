@@ -3,6 +3,7 @@ import { EIcons } from '../enums/icons'
 type TMainMenuItem = {
   label: string
   icon: EIcons
+  urlPath: string
 }
 
 type TMainMenu = {
