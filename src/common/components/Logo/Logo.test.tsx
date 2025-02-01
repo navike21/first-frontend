@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Logo } from './Logo'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 
 describe('Logo Component', () => {
   const theme = createTheme()
@@ -37,7 +37,7 @@ describe('Logo Component', () => {
   it('renders correctly with different size prop', () => {
     const { container } = render(
       <ThemeProvider theme={theme}>
-        <Logo size={ESizes.LG} />
+        <Logo size={ESize.LG} />
       </ThemeProvider>
     )
     expect(container).toMatchSnapshot()

@@ -1,4 +1,4 @@
-import { ELanguages } from '@Enums/language'
+import { ELanguage } from '@Enums/language'
 
 import brazil from '@Assets/svg/brazil.svg'
 import china from '@Assets/svg/china.svg'
@@ -12,50 +12,50 @@ import spain from '@Assets/svg/spain.svg'
 import usa from '@Assets/svg/usa.svg'
 
 type TIconsFlag = {
-  [key in ELanguages]: {
+  [key in ELanguage]: {
     icon: string
     text: string
   }
 }
 
 export const iconsFlag: TIconsFlag = {
-  [ELanguages.DE]: {
+  [ELanguage.DE]: {
     icon: germany,
     text: 'Deutsch',
   },
-  [ELanguages.EN]: {
+  [ELanguage.EN]: {
     icon: usa,
     text: 'English',
   },
-  [ELanguages.ES]: {
+  [ELanguage.ES]: {
     icon: spain,
     text: 'Español',
   },
-  [ELanguages.FR]: {
+  [ELanguage.FR]: {
     icon: france,
     text: 'Français',
   },
-  [ELanguages.IT]: {
+  [ELanguage.IT]: {
     icon: italy,
     text: 'Italiano',
   },
-  [ELanguages.JP]: {
+  [ELanguage.JP]: {
     icon: japan,
     text: '日本語',
   },
-  [ELanguages.KO]: {
+  [ELanguage.KO]: {
     icon: korea,
     text: '한국어',
   },
-  [ELanguages.PT]: {
+  [ELanguage.PT]: {
     icon: brazil,
     text: 'Português',
   },
-  [ELanguages.RU]: {
+  [ELanguage.RU]: {
     icon: rusia,
     text: 'Русский',
   },
-  [ELanguages.ZH]: {
+  [ELanguage.ZH]: {
     icon: china,
     text: '中文',
   },

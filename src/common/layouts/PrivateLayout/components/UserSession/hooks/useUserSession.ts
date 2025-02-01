@@ -5,8 +5,9 @@ import { useNavigate } from '@tanstack/react-router'
 import { userSessionLanguage } from '../language/userSessionLanguage'
 import { generalIcons } from '@Utils/icons'
 import { IItemMenu } from '@Components/MenuList/MenuList'
-import { urlLoginPath } from '@Pages/public/Login/languages/urlPath'
+import { urlLoginPath } from '@Pages/public/login/languages/urlLoginPath'
 import { EProcessName } from '@Enums/processName'
+import { EIcons } from '../enums/icons'
 
 export const useUserSession = () => {
   const { userInformation, setIsAuth } = useAuthInformationStore()
@@ -37,9 +38,18 @@ export const useUserSession = () => {
     })
   }
 
-  const handleMenuNavigation = (urlPath: string) => {
+  const processNameOfMenuNavigation = {
+    [EIcons.PROFILE]: EProcessName.PROFILE,
+    [EIcons.MESSAGES]: EProcessName.MESSAGES,
+    [EIcons.SECURITY]: EProcessName.SECURITY,
+    [EIcons.HELP]: EProcessName.HELP,
+    [EIcons.INFO]: EProcessName.INFO,
+  }
+
+  const handleMenuNavigation = (urlPath: string, icon: EIcons) => {
+    setProcessName(processNameOfMenuNavigation[icon])
     navigate({
-      to: urlPath,
+      to: `/${urlPath}`,
     })
   }
 
@@ -47,7 +57,7 @@ export const useUserSession = () => {
     itemsMainMenu.map(({ label, icon, urlPath }) => ({
       icon: generalIcons(SIZE_ICON)[icon],
       label,
-      onClick: () => handleMenuNavigation(urlPath),
+      onClick: () => handleMenuNavigation(urlPath, icon),
     }))
 
   return {

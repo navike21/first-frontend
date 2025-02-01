@@ -1,4 +1,4 @@
-import { ELanguages } from '@Enums/language'
+import { ELanguage } from '@Enums/language'
 import {
   userSessionDe,
   userSessionEn,
@@ -13,14 +13,14 @@ import {
 } from './userSession'
 
 export const userSessionLanguage = {
-  [ELanguages.DE]: userSessionDe,
-  [ELanguages.EN]: userSessionEn,
-  [ELanguages.ES]: userSessionEs,
-  [ELanguages.FR]: userSessionFr,
-  [ELanguages.IT]: userSessionIt,
-  [ELanguages.JP]: userSessionJp,
-  [ELanguages.KO]: userSessionKo,
-  [ELanguages.PT]: userSessionPt,
-  [ELanguages.RU]: userSessionRu,
-  [ELanguages.ZH]: userSessionZh,
+  [ELanguage.DE]: userSessionDe,
+  [ELanguage.EN]: userSessionEn,
+  [ELanguage.ES]: userSessionEs,
+  [ELanguage.FR]: userSessionFr,
+  [ELanguage.IT]: userSessionIt,
+  [ELanguage.JP]: userSessionJp,
+  [ELanguage.KO]: userSessionKo,
+  [ELanguage.PT]: userSessionPt,
+  [ELanguage.RU]: userSessionRu,
+  [ELanguage.ZH]: userSessionZh,
 }

@@ -1,7 +1,7 @@
 import { Drawer } from '@Components/Drawer/Drawer'
 import { IDrawerProps } from '@Types/typesDrawer'
 import { Avatar } from '@Components/Avatar/Avatar'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { useUserSession } from '../hooks/useUserSession'
 import { MdLogout } from 'react-icons/md'
 import { MenuList } from '@Components/MenuList/MenuList'
@@ -30,7 +30,7 @@ export const DrawerUserSession = ({ open, setOpen }: IDrawerProps) => {
     <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
       <ContentDrawerUserSession>
         <InfoUserSessionContent>
-          <Avatar avatarSize={ESizes.XXXL} src={avatar} alt={names} />
+          <Avatar avatarSize={ESize.XXXL} src={avatar} alt={names} />
           <InfoUserSession>
             <UserSessionName variant="h5">{`${names} ${fatherLastName} ${motherLastName}`}</UserSessionName>
             <UserSessionEmail>{email}</UserSessionEmail>

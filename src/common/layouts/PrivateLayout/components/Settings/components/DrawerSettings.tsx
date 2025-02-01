@@ -11,7 +11,7 @@ import { CgCompress } from 'react-icons/cg'
 import { FaCircleHalfStroke } from 'react-icons/fa6'
 import { useDrawerSettings } from '../hooks/useDrawerSettings'
 import { Title } from '@Components/Title/Title'
-import { EColors } from '@Enums/color'
+import { EColor } from '@Enums/color'
 import { colors } from '@Themes/color'
 import { Button } from '@Components/Button/Button'
 import { Divider, Slider } from '@mui/material'
@@ -70,13 +70,13 @@ export const DrawerSettings = ({ open, setOpen }: IDrawerProps) => {
         <Divider />
         <Title variant="h6">{titlePrincipalColor}</Title>
         <SectionDrawerPrimaryColor>
-          {Object.values(EColors).map((color) => (
+          {Object.values(EColor).map((color) => (
             <Button
               key={color}
               color="primary"
               variant={color === primaryColor ? 'outlined' : 'text'}
               onClick={() => {
-                handleChangePrimaryColor(color as EColors)
+                handleChangePrimaryColor(color as EColor)
               }}
             >
               <FaCircleHalfStroke size={sizeIcon} color={colors[color].main} />

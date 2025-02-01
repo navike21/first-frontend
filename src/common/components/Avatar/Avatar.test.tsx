@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
 import { Avatar } from './Avatar'
 import { EUserStatusType } from '@Enums/statusType'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 
 describe('Avatar', () => {
   it('renders with default props', () => {
@@ -16,7 +16,7 @@ describe('Avatar', () => {
   })
 
   it('renders with custom size', () => {
-    const { container } = render(<Avatar avatarSize={ESizes.SM} />)
+    const { container } = render(<Avatar avatarSize={ESize.SM} />)
     expect(container).toMatchSnapshot()
   })
 
@@ -26,7 +26,7 @@ describe('Avatar', () => {
         alt="Test Avatar"
         src="/test-avatar.jpg"
         status={EUserStatusType.AWAY}
-        avatarSize={ESizes.LG}
+        avatarSize={ESize.LG}
       />
     )
     expect(container).toMatchSnapshot()
@@ -43,7 +43,7 @@ describe('Avatar', () => {
 
   it('renders with custom status and size', () => {
     const { container } = render(
-      <Avatar status={EUserStatusType.BUSY} avatarSize={ESizes.XL} />
+      <Avatar status={EUserStatusType.BUSY} avatarSize={ESize.XL} />
     )
     expect(container).toMatchSnapshot()
   })
@@ -59,7 +59,7 @@ describe('Avatar', () => {
 
   it('renders with custom size and children', () => {
     const { container } = render(
-      <Avatar avatarSize={ESizes.SM}>
+      <Avatar avatarSize={ESize.SM}>
         <img alt="Test Avatar" src="/test-avatar.jpg" />
       </Avatar>
     )
@@ -68,7 +68,7 @@ describe('Avatar', () => {
 
   it('renders with custom status, size, and children', () => {
     const { container } = render(
-      <Avatar status={EUserStatusType.AWAY} avatarSize={ESizes.LG}>
+      <Avatar status={EUserStatusType.AWAY} avatarSize={ESize.LG}>
         <img alt="Test Avatar" src="/test-avatar.jpg" />
       </Avatar>
     )
@@ -81,7 +81,7 @@ describe('Avatar', () => {
         alt="Test Avatar"
         src="/test-avatar.jpg"
         status={EUserStatusType.BUSY}
-        avatarSize={ESizes.XL}
+        avatarSize={ESize.XL}
       />
     )
     expect(container).toMatchSnapshot()
@@ -89,7 +89,7 @@ describe('Avatar', () => {
 
   it('renders with custom size, children, and props', () => {
     const { container } = render(
-      <Avatar alt="Test Avatar" src="/test-avatar.jpg" avatarSize={ESizes.SM}>
+      <Avatar alt="Test Avatar" src="/test-avatar.jpg" avatarSize={ESize.SM}>
         <img alt="Test Avatar" src="/test-avatar.jpg" />
       </Avatar>
     )
@@ -115,7 +115,7 @@ describe('Avatar', () => {
         alt="Test Avatar"
         src="/test-avatar.jpg"
         status={EUserStatusType.BUSY}
-        avatarSize={ESizes.XL}
+        avatarSize={ESize.XL}
       >
         <img alt="Test Avatar" src="/test-avatar.jpg" />
       </Avatar>

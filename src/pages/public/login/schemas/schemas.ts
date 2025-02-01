@@ -1,11 +1,11 @@
-import { ELanguages } from '@Enums/language'
+import { ELanguage } from '@Enums/language'
 import * as yup from 'yup'
 import { TLoginFields } from '../types/types'
 import { MIN_PASSWORD_LENGTH } from '../constants/constants'
 import { loginForm } from '../languages/loginForm'
 
 export const loginSchema = (
-  language: ELanguages
+  language: ELanguage
 ): yup.ObjectSchema<TLoginFields> => {
   const {
     fields: { email, password },

@@ -1,10 +1,10 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { EStatusType, EUserStatusType } from '@Enums/statusType'
 import { AvatarProps } from '@mui/material'
 
 export interface IAvatarProps extends AvatarProps {
   status?: EUserStatusType
-  avatarSize?: ESizes
+  avatarSize?: ESize
 }
 
 export type TStatusColor = {

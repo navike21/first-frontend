@@ -1,6 +1,6 @@
 import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { TApiResponse, TErrorResponse, TUseApiOptions } from '@Types/fetchApi'
+import { TApiResponse, TErrorResponse, TUseApiOption } from '@Types/fetchApi'
 import { getStatusType } from '@Utils/getStatusType'
 import { fetchData } from '@Utils/fetchData'
 import { useToast } from './useToast'
@@ -12,7 +12,7 @@ export const useApiQuery = ({
   unexpectedErrorMessage,
   showSuccessToast = true,
   onSuccess: onSuccessProp,
-}: TUseApiOptions<unknown>) => {
+}: TUseApiOption<unknown>) => {
   const { language } = useOptionsBrowserStore()
 
   const { openToast } = useToast()
@@ -50,7 +50,7 @@ export const useApiMutation = <TBody>({
   unexpectedErrorMessage,
   showSuccessToast = true,
   onSuccess: onSuccessProp,
-}: TUseApiOptions<TBody>) => {
+}: TUseApiOption<TBody>) => {
   const { language } = useOptionsBrowserStore()
   const { openToast } = useToast()
 

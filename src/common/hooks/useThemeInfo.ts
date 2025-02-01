@@ -1,4 +1,4 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { Palette, useMediaQuery, useTheme } from '@mui/material'
 import { Typography } from '@mui/material/styles/createTypography'
 
@@ -9,11 +9,11 @@ type TThemeInfo = {
 }
 
 type TBreakpoints = {
-  [ESizes.XS]: boolean
-  [ESizes.SM]: boolean
-  [ESizes.MD]: boolean
-  [ESizes.LG]: boolean
-  [ESizes.XL]: boolean
+  [ESize.XS]: boolean
+  [ESize.SM]: boolean
+  [ESize.MD]: boolean
+  [ESize.LG]: boolean
+  [ESize.XL]: boolean
 }
 
 export const useThemeInfo = (): TThemeInfo => {
@@ -23,11 +23,11 @@ export const useThemeInfo = (): TThemeInfo => {
     colors: palette,
     typography,
     breakpoints: {
-      [ESizes.XS]: useMediaQuery(breakpoints.only(ESizes.XS)),
-      [ESizes.SM]: useMediaQuery(breakpoints.only(ESizes.SM)),
-      [ESizes.MD]: useMediaQuery(breakpoints.only(ESizes.MD)),
-      [ESizes.LG]: useMediaQuery(breakpoints.only(ESizes.LG)),
-      [ESizes.XL]: useMediaQuery(breakpoints.only(ESizes.XL)),
+      [ESize.XS]: useMediaQuery(breakpoints.only(ESize.XS)),
+      [ESize.SM]: useMediaQuery(breakpoints.only(ESize.SM)),
+      [ESize.MD]: useMediaQuery(breakpoints.only(ESize.MD)),
+      [ESize.LG]: useMediaQuery(breakpoints.only(ESize.LG)),
+      [ESize.XL]: useMediaQuery(breakpoints.only(ESize.XL)),
     },
   }
 }

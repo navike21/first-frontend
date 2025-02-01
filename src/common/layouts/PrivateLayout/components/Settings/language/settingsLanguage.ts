@@ -1,4 +1,4 @@
-import { ELanguages } from '@Enums/language'
+import { ELanguage } from '@Enums/language'
 import {
   settingsDe,
   settingsEn,
@@ -13,14 +13,14 @@ import {
 } from './settings'
 
 export const settingsLanguages = {
-  [ELanguages.DE]: settingsDe,
-  [ELanguages.EN]: settingsEn,
-  [ELanguages.ES]: settingsEs,
-  [ELanguages.FR]: settingsFr,
-  [ELanguages.IT]: settingsIt,
-  [ELanguages.JP]: settingsJp,
-  [ELanguages.KO]: settingsKo,
-  [ELanguages.PT]: settingsPt,
-  [ELanguages.RU]: settingsRu,
-  [ELanguages.ZH]: settingsZh,
+  [ELanguage.DE]: settingsDe,
+  [ELanguage.EN]: settingsEn,
+  [ELanguage.ES]: settingsEs,
+  [ELanguage.FR]: settingsFr,
+  [ELanguage.IT]: settingsIt,
+  [ELanguage.JP]: settingsJp,
+  [ELanguage.KO]: settingsKo,
+  [ELanguage.PT]: settingsPt,
+  [ELanguage.RU]: settingsRu,
+  [ELanguage.ZH]: settingsZh,
 }

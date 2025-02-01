@@ -1,9 +1,9 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { styled } from '@mui/material'
 import { rotate } from '@Styles/animations'
 
 type TContentIsoLogoProps = {
-  size: ESizes
+  size: ESize
 }
 
 export type TContentLogoProps = {
@@ -12,7 +12,7 @@ export type TContentLogoProps = {
 
 export const ContentLogo = styled('div')<TContentLogoProps>(
   ({ theme, direction = 'row' }) => ({
-    [theme.breakpoints.up(ESizes.XS)]: {
+    [theme.breakpoints.up(ESize.XS)]: {
       display: 'flex',
       flexDirection: direction,
       justifyContent: 'center',
@@ -24,40 +24,40 @@ export const ContentLogo = styled('div')<TContentLogoProps>(
 
 export const ContentIsoLogo = styled('div')<TContentIsoLogoProps>(({
   theme,
-  size = ESizes.MD,
+  size = ESize.MD,
 }) => {
   const sizes = {
-    [ESizes.XS]: {
+    [ESize.XS]: {
       width: theme.typography.pxToRem(20),
       height: theme.typography.pxToRem(20),
     },
-    [ESizes.SM]: {
+    [ESize.SM]: {
       width: theme.typography.pxToRem(40),
       height: theme.typography.pxToRem(40),
     },
-    [ESizes.MD]: {
+    [ESize.MD]: {
       width: theme.typography.pxToRem(60),
       height: theme.typography.pxToRem(60),
     },
-    [ESizes.LG]: {
+    [ESize.LG]: {
       width: theme.typography.pxToRem(80),
       height: theme.typography.pxToRem(80),
     },
-    [ESizes.XL]: {
+    [ESize.XL]: {
       width: theme.typography.pxToRem(100),
       height: theme.typography.pxToRem(100),
     },
-    [ESizes.XXL]: {
+    [ESize.XXL]: {
       width: theme.typography.pxToRem(120),
       height: theme.typography.pxToRem(120),
     },
-    [ESizes.XXXL]: {
+    [ESize.XXXL]: {
       width: theme.typography.pxToRem(140),
       height: theme.typography.pxToRem(140),
     },
   }
   return {
-    [theme.breakpoints.up(ESizes.XS)]: {
+    [theme.breakpoints.up(ESize.XS)]: {
       ...sizes[size],
       position: 'relative',
       display: 'flex',
@@ -68,7 +68,7 @@ export const ContentIsoLogo = styled('div')<TContentIsoLogoProps>(({
 })
 
 export const RadarLogo = styled('span')(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     position: 'absolute',
     width: '100%',
     height: '100%',

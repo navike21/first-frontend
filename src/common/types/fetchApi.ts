@@ -12,7 +12,7 @@ export type TErrorResponse = {
   data: unknown
 }
 
-export type TUseApiOptions<TBody> = {
+export type TUseApiOption<TBody> = {
   body?: TBody
   method: EHttpMethod
   path: string

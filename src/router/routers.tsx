@@ -6,9 +6,9 @@ import {
   redirect,
 } from '@tanstack/react-router'
 import { loginRoute } from './publicRoutes'
-import { dashboardRoute } from './privateRoutes'
+import { dashboardRoute, profileRoute } from './privateRoutes'
 import { useAuthInformationStore } from '@Store/authInformation/authInformation'
-import { urlLoginPath } from '@Pages/public/Login/languages/urlPath'
+import { urlLoginPath } from '@Pages/public/login/languages/urlLoginPath'
 import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 import { EProcessName } from '@Enums/processName'
 
@@ -47,7 +47,7 @@ export const privateRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   publicRoute.addChildren([loginRoute]),
-  privateRoute.addChildren([dashboardRoute]),
+  privateRoute.addChildren([dashboardRoute, profileRoute]),
 ])
 
 export const router = createRouter({

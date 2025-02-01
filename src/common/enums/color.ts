@@ -119,7 +119,7 @@ export enum EPink {
   PINK_900 = '#880E4F',
 }
 
-export enum EBaseColors {
+export enum EBaseColor {
   WHITE = '#FFFFFF',
   BLACK = '#1F2233',
   PEACOAT = '#2F3349',
@@ -135,7 +135,7 @@ export enum EBaseColors {
   CYAN = '#00CFE8',
 }
 
-export enum EColors {
+export enum EColor {
   BLUE = 'blue',
   CYAN = 'cyan',
   GREEN = 'green',

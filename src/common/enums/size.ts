@@ -1,4 +1,4 @@
-export enum ESizes {
+export enum ESize {
   XS = 'xs',
   SM = 'sm',
   MD = 'md',

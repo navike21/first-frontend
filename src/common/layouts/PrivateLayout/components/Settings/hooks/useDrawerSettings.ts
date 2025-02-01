@@ -3,9 +3,9 @@ import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
 import { settingsLanguages } from '../language/settingsLanguage'
 import { EThemeOption } from '@Enums/themeOption'
 import { ChangeEvent } from 'react'
-import { EColors } from '@Enums/color'
+import { EColor } from '@Enums/color'
 import { fontSize } from '../constants/fontSize'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 
 export const useDrawerSettings = () => {
   const {
@@ -37,46 +37,46 @@ export const useDrawerSettings = () => {
   const handleChangeCompact = (event: ChangeEvent<HTMLInputElement>) =>
     setCompact(event.target.checked)
 
-  const handleChangePrimaryColor = (color: EColors) => setPrimaryColor(color)
+  const handleChangePrimaryColor = (color: EColor) => setPrimaryColor(color)
 
   const handleValueTextSlider = (_: Event, newValue: number | number[]) => {
     if (newValue === 12) {
-      setTextSize(ESizes.XS)
+      setTextSize(ESize.XS)
     }
 
     if (newValue === 14) {
-      setTextSize(ESizes.SM)
+      setTextSize(ESize.SM)
     }
 
     if (newValue === 16) {
-      setTextSize(ESizes.MD)
+      setTextSize(ESize.MD)
     }
     if (newValue === 18) {
-      setTextSize(ESizes.LG)
+      setTextSize(ESize.LG)
     }
     if (newValue === 20) {
-      setTextSize(ESizes.XL)
+      setTextSize(ESize.XL)
     }
   }
 
   const handleDefaultValueSlider = () => {
-    if (textSize === ESizes.XS) {
+    if (textSize === ESize.XS) {
       return 12
     }
 
-    if (textSize === ESizes.SM) {
+    if (textSize === ESize.SM) {
       return 14
     }
 
-    if (textSize === ESizes.MD) {
+    if (textSize === ESize.MD) {
       return 16
     }
 
-    if (textSize === ESizes.LG) {
+    if (textSize === ESize.LG) {
       return 18
     }
 
-    if (textSize === ESizes.XL) {
+    if (textSize === ESize.XL) {
       return 20
     }
   }

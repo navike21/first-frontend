@@ -1,11 +1,11 @@
 import { AvatarMUI, StyledBadge } from './styles'
 import { EUserStatusType } from '@Enums/statusType'
 import { IAvatarProps, statusColor } from './types'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 
 export const Avatar = ({
   status = EUserStatusType.ONLINE,
-  avatarSize = ESizes.MD,
+  avatarSize = ESize.MD,
   ...props
 }: IAvatarProps) => (
   <StyledBadge

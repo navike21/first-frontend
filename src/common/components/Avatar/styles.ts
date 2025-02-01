@@ -1,7 +1,7 @@
 import { Avatar, Badge, styled } from '@mui/material'
 import { colorBadge } from './helper'
 import { EStatusType } from '@Enums/statusType'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 
 export const StyledBadge = styled(Badge)(
   ({ theme, color = EStatusType.SUCCESS }) => ({
@@ -55,22 +55,22 @@ export const StyledBadge = styled(Badge)(
 )
 
 type TAvatarSizes = {
-  [key in ESizes]: number
+  [key in ESize]: number
 }
 
 const avatarSizeValues: TAvatarSizes = {
-  [ESizes.XS]: 24,
-  [ESizes.SM]: 32,
-  [ESizes.MD]: 40,
-  [ESizes.LG]: 48,
-  [ESizes.XL]: 56,
-  [ESizes.XXL]: 64,
-  [ESizes.XXXL]: 72,
+  [ESize.XS]: 24,
+  [ESize.SM]: 32,
+  [ESize.MD]: 40,
+  [ESize.LG]: 48,
+  [ESize.XL]: 56,
+  [ESize.XXL]: 64,
+  [ESize.XXXL]: 72,
 }
 
 export const AvatarMUI = styled(Avatar, {
   shouldForwardProp: (prop) => prop !== 'avatarSize',
-})<{ avatarSize: ESizes }>(({ theme, avatarSize }) => ({
+})<{ avatarSize: ESize }>(({ theme, avatarSize }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   width: avatarSizeValues[avatarSize],

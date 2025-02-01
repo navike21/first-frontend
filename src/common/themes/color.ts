@@ -1,7 +1,7 @@
 import {
-  EBaseColors,
+  EBaseColor,
   EBlue,
-  EColors,
+  EColor,
   ECyan,
   EGray,
   EGreen,
@@ -15,57 +15,57 @@ import { EThemeOption } from '@Enums/themeOption'
 import { Color, PaletteColor, TypeBackground } from '@mui/material'
 
 type TColor = {
-  [key in EColors]: PaletteColor
+  [key in EColor]: PaletteColor
 }
 
 export const colors: TColor = {
-  [EColors.BLUE]: {
+  [EColor.BLUE]: {
     main: EBlue.BLUE_500,
     light: EBlue.BLUE_300,
     dark: EBlue.BLUE_700,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
-  [EColors.CYAN]: {
+  [EColor.CYAN]: {
     main: ECyan.CYAN_500,
     light: ECyan.CYAN_200,
     dark: ECyan.CYAN_600,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
-  [EColors.GREEN]: {
+  [EColor.GREEN]: {
     main: EGreen.GREEN_500,
     light: EGreen.GREEN_300,
     dark: EGreen.GREEN_700,
-    contrastText: EBaseColors.BLACK,
+    contrastText: EBaseColor.BLACK,
   },
-  [EColors.ORANGE]: {
+  [EColor.ORANGE]: {
     main: EOrange.ORANGE_500,
     light: EOrange.ORANGE_200,
     dark: EOrange.ORANGE_700,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
-  [EColors.PURPLE]: {
+  [EColor.PURPLE]: {
     main: EPurple.PURPLE_500,
     light: EPurple.PURPLE_300,
     dark: EPurple.PURPLE_700,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
-  [EColors.RED]: {
+  [EColor.RED]: {
     main: ERed.RED_500,
     light: ERed.RED_300,
     dark: ERed.RED_700,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
-  [EColors.YELLOW]: {
+  [EColor.YELLOW]: {
     main: EYellow.YELLOW_700,
     light: EYellow.YELLOW_400,
     dark: EYellow.YELLOW_900,
-    contrastText: EBaseColors.BLACK,
+    contrastText: EBaseColor.BLACK,
   },
-  [EColors.PINK]: {
+  [EColor.PINK]: {
     main: EPink.PINK_400,
     light: EPink.PINK_200,
     dark: EPink.PINK_800,
-    contrastText: EBaseColors.WHITE,
+    contrastText: EBaseColor.WHITE,
   },
 }
 
@@ -73,7 +73,7 @@ export const backgroundColor = (
   themeMode: EThemeOption
 ): Partial<TypeBackground> => ({
   default: themeMode === EThemeOption.LIGHT ? EGray.GRAY_50 : EGray.GRAY_900,
-  paper: themeMode === EThemeOption.LIGHT ? EBaseColors.WHITE : EGray.GRAY_900,
+  paper: themeMode === EThemeOption.LIGHT ? EBaseColor.WHITE : EGray.GRAY_900,
 })
 
 export const grayColors: Partial<Color> = {

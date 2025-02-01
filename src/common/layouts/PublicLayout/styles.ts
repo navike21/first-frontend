@@ -1,8 +1,8 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { Grid2, styled } from '@mui/material'
 
 export const ContainerLayout = styled(Grid2)(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',

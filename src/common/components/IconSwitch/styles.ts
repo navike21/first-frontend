@@ -1,4 +1,4 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { Paper, styled, Typography } from '@mui/material'
 
 export const IconSwitchContentLabel = styled('label')(() => ({
@@ -24,7 +24,7 @@ export const IconSwitchSection = styled('section')(({ theme }) => ({
 }))
 
 export const IconSwitchTitle = styled(Typography)(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     fontWeight: 500,
     color: theme.palette.text.primary,
   },

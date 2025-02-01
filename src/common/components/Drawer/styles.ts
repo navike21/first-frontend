@@ -1,9 +1,9 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { EThemeOption } from '@Enums/themeOption'
 import { Drawer, styled } from '@mui/material'
 
 export const DrawerMUI = styled(Drawer)(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     '& .MuiDrawer-paper': {
       backdropFilter: 'blur(10px)',
       backgroundColor:
@@ -16,7 +16,7 @@ export const DrawerMUI = styled(Drawer)(({ theme }) => ({
 }))
 
 export const ContentDrawer = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
@@ -29,7 +29,7 @@ export const ContentDrawer = styled('div')(({ theme }) => ({
 }))
 
 export const HeaderDrawer = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     display: 'flex',
     justifyContent: 'space-between',
     gap: theme.spacing(2),

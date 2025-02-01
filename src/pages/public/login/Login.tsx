@@ -4,7 +4,7 @@ import { Title } from '@Components/Title/Title'
 import { InputText } from '@Components/InputText/InputText'
 import { InputPassword } from '@Components/inputPassword/inputPassword'
 import { FormContainer, FormLogin, LoginBackground } from './styles/styles'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
@@ -53,7 +53,7 @@ export const Login = () => {
     <>
       <LoginBackground />
       <FormContainer elevation={0} variant="outlined">
-        <Logo showRadar size={ESizes.LG} direction="column" />
+        <Logo showRadar size={ESize.LG} direction="column" />
         <Title variant="h5">{title}</Title>
         <FormLogin onSubmit={handleSubmit(handleLogin)}>
           <InputText

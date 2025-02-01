@@ -6,12 +6,12 @@ import {
   TContentLogoProps,
   Version,
 } from './styles'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { Title } from '@Components/Title/Title'
 
 type TLogoProps = {
   showRadar?: boolean
-  size?: ESizes
+  size?: ESize
   onlyIsoLogo?: boolean
   direction?: TContentLogoProps['direction']
 }
@@ -19,7 +19,7 @@ type TLogoProps = {
 export const Logo = ({
   showRadar = false,
   onlyIsoLogo = false,
-  size = ESizes.MD,
+  size = ESize.MD,
   direction = 'row',
 }: TLogoProps) => {
   const theme = useTheme()

@@ -1,4 +1,4 @@
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 import { styled } from '@mui/material'
 
 export const ContentDrawerSettings = styled('div')(({ theme }) => ({
@@ -14,10 +14,10 @@ export const SectionDrawerSettings = styled('section')(({ theme }) => ({
   justifyContent: 'space-between',
   gap: theme.spacing(2),
   width: '100%',
-  [theme.breakpoints.up(ESizes.XS)]: {
+  [theme.breakpoints.up(ESize.XS)]: {
     flexWrap: 'wrap',
   },
-  [theme.breakpoints.up(ESizes.SM)]: {
+  [theme.breakpoints.up(ESize.SM)]: {
     flexWrap: 'nowrap',
   },
 }))

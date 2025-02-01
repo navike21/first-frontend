@@ -1,8 +1,8 @@
-import { EColors } from '@Enums/color'
+import { EColor } from '@Enums/color'
 import { createTheme, ThemeOptions } from '@mui/material'
 import { backgroundColor, colors, grayColors } from './color'
 import { EThemeOption } from '@Enums/themeOption'
-import { ESizes } from '@Enums/size'
+import { ESize } from '@Enums/size'
 // import { htmlFontSize } from './htmlFontSize'
 import { typography } from './typography'
 import { htmlFontSize } from './htmlFontSize'
@@ -11,11 +11,11 @@ import { components } from './components'
 
 type TMaterialTheme = {
   themeMode: EThemeOption
-  color: EColors
+  color: EColor
 }
 
 type TAdditionalTheme = {
-  textSize: ESizes
+  textSize: ESize
 }
 
 type TCreateNavikeTheme = TMaterialTheme & TAdditionalTheme

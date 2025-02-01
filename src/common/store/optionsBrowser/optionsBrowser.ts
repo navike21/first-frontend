@@ -1,16 +1,16 @@
 import { createStore } from '@Utils/createStore'
 import { IOptionsBrowserState } from './types'
-import { ELanguages } from '@Enums/language'
+import { ELanguage } from '@Enums/language'
 import { EThemeOption } from '@Enums/themeOption'
-import { ESizes } from '@Enums/size'
-import { EColors } from '@Enums/color'
+import { ESize } from '@Enums/size'
+import { EColor } from '@Enums/color'
 
 export const useOptionsBrowserStore = createStore<IOptionsBrowserState>(
   (set) => ({
     themeOption: EThemeOption.LIGHT,
-    language: ELanguages.EN,
-    primaryColor: EColors.GREEN,
-    textSize: ESizes.MD,
+    language: ELanguage.EN,
+    primaryColor: EColor.GREEN,
+    textSize: ESize.MD,
     compact: false,
     processName: '',
     setThemeOption: (themeOption) =>

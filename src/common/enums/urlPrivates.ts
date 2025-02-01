@@ -1,3 +1,3 @@
-export enum EUrlPrivates {
+export enum EUrlPrivate {
   HOME_PAGE = '/',
 }
