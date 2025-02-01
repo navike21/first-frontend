@@ -11,7 +11,7 @@ export interface IItemMenu {
   onClick?: () => void
 }
 
-interface IMenuProps extends MenuProps {
+export interface IMenuProps extends MenuProps {
   open: boolean
   onClose: () => void
 }
@@ -29,6 +29,8 @@ export const MenuList = ({ items, menuSelectable }: IMenuListProps) => {
         onClick={onClick}
         selected={selected}
         disabled={disabled}
+        aria-disabled={disabled}
+        aria-selected={selected}
       >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText>{label}</ListItemText>

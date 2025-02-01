@@ -1,0 +1,219 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Logo Component > renders correctly with default props 1`] = `
+<div>
+  <div
+    class="css-iot07z"
+    direction="row"
+  >
+    <div
+      class="css-axooco"
+    >
+      <svg
+        fill="none"
+        viewBox="0 0 31 48"
+        width="65%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17.8433L30.9055 0L30.0866 12.6994L3.76597 27.8955L0 17.8433Z"
+          fill="#1976d2"
+        />
+        <path
+          d="M3.76562 27.8951L25.5014 15.3459L24.6825 28.0453L7.5316 37.9473L3.76562 27.8951Z"
+          fill="#1976d2"
+          opacity="0.5"
+        />
+        <path
+          d="M7.5293 37.9478L20.0953 30.6927L19.2764 43.3922L11.2953 48L7.5293 37.9478Z"
+          fill="#1976d2"
+          opacity="0.25"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+    >
+      First 
+      <span
+        class="css-lfziup"
+      >
+        v.1.0
+      </span>
+    </h6>
+  </div>
+</div>
+`;
+
+exports[`Logo Component > renders correctly with different direction prop 1`] = `
+<div>
+  <div
+    class="css-13cxyl3"
+    direction="column"
+  >
+    <div
+      class="css-axooco"
+    >
+      <svg
+        fill="none"
+        viewBox="0 0 31 48"
+        width="65%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17.8433L30.9055 0L30.0866 12.6994L3.76597 27.8955L0 17.8433Z"
+          fill="#1976d2"
+        />
+        <path
+          d="M3.76562 27.8951L25.5014 15.3459L24.6825 28.0453L7.5316 37.9473L3.76562 27.8951Z"
+          fill="#1976d2"
+          opacity="0.5"
+        />
+        <path
+          d="M7.5293 37.9478L20.0953 30.6927L19.2764 43.3922L11.2953 48L7.5293 37.9478Z"
+          fill="#1976d2"
+          opacity="0.25"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+    >
+      First 
+      <span
+        class="css-lfziup"
+      >
+        v.1.0
+      </span>
+    </h6>
+  </div>
+</div>
+`;
+
+exports[`Logo Component > renders correctly with different size prop 1`] = `
+<div>
+  <div
+    class="css-iot07z"
+    direction="row"
+  >
+    <div
+      class="css-o40f0"
+    >
+      <svg
+        fill="none"
+        viewBox="0 0 31 48"
+        width="65%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17.8433L30.9055 0L30.0866 12.6994L3.76597 27.8955L0 17.8433Z"
+          fill="#1976d2"
+        />
+        <path
+          d="M3.76562 27.8951L25.5014 15.3459L24.6825 28.0453L7.5316 37.9473L3.76562 27.8951Z"
+          fill="#1976d2"
+          opacity="0.5"
+        />
+        <path
+          d="M7.5293 37.9478L20.0953 30.6927L19.2764 43.3922L11.2953 48L7.5293 37.9478Z"
+          fill="#1976d2"
+          opacity="0.25"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+    >
+      First 
+      <span
+        class="css-lfziup"
+      >
+        v.1.0
+      </span>
+    </h6>
+  </div>
+</div>
+`;
+
+exports[`Logo Component > renders correctly with onlyIsoLogo prop 1`] = `
+<div>
+  <div
+    class="css-iot07z"
+    direction="row"
+  >
+    <div
+      class="css-axooco"
+    >
+      <svg
+        fill="none"
+        viewBox="0 0 31 48"
+        width="65%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17.8433L30.9055 0L30.0866 12.6994L3.76597 27.8955L0 17.8433Z"
+          fill="#1976d2"
+        />
+        <path
+          d="M3.76562 27.8951L25.5014 15.3459L24.6825 28.0453L7.5316 37.9473L3.76562 27.8951Z"
+          fill="#1976d2"
+          opacity="0.5"
+        />
+        <path
+          d="M7.5293 37.9478L20.0953 30.6927L19.2764 43.3922L11.2953 48L7.5293 37.9478Z"
+          fill="#1976d2"
+          opacity="0.25"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Logo Component > renders correctly with showRadar prop 1`] = `
+<div>
+  <div
+    class="css-iot07z"
+    direction="row"
+  >
+    <div
+      class="css-axooco"
+    >
+      <span
+        class="css-1flu6l6"
+      />
+      <svg
+        fill="none"
+        viewBox="0 0 31 48"
+        width="45%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 17.8433L30.9055 0L30.0866 12.6994L3.76597 27.8955L0 17.8433Z"
+          fill="#1976d2"
+        />
+        <path
+          d="M3.76562 27.8951L25.5014 15.3459L24.6825 28.0453L7.5316 37.9473L3.76562 27.8951Z"
+          fill="#1976d2"
+          opacity="0.5"
+        />
+        <path
+          d="M7.5293 37.9478L20.0953 30.6927L19.2764 43.3922L11.2953 48L7.5293 37.9478Z"
+          fill="#1976d2"
+          opacity="0.25"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+    >
+      First 
+      <span
+        class="css-lfziup"
+      >
+        v.1.0
+      </span>
+    </h6>
+  </div>
+</div>
+`;
