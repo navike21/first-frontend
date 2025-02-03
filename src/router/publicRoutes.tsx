@@ -8,7 +8,7 @@ const { language } = useOptionsBrowserStore.getState()
 
 export const loginRoute = createRoute({
   getParentRoute: () => publicRoute,
-  path: urlLoginPath[language],
+  path: urlLoginPath[language].slug,
   component: lazyRouteComponent(
     () => import('@Pages/public/login/Login'),
     'Login'

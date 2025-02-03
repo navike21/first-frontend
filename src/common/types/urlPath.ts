@@ -1,5 +1,8 @@
 import { ELanguage } from '@Enums/language'
 
-export type TUrlPath = {
-  [key in ELanguage]: string
+export type TUrlPathData = {
+  title: string
+  slug: string
 }
+
+export type TUrlPath = Record<ELanguage, TUrlPathData>

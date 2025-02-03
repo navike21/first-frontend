@@ -1,12 +1,17 @@
+import { ESize } from '@Enums/size'
 import { styled, Typography } from '@mui/material'
 
 export const ContentDrawerUserSession = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-  height: '100%',
-  justifyContent: 'space-between',
-  padding: theme.spacing(0, 3, 3, 3),
+  [theme.breakpoints.up(ESize.XS)]: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(3),
+    justifyContent: 'space-between',
+    padding: theme.spacing(0, 3, 3, 3),
+  },
+  [theme.breakpoints.up(ESize.MD)]: {
+    height: '100%',
+  },
 }))
 
 export const InfoUserSessionContent = styled('section')(({ theme }) => ({

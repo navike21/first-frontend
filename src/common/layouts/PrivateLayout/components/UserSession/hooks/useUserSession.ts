@@ -33,7 +33,7 @@ export const useUserSession = () => {
     setIsAuth(false)
     setProcessName(EProcessName.LOGIN)
     navigate({
-      to: urlLoginPath[language],
+      to: urlLoginPath[language].slug,
       reloadDocument: true,
     })
   }

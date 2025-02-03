@@ -20,7 +20,7 @@ export const dashboardRoute = createRoute({
 
 export const profileRoute = createRoute({
   getParentRoute: () => privateRoute,
-  path: urlProfilePath[language],
+  path: urlProfilePath[language].slug,
   component: lazyRouteComponent(
     () => import('@Pages/private/profile/Profile'),
     'Profile'

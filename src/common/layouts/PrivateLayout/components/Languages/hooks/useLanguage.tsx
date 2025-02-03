@@ -26,8 +26,8 @@ export const useLanguage = () => {
 
   const handleUpdateRoute = (selectedLanguage: ELanguage) => {
     const urlPathReload: Record<EProcessName, string> = {
-      [EProcessName.LOGIN]: urlLoginPath[selectedLanguage],
-      [EProcessName.PROFILE]: urlProfilePath[selectedLanguage],
+      [EProcessName.LOGIN]: `/${urlLoginPath[selectedLanguage].slug}`,
+      [EProcessName.PROFILE]: `/${urlProfilePath[selectedLanguage].slug}`,
       [EProcessName.HOME]: '/',
       [EProcessName.INFO]: '/info',
       [EProcessName.MESSAGES]: '/messages',
@@ -37,6 +37,7 @@ export const useLanguage = () => {
 
     navigate({
       to: urlPathReload[processName as EProcessName],
+      viewTransition: true,
       reloadDocument: true,
     })
   }

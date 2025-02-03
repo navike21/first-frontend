@@ -18,6 +18,7 @@ const rootRoute = createRootRoute({
     'MainLayout'
   ),
 })
+
 export const publicRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'public',
@@ -26,6 +27,7 @@ export const publicRoute = createRoute({
     'PublicLayout'
   ),
 })
+
 export const privateRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'private',
@@ -39,7 +41,7 @@ export const privateRoute = createRoute({
     if (!isAuth) {
       setProcessName(EProcessName.LOGIN)
       throw redirect({
-        to: urlLoginPath[language],
+        to: urlLoginPath[language].slug,
       })
     }
   },

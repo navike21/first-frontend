@@ -1,3 +1,11 @@
+import { ContentLayout } from '@Components/ContentLayout/ContentLayout'
+import { useOptionsBrowserStore } from '@Store/optionsBrowser/optionsBrowser'
+import { urlProfilePath } from './languages/urlProfilePath'
+
 export const Profile = () => {
-  return <div>Profile</div>
+  const { language } = useOptionsBrowserStore()
+
+  const { title } = urlProfilePath[language]
+
+  return <ContentLayout title={title}>....</ContentLayout>
 }
