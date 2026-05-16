@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type LinkButtonProps } from '@/shared/types/buttonProps'
+import { variantColorClasses, variantHoverClasses } from '../Button/buttonVariants'
 import { Link } from '@tanstack/react-router'
 
 export const LinkButton = ({
@@ -9,6 +10,8 @@ export const LinkButton = ({
   children,
   size = 'medium',
   icon,
+  loading: _loading,
+  fullWidth: _fullWidth,
   ...props
 }: Readonly<LinkButtonProps>) => (
   <Link
@@ -22,16 +25,8 @@ export const LinkButton = ({
         'hover:shadow-lg': variant !== 'text',
         'active:scale-95': variant !== 'text',
       },
-      {
-        'bg-primary-950 text-white': variant === 'primary',
-        'text-primary-text bg-white ring-1 ring-black ring-inset':
-          variant === 'secondary',
-        'text-primary-text bg-transparent': variant === 'text',
-      },
-      {
-        'hover:bg-gray-800': variant === 'primary',
-        'hover:bg-gray-100 hover:ring-2': variant === 'secondary',
-      },
+      variantColorClasses[variant],
+      variantHoverClasses[variant],
       {
         'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-slate-400 before:opacity-0 before:transition-all before:duration-fast before:ease-out-expo before:content-[""]':
           variant === 'text',
@@ -46,7 +41,7 @@ export const LinkButton = ({
         'px-6 py-3 text-xs': size === 'small' && variant !== 'text',
         'px-8 py-3.5 text-sm': size === 'medium' && variant !== 'text',
         'text-md px-10 py-4': size === 'large' && variant !== 'text',
-      }
+      },
     )}
     {...props}
   >

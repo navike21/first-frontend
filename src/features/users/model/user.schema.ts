@@ -23,7 +23,7 @@ export const createUserSchema = z.object({
   profilePictureUrl: z.string().url('URL inválida').max(500).optional().or(z.literal('')),
   address: addressSchema.optional(),
   groupId: z.string().optional(),
-  status: z.enum(['active', 'inactive']).default('active'),
+  status: z.enum(['active', 'inactive']),
 })
 
 export const updateUserSchema = createUserSchema

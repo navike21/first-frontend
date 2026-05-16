@@ -42,3 +42,11 @@ export const NAV = {
     label: 'Página no encontrada',
   },
 } as const
+
+export type NavNode = {
+  readonly segment: string
+  readonly path: string
+  readonly label: string
+}
+
+export type NavModule = typeof NAV

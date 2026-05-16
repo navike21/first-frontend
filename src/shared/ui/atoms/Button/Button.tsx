@@ -2,10 +2,9 @@ import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type ButtonProps } from '@/shared/types/buttonProps'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
+import { variantColorClasses, variantHoverClasses, type ButtonVariant } from './buttonVariants'
 
-type Variant = NonNullable<ButtonProps['variant']>
-
-type LoadingVariant = Record<Variant, NonNullable<SpinnerProps['variant']>>
+type LoadingVariant = Record<ButtonVariant, NonNullable<SpinnerProps['variant']>>
 
 const loadingVariants: LoadingVariant = {
   primary: 'white',
@@ -14,24 +13,6 @@ const loadingVariants: LoadingVariant = {
   warning: 'white',
   error: 'white',
   information: 'white',
-}
-
-const variantColorClasses: Record<Variant, string> = {
-  primary: 'bg-primary-950 text-white',
-  secondary: 'text-primary-text bg-white ring-1 ring-black ring-inset',
-  text: 'text-primary-text bg-transparent',
-  warning: 'bg-amber-500 text-white',
-  error: 'bg-red-600 text-white',
-  information: 'bg-blue-600 text-white',
-}
-
-const variantHoverClasses: Record<Variant, string> = {
-  primary: 'hover:bg-gray-800',
-  secondary: 'hover:bg-gray-100 hover:ring-2',
-  text: '',
-  warning: 'hover:bg-amber-600',
-  error: 'hover:bg-red-700',
-  information: 'hover:bg-blue-700',
 }
 
 export const Button = ({
@@ -75,8 +56,7 @@ export const Button = ({
         {
           'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-slate-400 before:opacity-0 before:transition-all before:duration-fast before:ease-out-expo before:content-[""]':
             variant === 'text',
-          'hover:before:w-full hover:before:opacity-100':
-            variant === 'text' && !loading,
+          'hover:before:w-full hover:before:opacity-100': variant === 'text' && !loading,
         },
         {
           'text-xs': size === 'small' && variant === 'text',
@@ -90,7 +70,7 @@ export const Button = ({
         },
         {
           'inline-flex align-middle': variant === 'text' && loading,
-        }
+        },
       )}
       {...props}
       disabled={loading || disabled}
