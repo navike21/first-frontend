@@ -21,4 +21,10 @@ export const menuConfig: MenuItem[] = [
     icon: 'RiDashboard2Line',
     href: NAV.home.path,
   },
+  {
+    id: 'users',
+    label: NAV.users.label,
+    icon: 'RiGroupLine',
+    href: NAV.users.path,
+  },
 ]
