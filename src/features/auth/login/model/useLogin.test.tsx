@@ -61,7 +61,7 @@ import { useLogin } from './useLogin'
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
   name: 'Test User',
-  email: 'test@indra.com',
+  email: 'test@navike21.com',
   ...overrides,
 })
 

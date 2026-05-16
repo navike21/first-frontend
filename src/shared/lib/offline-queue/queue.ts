@@ -1,7 +1,7 @@
 import localforage from 'localforage'
 import type { QueuedRequest } from './queue.types'
 
-const QUEUE_KEY = 'pt_offline_queue'
+const QUEUE_KEY = 'first_offline_queue'
 
 const getQueue = async (): Promise<QueuedRequest[]> =>
   (await localforage.getItem<QueuedRequest[]>(QUEUE_KEY)) ?? []

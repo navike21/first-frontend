@@ -35,7 +35,7 @@ export const ProfileDrawer = ({
           {user?.name || 'Usuario Invitado'}
         </span>
         <span className="text-sm text-slate-500">
-          {user?.email || 'test@indra.es'}
+          {user?.email || 'test@navike21.com'}
         </span>
       </div>
 

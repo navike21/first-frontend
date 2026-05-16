@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 import type { AuthUser } from '@/shared/types'
 
-export const TOKEN_KEY = '_pt_token'
+export const TOKEN_KEY = '_first_token'
 
 interface SessionState {
   isAuthenticated: boolean

@@ -20,7 +20,7 @@ export {
 export { Chip, type ChipProps } from './atoms/Chip'
 export { HelperText, type HelperTextProps } from './atoms/HelperText'
 export { IconComponent, type IconProps } from './atoms/IconComponent'
-export { IsoLogoIndra } from './atoms/IsoLogoIndra'
+export { AppLogo } from './atoms/AppLogo'
 export { Label, type LabelProps } from './atoms/Label'
 export { NavItem, type NavItemProps } from './atoms/NavItem'
 export { LinkButton, type LinkButtonProps } from './atoms/LinkButton'

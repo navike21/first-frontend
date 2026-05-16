@@ -1,4 +1,4 @@
-import { IsoLogoIndra, IconComponent, Avatar, IconButton } from '@/shared/ui'
+import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { ProfileDrawer } from './ProfileDrawer'
@@ -51,9 +51,9 @@ export const Header = () => {
         </button>
 
         <div className="flex items-center gap-3">
-          <IsoLogoIndra size="x-small" color="default" />
+          <AppLogo size="x-small" color="default" />
           <h1 className="text-xl font-bold tracking-tight text-slate-800">
-            Performance
+            First
           </h1>
         </div>
       </div>

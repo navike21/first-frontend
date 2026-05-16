@@ -23,11 +23,11 @@ describe('Footer component', () => {
     expect(screen.getByText(new RegExp(year))).toBeInTheDocument()
   })
 
-  it('should display Indra in the copyright text', () => {
+  it('should display navike21 in the copyright text', () => {
     // Arrange & Act
     render(<Footer />)
     // Assert
-    expect(screen.getByText(/Indra/)).toBeInTheDocument()
+    expect(screen.getByText(/navike21/)).toBeInTheDocument()
   })
 
   it('should render the "Términos de uso" link', () => {

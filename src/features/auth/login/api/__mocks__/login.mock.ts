@@ -24,7 +24,7 @@ const MOCK_USERS: MockUser[] = [
     user: {
       id: '1',
       name: 'José Iván Chaponan',
-      email: 'j.chaponan@indra.com',
+      email: 'j.chaponan@navike21.com',
     } satisfies AuthUser,
   },
   {
@@ -34,7 +34,7 @@ const MOCK_USERS: MockUser[] = [
     user: {
       id: '2',
       name: 'María García López',
-      email: 'm.garcia@indra.com',
+      email: 'm.garcia@navike21.com',
     } satisfies AuthUser,
   },
   {
@@ -44,17 +44,17 @@ const MOCK_USERS: MockUser[] = [
     user: {
       id: '3',
       name: 'Roberto López Vega',
-      email: 'r.lopez@indra.com',
+      email: 'r.lopez@navike21.com',
     } satisfies AuthUser,
   },
   {
     username: 'amorales',
-    password: 'indra2026',
+    password: 'first2026',
     token: 'mock-token-amorales-004',
     user: {
       id: '4',
       name: 'Ana Morales Ruiz',
-      email: 'a.morales@indra.com',
+      email: 'a.morales@navike21.com',
     } satisfies AuthUser,
   },
 ]

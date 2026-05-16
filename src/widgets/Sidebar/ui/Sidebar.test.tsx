@@ -50,7 +50,7 @@ vi.mock('@/shared/ui', () => ({
       {isOpen && <div>{children}</div>}
     </div>
   ),
-  IsoLogoIndra: () => <svg data-testid="iso-logo" />,
+  AppLogo: () => <svg data-testid="app-logo" />,
   Drawer: ({
     children,
     title,

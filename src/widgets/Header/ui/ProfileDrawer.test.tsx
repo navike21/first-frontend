@@ -8,7 +8,7 @@ import type { AuthUser } from '@/shared/types'
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
   name: 'María García',
-  email: 'm.garcia@indra.com',
+  email: 'm.garcia@navike21.com',
   ...overrides,
 })
 
@@ -123,7 +123,7 @@ describe('ProfileDrawer component', () => {
       />
     )
     // Assert
-    expect(screen.getByText('m.garcia@indra.com')).toBeInTheDocument()
+    expect(screen.getByText('m.garcia@navike21.com')).toBeInTheDocument()
   })
 
   it('should display fallback name when user is null', () => {

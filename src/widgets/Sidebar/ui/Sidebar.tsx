@@ -3,7 +3,7 @@ import { Link, useRouterState } from '@tanstack/react-router'
 import {
   IconComponent,
   Accordion,
-  IsoLogoIndra,
+  AppLogo,
   Drawer,
   NavItem,
 } from '@/shared/ui'
@@ -39,7 +39,7 @@ export const Sidebar = () => {
 
   const TitleNode = (
     <div className="flex items-center gap-2">
-      <IsoLogoIndra size="x-small" color="default" />
+      <AppLogo size="x-small" color="default" />
       <span className="font-bold text-slate-800">Menú</span>
     </div>
   )

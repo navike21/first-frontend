@@ -14,7 +14,7 @@ const toggleMobileSidebarMock = vi.fn()
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
   name: 'Test User',
-  email: 'test@indra.com',
+  email: 'test@navike21.com',
   ...overrides,
 })
 
@@ -35,7 +35,7 @@ vi.mock('@/shared/ui', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/shared/ui')>()
   return {
     ...actual,
-    IsoLogoIndra: () => <svg data-testid="iso-logo" />,
+    AppLogo: () => <svg data-testid="app-logo" />,
     IconComponent: ({
       icon,
       className,
@@ -67,18 +67,18 @@ describe('Header component', () => {
     expect(screen.getByRole('banner')).toBeInTheDocument()
   })
 
-  it('should render the Indra logo', () => {
+  it('should render the app logo', () => {
     // Arrange & Act
     render(<Header />)
     // Assert
-    expect(screen.getByTestId('iso-logo')).toBeInTheDocument()
+    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
   })
 
-  it('should render the Performance title', () => {
+  it('should render the First title', () => {
     // Arrange & Act
     render(<Header />)
     // Assert
-    expect(screen.getByText('Performance')).toBeInTheDocument()
+    expect(screen.getByText('First')).toBeInTheDocument()
   })
 
   it('should render the user name', () => {
@@ -92,7 +92,7 @@ describe('Header component', () => {
     // Arrange & Act
     render(<Header />)
     // Assert
-    expect(screen.getByText('test@indra.com')).toBeInTheDocument()
+    expect(screen.getByText('test@navike21.com')).toBeInTheDocument()
   })
 
   it('should call toggleMobileSidebar when mobile menu button is clicked', async () => {

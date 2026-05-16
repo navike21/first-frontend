@@ -27,7 +27,7 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 })
 
 vi.mock('@/shared/ui', () => ({
-  IsoLogoIndra: () => <svg data-testid="iso-logo" />,
+  AppLogo: () => <svg data-testid="app-logo" />,
   Button: ({
     children,
     onClick,
@@ -66,9 +66,9 @@ describe('NotFoundPage component', () => {
     expect(screen.getByText(/La página que buscas no existe/i)).toBeInTheDocument()
   })
 
-  it('should render the Indra logo', () => {
+  it('should render the app logo', () => {
     render(<NotFoundPage />)
-    expect(screen.getByTestId('iso-logo')).toBeInTheDocument()
+    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
   })
 
   it('should show the broken URL when brokenPath is in state', () => {

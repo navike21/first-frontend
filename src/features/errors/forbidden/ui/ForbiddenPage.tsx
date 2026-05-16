@@ -1,9 +1,9 @@
-import { IsoLogoIndra, LinkButton } from '@/shared/ui'
+import { AppLogo, LinkButton } from '@/shared/ui'
 
 export const ForbiddenPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-4">
-      <IsoLogoIndra />
+      <AppLogo />
       <div className="flex flex-col items-center gap-2 text-center">
         <span className="text-6xl font-bold text-slate-900">403</span>
         <h1 className="text-2xl font-semibold text-slate-800">

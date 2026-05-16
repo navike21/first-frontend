@@ -1,5 +1,5 @@
 import { useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
-import { IsoLogoIndra, Button } from '@/shared/ui'
+import { AppLogo, Button } from '@/shared/ui'
 
 export const NotFoundPage = () => {
   const router = useRouter()
@@ -10,7 +10,7 @@ export const NotFoundPage = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-4">
-      <IsoLogoIndra />
+      <AppLogo />
 
       <div className="flex flex-col items-center gap-3 text-center">
         <span className="text-6xl font-bold text-slate-900">404</span>

@@ -1,1 +1,0 @@
-export { IsoLogoIndra } from './IsoLogoIndra'

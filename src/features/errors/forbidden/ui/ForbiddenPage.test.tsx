@@ -19,7 +19,7 @@ vi.mock('@tanstack/react-router', () => ({
 }))
 
 vi.mock('@/shared/ui', () => ({
-  IsoLogoIndra: () => <svg data-testid="iso-logo" />,
+  AppLogo: () => <svg data-testid="app-logo" />,
   LinkButton: ({
     children,
     href,
@@ -63,11 +63,11 @@ describe('ForbiddenPage component', () => {
     expect(screen.getByText(/No tienes una sesión activa/i)).toBeInTheDocument()
   })
 
-  it('should render the Indra logo', () => {
+  it('should render the app logo', () => {
     // Arrange & Act
     render(<ForbiddenPage />)
     // Assert
-    expect(screen.getByTestId('iso-logo')).toBeInTheDocument()
+    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
   })
 
   it('should render the login link button', () => {
