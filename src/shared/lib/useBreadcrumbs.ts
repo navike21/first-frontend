@@ -8,15 +8,22 @@ const HOME_ITEM: BreadcrumbItem = {
   label: 'Inicio',
 }
 
-const buildPathItems = (
-  segments: readonly string[]
-): readonly BreadcrumbItem[] =>
-  segments.map((segment, index) => {
+const isIdSegment = (segment: string): boolean =>
+  /^[0-9a-f]{24}$/i.test(segment) ||
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(segment)
+
+const buildPathItems = (segments: readonly string[]): readonly BreadcrumbItem[] => {
+  const visible = segments
+    .map((segment, index) => ({ segment, index }))
+    .filter(({ segment }) => !isIdSegment(segment))
+
+  return visible.map(({ segment, index }, visibleIndex) => {
     const href = '/' + segments.slice(0, index + 1).join('/')
     const label = SEGMENT_LABELS[segment] ?? segment
-    const isLast = index === segments.length - 1
+    const isLast = visibleIndex === visible.length - 1
     return isLast ? { label } : { href, label }
   })
+}
 
 export const useBreadcrumbs = (): readonly BreadcrumbItem[] => {
   const { location } = useRouterState()
