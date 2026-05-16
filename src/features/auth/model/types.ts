@@ -1,26 +1,11 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(8, 'Mínimo 8 caracteres'),
+  email: z.string().min(1, 'Campo requerido').email('Email inválido'),
+  password: z.string().min(1, 'Campo requerido'),
 })
 
 export type LoginInput = z.infer<typeof loginSchema>
 
-export interface AuthTokens {
-  accessToken: string
-}
-
-export interface UserProfile {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  profilePicture?: string
-  status: 'active' | 'inactive'
-  userGroupId: string
-  permissions: string[]
-  presenceStatus?: 'online' | 'away' | 'offline'
-  createdAt: string
-  updatedAt: string
-}
+// Re-exported for convenience — the canonical type lives in @shared/types
+export type { AuthUser as UserProfile } from '@shared/types'

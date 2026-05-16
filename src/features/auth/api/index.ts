@@ -1,9 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiClient, setAccessToken, clearAccessToken } from '@shared/api/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { authService } from '@shared/api'
 import { notify } from '@shared/lib/notify'
-import { useAuthStore } from '../store'
-import type { ApiResponse } from '@shared/api/types'
-import type { AuthTokens, LoginInput, UserProfile } from '../model/types'
+import { useSessionStore } from '@shared/model'
+import type { LoginInput } from '../model/types'
 
 export const authKeys = {
   me: ['auth', 'me'] as const,
@@ -11,48 +10,26 @@ export const authKeys = {
 }
 
 export function useLogin() {
-  const setUser = useAuthStore((s) => s.setUser)
-  const qc = useQueryClient()
+  const setSession = useSessionStore((s) => s.setSession)
 
   return useMutation({
-    mutationFn: async (input: LoginInput) => {
-      const { data } = await apiClient.post<ApiResponse<AuthTokens & { user: UserProfile }>>(
-        '/auth/login',
-        input,
-      )
-      return data.data
-    },
-    onSuccess: ({ accessToken, user }) => {
-      setAccessToken(accessToken)
-      setUser(user)
-      void qc.invalidateQueries({ queryKey: authKeys.me })
-      notify.success(`Bienvenido, ${user.firstName}`)
+    mutationFn: ({ email, password }: LoginInput) => authService.signIn(email, password),
+    onSuccess: ({ token, user }) => {
+      setSession(token, user)
+      notify.success(`Bienvenido, ${user.name}`)
     },
   })
 }
 
 export function useLogout() {
-  const clearAuth = useAuthStore((s) => s.clearAuth)
+  const clearSession = useSessionStore((s) => s.clearSession)
   const qc = useQueryClient()
 
   return useMutation({
-    mutationFn: () => apiClient.post('/auth/logout'),
+    mutationFn: () => authService.signOut(),
     onSettled: () => {
-      clearAccessToken()
-      clearAuth()
+      clearSession()
       qc.clear()
     },
-  })
-}
-
-export function useMe() {
-  return useQuery({
-    queryKey: authKeys.me,
-    queryFn: async () => {
-      const { data } = await apiClient.get<ApiResponse<UserProfile>>('/users/me')
-      return data.data
-    },
-    staleTime: 1000 * 60 * 10,
-    retry: false,
   })
 }
