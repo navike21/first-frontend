@@ -1,0 +1,26 @@
+import { z } from 'zod'
+
+export const loginSchema = z.object({
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'Mínimo 8 caracteres'),
+})
+
+export type LoginInput = z.infer<typeof loginSchema>
+
+export interface AuthTokens {
+  accessToken: string
+}
+
+export interface UserProfile {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  profilePicture?: string
+  status: 'active' | 'inactive'
+  userGroupId: string
+  permissions: string[]
+  presenceStatus?: 'online' | 'away' | 'offline'
+  createdAt: string
+  updatedAt: string
+}
