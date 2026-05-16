@@ -3,14 +3,10 @@ import { QueryClient } from '@tanstack/react-query'
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
-      gcTime: 1000 * 60 * 60 * 24,
       networkMode: 'offlineFirst',
-      retry: (failureCount, error) => {
-        const status = (error as { status?: number }).status
-        if (status !== undefined && status >= 400 && status < 500) return false
-        return failureCount < 2
-      },
+      staleTime: 5 * 60 * 1000,
+      gcTime: 24 * 60 * 60 * 1000,
+      retry: 1,
       refetchOnWindowFocus: false,
     },
     mutations: {
@@ -19,35 +15,20 @@ export const queryClient = new QueryClient({
   },
 })
 
-export async function setupOfflinePersistence() {
+export async function setupOfflinePersistence(): Promise<void> {
   if (typeof window === 'undefined') return
 
-  const [{ persistQueryClient }, { createAsyncStoragePersister }, localforageModule] =
-    await Promise.all([
-      import('@tanstack/react-query-persist-client'),
-      import('@tanstack/query-async-storage-persister'),
-      import('localforage'),
-    ])
+  const [{ persistQueryClient }, { createAsyncStoragePersister }, localforage] = await Promise.all([
+    import('@tanstack/react-query-persist-client'),
+    import('@tanstack/query-async-storage-persister'),
+    import('localforage'),
+  ])
 
-  const localforage = localforageModule.default
+  const persister = createAsyncStoragePersister({ storage: localforage.default })
 
-  localforage.config({
-    name: 'first-frontend',
-    storeName: 'query-cache',
-    description: 'TanStack Query offline cache',
-  })
-
-  const persister = createAsyncStoragePersister({
-    storage: localforage,
-    key: 'FIRST_QUERY_CACHE',
-  })
-
-  persistQueryClient({
+  await persistQueryClient({
     queryClient,
     persister,
-    maxAge: 1000 * 60 * 60 * 24,
-    dehydrateOptions: {
-      shouldDehydrateQuery: (query) => query.state.status === 'success',
-    },
+    maxAge: 24 * 60 * 60 * 1000,
   })
 }

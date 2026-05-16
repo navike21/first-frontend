@@ -1,27 +1,25 @@
 import { io, type Socket } from 'socket.io-client'
-import { env } from '@shared/config/env'
 
 let socket: Socket | null = null
 
-export function getSocket(): Socket {
+export function getSocket(): Socket | null {
+  return socket
+}
+
+export function connectSocket(token: string): Socket {
   if (!socket) {
-    socket = io(env.VITE_SOCKET_URL, {
+    socket = io(import.meta.env.VITE_SOCKET_URL ?? 'http://localhost:4000', {
       autoConnect: false,
       withCredentials: true,
       transports: ['websocket', 'polling'],
     })
   }
+  socket.auth = { token }
+  socket.connect()
   return socket
 }
 
-export function connectSocket(token: string): Socket {
-  const s = getSocket()
-  s.auth = { token }
-  s.connect()
-  return s
-}
-
-export function disconnectSocket() {
+export function disconnectSocket(): void {
   socket?.disconnect()
   socket = null
 }

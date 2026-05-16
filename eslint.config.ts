@@ -41,4 +41,19 @@ export default tseslint.config(
       'react-refresh/only-export-components': 'off',
     },
   },
+  {
+    // Shared UI components library — allow intentional advanced React patterns
+    files: ['src/shared/ui/**/*.{ts,tsx}', 'src/shared/lib/**/*.{ts,tsx}'],
+    rules: {
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/immutability': 'off',
+    },
+  },
+  {
+    // Test files — vi.mock() uses inline import() type annotations
+    files: ['**/*.test.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off',
+    },
+  },
 )

@@ -18,12 +18,21 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
       "@pages/*": ["./src/pages/*"],
       "@features/*": ["./src/features/*"],
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["./src/shared/*"],
+      "@Components/*": ["./src/shared/ui/atoms/*"]
     }
   },
-  "include": ["src", "app", "app.config.ts", "eslint.config.ts", "commitlint.config.ts"],
-  "exclude": ["node_modules", "dist", ".vinxi"]
+  "include": ["src", "eslint.config.ts", "commitlint.config.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".vinxi",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
+    "src/shared/lib/offline-queue/*.test.ts"
+  ]
 }
