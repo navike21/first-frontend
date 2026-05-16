@@ -1,0 +1,4 @@
+export default {
+  '*.{ts,tsx}': () => ['eslint --fix --max-warnings 0', 'prettier --write --ignore-unknown .'],
+  '*.{json,css,md}': () => ['prettier --write --ignore-unknown .'],
+}

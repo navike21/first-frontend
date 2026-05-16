@@ -1,0 +1,1 @@
+export { IsoLogoIndra } from './IsoLogoIndra'
