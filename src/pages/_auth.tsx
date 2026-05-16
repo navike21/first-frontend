@@ -1,19 +1,16 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { requireAuth } from '@shared/router'
 import { Sidebar } from '@features/layout/Sidebar'
 import { Header } from '@features/layout/Header'
 
 export const Route = createFileRoute('/_auth')({
-  beforeLoad: ({ context }) => {
-    if (!(context as Record<string, unknown>).isAuthenticated) {
-      throw redirect({ to: '/login', replace: true })
-    }
-  },
+  beforeLoad: requireAuth,
   component: AuthLayout,
 })
 
 function AuthLayout() {
   return (
-    <div className="flex h-screen bg-[--color-background] overflow-hidden">
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
       <Sidebar />
       <div className="flex flex-1 flex-col min-w-0">
         <Header />

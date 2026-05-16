@@ -1,4 +1,4 @@
-import { Badge } from '@shared/ui/Badge'
+import { Chip } from '@shared/ui'
 import type { User } from '../model/types'
 
 interface UserStatusBadgeProps {
@@ -7,8 +7,8 @@ interface UserStatusBadgeProps {
 
 export function UserStatusBadge({ status }: UserStatusBadgeProps) {
   return (
-    <Badge variant={status === 'active' ? 'success' : 'danger'}>
+    <Chip variant={status === 'active' ? 'success' : 'error'}>
       {status === 'active' ? 'Activo' : 'Inactivo'}
-    </Badge>
+    </Chip>
   )
 }

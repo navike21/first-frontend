@@ -1,4 +1,4 @@
-import { Badge } from '@shared/ui/Badge'
+import { Chip } from '@shared/ui'
 import type { ClientStatus } from '../model/types'
 
 interface ClientStatusBadgeProps {
@@ -7,14 +7,14 @@ interface ClientStatusBadgeProps {
 
 const statusConfig: Record<
   ClientStatus,
-  { label: string; variant: 'success' | 'danger' | 'info' }
+  { label: string; variant: 'success' | 'error' | 'informative' }
 > = {
   active: { label: 'Activo', variant: 'success' },
-  inactive: { label: 'Inactivo', variant: 'danger' },
-  prospect: { label: 'Prospecto', variant: 'info' },
+  inactive: { label: 'Inactivo', variant: 'error' },
+  prospect: { label: 'Prospecto', variant: 'informative' },
 }
 
 export function ClientStatusBadge({ status }: ClientStatusBadgeProps) {
   const { label, variant } = statusConfig[status]
-  return <Badge variant={variant}>{label}</Badge>
+  return <Chip variant={variant}>{label}</Chip>
 }

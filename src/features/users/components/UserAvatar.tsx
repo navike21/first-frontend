@@ -1,4 +1,4 @@
-import { User } from 'lucide-react'
+import { RiUserLine } from '@remixicon/react'
 import type { User as UserType } from '../model/types'
 
 interface UserAvatarProps {
@@ -12,7 +12,7 @@ const sizeClasses = {
   lg: 'h-12 w-12 text-base',
 }
 
-const iconSizes = { sm: 14, md: 16, lg: 20 }
+const iconSizes = { sm: 14, md: 16, lg: 20 } as const
 
 function initials(first: string, last: string) {
   return `${first[0] ?? ''}${last[0] ?? ''}`.toUpperCase()
@@ -33,15 +33,15 @@ export function UserAvatar({ user, size = 'md' }: UserAvatarProps) {
 
   if (user.firstName && user.lastName) {
     return (
-      <span className={`${cls} bg-[--color-primary]/15 text-[--color-primary] font-semibold`}>
+      <span className={`${cls} bg-primary-950/10 text-primary-950 font-semibold`}>
         {initials(user.firstName, user.lastName)}
       </span>
     )
   }
 
   return (
-    <span className={`${cls} bg-[--color-border] text-[--color-muted]`}>
-      <User size={iconSizes[size]} />
+    <span className={`${cls} bg-slate-100 text-slate-400`}>
+      <RiUserLine size={iconSizes[size]} />
     </span>
   )
 }

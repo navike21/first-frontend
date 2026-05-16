@@ -1,46 +1,58 @@
 import { Link } from '@tanstack/react-router'
 import {
-  LayoutDashboard,
-  Users,
-  Briefcase,
-  FolderKanban,
-  Mail,
-  HardDrive,
-  ScrollText,
-  Settings,
-  UsersRound,
-  MessageSquare,
-} from 'lucide-react'
+  RiDashboardLine,
+  RiTeamLine,
+  RiGroupLine,
+  RiBriefcaseLine,
+  RiToolsLine,
+  RiFolderImageLine,
+  RiMailLine,
+  RiHardDriveLine,
+  RiFileListLine,
+  RiSettings3Line,
+  RiMessage3Line,
+} from '@remixicon/react'
 import { usePermission } from '@shared/hooks/use-permission'
+import type { RemixiconComponentType } from '@remixicon/react'
 
 interface NavItem {
   label: string
   to: string
-  icon: React.ComponentType<{ size?: number; className?: string }>
+  icon: RemixiconComponentType
   permission?: string
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
-  { label: 'Usuarios', to: '/users', icon: Users, permission: 'users:read' },
-  { label: 'Grupos', to: '/user-groups', icon: UsersRound, permission: 'user-groups:read' },
-  { label: 'Clientes', to: '/clients', icon: Briefcase, permission: 'clients:read' },
-  { label: 'Servicios', to: '/services', icon: FolderKanban, permission: 'services:read' },
-  { label: 'Portfolio', to: '/portfolio', icon: FolderKanban, permission: 'portfolio:read' },
-  { label: 'Suscriptores', to: '/subscribers', icon: Mail, permission: 'subscribers:read' },
-  { label: 'Almacenamiento', to: '/storage', icon: HardDrive, permission: 'storage:read' },
-  { label: 'Audit Logs', to: '/audit-logs', icon: ScrollText, permission: 'audit-logs:read' },
-  { label: 'Chat', to: '/chat', icon: MessageSquare },
-  { label: 'Configuración', to: '/app-settings', icon: Settings, permission: 'app-settings:read' },
+  { label: 'Dashboard', to: '/dashboard', icon: RiDashboardLine },
+  { label: 'Usuarios', to: '/users', icon: RiTeamLine, permission: 'users:read' },
+  { label: 'Grupos', to: '/user-groups', icon: RiGroupLine, permission: 'user-groups:read' },
+  { label: 'Clientes', to: '/clients', icon: RiBriefcaseLine, permission: 'clients:read' },
+  { label: 'Servicios', to: '/services', icon: RiToolsLine, permission: 'services:read' },
+  { label: 'Portfolio', to: '/portfolio', icon: RiFolderImageLine, permission: 'portfolio:read' },
+  { label: 'Suscriptores', to: '/subscribers', icon: RiMailLine, permission: 'subscribers:read' },
+  { label: 'Almacenamiento', to: '/storage', icon: RiHardDriveLine, permission: 'storage:read' },
+  { label: 'Audit Logs', to: '/audit-logs', icon: RiFileListLine, permission: 'audit-logs:read' },
+  { label: 'Chat', to: '/chat', icon: RiMessage3Line },
+  {
+    label: 'Configuración',
+    to: '/app-settings',
+    icon: RiSettings3Line,
+    permission: 'app-settings:read',
+  },
 ]
 
 export function Sidebar() {
   return (
-    <aside className="w-64 h-full bg-[--color-card] border-r border-[--color-border] flex flex-col">
-      <div className="h-16 flex items-center px-6 border-b border-[--color-border]">
-        <span className="text-xl font-bold text-[--color-primary]">First</span>
+    <aside className="w-60 h-full bg-white border-r border-slate-200 flex flex-col">
+      <div className="h-16 flex items-center px-5 border-b border-slate-200">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-950 text-white font-bold text-sm">
+            F
+          </div>
+          <span className="text-base font-semibold text-slate-900">First</span>
+        </div>
       </div>
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
         {NAV_ITEMS.map((item) => (
           <NavLink key={item.to} item={item} />
         ))}
@@ -56,11 +68,11 @@ function NavLink({ item }: { item: NavItem }) {
   return (
     <Link
       to={item.to}
-      className="flex items-center gap-3 px-3 py-2 rounded-[--radius-md] text-sm font-medium text-[--color-muted] hover:bg-[--color-border] hover:text-[--color-foreground] transition-colors [&.active]:bg-[--color-primary]/10 [&.active]:text-[--color-primary]"
+      className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors [&.active]:bg-slate-100 [&.active]:text-primary-950 [&.active]:font-semibold"
       activeProps={{ className: 'active' }}
     >
-      <item.icon size={18} />
-      {item.label}
+      <item.icon size={18} className="flex-shrink-0" />
+      <span>{item.label}</span>
     </Link>
   )
 }
