@@ -37,7 +37,9 @@ export const ToggleLayout = ({
             {errorMessage}
           </HelperText>
         )}
-        {helperText && !errorMessage && <HelperText idField={idField}>{helperText}</HelperText>}
+        {helperText && !errorMessage && (
+          <HelperText idField={idField}>{helperText}</HelperText>
+        )}
       </div>
     </div>
   )

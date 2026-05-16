@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import clsx from 'clsx'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 
@@ -33,7 +33,7 @@ export const Accordion = ({
           {
             'bg-primary-50/10 text-primary-700 font-medium': isOpen,
             'text-slate-600 hover:bg-slate-50 hover:text-slate-900': !isOpen,
-          },
+          }
         )}
       >
         <div className="flex items-center gap-3">
@@ -55,7 +55,9 @@ export const Accordion = ({
           'grid-rows-[0fr] opacity-0': !isOpen,
         })}
       >
-        <div className={clsx('overflow-hidden pt-1 pb-2', contentClassName)}>{children}</div>
+        <div className={clsx('overflow-hidden pt-1 pb-2', contentClassName)}>
+          {children}
+        </div>
       </div>
     </div>
   )

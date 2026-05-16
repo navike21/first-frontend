@@ -108,7 +108,12 @@ describe('RadioOption', () => {
     const user = userEvent.setup()
     const TestWrapper = () => {
       const [checked, setChecked] = useState(false)
-      return <RadioOption checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+      return (
+        <RadioOption
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
+      )
     }
     render(<TestWrapper />)
     const radio = screen.getByRole('radio')
@@ -126,7 +131,7 @@ describe('RadioOption', () => {
     expect(screen.getByRole('button')).toHaveClass(
       'cursor-not-allowed',
       'ring-slate-400',
-      'bg-slate-200',
+      'bg-slate-200'
     )
   })
 

@@ -8,7 +8,9 @@ const HOME_ITEM: BreadcrumbItem = {
   label: 'Inicio',
 }
 
-const buildPathItems = (segments: readonly string[]): readonly BreadcrumbItem[] =>
+const buildPathItems = (
+  segments: readonly string[]
+): readonly BreadcrumbItem[] =>
   segments.map((segment, index) => {
     const href = '/' + segments.slice(0, index + 1).join('/')
     const label = SEGMENT_LABELS[segment] ?? segment

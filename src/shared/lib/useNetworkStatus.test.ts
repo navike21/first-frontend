@@ -22,7 +22,10 @@ vi.mock('@/shared/model', async (importOriginal) => {
   return {
     ...actual,
     useNetworkStore: (
-      selector: (s: { setOnline: () => void; setOffline: () => void }) => unknown,
+      selector: (s: {
+        setOnline: () => void
+        setOffline: () => void
+      }) => unknown
     ) => selector({ setOnline: setOnlineMock, setOffline: setOfflineMock }),
   }
 })

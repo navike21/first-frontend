@@ -4,8 +4,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { LinkButton } from './LinkButton'
 
 vi.mock('@tanstack/react-router', async () => {
-  const actual =
-    await vi.importActual<typeof import('@tanstack/react-router')>('@tanstack/react-router')
+  const actual = await vi.importActual<typeof import('@tanstack/react-router')>(
+    '@tanstack/react-router'
+  )
   return {
     ...actual,
     Link: ({
@@ -50,7 +51,7 @@ describe('LinkButton component', () => {
     render(
       <LinkButton href="/test" variant="secondary">
         Secondary Button
-      </LinkButton>,
+      </LinkButton>
     )
     const link = screen.getByRole('link')
     expect(link).toHaveClass('bg-white', 'text-primary-text')
@@ -60,7 +61,7 @@ describe('LinkButton component', () => {
     const { rerender } = render(
       <LinkButton href="/test" size="small">
         Small
-      </LinkButton>,
+      </LinkButton>
     )
     let link = screen.getByRole('link')
     expect(link).toHaveClass('px-6', 'py-3', 'text-xs')
@@ -68,7 +69,7 @@ describe('LinkButton component', () => {
     rerender(
       <LinkButton href="/test" size="medium">
         Medium
-      </LinkButton>,
+      </LinkButton>
     )
     link = screen.getByRole('link')
     expect(link).toHaveClass('px-8', 'py-3.5', 'text-sm')
@@ -76,7 +77,7 @@ describe('LinkButton component', () => {
     rerender(
       <LinkButton href="/test" size="large">
         Large
-      </LinkButton>,
+      </LinkButton>
     )
     link = screen.getByRole('link')
     expect(link).toHaveClass('px-10', 'py-4', 'text-md')
@@ -86,7 +87,7 @@ describe('LinkButton component', () => {
     render(
       <LinkButton href="/test" className="custom-class">
         Button
-      </LinkButton>,
+      </LinkButton>
     )
     const link = screen.getByRole('link')
     expect(link).toHaveClass('custom-class')
@@ -96,7 +97,7 @@ describe('LinkButton component', () => {
     render(
       <LinkButton href="/test" data-testid="test-link" aria-label="Test link">
         Button
-      </LinkButton>,
+      </LinkButton>
     )
     const link = screen.getByTestId('test-link')
     expect(link).toHaveAttribute('aria-label', 'Test link')
@@ -106,7 +107,7 @@ describe('LinkButton component', () => {
     render(
       <LinkButton href="/test" icon="RiHomeLine">
         With Icon
-      </LinkButton>,
+      </LinkButton>
     )
     const link = screen.getByRole('link')
     expect(link).toBeInTheDocument()
@@ -120,7 +121,7 @@ describe('LinkButton component', () => {
       'duration-500',
       'ease-in-out',
       'font-medium',
-      'rounded-md',
+      'rounded-md'
     )
   })
 
@@ -128,7 +129,7 @@ describe('LinkButton component', () => {
     const { rerender } = render(
       <LinkButton href="/test" variant="primary">
         Primary
-      </LinkButton>,
+      </LinkButton>
     )
     let link = screen.getByRole('link')
     expect(link).toHaveClass('hover:bg-gray-800')
@@ -136,7 +137,7 @@ describe('LinkButton component', () => {
     rerender(
       <LinkButton href="/test" variant="secondary">
         Secondary
-      </LinkButton>,
+      </LinkButton>
     )
     link = screen.getByRole('link')
     expect(link).toHaveClass('hover:bg-gray-100', 'hover:ring-2')
@@ -146,7 +147,7 @@ describe('LinkButton component', () => {
     const { container, rerender } = render(
       <LinkButton href="/test" icon="RiHomeLine" size="small">
         Small
-      </LinkButton>,
+      </LinkButton>
     )
     let iconSvg = container.querySelector('svg')
     expect(iconSvg).toHaveClass('w-4', 'h-4')
@@ -154,7 +155,7 @@ describe('LinkButton component', () => {
     rerender(
       <LinkButton href="/test" icon="RiHomeLine" size="medium">
         Medium
-      </LinkButton>,
+      </LinkButton>
     )
     iconSvg = container.querySelector('svg')
     expect(iconSvg).toHaveClass('w-5', 'h-5')
@@ -162,7 +163,7 @@ describe('LinkButton component', () => {
     rerender(
       <LinkButton href="/test" icon="RiHomeLine" size="large">
         Large
-      </LinkButton>,
+      </LinkButton>
     )
     iconSvg = container.querySelector('svg')
     expect(iconSvg).toHaveClass('w-6', 'h-6')

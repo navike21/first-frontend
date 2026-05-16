@@ -18,7 +18,14 @@ const meta = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'text', 'warning', 'error', 'information'],
+      options: [
+        'primary',
+        'secondary',
+        'text',
+        'warning',
+        'error',
+        'information',
+      ],
     },
     size: {
       control: { type: 'select' },
@@ -84,9 +91,24 @@ export const Sizes: Story = {
 export const CircleSizes: Story = {
   render: (args) => (
     <div className="flex items-center gap-4">
-      <IconButton {...args} shape="circle" size="small" aria-label="Small circle" />
-      <IconButton {...args} shape="circle" size="medium" aria-label="Medium circle" />
-      <IconButton {...args} shape="circle" size="large" aria-label="Large circle" />
+      <IconButton
+        {...args}
+        shape="circle"
+        size="small"
+        aria-label="Small circle"
+      />
+      <IconButton
+        {...args}
+        shape="circle"
+        size="medium"
+        aria-label="Medium circle"
+      />
+      <IconButton
+        {...args}
+        shape="circle"
+        size="large"
+        aria-label="Large circle"
+      />
     </div>
   ),
 }

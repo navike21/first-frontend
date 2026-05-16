@@ -26,11 +26,13 @@ export const Chip = ({
         },
         {
           'bg-slate-100 text-slate-700 ring-slate-300': variant === 'default',
-          'bg-emerald-100 text-emerald-700 ring-emerald-300': variant === 'success',
-          'bg-yellow-100 text-yellow-700 ring-yellow-300': variant === 'warning',
+          'bg-emerald-100 text-emerald-700 ring-emerald-300':
+            variant === 'success',
+          'bg-yellow-100 text-yellow-700 ring-yellow-300':
+            variant === 'warning',
           'bg-blue-100 text-blue-700 ring-blue-300': variant === 'informative',
           'bg-red-100 text-red-700 ring-red-300': variant === 'error',
-        },
+        }
       )}
     >
       {icon && (
@@ -71,7 +73,7 @@ export const Chip = ({
             {
               'cursor-pointer hover:opacity-70': !deleteButtonProps?.disabled,
               'cursor-not-allowed opacity-50': deleteButtonProps?.disabled,
-            },
+            }
           )}
           {...deleteButtonProps}
         >

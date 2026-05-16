@@ -41,7 +41,7 @@ export const InputLayout = ({
           'cursor-not-allowed': disabled,
           'pointer-events-none': loading,
         },
-        className,
+        className
       )}
     >
       {label && (
@@ -63,7 +63,7 @@ export const InputLayout = ({
             'ring-red-500': variant === 'error' && !disabled,
             'ring-yellow-500': variant === 'warning' && !disabled,
           },
-          classInput,
+          classInput
         )}
       >
         {children}
@@ -73,17 +73,30 @@ export const InputLayout = ({
           </div>
         )}
         {variant === 'success' && !loading && (
-          <IconComponent icon="RiCheckboxCircleFill" className="mr-3 size-5 text-emerald-500" />
+          <IconComponent
+            icon="RiCheckboxCircleFill"
+            className="mr-3 size-5 text-emerald-500"
+          />
         )}
         {variant === 'error' && !loading && (
-          <IconComponent icon="RiErrorWarningFill" className="mr-3 size-5 text-red-500" />
+          <IconComponent
+            icon="RiErrorWarningFill"
+            className="mr-3 size-5 text-red-500"
+          />
         )}
         {variant === 'warning' && !loading && (
-          <IconComponent icon="RiErrorWarningFill" className="mr-3 size-5 text-yellow-500" />
+          <IconComponent
+            icon="RiErrorWarningFill"
+            className="mr-3 size-5 text-yellow-500"
+          />
         )}
       </div>
       {errorMessage && variant === 'error' && (
-        <HelperText idField={idField} variant="error" className="absolute -bottom-5 left-0">
+        <HelperText
+          idField={idField}
+          variant="error"
+          className="absolute -bottom-5 left-0"
+        >
           {errorMessage}
         </HelperText>
       )}

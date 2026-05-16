@@ -26,7 +26,7 @@ export const Card = ({
         {
           'hover:shadow-md hover:border-gray-300': interactive,
         },
-        className,
+        className
       )}
       {...props}
     >

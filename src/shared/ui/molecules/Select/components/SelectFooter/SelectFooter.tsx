@@ -8,13 +8,24 @@ interface SelectFooterProps {
   variant: SelectVariant
 }
 
-export const SelectFooter = ({ idField, errorMessage, helperText, variant }: SelectFooterProps) => (
+export const SelectFooter = ({
+  idField,
+  errorMessage,
+  helperText,
+  variant,
+}: SelectFooterProps) => (
   <>
     {errorMessage && variant === 'error' && (
-      <HelperText idField={idField} variant="error" className="absolute -bottom-5 left-0">
+      <HelperText
+        idField={idField}
+        variant="error"
+        className="absolute -bottom-5 left-0"
+      >
         {errorMessage}
       </HelperText>
     )}
-    {helperText && variant !== 'error' && <HelperText idField={idField}>{helperText}</HelperText>}
+    {helperText && variant !== 'error' && (
+      <HelperText idField={idField}>{helperText}</HelperText>
+    )}
   </>
 )

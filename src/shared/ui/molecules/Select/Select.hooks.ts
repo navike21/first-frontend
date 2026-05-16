@@ -33,15 +33,25 @@ interface UseSelectHookProps {
   disabled?: boolean
 }
 
-const normalizeValues = (raw: string | number | ReadonlyArray<string> | undefined): string[] => {
+const normalizeValues = (
+  raw: string | number | ReadonlyArray<string> | undefined
+): string[] => {
   if (raw === undefined || raw === '') return []
   if (Array.isArray(raw)) return raw.map(String)
   return [String(raw)]
 }
 
 export const useSelectHook = (
-  { options, multiple, search, id, defaultValue, value, disabled }: UseSelectHookProps,
-  ref: ForwardedRef<HTMLSelectElement>,
+  {
+    options,
+    multiple,
+    search,
+    id,
+    defaultValue,
+    value,
+    disabled,
+  }: UseSelectHookProps,
+  ref: ForwardedRef<HTMLSelectElement>
 ) => {
   const generatedId = useId()
   const idField = id ?? generatedId
@@ -63,7 +73,7 @@ export const useSelectHook = (
     openAbove: false,
   })
   const [selectedValues, setSelectedValues] = useState<string[]>(() =>
-    normalizeValues(defaultValue),
+    normalizeValues(defaultValue)
   )
 
   // Sync with controlled value prop — use content equality to avoid extra re-render
@@ -72,7 +82,9 @@ export const useSelectHook = (
     if (value !== undefined) {
       const next = normalizeValues(value)
       setSelectedValues((prev) =>
-        prev.length === next.length && prev.every((v, i) => v === next[i]) ? prev : next,
+        prev.length === next.length && prev.every((v, i) => v === next[i])
+          ? prev
+          : next
       )
     }
   }, [value])
@@ -84,15 +96,18 @@ export const useSelectHook = (
       if (typeof ref === 'function') {
         ref(node)
       } else if (ref !== null && ref !== undefined) {
+        // eslint-disable-next-line react-hooks/immutability -- merged-ref pattern: intentional mutation of forwarded object ref
         ref.current = node
       }
     },
-    [ref],
+    [ref]
   )
 
   const filteredOptions = useMemo(() => {
     if (!search || !searchQuery.trim()) return options
-    return options.filter((o) => o.label.toLowerCase().includes(searchQuery.toLowerCase()))
+    return options.filter((o) =>
+      o.label.toLowerCase().includes(searchQuery.toLowerCase())
+    )
   }, [options, search, searchQuery])
 
   const closeDropdown = useCallback(() => {
@@ -105,7 +120,8 @@ export const useSelectHook = (
     /* v8 ignore next */
     if (!triggerRef.current) return
     const rect = triggerRef.current.getBoundingClientRect()
-    const estimatedHeight = DROPDOWN_MAX_HEIGHT + (search ? SEARCH_BAR_HEIGHT : 0)
+    const estimatedHeight =
+      DROPDOWN_MAX_HEIGHT + (search ? SEARCH_BAR_HEIGHT : 0)
     const spaceBelow = globalThis.innerHeight - rect.bottom
     const openAbove = spaceBelow < estimatedHeight && rect.top > estimatedHeight
     setDropdownStyle({
@@ -150,7 +166,9 @@ export const useSelectHook = (
       let newValues: string[]
 
       if (multiple) {
-        const prevValues = Array.from(select.selectedOptions).map((o) => o.value)
+        const prevValues = Array.from(select.selectedOptions).map(
+          (o) => o.value
+        )
         const alreadySelected = prevValues.includes(optionValue)
         newValues = alreadySelected
           ? prevValues.filter((v) => v !== optionValue)
@@ -168,7 +186,7 @@ export const useSelectHook = (
       setSelectedValues(newValues)
       fireNativeChange()
     },
-    [multiple, closeDropdown, fireNativeChange],
+    [multiple, closeDropdown, fireNativeChange]
   )
 
   const handleOptionDeselect = useCallback(
@@ -186,7 +204,7 @@ export const useSelectHook = (
       setSelectedValues(newValues)
       fireNativeChange()
     },
-    [multiple, fireNativeChange],
+    [multiple, fireNativeChange]
   )
 
   // Click-outside → close
@@ -216,7 +234,9 @@ export const useSelectHook = (
   useEffect(() => {
     if (!dropdownRef.current || focusedOptionIndex < 0) return
     const buttons = Array.from(
-      dropdownRef.current.querySelectorAll<HTMLButtonElement>('button[data-option]'),
+      dropdownRef.current.querySelectorAll<HTMLButtonElement>(
+        'button[data-option]'
+      )
     )
     buttons[focusedOptionIndex]?.focus()
   }, [focusedOptionIndex])
@@ -248,7 +268,12 @@ export const useSelectHook = (
       }
 
       if (!isOpen) {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+        if (
+          e.key === 'ArrowDown' ||
+          e.key === 'ArrowUp' ||
+          e.key === 'Enter' ||
+          e.key === ' '
+        ) {
           e.preventDefault()
           if (!disabled) openDropdown()
         }
@@ -259,13 +284,17 @@ export const useSelectHook = (
 
       if (e.key === 'ArrowDown') {
         e.preventDefault()
-        setFocusedOptionIndex((prev) => (prev < enabledOptions.length - 1 ? prev + 1 : 0))
+        setFocusedOptionIndex((prev) =>
+          prev < enabledOptions.length - 1 ? prev + 1 : 0
+        )
       } else if (e.key === 'ArrowUp') {
         e.preventDefault()
-        setFocusedOptionIndex((prev) => (prev > 0 ? prev - 1 : enabledOptions.length - 1))
+        setFocusedOptionIndex((prev) =>
+          prev > 0 ? prev - 1 : enabledOptions.length - 1
+        )
       }
     },
-    [isOpen, filteredOptions, closeDropdown, disabled, openDropdown],
+    [isOpen, filteredOptions, closeDropdown, disabled, openDropdown]
   )
 
   const handleContainerBlur = useCallback(
@@ -279,7 +308,7 @@ export const useSelectHook = (
         closeDropdown()
       }
     },
-    [closeDropdown],
+    [closeDropdown]
   )
 
   // Stable handler for the inner combobox div — calls container keydown + stops propagation
@@ -288,7 +317,7 @@ export const useSelectHook = (
       handleContainerKeyDown(e)
       e.stopPropagation()
     },
-    [handleContainerKeyDown],
+    [handleContainerKeyDown]
   )
 
   // Pre-computed derived display values

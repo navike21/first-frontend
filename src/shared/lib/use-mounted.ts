@@ -19,5 +19,5 @@ export const useMounted = (): boolean =>
   useSyncExternalStore(
     subscribe,
     () => true, // client snapshot — always mounted on the browser
-    () => false, // server snapshot — never mounted during SSR
+    () => false // server snapshot — never mounted during SSR
   )

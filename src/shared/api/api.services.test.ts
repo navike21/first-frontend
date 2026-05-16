@@ -97,7 +97,9 @@ describe('api.services', () => {
         statusText: 'Unauthorized',
       })
       // Act & Assert
-      await expect(request({ api: '/secure', method: 'GET' })).rejects.toThrow(HttpError)
+      await expect(request({ api: '/secure', method: 'GET' })).rejects.toThrow(
+        HttpError
+      )
     })
 
     it('should return undefined for 204 No Content', async () => {

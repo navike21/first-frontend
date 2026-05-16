@@ -5,7 +5,17 @@ import { useRadioOption } from './RadioOption.hooks'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'
 
 export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
-  ({ label, disabled = false, helperText, error = false, errorMessage, ...props }, ref) => {
+  (
+    {
+      label,
+      disabled = false,
+      helperText,
+      error = false,
+      errorMessage,
+      ...props
+    },
+    ref
+  ) => {
     const { idField, resolvedRef } = useRadioOption(props, ref)
 
     return (
@@ -27,7 +37,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               'bg-white ring-slate-300': !disabled,
               'has-[input:checked]:ring-slate-700': !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500': error,
-            },
+            }
           )}
           disabled={disabled}
           type="button"
@@ -42,7 +52,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
                 'bg-slate-700': !disabled && !error,
                 'bg-slate-300': disabled,
                 'bg-red-500': error,
-              },
+              }
             )}
           />
           <input
@@ -59,7 +69,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         </button>
       </ToggleLayout>
     )
-  },
+  }
 )
 
 RadioOption.displayName = 'RadioOption'

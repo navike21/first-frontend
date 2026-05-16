@@ -121,7 +121,7 @@ interface SelectOptionItem {
 <Select
   options={[
     { label: 'Option 1', value: '1' },
-    { label: 'Option 2', value: '2' },
+    { label: 'Option 2', value: '2' }
   ]}
   placeholder="Select an option"
 />
@@ -141,7 +141,12 @@ interface SelectOptionItem {
 ### Con búsqueda y muchas opciones
 
 ```tsx
-<Select label="Country" options={countryOptions} search placeholder="Select a country" />
+<Select
+  label="Country"
+  options={countryOptions}
+  search
+  placeholder="Select a country"
+/>
 ```
 
 ### Modo múltiple
@@ -192,7 +197,7 @@ interface SelectOptionItem {
   search
   texts={{
     searchPlaceholder: 'Filtrar...',
-    noOptionsFound: 'Sin resultados',
+    noOptionsFound: 'Sin resultados'
   }}
 />
 ```
@@ -216,8 +221,12 @@ const { register } = useForm()
 <Select
   label="Navigate to"
   options={navigationOptions}
-  leftSlot={<IconComponent icon="RiCompassLine" className="size-5 text-slate-500" />}
-  rightSlot={<IconComponent icon="RiArrowRightSLine" className="size-5 text-slate-400" />}
+  leftSlot={
+    <IconComponent icon="RiCompassLine" className="size-5 text-slate-500" />
+  }
+  rightSlot={
+    <IconComponent icon="RiArrowRightSLine" className="size-5 text-slate-400" />
+  }
 />
 ```
 

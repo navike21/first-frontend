@@ -55,7 +55,7 @@ export const HelperText = ({
           'text-xs': size === 'small',
           'text-sm': size === 'medium',
           'text-base': size === 'large',
-        },
+        }
       )}
       role={variant === 'error' ? 'alert' : undefined}
       aria-live={variant === 'error' ? 'polite' : undefined}

@@ -63,7 +63,12 @@ describe('Label', () => {
     render(<Label>Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-sm', 'font-semibold', 'transition-all', 'duration-300')
+    expect(label).toHaveClass(
+      'text-sm',
+      'font-semibold',
+      'transition-all',
+      'duration-300'
+    )
   })
 
   it('should spread additional props to the label element', () => {
@@ -129,10 +134,14 @@ describe('Label', () => {
     render(
       <Label disabled className="text-blue-500">
         Test Label
-      </Label>,
+      </Label>
     )
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-slate-500', 'cursor-not-allowed', 'text-blue-500')
+    expect(label).toHaveClass(
+      'text-slate-500',
+      'cursor-not-allowed',
+      'text-blue-500'
+    )
   })
 })

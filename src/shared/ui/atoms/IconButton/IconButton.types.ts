@@ -13,7 +13,10 @@ export type IconButtonVariant =
 
 export type IconButtonSize = 'small' | 'medium' | 'large'
 
-export interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+export interface IconButtonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> {
   icon: IconName
   shape?: IconButtonShape
   variant?: IconButtonVariant

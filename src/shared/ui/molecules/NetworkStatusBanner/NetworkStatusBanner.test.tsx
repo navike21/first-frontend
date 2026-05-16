@@ -75,7 +75,10 @@ describe('NetworkStatusBanner', () => {
     // Act
     render(<NetworkStatusBanner />)
     // Assert
-    expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'Sin conexión a internet')
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-label',
+      'Sin conexión a internet'
+    )
   })
 })
 
@@ -139,6 +142,9 @@ describe('NetworkStatusBanner', () => {
     // Act
     render(<NetworkStatusBanner />)
     // Assert
-    expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'Sin conexión a internet')
+    expect(screen.getByRole('status')).toHaveAttribute(
+      'aria-label',
+      'Sin conexión a internet'
+    )
   })
 })

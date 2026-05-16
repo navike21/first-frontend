@@ -1,10 +1,16 @@
 import { enqueue } from '@/shared/lib/offline-queue/queue'
-import { authService } from './auth'
+import { useSessionStore } from '@/shared/model'
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 /** Represents any value that can be safely serialised with JSON.stringify */
-export type JsonBody = string | number | boolean | null | JsonBody[] | { [key: string]: JsonBody }
+export type JsonBody =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonBody[]
+  | { [key: string]: JsonBody }
 
 /**
  * Thrown when a non-GET request is intercepted offline and added to the queue.
@@ -30,7 +36,10 @@ export class HttpError extends Error {
   }
 }
 
-export interface RequestConfig<TBody = unknown> extends Omit<RequestInit, 'body' | 'method'> {
+export interface RequestConfig<TBody = unknown> extends Omit<
+  RequestInit,
+  'body' | 'method'
+> {
   /** Endpoint path or full URL */
   api: string
   method: HttpMethod
@@ -63,7 +72,7 @@ export async function request<TResponse, TBody = unknown>({
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
 
-  const token = await authService.getToken()
+  const token = useSessionStore.getState().token
 
   const defaultHeaders: HeadersInit = {
     'Content-Type': 'application/json',

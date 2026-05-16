@@ -77,7 +77,7 @@ describe('Avatar component', () => {
     it('should not render status indicator when status is none', () => {
       const { container } = render(<Avatar name="Test" status="none" />)
       const statusIndicator = container.querySelector(
-        '.bg-green-500, .bg-gray-400, .bg-red-500, .bg-yellow-400',
+        '.bg-green-500, .bg-gray-400, .bg-red-500, .bg-yellow-400'
       )
       expect(statusIndicator).not.toBeInTheDocument()
     })
@@ -107,19 +107,25 @@ describe('Avatar component', () => {
     })
 
     it('should apply correct status size for small avatar', () => {
-      const { container } = render(<Avatar name="Test" status="online" size="sm" />)
+      const { container } = render(
+        <Avatar name="Test" status="online" size="sm" />
+      )
       const statusIndicator = container.querySelector('.bg-green-500')
       expect(statusIndicator).toHaveClass('w-3', 'h-3')
     })
 
     it('should apply correct status size for medium avatar', () => {
-      const { container } = render(<Avatar name="Test" status="online" size="md" />)
+      const { container } = render(
+        <Avatar name="Test" status="online" size="md" />
+      )
       const statusIndicator = container.querySelector('.bg-green-500')
       expect(statusIndicator).toHaveClass('w-3.5', 'h-3.5')
     })
 
     it('should apply correct status size for large avatar', () => {
-      const { container } = render(<Avatar name="Test" status="online" size="lg" />)
+      const { container } = render(
+        <Avatar name="Test" status="online" size="lg" />
+      )
       const statusIndicator = container.querySelector('.bg-green-500')
       expect(statusIndicator).toHaveClass('w-4', 'h-4')
     })
@@ -145,7 +151,9 @@ describe('Avatar component', () => {
     })
 
     it('should use custom title when provided', () => {
-      const { container } = render(<Avatar name="John Doe" title="Custom Title" />)
+      const { container } = render(
+        <Avatar name="John Doe" title="Custom Title" />
+      )
       const figure = container.querySelector('figure')
       expect(figure).toHaveAttribute('title', 'Custom Title')
     })
@@ -153,15 +161,24 @@ describe('Avatar component', () => {
 
   describe('custom styling', () => {
     it('should apply custom className', () => {
-      const { container } = render(<Avatar name="Test" className="custom-class" />)
+      const { container } = render(
+        <Avatar name="Test" className="custom-class" />
+      )
       const figure = container.querySelector('figure')
       expect(figure).toHaveClass('custom-class')
     })
 
     it('should maintain base classes with custom className', () => {
-      const { container } = render(<Avatar name="Test" className="custom-class" />)
+      const { container } = render(
+        <Avatar name="Test" className="custom-class" />
+      )
       const figure = container.querySelector('figure')
-      expect(figure).toHaveClass('relative', 'inline-flex', 'rounded-full', 'custom-class')
+      expect(figure).toHaveClass(
+        'relative',
+        'inline-flex',
+        'rounded-full',
+        'custom-class'
+      )
     })
   })
 })

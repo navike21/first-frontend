@@ -13,7 +13,9 @@ describe('Button component', () => {
     // Arrange & Act
     render(<Button>Click me</Button>)
     // Assert
-    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /click me/i })
+    ).toBeInTheDocument()
   })
 
   it('should apply primary variant styles by default', () => {
@@ -70,7 +72,7 @@ describe('Button component', () => {
     render(
       <Button data-testid="test-button" aria-label="Test button">
         Button
-      </Button>,
+      </Button>
     )
     const button = screen.getByTestId('test-button')
     expect(button).toHaveAttribute('aria-label', 'Test button')
@@ -90,7 +92,7 @@ describe('Button component', () => {
       'duration-500',
       'ease-in-out',
       'font-medium',
-      'rounded-md',
+      'rounded-md'
     )
   })
 })

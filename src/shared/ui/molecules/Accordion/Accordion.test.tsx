@@ -4,9 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { Accordion } from './Accordion'
 
 vi.mock('../../atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 describe('Accordion component', () => {
@@ -19,7 +23,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="My Title" isOpen={false} onToggle={vi.fn()}>
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(screen.getByText('My Title')).toBeInTheDocument()
@@ -30,7 +34,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={true} onToggle={vi.fn()}>
         Visible Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(screen.getByText('Visible Content')).toBeInTheDocument()
@@ -41,7 +45,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={false} onToggle={vi.fn()}>
         Hidden Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert — accordion uses CSS grid-rows to hide, not DOM removal
     expect(screen.getByText('Hidden Content')).toBeInTheDocument()
@@ -54,7 +58,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={false} onToggle={onToggle}>
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Act
     await user.click(screen.getByRole('button'))
@@ -72,7 +76,7 @@ describe('Accordion component', () => {
         icon={<span data-testid="custom-icon" />}
       >
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(screen.getByTestId('custom-icon')).toBeInTheDocument()
@@ -83,7 +87,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={true} onToggle={vi.fn()}>
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(screen.getByRole('button')).toHaveClass('text-primary-700')
@@ -94,7 +98,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={false} onToggle={vi.fn()}>
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(screen.getByRole('button')).toHaveClass('text-slate-600')
@@ -105,7 +109,7 @@ describe('Accordion component', () => {
     render(
       <Accordion title="Title" isOpen={true} onToggle={vi.fn()}>
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     const arrowIcon = screen.getByTestId('icon-RiArrowDownSLine')
@@ -115,9 +119,14 @@ describe('Accordion component', () => {
   it('should apply custom className to wrapper', () => {
     // Arrange & Act
     const { container } = render(
-      <Accordion title="Title" isOpen={false} onToggle={vi.fn()} className="extra-class">
+      <Accordion
+        title="Title"
+        isOpen={false}
+        onToggle={vi.fn()}
+        className="extra-class"
+      >
         Content
-      </Accordion>,
+      </Accordion>
     )
     // Assert
     expect(container.firstChild).toHaveClass('extra-class')

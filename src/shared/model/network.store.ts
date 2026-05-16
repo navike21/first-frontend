@@ -19,6 +19,6 @@ export const useNetworkStore = create<NetworkStore>()(
       setOnline: () => set({ isOnline: true }, false, 'network/setOnline'),
       setOffline: () => set({ isOnline: false }, false, 'network/setOffline'),
     }),
-    { name: 'NetworkStore' },
-  ),
+    { name: 'NetworkStore' }
+  )
 )

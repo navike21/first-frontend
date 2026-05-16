@@ -11,7 +11,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout>
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const input = screen.getByRole('checkbox')
     expect(input).toBeInTheDocument()
@@ -21,9 +21,11 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout>
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
-    const container = screen.getByRole('checkbox').closest('.flex.items-start.gap-3')
+    const container = screen
+      .getByRole('checkbox')
+      .closest('.flex.items-start.gap-3')
     expect(container).toHaveClass('flex', 'items-start', 'gap-3')
   })
 
@@ -31,7 +33,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Test Label">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const label = screen.getByText('Test Label')
     expect(label).toBeInTheDocument()
@@ -42,7 +44,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout>
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const label = screen.queryByRole('label')
     expect(label).not.toBeInTheDocument()
@@ -52,7 +54,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Test Label" disabled>
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-slate-500', 'cursor-not-allowed')
@@ -62,12 +64,12 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Label 1">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     render(
       <ToggleLayout label="Label 2">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const label1 = screen.getByText('Label 1')
     const label2 = screen.getByText('Label 2')
@@ -80,7 +82,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Test Label" id="custom-id">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const label = screen.getByText('Test Label')
     expect(label).toHaveAttribute('for', 'custom-id')
@@ -90,7 +92,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout error errorMessage="Error occurred">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const errorText = screen.getByText('Error occurred')
     expect(errorText).toBeInTheDocument()
@@ -101,7 +103,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout error>
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const errorText = screen.queryByText(/error/i)
     expect(errorText).not.toBeInTheDocument()
@@ -111,7 +113,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout errorMessage="Error occurred">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const errorText = screen.queryByText('Error occurred')
     expect(errorText).not.toBeInTheDocument()
@@ -121,7 +123,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout helperText="Help text">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const helperText = screen.getByText('Help text')
     expect(helperText).toBeInTheDocument()
@@ -132,7 +134,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout helperText="Help text" error errorMessage="Error">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     const helperText = screen.queryByText('Help text')
     expect(helperText).not.toBeInTheDocument()
@@ -144,7 +146,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Label" helperText="Help">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     expect(screen.getByText('Label')).toBeInTheDocument()
     expect(screen.getByText('Help')).toBeInTheDocument()
@@ -154,7 +156,7 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Label" error errorMessage="Error">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
     expect(screen.getByText('Label')).toBeInTheDocument()
     expect(screen.getByText('Error')).toBeInTheDocument()
@@ -164,9 +166,11 @@ describe('ToggleLayout', () => {
     render(
       <ToggleLayout label="Label">
         <input type="checkbox" />
-      </ToggleLayout>,
+      </ToggleLayout>
     )
-    const container = screen.getByRole('checkbox').closest('.flex.items-start.gap-3')
+    const container = screen
+      .getByRole('checkbox')
+      .closest('.flex.items-start.gap-3')
     expect(container?.children).toHaveLength(2)
     const labelDiv = container?.children[1]
     expect(labelDiv).toHaveClass('flex', 'flex-col', 'gap-0.5')

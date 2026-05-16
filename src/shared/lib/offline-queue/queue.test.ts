@@ -6,7 +6,7 @@ import { enqueue, getAll, remove, clear } from './queue'
 vi.mock('localforage')
 
 const makeRequest = (
-  overrides?: Partial<Omit<QueuedRequest, 'id'>>,
+  overrides?: Partial<Omit<QueuedRequest, 'id'>>
 ): Omit<QueuedRequest, 'id'> => ({
   api: '/api/test',
   method: 'POST',

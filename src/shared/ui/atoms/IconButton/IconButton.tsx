@@ -8,7 +8,10 @@ import type {
   IconButtonSize,
 } from './IconButton.types'
 
-type LoadingVariant = Record<IconButtonVariant, NonNullable<SpinnerProps['variant']>>
+type LoadingVariant = Record<
+  IconButtonVariant,
+  NonNullable<SpinnerProps['variant']>
+>
 
 const loadingVariants: LoadingVariant = {
   primary: 'white',
@@ -83,7 +86,7 @@ export const IconButton = ({
           'cursor-pointer': !disabled && !loading,
           'cursor-wait': loading,
           'cursor-not-allowed opacity-50 shadow-none': disabled,
-        },
+        }
       )}
       {...props}
       disabled={loading || disabled}

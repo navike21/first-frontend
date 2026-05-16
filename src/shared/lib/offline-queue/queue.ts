@@ -6,7 +6,9 @@ const QUEUE_KEY = 'pt_offline_queue'
 const getQueue = async (): Promise<QueuedRequest[]> =>
   (await localforage.getItem<QueuedRequest[]>(QUEUE_KEY)) ?? []
 
-export const enqueue = async (req: Omit<QueuedRequest, 'id'>): Promise<void> => {
+export const enqueue = async (
+  req: Omit<QueuedRequest, 'id'>
+): Promise<void> => {
   const queue = await getQueue()
   const item: QueuedRequest = { ...req, id: crypto.randomUUID() }
   await localforage.setItem(QUEUE_KEY, [...queue, item])
@@ -18,7 +20,7 @@ export const remove = async (id: string): Promise<void> => {
   const queue = await getQueue()
   await localforage.setItem(
     QUEUE_KEY,
-    queue.filter((item) => item.id !== id),
+    queue.filter((item) => item.id !== id)
   )
 }
 

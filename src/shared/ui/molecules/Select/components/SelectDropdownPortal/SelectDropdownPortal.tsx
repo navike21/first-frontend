@@ -37,7 +37,7 @@ export const SelectDropdownPortal = ({
   filteredOptions,
   selectedValues,
   handleOptionSelect,
-  setFocusedOptionIndex,
+  setFocusedOptionIndex
 }: SelectDropdownPortalProps) => {
   const { searchPlaceholder, searchAriaLabel } = useSelectTexts()
 
@@ -54,7 +54,7 @@ export const SelectDropdownPortal = ({
           ? { bottom: dropdownStyle.bottom }
           : { top: dropdownStyle.top }),
         left: dropdownStyle.left,
-        width: dropdownStyle.width,
+        width: dropdownStyle.width
       }}
       className="z-9999 bg-white rounded-sm shadow-lg ring-1 ring-slate-200 max-h-60 overflow-y-auto"
     >
@@ -64,7 +64,7 @@ export const SelectDropdownPortal = ({
             ref={searchInputRef}
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
             placeholder={searchPlaceholder}
             aria-label={searchAriaLabel}
             className="w-full h-8 px-3 text-sm bg-slate-50 rounded-sm border border-slate-200 outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400"
@@ -79,6 +79,6 @@ export const SelectDropdownPortal = ({
         onFocusIndex={setFocusedOptionIndex}
       />
     </div>,
-    document.body,
+    document.body
   )
 }

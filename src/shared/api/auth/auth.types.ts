@@ -7,6 +7,4 @@ export interface SignInResult {
 
 export interface IAuthService {
   signIn(username: string, password: string): Promise<SignInResult>
-  signOut(): Promise<void>
-  getToken(): Promise<string | null>
 }

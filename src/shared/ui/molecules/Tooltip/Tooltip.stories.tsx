@@ -71,7 +71,11 @@ export const AutoPosition: Story = {
       <Tooltip {...args} position="auto" content="Auto: near top → shows below">
         <Button>Near top of viewport</Button>
       </Tooltip>
-      <Tooltip {...args} position="auto" content="Auto: near bottom → shows above">
+      <Tooltip
+        {...args}
+        position="auto"
+        content="Auto: near bottom → shows above"
+      >
         <Button>Near bottom of viewport</Button>
       </Tooltip>
     </div>

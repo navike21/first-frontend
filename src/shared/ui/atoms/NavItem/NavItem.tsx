@@ -13,14 +13,21 @@ export interface NavItemProps {
   className?: string
 }
 
-export const NavItem = ({ icon, label, to, isActive, onClick, className }: NavItemProps) => {
+export const NavItem = ({
+  icon,
+  label,
+  to,
+  isActive,
+  onClick,
+  className,
+}: NavItemProps) => {
   const baseClass = clsx(
     'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer',
     'text-sm font-medium transition-colors',
     isActive
       ? 'bg-slate-100 text-slate-900 font-semibold'
       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-    className,
+    className
   )
 
   const content = (
@@ -42,7 +49,11 @@ export const NavItem = ({ icon, label, to, isActive, onClick, className }: NavIt
   }
 
   return (
-    <button type="button" onClick={onClick} className={clsx(baseClass, 'text-left')}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={clsx(baseClass, 'text-left')}
+    >
       {content}
     </button>
   )

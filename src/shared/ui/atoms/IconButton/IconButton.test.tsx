@@ -33,7 +33,9 @@ describe('IconButton component', () => {
 
   it('should apply secondary variant styles', () => {
     // Arrange & Act
-    render(<IconButton icon="RiHomeLine" variant="secondary" aria-label="Home" />)
+    render(
+      <IconButton icon="RiHomeLine" variant="secondary" aria-label="Home" />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('bg-white', 'text-primary-text')
@@ -41,7 +43,9 @@ describe('IconButton component', () => {
 
   it('should apply warning variant styles', () => {
     // Arrange & Act
-    render(<IconButton icon="RiAlertLine" variant="warning" aria-label="Warning" />)
+    render(
+      <IconButton icon="RiAlertLine" variant="warning" aria-label="Warning" />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('bg-amber-500', 'text-white')
@@ -49,7 +53,13 @@ describe('IconButton component', () => {
 
   it('should apply error variant styles', () => {
     // Arrange & Act
-    render(<IconButton icon="RiErrorWarningLine" variant="error" aria-label="Error" />)
+    render(
+      <IconButton
+        icon="RiErrorWarningLine"
+        variant="error"
+        aria-label="Error"
+      />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('bg-red-600', 'text-white')
@@ -57,7 +67,13 @@ describe('IconButton component', () => {
 
   it('should apply information variant styles', () => {
     // Arrange & Act
-    render(<IconButton icon="RiInformationLine" variant="information" aria-label="Info" />)
+    render(
+      <IconButton
+        icon="RiInformationLine"
+        variant="information"
+        aria-label="Info"
+      />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('bg-blue-600', 'text-white')
@@ -167,7 +183,9 @@ describe('IconButton component', () => {
     // Arrange
     const handleClick = vi.fn()
     const user = userEvent.setup()
-    render(<IconButton icon="RiHomeLine" onClick={handleClick} aria-label="Home" />)
+    render(
+      <IconButton icon="RiHomeLine" onClick={handleClick} aria-label="Home" />
+    )
     const button = screen.getByRole('button')
     // Act
     await user.click(button)
@@ -179,7 +197,14 @@ describe('IconButton component', () => {
     // Arrange
     const handleClick = vi.fn()
     const user = userEvent.setup()
-    render(<IconButton icon="RiHomeLine" disabled onClick={handleClick} aria-label="Home" />)
+    render(
+      <IconButton
+        icon="RiHomeLine"
+        disabled
+        onClick={handleClick}
+        aria-label="Home"
+      />
+    )
     const button = screen.getByRole('button')
     // Act
     await user.click(button)
@@ -189,7 +214,13 @@ describe('IconButton component', () => {
 
   it('should apply custom className', () => {
     // Arrange & Act
-    render(<IconButton icon="RiHomeLine" className="custom-class" aria-label="Home" />)
+    render(
+      <IconButton
+        icon="RiHomeLine"
+        className="custom-class"
+        aria-label="Home"
+      />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('custom-class')
@@ -198,15 +229,29 @@ describe('IconButton component', () => {
   it('should pass through additional props', () => {
     // Arrange & Act
     render(
-      <IconButton icon="RiHomeLine" data-testid="test-icon-button" aria-label="Test icon button" />,
+      <IconButton
+        icon="RiHomeLine"
+        data-testid="test-icon-button"
+        aria-label="Test icon button"
+      />
     )
     // Assert
-    expect(screen.getByTestId('test-icon-button')).toHaveAttribute('aria-label', 'Test icon button')
+    expect(screen.getByTestId('test-icon-button')).toHaveAttribute(
+      'aria-label',
+      'Test icon button'
+    )
   })
 
   it('should apply circle shape with large size', () => {
     // Arrange & Act
-    render(<IconButton icon="RiHomeLine" shape="circle" size="large" aria-label="Home" />)
+    render(
+      <IconButton
+        icon="RiHomeLine"
+        shape="circle"
+        size="large"
+        aria-label="Home"
+      />
+    )
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('rounded-full', 'p-4')

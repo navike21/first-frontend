@@ -49,7 +49,10 @@ describe('PageHeader', () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
     render(
-      <PageHeader title="Plantillas" actions={[{ type: 'button', label: 'Exportar', onClick }]} />,
+      <PageHeader
+        title="Plantillas"
+        actions={[{ type: 'button', label: 'Exportar', onClick }]}
+      />
     )
     const btn = screen.getByRole('button', { name: 'Exportar' })
     expect(btn).toBeInTheDocument()
@@ -62,7 +65,7 @@ describe('PageHeader', () => {
       <PageHeader
         title="Plantillas"
         actions={[{ type: 'link', label: 'Crear', to: '/configuracion/plantillas/crear' }]}
-      />,
+      />
     )
     const link = screen.getByRole('link', { name: 'Crear' })
     expect(link).toHaveAttribute('href', '/configuracion/plantillas/crear')
@@ -77,7 +80,7 @@ describe('PageHeader', () => {
           { type: 'link', label: 'Crear', to: '/configuracion/plantillas/crear' },
           { type: 'button', label: 'Exportar', onClick },
         ]}
-      />,
+      />
     )
     expect(screen.getByRole('link', { name: 'Crear' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Exportar' })).toBeInTheDocument()
@@ -88,7 +91,7 @@ describe('PageHeader', () => {
       <PageHeader
         title="Plantillas"
         actions={[{ type: 'button', label: 'Guardar', onClick: vi.fn(), disabled: true }]}
-      />,
+      />
     )
     expect(screen.getByRole('button', { name: 'Guardar' })).toBeDisabled()
   })

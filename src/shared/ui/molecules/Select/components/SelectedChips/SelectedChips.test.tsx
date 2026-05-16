@@ -57,7 +57,12 @@ describe('SelectedChips', () => {
   it('should render a chip for each selected value', () => {
     // Arrange & Act
     render(
-      <SelectedChips values={['1', '2']} options={options} disabled={false} onDeselect={vi.fn()} />,
+      <SelectedChips
+        values={['1', '2']}
+        options={options}
+        disabled={false}
+        onDeselect={vi.fn()}
+      />
     )
 
     // Assert
@@ -74,7 +79,7 @@ describe('SelectedChips', () => {
         options={options}
         disabled={false}
         onDeselect={vi.fn()}
-      />,
+      />
     )
 
     // Assert
@@ -86,7 +91,12 @@ describe('SelectedChips', () => {
     const user = userEvent.setup()
     const onDeselect = vi.fn()
     render(
-      <SelectedChips values={['1']} options={options} disabled={false} onDeselect={onDeselect} />,
+      <SelectedChips
+        values={['1']}
+        options={options}
+        disabled={false}
+        onDeselect={onDeselect}
+      />
     )
 
     // Act
@@ -100,7 +110,12 @@ describe('SelectedChips', () => {
   it('should render the icon prop from option in the chip', () => {
     // Arrange & Act
     render(
-      <SelectedChips values={['icon']} options={options} disabled={false} onDeselect={vi.fn()} />,
+      <SelectedChips
+        values={['icon']}
+        options={options}
+        disabled={false}
+        onDeselect={vi.fn()}
+      />
     )
 
     // Assert
@@ -115,7 +130,7 @@ describe('SelectedChips', () => {
         options={options}
         disabled={false}
         onDeselect={vi.fn()}
-      />,
+      />
     )
 
     // Assert
@@ -124,7 +139,14 @@ describe('SelectedChips', () => {
 
   it('should render an empty list when values array is empty', () => {
     // Arrange & Act
-    render(<SelectedChips values={[]} options={options} disabled={false} onDeselect={vi.fn()} />)
+    render(
+      <SelectedChips
+        values={[]}
+        options={options}
+        disabled={false}
+        onDeselect={vi.fn()}
+      />
+    )
 
     // Assert
     expect(screen.queryByTestId('chip')).not.toBeInTheDocument()

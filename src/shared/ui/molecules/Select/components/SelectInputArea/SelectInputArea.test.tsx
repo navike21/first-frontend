@@ -23,11 +23,15 @@ vi.mock('../../helper/getInputAreaClass', () => ({
 }))
 
 vi.mock('@/shared/ui/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon }: { icon: string }) => <svg data-testid={`icon-${icon}`} />,
+  IconComponent: ({ icon }: { icon: string }) => (
+    <svg data-testid={`icon-${icon}`} />
+  ),
 }))
 
 vi.mock('@/shared/ui/atoms/Spinner/Spinner', () => ({
-  Spinner: ({ size }: { size?: string }) => <div data-testid={`spinner-${size ?? 'medium'}`} />,
+  Spinner: ({ size }: { size?: string }) => (
+    <div data-testid={`spinner-${size ?? 'medium'}`} />
+  ),
 }))
 
 vi.mock('../SelectedChips/SelectedChips', () => ({
@@ -134,7 +138,10 @@ describe('SelectInputArea', () => {
       setup({ isOpen: false })
 
       // Assert
-      expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.getByRole('combobox')).toHaveAttribute(
+        'aria-expanded',
+        'false'
+      )
     })
 
     it('should set aria-expanded to true when open', () => {
@@ -142,7 +149,10 @@ describe('SelectInputArea', () => {
       setup({ isOpen: true })
 
       // Assert
-      expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true')
+      expect(screen.getByRole('combobox')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
     })
 
     it('should call onTriggerClick when caret button is clicked', async () => {
@@ -163,7 +173,10 @@ describe('SelectInputArea', () => {
       setup({ isOpen: false })
 
       // Assert
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Open options')
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        'Open options'
+      )
     })
 
     it('should show "Close options" aria-label on caret button when open', () => {
@@ -171,7 +184,10 @@ describe('SelectInputArea', () => {
       setup({ isOpen: true })
 
       // Assert
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Close options')
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        'Close options'
+      )
     })
 
     it('should render caret down icon when closed', () => {
@@ -254,7 +270,9 @@ describe('SelectInputArea', () => {
       setup()
 
       // Assert
-      expect(screen.queryByTestId('icon-RiErrorWarningFill')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('icon-RiErrorWarningFill')
+      ).not.toBeInTheDocument()
     })
   })
 

@@ -22,16 +22,25 @@ vi.mock('@Components/atoms/HelperText/HelperText', () => ({
     variant?: string
     idField?: string
   } & HTMLAttributes<HTMLDivElement>) => (
-    <div data-testid="helper-text" data-variant={variant} id={idField} {...props}>
+    <div
+      data-testid="helper-text"
+      data-variant={variant}
+      id={idField}
+      {...props}
+    >
       {children}
     </div>
   ),
 }))
 
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon?: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon?: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 vi.mock('@Components/atoms/Label/Label', () => ({
@@ -58,7 +67,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout label="Test Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.getByText('Test Label')).toBeInTheDocument()
@@ -69,7 +78,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout>
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.queryByRole('label')).not.toBeInTheDocument()
@@ -80,7 +89,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout className="custom-class">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const container = screen.getByRole('textbox').closest('div')
@@ -91,7 +100,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout classInput="custom-input-class">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -102,7 +111,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout id="custom-id" label="Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const label = screen.getByText('Label')
@@ -113,7 +122,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout label="Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const label = screen.getByText('Label')
@@ -124,7 +133,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout disabled label="Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const container = screen.getByText('Label').closest('div')
@@ -136,7 +145,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout loading label="Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const container = screen.getByText('Label').closest('div')
@@ -150,7 +159,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout disabled loading label="Label">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const container = screen.getByText('Label').closest('div')
@@ -162,7 +171,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="default">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -173,7 +182,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="success">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -186,7 +195,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="error">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -199,7 +208,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="warning">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -212,7 +221,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="error" errorMessage="Error occurred">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.getByText('Error occurred')).toBeInTheDocument()
@@ -222,7 +231,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="default" errorMessage="Error occurred">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.queryByText('Error occurred')).not.toBeInTheDocument()
@@ -232,7 +241,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="default" helperText="Help text">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.getByText('Help text')).toBeInTheDocument()
@@ -242,7 +251,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="error" helperText="Help text">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     expect(screen.queryByText('Help text')).not.toBeInTheDocument()
@@ -252,7 +261,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="success" helperText="Success help">
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const helperText = screen.getByText('Success help')
@@ -263,10 +272,12 @@ describe('InputLayout', () => {
     render(
       <InputLayout variant="success" loading>
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
-    expect(screen.queryByTestId('icon-RiCheckboxCircleFill')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('icon-RiCheckboxCircleFill')
+    ).not.toBeInTheDocument()
     expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 
@@ -274,7 +285,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout disabled>
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
@@ -286,7 +297,7 @@ describe('InputLayout', () => {
     render(
       <InputLayout>
         <input type="text" />
-      </InputLayout>,
+      </InputLayout>
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement

@@ -8,9 +8,13 @@ import type { SelectOptionItem } from '../../Select.types'
 import { SelectTextsProvider, DEFAULT_SELECT_TEXTS } from '../../Select.texts'
 
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <svg data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <svg data-testid={`icon-${icon}`} className={className} />,
 }))
 
 const wrap = (ui: React.ReactNode) => (
@@ -45,8 +49,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -65,8 +69,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -83,8 +87,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -102,8 +106,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -120,8 +124,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -140,8 +144,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -161,8 +165,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={onSelect}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Act
@@ -186,8 +190,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={onSelect}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Act
@@ -208,18 +212,18 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
       expect(screen.getByRole('option', { name: 'Option 1' })).toHaveAttribute(
         'aria-selected',
-        'true',
+        'true'
       )
       expect(screen.getByRole('option', { name: 'Option 2' })).toHaveAttribute(
         'aria-selected',
-        'false',
+        'false'
       )
     })
 
@@ -234,8 +238,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={onFocusIndex}
-          />,
-        ),
+          />
+        )
       )
 
       // Act — focus Option 2 (index 1 among enabled options)
@@ -258,8 +262,8 @@ describe('OptionsList', () => {
             multiple={false}
             onSelect={vi.fn()}
             onFocusIndex={onFocusIndex}
-          />,
-        ),
+          />
+        )
       )
 
       // Act
@@ -283,8 +287,8 @@ describe('OptionsList', () => {
             multiple
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert
@@ -301,8 +305,8 @@ describe('OptionsList', () => {
             multiple
             onSelect={vi.fn()}
             onFocusIndex={vi.fn()}
-          />,
-        ),
+          />
+        )
       )
 
       // Assert

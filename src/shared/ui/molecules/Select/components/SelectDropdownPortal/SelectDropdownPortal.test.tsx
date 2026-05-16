@@ -3,12 +3,17 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createRef } from 'react'
 
-import { SelectDropdownPortal, type SelectDropdownPortalProps } from './SelectDropdownPortal'
+import {
+  SelectDropdownPortal,
+  type SelectDropdownPortalProps,
+} from './SelectDropdownPortal'
 import { SelectTextsProvider, DEFAULT_SELECT_TEXTS } from '../../Select.texts'
 import type { SelectOptionItem } from '../../Select.types'
 
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon }: { icon: string }) => <svg data-testid={`icon-${icon}`} />,
+  IconComponent: ({ icon }: { icon: string }) => (
+    <svg data-testid={`icon-${icon}`} />
+  ),
 }))
 
 // Render portals inline so they are queryable in the test DOM
@@ -53,7 +58,7 @@ const setup = (overrides?: Partial<SelectDropdownPortalProps>) => {
   render(
     <SelectTextsProvider value={DEFAULT_SELECT_TEXTS}>
       <SelectDropdownPortal {...props} />
-    </SelectTextsProvider>,
+    </SelectTextsProvider>
   )
 
   return props
@@ -70,7 +75,10 @@ describe('SelectDropdownPortal', () => {
       setup()
 
       // Assert
-      expect(screen.getByRole('listbox')).toHaveAttribute('id', 'test-field-listbox')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'id',
+        'test-field-listbox'
+      )
     })
 
     it('should set data-position="bottom" when openAbove is false', () => {
@@ -78,7 +86,10 @@ describe('SelectDropdownPortal', () => {
       setup({ dropdownStyle: { ...dropdownStyle, openAbove: false } })
 
       // Assert
-      expect(screen.getByRole('listbox')).toHaveAttribute('data-position', 'bottom')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'data-position',
+        'bottom'
+      )
     })
 
     it('should set data-position="top" when openAbove is true', () => {
@@ -86,7 +97,10 @@ describe('SelectDropdownPortal', () => {
       setup({ dropdownStyle: { ...dropdownStyle, openAbove: true } })
 
       // Assert
-      expect(screen.getByRole('listbox')).toHaveAttribute('data-position', 'top')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'data-position',
+        'top'
+      )
     })
 
     it('should set aria-multiselectable when multiple is true', () => {
@@ -94,7 +108,10 @@ describe('SelectDropdownPortal', () => {
       setup({ multiple: true })
 
       // Assert
-      expect(screen.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'aria-multiselectable',
+        'true'
+      )
     })
 
     it('should render the filtered options inside the listbox', () => {
@@ -128,7 +145,10 @@ describe('SelectDropdownPortal', () => {
       setup({ search: true })
 
       // Assert
-      expect(screen.getByLabelText('Search options')).toHaveAttribute('placeholder', 'Search...')
+      expect(screen.getByLabelText('Search options')).toHaveAttribute(
+        'placeholder',
+        'Search...'
+      )
     })
 
     it('should call setSearchQuery when search input changes', async () => {

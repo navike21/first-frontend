@@ -133,7 +133,7 @@ describe('useSessionStore', () => {
           isAuthenticated: true,
           token: 'tok-xyz',
           user: mockUser,
-        }),
+        })
       )
       // Act & Assert
       expect(isTokenStored()).toBe(true)
@@ -143,7 +143,7 @@ describe('useSessionStore', () => {
       // Arrange
       mockStorage.setItem(
         TOKEN_KEY,
-        makePersistedBlob({ isAuthenticated: false, token: null, user: null }),
+        makePersistedBlob({ isAuthenticated: false, token: null, user: null })
       )
       // Act & Assert
       expect(isTokenStored()).toBe(false)

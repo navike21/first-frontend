@@ -4,9 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { Drawer } from './Drawer'
 
 vi.mock('@/shared/ui', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 describe('Drawer component', () => {
@@ -19,7 +23,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={true} onClose={vi.fn()}>
         <p>Drawer content</p>
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     expect(screen.getByText('Drawer content')).toBeInTheDocument()
@@ -30,7 +34,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={true} onClose={vi.fn()} title="My Drawer">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     expect(screen.getByText('My Drawer')).toBeInTheDocument()
@@ -41,7 +45,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={true} onClose={vi.fn()} title="Title">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     expect(screen.getByLabelText('Cerrar menú')).toBeInTheDocument()
@@ -54,7 +58,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={true} onClose={onClose} title="Title">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Act
     await user.click(screen.getByLabelText('Cerrar menú'))
@@ -69,10 +73,12 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={true} onClose={onClose}>
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Act
-    const backdrop = container.querySelector('[aria-hidden="true"]') as HTMLElement
+    const backdrop = container.querySelector(
+      '[aria-hidden="true"]'
+    ) as HTMLElement
     await user.click(backdrop)
     // Assert
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -83,7 +89,7 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={true} onClose={vi.fn()} placement="right">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     const aside = container.querySelector('aside')
@@ -95,7 +101,7 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={false} onClose={vi.fn()} placement="right">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     const aside = container.querySelector('aside')
@@ -107,7 +113,7 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={false} onClose={vi.fn()} placement="left">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     const aside = container.querySelector('aside')
@@ -119,7 +125,7 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={true} onClose={vi.fn()}>
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     const aside = container.querySelector('aside')
@@ -131,7 +137,7 @@ describe('Drawer component', () => {
     const { container } = render(
       <Drawer isOpen={true} onClose={vi.fn()} placement="left">
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Assert
     const aside = container.querySelector('aside')
@@ -145,7 +151,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={true} onClose={onClose}>
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Act
     await user.keyboard('{Escape}')
@@ -160,7 +166,7 @@ describe('Drawer component', () => {
     render(
       <Drawer isOpen={false} onClose={onClose}>
         Content
-      </Drawer>,
+      </Drawer>
     )
     // Act
     await user.keyboard('{Escape}')

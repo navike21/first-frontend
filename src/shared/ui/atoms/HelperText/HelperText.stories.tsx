@@ -6,33 +6,33 @@ const meta: Meta<typeof HelperText> = {
   title: 'Atoms/HelperText',
   component: HelperText,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
     children: {
       control: 'text',
-      description: 'The helper text content',
+      description: 'The helper text content'
     },
     idField: {
       control: 'text',
-      description: 'The base id for the helper text element',
+      description: 'The base id for the helper text element'
     },
     variant: {
       control: { type: 'select' },
       options: ['default', 'error', 'success', 'warning', 'info'],
-      description: 'The variant that determines the color',
+      description: 'The variant that determines the color'
     },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
-      description: 'The size of the text',
+      description: 'The size of the text'
     },
     showIcon: {
       control: 'boolean',
-      description: 'Whether to show an icon for the variant',
-    },
-  },
+      description: 'Whether to show an icon for the variant'
+    }
+  }
 }
 
 export default meta
@@ -40,21 +40,21 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    children: 'This is a default helper text',
-  },
+    children: 'This is a default helper text'
+  }
 }
 
 export const WithIcon: Story = {
   args: {
     children: 'Helper text with icon',
     variant: 'info',
-    showIcon: true,
-  },
+    showIcon: true
+  }
 }
 
 export const Variants: Story = {
   args: {},
-  render: (args) => (
+  render: args => (
     <div className="grid grid-cols-2 gap-6">
       <HelperText {...args} variant="default">
         This is a default helper text
@@ -72,12 +72,12 @@ export const Variants: Story = {
         This is an info helper text
       </HelperText>
     </div>
-  ),
+  )
 }
 
 export const WithIcons: Story = {
   args: {},
-  render: (args) => (
+  render: args => (
     <div className="grid grid-cols-2 gap-6">
       <HelperText {...args} variant="error" showIcon>
         Error with icon
@@ -92,12 +92,12 @@ export const WithIcons: Story = {
         Info with icon
       </HelperText>
     </div>
-  ),
+  )
 }
 
 export const Sizes: Story = {
   args: {},
-  render: (args) => (
+  render: args => (
     <div className="grid grid-cols-1 gap-4">
       <HelperText {...args} size="small">
         This is a small helper text
@@ -109,12 +109,12 @@ export const Sizes: Story = {
         This is a large helper text
       </HelperText>
     </div>
-  ),
+  )
 }
 
 export const CustomColors: Story = {
   args: {},
-  render: (args) => (
+  render: args => (
     <div className="grid grid-cols-1 gap-4">
       <HelperText {...args} variant="default" className="text-purple-500">
         Default variant with custom purple color
@@ -132,5 +132,5 @@ export const CustomColors: Story = {
         Info variant with custom indigo color
       </HelperText>
     </div>
-  ),
+  )
 }

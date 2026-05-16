@@ -8,14 +8,24 @@ export interface LabelProps extends HTMLAttributes<HTMLLabelElement> {
   htmlFor?: string
 }
 
-export const Label = ({ children, className, disabled, htmlFor, ...props }: LabelProps) => (
+export const Label = ({
+  children,
+  className,
+  disabled,
+  htmlFor,
+  ...props
+}: LabelProps) => (
   <label
     {...props}
     htmlFor={htmlFor}
-    className={clsx(className, 'text-sm font-semibold transition-all duration-300', {
-      'cursor-not-allowed text-slate-500': disabled,
-      'text-slate-900': !disabled && !hasTextClassColor(className),
-    })}
+    className={clsx(
+      className,
+      'text-sm font-semibold transition-all duration-300',
+      {
+        'cursor-not-allowed text-slate-500': disabled,
+        'text-slate-900': !disabled && !hasTextClassColor(className),
+      }
+    )}
   >
     {children}
   </label>

@@ -64,14 +64,18 @@ describe('Checkbox', () => {
     // Arrange & Act
     render(<Checkbox indeterminate onChange={vi.fn()} />)
     // Assert
-    expect((screen.getByRole('checkbox') as HTMLInputElement).indeterminate).toBe(true)
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+    ).toBe(true)
   })
 
   it('should handle non-indeterminate state', () => {
     // Arrange & Act
     render(<Checkbox indeterminate={false} onChange={vi.fn()} />)
     // Assert
-    expect((screen.getByRole('checkbox') as HTMLInputElement).indeterminate).toBe(false)
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
+    ).toBe(false)
   })
 
   it('should call onChange when clicked', async () => {
@@ -100,7 +104,12 @@ describe('Checkbox', () => {
     const user = userEvent.setup()
     const TestWrapper = () => {
       const [checked, setChecked] = useState(false)
-      return <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+      return (
+        <Checkbox
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
+      )
     }
     render(<TestWrapper />)
     const checkbox = screen.getByRole('checkbox')
@@ -118,7 +127,7 @@ describe('Checkbox', () => {
     expect(screen.getByRole('button')).toHaveClass(
       'cursor-not-allowed',
       'ring-slate-400',
-      'bg-slate-200',
+      'bg-slate-200'
     )
   })
 
@@ -133,7 +142,9 @@ describe('Checkbox', () => {
     // Arrange & Act
     render(<Checkbox checked onChange={vi.fn()} />)
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('has-[input:checked]:ring-slate-700')
+    expect(screen.getByRole('button')).toHaveClass(
+      'has-[input:checked]:ring-slate-700'
+    )
   })
 
   it('should apply correct classes when error', () => {
@@ -148,8 +159,9 @@ describe('Checkbox', () => {
     const nullRef = createRef<HTMLInputElement>()
 
     const { result, rerender } = renderHook(
-      ({ indeterminate }: { indeterminate: boolean }) => useCheckbox({ indeterminate }, nullRef),
-      { initialProps: { indeterminate: false } },
+      ({ indeterminate }: { indeterminate: boolean }) =>
+        useCheckbox({ indeterminate }, nullRef),
+      { initialProps: { indeterminate: false } }
     )
 
     // Act: trigger useEffect with indeterminate=true while current is null

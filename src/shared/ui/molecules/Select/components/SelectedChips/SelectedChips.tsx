@@ -39,5 +39,5 @@ export const SelectedChips = memo(
         })}
       </>
     )
-  },
+  }
 )

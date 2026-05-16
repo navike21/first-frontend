@@ -8,7 +8,11 @@ interface TriggerDisplayProps {
   placeholder?: string
 }
 
-export const TriggerDisplay = ({ singleOption, singleLabel, placeholder }: TriggerDisplayProps) => (
+export const TriggerDisplay = ({
+  singleOption,
+  singleLabel,
+  placeholder,
+}: TriggerDisplayProps) => (
   <span className="flex items-center gap-1.5">
     {singleOption?.content && (
       <span className="flex h-4 w-4 shrink-0 items-center justify-center">
@@ -16,7 +20,10 @@ export const TriggerDisplay = ({ singleOption, singleLabel, placeholder }: Trigg
       </span>
     )}
     {!singleOption?.content && singleOption?.icon && (
-      <IconComponent icon={singleOption.icon} className="h-4 w-4 shrink-0 text-slate-600" />
+      <IconComponent
+        icon={singleOption.icon}
+        className="h-4 w-4 shrink-0 text-slate-600"
+      />
     )}
     <span
       className={clsx('text-sm', {

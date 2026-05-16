@@ -79,7 +79,11 @@ export const useSessionStore = create<SessionStore>()(
         },
 
         setSession: (token, user) => {
-          set({ isAuthenticated: true, token, user }, false, 'session/setSession')
+          set(
+            { isAuthenticated: true, token, user },
+            false,
+            'session/setSession'
+          )
         },
       }),
       {
@@ -90,11 +94,12 @@ export const useSessionStore = create<SessionStore>()(
           token,
           user,
         }),
-      },
+      }
     ),
-    { name: 'SessionStore' },
-  ),
+    { name: 'SessionStore' }
+  )
 )
 
 /** Shorthand selector — use anywhere to gate private UI */
-export const useIsAuthenticated = (): boolean => useSessionStore((state) => state.isAuthenticated)
+export const useIsAuthenticated = (): boolean =>
+  useSessionStore((state) => state.isAuthenticated)

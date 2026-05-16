@@ -57,7 +57,10 @@ export const Tooltip = ({
     if (!isClicked) return
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
         setIsClicked(false)
       }
     }
@@ -83,7 +86,7 @@ export const Tooltip = ({
             'pointer-events-none absolute z-50 rounded-md whitespace-nowrap',
             positionClasses[resolvedPosition],
             variantClasses[variant],
-            sizeClasses[size],
+            sizeClasses[size]
           )}
         >
           {content}
@@ -92,7 +95,7 @@ export const Tooltip = ({
             className={clsx(
               'absolute h-2 w-2 rotate-45',
               arrowVariantClasses[variant],
-              arrowPositionClasses[resolvedPosition],
+              arrowPositionClasses[resolvedPosition]
             )}
           />
         </div>

@@ -9,13 +9,13 @@ const meta = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      options: ['small', 'medium', 'large']
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'white', 'gradient'],
-    },
-  },
+      options: ['default', 'white', 'gradient']
+    }
+  }
 } satisfies Meta<typeof Spinner>
 
 export default meta
@@ -23,12 +23,12 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  args: {},
+  args: {}
 }
 
 export const Sizes: Story = {
   args: {},
-  render: (args) => (
+  render: args => (
     <div className="flex items-start gap-4">
       <div className="flex flex-col items-center gap-2 p-4 bg-white rounded">
         <span className="text-sm text-gray-600">Small</span>
@@ -43,12 +43,12 @@ export const Sizes: Story = {
         <Spinner {...args} size="large" />
       </div>
     </div>
-  ),
+  )
 }
 
 export const Variants: Story = {
   args: {},
-  render: (args) => {
+  render: args => {
     const { ...otherArgs } = args
     return (
       <div className="flex items-center gap-4">
@@ -66,5 +66,5 @@ export const Variants: Story = {
         </div>
       </div>
     )
-  },
+  }
 }

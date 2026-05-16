@@ -43,12 +43,17 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(screen.getByRole('navigation', { name: 'breadcrumb' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: 'breadcrumb' })
+    ).toBeInTheDocument()
   })
 
   it('should render the last item as a span (current page, not a link)', () => {
     // Arrange
-    const items: BreadcrumbItem[] = [{ label: 'Inicio', href: '/' }, { label: 'Configuración' }]
+    const items: BreadcrumbItem[] = [
+      { label: 'Inicio', href: '/' },
+      { label: 'Configuración' },
+    ]
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
@@ -66,11 +71,13 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(screen.getByRole('link', { name: /Inicio/i })).toHaveAttribute('href', '/')
-    expect(screen.getByRole('link', { name: /Configuración/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Inicio/i })).toHaveAttribute(
       'href',
-      '/configuracion',
+      '/'
     )
+    expect(
+      screen.getByRole('link', { name: /Configuración/i })
+    ).toHaveAttribute('href', '/configuracion')
   })
 
   it('should render the correct number of list items', () => {
@@ -88,11 +95,16 @@ describe('Breadcrumbs', () => {
 
   it('should render separator icons between items', () => {
     // Arrange
-    const items: BreadcrumbItem[] = [{ label: 'Inicio', href: '/' }, { label: 'Configuración' }]
+    const items: BreadcrumbItem[] = [
+      { label: 'Inicio', href: '/' },
+      { label: 'Configuración' },
+    ]
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(screen.getByTestId('icon-RiArrowRightSLine')).toBeInTheDocument()
+    expect(
+      screen.getByTestId('icon-RiArrowRightSLine')
+    ).toBeInTheDocument()
   })
 
   it('should not render any separator when there is only one item', () => {
@@ -101,12 +113,16 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(screen.queryByTestId('icon-RiArrowRightSLine')).toBeNull()
+    expect(
+      screen.queryByTestId('icon-RiArrowRightSLine')
+    ).toBeNull()
   })
 
   it('should render the icon when the item has an icon prop', () => {
     // Arrange
-    const items: BreadcrumbItem[] = [{ label: 'Inicio', href: '/', icon: 'RiHomeLine' }]
+    const items: BreadcrumbItem[] = [
+      { label: 'Inicio', href: '/', icon: 'RiHomeLine' },
+    ]
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
@@ -123,7 +139,9 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert — 3 items → 2 separators
-    expect(screen.getAllByTestId('icon-RiArrowRightSLine')).toHaveLength(2)
+    expect(
+      screen.getAllByTestId('icon-RiArrowRightSLine')
+    ).toHaveLength(2)
   })
 
   it('should render a single item as a span (current page)', () => {

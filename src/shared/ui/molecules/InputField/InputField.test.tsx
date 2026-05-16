@@ -6,9 +6,13 @@ import { InputField } from './InputField'
 
 // Mock IconComponent to avoid issues with icons
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <div data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <div data-testid={`icon-${icon}`} className={className} />,
 }))
 
 vi.mock('@Components/atoms/Spinner/Spinner', () => ({
@@ -138,7 +142,9 @@ describe('InputField', () => {
 
   it('should render with right slot', () => {
     // Arrange & Act
-    render(<InputField rightSlot={<span>Right</span>} placeholder="Enter text" />)
+    render(
+      <InputField rightSlot={<span>Right</span>} placeholder="Enter text" />
+    )
     // Assert
     expect(screen.getByText('Right')).toBeInTheDocument()
   })
@@ -190,9 +196,12 @@ describe('InputField', () => {
 
   it('should apply custom classInput', () => {
     // Arrange & Act
-    render(<InputField classInput="custom-input-class" placeholder="Enter text" />)
+    render(
+      <InputField classInput="custom-input-class" placeholder="Enter text" />
+    )
     // Assert
-    const inputContainer = screen.getByPlaceholderText('Enter text').parentElement
+    const inputContainer =
+      screen.getByPlaceholderText('Enter text').parentElement
     expect(inputContainer).toHaveClass('custom-input-class')
   })
 
@@ -206,7 +215,12 @@ describe('InputField', () => {
 
   it('should render helperText as ReactNode', () => {
     // Arrange & Act
-    render(<InputField helperText={<em>Italic helper</em>} placeholder="Enter text" />)
+    render(
+      <InputField
+        helperText={<em>Italic helper</em>}
+        placeholder="Enter text"
+      />
+    )
     // Assert
     const helper = screen.getByText('Italic helper')
     expect(helper).toBeInTheDocument()
@@ -217,14 +231,20 @@ describe('InputField', () => {
     // Arrange & Act
     render(<InputField variant="success" loading placeholder="Enter text" />)
     // Assert
-    expect(screen.queryByTestId('icon-RiCheckboxCircleFill')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('icon-RiCheckboxCircleFill')
+    ).not.toBeInTheDocument()
     expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 
   it('should not render rightSlot for password type', () => {
     // Arrange & Act
     render(
-      <InputField type="password" rightSlot={<span>Right</span>} placeholder="Enter password" />,
+      <InputField
+        type="password"
+        rightSlot={<span>Right</span>}
+        placeholder="Enter password"
+      />
     )
     // Assert
     expect(screen.queryByText('Right')).not.toBeInTheDocument()
@@ -232,7 +252,9 @@ describe('InputField', () => {
 
   it('should apply correct classes for disabled label', () => {
     // Arrange & Act
-    render(<InputField disabled label="Disabled Label" placeholder="Enter text" />)
+    render(
+      <InputField disabled label="Disabled Label" placeholder="Enter text" />
+    )
     // Assert
     const label = screen.getByText('Disabled Label')
     expect(label).toHaveClass('text-slate-500', 'cursor-not-allowed')
@@ -248,7 +270,13 @@ describe('InputField', () => {
 
   it('should handle class slot for different types and positions', () => {
     // Arrange & Act
-    render(<InputField type="email" leftSlot={<span>Left</span>} placeholder="Enter email" />)
+    render(
+      <InputField
+        type="email"
+        leftSlot={<span>Left</span>}
+        placeholder="Enter email"
+      />
+    )
     // Assert
     const leftSlot = screen.getByText('Left').parentElement
     expect(leftSlot).toHaveClass('pr-3')
@@ -274,7 +302,13 @@ describe('InputField', () => {
 
   it('should add role alert and aria-live to helperText when variant is error', () => {
     // Arrange & Act
-    render(<InputField variant="error" errorMessage="Error message" placeholder="Test" />)
+    render(
+      <InputField
+        variant="error"
+        errorMessage="Error message"
+        placeholder="Test"
+      />
+    )
     // Assert
     const helper = screen.getByText('Error message')
     expect(helper).toHaveAttribute('role', 'alert')
@@ -309,7 +343,13 @@ describe('InputField', () => {
 
   it('should render with left slot for password type', () => {
     // Arrange & Act
-    render(<InputField type="password" leftSlot={<span>Icon</span>} placeholder="Enter password" />)
+    render(
+      <InputField
+        type="password"
+        leftSlot={<span>Icon</span>}
+        placeholder="Enter password"
+      />
+    )
     // Assert
     expect(screen.getByText('Icon')).toBeInTheDocument()
     const input = screen.getByPlaceholderText('Enter password')
@@ -374,7 +414,13 @@ describe('InputField', () => {
 
   it('should render errorMessage when variant is error', () => {
     // Arrange & Act
-    render(<InputField variant="error" errorMessage="Error occurred" placeholder="Test" />)
+    render(
+      <InputField
+        variant="error"
+        errorMessage="Error occurred"
+        placeholder="Test"
+      />
+    )
     // Assert
     expect(screen.getByText('Error occurred')).toBeInTheDocument()
   })

@@ -28,11 +28,21 @@ export const Breadcrumbs = ({ items }: Readonly<BreadcrumbsProps>) => {
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
-            <li key={item.href ?? item.label} className="flex items-center gap-1.5">
+            <li
+              key={item.href ?? item.label}
+              className="flex items-center gap-1.5"
+            >
               {index > 0 && (
-                <IconComponent icon="RiArrowRightSLine" className="h-4 w-4 text-slate-400" />
+                <IconComponent
+                  icon="RiArrowRightSLine"
+                  className="h-4 w-4 text-slate-400"
+                />
               )}
-              {isLast ? <BreadcrumbCurrent item={item} /> : <BreadcrumbLink item={item} />}
+              {isLast ? (
+                <BreadcrumbCurrent item={item} />
+              ) : (
+                <BreadcrumbLink item={item} />
+              )}
             </li>
           )
         })}

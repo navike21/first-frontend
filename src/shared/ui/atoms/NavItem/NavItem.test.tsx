@@ -22,9 +22,13 @@ vi.mock('@tanstack/react-router', () => ({
 }))
 
 vi.mock('../IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 describe('NavItem component', () => {
@@ -51,7 +55,14 @@ describe('NavItem component', () => {
     it('calls onClick when clicked', async () => {
       const user = userEvent.setup()
       const handleClick = vi.fn()
-      render(<NavItem icon="RiHomeLine" label="Home" to="/home" onClick={handleClick} />)
+      render(
+        <NavItem
+          icon="RiHomeLine"
+          label="Home"
+          to="/home"
+          onClick={handleClick}
+        />
+      )
       await user.click(screen.getByRole('link'))
       expect(handleClick).toHaveBeenCalledTimes(1)
     })
@@ -71,7 +82,13 @@ describe('NavItem component', () => {
     it('calls onClick when clicked', async () => {
       const user = userEvent.setup()
       const handleClick = vi.fn()
-      render(<NavItem icon="RiSettings3Line" label="Settings" onClick={handleClick} />)
+      render(
+        <NavItem
+          icon="RiSettings3Line"
+          label="Settings"
+          onClick={handleClick}
+        />
+      )
       await user.click(screen.getByRole('button'))
       expect(handleClick).toHaveBeenCalledTimes(1)
     })

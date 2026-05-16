@@ -102,12 +102,16 @@ describe('Spinner', () => {
     // Arrange
     const { rerender } = render(<Spinner variant="default" />)
     const firstSpinner = screen.getByTestId('spinner')
-    const firstGradientId = firstSpinner.querySelector('linearGradient')?.getAttribute('id')
+    const firstGradientId = firstSpinner
+      .querySelector('linearGradient')
+      ?.getAttribute('id')
     // Act
     rerender(<Spinner variant="white" />)
     // Assert
     const secondSpinner = screen.getByTestId('spinner')
-    const secondGradientId = secondSpinner.querySelector('linearGradient')?.getAttribute('id')
+    const secondGradientId = secondSpinner
+      .querySelector('linearGradient')
+      ?.getAttribute('id')
 
     expect(firstGradientId).not.toBe(secondGradientId)
     expect(firstGradientId).toMatch(/^spinner_.*default$/)

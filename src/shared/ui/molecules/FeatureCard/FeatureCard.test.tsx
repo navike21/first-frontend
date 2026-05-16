@@ -19,9 +19,13 @@ vi.mock('@tanstack/react-router', () => ({
 }))
 
 vi.mock('../../atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 vi.mock('../../atoms/Card/Card', () => ({
@@ -63,7 +67,9 @@ describe('FeatureCard component', () => {
     // Arrange & Act
     render(<FeatureCard {...defaultProps} />)
     // Assert
-    expect(screen.getByText('Administrar clientes y desarrolladores')).toBeInTheDocument()
+    expect(
+      screen.getByText('Administrar clientes y desarrolladores')
+    ).toBeInTheDocument()
   })
 
   it('should render as a link with correct href', () => {

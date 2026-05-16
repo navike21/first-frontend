@@ -4,9 +4,10 @@ import type { TooltipPosition, ResolvedTooltipPosition } from './Tooltip.types'
 export function useTooltipPosition(
   ref: RefObject<HTMLDivElement | null>,
   position: TooltipPosition,
-  isVisible: boolean,
+  isVisible: boolean
 ): ResolvedTooltipPosition {
-  const [autoPosition, setAutoPosition] = useState<ResolvedTooltipPosition>('top')
+  const [autoPosition, setAutoPosition] =
+    useState<ResolvedTooltipPosition>('top')
 
   useLayoutEffect(() => {
     if (position !== 'auto' || !isVisible || !ref.current) {
@@ -17,6 +18,7 @@ export function useTooltipPosition(
     const midpoint = window.innerHeight / 2
     const elementCenter = rect.top + rect.height / 2
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAutoPosition(elementCenter < midpoint ? 'bottom' : 'top')
   }, [position, isVisible, ref])
 

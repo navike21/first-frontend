@@ -1,4 +1,4 @@
-import type * as RemixIcons from '@remixicon/react'
+import * as RemixIcons from '@remixicon/react'
 
 export type IconName = keyof typeof RemixIcons
 

@@ -12,63 +12,75 @@ interface OptionsListProps {
   onFocusIndex: (idx: number) => void
 }
 
-export const OptionsList = memo(
-  ({ options, selectedValues, multiple, onSelect, onFocusIndex }: OptionsListProps) => {
-    const { noOptionsFound } = useSelectTexts()
+export const OptionsList = memo(({
+  options,
+  selectedValues,
+  multiple,
+  onSelect,
+  onFocusIndex,
+}: OptionsListProps) => {
+  const { noOptionsFound } = useSelectTexts()
 
-    if (options.length === 0) {
-      return <div className="px-3 py-2 text-sm text-slate-400">{noOptionsFound}</div>
-    }
-    // Pre-compute enabled index map once per render — O(n) instead of O(n²)
-    const enabledIndexMap = new Map(
-      options.filter((o) => !o.disabled).map((o, i) => [o.value, i] as const),
-    )
+  if (options.length === 0) {
     return (
-      <>
-        {options.map((opt) => {
-          const isSelected = selectedValues.includes(opt.value)
-          const enabledIndex = enabledIndexMap.get(opt.value) ?? -1
-          return (
-            <button // NOSONAR — WAI-ARIA custom listbox: role=option required on interactive listbox children
-              key={opt.value}
-              type="button"
-              role="option"
-              aria-selected={isSelected}
-              aria-disabled={opt.disabled}
-              data-option
-              disabled={opt.disabled}
-              onFocus={() => {
-                if (!opt.disabled) onFocusIndex(enabledIndex)
-              }}
-              onClick={() => {
-                if (!opt.disabled) onSelect(opt.value)
-              }}
-              className={clsx(
-                'flex w-full items-center gap-2 px-3 py-2 text-left text-sm',
-                'transition-colors duration-150',
-                {
-                  'cursor-pointer hover:bg-slate-50': !opt.disabled,
-                  'cursor-not-allowed opacity-50': opt.disabled,
-                  'bg-slate-50': isSelected && !opt.disabled,
-                },
-              )}
-            >
-              {opt.content && (
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                  {opt.content}
-                </span>
-              )}
-              {!opt.content && opt.icon && (
-                <IconComponent icon={opt.icon} className="h-4 w-4 shrink-0 text-slate-600" />
-              )}
-              <span className="flex-1">{opt.label}</span>
-              {multiple && isSelected && (
-                <IconComponent icon="RiCheckLine" className="h-4 w-4 shrink-0 text-slate-700" />
-              )}
-            </button>
-          )
-        })}
-      </>
+      <div className="px-3 py-2 text-sm text-slate-400">{noOptionsFound}</div>
     )
-  },
-)
+  }
+  // Pre-compute enabled index map once per render — O(n) instead of O(n²)
+  const enabledIndexMap = new Map(
+    options.filter((o) => !o.disabled).map((o, i) => [o.value, i] as const)
+  )
+  return (
+    <>
+      {options.map((opt) => {
+        const isSelected = selectedValues.includes(opt.value)
+        const enabledIndex = enabledIndexMap.get(opt.value) ?? -1
+        return (
+          <button // NOSONAR — WAI-ARIA custom listbox: role=option required on interactive listbox children
+            key={opt.value}
+            type="button"
+            role="option"
+            aria-selected={isSelected}
+            aria-disabled={opt.disabled}
+            data-option
+            disabled={opt.disabled}
+            onFocus={() => {
+              if (!opt.disabled) onFocusIndex(enabledIndex)
+            }}
+            onClick={() => {
+              if (!opt.disabled) onSelect(opt.value)
+            }}
+            className={clsx(
+              'flex w-full items-center gap-2 px-3 py-2 text-left text-sm',
+              'transition-colors duration-150',
+              {
+                'cursor-pointer hover:bg-slate-50': !opt.disabled,
+                'cursor-not-allowed opacity-50': opt.disabled,
+                'bg-slate-50': isSelected && !opt.disabled,
+              }
+            )}
+          >
+            {opt.content && (
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                {opt.content}
+              </span>
+            )}
+            {!opt.content && opt.icon && (
+              <IconComponent
+                icon={opt.icon}
+                className="h-4 w-4 shrink-0 text-slate-600"
+              />
+            )}
+            <span className="flex-1">{opt.label}</span>
+            {multiple && isSelected && (
+              <IconComponent
+                icon="RiCheckLine"
+                className="h-4 w-4 shrink-0 text-slate-700"
+              />
+            )}
+          </button>
+        )
+      })}
+    </>
+  )
+})

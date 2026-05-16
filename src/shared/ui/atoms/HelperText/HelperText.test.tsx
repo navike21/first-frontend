@@ -74,7 +74,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="error" className="text-purple-500">
         Error message
-      </HelperText>,
+      </HelperText>
     )
     // Assert
     const element = screen.getByText('Error message')
@@ -97,7 +97,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="success" className="text-green-600">
         Success message
-      </HelperText>,
+      </HelperText>
     )
     // Assert
     const element = screen.getByText('Success message')
@@ -118,7 +118,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="warning" className="text-orange-500">
         Warning message
-      </HelperText>,
+      </HelperText>
     )
     // Assert
     const element = screen.getByText('Warning message')
@@ -136,7 +136,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="info" className="text-cyan-500">
         Info message
-      </HelperText>,
+      </HelperText>
     )
     const element = screen.getByText('Info message')
     expect(element).toHaveClass('text-cyan-500')
@@ -171,7 +171,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="error" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toBeInTheDocument()
@@ -181,7 +181,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="success" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toBeInTheDocument()
@@ -191,7 +191,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="warning" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toBeInTheDocument()
@@ -201,7 +201,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="info" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toBeInTheDocument()
@@ -211,7 +211,7 @@ describe('HelperText', () => {
     render(
       <HelperText variant="default" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toBeInTheDocument()
@@ -221,7 +221,7 @@ describe('HelperText', () => {
     render(
       <HelperText size="small" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toHaveClass('size-4')
@@ -231,7 +231,7 @@ describe('HelperText', () => {
     render(
       <HelperText size="medium" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toHaveClass('size-5')
@@ -241,7 +241,7 @@ describe('HelperText', () => {
     render(
       <HelperText size="large" showIcon>
         Test
-      </HelperText>,
+      </HelperText>
     )
     const icon = document.querySelector('svg')
     expect(icon).toHaveClass('size-6')

@@ -33,8 +33,10 @@ export const Drawer: React.FC<DrawerProps> = ({
           'fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-xs',
           'transition-opacity duration-200 ease-in-out',
           isMobileOnly && 'md:hidden',
-          isOpen ? 'opacity-100 delay-0' : 'pointer-events-none opacity-0 delay-300',
-          backdropClassName,
+          isOpen
+            ? 'opacity-100 delay-0'
+            : 'pointer-events-none opacity-0 delay-300',
+          backdropClassName
         )}
         onClick={onClose}
         aria-hidden="true"
@@ -61,7 +63,7 @@ export const Drawer: React.FC<DrawerProps> = ({
                 '-translate-x-full': placement === 'left',
                 'translate-x-full': placement === 'right',
               }),
-          className || 'w-80',
+          className || 'w-80'
         )}
       >
         {/* Header/Title — only visible on mobile when used as a mobile-only drawer */}
@@ -69,7 +71,7 @@ export const Drawer: React.FC<DrawerProps> = ({
           <div
             className={clsx(
               'flex items-center justify-between border-b border-gray-100 p-4',
-              isMobileOnly && 'md:hidden',
+              isMobileOnly && 'md:hidden'
             )}
           >
             <div className="flex items-center gap-2">{title}</div>
@@ -77,7 +79,7 @@ export const Drawer: React.FC<DrawerProps> = ({
               onClick={onClose}
               className={clsx(
                 'cursor-pointer rounded-md p-1.5 text-slate-500 transition-colors',
-                'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
+                'hover:bg-slate-100 hover:text-slate-800 focus:outline-none'
               )}
               aria-label="Cerrar menú"
             >

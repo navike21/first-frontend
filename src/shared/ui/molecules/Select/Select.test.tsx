@@ -1,4 +1,10 @@
-import { render, screen, waitFor, renderHook, act } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor,
+  renderHook,
+  act,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { beforeEach, describe, it, expect, vi } from 'vitest'
@@ -8,9 +14,13 @@ import type { SelectOptionItem } from './Select.types'
 
 // Mock atoms to keep tests focused on Select integration behavior
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <svg data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <svg data-testid={`icon-${icon}`} className={className} />,
 }))
 
 vi.mock('@Components/atoms/Spinner/Spinner', () => ({
@@ -18,15 +28,23 @@ vi.mock('@Components/atoms/Spinner/Spinner', () => ({
 }))
 
 vi.mock('@Components/atoms/Label/Label', () => ({
-  Label: ({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) => (
-    <label htmlFor={htmlFor}>{children}</label>
-  ),
+  Label: ({
+    children,
+    htmlFor,
+  }: {
+    children: React.ReactNode
+    htmlFor?: string
+  }) => <label htmlFor={htmlFor}>{children}</label>,
 }))
 
 vi.mock('@Components/atoms/HelperText/HelperText', () => ({
-  HelperText: ({ children, variant }: { children: React.ReactNode; variant?: string }) => (
-    <div role={variant === 'error' ? 'alert' : undefined}>{children}</div>
-  ),
+  HelperText: ({
+    children,
+    variant,
+  }: {
+    children: React.ReactNode
+    variant?: string
+  }) => <div role={variant === 'error' ? 'alert' : undefined}>{children}</div>,
 }))
 
 vi.mock('@Components/atoms/Chip/Chip', () => ({
@@ -68,10 +86,10 @@ const options: SelectOptionItem[] = [
   { label: 'Disabled', value: '4', disabled: true },
 ]
 
-const searchOptions: SelectOptionItem[] = Array.from({ length: 12 }, (_, i) => ({
-  label: `Item ${i + 1}`,
-  value: String(i + 1),
-}))
+const searchOptions: SelectOptionItem[] = Array.from(
+  { length: 12 },
+  (_, i) => ({ label: `Item ${i + 1}`, value: String(i + 1) })
+)
 
 describe('Select', () => {
   beforeEach(() => {
@@ -93,7 +111,10 @@ describe('Select', () => {
 
     it('should set the name attribute on the native select', () => {
       render(<Select options={options} name="myField" />)
-      expect(document.querySelector('select')).toHaveAttribute('name', 'myField')
+      expect(document.querySelector('select')).toHaveAttribute(
+        'name',
+        'myField'
+      )
     })
 
     it('should set multiple attribute on native select in multiple mode', () => {
@@ -112,12 +133,22 @@ describe('Select', () => {
     })
 
     it('should render leftSlot', () => {
-      render(<Select options={options} leftSlot={<span data-testid="left-slot">L</span>} />)
+      render(
+        <Select
+          options={options}
+          leftSlot={<span data-testid="left-slot">L</span>}
+        />
+      )
       expect(screen.getByTestId('left-slot')).toBeInTheDocument()
     })
 
     it('should render rightSlot', () => {
-      render(<Select options={options} rightSlot={<span data-testid="right-slot">R</span>} />)
+      render(
+        <Select
+          options={options}
+          rightSlot={<span data-testid="right-slot">R</span>}
+        />
+      )
       expect(screen.getByTestId('right-slot')).toBeInTheDocument()
     })
 
@@ -207,7 +238,7 @@ describe('Select', () => {
         <div>
           <Select options={options} />
           <button>Outside</button>
-        </div>,
+        </div>
       )
       await user.click(screen.getByRole('combobox'))
       expect(screen.getByRole('listbox')).toBeInTheDocument()
@@ -271,7 +302,9 @@ describe('Select', () => {
       render(<Select options={options} placeholder="Pick one" />)
       await user.click(screen.getByRole('combobox'))
       // Assert — disabled option is present and marked as disabled
-      const disabledOption = screen.getAllByRole('option').find((el) => el.hasAttribute('disabled'))
+      const disabledOption = screen
+        .getAllByRole('option')
+        .find((el) => el.hasAttribute('disabled'))
       expect(disabledOption).toBeDisabled()
       // Assert — dropdown stays open (only enabled option clicks close it)
       expect(screen.getByRole('listbox')).toBeInTheDocument()
@@ -358,14 +391,18 @@ describe('Select', () => {
 
   describe('controlled value', () => {
     it('should sync display when controlled value prop changes', () => {
-      const { rerender } = render(<Select options={options} value="1" placeholder="Pick" />)
+      const { rerender } = render(
+        <Select options={options} value="1" placeholder="Pick" />
+      )
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
       rerender(<Select options={options} value="2" placeholder="Pick" />)
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 2')
     })
 
     it('should preserve selected state when controlled value changes to same content', () => {
-      const { rerender } = render(<Select options={options} value="1" placeholder="Pick" />)
+      const { rerender } = render(
+        <Select options={options} value="1" placeholder="Pick" />
+      )
       rerender(<Select options={options} value={['1']} placeholder="Pick" />)
       expect(screen.getByRole('combobox')).toHaveTextContent('Option 1')
     })
@@ -386,7 +423,7 @@ describe('Select', () => {
           ref={(el) => {
             capturedEl = el
           }}
-        />,
+        />
       )
       expect(capturedEl).toBeInstanceOf(HTMLSelectElement)
     })
@@ -462,7 +499,9 @@ describe('Select', () => {
       render(<Select options={searchOptions} search />)
       await user.click(screen.getByRole('combobox'))
       await user.type(screen.getByLabelText('Search options'), 'Item 1')
-      expect(screen.getAllByRole('option').length).toBeLessThan(searchOptions.length)
+      expect(screen.getAllByRole('option').length).toBeLessThan(
+        searchOptions.length
+      )
     })
 
     it('should clear search query when dropdown is closed and reopened', async () => {
@@ -481,7 +520,10 @@ describe('Select', () => {
       const user = userEvent.setup()
       render(<Select options={options} />)
       await user.click(screen.getByRole('combobox'))
-      expect(screen.getByRole('listbox')).toHaveAttribute('data-position', 'bottom')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'data-position',
+        'bottom'
+      )
     })
 
     it('should open above (data-position="top") when space below is insufficient', async () => {
@@ -499,7 +541,10 @@ describe('Select', () => {
       })
       render(<Select options={options} />)
       await user.click(screen.getByRole('combobox'))
-      expect(screen.getByRole('listbox')).toHaveAttribute('data-position', 'top')
+      expect(screen.getByRole('listbox')).toHaveAttribute(
+        'data-position',
+        'top'
+      )
       vi.restoreAllMocks()
     })
   })
@@ -508,9 +553,14 @@ describe('Select', () => {
     it('should apply lang="es" translations automatically', async () => {
       const user = userEvent.setup()
       render(<Select options={options} search lang="es" />)
-      expect(screen.getByRole('button', { name: 'Abrir opciones' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Abrir opciones' })
+      ).toBeInTheDocument()
       await user.click(screen.getByRole('button', { name: 'Abrir opciones' }))
-      expect(screen.getByLabelText('Buscar opciones')).toHaveAttribute('placeholder', 'Buscar...')
+      expect(screen.getByLabelText('Buscar opciones')).toHaveAttribute(
+        'placeholder',
+        'Buscar...'
+      )
     })
 
     it('should show translated noOptionsFound for lang="es"', async () => {
@@ -524,7 +574,9 @@ describe('Select', () => {
     it('should fall back to English defaults when no lang is set', async () => {
       const user = userEvent.setup()
       render(<Select options={options} search />)
-      expect(screen.getByRole('button', { name: 'Open options' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Open options' })
+      ).toBeInTheDocument()
       await user.click(screen.getByRole('combobox'))
       await user.type(screen.getByLabelText('Search options'), 'zzz')
       expect(screen.getByText('No options found')).toBeInTheDocument()
@@ -538,7 +590,7 @@ describe('Select', () => {
           search
           lang="es"
           texts={{ noOptionsFound: 'Pais no encontrado' }}
-        />,
+        />
       )
       await user.click(screen.getByRole('combobox'))
       expect(screen.getByLabelText('Buscar opciones')).toBeInTheDocument()
@@ -559,10 +611,13 @@ describe('Select', () => {
             openOptionsAriaLabel: 'Abrir opciones',
             closeOptionsAriaLabel: 'Cerrar opciones',
           }}
-        />,
+        />
       )
       await user.click(screen.getByRole('button', { name: 'Abrir opciones' }))
-      expect(screen.getByLabelText('Buscar pais')).toHaveAttribute('placeholder', 'Buscar pais...')
+      expect(screen.getByLabelText('Buscar pais')).toHaveAttribute(
+        'placeholder',
+        'Buscar pais...'
+      )
       await user.type(screen.getByLabelText('Buscar pais'), 'zzz')
       expect(screen.getByText('Pais no encontrado')).toBeInTheDocument()
     })
@@ -599,7 +654,9 @@ describe('useSelectHook', () => {
 
   it('should return early from handleOptionDeselect when internalRef is null', () => {
     // Arrange
-    const { result } = renderHook(() => useSelectHook({ options, multiple: true }, null))
+    const { result } = renderHook(() =>
+      useSelectHook({ options, multiple: true }, null)
+    )
 
     // Act
     act(() => {

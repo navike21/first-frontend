@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
-import type { ButtonProps } from '@/shared/types/buttonProps'
+import { type ButtonProps } from '@/shared/types/buttonProps'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
 
 type Variant = NonNullable<ButtonProps['variant']>
@@ -75,7 +75,8 @@ export const Button = ({
         {
           'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-slate-400 before:opacity-0 before:transition-all before:duration-300 before:ease-in-out before:content-[""]':
             variant === 'text',
-          'hover:before:w-full hover:before:opacity-100': variant === 'text' && !loading,
+          'hover:before:w-full hover:before:opacity-100':
+            variant === 'text' && !loading,
         },
         {
           'text-xs': size === 'small' && variant === 'text',
@@ -89,7 +90,7 @@ export const Button = ({
         },
         {
           'inline-flex align-middle': variant === 'text' && loading,
-        },
+        }
       )}
       {...props}
       disabled={loading || disabled}

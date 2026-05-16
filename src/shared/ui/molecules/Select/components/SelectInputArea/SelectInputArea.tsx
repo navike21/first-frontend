@@ -93,7 +93,9 @@ export const SelectInputArea = ({
         })}
       >
         {leftSlot && (
-          <div className="flex h-10 min-w-10 shrink-0 items-center justify-center">{leftSlot}</div>
+          <div className="flex h-10 min-w-10 shrink-0 items-center justify-center">
+            {leftSlot}
+          </div>
         )}
         {/* Trigger area — combobox role is required by WAI-ARIA custom select pattern */}
         <div // NOSONAR — WAI-ARIA custom combobox: role=combobox required on trigger element
@@ -104,10 +106,13 @@ export const SelectInputArea = ({
           aria-controls={`${idField}-listbox`}
           onClick={onTriggerClick}
           onKeyDown={handleInnerKeyDown}
-          className={clsx('flex min-h-10 flex-1 flex-wrap items-center gap-1 px-3 py-1.5', {
-            'cursor-pointer': !disabled && !loading,
-            'cursor-not-allowed': disabled,
-          })}
+          className={clsx(
+            'flex min-h-10 flex-1 flex-wrap items-center gap-1 px-3 py-1.5',
+            {
+              'cursor-pointer': !disabled && !loading,
+              'cursor-not-allowed': disabled,
+            }
+          )}
         >
           {multiple && (
             <SelectedChips
@@ -138,7 +143,7 @@ export const SelectInputArea = ({
             {
               'cursor-pointer': !disabled && !loading,
               'cursor-not-allowed': disabled,
-            },
+            }
           )}
           aria-label={isOpen ? closeOptionsAriaLabel : openOptionsAriaLabel}
         >
@@ -149,7 +154,9 @@ export const SelectInputArea = ({
         </button>
 
         {rightSlot && (
-          <div className="flex h-10 min-w-10 shrink-0 items-center justify-center">{rightSlot}</div>
+          <div className="flex h-10 min-w-10 shrink-0 items-center justify-center">
+            {rightSlot}
+          </div>
         )}
 
         {/* Loading / variant icons */}
@@ -159,7 +166,10 @@ export const SelectInputArea = ({
           </div>
         )}
         {variantIconDef && (
-          <IconComponent icon={variantIconDef.icon} className={variantIconDef.className} />
+          <IconComponent
+            icon={variantIconDef.icon}
+            className={variantIconDef.className}
+          />
         )}
       </div>
 

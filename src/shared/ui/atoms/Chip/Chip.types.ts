@@ -9,5 +9,8 @@ export interface ChipProps {
   icon?: IconName
   iconContent?: ReactNode
   deleteable?: boolean
-  deleteButtonProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'>
+  deleteButtonProps?: Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    'type' | 'className'
+  >
 }

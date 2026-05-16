@@ -6,9 +6,13 @@ import { TriggerDisplay } from './TriggerDisplay'
 import type { SelectOptionItem } from '../../Select.types'
 
 vi.mock('@Components/atoms/IconComponent/IconComponent', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <svg data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <svg data-testid={`icon-${icon}`} className={className} />,
 }))
 
 describe('TriggerDisplay', () => {
@@ -79,6 +83,8 @@ describe('TriggerDisplay', () => {
     render(<TriggerDisplay singleLabel="Something" />)
 
     // Assert
-    expect(document.querySelector('[data-testid^="icon-"]')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('[data-testid^="icon-"]')
+    ).not.toBeInTheDocument()
   })
 })

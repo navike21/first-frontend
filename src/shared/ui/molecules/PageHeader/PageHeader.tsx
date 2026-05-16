@@ -31,14 +31,22 @@ export interface PageHeaderProps {
   actions?: PageHeaderAction[]
 }
 
-export const PageHeader = ({ title, description, actions }: PageHeaderProps) => {
+export const PageHeader = ({
+  title,
+  description,
+  actions,
+}: PageHeaderProps) => {
   const hasActions = actions && actions.length > 0
 
   return (
     <header className="mb-8 flex items-start justify-between gap-4">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">{title}</h1>
-        {description && <p className="text-md mt-2 text-slate-500">{description}</p>}
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+          {title}
+        </h1>
+        {description && (
+          <p className="text-md mt-2 text-slate-500">{description}</p>
+        )}
       </div>
 
       {hasActions && (
@@ -66,7 +74,7 @@ export const PageHeader = ({ title, description, actions }: PageHeaderProps) => 
               >
                 {action.label}
               </LinkButton>
-            ),
+            )
           )}
         </div>
       )}

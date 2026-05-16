@@ -21,10 +21,15 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       variant = 'default',
       ...props
     },
-    ref,
+    ref
   ) => {
-    const { idField, showPassword, typeField, handleClassSlot, handleChangeTypePassword } =
-      useInputField({ type, ...props })
+    const {
+      idField,
+      showPassword,
+      typeField,
+      handleClassSlot,
+      handleChangeTypePassword,
+    } = useInputField({ type, ...props })
 
     return (
       <InputLayout
@@ -40,15 +45,23 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       >
         {type === 'password' && (
           <div className={clsx('flex min-w-10 items-center justify-center')}>
-            <IconComponent icon="RiLockPasswordFill" className="size-5 text-slate-700" />
+            <IconComponent
+              icon="RiLockPasswordFill"
+              className="size-5 text-slate-700"
+            />
           </div>
         )}
         {type === 'email' && (
           <div className={clsx('flex min-w-10 items-center justify-center')}>
-            <IconComponent icon="RiMailFill" className="size-5 text-slate-700" />
+            <IconComponent
+              icon="RiMailFill"
+              className="size-5 text-slate-700"
+            />
           </div>
         )}
-        {leftSlot && <div className={handleClassSlot(type, 'left')}>{leftSlot}</div>}
+        {leftSlot && (
+          <div className={handleClassSlot(type, 'left')}>{leftSlot}</div>
+        )}
         <input
           id={idField}
           ref={ref}
@@ -58,7 +71,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             'transition-all duration-300 ease-in-out',
             'placeholder:text-slate-400',
             'focus:border-transparent focus:ring-0 focus:outline-none',
-            'focus-visible:ring-0 focus-visible:outline-none focus-visible:border-transparent focus-visible:outline-offset-0',
             {
               'px-4 py-2': !leftSlot && !rightSlot && type === 'text',
               'py-2 pr-4': !leftSlot && !rightSlot && type === 'email',
@@ -69,7 +81,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               'cursor-not-allowed text-slate-500': disabled,
               'text-slate-900': !disabled,
               'pointer-events-none': loading,
-            },
+            }
           )}
           disabled={disabled || loading}
           type={typeField}
@@ -85,7 +97,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               {
                 'cursor-pointer hover:bg-slate-200/50': !disabled,
                 'cursor-not-allowed': disabled,
-              },
+              }
             )}
             disabled={disabled}
             onClick={handleChangeTypePassword}
@@ -101,7 +113,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         )}
       </InputLayout>
     )
-  },
+  }
 )
 
 InputField.displayName = 'InputField'

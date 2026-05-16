@@ -15,7 +15,7 @@ export const NetworkStatusBanner = () => {
         'flex items-center justify-center gap-2 px-4 py-2',
         'bg-amber-500 text-sm font-medium text-white',
         'transition-[translate] duration-300',
-        isOnline ? '-translate-y-full' : 'translate-y-0',
+        isOnline ? '-translate-y-full' : 'translate-y-0'
       )}
     >
       <RiWifiOffLine size={16} aria-hidden="true" />

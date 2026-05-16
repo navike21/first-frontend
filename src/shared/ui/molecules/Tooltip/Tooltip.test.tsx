@@ -18,7 +18,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Assert
     expect(screen.getByRole('button', { name: /trigger/i })).toBeInTheDocument()
@@ -29,7 +29,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Assert
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -59,7 +59,7 @@ describe('Tooltip component', () => {
           <button>Trigger</button>
         </Tooltip>
         <button>Other element</button>
-      </div>,
+      </div>
     )
     const wrapper = screen.getByTestId('tooltip-wrapper')
     // Act — enter the wrapper
@@ -77,7 +77,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act — click to pin
     await user.click(screen.getByRole('button'))
@@ -93,7 +93,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     const button = screen.getByRole('button')
     // Act — click to pin, then move away (tooltip still pinned)
@@ -114,7 +114,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act — pin via click, then move mouse away
     await user.click(screen.getByRole('button'))
@@ -132,7 +132,7 @@ describe('Tooltip component', () => {
           <button>Trigger</button>
         </Tooltip>
         <button>Outside</button>
-      </div>,
+      </div>
     )
     // Act — open via click
     await user.click(screen.getByRole('button', { name: /trigger/i }))
@@ -149,7 +149,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -163,12 +163,15 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" variant="light">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('bg-white', 'text-primary-text')
+    expect(screen.getByRole('tooltip')).toHaveClass(
+      'bg-white',
+      'text-primary-text'
+    )
   })
 
   it('should apply small size classes', async () => {
@@ -177,7 +180,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" size="small">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -191,7 +194,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -205,7 +208,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" size="large">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -219,7 +222,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="top">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -233,7 +236,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="bottom">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -247,7 +250,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="left">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -261,7 +264,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="right">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -290,7 +293,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="auto">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -319,7 +322,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="auto">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -334,7 +337,7 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content="Text" position="top">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
@@ -350,7 +353,7 @@ describe('Tooltip component', () => {
     const { container } = render(
       <Tooltip content="Text" className="custom-wrapper">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Assert
     expect(container.firstChild).toHaveClass('custom-wrapper')
@@ -362,11 +365,13 @@ describe('Tooltip component', () => {
     render(
       <Tooltip content={<strong>Bold content</strong>} position="top">
         <button>Trigger</button>
-      </Tooltip>,
+      </Tooltip>
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toContainElement(screen.getByText('Bold content'))
+    expect(screen.getByRole('tooltip')).toContainElement(
+      screen.getByText('Bold content')
+    )
   })
 })

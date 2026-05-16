@@ -3,27 +3,27 @@ import type { AvatarProps } from './Avatar.types'
 const SIZE_MAP = {
   sm: 'min-w-8 h-8 text-sm ',
   md: 'min-w-12 h-12 text-base',
-  lg: 'min-w-16 h-16 text-lg',
+  lg: 'min-w-16 h-16 text-lg'
 } as const
 
 const STATUS_COLOR_MAP = {
   online: 'bg-green-500',
   offline: 'bg-gray-400',
   busy: 'bg-red-500',
-  away: 'bg-yellow-400',
+  away: 'bg-yellow-400'
 } as const
 
 const STATUS_EFFECT_MAP = {
   online: 'avatar-online-ripple',
   busy: 'avatar-busy-pulse',
   away: 'avatar-away-pulse',
-  offline: 'avatar-offline',
+  offline: 'avatar-offline'
 } as const
 
 const STATUS_SIZE_MAP = {
   sm: 'w-3 h-3',
   md: 'w-3.5 h-3.5',
-  lg: 'w-4 h-4',
+  lg: 'w-4 h-4'
 } as const
 
 export const useAvatar = ({ name, alt }: Pick<AvatarProps, 'name' | 'alt'>) => {
@@ -44,6 +44,6 @@ export const useAvatar = ({ name, alt }: Pick<AvatarProps, 'name' | 'alt'>) => {
     sizeMap: SIZE_MAP,
     statusColorMap: STATUS_COLOR_MAP,
     statusEffectMap: STATUS_EFFECT_MAP,
-    statusSizeMap: STATUS_SIZE_MAP,
+    statusSizeMap: STATUS_SIZE_MAP
   }
 }

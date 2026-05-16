@@ -2,7 +2,12 @@
    Export reusable, domain-agnostic components from this folder. */
 
 // Atoms
-export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './atoms/Avatar'
+export {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarStatus,
+} from './atoms/Avatar'
 export { Button, type ButtonProps } from './atoms/Button'
 export { Card, type CardProps } from './atoms/Card'
 export {
@@ -41,7 +46,11 @@ export {
   type TooltipVariant,
   type TooltipSize,
 } from './molecules/Tooltip'
-export { Breadcrumbs, type BreadcrumbItem, type BreadcrumbsProps } from './molecules/Breadcrumbs'
+export {
+  Breadcrumbs,
+  type BreadcrumbItem,
+  type BreadcrumbsProps,
+} from './molecules/Breadcrumbs'
 export {
   Select,
   type SelectProps,

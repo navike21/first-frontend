@@ -7,7 +7,7 @@ export const getInputAreaClass = ({
   isOpen,
   variant,
   isMultipleWithChips,
-  classInput,
+  classInput
 }: {
   disabled: boolean
   isOpen: boolean
@@ -25,8 +25,8 @@ export const getInputAreaClass = ({
       'ring-slate-300': variant === 'default' && !disabled,
       'ring-emerald-500': variant === 'success' && !disabled,
       'ring-red-500': variant === 'error' && !disabled,
-      'ring-yellow-500': variant === 'warning' && !disabled,
+      'ring-yellow-500': variant === 'warning' && !disabled
     },
     isMultipleWithChips ? 'h-auto min-h-10' : 'h-10',
-    classInput,
+    classInput
   )

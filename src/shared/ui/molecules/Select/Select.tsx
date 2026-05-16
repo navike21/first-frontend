@@ -6,7 +6,11 @@ import { useSelectHook } from './Select.hooks'
 import { SelectFooter } from './components/SelectFooter/SelectFooter'
 import { SelectInputArea } from './components/SelectInputArea/SelectInputArea'
 import { VARIANT_ICON_MAP } from './constants/variantIconMap'
-import { DEFAULT_SELECT_TEXTS, SELECT_TEXTS_BY_LANG, SelectTextsProvider } from './Select.texts'
+import {
+  DEFAULT_SELECT_TEXTS,
+  SELECT_TEXTS_BY_LANG,
+  SelectTextsProvider,
+} from './Select.texts'
 import { Label } from '../../atoms/Label/Label'
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
@@ -33,7 +37,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       value,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const {
       idField,
@@ -68,7 +72,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         ...(defaultValue !== undefined && { defaultValue }),
         ...(value !== undefined && { value }),
       },
-      ref,
+      ref
     )
 
     const variantIconDef = loading ? undefined : VARIANT_ICON_MAP[variant]
@@ -80,7 +84,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         ...(lang === undefined ? {} : SELECT_TEXTS_BY_LANG[lang]),
         ...texts,
       }),
-      [lang, texts],
+      [lang, texts]
     )
 
     // SSR-safe portal mount flag — prevents hydration mismatch in Next.js App Router
@@ -94,7 +98,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           className={clsx(
             'relative m-0 flex min-w-0 flex-col gap-1 border-0 p-0',
             { 'cursor-not-allowed': disabled, 'pointer-events-none': loading },
-            className,
+            className
           )}
           onKeyDown={handleContainerKeyDown}
           onBlur={handleContainerBlur}
@@ -166,7 +170,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         </fieldset>
       </SelectTextsProvider>
     )
-  },
+  }
 )
 
 Select.displayName = 'Select'

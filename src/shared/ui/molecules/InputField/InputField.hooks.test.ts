@@ -55,8 +55,12 @@ describe('useInputField', () => {
 
   it('should generate unique idField', () => {
     // Arrange & Act
-    const { result: result1 } = renderHook(() => useInputField({ type: 'text' }))
-    const { result: result2 } = renderHook(() => useInputField({ type: 'text' }))
+    const { result: result1 } = renderHook(() =>
+      useInputField({ type: 'text' })
+    )
+    const { result: result2 } = renderHook(() =>
+      useInputField({ type: 'text' })
+    )
     // Assert
     expect(result1.current.idField).not.toBe(result2.current.idField)
   })
@@ -69,7 +73,7 @@ describe('useInputField', () => {
     // Assert
     expect(classes).toContain('px-3')
     expect(classes).toContain(
-      'flex items-center justify-left min-w-5 text-xs text-slate-900 font-semibold h-10',
+      'flex items-center justify-left min-w-5 text-xs text-slate-900 font-semibold h-10'
     )
     expect(classes).toContain('[&>svg]:size-5')
   })

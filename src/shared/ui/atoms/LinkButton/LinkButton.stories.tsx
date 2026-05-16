@@ -10,24 +10,24 @@ const meta = {
     href: '/',
     children: 'LinkButton',
     variant: 'primary',
-    size: 'medium',
+    size: 'medium'
   },
   argTypes: {
     variant: {
       control: { type: 'radio' },
-      options: ['primary', 'secondary'],
+      options: ['primary', 'secondary']
     },
     size: {
       control: { type: 'radio' },
-      options: ['small', 'medium', 'large'],
+      options: ['small', 'medium', 'large']
     },
     icon: {
-      control: { type: 'text' },
+      control: { type: 'text' }
     },
     className: {
-      control: { type: 'text' },
-    },
-  },
+      control: { type: 'text' }
+    }
+  }
 } satisfies Meta<typeof LinkButton>
 
 export default meta
@@ -38,19 +38,19 @@ export const Default: Story = {}
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
-  },
+    variant: 'secondary'
+  }
 }
 
 export const WithIcon: Story = {
   args: {
     children: 'With icon',
-    icon: 'RiArrowRightLine',
-  },
+    icon: 'RiArrowRightLine'
+  }
 }
 
 export const Sizes: Story = {
-  render: (args) => (
+  render: args => (
     <div className="flex flex-col gap-4 items-start">
       <LinkButton {...args} size="small">
         Small
@@ -62,5 +62,5 @@ export const Sizes: Story = {
         Large
       </LinkButton>
     </div>
-  ),
+  )
 }

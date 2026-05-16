@@ -28,7 +28,13 @@ describe('Chip', () => {
     const { container } = render(<Chip>Chip</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('inline-flex', 'items-center', 'rounded-full', 'ring-1', 'font-medium')
+    expect(chip).toHaveClass(
+      'inline-flex',
+      'items-center',
+      'rounded-full',
+      'ring-1',
+      'font-medium'
+    )
   })
 
   it('should apply default variant classes when no variant given', () => {
@@ -44,7 +50,11 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="success">Success</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('bg-emerald-100', 'text-emerald-700', 'ring-emerald-300')
+    expect(chip).toHaveClass(
+      'bg-emerald-100',
+      'text-emerald-700',
+      'ring-emerald-300'
+    )
   })
 
   it('should apply warning variant classes', () => {
@@ -52,7 +62,11 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="warning">Warning</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('bg-yellow-100', 'text-yellow-700', 'ring-yellow-300')
+    expect(chip).toHaveClass(
+      'bg-yellow-100',
+      'text-yellow-700',
+      'ring-yellow-300'
+    )
   })
 
   it('should apply informative variant classes', () => {
@@ -138,7 +152,7 @@ describe('Chip', () => {
     render(
       <Chip deleteable deleteButtonProps={{ onClick }}>
         Chip
-      </Chip>,
+      </Chip>
     )
     // Act
     await user.click(screen.getByRole('button'))
@@ -151,7 +165,7 @@ describe('Chip', () => {
     render(
       <Chip deleteable deleteButtonProps={{ disabled: true }}>
         Chip
-      </Chip>,
+      </Chip>
     )
     // Assert
     expect(screen.getByRole('button')).toBeDisabled()
@@ -162,10 +176,13 @@ describe('Chip', () => {
     render(
       <Chip deleteable deleteButtonProps={{ disabled: true }}>
         Chip
-      </Chip>,
+      </Chip>
     )
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('cursor-not-allowed', 'opacity-50')
+    expect(screen.getByRole('button')).toHaveClass(
+      'cursor-not-allowed',
+      'opacity-50'
+    )
   })
 
   it('should apply custom className to root element', () => {
@@ -196,15 +213,20 @@ describe('Chip', () => {
     render(
       <Chip deleteable deleteButtonProps={{ 'aria-label': 'Remove item' }}>
         Chip
-      </Chip>,
+      </Chip>
     )
     // Assert
-    expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Remove item')
+    expect(screen.getByRole('button')).toHaveAttribute(
+      'aria-label',
+      'Remove item'
+    )
   })
 
   it('should render iconContent when provided and no icon prop', () => {
     // Arrange & Act
-    render(<Chip iconContent={<span data-testid="custom-icon">★</span>}>Chip</Chip>)
+    render(
+      <Chip iconContent={<span data-testid="custom-icon">★</span>}>Chip</Chip>
+    )
     // Assert
     expect(screen.getByTestId('custom-icon')).toBeInTheDocument()
   })
@@ -212,9 +234,12 @@ describe('Chip', () => {
   it('should not render iconContent when icon prop is also provided', () => {
     // Arrange & Act
     const { container } = render(
-      <Chip icon="RiHomeLine" iconContent={<span data-testid="custom-icon">★</span>}>
+      <Chip
+        icon="RiHomeLine"
+        iconContent={<span data-testid="custom-icon">★</span>}
+      >
         Chip
-      </Chip>,
+      </Chip>
     )
     // Assert — icon renders SVG; iconContent is suppressed
     expect(container.querySelector('[data-testid="custom-icon"]')).toBeNull()
@@ -226,9 +251,10 @@ describe('Chip', () => {
     const { container } = render(
       <Chip size="x-small" iconContent={<span data-testid="ic">★</span>}>
         Chip
-      </Chip>,
+      </Chip>
     )
-    const wrapper = container.querySelector('[data-testid="ic"]')?.parentElement as HTMLElement
+    const wrapper = container.querySelector('[data-testid="ic"]')
+      ?.parentElement as HTMLElement
     // Assert
     expect(wrapper).toHaveClass('w-3', 'h-3')
   })

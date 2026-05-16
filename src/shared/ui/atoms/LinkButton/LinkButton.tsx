@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
-import type { LinkButtonProps } from '@/shared/types/buttonProps'
+import { type LinkButtonProps } from '@/shared/types/buttonProps'
 import { Link } from '@tanstack/react-router'
 
 export const LinkButton = ({
@@ -24,7 +24,8 @@ export const LinkButton = ({
       },
       {
         'bg-primary-950 text-white': variant === 'primary',
-        'text-primary-text bg-white ring-1 ring-black ring-inset': variant === 'secondary',
+        'text-primary-text bg-white ring-1 ring-black ring-inset':
+          variant === 'secondary',
         'text-primary-text bg-transparent': variant === 'text',
       },
       {
@@ -45,7 +46,7 @@ export const LinkButton = ({
         'px-6 py-3 text-xs': size === 'small' && variant !== 'text',
         'px-8 py-3.5 text-sm': size === 'medium' && variant !== 'text',
         'text-md px-10 py-4': size === 'large' && variant !== 'text',
-      },
+      }
     )}
     {...props}
   >

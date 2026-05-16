@@ -6,8 +6,19 @@ import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ label, disabled = false, helperText, error = false, errorMessage, ...props }, ref) => {
-    const { idField, resolvedRef, inputPropsWithoutIndeterminate } = useCheckbox(props, ref)
+  (
+    {
+      label,
+      disabled = false,
+      helperText,
+      error = false,
+      errorMessage,
+      ...props
+    },
+    ref
+  ) => {
+    const { idField, resolvedRef, inputPropsWithoutIndeterminate } =
+      useCheckbox(props, ref)
 
     return (
       <ToggleLayout
@@ -32,7 +43,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':
                 error,
-            },
+            }
           )}
           disabled={disabled}
           type="button"
@@ -44,7 +55,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               'absolute inset-0 m-auto h-full w-full',
               'opacity-0',
               'group-has-[input:checked]:opacity-100',
-              'group-has-[input:indeterminate]:opacity-0',
+              'group-has-[input:indeterminate]:opacity-0'
             )}
           />
 
@@ -55,7 +66,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               'absolute inset-0 m-auto h-full w-full',
               'opacity-0',
               'group-has-[input:indeterminate]:opacity-100',
-              'group-has-[input:checked]:opacity-0',
+              'group-has-[input:checked]:opacity-0'
             )}
           />
 
@@ -73,7 +84,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </button>
       </ToggleLayout>
     )
-  },
+  }
 )
 
 Checkbox.displayName = 'Checkbox'
