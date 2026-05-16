@@ -5,8 +5,7 @@ export interface ApiResponse<T = unknown> {
 }
 
 export interface PaginatedResponse<T = unknown> {
-  success: boolean
-  data: T[]
+  items: T[]
   pagination: {
     total: number
     page: number
@@ -15,7 +14,6 @@ export interface PaginatedResponse<T = unknown> {
     hasNextPage: boolean
     hasPrevPage: boolean
   }
-  message?: string
 }
 
 export interface ApiError {

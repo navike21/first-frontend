@@ -14,10 +14,11 @@ export function getSocket(): Socket {
   return socket
 }
 
-export function connectSocket(token: string) {
+export function connectSocket(token: string): Socket {
   const s = getSocket()
   s.auth = { token }
   s.connect()
+  return s
 }
 
 export function disconnectSocket() {
