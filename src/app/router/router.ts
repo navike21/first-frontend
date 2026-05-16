@@ -5,7 +5,9 @@ import { rootRoute } from './root'
 import { publicLayout, privateLayout } from './layouts'
 import { loginRouteTree } from './routes/login.route'
 import { dashboardRoute } from './routes/dashboard.route'
-import { usersRoute } from './routes/users.route'
+import { usersLayoutRoute, usersIndexRoute } from './routes/users.route'
+import { userCreateRoute } from './routes/user-create.route'
+import { userEditRoute } from './routes/user-edit.route'
 import { forbiddenRoute } from './routes/forbidden.route'
 import { notFoundRoute } from './routes/not-found.route'
 import { getLastValidPath, setLastValidPath } from './navigationHistory'
@@ -37,7 +39,10 @@ declare module '@tanstack/react-router' {
 
 const routeTree = rootRoute.addChildren([
   publicLayout.addChildren([loginRouteTree]),
-  privateLayout.addChildren([dashboardRoute, usersRoute]),
+  privateLayout.addChildren([
+    dashboardRoute,
+    usersLayoutRoute.addChildren([usersIndexRoute, userCreateRoute, userEditRoute]),
+  ]),
   forbiddenRoute,
   notFoundRoute,
 ])

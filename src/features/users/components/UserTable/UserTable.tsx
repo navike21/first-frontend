@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Spinner } from '@/shared/ui'
+import { Avatar, IconButton, IconComponent, Spinner } from '@/shared/ui'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import type { User } from '../../model/user.types'
 
@@ -34,7 +34,7 @@ export const UserTable = ({
   if (users.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 py-20 text-slate-400">
-        <span className="text-4xl">👤</span>
+        <IconComponent icon="RiUser3Line" className="h-10 w-10" />
         <p className="text-sm">No se encontraron usuarios</p>
       </div>
     )

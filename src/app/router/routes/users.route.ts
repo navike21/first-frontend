@@ -1,10 +1,15 @@
-import { createRoute } from '@tanstack/react-router'
+import { createRoute, Outlet } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
-import { NAV } from '@/shared/router'
 import { UsersPage } from '@/pages/Users/ui/UsersPage'
 
-export const usersRoute = createRoute({
+export const usersLayoutRoute = createRoute({
   getParentRoute: () => privateLayout,
-  path: NAV.users.segment,
+  path: 'usuarios',
+  component: Outlet,
+})
+
+export const usersIndexRoute = createRoute({
+  getParentRoute: () => usersLayoutRoute,
+  path: '/',
   component: UsersPage,
 })

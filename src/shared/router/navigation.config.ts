@@ -5,6 +5,7 @@ const SEGMENTS = {
   home: '/',
   login: 'login',
   users: 'usuarios',
+  userCreate: 'usuarios/nuevo',
   forbidden: 'no-autorizado',
   notFound: 'no-encontrada',
 } as const
@@ -24,6 +25,11 @@ export const NAV = {
     segment: SEGMENTS.users,
     path: `/${SEGMENTS.users}`,
     label: 'Usuarios',
+  },
+  userCreate: {
+    segment: 'nuevo',
+    path: `/${SEGMENTS.userCreate}`,
+    label: 'Nuevo usuario',
   },
   forbidden: {
     segment: SEGMENTS.forbidden,
