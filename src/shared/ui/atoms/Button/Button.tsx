@@ -49,7 +49,7 @@ export const Button = ({
     <button
       className={clsx(
         className,
-        'relative w-full font-medium transition-all duration-500 ease-in-out',
+        'relative w-full font-medium transition-all duration-fast ease-out-expo',
         {
           'w-full': fullWidth,
           'sm:w-full': fullWidth,
@@ -73,7 +73,7 @@ export const Button = ({
         variantColorClasses[variant],
         !disabled && !loading && variantHoverClasses[variant],
         {
-          'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-slate-400 before:opacity-0 before:transition-all before:duration-300 before:ease-in-out before:content-[""]':
+          'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-slate-400 before:opacity-0 before:transition-all before:duration-fast before:ease-out-expo before:content-[""]':
             variant === 'text',
           'hover:before:w-full hover:before:opacity-100':
             variant === 'text' && !loading,

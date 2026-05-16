@@ -53,7 +53,7 @@ export const InputLayout = ({
         className={clsx(
           'content-input',
           'flex h-10 w-full items-center rounded-sm',
-          'transition-all duration-300 ease-in-out',
+          'transition-all duration-fast ease-out-expo',
           'focus-within:ring-2',
           {
             'bg-slate-400/50': disabled,

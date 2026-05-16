@@ -23,7 +23,7 @@ export const FeatureCard = ({
     <Link to={href} className="block h-full group focus:outline-none">
       <Card 
         className={clsx(
-          'flex flex-col h-full hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border-gray-100', 
+          'flex flex-col h-full hover:shadow-md hover:-translate-y-0.5 transition-all duration-fast ease-out-expo border-gray-100',
           className
         )} 
         padding="large"

@@ -71,7 +71,7 @@ export const IconButton = ({
     <button
       className={clsx(
         className,
-        'inline-flex items-center justify-center font-medium transition-all duration-500 ease-in-out',
+        'inline-flex items-center justify-center font-medium transition-all duration-fast ease-out-expo',
         shapeClasses[shape],
         sizePaddingClasses[size],
         variantColorClasses[variant],

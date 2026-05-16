@@ -23,7 +23,7 @@ export const NavItem = ({
 }: NavItemProps) => {
   const baseClass = clsx(
     'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer',
-    'text-sm font-medium transition-colors',
+    'text-sm font-medium transition-colors duration-fast ease-out-expo',
     isActive
       ? 'bg-slate-100 text-slate-900 font-semibold'
       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',

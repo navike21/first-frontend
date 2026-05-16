@@ -35,7 +35,7 @@ vi.mock('@Components/atoms/Label/Label', () => ({
   }) => (
     <label
       htmlFor={htmlFor}
-      className={`text-sm font-semibold transition-all duration-300 ${disabled ? 'cursor-not-allowed text-slate-500' : 'text-slate-900'} ${className || ''}`}
+      className={`text-sm font-semibold transition-all duration-fast ease-out-expo ${disabled ? 'cursor-not-allowed text-slate-500' : 'text-slate-900'} ${className || ''}`}
     >
       {children}
     </label>

@@ -118,8 +118,8 @@ describe('LinkButton component', () => {
     const link = screen.getByRole('link')
     expect(link).toHaveClass(
       'cursor-pointer',
-      'duration-500',
-      'ease-in-out',
+      'duration-fast',
+      'ease-out-expo',
       'font-medium',
       'rounded-md'
     )

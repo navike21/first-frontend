@@ -139,7 +139,7 @@ export const SelectInputArea = ({
           disabled={disabled}
           className={clsx(
             'flex h-10 min-w-10 shrink-0 items-center justify-center outline-none',
-            'transition-all duration-300 ease-in-out',
+            'transition-all duration-fast ease-out-expo',
             {
               'cursor-pointer': !disabled && !loading,
               'cursor-not-allowed': disabled,

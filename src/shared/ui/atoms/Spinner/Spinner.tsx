@@ -32,7 +32,7 @@ export const Spinner = ({
     <div
       className={clsx(
         'relative flex items-center justify-center',
-        'transition-all ease-in-out duration-300 animate-spin',
+        'transition-all ease-out-expo duration-fast animate-spin',
         {
           'w-5 h-5': size === 'small',
           'w-10 h-10': size === 'medium',

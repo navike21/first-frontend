@@ -20,7 +20,7 @@ export const Label = ({
     htmlFor={htmlFor}
     className={clsx(
       className,
-      'text-sm font-semibold transition-all duration-300',
+      'text-sm font-semibold transition-all duration-fast ease-out-expo',
       {
         'cursor-not-allowed text-slate-500': disabled,
         'text-slate-900': !disabled && !hasTextClassColor(className),

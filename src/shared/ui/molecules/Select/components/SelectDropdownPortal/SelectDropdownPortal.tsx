@@ -56,7 +56,7 @@ export const SelectDropdownPortal = ({
         left: dropdownStyle.left,
         width: dropdownStyle.width
       }}
-      className="z-9999 bg-white rounded-sm shadow-lg ring-1 ring-slate-200 max-h-60 overflow-y-auto"
+      className="z-9999 bg-white rounded-sm shadow-lg ring-1 ring-slate-200 max-h-60 overflow-y-auto animate-dropdown-in origin-top"
     >
       {search && (
         <div className="p-2 border-b border-slate-100">

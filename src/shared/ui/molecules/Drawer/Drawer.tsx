@@ -31,11 +31,11 @@ export const Drawer: React.FC<DrawerProps> = ({
       <div
         className={clsx(
           'fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-xs',
-          'transition-opacity duration-200 ease-in-out',
+          'transition-opacity duration-fast ease-out-expo',
           isMobileOnly && 'md:hidden',
           isOpen
             ? 'opacity-100 delay-0'
-            : 'pointer-events-none opacity-0 delay-300',
+            : 'pointer-events-none opacity-0 delay-[250ms]',
           backdropClassName
         )}
         onClick={onClose}
@@ -44,13 +44,13 @@ export const Drawer: React.FC<DrawerProps> = ({
 
       {/*
        * Drawer
-       * Open  → aparece después del backdrop: delay-150, slide-in 300 ms
-       * Close → sale primero: sin delay, slide-out 300 ms
+       * Open  → aparece después del backdrop: delay-[50ms], slide-in 250 ms
+       * Close → sale primero: sin delay, slide-out 250 ms
        */}
       <aside
         className={clsx(
           'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto bg-white',
-          'transition-[translate,width] duration-300 ease-in-out',
+          'transition-[translate,width] duration-normal ease-out-expo',
           isMobileOnly
             ? 'shadow-xl md:relative md:z-auto md:translate-x-0 md:shadow-none'
             : 'shadow-xl',
@@ -58,7 +58,7 @@ export const Drawer: React.FC<DrawerProps> = ({
             ? 'left-0 border-r border-gray-200'
             : 'right-0 border-l border-gray-200',
           isOpen
-            ? 'translate-x-0 delay-150'
+            ? 'translate-x-0 delay-[50ms]'
             : clsx('delay-0', {
                 '-translate-x-full': placement === 'left',
                 'translate-x-full': placement === 'right',
@@ -78,7 +78,7 @@ export const Drawer: React.FC<DrawerProps> = ({
             <button
               onClick={onClose}
               className={clsx(
-                'cursor-pointer rounded-md p-1.5 text-slate-500 transition-colors',
+                'cursor-pointer rounded-md p-1.5 text-slate-500 transition-colors duration-fast ease-out-expo',
                 'hover:bg-slate-100 hover:text-slate-800 focus:outline-none'
               )}
               aria-label="Cerrar menú"

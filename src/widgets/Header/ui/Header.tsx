@@ -26,7 +26,7 @@ export const Header = () => {
         <button
           onClick={toggleMobileSidebar}
           className={clsx(
-            'cursor-pointer rounded-md p-2 text-slate-500 transition-colors',
+            'cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
             'md:hidden'
           )}
@@ -38,7 +38,7 @@ export const Header = () => {
         <button
           onClick={toggleSidebar}
           className={clsx(
-            'hidden cursor-pointer rounded-md p-2 text-slate-500 transition-colors',
+            'hidden cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
             'md:block'
           )}

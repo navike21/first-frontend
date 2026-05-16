@@ -63,7 +63,7 @@ export const Chip = ({
           className={clsx(
             'inline-flex items-center justify-center rounded-full',
             '-mr-1 ml-0.5',
-            'transition-opacity duration-200',
+            'transition-opacity duration-fast ease-out-expo',
             'focus:outline-none',
             {
               'h-3 w-3': size === 'x-small',

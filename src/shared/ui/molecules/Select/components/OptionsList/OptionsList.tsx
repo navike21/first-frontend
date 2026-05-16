@@ -52,7 +52,7 @@ export const OptionsList = memo(({
             }}
             className={clsx(
               'flex w-full items-center gap-2 px-3 py-2 text-left text-sm',
-              'transition-colors duration-150',
+              'transition-colors duration-fast ease-out-expo',
               {
                 'cursor-pointer hover:bg-slate-50': !opt.disabled,
                 'cursor-not-allowed opacity-50': opt.disabled,

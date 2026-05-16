@@ -52,7 +52,6 @@ export const Sidebar = () => {
       title={TitleNode}
       isMobileOnly
       className={clsx(
-        'transition-all duration-300 ease-in-out',
         {
           'md:w-20': isCollapsed,
           'md:w-64': !isCollapsed,
@@ -73,7 +72,7 @@ export const Sidebar = () => {
                 <div
                   title={item.label}
                   className={clsx(
-                    'mb-2 hidden cursor-pointer items-center justify-center rounded-lg p-3 transition-colors md:flex',
+                    'mb-2 hidden cursor-pointer items-center justify-center rounded-lg p-3 transition-colors duration-fast ease-out-expo md:flex',
                     isItemActive
                       ? 'bg-slate-100 text-slate-700'
                       : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'

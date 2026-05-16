@@ -67,7 +67,8 @@ describe('Label', () => {
       'text-sm',
       'font-semibold',
       'transition-all',
-      'duration-300'
+      'duration-fast',
+      'ease-out-expo'
     )
   })
 

@@ -89,8 +89,8 @@ describe('Button component', () => {
     const button = screen.getByRole('button')
     expect(button).toHaveClass(
       'cursor-pointer',
-      'duration-500',
-      'ease-in-out',
+      'duration-fast',
+      'ease-out-expo',
       'font-medium',
       'rounded-md'
     )
