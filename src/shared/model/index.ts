@@ -5,3 +5,4 @@ export {
   isTokenStored,
   TOKEN_KEY,
 } from './session.store'
+export { useLanguageStore, useLanguage } from './language.store'

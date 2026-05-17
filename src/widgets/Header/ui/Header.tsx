@@ -1,4 +1,5 @@
-import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
+import { AppLogo, IconComponent, Avatar, IconButton, LanguageSwitcher } from '@/shared/ui'
+import { useTranslation } from '@/shared/i18n'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { ProfileDrawer } from './ProfileDrawer'
@@ -14,6 +15,8 @@ export const Header = () => {
     toggleSidebar,
     toggleMobileSidebar,
   } = useHeader()
+
+  const { t } = useTranslation()
 
   return (
     <header
@@ -42,7 +45,7 @@ export const Header = () => {
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
             'md:block'
           )}
-          aria-label={isCollapsed ? 'Expandir menú' : 'Colapsar menú'}
+          aria-label={isCollapsed ? t.header.expandMenu : t.header.collapseMenu}
         >
           <IconComponent
             icon={isCollapsed ? 'RiMenuUnfoldLine' : 'RiMenuFoldLine'}
@@ -58,26 +61,28 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
+        <LanguageSwitcher />
+
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
 
         {/* Profile trigger */}
         <button
           onClick={toggleProfile}
-          className="flex cursor-pointer appearance-none items-center gap-3 border-l border-gray-200 pl-6 transition-opacity outline-none hover:opacity-80"
-          aria-label="Menú de usuario"
+          className="flex cursor-pointer appearance-none items-center gap-3 border-l border-gray-200 pl-4 transition-opacity outline-none hover:opacity-80"
+          aria-label={t.header.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">
             <span className="mb-1 text-sm leading-none font-medium text-slate-800">
-              {user?.name || 'Usuario Invitado'}
+              {user?.name || t.header.guestName}
             </span>
             <span className="text-xs leading-none text-slate-500">
-              {user?.email || 'Sin iniciar sesión'}
+              {user?.email || t.header.guestEmail}
             </span>
           </div>
           <Avatar
-            alt={user?.name || 'Invitado'}
+            alt={user?.name || t.header.guestName}
             size="md"
             className="bg-blue-600 font-semibold text-white"
           />

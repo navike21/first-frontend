@@ -59,6 +59,7 @@ export {
   type SelectTexts,
 } from './molecules/Select'
 export { Modal, type ModalProps, type ModalSize } from './molecules/Modal'
+export { LanguageSwitcher } from './molecules/LanguageSwitcher'
 export {
   PageHeader,
   type PageHeaderProps,
