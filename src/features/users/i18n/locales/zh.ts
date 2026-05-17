@@ -26,7 +26,7 @@ export const zh: UsersTranslations = {
     password: '密码', passwordPlaceholder: '至少8个字符',
     phone: '电话', phonePlaceholder: '+86 130 0000 0000',
     dateOfBirth: '出生日期', dateOfBirthPlaceholder: 'YYYY-MM-DD',
-    profilePictureUrl: '头像 (URL)', profilePictureUrlPlaceholder: 'https://…',
+    uploadPhoto: '上传照片', uploadFormats: '允许 *.jpeg, *.jpg, *.png — 最大 3 MB',
     gender: '性别', genderPlaceholder: '请选择',
     genderFemale: '女', genderMale: '男',
     genderOther: '其他', genderPreferNotToSay: '不愿透露',
@@ -37,7 +37,8 @@ export const zh: UsersTranslations = {
     addressState: '省/直辖市', addressStatePlaceholder: '北京',
     addressCountry: '国家', addressCountryPlaceholder: '中国',
     addressPostalCode: '邮政编码', addressPostalCodePlaceholder: '100000',
-    statusLabel: '状态', statusActive: '活跃', statusInactive: '非活跃',
+    statusLabel: '账户状态', statusDescription: '非活跃用户无法登录',
+    statusActive: '活跃', statusInactive: '非活跃',
     createButton: '创建用户', saveButton: '保存更改', cancelButton: '取消',
   },
   actions: {

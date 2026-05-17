@@ -26,7 +26,7 @@ export const ko: UsersTranslations = {
     password: '비밀번호', passwordPlaceholder: '8자 이상',
     phone: '전화번호', phonePlaceholder: '+82 10 0000 0000',
     dateOfBirth: '생년월일', dateOfBirthPlaceholder: 'YYYY-MM-DD',
-    profilePictureUrl: '프로필 사진 (URL)', profilePictureUrlPlaceholder: 'https://…',
+    uploadPhoto: '사진 업로드', uploadFormats: '허용: *.jpeg, *.jpg, *.png — 최대 3 MB',
     gender: '성별', genderPlaceholder: '선택',
     genderFemale: '여성', genderMale: '남성',
     genderOther: '기타', genderPreferNotToSay: '응답 안 함',
@@ -37,7 +37,8 @@ export const ko: UsersTranslations = {
     addressState: '시/도', addressStatePlaceholder: '서울특별시',
     addressCountry: '국가', addressCountryPlaceholder: '대한민국',
     addressPostalCode: '우편번호', addressPostalCodePlaceholder: '03171',
-    statusLabel: '상태', statusActive: '활성', statusInactive: '비활성',
+    statusLabel: '계정 상태', statusDescription: '비활성 사용자는 로그인할 수 없습니다',
+    statusActive: '활성', statusInactive: '비활성',
     createButton: '사용자 생성', saveButton: '변경 저장', cancelButton: '취소',
   },
   actions: {

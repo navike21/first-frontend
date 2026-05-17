@@ -47,7 +47,7 @@ export const EditUserPage = () => {
         title={t.page.editTitle}
         description={t.page.editDescription(userName)}
       />
-      <div className="max-w-lg">
+      <div>
         <UserForm
           mode="edit"
           defaultValues={user}

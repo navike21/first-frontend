@@ -24,7 +24,7 @@ export const CreateUserPage = () => {
   return (
     <div className="animate-page-in space-y-6">
       <PageHeader title={t.page.createTitle} description={t.page.createDescription} />
-      <div className="max-w-lg">
+      <div>
         <UserForm
           mode="create"
           isSubmitting={createUser.isPending}

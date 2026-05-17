@@ -44,8 +44,8 @@ export interface UsersTranslations {
     phonePlaceholder: string
     dateOfBirth: string
     dateOfBirthPlaceholder: string
-    profilePictureUrl: string
-    profilePictureUrlPlaceholder: string
+    uploadPhoto: string
+    uploadFormats: string
     gender: string
     genderPlaceholder: string
     genderFemale: string
@@ -66,6 +66,7 @@ export interface UsersTranslations {
     addressPostalCode: string
     addressPostalCodePlaceholder: string
     statusLabel: string
+    statusDescription: string
     statusActive: string
     statusInactive: string
     createButton: string

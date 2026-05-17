@@ -26,7 +26,7 @@ export const pt: UsersTranslations = {
     password: 'Senha', passwordPlaceholder: 'Mínimo 8 caracteres',
     phone: 'Telefone', phonePlaceholder: '+55 99 99999-9999',
     dateOfBirth: 'Data de nascimento', dateOfBirthPlaceholder: 'AAAA-MM-DD',
-    profilePictureUrl: 'Foto de perfil (URL)', profilePictureUrlPlaceholder: 'https://…',
+    uploadPhoto: 'Carregar foto', uploadFormats: 'Permitido *.jpeg, *.jpg, *.png — máx 3 MB',
     gender: 'Gênero', genderPlaceholder: 'Selecionar',
     genderFemale: 'Feminino', genderMale: 'Masculino',
     genderOther: 'Outro', genderPreferNotToSay: 'Prefiro não informar',
@@ -37,7 +37,8 @@ export const pt: UsersTranslations = {
     addressState: 'Estado / Região', addressStatePlaceholder: 'SP',
     addressCountry: 'País', addressCountryPlaceholder: 'Brasil',
     addressPostalCode: 'CEP', addressPostalCodePlaceholder: '01310-100',
-    statusLabel: 'Status', statusActive: 'Ativo', statusInactive: 'Inativo',
+    statusLabel: 'Status da conta', statusDescription: 'Usuários inativos não podem fazer login',
+    statusActive: 'Ativo', statusInactive: 'Inativo',
     createButton: 'Criar usuário', saveButton: 'Salvar alterações', cancelButton: 'Cancelar',
   },
   actions: {

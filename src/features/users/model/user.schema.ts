@@ -36,7 +36,7 @@ export function createCreateUserSchema(v: V) {
       .or(z.literal('')),
     address: addressSchema.optional(),
     groupId: z.string().optional(),
-    status: z.enum(['active', 'inactive']),
+    status: z.enum(['active', 'inactive']).default('active'),
   })
 }
 

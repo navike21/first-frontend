@@ -26,7 +26,7 @@ export const ru: UsersTranslations = {
     password: 'Пароль', passwordPlaceholder: 'Минимум 8 символов',
     phone: 'Телефон', phonePlaceholder: '+7 999 000 00 00',
     dateOfBirth: 'Дата рождения', dateOfBirthPlaceholder: 'ГГГГ-ММ-ДД',
-    profilePictureUrl: 'Фото профиля (URL)', profilePictureUrlPlaceholder: 'https://…',
+    uploadPhoto: 'Загрузить фото', uploadFormats: 'Допустимо *.jpeg, *.jpg, *.png — макс 3 МБ',
     gender: 'Пол', genderPlaceholder: 'Выбрать',
     genderFemale: 'Женский', genderMale: 'Мужской',
     genderOther: 'Другой', genderPreferNotToSay: 'Не хочу указывать',
@@ -37,7 +37,8 @@ export const ru: UsersTranslations = {
     addressState: 'Регион', addressStatePlaceholder: 'Москва',
     addressCountry: 'Страна', addressCountryPlaceholder: 'Россия',
     addressPostalCode: 'Индекс', addressPostalCodePlaceholder: '101000',
-    statusLabel: 'Статус', statusActive: 'Активный', statusInactive: 'Неактивный',
+    statusLabel: 'Статус аккаунта', statusDescription: 'Неактивные пользователи не могут войти',
+    statusActive: 'Активный', statusInactive: 'Неактивный',
     createButton: 'Создать пользователя', saveButton: 'Сохранить изменения', cancelButton: 'Отмена',
   },
   actions: {

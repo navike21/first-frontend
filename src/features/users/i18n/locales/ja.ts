@@ -26,7 +26,7 @@ export const ja: UsersTranslations = {
     password: 'パスワード', passwordPlaceholder: '8文字以上',
     phone: '電話番号', phonePlaceholder: '+81 90 0000 0000',
     dateOfBirth: '生年月日', dateOfBirthPlaceholder: 'YYYY-MM-DD',
-    profilePictureUrl: 'プロフィール画像 (URL)', profilePictureUrlPlaceholder: 'https://…',
+    uploadPhoto: '写真をアップロード', uploadFormats: '*.jpeg, *.jpg, *.png — 最大 3 MB',
     gender: '性別', genderPlaceholder: '選択する',
     genderFemale: '女性', genderMale: '男性',
     genderOther: 'その他', genderPreferNotToSay: '回答しない',
@@ -37,7 +37,8 @@ export const ja: UsersTranslations = {
     addressState: '都道府県', addressStatePlaceholder: '東京都',
     addressCountry: '国', addressCountryPlaceholder: '日本',
     addressPostalCode: '郵便番号', addressPostalCodePlaceholder: '100-0001',
-    statusLabel: 'ステータス', statusActive: '有効', statusInactive: '無効',
+    statusLabel: 'アカウントの状態', statusDescription: '無効なユーザーはログインできません',
+    statusActive: '有効', statusInactive: '無効',
     createButton: 'ユーザーを作成', saveButton: '変更を保存', cancelButton: 'キャンセル',
   },
   actions: {
