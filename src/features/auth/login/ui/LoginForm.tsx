@@ -1,19 +1,24 @@
+import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, InputField, HelperText } from '@/shared/ui'
-import { loginSchema, type LoginFormData } from '../model/login.schema'
+import { createLoginSchema, type LoginFormData } from '../model/login.schema'
 import { useLogin } from '../model/useLogin'
+import { useLoginTranslation } from '../i18n'
 import clsx from 'clsx'
 
 export const LoginForm = () => {
   const { login, isPending, errorMessage } = useLogin()
+  const { t } = useLoginTranslation()
+
+  const schema = useMemo(() => createLoginSchema(t.validation), [t.validation])
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(schema),
   })
 
   return (
@@ -23,7 +28,7 @@ export const LoginForm = () => {
       noValidate
     >
       <InputField
-        label="Usuario"
+        label={t.form.username}
         type="text"
         autoComplete="username"
         errorMessage={errors.username?.message}
@@ -31,7 +36,7 @@ export const LoginForm = () => {
         {...register('username')}
       />
       <InputField
-        label="Contraseña"
+        label={t.form.password}
         type="password"
         autoComplete="current-password"
         errorMessage={errors.password?.message}
@@ -48,7 +53,7 @@ export const LoginForm = () => {
         type="submit"
         loading={isPending}
       >
-        Iniciar sesión
+        {t.form.submit}
       </Button>
     </form>
   )

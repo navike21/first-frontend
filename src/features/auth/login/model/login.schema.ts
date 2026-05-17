@@ -1,10 +1,11 @@
 import { z } from 'zod'
+import type { LoginTranslations } from '../i18n/types'
 
-export const loginSchema = z.object({
-  username: z.string().min(3, { error: 'Introduce tu nombre de usuario' }),
-  password: z
-    .string()
-    .min(8, { error: 'La contraseña debe tener al menos 8 caracteres' }),
-})
+export function createLoginSchema(v: LoginTranslations['validation']) {
+  return z.object({
+    username: z.string().min(3, { error: v.usernameMin }),
+    password: z.string().min(8, { error: v.passwordMin }),
+  })
+}
 
-export type LoginFormData = z.infer<typeof loginSchema>
+export type LoginFormData = z.infer<ReturnType<typeof createLoginSchema>>
