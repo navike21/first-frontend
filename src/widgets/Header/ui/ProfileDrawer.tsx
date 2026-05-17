@@ -1,5 +1,5 @@
 import { Avatar, Button, Drawer, NavItem } from '@/shared/ui'
-import { useTranslation } from '@/shared/i18n'
+import { useHeaderTranslation } from '../i18n'
 import type { AuthUser } from '@/shared/types'
 
 interface ProfileDrawerProps {
@@ -15,7 +15,7 @@ export const ProfileDrawer = ({
   onLogout,
   user,
 }: ProfileDrawerProps) => {
-  const { t } = useTranslation()
+  const { t } = useHeaderTranslation()
 
   return (
     <Drawer
@@ -29,34 +29,26 @@ export const ProfileDrawer = ({
       }
       className="w-80"
     >
-      {/* User info */}
       <div className="flex flex-col items-center justify-center border-b border-gray-100 p-6 pt-10 text-center">
         <Avatar
-          alt={user?.name || t.header.guestName}
+          alt={user?.name || t.guestName}
           size="lg"
           className="mb-4 h-20 w-20 bg-blue-600 text-2xl font-semibold text-white"
         />
         <span className="text-lg font-bold text-slate-800">
-          {user?.name || t.header.guestName}
+          {user?.name || t.guestName}
         </span>
         <span className="text-sm text-slate-500">
           {user?.email || 'test@navike21.com'}
         </span>
       </div>
 
-      {/* Account menu */}
       <div className="flex-1 px-4 py-6">
         <NavItem icon="RiSettings3Line" label={t.profileDrawer.accountSettings} />
       </div>
 
-      {/* Logout */}
       <div className="border-t border-gray-100 p-4">
-        <Button
-          fullWidth
-          variant="primary"
-          icon="RiLogoutBoxRLine"
-          onClick={onLogout}
-        >
+        <Button fullWidth variant="primary" icon="RiLogoutBoxRLine" onClick={onLogout}>
           {t.profileDrawer.logout}
         </Button>
       </div>

@@ -1,8 +1,9 @@
-import { AppLogo, IconComponent, Avatar, IconButton, LanguageSwitcher } from '@/shared/ui'
-import { useTranslation } from '@/shared/i18n'
+import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
+import { useHeaderTranslation } from '../i18n'
 import { ProfileDrawer } from './ProfileDrawer'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export const Header = () => {
   const {
@@ -16,7 +17,7 @@ export const Header = () => {
     toggleMobileSidebar,
   } = useHeader()
 
-  const { t } = useTranslation()
+  const { t } = useHeaderTranslation()
 
   return (
     <header
@@ -45,7 +46,7 @@ export const Header = () => {
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
             'md:block'
           )}
-          aria-label={isCollapsed ? t.header.expandMenu : t.header.collapseMenu}
+          aria-label={isCollapsed ? t.expandMenu : t.collapseMenu}
         >
           <IconComponent
             icon={isCollapsed ? 'RiMenuUnfoldLine' : 'RiMenuFoldLine'}
@@ -71,18 +72,18 @@ export const Header = () => {
         <button
           onClick={toggleProfile}
           className="flex cursor-pointer appearance-none items-center gap-3 border-l border-gray-200 pl-4 transition-opacity outline-none hover:opacity-80"
-          aria-label={t.header.userMenu}
+          aria-label={t.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">
             <span className="mb-1 text-sm leading-none font-medium text-slate-800">
-              {user?.name || t.header.guestName}
+              {user?.name || t.guestName}
             </span>
             <span className="text-xs leading-none text-slate-500">
-              {user?.email || t.header.guestEmail}
+              {user?.email || t.guestEmail}
             </span>
           </div>
           <Avatar
-            alt={user?.name || t.header.guestName}
+            alt={user?.name || t.guestName}
             size="md"
             className="bg-blue-600 font-semibold text-white"
           />
