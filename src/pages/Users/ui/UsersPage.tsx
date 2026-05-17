@@ -7,7 +7,7 @@ import type { User, UserListParams } from '@/features/users'
 import { NAV } from '@/shared/router'
 
 const STATUS_OPTIONS = [
-  { value: '', label: 'Todos los estados' },
+  { value: 'all', label: 'Todos los estados' },
   { value: 'active', label: 'Activos' },
   { value: 'inactive', label: 'Inactivos' },
 ]
@@ -75,13 +75,13 @@ export const UsersPage = () => {
           <Select
             label="Estado"
             options={STATUS_OPTIONS}
-            value={params.status ?? ''}
+            value={params.status ?? 'all'}
             onChange={(e) => {
               const value = e.target.value
               setParams((p) => ({
                 ...p,
                 page: 1,
-                status: value ? (value as 'active' | 'inactive') : undefined,
+                status: value === 'all' ? undefined : (value as 'active' | 'inactive'),
               }))
             }}
           />
