@@ -49,4 +49,13 @@ export const en: UsersTranslations = {
     updated: 'User updated successfully',
     deactivated: 'User deactivated successfully',
   },
+  validation: {
+    emailInvalid: 'Invalid email',
+    passwordMin: 'Minimum 8 characters',
+    passwordUppercase: 'Must contain at least one uppercase letter',
+    passwordNumber: 'Must contain at least one number',
+    fieldMin2: 'Minimum 2 characters',
+    dateFormat: 'Format YYYY-MM-DD',
+    urlInvalid: 'Invalid URL',
+  },
 }

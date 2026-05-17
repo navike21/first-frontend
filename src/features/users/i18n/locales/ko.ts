@@ -49,4 +49,13 @@ export const ko: UsersTranslations = {
     updated: '사용자가 업데이트되었습니다',
     deactivated: '사용자가 비활성화되었습니다',
   },
+  validation: {
+    emailInvalid: '유효하지 않은 이메일입니다',
+    passwordMin: '최소 8자 이상이어야 합니다',
+    passwordUppercase: '대문자를 하나 이상 포함해야 합니다',
+    passwordNumber: '숫자를 하나 이상 포함해야 합니다',
+    fieldMin2: '최소 2자 이상이어야 합니다',
+    dateFormat: '형식: YYYY-MM-DD',
+    urlInvalid: '유효하지 않은 URL입니다',
+  },
 }

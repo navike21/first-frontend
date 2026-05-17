@@ -49,4 +49,13 @@ export const fr: UsersTranslations = {
     updated: 'Utilisateur mis à jour avec succès',
     deactivated: 'Utilisateur désactivé avec succès',
   },
+  validation: {
+    emailInvalid: 'Adresse e-mail invalide',
+    passwordMin: '8 caractères minimum',
+    passwordUppercase: 'Doit contenir au moins une majuscule',
+    passwordNumber: 'Doit contenir au moins un chiffre',
+    fieldMin2: '2 caractères minimum',
+    dateFormat: 'Format AAAA-MM-JJ',
+    urlInvalid: 'URL invalide',
+  },
 }

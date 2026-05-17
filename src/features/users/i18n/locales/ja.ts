@@ -49,4 +49,13 @@ export const ja: UsersTranslations = {
     updated: 'ユーザーを更新しました',
     deactivated: 'ユーザーを無効化しました',
   },
+  validation: {
+    emailInvalid: '無効なメールアドレスです',
+    passwordMin: '8文字以上必要です',
+    passwordUppercase: '大文字を1文字以上含める必要があります',
+    passwordNumber: '数字を1文字以上含める必要があります',
+    fieldMin2: '2文字以上必要です',
+    dateFormat: '形式: YYYY-MM-DD',
+    urlInvalid: '無効なURLです',
+  },
 }

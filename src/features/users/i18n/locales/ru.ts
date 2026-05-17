@@ -49,4 +49,13 @@ export const ru: UsersTranslations = {
     updated: 'Пользователь обновлён',
     deactivated: 'Пользователь деактивирован',
   },
+  validation: {
+    emailInvalid: 'Неверный формат email',
+    passwordMin: 'Минимум 8 символов',
+    passwordUppercase: 'Должен содержать хотя бы одну заглавную букву',
+    passwordNumber: 'Должен содержать хотя бы одну цифру',
+    fieldMin2: 'Минимум 2 символа',
+    dateFormat: 'Формат ГГГГ-ММ-ДД',
+    urlInvalid: 'Недействительный URL',
+  },
 }

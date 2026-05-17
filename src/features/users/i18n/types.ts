@@ -75,4 +75,13 @@ export interface UsersTranslations {
     updated: string
     deactivated: string
   }
+  validation: {
+    emailInvalid: string
+    passwordMin: string
+    passwordUppercase: string
+    passwordNumber: string
+    fieldMin2: string
+    dateFormat: string
+    urlInvalid: string
+  }
 }

@@ -1,8 +1,9 @@
+import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, InputField, Select } from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
-import { createUserSchema, updateUserSchema } from '../../model/user.schema'
+import { createCreateUserSchema, createUpdateUserSchema } from '../../model/user.schema'
 import type { CreateUserFormData, UpdateUserFormData } from '../../model/user.schema'
 import type { User } from '../../model/user.types'
 
@@ -28,6 +29,8 @@ interface CreateFormProps {
 const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
   const { t } = useUsersTranslation()
 
+  const schema = useMemo(() => createCreateUserSchema(t.validation), [t.validation])
+
   const {
     register,
     handleSubmit,
@@ -36,7 +39,7 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
     reset,
     formState: { errors },
   } = useForm<CreateUserFormData>({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(schema),
     defaultValues: { status: 'active' },
   })
 
@@ -143,6 +146,8 @@ interface EditFormProps {
 const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormProps) => {
   const { t } = useUsersTranslation()
 
+  const schema = useMemo(() => createUpdateUserSchema(t.validation), [t.validation])
+
   const {
     register,
     handleSubmit,
@@ -151,7 +156,7 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
     reset,
     formState: { errors },
   } = useForm<UpdateUserFormData>({
-    resolver: zodResolver(updateUserSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       firstName: defaultValues.firstName ?? '',
       lastName: defaultValues.lastName ?? '',

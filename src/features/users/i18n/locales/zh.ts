@@ -49,4 +49,13 @@ export const zh: UsersTranslations = {
     updated: '用户更新成功',
     deactivated: '用户停用成功',
   },
+  validation: {
+    emailInvalid: '邮箱格式无效',
+    passwordMin: '至少需要8个字符',
+    passwordUppercase: '必须包含至少一个大写字母',
+    passwordNumber: '必须包含至少一个数字',
+    fieldMin2: '至少需要2个字符',
+    dateFormat: '格式：YYYY-MM-DD',
+    urlInvalid: '无效的URL',
+  },
 }

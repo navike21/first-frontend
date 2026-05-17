@@ -54,4 +54,13 @@ export const es: UsersTranslations = {
     updated: 'Usuario actualizado correctamente',
     deactivated: 'Usuario desactivado correctamente',
   },
+  validation: {
+    emailInvalid: 'Email inválido',
+    passwordMin: 'Mínimo 8 caracteres',
+    passwordUppercase: 'Debe contener al menos una mayúscula',
+    passwordNumber: 'Debe contener al menos un número',
+    fieldMin2: 'Mínimo 2 caracteres',
+    dateFormat: 'Formato YYYY-MM-DD',
+    urlInvalid: 'URL inválida',
+  },
 }
