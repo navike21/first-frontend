@@ -60,15 +60,17 @@ import { useLogin } from './useLogin'
 // ---------------------------------------------------------------------------
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
-  name: 'Test User',
   email: 'test@navike21.com',
+  firstName: 'Test',
+  lastName: 'User',
+  permissions: [],
   ...overrides,
 })
 
 const makeLoginFormData = (
   overrides?: Partial<LoginFormData>
 ): LoginFormData => ({
-  username: 'jichaponan',
+  email: 'j.chaponan@navike21.com',
   password: 'admin123',
   ...overrides,
 })
@@ -280,7 +282,7 @@ describe('useLogin', () => {
   it('should forward the form data to loginApi', async () => {
     // Arrange
     const formData = makeLoginFormData({
-      username: 'mgarcia',
+      email: 'm.garcia@navike21.com',
       password: 'secure1234',
     })
     loginApiMock.mockResolvedValueOnce({ token: 'tok', user: makeAuthUser() })

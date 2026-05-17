@@ -3,7 +3,7 @@ import type { LoginTranslations } from '../i18n/types'
 
 export function createLoginSchema(v: LoginTranslations['validation']) {
   return z.object({
-    username: z.string().min(3, { error: v.usernameMin }),
+    email: z.string().email({ error: v.emailInvalid }),
     password: z.string().min(8, { error: v.passwordMin }),
   })
 }

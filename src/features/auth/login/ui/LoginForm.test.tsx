@@ -28,11 +28,11 @@ describe('LoginForm component', () => {
     vi.resetAllMocks()
   })
 
-  it('should render username and password fields', () => {
+  it('should render email and password fields', () => {
     // Arrange & Act
     render(<LoginForm />, { wrapper })
     // Assert
-    expect(screen.getByLabelText(/usuario/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/correo electrónico/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/contraseña/i)).toBeInTheDocument()
   })
 
@@ -45,7 +45,7 @@ describe('LoginForm component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should show username validation error when submitted with empty fields', async () => {
+  it('should show email validation error when submitted with empty fields', async () => {
     // Arrange
     const user = userEvent.setup()
     render(<LoginForm />, { wrapper })
@@ -54,7 +54,7 @@ describe('LoginForm component', () => {
     // Assert
     await waitFor(() => {
       expect(
-        screen.getByText('Introduce tu nombre de usuario')
+        screen.getByText('Introduce un correo electrónico válido')
       ).toBeInTheDocument()
     })
   })
@@ -64,7 +64,7 @@ describe('LoginForm component', () => {
     const user = userEvent.setup()
     render(<LoginForm />, { wrapper })
     // Act
-    await user.type(screen.getByLabelText(/usuario/i), 'admin')
+    await user.type(screen.getByLabelText(/correo electrónico/i), 'admin@navike21.com')
     await user.type(screen.getByLabelText(/contraseña/i), 'short')
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
     // Assert
@@ -80,13 +80,13 @@ describe('LoginForm component', () => {
     const user = userEvent.setup()
     render(<LoginForm />, { wrapper })
     // Act
-    await user.type(screen.getByLabelText(/usuario/i), 'jichaponan')
+    await user.type(screen.getByLabelText(/correo electrónico/i), 'j.chaponan@navike21.com')
     await user.type(screen.getByLabelText(/contraseña/i), 'admin123')
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
     // Assert
     await waitFor(() => {
       expect(loginMock).toHaveBeenCalledWith(
-        { username: 'jichaponan', password: 'admin123' },
+        { email: 'j.chaponan@navike21.com', password: 'admin123' },
         expect.anything()
       )
     })

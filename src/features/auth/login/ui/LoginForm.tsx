@@ -28,12 +28,12 @@ export const LoginForm = () => {
       noValidate
     >
       <InputField
-        label={t.form.username}
-        type="text"
-        autoComplete="username"
-        errorMessage={errors.username?.message}
-        variant={errors.username ? 'error' : 'default'}
-        {...register('username')}
+        label={t.form.email}
+        type="email"
+        autoComplete="email"
+        errorMessage={errors.email?.message}
+        variant={errors.email ? 'error' : 'default'}
+        {...register('email')}
       />
       <InputField
         label={t.form.password}

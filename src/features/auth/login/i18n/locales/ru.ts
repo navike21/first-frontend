@@ -4,12 +4,12 @@ export const ru: LoginTranslations = {
   title: 'First',
   subtitle: 'Менеджер navike21',
   form: {
-    username: 'Пользователь',
+    email: 'Электронная почта',
     password: 'Пароль',
     submit: 'Войти',
   },
   validation: {
-    usernameMin: 'Введите имя пользователя',
+    emailInvalid: 'Введите действительный адрес электронной почты',
     passwordMin: 'Пароль должен содержать не менее 8 символов',
   },
 }

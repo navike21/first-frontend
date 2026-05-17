@@ -4,12 +4,12 @@ export const en: LoginTranslations = {
   title: 'First',
   subtitle: 'navike21 Manager',
   form: {
-    username: 'Username',
+    email: 'Email',
     password: 'Password',
     submit: 'Sign in',
   },
   validation: {
-    usernameMin: 'Enter your username',
+    emailInvalid: 'Enter a valid email address',
     passwordMin: 'Password must be at least 8 characters',
   },
 }

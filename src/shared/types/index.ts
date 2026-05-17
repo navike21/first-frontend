@@ -18,6 +18,8 @@ export interface AsyncState<T> {
 /** Authenticated user returned by the login API. */
 export interface AuthUser {
   id: string
-  name: string
   email: string
+  firstName: string
+  lastName: string
+  permissions: string[]
 }

@@ -6,5 +6,5 @@ export interface SignInResult {
 }
 
 export interface IAuthService {
-  signIn(username: string, password: string): Promise<SignInResult>
+  signIn(email: string, password: string): Promise<SignInResult>
 }

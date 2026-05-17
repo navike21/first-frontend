@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { loginSchema } from './login.schema'
+import { createLoginSchema } from './login.schema'
+
+const mockValidation = {
+  emailInvalid: 'Introduce un correo electrónico válido',
+  passwordMin: 'La contraseña debe tener al menos 8 caracteres',
+}
+
+const loginSchema = createLoginSchema(mockValidation)
 
 describe('loginSchema', () => {
   beforeEach(() => {
@@ -9,33 +16,31 @@ describe('loginSchema', () => {
   it('should accept valid credentials', () => {
     // Arrange & Act
     const result = loginSchema.safeParse({
-      username: 'admin',
+      email: 'admin@navike21.com',
       password: 'secret123',
     })
     // Assert
     expect(result.success).toBe(true)
   })
 
-  it('should reject username shorter than 3 characters', () => {
+  it('should reject an invalid email address', () => {
     // Arrange & Act
     const result = loginSchema.safeParse({
-      username: 'ab',
+      email: 'not-an-email',
       password: 'secret123',
     })
     // Assert
     expect(result.success).toBe(false)
     if (!result.success) {
-      const usernameIssue = result.error.issues.find(
-        (i) => i.path[0] === 'username'
-      )
-      expect(usernameIssue?.message).toBe('Introduce tu nombre de usuario')
+      const emailIssue = result.error.issues.find((i) => i.path[0] === 'email')
+      expect(emailIssue?.message).toBe('Introduce un correo electrónico válido')
     }
   })
 
   it('should reject password shorter than 8 characters', () => {
     // Arrange & Act
     const result = loginSchema.safeParse({
-      username: 'admin',
+      email: 'admin@navike21.com',
       password: 'short',
     })
     // Assert
@@ -50,10 +55,10 @@ describe('loginSchema', () => {
     }
   })
 
-  it('should reject empty username', () => {
+  it('should reject empty email', () => {
     // Arrange & Act
     const result = loginSchema.safeParse({
-      username: '',
+      email: '',
       password: 'secret123',
     })
     // Assert
@@ -62,7 +67,7 @@ describe('loginSchema', () => {
 
   it('should reject empty password', () => {
     // Arrange & Act
-    const result = loginSchema.safeParse({ username: 'admin', password: '' })
+    const result = loginSchema.safeParse({ email: 'admin@navike21.com', password: '' })
     // Assert
     expect(result.success).toBe(false)
   })
@@ -74,10 +79,10 @@ describe('loginSchema', () => {
     expect(result.success).toBe(false)
   })
 
-  it('should accept credentials exactly at minimum lengths', () => {
+  it('should accept a valid email with minimum password length', () => {
     // Arrange & Act
     const result = loginSchema.safeParse({
-      username: 'abc',
+      email: 'a@b.co',
       password: '12345678',
     })
     // Assert

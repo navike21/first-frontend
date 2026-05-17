@@ -4,12 +4,12 @@ export const zh: LoginTranslations = {
   title: 'First',
   subtitle: 'navike21 管理系统',
   form: {
-    username: '用户名',
+    email: '电子邮件',
     password: '密码',
     submit: '登录',
   },
   validation: {
-    usernameMin: '请输入您的用户名',
+    emailInvalid: '请输入有效的电子邮件地址',
     passwordMin: '密码至少需要8个字符',
   },
 }

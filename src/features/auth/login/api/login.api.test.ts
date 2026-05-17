@@ -4,11 +4,11 @@ import { loginApi } from './login.api'
 
 vi.mock('@/shared/api', () => ({
   authService: {
-    signIn: (username: string, password: string): Promise<LoginResponse> => {
-      if (username === 'admin' && password === 'admin123') {
+    signIn: (email: string, password: string): Promise<LoginResponse> => {
+      if (email === 'admin@navike21.com' && password === 'admin123') {
         return Promise.resolve({
           token: 'mock-token-local-dev',
-          user: { id: '1', name: 'Admin First', email: 'admin' },
+          user: { id: '1', email: 'admin@navike21.com', firstName: 'Admin', lastName: 'First', permissions: [] },
         })
       }
       return Promise.reject(new Error('Usuario o contraseña incorrectos'))
@@ -17,7 +17,7 @@ vi.mock('@/shared/api', () => ({
 }))
 
 const makeLoginRequest = (overrides?: Partial<LoginRequest>): LoginRequest => ({
-  username: 'admin',
+  email: 'admin@navike21.com',
   password: 'admin123',
   ...overrides,
 })
@@ -30,11 +30,11 @@ describe('loginApi', () => {
   it('resolves with token and user for valid credentials', async () => {
     const result = await loginApi(makeLoginRequest())
     expect(result.token).toBe('mock-token-local-dev')
-    expect(result.user.name).toBe('Admin First')
+    expect(result.user.firstName).toBe('Admin')
   })
 
   it('rejects with error message for invalid credentials', async () => {
-    await expect(loginApi(makeLoginRequest({ username: 'wrong', password: 'bad' }))).rejects.toThrow(
+    await expect(loginApi(makeLoginRequest({ email: 'wrong@test.com', password: 'bad' }))).rejects.toThrow(
       'Usuario o contraseña incorrectos',
     )
   })

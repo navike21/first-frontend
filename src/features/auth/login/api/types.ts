@@ -1,7 +1,7 @@
 import type { AuthUser } from '@/shared/types'
 
 export interface LoginRequest {
-  username: string
+  email: string
   password: string
 }
 

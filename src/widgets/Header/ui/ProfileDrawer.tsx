@@ -31,12 +31,12 @@ export const ProfileDrawer = ({
     >
       <div className="flex flex-col items-center justify-center border-b border-gray-100 p-6 pt-10 text-center">
         <Avatar
-          alt={user?.name || t.guestName}
+          alt={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
           size="lg"
           className="mb-4 h-20 w-20 bg-blue-600 text-2xl font-semibold text-white"
         />
         <span className="text-lg font-bold text-slate-800">
-          {user?.name || t.guestName}
+          {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
         </span>
         <span className="text-sm text-slate-500">
           {user?.email || 'test@navike21.com'}
