@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { toast } from 'sonner'
+import { notify } from '@/shared/lib/notify'
 import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/shared/ui'
 import { useUsers, useSoftDeleteUser, UserTable } from '@/features/users'
 import type { User, UserListParams } from '@/features/users'
@@ -29,10 +29,10 @@ export const UsersPage = () => {
     if (!deletingUser) return
     softDelete.mutate(deletingUser.id, {
       onSuccess: () => {
-        toast.success('Usuario desactivado correctamente')
+        notify.success('Usuario desactivado correctamente')
         setDeletingUser(null)
       },
-      onError: () => toast.error('Error al desactivar el usuario'),
+      onError: (error) => notify.queryError(error),
     })
   }
 

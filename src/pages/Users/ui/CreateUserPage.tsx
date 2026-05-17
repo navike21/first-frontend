@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import { toast } from 'sonner'
+import { notify } from '@/shared/lib/notify'
 import { PageHeader } from '@/shared/ui'
 import { UserForm, useCreateUser } from '@/features/users'
 import type { CreateUserFormData } from '@/features/users'
@@ -12,10 +12,10 @@ export const CreateUserPage = () => {
   const handleCreate = (data: CreateUserFormData) => {
     createUser.mutate(data, {
       onSuccess: () => {
-        toast.success('Usuario creado correctamente')
+        notify.success('Usuario creado correctamente')
         navigate({ to: NAV.users.path })
       },
-      onError: () => toast.error('Error al crear el usuario'),
+      onError: (error) => notify.queryError(error),
     })
   }
 

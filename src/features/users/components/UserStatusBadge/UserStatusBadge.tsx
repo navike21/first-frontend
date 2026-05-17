@@ -13,5 +13,9 @@ const config: Record<UserStatus, { label: string; variant: 'success' | 'default'
 
 export const UserStatusBadge = ({ status }: UserStatusBadgeProps) => {
   const { label, variant } = config[status]
-  return <Chip variant={variant} size="small">{label}</Chip>
+  return (
+    <Chip variant={variant} size="small">
+      {label}
+    </Chip>
+  )
 }

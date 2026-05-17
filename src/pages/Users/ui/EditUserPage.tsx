@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
-import { toast } from 'sonner'
+import { notify } from '@/shared/lib/notify'
 import { PageHeader, Spinner } from '@/shared/ui'
 import { UserForm, useUser, useUpdateUser } from '@/features/users'
 import type { UpdateUserFormData } from '@/features/users'
@@ -22,10 +22,10 @@ export const EditUserPage = () => {
   const handleUpdate = (data: UpdateUserFormData) => {
     updateUser.mutate(data, {
       onSuccess: () => {
-        toast.success('Usuario actualizado correctamente')
+        notify.success('Usuario actualizado correctamente')
         navigate({ to: NAV.users.path })
       },
-      onError: () => toast.error('Error al actualizar el usuario'),
+      onError: (error) => notify.queryError(error),
     })
   }
 

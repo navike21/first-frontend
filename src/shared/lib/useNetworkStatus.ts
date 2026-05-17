@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { toast } from 'sonner'
 import { useNetworkStore } from '@/shared/model'
 import { replayQueue } from '@/shared/lib/offline-queue/queue.replay'
+import { notify } from './notify'
 
 /**
  * Listens to browser online/offline events and keeps the Zustand
@@ -22,16 +22,16 @@ export const useNetworkStatus = (): void => {
       setOnline()
       replayQueue()
         .then(() => {
-          toast.success('Conexión restaurada — cambios sincronizados')
+          notify.success('Conexión restaurada — cambios sincronizados')
         })
         .catch(() => {
-          toast.error('Error al sincronizar cambios pendientes')
+          notify.error('Error al sincronizar cambios pendientes')
         })
     }
 
     const handleOffline = (): void => {
       setOffline()
-      toast.warning('Sin conexión — los cambios se guardarán automáticamente')
+      notify.warning('Sin conexión — los cambios se guardarán automáticamente')
     }
 
     globalThis.addEventListener('online', handleOnline)
