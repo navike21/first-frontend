@@ -1,31 +1,25 @@
-import { useEffect } from 'react'
-import { createRouter, useNavigate } from '@tanstack/react-router'
+import { createRoute, createRouter, redirect } from '@tanstack/react-router'
+import { useLanguageStore } from '@/shared/model/language.store'
 import { NAV } from '@/shared/router'
 import { rootRoute } from './root'
+import { langRoute } from './routes/lang.route'
 import { publicLayout, privateLayout } from './layouts'
 import { loginRouteTree } from './routes/login.route'
 import { dashboardRoute } from './routes/dashboard.route'
-import { usersLayoutRoute, usersIndexRoute } from './routes/users.route'
-import { userCreateRoute } from './routes/user-create.route'
-import { userEditRoute } from './routes/user-edit.route'
+import { allUsersRouteTrees } from './routes/users.route'
 import { forbiddenRoute } from './routes/forbidden.route'
 import { notFoundRoute } from './routes/not-found.route'
-import { getLastValidPath, setLastValidPath } from './navigationHistory'
+import { setLastValidPath } from './navigationHistory'
 
-const NotFoundRedirect = () => {
-  const navigate = useNavigate()
-  useEffect(() => {
-    navigate({
-      to: NAV.notFound.path as never,
-      replace: true,
-      state: {
-        brokenPath: globalThis.location.pathname,
-        previousPath: getLastValidPath(),
-      },
-    }).catch(() => null)
-  }, [navigate])
-  return null
-}
+const rootRedirect = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  beforeLoad: () => {
+    const lang = useLanguageStore.getState().language
+    throw redirect({ to: `/${lang}` as never })
+  },
+  component: () => null,
+})
 
 declare module '@tanstack/react-router' {
   interface Register {
@@ -38,10 +32,10 @@ declare module '@tanstack/react-router' {
 }
 
 const routeTree = rootRoute.addChildren([
-  publicLayout.addChildren([loginRouteTree]),
-  privateLayout.addChildren([
-    dashboardRoute,
-    usersLayoutRoute.addChildren([usersIndexRoute, userCreateRoute, userEditRoute]),
+  rootRedirect,
+  langRoute.addChildren([
+    publicLayout.addChildren([loginRouteTree]),
+    privateLayout.addChildren([dashboardRoute, ...allUsersRouteTrees]),
   ]),
   forbiddenRoute,
   notFoundRoute,
@@ -49,7 +43,7 @@ const routeTree = rootRoute.addChildren([
 
 export const router = createRouter({
   routeTree,
-  defaultNotFoundComponent: NotFoundRedirect,
+  defaultNotFoundComponent: () => null,
 })
 
 router.subscribe('onResolved', () => {

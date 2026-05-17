@@ -9,19 +9,24 @@ import {
 } from '@/shared/ui'
 import clsx from 'clsx'
 import { useSidebarStore } from '../model/store'
-import { menuConfig } from '../model/menu.config'
+import { getMenuConfig } from '../model/menu.config'
+import { useLanguageStore } from '@/shared/model'
 
 export const Sidebar = () => {
   const { isCollapsed, isOpenMobile, closeMobileSidebar } = useSidebarStore()
   const { location } = useRouterState()
   const pathname = location.pathname
+  const language = useLanguageStore((s) => s.language)
+  const menuConfig = useMemo(() => getMenuConfig(language), [language])
 
   const activeGroupId = useMemo(
     () =>
-      menuConfig.find(
-        item => item.href && item.href !== '/' && pathname.startsWith(item.href)
-      )?.id ?? null,
-    [pathname]
+      menuConfig.find((item) => {
+        if (!item.href) return false
+        if (item.exact) return pathname === item.href
+        return pathname === item.href || pathname.startsWith(item.href + '/')
+      })?.id ?? null,
+    [pathname, menuConfig, language]
   )
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(activeGroupId)
@@ -61,25 +66,27 @@ export const Sidebar = () => {
     >
       <nav className="flex-1 space-y-2 px-4 py-6">
         {menuConfig.map(item => {
-          const isItemActive =
-            item.href && item.href !== '/'
-              ? pathname.startsWith(item.href)
-              : pathname === item.href
+          const isItemActive = item.href
+            ? item.exact
+              ? pathname === item.href
+              : pathname === item.href || pathname.startsWith(item.href + '/')
+            : false
 
           if (isCollapsed && !isOpenMobile) {
             return (
               <div key={item.id} className="w-full">
-                <div
+                <Link
+                  to={item.href ?? '/'}
                   title={item.label}
                   className={clsx(
-                    'mb-2 hidden cursor-pointer items-center justify-center rounded-lg p-3 transition-colors duration-fast ease-out-expo md:flex',
+                    'mb-2 hidden items-center justify-center rounded-lg p-3 transition-colors duration-fast ease-out-expo md:flex',
                     isItemActive
                       ? 'bg-slate-100 text-slate-700'
                       : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
-                </div>
+                </Link>
               </div>
             )
           }
@@ -103,7 +110,7 @@ export const Sidebar = () => {
                 >
                   <div className="ml-5 space-y-1 border-l border-gray-200 pl-4">
                     {item.children.map(child => {
-                      const isChildActive = pathname.startsWith(child.href)
+                      const isChildActive = pathname === child.href || pathname.startsWith(child.href + '/')
                       return (
                         <Link
                           key={child.id}

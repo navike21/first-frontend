@@ -1,15 +1,38 @@
 import { createRoute, Outlet } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
+import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
+import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { UsersPage } from '@/pages/Users/ui/UsersPage'
+import { CreateUserPage } from '@/pages/Users/ui/CreateUserPage'
+import { EditUserPage } from '@/pages/Users/ui/EditUserPage'
+import type { Language } from '@/shared/types/languages'
 
-export const usersLayoutRoute = createRoute({
-  getParentRoute: () => privateLayout,
-  path: 'usuarios',
-  component: Outlet,
-})
+function createUsersRouteTree(lang: Language) {
+  const layout = createRoute({
+    getParentRoute: () => privateLayout,
+    path: ROUTE_SLUGS.users[lang],
+    component: Outlet,
+  })
 
-export const usersIndexRoute = createRoute({
-  getParentRoute: () => usersLayoutRoute,
-  path: '/',
-  component: UsersPage,
-})
+  const index = createRoute({
+    getParentRoute: () => layout,
+    path: '/',
+    component: UsersPage,
+  })
+
+  const create = createRoute({
+    getParentRoute: () => layout,
+    path: ROUTE_SLUGS.userCreate[lang],
+    component: CreateUserPage,
+  })
+
+  const edit = createRoute({
+    getParentRoute: () => layout,
+    path: `$userId/${ROUTE_SLUGS.userEdit[lang]}`,
+    component: EditUserPage,
+  })
+
+  return layout.addChildren([index, create, edit])
+}
+
+export const allUsersRouteTrees = SUPPORTED_LANGUAGES.map(createUsersRouteTree)

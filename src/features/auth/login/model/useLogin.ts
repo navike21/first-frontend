@@ -3,7 +3,7 @@ import { useRouter } from '@tanstack/react-router'
 import { loginApi } from '../api/login.api'
 import { useSessionStore } from '@/shared/model'
 import { HttpError } from '@/shared/api'
-import { NAV } from '@/shared/router'
+import { navPaths } from '@/shared/router'
 import type { LoginFormData } from './login.schema'
 
 interface UseLoginReturn {
@@ -22,7 +22,7 @@ export const useLogin = (): UseLoginReturn => {
     mutationFn: loginApi,
     onSuccess: ({ token, user }) => {
       setSession(token, user)
-      router.navigate({ to: NAV.home.path }).catch(() => null)
+      router.navigate({ to: navPaths.home() as never }).catch(() => null)
     },
   })
 

@@ -4,18 +4,18 @@ import { PageHeader } from '@/shared/ui'
 import { UserForm, useCreateUser } from '@/features/users'
 import { useUsersTranslation } from '@/features/users/i18n'
 import type { CreateUserFormData } from '@/features/users'
-import { NAV } from '@/shared/router'
+import { navPaths } from '@/shared/router'
 
 export const CreateUserPage = () => {
   const navigate = useNavigate()
-  const { t } = useUsersTranslation()
+  const { t, language } = useUsersTranslation()
   const createUser = useCreateUser()
 
   const handleCreate = (data: CreateUserFormData) => {
     createUser.mutate(data, {
       onSuccess: () => {
         notify.success(t.toasts.created)
-        navigate({ to: NAV.users.path })
+        navigate({ to: navPaths.users(language) as never })
       },
       onError: (error) => notify.queryError(error),
     })
@@ -28,7 +28,7 @@ export const CreateUserPage = () => {
         <UserForm
           mode="create"
           isSubmitting={createUser.isPending}
-          onCancel={() => navigate({ to: NAV.users.path })}
+          onCancel={() => navigate({ to: navPaths.users(language) as never })}
           onCreate={handleCreate}
           onUpdate={() => {}}
         />

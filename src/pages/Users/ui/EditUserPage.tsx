@@ -5,27 +5,27 @@ import { PageHeader, Spinner } from '@/shared/ui'
 import { UserForm, useUser, useUpdateUser } from '@/features/users'
 import { useUsersTranslation } from '@/features/users/i18n'
 import type { UpdateUserFormData } from '@/features/users'
-import { NAV } from '@/shared/router'
+import { navPaths } from '@/shared/router'
 
 export const EditUserPage = () => {
   const navigate = useNavigate()
   const { userId } = useParams({ strict: false }) as { userId: string }
-  const { t } = useUsersTranslation()
+  const { t, language } = useUsersTranslation()
 
   const { data: user, isLoading } = useUser(userId)
   const updateUser = useUpdateUser(userId)
 
   useEffect(() => {
     if (!isLoading && !user) {
-      navigate({ to: NAV.users.path, replace: true })
+      navigate({ to: navPaths.users(language) as never, replace: true })
     }
-  }, [isLoading, user, navigate])
+  }, [isLoading, user, navigate, language])
 
   const handleUpdate = (data: UpdateUserFormData) => {
     updateUser.mutate(data, {
       onSuccess: () => {
         notify.success(t.toasts.updated)
-        navigate({ to: NAV.users.path })
+        navigate({ to: navPaths.users(language) as never })
       },
       onError: (error) => notify.queryError(error),
     })
@@ -52,7 +52,7 @@ export const EditUserPage = () => {
           mode="edit"
           defaultValues={user}
           isSubmitting={updateUser.isPending}
-          onCancel={() => navigate({ to: NAV.users.path })}
+          onCancel={() => navigate({ to: navPaths.users(language) as never })}
           onCreate={() => {}}
           onUpdate={handleUpdate}
         />

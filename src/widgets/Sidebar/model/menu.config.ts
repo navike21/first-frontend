@@ -1,11 +1,13 @@
 import type { IconName } from '@/shared/types/icons'
-import { NAV } from '@/shared/router'
+import type { Language } from '@/shared/types/languages'
+import { navPaths } from '@/shared/router'
 
 export interface MenuItem {
   id: string
   label: string
   icon: IconName
   href?: string
+  exact?: boolean
   children?: {
     id: string
     label: string
@@ -13,18 +15,31 @@ export interface MenuItem {
   }[]
 }
 
-// Add menu items here as each module is built and its route is registered.
-export const menuConfig: MenuItem[] = [
-  {
-    id: 'dashboard',
-    label: NAV.home.label,
-    icon: 'RiDashboard2Line',
-    href: NAV.home.path,
+const MENU_LABELS: Record<string, Record<Language, string>> = {
+  dashboard: {
+    es: 'Dashboard', en: 'Dashboard', de: 'Dashboard', fr: 'Tableau de bord',
+    pt: 'Painel', it: 'Dashboard', ja: 'ダッシュボード', ko: '대시보드', zh: '仪表板', ru: 'Панель',
   },
-  {
-    id: 'users',
-    label: NAV.users.label,
-    icon: 'RiGroupLine',
-    href: NAV.users.path,
+  users: {
+    es: 'Usuarios', en: 'Users', de: 'Benutzer', fr: 'Utilisateurs',
+    pt: 'Usuários', it: 'Utenti', ja: 'ユーザー', ko: '사용자', zh: '用户', ru: 'Пользователи',
   },
-]
+}
+
+export function getMenuConfig(lang: Language): MenuItem[] {
+  return [
+    {
+      id: 'dashboard',
+      label: MENU_LABELS.dashboard[lang],
+      icon: 'RiDashboard2Line',
+      href: navPaths.home(lang),
+      exact: true,
+    },
+    {
+      id: 'users',
+      label: MENU_LABELS.users[lang],
+      icon: 'RiGroupLine',
+      href: navPaths.users(lang),
+    },
+  ]
+}

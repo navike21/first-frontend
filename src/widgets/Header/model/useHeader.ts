@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import { useSidebarStore } from '../../Sidebar/model/store'
 import { useSessionStore } from '@/shared/model'
+import { navPaths } from '@/shared/router'
 
 export const useHeader = () => {
   const { isCollapsed, toggleSidebar, toggleMobileSidebar } = useSidebarStore()
@@ -21,7 +22,7 @@ export const useHeader = () => {
   const logout = useCallback(() => {
     clearSession()
     setIsProfileOpen(false)
-    router.navigate({ to: '/login' }).catch(() => null)
+    router.navigate({ to: navPaths.login() as never }).catch(() => null)
   }, [clearSession, router])
 
   return {

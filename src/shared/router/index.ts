@@ -1,3 +1,6 @@
 export { requireAuth, requireGuest } from './guards'
 export { NAV } from './navigation.config'
 export type { NavNode, NavModule } from './navigation.config'
+export { ROUTE_SLUGS, SLUG_TO_MODULE, translatePath } from './route-slugs'
+export type { RouteModule } from './route-slugs'
+export { navPaths } from './nav-paths'

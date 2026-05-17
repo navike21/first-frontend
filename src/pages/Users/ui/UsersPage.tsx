@@ -5,7 +5,7 @@ import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/
 import { useUsers, useSoftDeleteUser, UserTable } from '@/features/users'
 import { useUsersTranslation } from '@/features/users/i18n'
 import type { User, UserListParams } from '@/features/users'
-import { NAV } from '@/shared/router'
+import { navPaths } from '@/shared/router'
 
 export const UsersPage = () => {
   const navigate = useNavigate()
@@ -17,7 +17,8 @@ export const UsersPage = () => {
   const { data, isLoading } = useUsers({ ...params, search: search || undefined })
   const softDelete = useSoftDeleteUser()
 
-  const handleEdit = (user: User) => navigate({ to: `/usuarios/${user.id}/editar` })
+  const handleEdit = (user: User) =>
+    navigate({ to: navPaths.userEdit(user.id, language) as never })
   const handleDelete = (user: User) => setDeletingUser(user)
 
   const handleConfirmDelete = () => {
@@ -48,7 +49,7 @@ export const UsersPage = () => {
             label: t.actions.newUser,
             icon: 'RiAddLine',
             variant: 'error',
-            to: NAV.userCreate.path,
+            to: navPaths.userCreate(language),
             size: 'small',
           },
         ]}
