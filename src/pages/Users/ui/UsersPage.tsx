@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/shared/ui'
-import { UserTable } from '@/features/users'
-import { useUsers, useSoftDeleteUser } from '@/features/users'
+import { useUsers, useSoftDeleteUser, UserTable } from '@/features/users'
 import type { User, UserListParams } from '@/features/users'
 import { NAV } from '@/shared/router'
 
@@ -22,7 +21,7 @@ export const UsersPage = () => {
   const { data, isLoading } = useUsers({ ...params, search: search || undefined })
   const softDelete = useSoftDeleteUser()
 
-  const handleEdit = (user: User) => void navigate({ to: `/usuarios/${user.id}/editar` })
+  const handleEdit = (user: User) => navigate({ to: `/usuarios/${user.id}/editar` })
 
   const handleDelete = (user: User) => setDeletingUser(user)
 
@@ -47,8 +46,9 @@ export const UsersPage = () => {
             type: 'link',
             label: 'Nuevo usuario',
             icon: 'RiAddLine',
-            variant: 'primary',
+            variant: 'error',
             to: NAV.userCreate.path,
+            size: 'small',
           },
         ]}
       />
@@ -76,13 +76,14 @@ export const UsersPage = () => {
             label="Estado"
             options={STATUS_OPTIONS}
             value={params.status ?? ''}
-            onChange={(val) =>
+            onChange={(e) => {
+              const value = e.target.value
               setParams((p) => ({
                 ...p,
                 page: 1,
-                status: val ? (val as 'active' | 'inactive') : undefined,
+                status: value ? (value as 'active' | 'inactive') : undefined,
               }))
-            }
+            }}
           />
         </div>
       </div>
