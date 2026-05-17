@@ -1,6 +1,7 @@
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, InputField, Select } from '@/shared/ui'
+import { useUsersTranslation } from '../../i18n'
 import { createUserSchema, updateUserSchema } from '../../model/user.schema'
 import type { CreateUserFormData, UpdateUserFormData } from '../../model/user.schema'
 import type { User } from '../../model/user.types'
@@ -16,18 +17,6 @@ interface UserFormProps {
   onUpdate: (data: UpdateUserFormData) => void
 }
 
-const genderOptions = [
-  { value: 'female', label: 'Femenino' },
-  { value: 'male', label: 'Masculino' },
-  { value: 'other', label: 'Otro' },
-  { value: 'prefer_not_to_say', label: 'Prefiero no decir' },
-]
-
-const statusOptions = [
-  { value: 'active', label: 'Activo' },
-  { value: 'inactive', label: 'Inactivo' },
-]
-
 // ─── Create ──────────────────────────────────────────────────────────────────
 
 interface CreateFormProps {
@@ -37,6 +26,8 @@ interface CreateFormProps {
 }
 
 const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
+  const { t } = useUsersTranslation()
+
   const {
     register,
     handleSubmit,
@@ -52,22 +43,31 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
   const genderValue = useWatch({ control, name: 'gender' })
   const statusValue = useWatch({ control, name: 'status' })
 
+  const genderOptions = [
+    { value: 'female', label: t.form.genderFemale },
+    { value: 'male', label: t.form.genderMale },
+    { value: 'other', label: t.form.genderOther },
+    { value: 'prefer_not_to_say', label: t.form.genderPreferNotToSay },
+  ]
+
+  const statusOptions = [
+    { value: 'active', label: t.form.statusActive },
+    { value: 'inactive', label: t.form.statusInactive },
+  ]
+
   return (
-    <form
-      onSubmit={handleSubmit((data) => onCreate(data))}
-      className="flex flex-col gap-4"
-    >
+    <form onSubmit={handleSubmit((data) => onCreate(data))} className="flex flex-col gap-4">
       <div className="flex gap-3">
         <InputField
-          label="Nombre"
-          placeholder="José"
+          label={t.form.firstName}
+          placeholder={t.form.firstNamePlaceholder}
           variant={errors.firstName ? 'error' : undefined}
           errorMessage={errors.firstName?.message}
           {...register('firstName')}
         />
         <InputField
-          label="Apellido"
-          placeholder="García"
+          label={t.form.lastName}
+          placeholder={t.form.lastNamePlaceholder}
           variant={errors.lastName ? 'error' : undefined}
           errorMessage={errors.lastName?.message}
           {...register('lastName')}
@@ -75,40 +75,39 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
       </div>
 
       <InputField
-        label="Email"
+        label={t.form.email}
         type="email"
-        placeholder="usuario@navike21.com"
+        placeholder={t.form.emailPlaceholder}
         variant={errors.email ? 'error' : undefined}
         errorMessage={errors.email?.message}
         {...register('email')}
       />
       <InputField
-        label="Contraseña"
+        label={t.form.password}
         type="password"
-        placeholder="Mínimo 8 caracteres"
+        placeholder={t.form.passwordPlaceholder}
         variant={errors.password ? 'error' : undefined}
         errorMessage={errors.password?.message}
         {...register('password')}
       />
-
       <InputField
-        label="Teléfono"
-        placeholder="+51 999 999 999"
+        label={t.form.phone}
+        placeholder={t.form.phonePlaceholder}
         variant={errors.phone ? 'error' : undefined}
         errorMessage={errors.phone?.message}
         {...register('phone')}
       />
 
       <Select
-        label="Género"
+        label={t.form.gender}
         options={genderOptions}
         value={genderValue ?? ''}
         onChange={(e) => setValue('gender', e.target.value as CreateUserFormData['gender'])}
-        placeholder="Seleccionar"
+        placeholder={t.form.genderPlaceholder}
       />
 
       <Select
-        label="Estado"
+        label={t.form.statusLabel}
         options={statusOptions}
         value={statusValue ?? 'active'}
         onChange={(e) => setValue('status', e.target.value as 'active' | 'inactive')}
@@ -122,10 +121,10 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
           disabled={isSubmitting}
           onClick={() => { reset(); onCancel() }}
         >
-          Cancelar
+          {t.form.cancelButton}
         </Button>
         <Button variant="primary" fullWidth type="submit" loading={isSubmitting}>
-          Crear usuario
+          {t.form.createButton}
         </Button>
       </div>
     </form>
@@ -142,6 +141,8 @@ interface EditFormProps {
 }
 
 const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormProps) => {
+  const { t } = useUsersTranslation()
+
   const {
     register,
     handleSubmit,
@@ -155,8 +156,7 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
       firstName: defaultValues.firstName ?? '',
       lastName: defaultValues.lastName ?? '',
       phone: defaultValues.phone ?? '',
-      status:
-        defaultValues.status === 'deleted' ? 'inactive' : (defaultValues.status ?? 'active'),
+      status: defaultValues.status === 'deleted' ? 'inactive' : (defaultValues.status ?? 'active'),
       gender: defaultValues.gender,
     },
   })
@@ -164,22 +164,31 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
   const genderValue = useWatch({ control, name: 'gender' })
   const statusValue = useWatch({ control, name: 'status' })
 
+  const genderOptions = [
+    { value: 'female', label: t.form.genderFemale },
+    { value: 'male', label: t.form.genderMale },
+    { value: 'other', label: t.form.genderOther },
+    { value: 'prefer_not_to_say', label: t.form.genderPreferNotToSay },
+  ]
+
+  const statusOptions = [
+    { value: 'active', label: t.form.statusActive },
+    { value: 'inactive', label: t.form.statusInactive },
+  ]
+
   return (
-    <form
-      onSubmit={handleSubmit((data) => onUpdate(data))}
-      className="flex flex-col gap-4"
-    >
+    <form onSubmit={handleSubmit((data) => onUpdate(data))} className="flex flex-col gap-4">
       <div className="flex gap-3">
         <InputField
-          label="Nombre"
-          placeholder="José"
+          label={t.form.firstName}
+          placeholder={t.form.firstNamePlaceholder}
           variant={errors.firstName ? 'error' : undefined}
           errorMessage={errors.firstName?.message}
           {...register('firstName')}
         />
         <InputField
-          label="Apellido"
-          placeholder="García"
+          label={t.form.lastName}
+          placeholder={t.form.lastNamePlaceholder}
           variant={errors.lastName ? 'error' : undefined}
           errorMessage={errors.lastName?.message}
           {...register('lastName')}
@@ -187,23 +196,23 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
       </div>
 
       <InputField
-        label="Teléfono"
-        placeholder="+51 999 999 999"
+        label={t.form.phone}
+        placeholder={t.form.phonePlaceholder}
         variant={errors.phone ? 'error' : undefined}
         errorMessage={errors.phone?.message}
         {...register('phone')}
       />
 
       <Select
-        label="Género"
+        label={t.form.gender}
         options={genderOptions}
         value={genderValue ?? ''}
         onChange={(e) => setValue('gender', e.target.value as UpdateUserFormData['gender'])}
-        placeholder="Seleccionar"
+        placeholder={t.form.genderPlaceholder}
       />
 
       <Select
-        label="Estado"
+        label={t.form.statusLabel}
         options={statusOptions}
         value={statusValue ?? 'active'}
         onChange={(e) => setValue('status', e.target.value as 'active' | 'inactive')}
@@ -217,10 +226,10 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
           disabled={isSubmitting}
           onClick={() => { reset(); onCancel() }}
         >
-          Cancelar
+          {t.form.cancelButton}
         </Button>
         <Button variant="primary" fullWidth type="submit" loading={isSubmitting}>
-          Guardar cambios
+          {t.form.saveButton}
         </Button>
       </div>
     </form>
@@ -238,13 +247,7 @@ export const UserForm = ({
   onUpdate,
 }: UserFormProps) => {
   if (mode === 'create') {
-    return (
-      <CreateForm
-        isSubmitting={isSubmitting}
-        onCancel={onCancel}
-        onCreate={onCreate}
-      />
-    )
+    return <CreateForm isSubmitting={isSubmitting} onCancel={onCancel} onCreate={onCreate} />
   }
   return (
     <EditForm

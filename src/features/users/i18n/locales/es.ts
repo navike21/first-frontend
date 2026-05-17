@@ -1,0 +1,57 @@
+import type { UsersTranslations } from '../types'
+
+export const es: UsersTranslations = {
+  page: {
+    listTitle: 'Usuarios',
+    listDescription: 'Gestiona los usuarios del sistema',
+    createTitle: 'Nuevo usuario',
+    createDescription: 'Completa los campos para registrar un nuevo usuario en el sistema',
+    editTitle: 'Editar usuario',
+    editDescription: (name) => `Modifica los datos de ${name}`,
+  },
+  table: {
+    noResults: 'No se encontraron usuarios',
+    colUser: 'Usuario',
+    colEmail: 'Email',
+    colStatus: 'Estado',
+    colPresence: 'Presencia',
+    colActions: 'Acciones',
+    editUser: 'Editar usuario',
+    deleteUser: 'Eliminar usuario',
+    prevPage: 'Página anterior',
+    nextPage: 'Página siguiente',
+    totalCount: (n) => `${n} usuario${n !== 1 ? 's' : ''} en total`,
+  },
+  status: { active: 'Activo', inactive: 'Inactivo', deleted: 'Eliminado' },
+  presence: { available: 'Disponible', busy: 'Ocupado', away: 'Ausente', offline: 'Desconectado' },
+  form: {
+    firstName: 'Nombre', firstNamePlaceholder: 'José',
+    lastName: 'Apellido', lastNamePlaceholder: 'García',
+    email: 'Email', emailPlaceholder: 'usuario@navike21.com',
+    password: 'Contraseña', passwordPlaceholder: 'Mínimo 8 caracteres',
+    phone: 'Teléfono', phonePlaceholder: '+51 999 999 999',
+    gender: 'Género', genderPlaceholder: 'Seleccionar',
+    genderFemale: 'Femenino', genderMale: 'Masculino',
+    genderOther: 'Otro', genderPreferNotToSay: 'Prefiero no decir',
+    statusLabel: 'Estado', statusActive: 'Activo', statusInactive: 'Inactivo',
+    createButton: 'Crear usuario', saveButton: 'Guardar cambios', cancelButton: 'Cancelar',
+  },
+  actions: {
+    newUser: 'Nuevo usuario',
+    deactivateTitle: 'Desactivar usuario',
+    deactivateDescription: (first, last) =>
+      `¿Confirmas que deseas desactivar a ${first} ${last}? El usuario perderá acceso al sistema.`,
+    confirmDeactivate: 'Desactivar',
+    cancel: 'Cancelar',
+  },
+  filters: {
+    searchLabel: 'Buscar', searchPlaceholder: 'Nombre, apellido o email…',
+    statusLabel: 'Estado', statusAll: 'Todos los estados',
+    statusActive: 'Activos', statusInactive: 'Inactivos',
+  },
+  toasts: {
+    created: 'Usuario creado correctamente',
+    updated: 'Usuario actualizado correctamente',
+    deactivated: 'Usuario desactivado correctamente',
+  },
+}

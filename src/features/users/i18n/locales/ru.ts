@@ -1,0 +1,52 @@
+import type { UsersTranslations } from '../types'
+
+export const ru: UsersTranslations = {
+  page: {
+    listTitle: 'Пользователи',
+    listDescription: 'Управление пользователями системы',
+    createTitle: 'Новый пользователь',
+    createDescription: 'Заполните поля для регистрации нового пользователя',
+    editTitle: 'Редактировать пользователя',
+    editDescription: (name) => `Изменить данные пользователя ${name}`,
+  },
+  table: {
+    noResults: 'Пользователи не найдены',
+    colUser: 'Пользователь', colEmail: 'Email', colStatus: 'Статус',
+    colPresence: 'Присутствие', colActions: 'Действия',
+    editUser: 'Редактировать пользователя', deleteUser: 'Удалить пользователя',
+    prevPage: 'Предыдущая страница', nextPage: 'Следующая страница',
+    totalCount: (n) => `Всего ${n} пользователей`,
+  },
+  status: { active: 'Активный', inactive: 'Неактивный', deleted: 'Удалён' },
+  presence: { available: 'Доступен', busy: 'Занят', away: 'Нет на месте', offline: 'Не в сети' },
+  form: {
+    firstName: 'Имя', firstNamePlaceholder: 'Иван',
+    lastName: 'Фамилия', lastNamePlaceholder: 'Иванов',
+    email: 'Email', emailPlaceholder: 'user@navike21.com',
+    password: 'Пароль', passwordPlaceholder: 'Минимум 8 символов',
+    phone: 'Телефон', phonePlaceholder: '+7 999 000 00 00',
+    gender: 'Пол', genderPlaceholder: 'Выбрать',
+    genderFemale: 'Женский', genderMale: 'Мужской',
+    genderOther: 'Другой', genderPreferNotToSay: 'Не хочу указывать',
+    statusLabel: 'Статус', statusActive: 'Активный', statusInactive: 'Неактивный',
+    createButton: 'Создать пользователя', saveButton: 'Сохранить изменения', cancelButton: 'Отмена',
+  },
+  actions: {
+    newUser: 'Новый пользователь',
+    deactivateTitle: 'Деактивировать пользователя',
+    deactivateDescription: (first, last) =>
+      `Подтвердить деактивацию ${first} ${last}? Пользователь потеряет доступ к системе.`,
+    confirmDeactivate: 'Деактивировать',
+    cancel: 'Отмена',
+  },
+  filters: {
+    searchLabel: 'Поиск', searchPlaceholder: 'Имя, фамилия или email…',
+    statusLabel: 'Статус', statusAll: 'Все статусы',
+    statusActive: 'Активные', statusInactive: 'Неактивные',
+  },
+  toasts: {
+    created: 'Пользователь создан',
+    updated: 'Пользователь обновлён',
+    deactivated: 'Пользователь деактивирован',
+  },
+}

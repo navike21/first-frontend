@@ -1,4 +1,5 @@
 import { Avatar, IconButton, IconComponent, Spinner } from '@/shared/ui'
+import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import type { User } from '../../model/user.types'
 
@@ -23,6 +24,8 @@ export const UserTable = ({
   onEdit,
   onDelete,
 }: UserTableProps) => {
+  const { t } = useUsersTranslation()
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -35,7 +38,7 @@ export const UserTable = ({
     return (
       <div className="flex flex-col items-center justify-center gap-2 py-20 text-slate-400">
         <IconComponent icon="RiUser3Line" className="h-10 w-10" />
-        <p className="text-sm">No se encontraron usuarios</p>
+        <p className="text-sm">{t.table.noResults}</p>
       </div>
     )
   }
@@ -46,11 +49,11 @@ export const UserTable = ({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-              <th className="px-4 py-3">Usuario</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Estado</th>
-              <th className="px-4 py-3">Presencia</th>
-              <th className="px-4 py-3 text-right">Acciones</th>
+              <th className="px-4 py-3">{t.table.colUser}</th>
+              <th className="px-4 py-3">{t.table.colEmail}</th>
+              <th className="px-4 py-3">{t.table.colStatus}</th>
+              <th className="px-4 py-3">{t.table.colPresence}</th>
+              <th className="px-4 py-3 text-right">{t.table.colActions}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -67,11 +70,9 @@ export const UserTable = ({
                       size="sm"
                       className="shrink-0 bg-primary-800 font-semibold text-white"
                     />
-                    <div className="flex flex-col">
-                      <span className="font-medium text-slate-800">
-                        {user.firstName} {user.lastName}
-                      </span>
-                    </div>
+                    <span className="font-medium text-slate-800">
+                      {user.firstName} {user.lastName}
+                    </span>
                   </div>
                 </td>
                 <td className="px-4 py-3 text-slate-500">{user.email}</td>
@@ -79,7 +80,7 @@ export const UserTable = ({
                   <UserStatusBadge status={user.status} />
                 </td>
                 <td className="px-4 py-3">
-                  <PresenceDot status={user.presenceStatus} />
+                  <PresenceDot status={user.presenceStatus} label={t.presence[user.presenceStatus]} />
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
@@ -87,14 +88,14 @@ export const UserTable = ({
                       icon="RiPencilLine"
                       variant="text"
                       size="small"
-                      aria-label="Editar usuario"
+                      aria-label={t.table.editUser}
                       onClick={() => onEdit(user)}
                     />
                     <IconButton
                       icon="RiDeleteBinLine"
                       variant="text"
                       size="small"
-                      aria-label="Eliminar usuario"
+                      aria-label={t.table.deleteUser}
                       onClick={() => onDelete(user)}
                     />
                   </div>
@@ -105,16 +106,15 @@ export const UserTable = ({
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="flex items-center justify-between text-sm text-slate-500">
-        <span>{total} usuario{total !== 1 ? 's' : ''} en total</span>
+        <span>{t.table.totalCount(total)}</span>
         {pages > 1 && (
           <div className="flex items-center gap-1">
             <IconButton
               icon="RiArrowLeftSLine"
               variant="text"
               size="small"
-              aria-label="Página anterior"
+              aria-label={t.table.prevPage}
               disabled={page <= 1}
               onClick={() => onPageChange(page - 1)}
             />
@@ -125,7 +125,7 @@ export const UserTable = ({
               icon="RiArrowRightSLine"
               variant="text"
               size="small"
-              aria-label="Página siguiente"
+              aria-label={t.table.nextPage}
               disabled={page >= pages}
               onClick={() => onPageChange(page + 1)}
             />
@@ -136,19 +136,16 @@ export const UserTable = ({
   )
 }
 
-const presenceConfig = {
-  available: { label: 'Disponible', color: 'bg-emerald-400' },
-  busy: { label: 'Ocupado', color: 'bg-red-400' },
-  away: { label: 'Ausente', color: 'bg-amber-400' },
-  offline: { label: 'Desconectado', color: 'bg-slate-300' },
-} as const
-
-const PresenceDot = ({ status }: { status: User['presenceStatus'] }) => {
-  const { label, color } = presenceConfig[status]
-  return (
-    <div className="flex items-center gap-1.5">
-      <span className={`h-2 w-2 rounded-full ${color}`} />
-      <span className="text-xs text-slate-500">{label}</span>
-    </div>
-  )
+const presenceColor: Record<User['presenceStatus'], string> = {
+  available: 'bg-emerald-400',
+  busy: 'bg-red-400',
+  away: 'bg-amber-400',
+  offline: 'bg-slate-300',
 }
+
+const PresenceDot = ({ status, label }: { status: User['presenceStatus']; label: string }) => (
+  <div className="flex items-center gap-1.5">
+    <span className={`h-2 w-2 rounded-full ${presenceColor[status]}`} />
+    <span className="text-xs text-slate-500">{label}</span>
+  </div>
+)

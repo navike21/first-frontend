@@ -1,5 +1,7 @@
+export type KpiKey = 'clients' | 'users' | 'services'
+
 export interface KpiCard {
-  label: string
+  key: KpiKey
   value: number | string
   icon: string
 }

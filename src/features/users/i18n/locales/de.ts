@@ -1,0 +1,52 @@
+import type { UsersTranslations } from '../types'
+
+export const de: UsersTranslations = {
+  page: {
+    listTitle: 'Benutzer',
+    listDescription: 'Systembenutzer verwalten',
+    createTitle: 'Neuer Benutzer',
+    createDescription: 'Füllen Sie die Felder aus, um einen neuen Benutzer zu registrieren',
+    editTitle: 'Benutzer bearbeiten',
+    editDescription: (name) => `Daten von ${name} bearbeiten`,
+  },
+  table: {
+    noResults: 'Keine Benutzer gefunden',
+    colUser: 'Benutzer', colEmail: 'E-Mail', colStatus: 'Status',
+    colPresence: 'Präsenz', colActions: 'Aktionen',
+    editUser: 'Benutzer bearbeiten', deleteUser: 'Benutzer löschen',
+    prevPage: 'Vorherige Seite', nextPage: 'Nächste Seite',
+    totalCount: (n) => `${n} Benutzer insgesamt`,
+  },
+  status: { active: 'Aktiv', inactive: 'Inaktiv', deleted: 'Gelöscht' },
+  presence: { available: 'Verfügbar', busy: 'Beschäftigt', away: 'Abwesend', offline: 'Offline' },
+  form: {
+    firstName: 'Vorname', firstNamePlaceholder: 'Max',
+    lastName: 'Nachname', lastNamePlaceholder: 'Mustermann',
+    email: 'E-Mail', emailPlaceholder: 'benutzer@navike21.com',
+    password: 'Passwort', passwordPlaceholder: 'Mindestens 8 Zeichen',
+    phone: 'Telefon', phonePlaceholder: '+49 999 999 9999',
+    gender: 'Geschlecht', genderPlaceholder: 'Auswählen',
+    genderFemale: 'Weiblich', genderMale: 'Männlich',
+    genderOther: 'Divers', genderPreferNotToSay: 'Keine Angabe',
+    statusLabel: 'Status', statusActive: 'Aktiv', statusInactive: 'Inaktiv',
+    createButton: 'Benutzer erstellen', saveButton: 'Änderungen speichern', cancelButton: 'Abbrechen',
+  },
+  actions: {
+    newUser: 'Neuer Benutzer',
+    deactivateTitle: 'Benutzer deaktivieren',
+    deactivateDescription: (first, last) =>
+      `Möchten Sie ${first} ${last} wirklich deaktivieren? Der Benutzer verliert den Systemzugang.`,
+    confirmDeactivate: 'Deaktivieren',
+    cancel: 'Abbrechen',
+  },
+  filters: {
+    searchLabel: 'Suchen', searchPlaceholder: 'Name, Nachname oder E-Mail…',
+    statusLabel: 'Status', statusAll: 'Alle Status',
+    statusActive: 'Aktiv', statusInactive: 'Inaktiv',
+  },
+  toasts: {
+    created: 'Benutzer erfolgreich erstellt',
+    updated: 'Benutzer erfolgreich aktualisiert',
+    deactivated: 'Benutzer erfolgreich deaktiviert',
+  },
+}

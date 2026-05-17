@@ -3,17 +3,13 @@ import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/shared/ui'
 import { useUsers, useSoftDeleteUser, UserTable } from '@/features/users'
+import { useUsersTranslation } from '@/features/users/i18n'
 import type { User, UserListParams } from '@/features/users'
 import { NAV } from '@/shared/router'
 
-const STATUS_OPTIONS = [
-  { value: 'all', label: 'Todos los estados' },
-  { value: 'active', label: 'Activos' },
-  { value: 'inactive', label: 'Inactivos' },
-]
-
 export const UsersPage = () => {
   const navigate = useNavigate()
+  const { t, language } = useUsersTranslation()
   const [params, setParams] = useState<UserListParams>({ page: 1, limit: 20 })
   const [search, setSearch] = useState('')
   const [deletingUser, setDeletingUser] = useState<User | null>(null)
@@ -22,29 +18,34 @@ export const UsersPage = () => {
   const softDelete = useSoftDeleteUser()
 
   const handleEdit = (user: User) => navigate({ to: `/usuarios/${user.id}/editar` })
-
   const handleDelete = (user: User) => setDeletingUser(user)
 
   const handleConfirmDelete = () => {
     if (!deletingUser) return
     softDelete.mutate(deletingUser.id, {
       onSuccess: () => {
-        notify.success('Usuario desactivado correctamente')
+        notify.success(t.toasts.deactivated)
         setDeletingUser(null)
       },
       onError: (error) => notify.queryError(error),
     })
   }
 
+  const statusOptions = [
+    { value: 'all', label: t.filters.statusAll },
+    { value: 'active', label: t.filters.statusActive },
+    { value: 'inactive', label: t.filters.statusInactive },
+  ]
+
   return (
     <div className="animate-page-in space-y-6">
       <PageHeader
-        title="Usuarios"
-        description="Gestiona los usuarios del sistema"
+        title={t.page.listTitle}
+        description={t.page.listDescription}
         actions={[
           {
             type: 'link',
-            label: 'Nuevo usuario',
+            label: t.actions.newUser,
             icon: 'RiAddLine',
             variant: 'error',
             to: NAV.userCreate.path,
@@ -53,12 +54,11 @@ export const UsersPage = () => {
         ]}
       />
 
-      {/* Filters */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
           <InputField
-            label="Buscar"
-            placeholder="Nombre, apellido o email…"
+            label={t.filters.searchLabel}
+            placeholder={t.filters.searchPlaceholder}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value)
@@ -73,9 +73,10 @@ export const UsersPage = () => {
         </div>
         <div className="w-full sm:w-52">
           <Select
-            label="Estado"
-            options={STATUS_OPTIONS}
+            label={t.filters.statusLabel}
+            options={statusOptions}
             value={params.status ?? 'all'}
+            lang={language}
             onChange={(e) => {
               const value = e.target.value
               setParams((p) => ({
@@ -99,15 +100,14 @@ export const UsersPage = () => {
         onDelete={handleDelete}
       />
 
-      {/* Delete confirmation modal */}
       <Modal
         isOpen={!!deletingUser}
         onClose={() => setDeletingUser(null)}
         size="sm"
-        title="Desactivar usuario"
+        title={t.actions.deactivateTitle}
         description={
           deletingUser
-            ? `¿Confirmas que deseas desactivar a ${deletingUser.firstName} ${deletingUser.lastName}? El usuario perderá acceso al sistema.`
+            ? t.actions.deactivateDescription(deletingUser.firstName, deletingUser.lastName)
             : undefined
         }
         footer={
@@ -117,10 +117,10 @@ export const UsersPage = () => {
               onClick={() => setDeletingUser(null)}
               disabled={softDelete.isPending}
             >
-              Cancelar
+              {t.actions.cancel}
             </Button>
             <Button variant="error" loading={softDelete.isPending} onClick={handleConfirmDelete}>
-              Desactivar
+              {t.actions.confirmDeactivate}
             </Button>
           </>
         }
