@@ -67,8 +67,8 @@ export const UserTable = ({
                     <Avatar
                       alt={`${user.firstName} ${user.lastName}`}
                       src={user.profilePictureUrl}
+                      name={`${user.firstName} ${user.lastName}`}
                       size="sm"
-                      className="shrink-0 bg-primary-800 font-semibold text-white"
                     />
                     <span className="font-medium text-slate-800">
                       {user.firstName} {user.lastName}
@@ -80,7 +80,10 @@ export const UserTable = ({
                   <UserStatusBadge status={user.status} />
                 </td>
                 <td className="px-4 py-3">
-                  <PresenceDot status={user.presenceStatus} label={t.presence[user.presenceStatus]} />
+                  <PresenceDot
+                    status={user.presenceStatus}
+                    label={t.presence[user.presenceStatus]}
+                  />
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">

@@ -1,11 +1,14 @@
 import { request } from '@/shared/api'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
-import type { User, UserListParams } from '../model/user.types'
+import type { User, UserListParams, UserMetadata } from '../model/user.types'
 import type { CreateUserFormData, UpdateUserFormData } from '../model/user.schema'
 
-const BASE = '/api/v1/users'
+const BASE = '/users'
 
 export const usersApi = {
+  metadata: () =>
+    request<ApiResponse<UserMetadata>>({ api: `${BASE}/metadata`, method: 'GET' }),
+
   list: (params: UserListParams = {}) => {
     const query = new URLSearchParams()
     if (params.page) query.set('page', String(params.page))
@@ -20,15 +23,16 @@ export const usersApi = {
     })
   },
 
-  getById: (id: string) =>
-    request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
+  getById: (id: string) => request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
   create: (body: CreateUserFormData) =>
-    request<ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>, CreateUserFormData>({
-      api: BASE,
-      method: 'POST',
-      body,
-    }),
+    request<ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>, CreateUserFormData>(
+      {
+        api: BASE,
+        method: 'POST',
+        body,
+      },
+    ),
 
   update: (id: string, body: UpdateUserFormData) =>
     request<ApiResponse<User>, UpdateUserFormData>({

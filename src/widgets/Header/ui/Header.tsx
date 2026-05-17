@@ -4,6 +4,7 @@ import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
 import { ProfileDrawer } from './ProfileDrawer'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { useUserAvatarStatus } from '@/shared/model/presence.store'
 
 export const Header = () => {
   const {
@@ -18,11 +19,12 @@ export const Header = () => {
   } = useHeader()
 
   const { t } = useHeaderTranslation()
+  const avatarStatus = useUserAvatarStatus(user?.id ?? '')
 
   return (
     <header
       className={clsx(
-        'z-10 flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm'
+        'z-10 flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm',
       )}
     >
       <div className="flex items-center gap-4">
@@ -32,7 +34,7 @@ export const Header = () => {
           className={clsx(
             'cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
-            'md:hidden'
+            'md:hidden',
           )}
         >
           <IconComponent icon="RiMenuLine" className="h-5 w-5" />
@@ -44,7 +46,7 @@ export const Header = () => {
           className={clsx(
             'hidden cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
             'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
-            'md:block'
+            'md:block',
           )}
           aria-label={isCollapsed ? t.expandMenu : t.collapseMenu}
         >
@@ -56,9 +58,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-3">
           <AppLogo size="x-small" color="default" />
-          <h1 className="text-xl font-bold tracking-tight text-slate-800">
-            First
-          </h1>
+          <h1 className="text-xl font-bold tracking-tight text-slate-800">First</h1>
         </div>
       </div>
 
@@ -76,26 +76,22 @@ export const Header = () => {
         >
           <div className="hidden flex-col items-end md:flex">
             <span className="mb-1 text-sm leading-none font-medium text-slate-800">
-              {user?.name || t.guestName}
+              {user?.firstName || t.guestName}
             </span>
             <span className="text-xs leading-none text-slate-500">
               {user?.email || t.guestEmail}
             </span>
           </div>
           <Avatar
-            alt={user?.name || t.guestName}
+            alt={user?.firstName || t.guestName}
             size="md"
-            className="bg-blue-600 font-semibold text-white"
+            status={avatarStatus}
+            name={user?.firstName || t.guestName}
           />
         </button>
       </div>
 
-      <ProfileDrawer
-        isOpen={isProfileOpen}
-        onClose={closeProfile}
-        onLogout={logout}
-        user={user}
-      />
+      <ProfileDrawer isOpen={isProfileOpen} onClose={closeProfile} onLogout={logout} user={user} />
     </header>
   )
 }

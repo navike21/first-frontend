@@ -2,6 +2,20 @@ export type UserGender = 'female' | 'male' | 'other' | 'prefer_not_to_say'
 export type UserStatus = 'active' | 'inactive' | 'deleted'
 export type PresenceStatus = 'available' | 'busy' | 'away' | 'offline'
 
+export interface UserMetadata {
+  genders: UserGender[]
+  presenceStatuses: PresenceStatus[]
+  userStatuses: Exclude<UserStatus, 'deleted'>[]
+}
+
+export interface UserGroup {
+  id: string
+  name: string
+  description?: string
+  color: string
+  status: 'active' | 'inactive'
+}
+
 export interface UserAddress {
   street?: string
   city?: string

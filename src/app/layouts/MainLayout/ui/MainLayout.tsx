@@ -8,6 +8,7 @@ import clsx from 'clsx'
 
 export const MainLayout = () => {
   const breadcrumbs = useBreadcrumbs()
+  // usePresenceSocket() — disabled: Vercel serverless doesn't support persistent WebSocket
   const showBreadcrumbs = breadcrumbs.length > 1
 
   return (

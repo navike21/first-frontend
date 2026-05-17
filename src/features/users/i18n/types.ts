@@ -42,12 +42,29 @@ export interface UsersTranslations {
     passwordPlaceholder: string
     phone: string
     phonePlaceholder: string
+    dateOfBirth: string
+    dateOfBirthPlaceholder: string
+    profilePictureUrl: string
+    profilePictureUrlPlaceholder: string
     gender: string
     genderPlaceholder: string
     genderFemale: string
     genderMale: string
     genderOther: string
     genderPreferNotToSay: string
+    groupId: string
+    groupIdPlaceholder: string
+    addressSection: string
+    addressStreet: string
+    addressStreetPlaceholder: string
+    addressCity: string
+    addressCityPlaceholder: string
+    addressState: string
+    addressStatePlaceholder: string
+    addressCountry: string
+    addressCountryPlaceholder: string
+    addressPostalCode: string
+    addressPostalCodePlaceholder: string
     statusLabel: string
     statusActive: string
     statusInactive: string

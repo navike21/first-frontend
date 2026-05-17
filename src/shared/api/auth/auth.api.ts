@@ -21,7 +21,7 @@ export const apiAuthService: IAuthService = {
   signIn: async (email, password): Promise<SignInResult> => {
     const lang = useLanguageStore.getState().language
 
-    const res = await fetch(`${BASE}/api/v1/auth/login`, {
+    const res = await fetch(`${BASE}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

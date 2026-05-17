@@ -6,3 +6,4 @@ export {
   TOKEN_KEY,
 } from './session.store'
 export { useLanguageStore, useLanguage } from './language.store'
+export { usePresenceStore, useUserAvatarStatus, getUserAvatarStatus } from './presence.store'
