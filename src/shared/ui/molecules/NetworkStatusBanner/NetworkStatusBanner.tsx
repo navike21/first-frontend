@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { RiWifiOffLine } from '@remixicon/react'
+import { IconComponent } from '@/shared/ui'
 import { useNetworkStore } from '@/shared/model'
 
 export const NetworkStatusBanner = () => {
@@ -18,7 +18,7 @@ export const NetworkStatusBanner = () => {
         isOnline ? '-translate-y-full' : 'translate-y-0'
       )}
     >
-      <RiWifiOffLine size={16} aria-hidden="true" />
+      <IconComponent icon="RiWifiOffLine" className="size-4" aria-hidden="true" />
       <span>Sin conexión — los cambios se guardarán automáticamente</span>
     </div>
   )

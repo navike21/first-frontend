@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Camera } from 'lucide-react'
+import { IconComponent } from '@/shared/ui'
 
 interface PhotoPickerProps {
   currentUrl?: string
@@ -63,7 +63,10 @@ export const PhotoPicker = ({
             <img src={preview} alt="avatar" className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-slate-100">
-              <Camera className="h-7 w-7 text-slate-400 transition-colors group-hover:text-blue-400" />
+              <IconComponent
+                icon="RiCameraLine"
+                className="h-7 w-7 text-slate-400 transition-colors group-hover:text-blue-400"
+              />
               <span className="px-2 text-center text-xs leading-tight text-slate-400 transition-colors group-hover:text-blue-400">
                 {uploadLabel}
               </span>
@@ -72,7 +75,7 @@ export const PhotoPicker = ({
         </div>
         {preview && (
           <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white">
-            <Camera className="h-3.5 w-3.5" />
+            <IconComponent icon="RiCameraLine" className="h-3.5 w-3.5" />
           </span>
         )}
       </button>
