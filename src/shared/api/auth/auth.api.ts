@@ -1,5 +1,6 @@
 import type { IAuthService, SignInResult } from './auth.types'
 import type { AuthUser } from '@/shared/types'
+import { useLanguageStore } from '@/shared/model/language.store'
 
 const BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
 
@@ -18,9 +19,14 @@ interface BackendLoginResponse {
 
 export const apiAuthService: IAuthService = {
   signIn: async (email, password): Promise<SignInResult> => {
+    const lang = useLanguageStore.getState().language
+
     const res = await fetch(`${BASE}/api/v1/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': lang,
+      },
       body: JSON.stringify({ email, password }),
     })
 
