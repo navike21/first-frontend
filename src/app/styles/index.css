@@ -55,6 +55,38 @@
   --color-primary-950: #004254;
 }
 
+/* ── Autofill cross-browser ─────────────────────────────────────────────────
+   El box-shadow inset cubre el fondo amarillo/azul que el browser inyecta.
+   El ring del contenedor padre desaparecería porque el input lo tapa, pero
+   el ::after en .content-input hereda y re-pinta el ring por encima del
+   input (los positioned elements se pintan después de los static).         */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0f172a;
+}
+
+input:autofill {
+  box-shadow: 0 0 0 1000px white inset !important;
+  color: #0f172a !important;
+}
+
+.content-input {
+  position: relative;
+}
+
+.content-input::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inherit;
+  pointer-events: none;
+}
+
 html,
 body {
   @apply font-sans;
