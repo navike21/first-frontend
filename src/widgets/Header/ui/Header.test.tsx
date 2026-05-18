@@ -13,8 +13,10 @@ const toggleMobileSidebarMock = vi.fn()
 // Factory
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
-  name: 'Test User',
+  firstName: 'Test',
+  lastName: 'User',
   email: 'test@navike21.com',
+  permissions: [],
   ...overrides,
 })
 
@@ -85,7 +87,7 @@ describe('Header component', () => {
     // Arrange & Act
     render(<Header />)
     // Assert
-    expect(screen.getByText('Test User')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeInTheDocument()
   })
 
   it('should render the user email', () => {

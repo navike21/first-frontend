@@ -71,7 +71,7 @@ describe('guards', () => {
       mockStorage.setItem(TOKEN_KEY, makePersistedToken('tok-123'))
       // Act & Assert
       expect(() => requireGuest()).toThrow('redirect')
-      expect(redirectMock).toHaveBeenCalledWith({ to: '/' })
+      expect(redirectMock).toHaveBeenCalledWith({ to: '/es' })
     })
   })
 })

@@ -171,7 +171,7 @@ describe('useLogin', () => {
     expect(useSessionStore.getState().isAuthenticated).toBe(true)
     expect(useSessionStore.getState().token).toBe(token)
     expect(useSessionStore.getState().user).toEqual(user)
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/' })
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/es' })
   })
 
   it('should set null errorMessage after a successful login', async () => {

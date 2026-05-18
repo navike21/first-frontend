@@ -36,8 +36,10 @@ vi.stubGlobal('localStorage', mockStorage)
 // Factory
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
-  name: 'Test User',
+  firstName: 'Test',
+  lastName: 'User',
   email: 'test@navike21.com',
+  permissions: [],
   ...overrides,
 })
 
@@ -126,7 +128,7 @@ describe('useHeader', () => {
     })
     // Assert
     expect(result.current.isProfileOpen).toBe(false)
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/login' })
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/es/login' })
     expect(useSessionStore.getState().isAuthenticated).toBe(false)
   })
 

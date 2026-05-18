@@ -6,8 +6,10 @@ import { DashboardPage } from './DashboardPage'
 
 const makeUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: 'u-1',
-  name: 'Test User',
+  firstName: 'Test',
+  lastName: 'User',
   email: 'test@navike21.com',
+  permissions: [],
   ...overrides,
 })
 
@@ -21,11 +23,11 @@ describe('DashboardPage component', () => {
     useSessionStore.setState({
       isAuthenticated: true,
       token: 'tok',
-      user: makeUser({ name: 'María García' }),
+      user: makeUser({ firstName: 'María', lastName: 'García' }),
     })
     render(<DashboardPage />)
     expect(
-      screen.getByRole('heading', { name: /Bienvenido, María García/i }),
+      screen.getByRole('heading', { name: /Bienvenido, María/i }),
     ).toBeInTheDocument()
   })
 

@@ -7,8 +7,10 @@ import type { AuthUser } from '@/shared/types'
 // Factory
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
-  name: 'María García',
+  firstName: 'María',
+  lastName: 'García',
   email: 'm.garcia@navike21.com',
+  permissions: [],
   ...overrides,
 })
 
