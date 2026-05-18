@@ -1,5 +1,7 @@
 import { enqueue } from '@/shared/lib/offline-queue/queue'
 import { useSessionStore } from '@/shared/model'
+import { notify } from '@/shared/lib/notify'
+import { handleUnauthorized } from './unauthorized'
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
@@ -88,7 +90,21 @@ export async function request<TResponse, TBody = unknown>({
   })
 
   if (!response.ok) {
-    throw new HttpError(response.status, response.statusText)
+    let apiMessage: string | undefined
+    try {
+      const errBody = (await response.json()) as { message?: string }
+      apiMessage = errBody.message
+    } catch {
+      // body not parseable — use HTTP defaults
+    }
+
+    if (response.status === 401) {
+      notify.error(apiMessage ?? 'Sesión expirada o inválida')
+      useSessionStore.getState().clearSession()
+      handleUnauthorized()
+    }
+
+    throw new HttpError(response.status, response.statusText, apiMessage)
   }
 
   // 204 No Content — no body to parse; caller should type TResponse as void

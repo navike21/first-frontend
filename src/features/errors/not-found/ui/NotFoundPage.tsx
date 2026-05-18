@@ -1,5 +1,6 @@
 import { useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
 import { AppLogo, Button } from '@/shared/ui'
+import { navPaths } from '@/shared/router'
 
 export const NotFoundPage = () => {
   const router = useRouter()
@@ -43,7 +44,7 @@ export const NotFoundPage = () => {
         <Button
           variant="primary"
           onClick={() => {
-            navigate({ to: '/', replace: true }).catch(() => null)
+            navigate({ to: navPaths.home() as never, replace: true }).catch(() => null)
           }}
         >
           Ir al inicio

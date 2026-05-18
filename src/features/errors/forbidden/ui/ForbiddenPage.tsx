@@ -1,4 +1,5 @@
 import { AppLogo, LinkButton } from '@/shared/ui'
+import { navPaths } from '@/shared/router'
 
 export const ForbiddenPage = () => {
   return (
@@ -14,7 +15,7 @@ export const ForbiddenPage = () => {
           inicia sesión para continuar.
         </p>
       </div>
-      <LinkButton variant="primary" href="/login">
+      <LinkButton variant="primary" href={navPaths.login()}>
         Iniciar sesión
       </LinkButton>
     </div>

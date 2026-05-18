@@ -92,7 +92,7 @@ describe('NotFoundPage component', () => {
     const user = userEvent.setup()
     render(<NotFoundPage />)
     await user.click(screen.getByRole('button', { name: /ir al inicio/i }))
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/', replace: true })
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/es', replace: true })
   })
 
   it('should render "Página anterior" button when history.length > 1', () => {
