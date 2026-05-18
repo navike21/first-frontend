@@ -1,6 +1,7 @@
 import { Avatar, IconButton, IconComponent, Spinner } from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
+import { PresenceDot } from './PresenceDot'
 import type { User } from '../../model/user.types'
 
 interface UserTableProps {
@@ -139,16 +140,3 @@ export const UserTable = ({
   )
 }
 
-const presenceColor: Record<User['presenceStatus'], string> = {
-  available: 'bg-emerald-400',
-  busy: 'bg-red-400',
-  away: 'bg-amber-400',
-  offline: 'bg-slate-300',
-}
-
-const PresenceDot = ({ status, label }: { status: User['presenceStatus']; label: string }) => (
-  <div className="flex items-center gap-1.5">
-    <span className={`h-2 w-2 rounded-full ${presenceColor[status]}`} />
-    <span className="text-xs text-slate-500">{label}</span>
-  </div>
-)

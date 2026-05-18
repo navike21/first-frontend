@@ -1,53 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link, useRouterState } from '@tanstack/react-router'
-import {
-  IconComponent,
-  Accordion,
-  AppLogo,
-  Drawer,
-  NavItem,
-} from '@/shared/ui'
+import { Link } from '@tanstack/react-router'
+import { IconComponent, Accordion, AppLogo, Drawer, NavItem } from '@/shared/ui'
 import clsx from 'clsx'
-import { useSidebarStore } from '../model/store'
-import { getMenuConfig } from '../model/menu.config'
-import { useLanguageStore } from '@/shared/model'
+import { useSidebar } from './Sidebar.hooks'
+
+const TitleNode = (
+  <div className="flex items-center gap-2">
+    <AppLogo size="x-small" color="default" />
+    <span className="font-bold text-slate-800">Menú</span>
+  </div>
+)
 
 export const Sidebar = () => {
-  const { isCollapsed, isOpenMobile, closeMobileSidebar } = useSidebarStore()
-  const { location } = useRouterState()
-  const pathname = location.pathname
-  const language = useLanguageStore((s) => s.language)
-  const menuConfig = useMemo(() => getMenuConfig(language), [language])
-
-  const activeGroupId = useMemo(
-    () =>
-      menuConfig.find((item) => {
-        if (!item.href) return false
-        if (item.exact) return pathname === item.href
-        return pathname === item.href || pathname.startsWith(item.href + '/')
-      })?.id ?? null,
-    [pathname, menuConfig, language]
-  )
-
-  const [openMenuId, setOpenMenuId] = useState<string | null>(activeGroupId)
-
-  useEffect(() => {
-    setOpenMenuId(activeGroupId)
-  }, [activeGroupId])
-
-  const handleToggle = useCallback(
-    (id: string) => () => {
-      setOpenMenuId(prev => (prev === id ? null : id))
-    },
-    []
-  )
-
-  const TitleNode = (
-    <div className="flex items-center gap-2">
-      <AppLogo size="x-small" color="default" />
-      <span className="font-bold text-slate-800">Menú</span>
-    </div>
-  )
+  const {
+    isCollapsed,
+    isOpenMobile,
+    closeMobileSidebar,
+    pathname,
+    menuConfig,
+    openMenuId,
+    handleToggle,
+  } = useSidebar()
 
   return (
     <Drawer
@@ -65,7 +37,7 @@ export const Sidebar = () => {
       )}
     >
       <nav className="flex-1 space-y-2 px-4 py-6">
-        {menuConfig.map(item => {
+        {menuConfig.map((item) => {
           const isItemActive = item.href
             ? item.exact
               ? pathname === item.href
@@ -109,8 +81,9 @@ export const Sidebar = () => {
                   onToggle={handleToggle(item.id)}
                 >
                   <div className="ml-5 space-y-1 border-l border-gray-200 pl-4">
-                    {item.children.map(child => {
-                      const isChildActive = pathname === child.href || pathname.startsWith(child.href + '/')
+                    {item.children.map((child) => {
+                      const isChildActive =
+                        pathname === child.href || pathname.startsWith(child.href + '/')
                       return (
                         <Link
                           key={child.id}
