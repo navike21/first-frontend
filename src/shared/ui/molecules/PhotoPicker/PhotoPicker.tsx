@@ -1,16 +1,15 @@
-import { useRef, useState, useEffect } from 'react'
-import { IconComponent } from '@/shared/ui'
+import { IconComponent } from '@/shared/ui/atoms/IconComponent'
+import { usePhotoPicker } from './PhotoPicker.hooks'
 
-interface PhotoPickerProps {
+const ACCEPTED = 'image/jpeg,image/png,image/webp'
+
+export interface PhotoPickerProps {
   currentUrl?: string
   uploadLabel: string
   formatsHint: string
   onChange: (file: File | null) => void
   disabled?: boolean
 }
-
-const ACCEPTED = 'image/jpeg,image/png,image/webp'
-const MAX_BYTES = 3 * 1024 * 1024
 
 export const PhotoPicker = ({
   currentUrl,
@@ -19,36 +18,17 @@ export const PhotoPicker = ({
   onChange,
   disabled,
 }: PhotoPickerProps) => {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [preview, setPreview] = useState<string | undefined>(currentUrl)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    setPreview(currentUrl)
-  }, [currentUrl])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setError(null)
-    if (file.size > MAX_BYTES) {
-      setError('Max 3 MB')
-      return
-    }
-    setPreview((prev) => {
-      if (prev?.startsWith('blob:')) URL.revokeObjectURL(prev)
-      return URL.createObjectURL(file)
-    })
-    onChange(file)
-    if (inputRef.current) inputRef.current.value = ''
-  }
+  const { inputRef, preview, error, handleChange, openPicker } = usePhotoPicker({
+    currentUrl,
+    onChange,
+  })
 
   return (
     <div className="flex flex-col items-center gap-3">
       <button
         type="button"
         disabled={disabled}
-        onClick={() => inputRef.current?.click()}
+        onClick={openPicker}
         className="group relative cursor-pointer focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         aria-label={uploadLabel}
       >
