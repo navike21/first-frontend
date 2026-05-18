@@ -48,12 +48,10 @@ export const AvatarUploader = ({
         className="relative cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
         title="Cambiar foto"
       >
-        <Avatar src={currentUrl} alt={name ?? 'avatar'} name={name} size="lg"
-          className="h-20 w-20 bg-blue-600 text-2xl font-semibold text-white"
-        />
+        <Avatar src={currentUrl} alt={name ?? 'avatar'} name={name} size="lg" />
         {isUploading ? (
           <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40">
-            <Spinner size="sm" />
+            <Spinner size="small" />
           </span>
         ) : (
           <span className="absolute right-0 bottom-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white text-xs">

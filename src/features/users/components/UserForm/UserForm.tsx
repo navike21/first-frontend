@@ -44,15 +44,9 @@ function usePhotoUpload() {
 
 // ─── Shared layout ────────────────────────────────────────────────────────────
 
-const PanelLayout = ({
-  left,
-  right,
-}: {
-  left: React.ReactNode
-  right: React.ReactNode
-}) => (
+const PanelLayout = ({ left, right }: { left: React.ReactNode; right: React.ReactNode }) => (
   <div className="flex items-start gap-5">
-    <div className="flex w-60 flex-shrink-0 flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-6">
+    <div className="flex w-60 shrink-0 flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-6">
       {left}
     </div>
     <div className="flex min-w-0 flex-1 flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6">
@@ -75,7 +69,9 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
   const schema = useMemo(() => createCreateUserSchema(t.validation), [t.validation])
   const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
 
-  useEffect(() => { void load() }, [load])
+  useEffect(() => {
+    void load()
+  }, [load])
 
   const {
     register,
@@ -229,7 +225,10 @@ const CreateForm = ({ isSubmitting, onCancel, onCreate }: CreateFormProps) => {
                 variant="secondary"
                 type="button"
                 disabled={busy}
-                onClick={() => { reset(); onCancel() }}
+                onClick={() => {
+                  reset()
+                  onCancel()
+                }}
               >
                 {t.form.cancelButton}
               </Button>
@@ -259,7 +258,9 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
   const schema = useMemo(() => createUpdateUserSchema(t.validation), [t.validation])
   const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
 
-  useEffect(() => { void load() }, [load])
+  useEffect(() => {
+    void load()
+  }, [load])
 
   const {
     register,
@@ -338,7 +339,7 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
                   onClick={() =>
                     setValue('status', statusValue === 'active' ? 'inactive' : 'active')
                   }
-                  className={`relative mt-0.5 inline-flex h-6 w-11 flex-shrink-0 rounded-full border-2 border-transparent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`relative mt-0.5 inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 ${
                     statusValue === 'active' ? 'bg-green-500' : 'bg-slate-300'
                   }`}
                 >
@@ -437,7 +438,10 @@ const EditForm = ({ defaultValues, isSubmitting, onCancel, onUpdate }: EditFormP
                 variant="secondary"
                 type="button"
                 disabled={busy}
-                onClick={() => { reset(); onCancel() }}
+                onClick={() => {
+                  reset()
+                  onCancel()
+                }}
               >
                 {t.form.cancelButton}
               </Button>

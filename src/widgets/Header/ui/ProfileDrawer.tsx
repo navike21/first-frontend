@@ -9,12 +9,7 @@ interface ProfileDrawerProps {
   user: AuthUser | null
 }
 
-export const ProfileDrawer = ({
-  isOpen,
-  onClose,
-  onLogout,
-  user,
-}: ProfileDrawerProps) => {
+export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawerProps) => {
   const { t } = useHeaderTranslation()
 
   return (
@@ -22,25 +17,19 @@ export const ProfileDrawer = ({
       isOpen={isOpen}
       onClose={onClose}
       placement="right"
-      title={
-        <span className="text-sm font-semibold text-slate-700">
-          {t.profileDrawer.title}
-        </span>
-      }
+      title={<span className="text-sm font-semibold text-slate-700">{t.profileDrawer.title}</span>}
       className="w-80"
     >
       <div className="flex flex-col items-center justify-center border-b border-gray-100 p-6 pt-10 text-center">
         <Avatar
+          src={user?.profilePictureUrl}
           alt={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
           size="lg"
-          className="mb-4 h-20 w-20 bg-blue-600 text-2xl font-semibold text-white"
         />
         <span className="text-lg font-bold text-slate-800">
           {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
         </span>
-        <span className="text-sm text-slate-500">
-          {user?.email || 'test@navike21.com'}
-        </span>
+        <span className="text-sm text-slate-500">{user?.email || 'test@navike21.com'}</span>
       </div>
 
       <div className="flex-1 px-4 py-6">

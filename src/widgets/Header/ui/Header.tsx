@@ -83,6 +83,7 @@ export const Header = () => {
             </span>
           </div>
           <Avatar
+            src={user?.profilePictureUrl}
             alt={user?.firstName || t.guestName}
             size="md"
             status={avatarStatus}

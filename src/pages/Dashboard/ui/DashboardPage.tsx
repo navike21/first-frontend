@@ -4,7 +4,7 @@ import { useDashboardTranslation } from '../i18n'
 import { KPI_CARDS, RECENT_ACTIVITY } from '../lib/dashboard.constants'
 
 export const DashboardPage = () => {
-  const { name = '' } = useSessionStore((state) => state.user) ?? {}
+  const { firstName = '' } = useSessionStore((state) => state.user) ?? {}
   const { t } = useDashboardTranslation()
 
   const today = format(new Date(), t.dateFormat, { locale: t.dateLocale })
@@ -13,7 +13,7 @@ export const DashboardPage = () => {
     <div className="w-full space-y-10">
       <header>
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
-          {t.welcome(name)}
+          {t.welcome(firstName)}
         </h1>
         <p className="mt-1 text-sm text-slate-400">{today}</p>
       </header>

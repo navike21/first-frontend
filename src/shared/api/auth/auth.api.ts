@@ -12,6 +12,7 @@ interface BackendLoginResponse {
       email: string
       firstName: string
       lastName: string
+      profilePictureUrl?: string
       permissions: string[]
     }
   }
@@ -44,6 +45,18 @@ export const apiAuthService: IAuthService = {
       firstName: user.firstName,
       lastName: user.lastName,
       permissions: user.permissions,
+    }
+
+    try {
+      const profileRes = await fetch(`${BASE}/users/${user.id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      if (profileRes.ok) {
+        const profileBody = (await profileRes.json()) as { data: { profilePictureUrl?: string } }
+        authUser.profilePictureUrl = profileBody.data.profilePictureUrl
+      }
+    } catch {
+      // non-critical — user logs in without photo
     }
 
     return { token: accessToken, user: authUser }
