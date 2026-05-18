@@ -1,5 +1,5 @@
+import { LanguageSwitcher } from '@/shared/ui'
 import { LoginForm } from './LoginForm'
-import { LanguageSwitcher } from '@/widgets/Header/ui/LanguageSwitcher'
 import { useLoginTranslation } from '../i18n'
 
 export const LoginLayout = () => {

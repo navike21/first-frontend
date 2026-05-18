@@ -1,20 +1,14 @@
-import { useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
-import { AppLogo, Button } from '@/shared/ui'
-import { navPaths } from '@/shared/router'
-import { useIsAuthenticated } from '@/shared/model'
-import { useErrorTranslation } from '../../i18n'
+import { AppLogo, Button, LanguageSwitcher } from '@/shared/ui'
+import { useNotFoundPage } from './NotFoundPage.hooks'
 
 export const NotFoundPage = () => {
-  const router = useRouter()
-  const navigate = useNavigate()
-  const { location } = useRouterState()
-  const { t } = useErrorTranslation()
-  const isAuthenticated = useIsAuthenticated()
-  const brokenPath = (location.state as { brokenPath?: string })?.brokenPath
-  const canGoBack = globalThis.history.length > 1
+  const { t, brokenPath, canGoBack, isAuthenticated, handleBack, handleHome } = useNotFoundPage()
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-4">
+      <div className="absolute right-4 top-4">
+        <LanguageSwitcher />
+      </div>
       <AppLogo />
 
       <div className="flex flex-col items-center gap-3 text-center">
@@ -32,21 +26,11 @@ export const NotFoundPage = () => {
 
       <div className="flex flex-wrap items-center justify-center gap-3">
         {canGoBack && (
-          <Button
-            variant="secondary"
-            icon="RiArrowLeftLine"
-            onClick={() => router.history.back()}
-          >
+          <Button variant="secondary" icon="RiArrowLeftLine" onClick={handleBack}>
             {t.notFound.backButton}
           </Button>
         )}
-        <Button
-          variant="primary"
-          onClick={() => {
-            const to = isAuthenticated ? navPaths.home() : navPaths.login()
-            navigate({ to: to as never, replace: true }).catch(() => null)
-          }}
-        >
+        <Button variant="primary" onClick={handleHome}>
           {isAuthenticated ? t.notFound.homeButton : t.notFound.loginButton}
         </Button>
       </div>

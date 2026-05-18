@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
 import { ProfileDrawer } from './ProfileDrawer'
-import { LanguageSwitcher } from './LanguageSwitcher'
+import { LanguageSwitcher } from '@/shared/ui'
 import { useUserAvatarStatus } from '@/shared/model/presence.store'
 
 export const Header = () => {
@@ -63,7 +63,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <LanguageSwitcher />
+        <LanguageSwitcher label={t.language.label} />
 
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />

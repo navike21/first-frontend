@@ -1,4 +1,5 @@
 import { createRoute, createRouter, redirect } from '@tanstack/react-router'
+import { NotFoundPage } from '@/features/errors/not-found/ui/NotFoundPage'
 import { useLanguageStore } from '@/shared/model/language.store'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { rootRoute } from './root'
@@ -44,7 +45,7 @@ const routeTree = rootRoute.addChildren([
 
 export const router = createRouter({
   routeTree,
-  defaultNotFoundComponent: () => null,
+  defaultNotFoundComponent: NotFoundPage,
 })
 
 const forbiddenSlugs = new Set(Object.values(ROUTE_SLUGS.forbidden))
