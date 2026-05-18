@@ -6,6 +6,15 @@ import { NotFoundPage } from './NotFoundPage'
 const backMock = vi.fn()
 const navigateMock = vi.fn().mockResolvedValue(undefined)
 const routerState = vi.hoisted(() => ({ state: {} as Record<string, unknown> }))
+const isAuthenticatedMock = vi.hoisted(() => ({ value: false }))
+
+vi.mock('@/shared/model', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/shared/model')>()
+  return {
+    ...actual,
+    useIsAuthenticated: () => isAuthenticatedMock.value,
+  }
+})
 
 vi.mock('@tanstack/react-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-router')>()
@@ -43,6 +52,7 @@ describe('NotFoundPage component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     routerState.state = {}
+    isAuthenticatedMock.value = false
     Object.defineProperty(globalThis, 'history', {
       value: { length: 2, back: vi.fn() },
       writable: true,
@@ -83,12 +93,28 @@ describe('NotFoundPage component', () => {
     expect(screen.queryByRole('code')).not.toBeInTheDocument()
   })
 
-  it('should always render the home button', () => {
+  it('should render "Iniciar sesión" button when not authenticated', () => {
+    isAuthenticatedMock.value = false
+    render(<NotFoundPage />)
+    expect(screen.getByRole('button', { name: /iniciar sesión/i })).toBeInTheDocument()
+  })
+
+  it('should render "Ir al inicio" button when authenticated', () => {
+    isAuthenticatedMock.value = true
     render(<NotFoundPage />)
     expect(screen.getByRole('button', { name: /ir al inicio/i })).toBeInTheDocument()
   })
 
-  it('should navigate to / with replace:true when "Ir al inicio" is clicked', async () => {
+  it('should navigate to login when unauthenticated and button is clicked', async () => {
+    isAuthenticatedMock.value = false
+    const user = userEvent.setup()
+    render(<NotFoundPage />)
+    await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/es/login', replace: true })
+  })
+
+  it('should navigate to home when authenticated and button is clicked', async () => {
+    isAuthenticatedMock.value = true
     const user = userEvent.setup()
     render(<NotFoundPage />)
     await user.click(screen.getByRole('button', { name: /ir al inicio/i }))

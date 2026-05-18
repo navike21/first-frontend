@@ -11,6 +11,16 @@ export const navPaths = {
 
   login: (l?: Language) => `/${lang(l)}/login`,
 
+  forbidden: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forbidden[l_]}`
+  },
+
+  notFound: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.notFound[l_]}`
+  },
+
   users: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.users[l_]}`

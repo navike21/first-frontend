@@ -3,7 +3,7 @@ import { Toaster } from 'sonner'
 import { QueryProvider } from './query.provider'
 import { registerUnauthorizedHandler } from '@/shared/api'
 import { router } from '../router/router'
-import { NAV } from '@/shared/router'
+import { navPaths } from '@/shared/router'
 
 interface AppProvidersProps {
   children: ReactNode
@@ -12,7 +12,7 @@ interface AppProvidersProps {
 export function AppProviders({ children }: Readonly<AppProvidersProps>) {
   useEffect(() => {
     registerUnauthorizedHandler(() => {
-      router.navigate({ to: NAV.forbidden.path as never }).catch(() => null)
+      router.navigate({ to: navPaths.forbidden() as never }).catch(() => null)
     })
   }, [])
 

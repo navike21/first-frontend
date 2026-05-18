@@ -3,6 +3,14 @@ import type { Language } from '@/shared/types/languages'
 import type { RouteModule } from './route-slugs'
 
 const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
+  forbidden: {
+    es: 'No autorizado', en: 'Unauthorized', de: 'Nicht autorisiert', fr: 'Accès interdit',
+    pt: 'Não autorizado', it: 'Non autorizzato', ja: '未認可', ko: '미승인', zh: '未授权', ru: 'Не авторизован',
+  },
+  notFound: {
+    es: 'No encontrada', en: 'Not Found', de: 'Nicht gefunden', fr: 'Introuvable',
+    pt: 'Não encontrada', it: 'Non trovata', ja: '見つかりません', ko: '찾을 수 없음', zh: '未找到', ru: 'Не найдено',
+  },
   users: {
     es: 'Usuarios', en: 'Users', de: 'Benutzer', fr: 'Utilisateurs',
     pt: 'Utilizadores', it: 'Utenti', ja: 'ユーザー', ko: '사용자', zh: '用户', ru: 'Пользователи',

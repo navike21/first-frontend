@@ -1,10 +1,16 @@
 import { createRoute } from '@tanstack/react-router'
-import { rootRoute } from '../root'
-import { NAV } from '@/shared/router'
+import { langRoute } from './lang.route'
+import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
+import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { ForbiddenPage } from '@/features/errors/forbidden/ui/ForbiddenPage'
+import type { Language } from '@/shared/types/languages'
 
-export const forbiddenRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: NAV.forbidden.segment,
-  component: ForbiddenPage,
-})
+function createForbiddenRoute(lang: Language) {
+  return createRoute({
+    getParentRoute: () => langRoute,
+    path: ROUTE_SLUGS.forbidden[lang],
+    component: ForbiddenPage,
+  })
+}
+
+export const allForbiddenRouteTrees = SUPPORTED_LANGUAGES.map(createForbiddenRoute)

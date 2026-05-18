@@ -55,7 +55,7 @@ describe('guards', () => {
       // Arrange — no token in storage
       // Act & Assert
       expect(() => requireAuth()).toThrow('redirect')
-      expect(redirectMock).toHaveBeenCalledWith({ to: '/no-autorizado' })
+      expect(redirectMock).toHaveBeenCalledWith({ to: '/es/no-autorizado' })
     })
   })
 

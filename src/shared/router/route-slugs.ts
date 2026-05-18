@@ -1,6 +1,30 @@
 import type { Language } from '@/shared/types/languages'
 
 export const ROUTE_SLUGS = {
+  forbidden: {
+    es: 'no-autorizado',
+    en: 'unauthorized',
+    de: 'nicht-autorisiert',
+    fr: 'acces-interdit',
+    pt: 'nao-autorizado',
+    it: 'non-autorizzato',
+    ja: 'mi-ninka',
+    ko: 'mi-seungni',
+    zh: 'wei-shouquan',
+    ru: 'ne-avtorizovan',
+  },
+  notFound: {
+    es: 'no-encontrada',
+    en: 'not-found',
+    de: 'nicht-gefunden',
+    fr: 'introuvable',
+    pt: 'nao-encontrada',
+    it: 'non-trovata',
+    ja: 'mitsuke-nai',
+    ko: 'mot-chateum',
+    zh: 'wei-zhaodao',
+    ru: 'ne-naydeno',
+  },
   users: {
     es: 'usuarios',
     en: 'users',

@@ -1,16 +1,15 @@
 import { redirect } from '@tanstack/react-router'
 import { isTokenStored } from '@/shared/model'
-import { useLanguageStore } from '@/shared/model/language.store'
+import { navPaths } from './nav-paths'
 
 export const requireAuth = (): void => {
   if (!isTokenStored()) {
-    throw redirect({ to: '/no-autorizado' })
+    throw redirect({ to: navPaths.forbidden() as never })
   }
 }
 
 export const requireGuest = (): void => {
   if (isTokenStored()) {
-    const lang = useLanguageStore.getState().language
-    throw redirect({ to: `/${lang}` as never })
+    throw redirect({ to: navPaths.home() as never })
   }
 }
