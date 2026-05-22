@@ -37,8 +37,12 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             <div className="w-full border-t border-slate-200 pt-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium text-slate-700">{t.form.statusLabel}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">{t.form.statusDescription}</p>
+                  <p className="text-sm font-medium text-slate-700">
+                    {t.form.statusLabel}
+                  </p>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    {t.form.statusDescription}
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -52,7 +56,9 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                 >
                   <span
                     className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
-                      statusValue === 'active' ? 'translate-x-5' : 'translate-x-0'
+                      statusValue === 'active'
+                        ? 'translate-x-5'
+                        : 'translate-x-0'
                     }`}
                   />
                 </button>
@@ -111,7 +117,9 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
               )}
             </div>
 
-            <p className="text-sm font-medium text-slate-600">{t.form.addressSection}</p>
+            <p className="text-sm font-medium text-slate-600">
+              {t.form.addressSection}
+            </p>
             <InputField
               label={t.form.addressStreet}
               placeholder={t.form.addressStreetPlaceholder}
@@ -141,7 +149,12 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             </div>
 
             <div className="flex justify-end gap-3 pt-2">
-              <Button variant="secondary" type="button" disabled={busy} onClick={handleCancel}>
+              <Button
+                variant="secondary"
+                type="button"
+                disabled={busy}
+                onClick={handleCancel}
+              >
                 {t.form.cancelButton}
               </Button>
               <Button variant="primary" type="submit" loading={busy}>
