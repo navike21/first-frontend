@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { usersApi } from './users.api'
 import { useSessionStore } from '@/shared/model'
-import type { UserListParams } from '../model/user.types'
+import type { ApiResponse, PaginatedData } from '@/shared/api/types'
+import type { User, UserListParams } from '../model/user.types'
 import type { CreateUserFormData, UpdateUserFormData } from '../model/user.schema'
 
 export const userKeys = {
@@ -40,12 +41,27 @@ export const useUpdateUser = (id: string) => {
   return useMutation({
     mutationFn: (data: UpdateUserFormData) => usersApi.update(id, data),
     onSuccess: (res) => {
+      const updated = res.data
+
+      qc.setQueriesData<ApiResponse<PaginatedData<User>>>(
+        { queryKey: userKeys.lists() },
+        (old) => {
+          if (!old) return old
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              items: old.data.items.map((u) => (u.id === id ? { ...u, ...updated } : u)),
+            },
+          }
+        },
+      )
+
       qc.invalidateQueries({ queryKey: userKeys.lists() })
       qc.invalidateQueries({ queryKey: userKeys.detail(id) })
 
       const { user, token, setSession } = useSessionStore.getState()
       if (user && token && user.id === id) {
-        const updated = res.data
         setSession(token, {
           ...user,
           firstName: updated.firstName,
