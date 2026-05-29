@@ -66,7 +66,7 @@ export const ROUTE_SLUGS = {
     en: 'groups',
     de: 'gruppen',
     fr: 'groupes',
-    pt: 'grupos',
+    pt: 'agrupamentos',
     it: 'gruppi',
     ja: 'guruupu',
     ko: 'geurup',

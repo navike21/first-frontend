@@ -23,6 +23,18 @@ const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
     es: 'Editar', en: 'Edit', de: 'Bearbeiten', fr: 'Modifier',
     pt: 'Alterar', it: 'Modifica', ja: '編集', ko: '편집', zh: '编辑', ru: 'Редактировать',
   },
+  userGroups: {
+    es: 'Grupos', en: 'Groups', de: 'Gruppen', fr: 'Groupes',
+    pt: 'Grupos', it: 'Gruppi', ja: 'グループ', ko: '그룹', zh: '群组', ru: 'Группы',
+  },
+  userGroupCreate: {
+    es: 'Nuevo', en: 'New', de: 'Neu', fr: 'Nouveau',
+    pt: 'Novo', it: 'Nuovo', ja: '新規', ko: '새로', zh: '新建', ru: 'Новый',
+  },
+  userGroupEdit: {
+    es: 'Editar', en: 'Edit', de: 'Bearbeiten', fr: 'Modifier',
+    pt: 'Alterar', it: 'Modifica', ja: '編集', ko: '편집', zh: '编辑', ru: 'Редактировать',
+  },
 }
 
 const HOME_LABELS: Record<Language, string> = {

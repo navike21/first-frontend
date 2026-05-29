@@ -75,6 +75,6 @@ export const usePermissionsCatalog = () =>
   useQuery({
     queryKey: userGroupKeys.catalog(),
     queryFn: () => userGroupsApi.permissionsCatalog(),
-    select: (res) => res.data,
+    select: (res) => res.data.permissions,
     staleTime: Infinity,
   })

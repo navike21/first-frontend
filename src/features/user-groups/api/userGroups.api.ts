@@ -40,5 +40,5 @@ export const userGroupsApi = {
     request<ApiResponse<UserGroup>>({ api: `${BASE}/${id}/soft`, method: 'DELETE' }),
 
   permissionsCatalog: () =>
-    request<ApiResponse<string[]>>({ api: '/permissions/catalog', method: 'GET' }),
+    request<ApiResponse<{ permissions: string[] }>>({ api: '/permissions/catalog', method: 'GET' }),
 }
