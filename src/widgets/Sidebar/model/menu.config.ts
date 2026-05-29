@@ -24,6 +24,10 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     es: 'Usuarios', en: 'Users', de: 'Benutzer', fr: 'Utilisateurs',
     pt: 'Usuários', it: 'Utenti', ja: 'ユーザー', ko: '사용자', zh: '用户', ru: 'Пользователи',
   },
+  userGroups: {
+    es: 'Grupos de usuarios', en: 'User Groups', de: 'Benutzergruppen', fr: 'Groupes d\'utilisateurs',
+    pt: 'Grupos de usuários', it: 'Gruppi utenti', ja: 'ユーザーグループ', ko: '사용자 그룹', zh: '用户组', ru: 'Группы пользователей',
+  },
 }
 
 export function getMenuConfig(lang: Language): MenuItem[] {
@@ -40,6 +44,12 @@ export function getMenuConfig(lang: Language): MenuItem[] {
       label: MENU_LABELS.users[lang],
       icon: 'RiGroupLine',
       href: navPaths.users(lang),
+    },
+    {
+      id: 'userGroups',
+      label: MENU_LABELS.userGroups[lang],
+      icon: 'RiShieldUserLine',
+      href: navPaths.userGroups(lang),
     },
   ]
 }
