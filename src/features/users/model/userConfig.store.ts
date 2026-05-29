@@ -25,27 +25,36 @@ const initial: UserConfigState = {
   isLoaded: false,
 }
 
+let inflightPromise: Promise<void> | null = null
+
 export const useUserConfigStore = create<UserConfigStore>((set, get) => ({
   ...initial,
 
-  load: async () => {
-    if (get().isLoaded) return
-    try {
-      const [metaRes, groupsRes] = await Promise.all([
-        usersApi.metadata(),
-        userGroupsApi.list(),
-      ])
-      const meta: UserMetadata = metaRes.data
-      set({
-        genders: meta.genders,
-        presenceStatuses: meta.presenceStatuses,
-        userStatuses: meta.userStatuses,
-        userGroups: groupsRes.data?.items ?? [],
-        isLoaded: true,
+  load: () => {
+    if (get().isLoaded) return Promise.resolve()
+    if (inflightPromise) return inflightPromise
+
+    inflightPromise = Promise.all([
+      usersApi.metadata(),
+      userGroupsApi.list(),
+    ])
+      .then(([metaRes, groupsRes]) => {
+        const meta: UserMetadata = metaRes.data
+        set({
+          genders: meta.genders,
+          presenceStatuses: meta.presenceStatuses,
+          userStatuses: meta.userStatuses,
+          userGroups: groupsRes.data?.items ?? [],
+          isLoaded: true,
+        })
       })
-    } catch {
-      // Keep defaults on error — forms still work with hardcoded fallbacks
-      set({ isLoaded: true })
-    }
+      .catch(() => {
+        set({ isLoaded: true })
+      })
+      .finally(() => {
+        inflightPromise = null
+      })
+
+    return inflightPromise
   },
 }))
