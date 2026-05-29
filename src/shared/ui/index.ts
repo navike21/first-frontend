@@ -2,6 +2,7 @@
    Export reusable, domain-agnostic components from this folder. */
 
 // Atoms
+export { Switch, type SwitchProps, type SwitchSize } from './atoms/Switch'
 export {
   Avatar,
   type AvatarProps,
@@ -68,6 +69,15 @@ export {
   type PageHeaderButtonAction,
   type PageHeaderLinkAction,
 } from './molecules/PageHeader'
+
+export {
+  InputDate,
+  type InputDateProps,
+  type DatePickerMode,
+  type InputDateVariant,
+  type InputDateTexts,
+  type InputRegisterLike,
+} from './molecules/InputDate'
 
 // Layouts
 export { InputLayout, type InputLayoutProps } from './layouts/InputLayout'
