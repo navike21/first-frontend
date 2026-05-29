@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const it: UserGroupsTranslations = {
+  page: {
+    listTitle: 'Gruppi utenti',
+    listDescription: 'Gestisci i gruppi e i loro permessi',
+    createTitle: 'Nuovo gruppo',
+    createDescription: 'Compila i campi per creare un nuovo gruppo utenti',
+    editTitle: 'Modifica gruppo',
+    editDescription: (name) => `Modifica il gruppo "${name}"`,
+  },
+  table: {
+    noResults: 'Nessun gruppo trovato',
+    colName: 'Nome',
+    colPermissions: 'Permessi',
+    colStatus: 'Stato',
+    colActions: 'Azioni',
+    editGroup: 'Modifica gruppo',
+    deleteGroup: 'Elimina gruppo',
+    prevPage: 'Pagina precedente',
+    nextPage: 'Pagina successiva',
+    totalCount: (n) => `${n} gruppo${n !== 1 ? 'i' : ''} in totale`,
+    permissionsCount: (n) => `${n} permess${n !== 1 ? 'i' : 'o'}`,
+    systemBadge: 'Sistema',
+  },
+  status: { active: 'Attivo', inactive: 'Inattivo' },
+  form: {
+    name: 'Nome',
+    namePlaceholder: 'Es. Amministratori',
+    description: 'Descrizione',
+    descriptionPlaceholder: 'Descrivi lo scopo di questo gruppo…',
+    color: 'Colore',
+    permissions: 'Permessi',
+    permissionsHint: 'Seleziona i permessi per questo gruppo',
+    statusLabel: 'Stato del gruppo',
+    statusDescription: 'I gruppi inattivi non possono essere assegnati agli utenti',
+    systemNotice: 'Questo è un gruppo di sistema e non può essere modificato',
+    createButton: 'Crea gruppo',
+    saveButton: 'Salva modifiche',
+    cancelButton: 'Annulla',
+  },
+  actions: {
+    newGroup: 'Nuovo gruppo',
+    deleteTitle: 'Elimina gruppo',
+    deleteDescription: (name) =>
+      `Sei sicuro di voler eliminare il gruppo "${name}"? Questa azione non può essere annullata.`,
+    confirmDelete: 'Elimina',
+    cancel: 'Annulla',
+  },
+  filters: {
+    searchLabel: 'Cerca',
+    searchPlaceholder: 'Nome del gruppo…',
+    statusLabel: 'Stato',
+    statusAll: 'Tutti gli stati',
+    statusActive: 'Attivi',
+    statusInactive: 'Inattivi',
+  },
+  toasts: {
+    created: 'Gruppo creato con successo',
+    updated: 'Gruppo aggiornato con successo',
+    deleted: 'Gruppo eliminato con successo',
+  },
+  validation: {
+    nameMin: 'Minimo 2 caratteri',
+    nameMax: 'Massimo 80 caratteri',
+    colorInvalid: 'Formato colore non valido (#RRGGBB)',
+  },
+}

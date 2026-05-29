@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const ja: UserGroupsTranslations = {
+  page: {
+    listTitle: 'ユーザーグループ',
+    listDescription: 'グループと権限を管理する',
+    createTitle: '新しいグループ',
+    createDescription: '新しいユーザーグループを作成するフィールドを入力してください',
+    editTitle: 'グループを編集',
+    editDescription: (name) => `グループ「${name}」を編集`,
+  },
+  table: {
+    noResults: 'グループが見つかりません',
+    colName: '名前',
+    colPermissions: '権限',
+    colStatus: 'ステータス',
+    colActions: 'アクション',
+    editGroup: 'グループを編集',
+    deleteGroup: 'グループを削除',
+    prevPage: '前のページ',
+    nextPage: '次のページ',
+    totalCount: (n) => `合計 ${n} グループ`,
+    permissionsCount: (n) => `${n} 件の権限`,
+    systemBadge: 'システム',
+  },
+  status: { active: '有効', inactive: '無効' },
+  form: {
+    name: '名前',
+    namePlaceholder: '例：管理者',
+    description: '説明',
+    descriptionPlaceholder: 'このグループの目的を説明してください…',
+    color: 'カラー',
+    permissions: '権限',
+    permissionsHint: 'このグループの権限を選択してください',
+    statusLabel: 'グループのステータス',
+    statusDescription: '無効なグループはユーザーに割り当てられません',
+    systemNotice: 'これはシステムグループであり、変更できません',
+    createButton: 'グループを作成',
+    saveButton: '変更を保存',
+    cancelButton: 'キャンセル',
+  },
+  actions: {
+    newGroup: '新しいグループ',
+    deleteTitle: 'グループを削除',
+    deleteDescription: (name) =>
+      `グループ「${name}」を削除しますか？この操作は元に戻せません。`,
+    confirmDelete: '削除',
+    cancel: 'キャンセル',
+  },
+  filters: {
+    searchLabel: '検索',
+    searchPlaceholder: 'グループ名…',
+    statusLabel: 'ステータス',
+    statusAll: 'すべてのステータス',
+    statusActive: '有効',
+    statusInactive: '無効',
+  },
+  toasts: {
+    created: 'グループが正常に作成されました',
+    updated: 'グループが正常に更新されました',
+    deleted: 'グループが正常に削除されました',
+  },
+  validation: {
+    nameMin: '最低2文字が必要です',
+    nameMax: '最大80文字です',
+    colorInvalid: '無効なカラー形式 (#RRGGBB)',
+  },
+}

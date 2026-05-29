@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const zh: UserGroupsTranslations = {
+  page: {
+    listTitle: '用户组',
+    listDescription: '管理用户组及其权限',
+    createTitle: '新建用户组',
+    createDescription: '填写字段以创建新的用户组',
+    editTitle: '编辑用户组',
+    editDescription: (name) => `编辑用户组"${name}"`,
+  },
+  table: {
+    noResults: '未找到用户组',
+    colName: '名称',
+    colPermissions: '权限',
+    colStatus: '状态',
+    colActions: '操作',
+    editGroup: '编辑用户组',
+    deleteGroup: '删除用户组',
+    prevPage: '上一页',
+    nextPage: '下一页',
+    totalCount: (n) => `共 ${n} 个用户组`,
+    permissionsCount: (n) => `${n} 个权限`,
+    systemBadge: '系统',
+  },
+  status: { active: '活跃', inactive: '非活跃' },
+  form: {
+    name: '名称',
+    namePlaceholder: '例：管理员',
+    description: '描述',
+    descriptionPlaceholder: '描述此用户组的用途…',
+    color: '颜色',
+    permissions: '权限',
+    permissionsHint: '选择此用户组的权限',
+    statusLabel: '用户组状态',
+    statusDescription: '非活跃用户组不能分配给用户',
+    systemNotice: '这是系统用户组，无法修改',
+    createButton: '创建用户组',
+    saveButton: '保存更改',
+    cancelButton: '取消',
+  },
+  actions: {
+    newGroup: '新建用户组',
+    deleteTitle: '删除用户组',
+    deleteDescription: (name) =>
+      `确定要删除用户组"${name}"吗？此操作无法撤销。`,
+    confirmDelete: '删除',
+    cancel: '取消',
+  },
+  filters: {
+    searchLabel: '搜索',
+    searchPlaceholder: '用户组名称…',
+    statusLabel: '状态',
+    statusAll: '所有状态',
+    statusActive: '活跃',
+    statusInactive: '非活跃',
+  },
+  toasts: {
+    created: '用户组创建成功',
+    updated: '用户组更新成功',
+    deleted: '用户组删除成功',
+  },
+  validation: {
+    nameMin: '最少需要2个字符',
+    nameMax: '最多80个字符',
+    colorInvalid: '无效的颜色格式 (#RRGGBB)',
+  },
+}

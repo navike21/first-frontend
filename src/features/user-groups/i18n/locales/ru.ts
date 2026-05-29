@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const ru: UserGroupsTranslations = {
+  page: {
+    listTitle: 'Группы пользователей',
+    listDescription: 'Управление группами и их разрешениями',
+    createTitle: 'Новая группа',
+    createDescription: 'Заполните поля для создания новой группы пользователей',
+    editTitle: 'Редактировать группу',
+    editDescription: (name) => `Редактировать группу «${name}»`,
+  },
+  table: {
+    noResults: 'Группы не найдены',
+    colName: 'Название',
+    colPermissions: 'Разрешения',
+    colStatus: 'Статус',
+    colActions: 'Действия',
+    editGroup: 'Редактировать группу',
+    deleteGroup: 'Удалить группу',
+    prevPage: 'Предыдущая страница',
+    nextPage: 'Следующая страница',
+    totalCount: (n) => `Всего ${n} групп${n === 1 ? 'а' : n < 5 ? 'ы' : ''}`,
+    permissionsCount: (n) => `${n} разрешени${n === 1 ? 'е' : n < 5 ? 'я' : 'й'}`,
+    systemBadge: 'Система',
+  },
+  status: { active: 'Активный', inactive: 'Неактивный' },
+  form: {
+    name: 'Название',
+    namePlaceholder: 'Напр. Администраторы',
+    description: 'Описание',
+    descriptionPlaceholder: 'Опишите назначение этой группы…',
+    color: 'Цвет',
+    permissions: 'Разрешения',
+    permissionsHint: 'Выберите разрешения для этой группы',
+    statusLabel: 'Статус группы',
+    statusDescription: 'Неактивные группы нельзя назначать пользователям',
+    systemNotice: 'Это системная группа и её нельзя изменить',
+    createButton: 'Создать группу',
+    saveButton: 'Сохранить изменения',
+    cancelButton: 'Отмена',
+  },
+  actions: {
+    newGroup: 'Новая группа',
+    deleteTitle: 'Удалить группу',
+    deleteDescription: (name) =>
+      `Вы уверены, что хотите удалить группу «${name}»? Это действие нельзя отменить.`,
+    confirmDelete: 'Удалить',
+    cancel: 'Отмена',
+  },
+  filters: {
+    searchLabel: 'Поиск',
+    searchPlaceholder: 'Название группы…',
+    statusLabel: 'Статус',
+    statusAll: 'Все статусы',
+    statusActive: 'Активные',
+    statusInactive: 'Неактивные',
+  },
+  toasts: {
+    created: 'Группа успешно создана',
+    updated: 'Группа успешно обновлена',
+    deleted: 'Группа успешно удалена',
+  },
+  validation: {
+    nameMin: 'Минимум 2 символа',
+    nameMax: 'Максимум 80 символов',
+    colorInvalid: 'Неверный формат цвета (#RRGGBB)',
+  },
+}

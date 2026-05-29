@@ -8,6 +8,7 @@ import { publicLayout, privateLayout } from './layouts'
 import { loginRouteTree } from './routes/login.route'
 import { dashboardRoute } from './routes/dashboard.route'
 import { allUsersRouteTrees } from './routes/users.route'
+import { allUserGroupsRouteTrees } from './routes/userGroups.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
 import { setLastValidPath } from './navigationHistory'
@@ -36,7 +37,7 @@ const routeTree = rootRoute.addChildren([
   rootRedirect,
   langRoute.addChildren([
     publicLayout.addChildren([loginRouteTree]),
-    privateLayout.addChildren([dashboardRoute, ...allUsersRouteTrees]),
+    privateLayout.addChildren([dashboardRoute, ...allUsersRouteTrees, ...allUserGroupsRouteTrees]),
     ...allForbiddenRouteTrees,
     ...allNotFoundRouteTrees,
     langCatchAll,

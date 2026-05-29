@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const ko: UserGroupsTranslations = {
+  page: {
+    listTitle: '사용자 그룹',
+    listDescription: '그룹 및 권한 관리',
+    createTitle: '새 그룹',
+    createDescription: '새 사용자 그룹을 만들려면 필드를 입력하세요',
+    editTitle: '그룹 편집',
+    editDescription: (name) => `그룹 "${name}" 편집`,
+  },
+  table: {
+    noResults: '그룹을 찾을 수 없습니다',
+    colName: '이름',
+    colPermissions: '권한',
+    colStatus: '상태',
+    colActions: '작업',
+    editGroup: '그룹 편집',
+    deleteGroup: '그룹 삭제',
+    prevPage: '이전 페이지',
+    nextPage: '다음 페이지',
+    totalCount: (n) => `총 ${n}개 그룹`,
+    permissionsCount: (n) => `권한 ${n}개`,
+    systemBadge: '시스템',
+  },
+  status: { active: '활성', inactive: '비활성' },
+  form: {
+    name: '이름',
+    namePlaceholder: '예: 관리자',
+    description: '설명',
+    descriptionPlaceholder: '이 그룹의 목적을 설명하세요…',
+    color: '색상',
+    permissions: '권한',
+    permissionsHint: '이 그룹의 권한을 선택하세요',
+    statusLabel: '그룹 상태',
+    statusDescription: '비활성 그룹은 사용자에게 할당할 수 없습니다',
+    systemNotice: '이것은 시스템 그룹이며 수정할 수 없습니다',
+    createButton: '그룹 만들기',
+    saveButton: '변경사항 저장',
+    cancelButton: '취소',
+  },
+  actions: {
+    newGroup: '새 그룹',
+    deleteTitle: '그룹 삭제',
+    deleteDescription: (name) =>
+      `그룹 "${name}"을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.`,
+    confirmDelete: '삭제',
+    cancel: '취소',
+  },
+  filters: {
+    searchLabel: '검색',
+    searchPlaceholder: '그룹 이름…',
+    statusLabel: '상태',
+    statusAll: '모든 상태',
+    statusActive: '활성',
+    statusInactive: '비활성',
+  },
+  toasts: {
+    created: '그룹이 성공적으로 생성되었습니다',
+    updated: '그룹이 성공적으로 업데이트되었습니다',
+    deleted: '그룹이 성공적으로 삭제되었습니다',
+  },
+  validation: {
+    nameMin: '최소 2자 이상이어야 합니다',
+    nameMax: '최대 80자까지 입력할 수 있습니다',
+    colorInvalid: '잘못된 색상 형식 (#RRGGBB)',
+  },
+}

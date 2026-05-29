@@ -1,0 +1,68 @@
+import type { UserGroupsTranslations } from '../types'
+
+export const en: UserGroupsTranslations = {
+  page: {
+    listTitle: 'User groups',
+    listDescription: 'Manage groups and their permissions',
+    createTitle: 'New group',
+    createDescription: 'Fill in the fields to create a new user group',
+    editTitle: 'Edit group',
+    editDescription: (name) => `Edit group "${name}"`,
+  },
+  table: {
+    noResults: 'No groups found',
+    colName: 'Name',
+    colPermissions: 'Permissions',
+    colStatus: 'Status',
+    colActions: 'Actions',
+    editGroup: 'Edit group',
+    deleteGroup: 'Delete group',
+    prevPage: 'Previous page',
+    nextPage: 'Next page',
+    totalCount: (n) => `${n} group${n !== 1 ? 's' : ''} total`,
+    permissionsCount: (n) => `${n} permission${n !== 1 ? 's' : ''}`,
+    systemBadge: 'System',
+  },
+  status: { active: 'Active', inactive: 'Inactive' },
+  form: {
+    name: 'Name',
+    namePlaceholder: 'e.g. Administrators',
+    description: 'Description',
+    descriptionPlaceholder: 'Describe the purpose of this group…',
+    color: 'Color',
+    permissions: 'Permissions',
+    permissionsHint: 'Select the permissions for this group',
+    statusLabel: 'Group status',
+    statusDescription: 'Inactive groups cannot be assigned to users',
+    systemNotice: 'This is a system group and cannot be modified',
+    createButton: 'Create group',
+    saveButton: 'Save changes',
+    cancelButton: 'Cancel',
+  },
+  actions: {
+    newGroup: 'New group',
+    deleteTitle: 'Delete group',
+    deleteDescription: (name) =>
+      `Are you sure you want to delete the group "${name}"? This action cannot be undone.`,
+    confirmDelete: 'Delete',
+    cancel: 'Cancel',
+  },
+  filters: {
+    searchLabel: 'Search',
+    searchPlaceholder: 'Group name…',
+    statusLabel: 'Status',
+    statusAll: 'All statuses',
+    statusActive: 'Active',
+    statusInactive: 'Inactive',
+  },
+  toasts: {
+    created: 'Group created successfully',
+    updated: 'Group updated successfully',
+    deleted: 'Group deleted successfully',
+  },
+  validation: {
+    nameMin: 'Minimum 2 characters',
+    nameMax: 'Maximum 80 characters',
+    colorInvalid: 'Invalid color format (#RRGGBB)',
+  },
+}
