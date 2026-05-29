@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   server: {
     port: 5176,
+    strictPort: true,
     proxy: {
       '/api': {
         target: 'https://first-backend-git-develop-navike21.vercel.app',
