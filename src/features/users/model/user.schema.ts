@@ -13,12 +13,12 @@ const addressSchema = z.object({
 
 export function createCreateUserSchema(v: V) {
   return z.object({
-    email: z.string().email(v.emailInvalid).toLowerCase(),
+    email: z.email(v.emailInvalid).toLowerCase(),
     password: z
       .string()
       .min(8, v.passwordMin)
       .regex(/[A-Z]/, v.passwordUppercase)
-      .regex(/[0-9]/, v.passwordNumber),
+      .regex(/\d/, v.passwordNumber),
     firstName: z.string().min(2, v.fieldMin2).max(50).trim(),
     lastName: z.string().min(2, v.fieldMin2).max(100).trim(),
     dateOfBirth: z
@@ -29,7 +29,6 @@ export function createCreateUserSchema(v: V) {
     gender: z.enum(['female', 'male', 'other', 'prefer_not_to_say']).optional(),
     phone: z.string().max(30).optional().or(z.literal('')),
     profilePictureUrl: z
-      .string()
       .url(v.urlInvalid)
       .max(500)
       .optional()
@@ -41,7 +40,9 @@ export function createCreateUserSchema(v: V) {
 }
 
 export function createUpdateUserSchema(v: V) {
-  return createCreateUserSchema(v).omit({ email: true, password: true }).partial()
+  return createCreateUserSchema(v)
+    .omit({ email: true, password: true })
+    .partial()
 }
 
 export const userListSchema = z.object({
@@ -52,5 +53,9 @@ export const userListSchema = z.object({
   groupId: z.string().optional(),
 })
 
-export type CreateUserFormData = z.infer<ReturnType<typeof createCreateUserSchema>>
-export type UpdateUserFormData = z.infer<ReturnType<typeof createUpdateUserSchema>>
+export type CreateUserFormData = z.infer<
+  ReturnType<typeof createCreateUserSchema>
+>
+export type UpdateUserFormData = z.infer<
+  ReturnType<typeof createUpdateUserSchema>
+>

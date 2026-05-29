@@ -1,4 +1,4 @@
-import { Button, InputField, Select, PhotoPicker } from '@/shared/ui'
+import { Button, InputField, InputDate, Select, PhotoPicker } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useCreateUserForm } from './CreateUserForm.hooks'
 import type { UseCreateUserFormProps } from './CreateUserForm.hooks'
@@ -71,10 +71,11 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.phone?.message}
                 {...register('phone')}
               />
-              <InputField
+              <InputDate
                 label={t.form.dateOfBirth}
                 placeholder={t.form.dateOfBirthPlaceholder}
-                variant={errors.dateOfBirth ? 'error' : undefined}
+                mode="date"
+                variant={errors.dateOfBirth ? 'error' : 'default'}
                 errorMessage={errors.dateOfBirth?.message}
                 {...register('dateOfBirth')}
               />

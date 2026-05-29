@@ -1,4 +1,4 @@
-import { Button, InputField, Select, PhotoPicker } from '@/shared/ui'
+import { Button, InputField, InputDate, Select, PhotoPicker, Switch } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'
@@ -35,34 +35,13 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
               disabled={busy}
             />
             <div className="w-full border-t border-slate-200 pt-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-sm font-medium text-slate-700">
-                    {t.form.statusLabel}
-                  </p>
-                  <p className="mt-0.5 text-xs text-slate-500">
-                    {t.form.statusDescription}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={statusValue === 'active'}
-                  disabled={busy}
-                  onClick={onStatusToggle}
-                  className={`relative mt-0.5 inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 ${
-                    statusValue === 'active' ? 'bg-green-500' : 'bg-slate-300'
-                  }`}
-                >
-                  <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
-                      statusValue === 'active'
-                        ? 'translate-x-5'
-                        : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
+              <Switch
+                label={t.form.statusLabel}
+                helperText={t.form.statusDescription}
+                checked={statusValue === 'active'}
+                onChange={() => onStatusToggle()}
+                disabled={busy}
+              />
             </div>
           </>
         }
@@ -90,11 +69,13 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                 errorMessage={errors.phone?.message}
                 {...register('phone')}
               />
-              <InputField
+              <InputDate
                 label={t.form.dateOfBirth}
                 placeholder={t.form.dateOfBirthPlaceholder}
-                variant={errors.dateOfBirth ? 'error' : undefined}
+                mode="date"
+                variant={errors.dateOfBirth ? 'error' : 'default'}
                 errorMessage={errors.dateOfBirth?.message}
+                defaultValue={props.defaultValues.dateOfBirth ?? ''}
                 {...register('dateOfBirth')}
               />
               <Select
