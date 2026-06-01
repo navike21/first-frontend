@@ -11,6 +11,8 @@ export const userKeys = {
   list: (params: UserListParams) => [...userKeys.lists(), params] as const,
   details: () => [...userKeys.all, 'detail'] as const,
   detail: (id: string) => [...userKeys.details(), id] as const,
+  trash: () => [...userKeys.all, 'trash'] as const,
+  trashList: (params: { page?: number; limit?: number }) => [...userKeys.trash(), params] as const,
 }
 
 export const useUsers = (params: UserListParams = {}) =>
@@ -79,5 +81,31 @@ export const useSoftDeleteUser = () => {
   return useMutation({
     mutationFn: (id: string) => usersApi.softDelete(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
+  })
+}
+
+export const useUsersTrash = (params: { page?: number; limit?: number } = {}) =>
+  useQuery({
+    queryKey: userKeys.trashList(params),
+    queryFn: () => usersApi.trash(params),
+    select: (res) => res.data,
+  })
+
+export const useRestoreUser = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => usersApi.restore(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: userKeys.trash() })
+      qc.invalidateQueries({ queryKey: userKeys.lists() })
+    },
+  })
+}
+
+export const usePurgeUser = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => usersApi.purge(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.trash() }),
   })
 }

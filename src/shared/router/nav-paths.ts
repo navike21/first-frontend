@@ -36,6 +36,11 @@ export const navPaths = {
     return `/${l_}/${ROUTE_SLUGS.users[l_]}/${userId}/${ROUTE_SLUGS.userEdit[l_]}`
   },
 
+  userTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.users[l_]}/${ROUTE_SLUGS.userTrash[l_]}`
+  },
+
   userGroups: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}`
@@ -49,5 +54,10 @@ export const navPaths = {
   userGroupEdit: (groupId: string, l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${groupId}/${ROUTE_SLUGS.userGroupEdit[l_]}`
+  },
+
+  userGroupTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${ROUTE_SLUGS.userGroupTrash[l_]}`
   },
 } as const

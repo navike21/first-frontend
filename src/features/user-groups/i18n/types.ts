@@ -6,6 +6,10 @@ export interface UserGroupsTranslations {
     createDescription: string
     editTitle: string
     editDescription: (name: string) => string
+    trashTitle: string
+    trashDescription: string
+    trashEmpty: string
+    trashEmptyDescription: string
   }
   table: {
     noResults: string
@@ -13,6 +17,7 @@ export interface UserGroupsTranslations {
     colPermissions: string
     colStatus: string
     colActions: string
+    viewGroup: string
     editGroup: string
     deleteGroup: string
     prevPage: string
@@ -20,6 +25,19 @@ export interface UserGroupsTranslations {
     totalCount: (count: number) => string
     permissionsCount: (n: number) => string
     systemBadge: string
+    deletedAt: string
+  }
+  detail: {
+    title: string
+    descriptionLabel: string
+    permissionsLabel: string
+    noPermissions: string
+    superadminNotice: string
+    actionAll: string
+    createdAt: string
+    updatedAt: string
+    editButton: string
+    closeButton: string
   }
   status: { active: string; inactive: string }
   form: {
@@ -43,6 +61,15 @@ export interface UserGroupsTranslations {
     deleteDescription: (name: string) => string
     confirmDelete: string
     cancel: string
+    viewTrash: string
+    restoreGroup: string
+    purgeGroup: string
+    restoreTitle: string
+    restoreDescription: (name: string) => string
+    purgeTitle: string
+    purgeDescription: (name: string) => string
+    confirmRestore: string
+    confirmPurge: string
   }
   filters: {
     searchLabel: string
@@ -56,6 +83,8 @@ export interface UserGroupsTranslations {
     created: string
     updated: string
     deleted: string
+    restored: string
+    purged: string
   }
   validation: {
     nameMin: string

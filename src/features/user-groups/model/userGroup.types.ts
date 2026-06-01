@@ -11,6 +11,7 @@ export interface UserGroup {
   status: UserGroupStatus
   createdAt: string
   updatedAt: string
+  deletedAt?: string
 }
 
 export interface UserGroupListParams {

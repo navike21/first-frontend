@@ -1,6 +1,7 @@
 import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/shared/ui'
-import { UserGroupTable } from '@/features/user-groups'
+import { UserGroupTable, UserGroupDetailModal } from '@/features/user-groups'
 import { navPaths } from '@/shared/router'
+import { useHasPermission } from '@/shared/lib/permissions'
 import { useUserGroupsPage } from './UserGroupsPage.hooks'
 
 export const UserGroupsPage = () => {
@@ -9,19 +10,24 @@ export const UserGroupsPage = () => {
     language,
     params,
     search,
+    viewingGroup,
     deletingGroup,
     data,
     isLoading,
     softDelete,
     statusOptions,
+    handleView,
     handleEdit,
     handleDelete,
     handleConfirmDelete,
     handleSearchChange,
     handleStatusChange,
     handlePageChange,
+    setViewingGroup,
     setDeletingGroup,
   } = useUserGroupsPage()
+
+  const canSeeTrash = useHasPermission('user-groups:purge', 'user-groups:manage', '*:*')
 
   return (
     <div className="animate-page-in space-y-6">
@@ -29,13 +35,25 @@ export const UserGroupsPage = () => {
         title={t.page.listTitle}
         description={t.page.listDescription}
         actions={[
+          ...(canSeeTrash
+            ? [
+                {
+                  type: 'link' as const,
+                  label: t.actions.viewTrash,
+                  icon: 'RiDeleteBinLine' as const,
+                  variant: 'secondary' as const,
+                  to: navPaths.userGroupTrash(language),
+                  size: 'small' as const,
+                },
+              ]
+            : []),
           {
-            type: 'link',
+            type: 'link' as const,
             label: t.actions.newGroup,
-            icon: 'RiAddLine',
-            variant: 'error',
+            icon: 'RiAddLine' as const,
+            variant: 'error' as const,
             to: navPaths.userGroupCreate(language),
-            size: 'small',
+            size: 'small' as const,
           },
         ]}
       />
@@ -72,8 +90,18 @@ export const UserGroupsPage = () => {
         page={data?.page ?? 1}
         pages={data?.pages ?? 1}
         onPageChange={handlePageChange}
+        onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
+      />
+
+      <UserGroupDetailModal
+        group={viewingGroup}
+        onClose={() => setViewingGroup(null)}
+        onEdit={(group) => {
+          setViewingGroup(null)
+          handleEdit(group)
+        }}
       />
 
       <Modal

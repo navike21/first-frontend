@@ -1,6 +1,7 @@
 import { PageHeader, InputField, Select, Modal, Button, IconComponent } from '@/shared/ui'
 import { UserTable } from '@/features/users'
 import { navPaths } from '@/shared/router'
+import { useHasPermission } from '@/shared/lib/permissions'
 import { useUsersPage } from './UsersPage.hooks'
 
 export const UsersPage = () => {
@@ -23,19 +24,33 @@ export const UsersPage = () => {
     setDeletingUser,
   } = useUsersPage()
 
+  const canSeeTrash = useHasPermission('users:purge', 'users:manage', '*:*')
+
   return (
     <div className="animate-page-in space-y-6">
       <PageHeader
         title={t.page.listTitle}
         description={t.page.listDescription}
         actions={[
+          ...(canSeeTrash
+            ? [
+                {
+                  type: 'link' as const,
+                  label: t.actions.viewTrash,
+                  icon: 'RiDeleteBinLine' as const,
+                  variant: 'secondary' as const,
+                  to: navPaths.userTrash(language),
+                  size: 'small' as const,
+                },
+              ]
+            : []),
           {
-            type: 'link',
+            type: 'link' as const,
             label: t.actions.newUser,
-            icon: 'RiAddLine',
-            variant: 'error',
+            icon: 'RiAddLine' as const,
+            variant: 'error' as const,
             to: navPaths.userCreate(language),
-            size: 'small',
+            size: 'small' as const,
           },
         ]}
       />

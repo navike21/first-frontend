@@ -11,6 +11,8 @@ export const userGroupKeys = {
   details: () => [...userGroupKeys.all, 'detail'] as const,
   detail: (id: string) => [...userGroupKeys.details(), id] as const,
   catalog: () => [...userGroupKeys.all, 'catalog'] as const,
+  trash: () => [...userGroupKeys.all, 'trash'] as const,
+  trashList: (params: { page?: number; limit?: number }) => [...userGroupKeys.trash(), params] as const,
 }
 
 export const useUserGroups = (params: UserGroupListParams = {}) =>
@@ -78,3 +80,29 @@ export const usePermissionsCatalog = () =>
     select: (res) => res.data.permissions,
     staleTime: Infinity,
   })
+
+export const useUserGroupsTrash = (params: { page?: number; limit?: number } = {}) =>
+  useQuery({
+    queryKey: userGroupKeys.trashList(params),
+    queryFn: () => userGroupsApi.trash(params),
+    select: (res) => res.data,
+  })
+
+export const useRestoreUserGroup = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => userGroupsApi.restore(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: userGroupKeys.trash() })
+      qc.invalidateQueries({ queryKey: userGroupKeys.lists() })
+    },
+  })
+}
+
+export const usePurgeUserGroup = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => userGroupsApi.purge(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: userGroupKeys.trash() }),
+  })
+}

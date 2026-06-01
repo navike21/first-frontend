@@ -42,8 +42,46 @@ export const usersApi = {
     }),
 
   softDelete: (id: string) =>
-    request<ApiResponse<User>>({ api: `${BASE}/${id}/soft`, method: 'DELETE' }),
+    request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'DELETE' }),
 
   hardDelete: (id: string) =>
     request<ApiResponse<null>>({ api: `${BASE}/${id}`, method: 'DELETE' }),
+
+  trash: (params: { page?: number; limit?: number } = {}) => {
+    const query = new URLSearchParams()
+    if (params.page) query.set('page', String(params.page))
+    if (params.limit) query.set('limit', String(params.limit))
+    const qs = query.toString()
+    return request<ApiResponse<PaginatedData<User>>>({
+      api: qs ? `${BASE}/trash?${qs}` : `${BASE}/trash`,
+      method: 'GET',
+    })
+  },
+
+  restore: (id: string) =>
+    request<ApiResponse<User>>({ api: `${BASE}/${id}/restore`, method: 'PATCH' }),
+
+  purge: (id: string) =>
+    request<ApiResponse<User>>({ api: `${BASE}/${id}/permanent`, method: 'DELETE' }),
+
+  bulkSoftDelete: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk`,
+      method: 'DELETE',
+      body: { ids },
+    }),
+
+  bulkRestore: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk/restore`,
+      method: 'PATCH',
+      body: { ids },
+    }),
+
+  bulkPurge: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk/permanent`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 }

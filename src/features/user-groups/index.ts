@@ -1,11 +1,15 @@
 export { UserGroupForm } from './components/UserGroupForm/UserGroupForm'
 export { UserGroupTable } from './components/UserGroupTable/UserGroupTable'
+export { UserGroupDetailModal } from './components/UserGroupDetailModal/UserGroupDetailModal'
 export {
   useUserGroups,
   useUserGroup,
   useCreateUserGroup,
   useUpdateUserGroup,
   useSoftDeleteUserGroup,
+  useUserGroupsTrash,
+  useRestoreUserGroup,
+  usePurgeUserGroup,
   usePermissionsCatalog,
   userGroupKeys,
 } from './api/userGroups.queries'

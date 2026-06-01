@@ -97,11 +97,35 @@ export const ROUTE_SLUGS = {
     zh: 'bianji',
     ru: 'redakt',
   },
+  userTrash: {
+    es: 'papelera',
+    en: 'trash',
+    de: 'papierkorb',
+    fr: 'corbeille',
+    pt: 'lixeira',
+    it: 'cestino',
+    ja: 'gomibako',
+    ko: 'hujiji',
+    zh: 'lajitong',
+    ru: 'korzina',
+  },
+  userGroupTrash: {
+    es: 'papelera',
+    en: 'trash',
+    de: 'papierkorb',
+    fr: 'corbeille',
+    pt: 'lixeira',
+    it: 'cestino',
+    ja: 'gomibako',
+    ko: 'hujiji',
+    zh: 'lajitong',
+    ru: 'korzina',
+  },
 } as const satisfies Record<string, Record<Language, string>>
 
 export type RouteModule = keyof typeof ROUTE_SLUGS
 
-// Reverse lookup: any slug (across all languages) → module key
+// Reverse lookup: any slug (across all languages) -> module key
 export const SLUG_TO_MODULE: Readonly<Record<string, RouteModule>> = Object.fromEntries(
   (Object.entries(ROUTE_SLUGS) as [RouteModule, Record<Language, string>][]).flatMap(
     ([module, langs]) => Object.values(langs).map((slug) => [slug, module]),
@@ -112,7 +136,7 @@ export function translatePath(path: string, newLang: Language): string {
   const segments = path.split('/').filter(Boolean)
   if (segments.length === 0) return `/${newLang}`
 
-  // segments[0] is the current lang — replace it
+  // segments[0] is the current lang -- replace it
   const rest = segments.slice(1)
 
   const translatedRest = rest.map((segment) => {

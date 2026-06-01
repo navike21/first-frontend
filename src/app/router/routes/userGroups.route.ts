@@ -5,6 +5,7 @@ import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { UserGroupsPage } from '@/pages/UserGroups/ui/UserGroupsPage'
 import { CreateUserGroupPage } from '@/pages/UserGroups/ui/CreateUserGroupPage'
 import { EditUserGroupPage } from '@/pages/UserGroups/ui/EditUserGroupPage'
+import { UserGroupsTrashPage } from '@/pages/UserGroups/ui/UserGroupsTrashPage'
 import type { Language } from '@/shared/types/languages'
 
 function createUserGroupsRouteTree(lang: Language) {
@@ -32,7 +33,13 @@ function createUserGroupsRouteTree(lang: Language) {
     component: EditUserGroupPage,
   })
 
-  return layout.addChildren([index, create, edit])
+  const trash = createRoute({
+    getParentRoute: () => layout,
+    path: ROUTE_SLUGS.userGroupTrash[lang],
+    component: UserGroupsTrashPage,
+  })
+
+  return layout.addChildren([index, create, edit, trash])
 }
 
 export const allUserGroupsRouteTrees = SUPPORTED_LANGUAGES.map(createUserGroupsRouteTree)

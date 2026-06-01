@@ -6,6 +6,10 @@ export interface UsersTranslations {
     createDescription: string
     editTitle: string
     editDescription: (name: string) => string
+    trashTitle: string
+    trashDescription: string
+    trashEmpty: string
+    trashEmptyDescription: string
   }
   table: {
     noResults: string
@@ -19,6 +23,7 @@ export interface UsersTranslations {
     prevPage: string
     nextPage: string
     totalCount: (count: number) => string
+    deletedAt: string
   }
   status: {
     active: string
@@ -79,6 +84,15 @@ export interface UsersTranslations {
     deactivateDescription: (firstName: string, lastName: string) => string
     confirmDeactivate: string
     cancel: string
+    viewTrash: string
+    restoreUser: string
+    purgeUser: string
+    restoreTitle: string
+    restoreDescription: (name: string) => string
+    purgeTitle: string
+    purgeDescription: (name: string) => string
+    confirmRestore: string
+    confirmPurge: string
   }
   filters: {
     searchLabel: string
@@ -92,6 +106,8 @@ export interface UsersTranslations {
     created: string
     updated: string
     deactivated: string
+    restored: string
+    purged: string
   }
   validation: {
     emailInvalid: string

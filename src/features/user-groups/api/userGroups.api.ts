@@ -37,8 +37,46 @@ export const userGroupsApi = {
     }),
 
   softDelete: (id: string) =>
-    request<ApiResponse<UserGroup>>({ api: `${BASE}/${id}/soft`, method: 'DELETE' }),
+    request<ApiResponse<UserGroup>>({ api: `${BASE}/${id}`, method: 'DELETE' }),
 
   permissionsCatalog: () =>
     request<ApiResponse<{ permissions: string[] }>>({ api: '/permissions/catalog', method: 'GET' }),
+
+  trash: (params: { page?: number; limit?: number } = {}) => {
+    const query = new URLSearchParams()
+    if (params.page) query.set('page', String(params.page))
+    if (params.limit) query.set('limit', String(params.limit))
+    const qs = query.toString()
+    return request<ApiResponse<PaginatedData<UserGroup>>>({
+      api: qs ? `${BASE}/trash?${qs}` : `${BASE}/trash`,
+      method: 'GET',
+    })
+  },
+
+  restore: (id: string) =>
+    request<ApiResponse<UserGroup>>({ api: `${BASE}/${id}/restore`, method: 'PATCH' }),
+
+  purge: (id: string) =>
+    request<ApiResponse<UserGroup>>({ api: `${BASE}/${id}/permanent`, method: 'DELETE' }),
+
+  bulkSoftDelete: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk`,
+      method: 'DELETE',
+      body: { ids },
+    }),
+
+  bulkRestore: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk/restore`,
+      method: 'PATCH',
+      body: { ids },
+    }),
+
+  bulkPurge: (ids: string[]) =>
+    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+      api: `${BASE}/bulk/permanent`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 }
