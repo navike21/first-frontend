@@ -35,6 +35,14 @@ const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
     es: 'Editar', en: 'Edit', de: 'Bearbeiten', fr: 'Modifier',
     pt: 'Alterar', it: 'Modifica', ja: '編集', ko: '편집', zh: '编辑', ru: 'Редактировать',
   },
+  userTrash: {
+    es: 'Papelera', en: 'Trash', de: 'Papierkorb', fr: 'Corbeille',
+    pt: 'Lixeira', it: 'Cestino', ja: 'ゴミ箱', ko: '휴지통', zh: '回收站', ru: 'Корзина',
+  },
+  userGroupTrash: {
+    es: 'Papelera', en: 'Trash', de: 'Papierkorb', fr: 'Corbeille',
+    pt: 'Lixeira', it: 'Cestino', ja: 'ゴミ箱', ko: '휴지통', zh: '回收站', ru: 'Корзина',
+  },
 }
 
 const HOME_LABELS: Record<Language, string> = {
