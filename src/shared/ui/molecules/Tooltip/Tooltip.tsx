@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
-import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
+import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import type {
   TooltipProps,
   TooltipVariant,
