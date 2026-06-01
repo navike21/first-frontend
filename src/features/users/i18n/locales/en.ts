@@ -62,6 +62,7 @@ export const en: UsersTranslations = {
     purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
     confirmRestore: 'Restore',
     confirmPurge: 'Delete permanently',
+    purgeWarning: 'Cannot be undone.',
   },
   filters: {
     searchLabel: 'Search', searchPlaceholder: 'Name, surname or email...',

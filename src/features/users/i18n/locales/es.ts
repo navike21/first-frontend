@@ -67,6 +67,7 @@ export const es: UsersTranslations = {
     purgeDescription: (name) => `Esto eliminará permanentemente a ${name}. Esta acción es IRREVERSIBLE.`,
     confirmRestore: 'Restaurar',
     confirmPurge: 'Eliminar permanentemente',
+    purgeWarning: 'Esta acción no se puede deshacer.',
   },
   filters: {
     searchLabel: 'Buscar', searchPlaceholder: 'Nombre, apellido o email…',

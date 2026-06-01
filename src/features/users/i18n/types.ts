@@ -93,6 +93,7 @@ export interface UsersTranslations {
     purgeDescription: (name: string) => string
     confirmRestore: string
     confirmPurge: string
+    purgeWarning: string
   }
   filters: {
     searchLabel: string

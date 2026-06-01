@@ -62,6 +62,7 @@ export const de: UsersTranslations = {
     purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden.`,
     confirmRestore: 'Wiederherstellen',
     confirmPurge: 'Endgültig löschen',
+    purgeWarning: 'Diese Aktion kann nicht rückgängig gemacht werden.',
   },
   filters: {
     searchLabel: 'Suchen', searchPlaceholder: 'Name, Nachname oder E-Mail…',

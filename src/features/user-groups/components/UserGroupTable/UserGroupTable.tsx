@@ -1,4 +1,4 @@
-import { IconButton, IconComponent, Spinner } from '@/shared/ui'
+import { IconButton, IconComponent, Spinner, Tooltip } from '@/shared/ui'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
 
@@ -9,6 +9,7 @@ interface UserGroupTableProps {
   page: number
   pages: number
   onPageChange: (page: number) => void
+  onView: (group: UserGroup) => void
   onEdit: (group: UserGroup) => void
   onDelete: (group: UserGroup) => void
 }
@@ -20,6 +21,7 @@ export const UserGroupTable = ({
   page,
   pages,
   onPageChange,
+  onView,
   onEdit,
   onDelete,
 }: UserGroupTableProps) => {
@@ -93,22 +95,35 @@ export const UserGroupTable = ({
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <IconButton
-                      icon="RiPencilLine"
-                      variant="text"
-                      size="small"
-                      aria-label={t.table.editGroup}
-                      disabled={group.isSystem}
-                      onClick={() => onEdit(group)}
-                    />
-                    <IconButton
-                      icon="RiDeleteBinLine"
-                      variant="text"
-                      size="small"
-                      aria-label={t.table.deleteGroup}
-                      disabled={group.isSystem}
-                      onClick={() => onDelete(group)}
-                    />
+                    <Tooltip heading={t.table.viewGroup} icon="RiEyeLine" position="top" size="small">
+                      <IconButton
+                        icon="RiEyeLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.table.viewGroup}
+                        onClick={() => onView(group)}
+                      />
+                    </Tooltip>
+                    <Tooltip heading={t.table.editGroup} icon="RiPencilLine" position="top" size="small">
+                      <IconButton
+                        icon="RiPencilLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.table.editGroup}
+                        disabled={group.isSystem}
+                        onClick={() => onEdit(group)}
+                      />
+                    </Tooltip>
+                    <Tooltip heading={t.table.deleteGroup} icon="RiDeleteBinLine" position="top" size="small">
+                      <IconButton
+                        icon="RiDeleteBinLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.table.deleteGroup}
+                        disabled={group.isSystem}
+                        onClick={() => onDelete(group)}
+                      />
+                    </Tooltip>
                   </div>
                 </td>
               </tr>

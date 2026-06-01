@@ -60,6 +60,7 @@ export const ru: UserGroupsTranslations = {
     purgeTitle: 'Удаление навсегда',
     purgeDescription: (name) => `Группа «${name}» будет удалена навсегда. Это действие НЕОБРАТИМО.`,
     confirmRestore: 'Восстановить',
+    purgeWarning: 'Это действие нельзя отменить.',
     confirmPurge: 'Удалить навсегда',
   },
   filters: {

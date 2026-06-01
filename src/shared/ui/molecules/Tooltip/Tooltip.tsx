@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
+import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
 import type {
   TooltipProps,
   TooltipVariant,
@@ -40,6 +41,9 @@ const arrowPositionClasses: Record<ResolvedTooltipPosition, string> = {
 
 export const Tooltip = ({
   content,
+  heading,
+  icon,
+  subtitle,
   position = 'auto',
   variant = 'dark',
   size = 'medium',
@@ -52,6 +56,9 @@ export const Tooltip = ({
 
   const isVisible = isHovered || isClicked
   const resolvedPosition = useTooltipPosition(wrapperRef, position, isVisible)
+
+  const isStructured = Boolean(heading)
+  const hasSubtitle = Boolean(subtitle)
 
   useEffect(() => {
     if (!isClicked) return
@@ -83,19 +90,49 @@ export const Tooltip = ({
         <div
           role="tooltip"
           className={clsx(
-            'pointer-events-none absolute z-50 rounded-md whitespace-nowrap',
+            'pointer-events-none absolute z-50 rounded-md',
             positionClasses[resolvedPosition],
             variantClasses[variant],
-            sizeClasses[size]
+            sizeClasses[size],
+            hasSubtitle ? 'max-w-xs whitespace-normal' : 'whitespace-nowrap',
           )}
         >
-          {content}
+          {isStructured ? (
+            <div className={clsx('flex items-start', hasSubtitle ? 'gap-2' : 'gap-1.5')}>
+              {icon && (
+                <IconComponent
+                  icon={icon}
+                  className={clsx(
+                    'shrink-0',
+                    hasSubtitle ? 'h-4 w-4 mt-0.5' : 'h-3.5 w-3.5',
+                    variant === 'dark' ? 'text-slate-300' : 'text-slate-500',
+                  )}
+                />
+              )}
+              <div className="flex flex-col gap-0.5">
+                <span className="font-medium leading-tight">{heading}</span>
+                {subtitle && (
+                  <span
+                    className={clsx(
+                      'font-normal leading-snug',
+                      variant === 'dark' ? 'text-slate-400' : 'text-slate-500',
+                      size === 'small' ? 'text-xs' : 'text-xs',
+                    )}
+                  >
+                    {subtitle}
+                  </span>
+                )}
+              </div>
+            </div>
+          ) : (
+            content
+          )}
           <span
             aria-hidden="true"
             className={clsx(
               'absolute h-2 w-2 rotate-45',
               arrowVariantClasses[variant],
-              arrowPositionClasses[resolvedPosition]
+              arrowPositionClasses[resolvedPosition],
             )}
           />
         </div>

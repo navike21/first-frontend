@@ -1,4 +1,4 @@
-import { Avatar, IconButton, IconComponent, Spinner } from '@/shared/ui'
+import { Avatar, IconButton, IconComponent, Spinner, Tooltip } from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import { PresenceDot } from './PresenceDot'
@@ -88,20 +88,24 @@ export const UserTable = ({
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <IconButton
-                      icon="RiPencilLine"
-                      variant="text"
-                      size="small"
-                      aria-label={t.table.editUser}
-                      onClick={() => onEdit(user)}
-                    />
-                    <IconButton
-                      icon="RiDeleteBinLine"
-                      variant="text"
-                      size="small"
-                      aria-label={t.table.deleteUser}
-                      onClick={() => onDelete(user)}
-                    />
+                    <Tooltip heading={t.table.editUser} icon="RiPencilLine" position="top" size="small">
+                      <IconButton
+                        icon="RiPencilLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.table.editUser}
+                        onClick={() => onEdit(user)}
+                      />
+                    </Tooltip>
+                    <Tooltip heading={t.table.deleteUser} icon="RiDeleteBinLine" position="top" size="small">
+                      <IconButton
+                        icon="RiDeleteBinLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.table.deleteUser}
+                        onClick={() => onDelete(user)}
+                      />
+                    </Tooltip>
                   </div>
                 </td>
               </tr>

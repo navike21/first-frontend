@@ -62,6 +62,7 @@ export const ja: UsersTranslations = {
     purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
     confirmRestore: '復元',
     confirmPurge: '完全削除',
+    purgeWarning: 'この操作は元に戻せません。',
   },
   filters: {
     searchLabel: '検索', searchPlaceholder: '名前またはメール…',

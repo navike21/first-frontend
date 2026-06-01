@@ -1,4 +1,4 @@
-import { PageHeader, Modal, Button, IconButton, IconComponent } from '@/shared/ui'
+import { PageHeader, Modal, Button, IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { useUserGroupsTrashPage } from './UserGroupsTrashPage.hooks'
 
@@ -87,22 +87,32 @@ export const UserGroupsTrashPage = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
                       {canRestore && (
-                        <IconButton
-                          icon="RiArrowGoBackLine"
-                          variant="text"
-                          size="small"
-                          aria-label={t.actions.restoreGroup}
-                          onClick={() => setRestoringGroup(group)}
-                        />
+                        <Tooltip heading={t.actions.restoreGroup} icon="RiArrowGoBackLine" position="top" size="small">
+                          <IconButton
+                            icon="RiArrowGoBackLine"
+                            variant="text"
+                            size="small"
+                            aria-label={t.actions.restoreGroup}
+                            onClick={() => setRestoringGroup(group)}
+                          />
+                        </Tooltip>
                       )}
                       {canPurge && (
-                        <IconButton
+                        <Tooltip
+                          heading={t.actions.purgeGroup}
                           icon="RiDeleteBin2Line"
-                          variant="text"
-                          size="small"
-                          aria-label={t.actions.purgeGroup}
-                          onClick={() => setPurgingGroup(group)}
-                        />
+                          subtitle={t.actions.purgeWarning}
+                          position="top"
+                          size="medium"
+                        >
+                          <IconButton
+                            icon="RiDeleteBin2Line"
+                            variant="text"
+                            size="small"
+                            aria-label={t.actions.purgeGroup}
+                            onClick={() => setPurgingGroup(group)}
+                          />
+                        </Tooltip>
                       )}
                     </div>
                   </td>

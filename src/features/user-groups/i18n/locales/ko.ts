@@ -60,6 +60,7 @@ export const ko: UserGroupsTranslations = {
     purgeTitle: '영구 삭제',
     purgeDescription: (name) => `그룹 "${name}"을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmRestore: '복원',
+    purgeWarning: '이 작업은 취소할 수 없습니다.',
     confirmPurge: '영구 삭제',
   },
   filters: {

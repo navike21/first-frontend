@@ -62,6 +62,7 @@ export const ru: UsersTranslations = {
     purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmRestore: 'Восстановить',
     confirmPurge: 'Удалить навсегда',
+    purgeWarning: 'Это действие нельзя отменить.',
   },
   filters: {
     searchLabel: 'Поиск', searchPlaceholder: 'Имя, фамилия или email…',

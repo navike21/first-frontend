@@ -60,6 +60,7 @@ export const it: UserGroupsTranslations = {
     purgeTitle: 'Eliminazione definitiva',
     purgeDescription: (name) => `Il gruppo "${name}" verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmRestore: 'Ripristina',
+    purgeWarning: 'Questa azione non può essere annullata.',
     confirmPurge: 'Elimina definitivamente',
   },
   filters: {

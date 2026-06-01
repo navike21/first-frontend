@@ -11,10 +11,13 @@ export function useUserGroupsPage() {
   const { t, language } = useUserGroupsTranslation()
   const [params, setParams] = useState<UserGroupListParams>({ page: 1, limit: 20 })
   const [search, setSearch] = useState('')
+  const [viewingGroup, setViewingGroup] = useState<UserGroup | null>(null)
   const [deletingGroup, setDeletingGroup] = useState<UserGroup | null>(null)
 
   const { data, isLoading } = useUserGroups({ ...params, search: search || undefined })
   const softDelete = useSoftDeleteUserGroup()
+
+  const handleView = (group: UserGroup) => setViewingGroup(group)
 
   const handleEdit = (group: UserGroup) =>
     navigate({ to: navPaths.userGroupEdit(group.id, language) as never })
@@ -59,17 +62,20 @@ export function useUserGroupsPage() {
     language,
     params,
     search,
+    viewingGroup,
     deletingGroup,
     data,
     isLoading,
     softDelete,
     statusOptions,
+    handleView,
     handleEdit,
     handleDelete,
     handleConfirmDelete,
     handleSearchChange,
     handleStatusChange,
     handlePageChange,
+    setViewingGroup,
     setDeletingGroup,
   }
 }

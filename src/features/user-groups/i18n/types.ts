@@ -70,6 +70,7 @@ export interface UserGroupsTranslations {
     purgeDescription: (name: string) => string
     confirmRestore: string
     confirmPurge: string
+    purgeWarning: string
   }
   filters: {
     searchLabel: string

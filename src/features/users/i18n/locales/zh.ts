@@ -62,6 +62,7 @@ export const zh: UsersTranslations = {
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmRestore: '还原',
     confirmPurge: '永久删除',
+    purgeWarning: '此操作无法撤销。',
   },
   filters: {
     searchLabel: '搜索', searchPlaceholder: '姓名或邮箱…',
