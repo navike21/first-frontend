@@ -1,4 +1,4 @@
-import { PageHeader, Modal, Button, IconComponent } from '@/shared/ui'
+import { PageHeader, Modal, Button, IconButton, IconComponent } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { useUserGroupsTrashPage } from './UserGroupsTrashPage.hooks'
 
@@ -85,24 +85,24 @@ export const UserGroupsTrashPage = () => {
                       : '—'}
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-1">
                       {canRestore && (
-                        <Button
-                          variant="secondary"
+                        <IconButton
+                          icon="RiArrowGoBackLine"
+                          variant="text"
                           size="small"
+                          aria-label={t.actions.restoreGroup}
                           onClick={() => setRestoringGroup(group)}
-                        >
-                          {t.actions.restoreGroup}
-                        </Button>
+                        />
                       )}
                       {canPurge && (
-                        <Button
-                          variant="error"
+                        <IconButton
+                          icon="RiDeleteBin2Line"
+                          variant="text"
                           size="small"
+                          aria-label={t.actions.purgeGroup}
                           onClick={() => setPurgingGroup(group)}
-                        >
-                          {t.actions.purgeGroup}
-                        </Button>
+                        />
                       )}
                     </div>
                   </td>
@@ -116,24 +116,24 @@ export const UserGroupsTrashPage = () => {
               <span className="text-sm text-slate-500">
                 {t.table.totalCount(total)}
               </span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="secondary"
+              <div className="flex items-center gap-1">
+                <IconButton
+                  icon="RiArrowLeftSLine"
+                  variant="text"
                   size="small"
+                  aria-label={t.table.prevPage}
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
-                >
-                  {t.table.prevPage}
-                </Button>
+                />
                 <span className="text-sm text-slate-500">{page} / {pages}</span>
-                <Button
-                  variant="secondary"
+                <IconButton
+                  icon="RiArrowRightSLine"
+                  variant="text"
                   size="small"
+                  aria-label={t.table.nextPage}
                   disabled={page >= pages}
                   onClick={() => setPage((p) => p + 1)}
-                >
-                  {t.table.nextPage}
-                </Button>
+                />
               </div>
             </div>
           )}
