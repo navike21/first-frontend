@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Avatar, Button, Drawer, NavItem, ThemeToggle } from '@/shared/ui'
+import { Avatar, Button, Drawer, NavItem, ThemeToggle, ColorPicker } from '@/shared/ui'
 import { useHeaderTranslation } from '../i18n'
 import type { AuthUser } from '@/shared/types'
 
@@ -36,15 +36,25 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
       <div className="flex-1 px-4 py-6">
         <NavItem icon="RiSettings3Line" label={t.profileDrawer.accountSettings} />
 
-        {/* Theme toggle row */}
-        <div className={clsx(
-          'mt-1 flex items-center justify-between px-3 py-2.5',
-          'rounded-lg',
-        )}>
-          <span className="text-sm font-medium text-(--text-secondary)">
+        {/* Appearance section */}
+        <div className="mt-3 space-y-0.5">
+          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
             {t.profileDrawer.theme}
-          </span>
-          <ThemeToggle />
+          </p>
+          {/* Color picker row */}
+          <div className={clsx('flex items-center justify-between rounded-lg px-3 py-2')}>
+            <span className="text-sm font-medium text-(--text-secondary)">
+              {t.profileDrawer.color}
+            </span>
+            <ColorPicker />
+          </div>
+          {/* Mode toggle row */}
+          <div className={clsx('flex items-center justify-between rounded-lg px-3 py-2')}>
+            <span className="text-sm font-medium text-(--text-secondary)">
+              {t.profileDrawer.mode}
+            </span>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 

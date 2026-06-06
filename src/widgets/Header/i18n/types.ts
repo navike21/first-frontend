@@ -9,6 +9,8 @@ export interface HeaderTranslations {
     title: string
     accountSettings: string
     theme: string
+    color: string
+    mode: string
     logout: string
   }
 }

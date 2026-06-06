@@ -11,6 +11,8 @@ export const ru: HeaderTranslations = {
     title: 'Мой аккаунт',
     accountSettings: 'Настройки аккаунта',
     theme: 'Внешний вид',
+    color: 'Цвет',
+    mode: 'Режим',
     logout: 'Выйти',
   },
 }

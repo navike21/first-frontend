@@ -7,4 +7,12 @@ export {
 } from './session.store'
 export { useLanguageStore, useLanguage } from './language.store'
 export { usePresenceStore, useUserAvatarStatus, getUserAvatarStatus } from './presence.store'
-export { useThemeStore, useTheme, useToggleTheme, type Theme } from './theme.store'
+export {
+  useThemeStore,
+  useTheme,
+  useToggleTheme,
+  useBrandColor,
+  useSetColor,
+  type Theme,
+  type BrandColor,
+} from './theme.store'

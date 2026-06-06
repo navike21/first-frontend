@@ -11,6 +11,8 @@ export const zh: HeaderTranslations = {
     title: '我的账户',
     accountSettings: '账户设置',
     theme: '外观',
+    color: '颜色',
+    mode: '模式',
     logout: '退出登录',
   },
 }

@@ -11,6 +11,8 @@ export const ko: HeaderTranslations = {
     title: '내 계정',
     accountSettings: '계정 설정',
     theme: '외관',
+    color: '색상',
+    mode: '모드',
     logout: '로그아웃',
   },
 }

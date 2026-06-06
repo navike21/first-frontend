@@ -11,6 +11,8 @@ export const pt: HeaderTranslations = {
     title: 'Minha conta',
     accountSettings: 'Configurações da conta',
     theme: 'Aparência',
+    color: 'Cor',
+    mode: 'Modo',
     logout: 'Sair',
   },
 }

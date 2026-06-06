@@ -11,6 +11,8 @@ export const ja: HeaderTranslations = {
     title: 'マイアカウント',
     accountSettings: 'アカウント設定',
     theme: '外観',
+    color: 'カラー',
+    mode: 'モード',
     logout: 'ログアウト',
   },
 }

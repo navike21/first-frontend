@@ -28,6 +28,7 @@ export { LinkButton, type LinkButtonProps } from './atoms/LinkButton'
 export { Spinner, type SpinnerProps } from './atoms/Spinner'
 export { Skeleton, type SkeletonProps } from './atoms/Skeleton'
 export { ThemeToggle } from './atoms/ThemeToggle'
+export { ColorPicker } from './atoms/ColorPicker'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'

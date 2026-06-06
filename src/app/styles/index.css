@@ -44,8 +44,8 @@
 
   --font-sans: 'Inter', sans-serif;
 
-  /* Colors */
-  --color-primary-50: #00b0bd;
+  /* Colors — default teal brand; overridden per .color-* class on <html> */
+  --color-primary-50:  #00b0bd;
   --color-primary-100: #00a9b4;
   --color-primary-200: #009fb0;
   --color-primary-300: #0095ab;
@@ -87,6 +87,80 @@
     --text-secondary:   #94a3b8;   /* slate-400                         */
     --text-muted:       #475569;   /* slate-600                         */
     --text-disabled:    #334155;   /* slate-700                         */
+  }
+
+  /* ── Brand color themes ─────────────────────────────────────────────────────
+     Applied as a class on <html>. Overrides --color-primary-* CSS variables
+     so every utility that uses primary-* adapts automatically.              */
+
+  .color-teal {
+    --color-primary-50:  #00b0bd;
+    --color-primary-100: #00a9b4;
+    --color-primary-200: #009fb0;
+    --color-primary-300: #0095ab;
+    --color-primary-400: #008ba7;
+    --color-primary-500: #0081a2;
+    --color-primary-600: #007797;
+    --color-primary-700: #006d8d;
+    --color-primary-800: #006483;
+    --color-primary-900: #005a79;
+    --color-primary-950: #004254;
+  }
+
+  .color-violet {
+    --color-primary-50:  #f5f3ff;
+    --color-primary-100: #ede9fe;
+    --color-primary-200: #ddd6fe;
+    --color-primary-300: #c4b5fd;
+    --color-primary-400: #a78bfa;
+    --color-primary-500: #8b5cf6;
+    --color-primary-600: #7c3aed;
+    --color-primary-700: #6d28d9;
+    --color-primary-800: #5b21b6;
+    --color-primary-900: #4c1d95;
+    --color-primary-950: #2e1065;
+  }
+
+  .color-emerald {
+    --color-primary-50:  #ecfdf5;
+    --color-primary-100: #d1fae5;
+    --color-primary-200: #a7f3d0;
+    --color-primary-300: #6ee7b7;
+    --color-primary-400: #34d399;
+    --color-primary-500: #10b981;
+    --color-primary-600: #059669;
+    --color-primary-700: #047857;
+    --color-primary-800: #065f46;
+    --color-primary-900: #064e3b;
+    --color-primary-950: #022c22;
+  }
+
+  .color-rose {
+    --color-primary-50:  #fff1f2;
+    --color-primary-100: #ffe4e6;
+    --color-primary-200: #fecdd3;
+    --color-primary-300: #fda4af;
+    --color-primary-400: #fb7185;
+    --color-primary-500: #f43f5e;
+    --color-primary-600: #e11d48;
+    --color-primary-700: #be123c;
+    --color-primary-800: #9f1239;
+    --color-primary-900: #881337;
+    --color-primary-950: #4c0519;
+  }
+
+  .color-amber {
+    --color-primary-50:  #fffbeb;
+    --color-primary-100: #fef3c7;
+    --color-primary-200: #fde68a;
+    --color-primary-300: #fcd34d;
+    --color-primary-400: #fbbf24;
+    --color-primary-500: #f59e0b;
+    --color-primary-600: #d97706;
+    --color-primary-700: #b45309;
+    --color-primary-800: #92400e;
+    --color-primary-900: #78350f;
+    --color-primary-950: #451a03;
   }
 }
 
@@ -139,7 +213,8 @@ input:autofill {
 html,
 body {
   @apply font-sans;
-  @apply text-primary-950 font-normal;
+  color: var(--text-primary);
+  @apply font-normal;
 }
 
 h1,

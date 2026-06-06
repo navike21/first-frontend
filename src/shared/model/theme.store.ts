@@ -2,8 +2,11 @@ import { create } from 'zustand'
 import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 
 export type Theme = 'light' | 'dark'
+export type BrandColor = 'teal' | 'violet' | 'emerald' | 'rose' | 'amber'
 
 const THEME_KEY = '_first_theme'
+
+const BRAND_COLORS: BrandColor[] = ['teal', 'violet', 'emerald', 'rose', 'amber']
 
 const safeLocalStorage = {
   getItem: (key: string): string | null => {
@@ -27,13 +30,21 @@ const applyTheme = (theme: Theme): void => {
   document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
+const applyColor = (color: BrandColor): void => {
+  const el = document.documentElement
+  for (const c of BRAND_COLORS) el.classList.remove(`color-${c}`)
+  el.classList.add(`color-${color}`)
+}
+
 interface ThemeState {
   theme: Theme
+  color: BrandColor
 }
 
 interface ThemeActions {
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
+  setColor: (color: BrandColor) => void
 }
 
 type ThemeStore = ThemeState & ThemeActions
@@ -43,6 +54,7 @@ export const useThemeStore = create<ThemeStore>()(
     persist(
       (set, get) => ({
         theme: detectSystemTheme(),
+        color: 'teal',
 
         setTheme: (theme) => {
           applyTheme(theme)
@@ -54,12 +66,20 @@ export const useThemeStore = create<ThemeStore>()(
           applyTheme(next)
           set({ theme: next }, false, 'theme/toggleTheme')
         },
+
+        setColor: (color) => {
+          applyColor(color)
+          set({ color }, false, 'theme/setColor')
+        },
       }),
       {
         name: THEME_KEY,
         storage: createJSONStorage(() => safeLocalStorage),
         onRehydrateStorage: () => (state) => {
-          if (state) applyTheme(state.theme)
+          if (state) {
+            applyTheme(state.theme)
+            applyColor(state.color)
+          }
         },
       }
     ),
@@ -69,3 +89,5 @@ export const useThemeStore = create<ThemeStore>()(
 
 export const useTheme = (): Theme => useThemeStore((s) => s.theme)
 export const useToggleTheme = (): (() => void) => useThemeStore((s) => s.toggleTheme)
+export const useBrandColor = (): BrandColor => useThemeStore((s) => s.color)
+export const useSetColor = (): ((c: BrandColor) => void) => useThemeStore((s) => s.setColor)
