@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { PresenceStatus } from '@/features/users/model/user.types'
+import type { PresenceStatus } from '@domains/users'
 import type { AvatarStatus } from '@/shared/ui/atoms/Avatar/Avatar.types'
 
 interface PresenceState {

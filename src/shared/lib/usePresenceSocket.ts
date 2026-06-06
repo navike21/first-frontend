@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSessionStore } from '@/shared/model/session.store'
 import { usePresenceStore } from '@/shared/model/presence.store'
 import { connectSocket, disconnectSocket } from './socket'
-import type { PresenceStatus } from '@/features/users/model/user.types'
+import type { PresenceStatus } from '@domains/users'
 
 export function usePresenceSocket() {
   const isAuthenticated = useSessionStore((s) => s.isAuthenticated)
