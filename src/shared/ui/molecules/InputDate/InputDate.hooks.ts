@@ -113,23 +113,17 @@ export const useInputDate = (
   const setFromRef = useCallback(
     (node: HTMLInputElement | null) => {
       fromInternalRef.current = node
-      const ext = fromInput?.ref
-      if (typeof ext === 'function') ext(node)
-      else if (ext !== null && ext !== undefined)
-        (ext as React.MutableRefObject<HTMLInputElement | null>).current = node
+      fromInput?.ref?.(node)
     },
-    [fromInput?.ref]
+    [fromInput]
   )
 
   const setToRef = useCallback(
     (node: HTMLInputElement | null) => {
       toInternalRef.current = node
-      const ext = toInput?.ref
-      if (typeof ext === 'function') ext(node)
-      else if (ext !== null && ext !== undefined)
-        (ext as React.MutableRefObject<HTMLInputElement | null>).current = node
+      toInput?.ref?.(node)
     },
-    [toInput?.ref]
+    [toInput]
   )
 
   // ── Dropdown positioning (mirrors Select pattern) ────────────────────────────

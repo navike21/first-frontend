@@ -76,7 +76,6 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
       displayMonth,
       setDisplayMonth,
       yearPage,
-      yearPageCenter,
       setYearPageCenter,
       calendarView,
       setCalendarView,

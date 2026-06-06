@@ -5,7 +5,7 @@ import type { MonthCaptionProps, DateRange, Matcher } from 'react-day-picker'
 import type { Locale } from 'date-fns'
 import clsx from 'clsx'
 import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
-import { DAY_PICKER_CLASS_NAMES, CAPTION_BTN_CLS, NAV_BTN_CLS } from './CalendarSingle'
+import { DAY_PICKER_CLASS_NAMES, CAPTION_BTN_CLS, NAV_BTN_CLS } from './CalendarSingle.constants'
 
 interface CalendarRangeProps {
   selected?: DateRange

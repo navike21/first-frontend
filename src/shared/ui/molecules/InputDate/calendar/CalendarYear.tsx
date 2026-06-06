@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { CalendarNav } from './CalendarNav'
-import { isYearDisabled, getYearPage, parseToDate, todayDate } from '../InputDate.utils'
+import { isYearDisabled, getYearPage, todayDate } from '../InputDate.utils'
 
 interface CalendarYearProps {
   selected?: Date

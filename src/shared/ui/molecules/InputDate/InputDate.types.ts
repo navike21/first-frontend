@@ -21,7 +21,7 @@ export interface InputDateTexts {
  */
 export interface InputRegisterLike {
   name?: string
-  ref?: React.Ref<HTMLInputElement>
+  ref?: React.RefCallback<HTMLInputElement>
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: React.FocusEventHandler<HTMLInputElement>
 }
