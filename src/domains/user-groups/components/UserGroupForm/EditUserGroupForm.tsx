@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Button, InputField, Switch } from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useEditUserGroupForm } from './EditUserGroupForm.hooks'
@@ -25,7 +26,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6">
         {isSystem && (
-          <div className="flex items-center gap-2 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700 border border-amber-200">
+          <div className={clsx('flex items-center gap-2 px-4 py-3', 'rounded-lg border border-amber-200 bg-amber-50 text-sm text-amber-700')}>
             <span>{t.form.systemNotice}</span>
           </div>
         )}
@@ -55,7 +56,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
                 value={colorValue ?? props.defaultValues.color}
                 onChange={(e) => setColor(e.target.value)}
                 disabled={busy || isSystem}
-                className="h-9 w-14 cursor-pointer rounded border border-slate-300 p-0.5 disabled:cursor-not-allowed"
+                className={clsx('h-9 w-14 cursor-pointer p-0.5', 'rounded border border-slate-300', 'disabled:cursor-not-allowed')}
               />
               <input
                 type="text"
@@ -63,7 +64,12 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
                 onChange={(e) => setColor(e.target.value)}
                 disabled={busy || isSystem}
                 maxLength={7}
-                className="h-9 w-28 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-slate-50"
+                className={clsx(
+                  'h-9 w-28 px-3',
+                  'rounded-lg border border-slate-300 bg-white text-sm text-slate-700',
+                  'focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200',
+                  'disabled:cursor-not-allowed disabled:bg-slate-50',
+                )}
               />
             </div>
             {errors.color && (

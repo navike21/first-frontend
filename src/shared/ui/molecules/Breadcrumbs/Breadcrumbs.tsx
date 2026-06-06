@@ -1,11 +1,17 @@
 import { Link } from '@tanstack/react-router'
+import clsx from 'clsx'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import type { BreadcrumbItem, BreadcrumbsProps } from './Breadcrumbs.types'
 
 const BreadcrumbLink = ({ item }: { readonly item: BreadcrumbItem }) => (
   <Link
     to={item.href ?? '/'}
-    className="flex items-center gap-1 text-slate-500 transition-colors hover:text-slate-800"
+    className={clsx(
+      'flex items-center gap-1',
+      'text-slate-500',
+      'transition-colors',
+      'hover:text-slate-800',
+    )}
   >
     {item.icon && <IconComponent icon={item.icon} className="h-4 w-4" />}
     {item.label}

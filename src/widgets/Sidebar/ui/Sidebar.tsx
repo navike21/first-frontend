@@ -51,10 +51,11 @@ export const Sidebar = () => {
                   to={item.href ?? '/'}
                   title={item.label}
                   className={clsx(
-                    'mb-2 hidden items-center justify-center rounded-lg p-3 transition-colors duration-fast ease-out-expo md:flex',
-                    isItemActive
-                      ? 'bg-slate-100 text-slate-700'
-                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                    'mb-2 hidden items-center justify-center p-3 md:flex',
+                    'rounded-lg',
+                    'transition-colors duration-fast ease-out-expo',
+                    !isItemActive && 'hover:bg-slate-50 hover:text-slate-900',
+                    isItemActive ? 'bg-slate-100 text-slate-700' : 'text-slate-500',
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -90,10 +91,13 @@ export const Sidebar = () => {
                           to={child.href}
                           onClick={closeMobileSidebar}
                           className={clsx(
-                            'block rounded-md px-2 py-1.5 text-sm font-medium transition-colors',
+                            'block px-2 py-1.5',
+                            'rounded-md text-sm font-medium',
+                            'transition-colors',
+                            !isChildActive && 'hover:bg-slate-50 hover:text-slate-900',
                             isChildActive
-                              ? 'bg-slate-100 text-slate-900 font-semibold'
-                              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                              ? 'bg-slate-100 font-semibold text-slate-900'
+                              : 'text-slate-600',
                           )}
                         >
                           {child.label}

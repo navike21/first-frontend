@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom'
+import clsx from 'clsx'
 import type { SelectOptionItem } from '../../Select.types'
 import { OptionsList } from '../OptionsList/OptionsList'
 import type { RefObject } from 'react'
@@ -56,7 +57,11 @@ export const SelectDropdownPortal = ({
         left: dropdownStyle.left,
         width: dropdownStyle.width
       }}
-      className="z-9999 bg-white rounded-sm shadow-lg ring-1 ring-slate-200 max-h-60 overflow-y-auto animate-dropdown-in origin-top"
+      className={clsx(
+        'z-[9999] max-h-60 overflow-y-auto origin-top',
+        'rounded-sm bg-white shadow-lg ring-1 ring-slate-200',
+        'animate-dropdown-in',
+      )}
     >
       {search && (
         <div className="p-2 border-b border-slate-100">
@@ -67,7 +72,12 @@ export const SelectDropdownPortal = ({
             onChange={e => setSearchQuery(e.target.value)}
             placeholder={searchPlaceholder}
             aria-label={searchAriaLabel}
-            className="w-full h-8 px-3 text-sm bg-slate-50 rounded-sm border border-slate-200 outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400"
+            className={clsx(
+              'h-8 w-full px-3',
+              'rounded-sm border border-slate-200 bg-slate-50 text-sm outline-none',
+              'focus:ring-1 focus:ring-slate-400',
+              'placeholder:text-slate-400',
+            )}
           />
         </div>
       )}

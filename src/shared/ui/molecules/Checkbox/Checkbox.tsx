@@ -51,8 +51,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <IconComponent
             icon="RiCheckFill"
             className={clsx(
-              'text-white transition-all duration-fast ease-out-expo',
               'absolute inset-0 m-auto h-full w-full',
+              'text-white',
+              'transition-all duration-fast ease-out-expo',
               'opacity-0',
               'group-has-[input:checked]:opacity-100',
               'group-has-[input:indeterminate]:opacity-0'
@@ -62,8 +63,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <IconComponent
             icon="RiSubtractFill"
             className={clsx(
-              'text-white transition-all duration-fast ease-out-expo',
               'absolute inset-0 m-auto h-full w-full',
+              'text-white',
+              'transition-all duration-fast ease-out-expo',
               'opacity-0',
               'group-has-[input:indeterminate]:opacity-100',
               'group-has-[input:checked]:opacity-0'

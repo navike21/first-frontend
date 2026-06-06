@@ -45,8 +45,9 @@ export const Modal = ({
       {/* Backdrop */}
       <div
         className={clsx(
-          'fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs',
-          'duration-fast ease-out-expo transition-opacity',
+          'fixed inset-0 z-50',
+          'bg-slate-950/70 backdrop-blur-xs',
+          'transition-opacity duration-fast ease-out-expo',
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
         onClick={closeOnBackdrop ? onClose : undefined}
@@ -66,8 +67,9 @@ export const Modal = ({
         {/* Panel */}
         <div
           className={clsx(
-            'relative flex flex-col rounded-2xl bg-white shadow-2xl',
-            'duration-normal ease-out-expo transition-[transform,opacity]',
+            'relative flex flex-col',
+            'rounded-2xl bg-white shadow-2xl',
+            'transition-[transform,opacity] duration-normal ease-out-expo',
             isOpen
               ? 'scale-100 opacity-100 delay-50'
               : 'scale-95 opacity-0 delay-0',
@@ -94,9 +96,11 @@ export const Modal = ({
                 <button
                   onClick={onClose}
                   className={clsx(
-                    'shrink-0 cursor-pointer rounded-md p-1.5 text-slate-400',
-                    'duration-fast ease-out-expo transition-colors',
-                    'hover:bg-slate-100 hover:text-slate-700 focus:outline-none'
+                    'shrink-0 cursor-pointer p-1.5',
+                    'rounded-md text-slate-400',
+                    'transition-colors duration-fast ease-out-expo',
+                    'hover:bg-slate-100 hover:text-slate-700',
+                    'focus:outline-none',
                   )}
                   aria-label="Cerrar"
                 >

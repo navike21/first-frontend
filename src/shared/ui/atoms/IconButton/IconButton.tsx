@@ -71,12 +71,16 @@ export const IconButton = ({
     <button
       className={clsx(
         className,
-        'inline-flex items-center justify-center font-medium transition-all duration-fast ease-out-expo',
+        'inline-flex items-center justify-center',
         shapeClasses[shape],
         sizePaddingClasses[size],
+        'font-medium',
         variantColorClasses[variant],
+        'transition-all duration-fast ease-out-expo',
         {
           'shadow-md shadow-black/30': variant !== 'text',
+        },
+        {
           'hover:shadow-lg': variant !== 'text' && !disabled && !loading,
           'active:scale-95': !disabled && !loading,
           'hover:bg-slate-100': variant === 'text' && !disabled && !loading,

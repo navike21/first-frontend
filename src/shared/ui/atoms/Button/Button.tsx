@@ -30,7 +30,9 @@ export const Button = ({
     <button
       className={clsx(
         className,
-        'relative w-full font-medium transition-all duration-fast ease-out-expo',
+        'relative w-full',
+        'font-medium',
+        'transition-all duration-fast ease-out-expo',
         {
           'w-full': fullWidth,
           'sm:w-full': fullWidth,
@@ -46,8 +48,8 @@ export const Button = ({
           'cursor-not-allowed opacity-50 shadow-none': disabled,
         },
         {
-          'flex items-center justify-center gap-2 rounded-md shadow-md shadow-black/30':
-            variant !== 'text',
+          'flex items-center justify-center gap-2': variant !== 'text',
+          'rounded-md shadow-md shadow-black/30': variant !== 'text',
           'hover:shadow-lg': variant !== 'text' && !disabled && !loading,
           'active:scale-95': variant !== 'text' && !disabled && !loading,
         },

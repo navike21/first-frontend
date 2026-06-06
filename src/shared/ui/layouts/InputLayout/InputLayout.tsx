@@ -52,7 +52,8 @@ export const InputLayout = ({
       <div
         className={clsx(
           'content-input',
-          'flex h-10 w-full items-center rounded-sm',
+          'flex h-10 w-full items-center',
+          'rounded-sm',
           'transition-all duration-fast ease-out-expo',
           'focus-within:ring-2',
           {

@@ -16,7 +16,8 @@ export const Card = ({
   return (
     <div
       className={clsx(
-        'bg-white rounded-xl border border-gray-200 shadow-sm transition-all duration-fast ease-out-expo',
+        'rounded-xl border border-gray-200 bg-white shadow-sm',
+        'transition-all duration-fast ease-out-expo',
         {
           'p-0': padding === 'none',
           'p-4': padding === 'small',

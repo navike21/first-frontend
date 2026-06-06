@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Modal, Button, IconComponent } from '@/shared/ui'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
@@ -71,12 +72,12 @@ export const UserGroupDetailModal = ({ group, onClose, onEdit }: UserGroupDetail
             </span>
           )}
           <span
-            className={[
+            className={clsx(
               'rounded-full px-2 py-0.5 text-xs font-medium',
               group.status === 'active'
                 ? 'bg-green-50 text-green-700'
                 : 'bg-slate-100 text-slate-500',
-            ].join(' ')}
+            )}
           >
             {t.status[group.status]}
           </span>

@@ -54,10 +54,11 @@ export const OptionsList = memo(({
               'flex w-full items-center gap-2 px-3 py-2 text-left text-sm',
               'transition-colors duration-fast ease-out-expo',
               {
-                'cursor-pointer hover:bg-slate-50': !opt.disabled,
+                'cursor-pointer': !opt.disabled,
                 'cursor-not-allowed opacity-50': opt.disabled,
                 'bg-slate-50': isSelected && !opt.disabled,
-              }
+              },
+              !opt.disabled && 'hover:bg-slate-50',
             )}
           >
             {opt.content && (

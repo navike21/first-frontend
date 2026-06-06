@@ -58,14 +58,19 @@ export const CalendarYear = ({
               disabled={disabled}
               onClick={() => onSelect(year)}
               className={clsx(
-                'flex h-9 items-center justify-center rounded-sm text-sm',
+                'flex h-9 items-center justify-center',
+                'rounded-sm text-sm',
                 'transition-all duration-fast ease-out-expo',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
                 {
-                  'bg-primary-500 text-white hover:bg-primary-600': isSelected,
-                  'hover:bg-slate-100 text-slate-900': !isSelected && !disabled,
-                  'text-slate-300 cursor-not-allowed': disabled,
-                  'ring-1 ring-primary-400 font-bold': isToday && !isSelected,
+                  'bg-primary-500 text-white': isSelected,
+                  'text-slate-900': !isSelected && !disabled,
+                  'cursor-not-allowed text-slate-300': disabled,
+                  'font-bold ring-1 ring-primary-400': isToday && !isSelected,
+                },
+                {
+                  'hover:bg-primary-600': isSelected,
+                  'hover:bg-slate-100': !isSelected && !disabled,
                 }
               )}
             >

@@ -161,15 +161,18 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           }}
           className={clsx(
             'content-input',
-            'flex h-10 w-full cursor-pointer select-none items-center rounded-sm',
+            'flex h-10 w-full items-center',
+            'rounded-sm select-none',
             'transition-all duration-fast ease-out-expo',
             'focus-within:ring-2',
             {
-              'bg-slate-400/50 cursor-not-allowed': disabled,
+              'bg-slate-400/50': disabled,
               'bg-white ring-1 ring-inset': !disabled,
               'pointer-events-none': loading,
-              'focus:ring-2 outline-none': !disabled,
             },
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+            !disabled && 'outline-none',
+            !disabled && 'focus:ring-2',
             !disabled && VARIANT_RING[variant],
             classInput
           )}
@@ -211,8 +214,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
               }}
               className={clsx(
                 'flex h-10 min-w-8 items-center justify-center',
-                'text-slate-400 hover:text-slate-600',
-                'transition-all duration-fast ease-out-expo'
+                'text-slate-400',
+                'transition-all duration-fast ease-out-expo',
+                'hover:text-slate-600',
               )}
             >
               <IconComponent icon="RiCloseLine" className="size-4" />

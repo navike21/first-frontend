@@ -67,7 +67,8 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           ref={ref}
           {...props}
           className={clsx(
-            'h-10 w-full border-0 border-none bg-transparent text-sm font-normal',
+            'h-10 w-full',
+            'border-0 border-none bg-transparent text-sm font-normal',
             'transition-all duration-fast ease-out-expo',
             'placeholder:text-slate-400',
             'focus:border-transparent focus:ring-0 focus:outline-none',

@@ -12,14 +12,14 @@ export const MainLayout = () => {
   const showBreadcrumbs = breadcrumbs.length > 1
 
   return (
-    <div className={clsx('flex flex-col h-screen w-full bg-slate-50 text-slate-800')}>
+    <div className={clsx('flex h-screen w-full flex-col', 'bg-slate-50 text-slate-800')}>
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
 
         <div className="flex flex-col flex-1 overflow-hidden">
-          <main className="flex-1 w-full p-4 md:p-8 overflow-y-auto">
+          <main className={clsx('flex-1 w-full overflow-y-auto', 'p-4', 'md:p-8')}>
             <div className={clsx('w-10/12 max-w-7xl mx-auto space-y-6', 'md:w-full')}>
               {showBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
               <Outlet />

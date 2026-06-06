@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Avatar, IconButton, IconComponent, Spinner, Tooltip } from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
@@ -49,7 +50,10 @@ export const UserTable = ({
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-100 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr className={clsx(
+              'text-left',
+              'border-b border-slate-100 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500',
+            )}>
               <th className="px-4 py-3">{t.table.colUser}</th>
               <th className="px-4 py-3">{t.table.colEmail}</th>
               <th className="px-4 py-3">{t.table.colStatus}</th>
@@ -61,7 +65,10 @@ export const UserTable = ({
             {users.map((user) => (
               <tr
                 key={user.id}
-                className="transition-colors duration-fast ease-out-expo hover:bg-slate-50"
+                className={clsx(
+                  'transition-colors duration-fast ease-out-expo',
+                  'hover:bg-slate-50',
+                )}
               >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">

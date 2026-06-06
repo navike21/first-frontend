@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 interface PermissionsSelectorProps {
   value: string[]
   onChange: (v: string[]) => void
@@ -84,7 +86,7 @@ export const PermissionsSelector = ({
                 }}
                 onChange={() => !disabled && toggleAll(resource)}
                 disabled={disabled}
-                className="h-4 w-4 cursor-pointer rounded border-slate-300 text-blue-600 disabled:cursor-not-allowed"
+                className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 text-blue-600', 'disabled:cursor-not-allowed')}
               />
               <span className="text-sm font-semibold text-slate-700">
                 {formatResource(resource)}
@@ -101,7 +103,7 @@ export const PermissionsSelector = ({
                       checked={value.includes(perm)}
                       onChange={() => !disabled && toggle(perm)}
                       disabled={disabled}
-                      className="h-4 w-4 cursor-pointer rounded border-slate-300 text-blue-600 disabled:cursor-not-allowed"
+                      className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 text-blue-600', 'disabled:cursor-not-allowed')}
                     />
                     <span className="text-xs text-slate-600">{capitalize(action)}</span>
                   </label>

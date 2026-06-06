@@ -30,7 +30,8 @@ export const Drawer: React.FC<DrawerProps> = ({
        */}
       <div
         className={clsx(
-          'fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-xs',
+          'fixed inset-0 z-40',
+          'bg-slate-950/70 backdrop-blur-xs',
           'transition-opacity duration-fast ease-out-expo',
           isMobileOnly && 'md:hidden',
           isOpen
@@ -49,7 +50,8 @@ export const Drawer: React.FC<DrawerProps> = ({
        */}
       <aside
         className={clsx(
-          'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto bg-white',
+          'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto',
+          'bg-white',
           'transition-[translate,width] duration-normal ease-out-expo',
           isMobileOnly
             ? 'shadow-xl md:relative md:z-auto md:translate-x-0 md:shadow-none'
@@ -78,8 +80,11 @@ export const Drawer: React.FC<DrawerProps> = ({
             <button
               onClick={onClose}
               className={clsx(
-                'cursor-pointer rounded-md p-1.5 text-slate-500 transition-colors duration-fast ease-out-expo',
-                'hover:bg-slate-100 hover:text-slate-800 focus:outline-none'
+                'cursor-pointer p-1.5',
+                'rounded-md text-slate-500',
+                'transition-colors duration-fast ease-out-expo',
+                'hover:bg-slate-100 hover:text-slate-800',
+                'focus:outline-none',
               )}
               aria-label="Cerrar menú"
             >

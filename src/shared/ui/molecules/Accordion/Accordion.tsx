@@ -29,10 +29,13 @@ export const Accordion = ({
         type="button"
         onClick={onToggle}
         className={clsx(
-          'flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors duration-fast ease-out-expo',
+          'flex w-full cursor-pointer items-center justify-between px-3 py-2.5',
+          'rounded-lg text-sm',
+          'transition-colors duration-fast ease-out-expo',
+          !isOpen && 'hover:bg-slate-50 hover:text-slate-900',
           {
-            'bg-primary-50/10 text-primary-700 font-medium': isOpen,
-            'text-slate-600 hover:bg-slate-50 hover:text-slate-900': !isOpen,
+            'bg-primary-50/10 font-medium text-primary-700': isOpen,
+            'text-slate-600': !isOpen,
           }
         )}
       >
@@ -42,18 +45,26 @@ export const Accordion = ({
         </div>
         <IconComponent
           icon="RiArrowDownSLine"
-          className={clsx('h-4 w-4 transition-transform duration-fast ease-out-expo', {
-            'text-primary-600 rotate-180': isOpen,
-            'text-slate-400': !isOpen,
-          })}
+          className={clsx(
+            'h-4 w-4',
+            'transition-transform duration-fast ease-out-expo',
+            {
+              'text-primary-600 rotate-180': isOpen,
+              'text-slate-400': !isOpen,
+            }
+          )}
         />
       </button>
 
       <div
-        className={clsx('grid transition-[grid-template-rows,opacity] duration-normal ease-out-expo', {
-          'grid-rows-[1fr] opacity-100': isOpen,
-          'grid-rows-[0fr] opacity-0': !isOpen,
-        })}
+        className={clsx(
+          'grid',
+          'transition-[grid-template-rows,opacity] duration-normal ease-out-expo',
+          {
+            'grid-rows-[1fr] opacity-100': isOpen,
+            'grid-rows-[0fr] opacity-0': !isOpen,
+          }
+        )}
       >
         <div className={clsx('overflow-hidden pt-1 pb-2', contentClassName)}>
           {children}

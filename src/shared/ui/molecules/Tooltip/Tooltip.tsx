@@ -90,7 +90,8 @@ export const Tooltip = ({
         <div
           role="tooltip"
           className={clsx(
-            'pointer-events-none absolute z-50 rounded-md',
+            'pointer-events-none absolute z-50',
+            'rounded-md',
             positionClasses[resolvedPosition],
             variantClasses[variant],
             sizeClasses[size],

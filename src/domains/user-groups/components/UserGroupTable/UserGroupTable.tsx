@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { IconButton, IconComponent, Spinner, Tooltip } from '@/shared/ui'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
@@ -49,7 +50,10 @@ export const UserGroupTable = ({
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-100 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr className={clsx(
+              'text-left',
+              'border-b border-slate-100 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500',
+            )}>
               <th className="px-4 py-3">{t.table.colName}</th>
               <th className="px-4 py-3">{t.table.colPermissions}</th>
               <th className="px-4 py-3">{t.table.colStatus}</th>
@@ -60,7 +64,10 @@ export const UserGroupTable = ({
             {groups.map((group) => (
               <tr
                 key={group.id}
-                className="transition-colors duration-fast ease-out-expo hover:bg-slate-50"
+                className={clsx(
+                  'transition-colors duration-fast ease-out-expo',
+                  'hover:bg-slate-50',
+                )}
               >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -83,12 +90,12 @@ export const UserGroupTable = ({
                 </td>
                 <td className="px-4 py-3">
                   <span
-                    className={[
+                    className={clsx(
                       'rounded-full px-2 py-0.5 text-xs font-medium',
                       group.status === 'active'
                         ? 'bg-green-50 text-green-700'
                         : 'bg-slate-100 text-slate-500',
-                    ].join(' ')}
+                    )}
                   >
                     {t.status[group.status]}
                   </span>

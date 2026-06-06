@@ -24,8 +24,9 @@ export const CalendarNav = ({
       disabled={isPrevDisabled}
       onClick={onPrev}
       className={clsx(
-        'flex size-7 shrink-0 items-center justify-center rounded-sm',
-        'text-slate-500 transition-all duration-fast ease-out-expo',
+        'flex size-7 shrink-0 items-center justify-center',
+        'rounded-sm text-slate-500',
+        'transition-all duration-fast ease-out-expo',
         'hover:bg-slate-100 hover:text-slate-900',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
         'disabled:pointer-events-none disabled:opacity-30'
@@ -39,7 +40,8 @@ export const CalendarNav = ({
         type="button"
         onClick={onLabelClick}
         className={clsx(
-          'min-w-0 flex-1 rounded-sm px-2 text-sm font-semibold text-slate-900',
+          'min-w-0 flex-1 px-2',
+          'rounded-sm text-sm font-semibold text-slate-900',
           'transition-all duration-fast ease-out-expo',
           'hover:bg-slate-100',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
@@ -58,8 +60,9 @@ export const CalendarNav = ({
       disabled={isNextDisabled}
       onClick={onNext}
       className={clsx(
-        'flex size-7 shrink-0 items-center justify-center rounded-sm',
-        'text-slate-500 transition-all duration-fast ease-out-expo',
+        'flex size-7 shrink-0 items-center justify-center',
+        'rounded-sm text-slate-500',
+        'transition-all duration-fast ease-out-expo',
         'hover:bg-slate-100 hover:text-slate-900',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
         'disabled:pointer-events-none disabled:opacity-30'

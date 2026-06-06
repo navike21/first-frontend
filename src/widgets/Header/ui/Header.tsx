@@ -24,7 +24,8 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        'z-10 flex w-full items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm',
+        'z-10 flex w-full items-center justify-between px-6 py-4',
+        'border-b border-gray-200 bg-white shadow-sm',
       )}
     >
       <div className="flex items-center gap-4">
@@ -32,8 +33,11 @@ export const Header = () => {
         <button
           onClick={toggleMobileSidebar}
           className={clsx(
-            'cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
-            'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
+            'cursor-pointer p-2',
+            'rounded-md text-slate-500',
+            'transition-colors duration-fast ease-out-expo',
+            'hover:bg-slate-100 hover:text-slate-800',
+            'focus:outline-none',
             'md:hidden',
           )}
         >
@@ -44,9 +48,12 @@ export const Header = () => {
         <button
           onClick={toggleSidebar}
           className={clsx(
-            'hidden cursor-pointer rounded-md p-2 text-slate-500 transition-colors duration-fast ease-out-expo',
-            'hover:bg-slate-100 hover:text-slate-800 focus:outline-none',
-            'md:block',
+            'cursor-pointer p-2',
+            'rounded-md text-slate-500',
+            'transition-colors duration-fast ease-out-expo',
+            'hover:bg-slate-100 hover:text-slate-800',
+            'focus:outline-none',
+            'hidden md:block',
           )}
           aria-label={isCollapsed ? t.expandMenu : t.collapseMenu}
         >
@@ -71,7 +78,12 @@ export const Header = () => {
         {/* Profile trigger */}
         <button
           onClick={toggleProfile}
-          className="flex cursor-pointer appearance-none items-center gap-3 border-l border-gray-200 pl-4 transition-opacity outline-none hover:opacity-80"
+          className={clsx(
+            'flex cursor-pointer items-center gap-3 pl-4',
+            'appearance-none border-l border-gray-200 outline-none',
+            'transition-opacity',
+            'hover:opacity-80',
+          )}
           aria-label={t.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">

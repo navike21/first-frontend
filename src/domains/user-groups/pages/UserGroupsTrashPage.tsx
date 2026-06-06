@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import {
   PageHeader,
   Modal,
@@ -52,10 +53,14 @@ export const UserGroupsTrashPage = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-slate-700" />
+          <div className={clsx('h-8 w-8', 'rounded-full border-2 border-slate-300 border-t-slate-700', 'animate-spin')} />
         </div>
       ) : groups.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 py-20 text-center">
+        <div className={clsx(
+          'flex flex-col items-center justify-center py-20',
+          'rounded-xl border border-dashed border-slate-200 bg-slate-50',
+          'text-center',
+        )}>
           <IconComponent
             icon="RiDeleteBinLine"
             className="mb-3 h-10 w-10 text-slate-300"
@@ -84,7 +89,7 @@ export const UserGroupsTrashPage = () => {
               {groups.map((group) => (
                 <tr
                   key={group.id}
-                  className="transition-colors hover:bg-slate-50/50"
+                  className={clsx('transition-colors', 'hover:bg-slate-50/50')}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">

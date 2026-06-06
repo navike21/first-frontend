@@ -25,9 +25,12 @@ export const Avatar = memo(
         title={title ?? ariaLabel}
       >
         {src ? (
-          <img src={src} alt={alt} className="rounded-full object-cover w-full h-full" />
+          <img src={src} alt={alt} className={clsx('h-full w-full object-cover', 'rounded-full')} />
         ) : (
-          <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 font-bold text-gray-600 uppercase select-none">
+          <span className={clsx(
+            'flex h-full w-full items-center justify-center',
+            'rounded-full bg-gray-200 font-bold text-gray-600 uppercase select-none',
+          )}>
             {initials}
           </span>
         )}
@@ -35,7 +38,8 @@ export const Avatar = memo(
         {status !== 'none' && (
           <span
             className={clsx(
-              'absolute right-0 bottom-0 rounded-full ring-2 ring-white',
+              'absolute right-0 bottom-0',
+              'rounded-full ring-2 ring-white',
               statusColorMap[status],
               statusEffectMap[status],
               statusSizeMap[size],
