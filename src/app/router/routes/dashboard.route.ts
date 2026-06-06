@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { NAV } from '@/shared/router'
-import { DashboardPage } from '@/pages/Dashboard/ui/DashboardPage'
+import { DashboardPage } from '@domains/dashboard'
 
 export const dashboardRoute = createRoute({
   getParentRoute: () => privateLayout,

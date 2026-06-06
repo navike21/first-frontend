@@ -1,7 +1,7 @@
 import { createRoute } from '@tanstack/react-router'
 import { publicLayout } from '../layouts'
 import { NAV } from '@/shared/router'
-import { LoginLayout } from '@/features/auth/login/ui/LoginLayout'
+import { LoginLayout } from '@domains/auth'
 
 export const loginRoute = createRoute({
   getParentRoute: () => publicLayout,

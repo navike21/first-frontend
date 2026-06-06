@@ -1,0 +1,107 @@
+import { Button, InputField, Switch } from '@/shared/ui'
+import { PermissionsSelector } from './PermissionsSelector'
+import { useEditUserGroupForm } from './EditUserGroupForm.hooks'
+import type { UseEditUserGroupFormProps } from './EditUserGroupForm.hooks'
+
+export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
+  const {
+    t,
+    register,
+    errors,
+    busy,
+    isSystem,
+    permissionsValue,
+    setPermissionsValue,
+    colorValue,
+    setColor,
+    statusValue,
+    onStatusToggle,
+    catalog,
+    onSubmit,
+    handleCancel,
+  } = useEditUserGroupForm(props)
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6">
+        {isSystem && (
+          <div className="flex items-center gap-2 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700 border border-amber-200">
+            <span>{t.form.systemNotice}</span>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <InputField
+            label={t.form.name}
+            placeholder={t.form.namePlaceholder}
+            variant={errors.name ? 'error' : undefined}
+            errorMessage={errors.name?.message}
+            disabled={busy || isSystem}
+            {...register('name')}
+          />
+          <InputField
+            label={t.form.description}
+            placeholder={t.form.descriptionPlaceholder}
+            variant={errors.description ? 'error' : undefined}
+            errorMessage={errors.description?.message}
+            disabled={busy || isSystem}
+            {...register('description')}
+          />
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-slate-700">{t.form.color}</label>
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={colorValue ?? props.defaultValues.color}
+                onChange={(e) => setColor(e.target.value)}
+                disabled={busy || isSystem}
+                className="h-9 w-14 cursor-pointer rounded border border-slate-300 p-0.5 disabled:cursor-not-allowed"
+              />
+              <input
+                type="text"
+                value={colorValue ?? props.defaultValues.color}
+                onChange={(e) => setColor(e.target.value)}
+                disabled={busy || isSystem}
+                maxLength={7}
+                className="h-9 w-28 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-slate-50"
+              />
+            </div>
+            {errors.color && (
+              <p className="text-xs text-red-500">{errors.color.message}</p>
+            )}
+          </div>
+
+          <div className="flex items-end pb-1">
+            <Switch
+              label={t.form.statusLabel}
+              helperText={t.form.statusDescription}
+              checked={statusValue === 'active'}
+              onChange={() => onStatusToggle()}
+              disabled={busy || isSystem}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-slate-700">{t.form.permissions}</label>
+          <p className="text-xs text-slate-400">{t.form.permissionsHint}</p>
+          <PermissionsSelector
+            value={permissionsValue ?? []}
+            onChange={setPermissionsValue}
+            catalog={catalog}
+            disabled={busy || isSystem}
+          />
+        </div>
+
+        <div className="flex justify-end gap-3 pt-2">
+          <Button variant="secondary" type="button" disabled={busy} onClick={handleCancel}>
+            {t.form.cancelButton}
+          </Button>
+          <Button variant="primary" type="submit" loading={busy} disabled={isSystem}>
+            {t.form.saveButton}
+          </Button>
+        </div>
+      </div>
+    </form>
+  )
+}

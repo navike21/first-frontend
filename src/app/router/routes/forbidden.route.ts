@@ -2,7 +2,7 @@ import { createRoute } from '@tanstack/react-router'
 import { langRoute } from './lang.route'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
-import { ForbiddenPage } from '@/features/errors/forbidden/ui/ForbiddenPage'
+import { ForbiddenPage } from '@domains/errors'
 import type { Language } from '@/shared/types/languages'
 
 function createForbiddenRoute(lang: Language) {
