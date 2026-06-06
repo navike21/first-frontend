@@ -70,7 +70,7 @@ export const UsersPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-slate-400">
+              <span className="px-3 text-(--text-muted)">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }

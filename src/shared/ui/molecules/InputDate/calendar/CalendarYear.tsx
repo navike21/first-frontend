@@ -64,13 +64,13 @@ export const CalendarYear = ({
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
                 {
                   'bg-primary-500 text-white': isSelected,
-                  'text-slate-900': !isSelected && !disabled,
-                  'cursor-not-allowed text-slate-300': disabled,
+                  'text-(--text-primary)': !isSelected && !disabled,
+                  'cursor-not-allowed text-slate-300 dark:text-slate-600': disabled,
                   'font-bold ring-1 ring-primary-400': isToday && !isSelected,
                 },
                 {
                   'hover:bg-primary-600': isSelected,
-                  'hover:bg-slate-100': !isSelected && !disabled,
+                  'hover:bg-(--surface-subtle)': !isSelected && !disabled,
                 }
               )}
             >

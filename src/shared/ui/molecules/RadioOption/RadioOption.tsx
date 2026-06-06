@@ -33,9 +33,9 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             'transition-all duration-fast ease-out-expo',
             'rounded-full ring-1 ring-inset',
             {
-              'cursor-not-allowed bg-slate-200 ring-slate-400': disabled,
-              'bg-white ring-slate-300': !disabled,
-              'has-[input:checked]:ring-slate-700': !disabled && !error,
+              'cursor-not-allowed bg-slate-200 dark:bg-slate-700 ring-slate-400 dark:ring-slate-600': disabled,
+              'bg-(--surface) ring-(--border)': !disabled,
+              'has-[input:checked]:ring-slate-700 dark:has-[input:checked]:ring-slate-400': !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500': error,
             }
           )}
@@ -49,8 +49,8 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               'opacity-0',
               'group-has-[input:checked]:opacity-100',
               {
-                'bg-slate-700': !disabled && !error,
-                'bg-slate-300': disabled,
+                'bg-slate-700 dark:bg-slate-400': !disabled && !error,
+                'bg-slate-300 dark:bg-slate-600': disabled,
                 'bg-red-500': error,
               }
             )}

@@ -21,7 +21,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6">
+      <div className="flex flex-col gap-4 rounded-xl border border-(--border) bg-(--surface) p-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField
             label={t.form.name}
@@ -40,14 +40,14 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
             {...register('description')}
           />
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-slate-700">{t.form.color}</label>
+            <label className="text-sm font-medium text-(--text-primary)">{t.form.color}</label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
                 value={colorValue}
                 onChange={(e) => setColor(e.target.value)}
                 disabled={busy}
-                className={clsx('h-9 w-14 cursor-pointer p-0.5', 'rounded border border-slate-300', 'disabled:cursor-not-allowed')}
+                className={clsx('h-9 w-14 cursor-pointer p-0.5', 'rounded border border-(--border)', 'disabled:cursor-not-allowed')}
               />
               <input
                 type="text"
@@ -57,9 +57,9 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
                 maxLength={7}
                 className={clsx(
                   'h-9 w-28 px-3',
-                  'rounded-lg border border-slate-300 bg-white text-sm text-slate-700',
+                  'rounded-lg border border-(--border) bg-(--surface) text-sm text-(--text-primary)',
                   'focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200',
-                  'disabled:cursor-not-allowed disabled:bg-slate-50',
+                  'disabled:cursor-not-allowed disabled:bg-(--surface-subtle)',
                 )}
               />
             </div>
@@ -70,8 +70,8 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-slate-700">{t.form.permissions}</label>
-          <p className="text-xs text-slate-400">{t.form.permissionsHint}</p>
+          <label className="text-sm font-medium text-(--text-primary)">{t.form.permissions}</label>
+          <p className="text-xs text-(--text-muted)">{t.form.permissionsHint}</p>
           <PermissionsSelector
             value={permissionsValue}
             onChange={setPermissionsValue}

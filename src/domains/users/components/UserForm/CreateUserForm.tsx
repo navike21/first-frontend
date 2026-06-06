@@ -99,7 +99,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               )}
             </div>
 
-            <p className="text-sm font-medium text-slate-600">{t.form.addressSection}</p>
+            <p className="text-sm font-medium text-(--text-secondary)">{t.form.addressSection}</p>
             <InputField
               label={t.form.addressStreet}
               placeholder={t.form.addressStreetPlaceholder}

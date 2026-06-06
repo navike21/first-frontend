@@ -28,7 +28,7 @@ export const AppLogo = ({
     className={clsx(
       {
         'fill-white': color === 'white',
-        'fill-[#0f172a]': color === 'default',
+        'fill-[#0f172a] dark:fill-slate-100': color === 'default',
       },
       sizeClass[size],
     )}

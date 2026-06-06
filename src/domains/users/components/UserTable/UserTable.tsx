@@ -38,7 +38,7 @@ export const UserTable = ({
 
   if (users.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-slate-400">
+      <div className="flex flex-col items-center justify-center gap-2 py-20 text-(--text-muted)">
         <IconComponent icon="RiUser3Line" className="h-10 w-10" />
         <p className="text-sm">{t.table.noResults}</p>
       </div>
@@ -47,12 +47,12 @@ export const UserTable = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className={clsx(
               'text-left',
-              'border-b border-slate-100 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500',
+              'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold uppercase tracking-wide text-(--text-secondary)',
             )}>
               <th className="px-4 py-3">{t.table.colUser}</th>
               <th className="px-4 py-3">{t.table.colEmail}</th>
@@ -61,13 +61,13 @@ export const UserTable = ({
               <th className="px-4 py-3 text-right">{t.table.colActions}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {users.map((user) => (
               <tr
                 key={user.id}
                 className={clsx(
                   'transition-colors duration-fast ease-out-expo',
-                  'hover:bg-slate-50',
+                  'hover:bg-(--surface-subtle)',
                 )}
               >
                 <td className="px-4 py-3">
@@ -78,12 +78,12 @@ export const UserTable = ({
                       name={`${user.firstName} ${user.lastName}`}
                       size="sm"
                     />
-                    <span className="font-medium text-slate-800">
+                    <span className="font-medium text-(--text-primary)">
                       {user.firstName} {user.lastName}
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-slate-500">{user.email}</td>
+                <td className="px-4 py-3 text-(--text-secondary)">{user.email}</td>
                 <td className="px-4 py-3">
                   <UserStatusBadge status={user.status} />
                 </td>
@@ -121,7 +121,7 @@ export const UserTable = ({
         </table>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-slate-500">
+      <div className="flex items-center justify-between text-sm text-(--text-secondary)">
         <span>{t.table.totalCount(total)}</span>
         {pages > 1 && (
           <div className="flex items-center gap-1">
@@ -133,7 +133,7 @@ export const UserTable = ({
               disabled={page <= 1}
               onClick={() => onPageChange(page - 1)}
             />
-            <span className="px-2 font-medium text-slate-700">
+            <span className="px-2 font-medium text-(--text-primary)">
               {page} / {pages}
             </span>
             <IconButton

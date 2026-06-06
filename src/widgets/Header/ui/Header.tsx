@@ -25,7 +25,7 @@ export const Header = () => {
     <header
       className={clsx(
         'z-10 flex w-full items-center justify-between px-6 py-4',
-        'border-b border-gray-200 bg-white shadow-sm',
+        'border-b border-(--border) bg-(--surface) shadow-sm',
       )}
     >
       <div className="flex items-center gap-4">
@@ -34,9 +34,9 @@ export const Header = () => {
           onClick={toggleMobileSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-slate-500',
+            'rounded-md text-(--text-secondary)',
             'transition-colors duration-fast ease-out-expo',
-            'hover:bg-slate-100 hover:text-slate-800',
+            'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
             'focus:outline-none',
             'md:hidden',
           )}
@@ -49,9 +49,9 @@ export const Header = () => {
           onClick={toggleSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-slate-500',
+            'rounded-md text-(--text-secondary)',
             'transition-colors duration-fast ease-out-expo',
-            'hover:bg-slate-100 hover:text-slate-800',
+            'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
             'focus:outline-none',
             'hidden md:block',
           )}
@@ -65,7 +65,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-3">
           <AppLogo size="x-small" color="default" />
-          <h1 className="text-xl font-bold tracking-tight text-slate-800">First</h1>
+          <h1 className="text-xl font-bold tracking-tight text-(--text-primary)">First</h1>
         </div>
       </div>
 
@@ -81,17 +81,17 @@ export const Header = () => {
           onClick={toggleProfile}
           className={clsx(
             'flex cursor-pointer items-center gap-3 pl-4',
-            'appearance-none border-l border-gray-200 outline-none',
+            'appearance-none border-l border-(--border) outline-none',
             'transition-opacity',
             'hover:opacity-80',
           )}
           aria-label={t.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">
-            <span className="mb-1 text-sm leading-none font-medium text-slate-800">
+            <span className="mb-1 text-sm leading-none font-medium text-(--text-primary)">
               {user?.firstName || t.guestName}
             </span>
-            <span className="text-xs leading-none text-slate-500">
+            <span className="text-xs leading-none text-(--text-secondary)">
               {user?.email || t.guestEmail}
             </span>
           </div>

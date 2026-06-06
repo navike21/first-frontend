@@ -37,9 +37,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             'has-[input:checked]:ring-10',
             'has-[input:indeterminate]:ring-10',
             {
-              'cursor-not-allowed bg-slate-200 ring-slate-400': disabled,
-              'ring-slate-30 bg-white': !disabled,
-              'has-[input:checked]:ring-slate-700 has-[input:indeterminate]:ring-slate-700':
+              'cursor-not-allowed bg-slate-200 dark:bg-slate-700 ring-slate-400 dark:ring-slate-600': disabled,
+              'ring-slate-30 bg-(--surface)': !disabled,
+              'has-[input:checked]:ring-slate-700 dark:has-[input:checked]:ring-slate-400 has-[input:indeterminate]:ring-slate-700 dark:has-[input:indeterminate]:ring-slate-400':
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':
                 error,

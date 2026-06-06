@@ -34,7 +34,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
               onChange={setPendingFile}
               disabled={busy}
             />
-            <div className="w-full border-t border-slate-200 pt-4">
+            <div className="w-full border-t border-(--border) pt-4">
               <Switch
                 label={t.form.statusLabel}
                 helperText={t.form.statusDescription}
@@ -98,7 +98,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
               )}
             </div>
 
-            <p className="text-sm font-medium text-slate-600">
+            <p className="text-sm font-medium text-(--text-secondary)">
               {t.form.addressSection}
             </p>
             <InputField

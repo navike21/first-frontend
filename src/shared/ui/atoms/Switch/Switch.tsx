@@ -61,7 +61,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           disabled={disabled}
           className={clsx(
             'group relative shrink-0 border-none p-0 outline-none',
-            'rounded-full bg-slate-300',
+            'rounded-full bg-slate-300 dark:bg-slate-600',
             'transition-all duration-fast ease-spring',
             'has-[input:checked]:bg-primary-500',
             TRACK_CLS[size],
@@ -74,7 +74,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           <span
             className={clsx(
               'pointer-events-none absolute top-1/2 -translate-y-1/2',
-              'rounded-full bg-white shadow-sm',
+              'rounded-full bg-white dark:bg-slate-100 shadow-sm',
               'transition-all duration-fast ease-spring',
               THUMB_CLS[size],
               THUMB_OFFSET_CLS[size],

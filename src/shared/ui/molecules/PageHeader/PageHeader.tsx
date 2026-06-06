@@ -41,11 +41,11 @@ export const PageHeader = ({
   return (
     <header className="mb-8 flex items-start justify-between gap-4">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+        <h1 className="text-3xl font-extrabold tracking-tight text-(--text-primary)">
           {title}
         </h1>
         {description && (
-          <p className="text-md mt-2 text-slate-500">{description}</p>
+          <p className="text-md mt-2 text-(--text-secondary)">{description}</p>
         )}
       </div>
 

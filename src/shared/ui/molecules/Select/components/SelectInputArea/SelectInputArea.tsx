@@ -149,7 +149,7 @@ export const SelectInputArea = ({
         >
           <IconComponent
             icon={isOpen ? 'RiArrowUpSLine' : 'RiArrowDownSLine'}
-            className="size-5 text-slate-700"
+            className="size-5 text-(--text-primary)"
           />
         </button>
 

@@ -6,7 +6,7 @@ import { useSidebar } from './Sidebar.hooks'
 const TitleNode = (
   <div className="flex items-center gap-2">
     <AppLogo size="x-small" color="default" />
-    <span className="font-bold text-slate-800">Menú</span>
+    <span className="font-bold text-(--text-primary)">Menú</span>
   </div>
 )
 
@@ -54,8 +54,8 @@ export const Sidebar = () => {
                     'mb-2 hidden items-center justify-center p-3 md:flex',
                     'rounded-lg',
                     'transition-colors duration-fast ease-out-expo',
-                    !isItemActive && 'hover:bg-slate-50 hover:text-slate-900',
-                    isItemActive ? 'bg-slate-100 text-slate-700' : 'text-slate-500',
+                    !isItemActive && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+                    isItemActive ? 'bg-(--surface-subtle) text-(--text-primary)' : 'text-(--text-secondary)',
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -74,14 +74,14 @@ export const Sidebar = () => {
                       icon={item.icon}
                       className={clsx(
                         'h-5 w-5',
-                        isItemActive ? 'text-slate-700' : 'text-slate-500'
+                        isItemActive ? 'text-(--text-primary)' : 'text-(--text-secondary)'
                       )}
                     />
                   }
                   isOpen={openMenuId === item.id}
                   onToggle={handleToggle(item.id)}
                 >
-                  <div className="ml-5 space-y-1 border-l border-gray-200 pl-4">
+                  <div className="ml-5 space-y-1 border-l border-(--border) pl-4">
                     {item.children.map((child) => {
                       const isChildActive =
                         pathname === child.href || pathname.startsWith(child.href + '/')
@@ -94,10 +94,10 @@ export const Sidebar = () => {
                             'block px-2 py-1.5',
                             'rounded-md text-sm font-medium',
                             'transition-colors',
-                            !isChildActive && 'hover:bg-slate-50 hover:text-slate-900',
+                            !isChildActive && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
                             isChildActive
-                              ? 'bg-slate-100 font-semibold text-slate-900'
-                              : 'text-slate-600',
+                              ? 'bg-(--surface-subtle) font-semibold text-(--text-primary)'
+                              : 'text-(--text-secondary)',
                           )}
                         >
                           {child.label}

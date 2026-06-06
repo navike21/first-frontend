@@ -25,9 +25,9 @@ export const CalendarNav = ({
       onClick={onPrev}
       className={clsx(
         'flex size-7 shrink-0 items-center justify-center',
-        'rounded-sm text-slate-500',
+        'rounded-sm text-(--text-secondary)',
         'transition-all duration-fast ease-out-expo',
-        'hover:bg-slate-100 hover:text-slate-900',
+        'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
         'disabled:pointer-events-none disabled:opacity-30'
       )}
@@ -41,16 +41,16 @@ export const CalendarNav = ({
         onClick={onLabelClick}
         className={clsx(
           'min-w-0 flex-1 px-2',
-          'rounded-sm text-sm font-semibold text-slate-900',
+          'rounded-sm text-sm font-semibold text-(--text-primary)',
           'transition-all duration-fast ease-out-expo',
-          'hover:bg-slate-100',
+          'hover:bg-(--surface-subtle)',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
         )}
       >
         {label}
       </button>
     ) : (
-      <span className="min-w-0 flex-1 text-center text-sm font-semibold text-slate-900">
+      <span className="min-w-0 flex-1 text-center text-sm font-semibold text-(--text-primary)">
         {label}
       </span>
     )}
@@ -61,9 +61,9 @@ export const CalendarNav = ({
       onClick={onNext}
       className={clsx(
         'flex size-7 shrink-0 items-center justify-center',
-        'rounded-sm text-slate-500',
+        'rounded-sm text-(--text-secondary)',
         'transition-all duration-fast ease-out-expo',
-        'hover:bg-slate-100 hover:text-slate-900',
+        'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
         'disabled:pointer-events-none disabled:opacity-30'
       )}

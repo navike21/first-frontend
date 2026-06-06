@@ -38,7 +38,7 @@ export const UserGroupTable = ({
 
   if (groups.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-slate-400">
+      <div className="flex flex-col items-center justify-center gap-2 py-20 text-(--text-muted)">
         <IconComponent icon="RiGroupLine" className="h-10 w-10" />
         <p className="text-sm">{t.table.noResults}</p>
       </div>
@@ -47,12 +47,12 @@ export const UserGroupTable = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className={clsx(
               'text-left',
-              'border-b border-slate-100 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500',
+              'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold uppercase tracking-wide text-(--text-secondary)',
             )}>
               <th className="px-4 py-3">{t.table.colName}</th>
               <th className="px-4 py-3">{t.table.colPermissions}</th>
@@ -60,31 +60,31 @@ export const UserGroupTable = ({
               <th className="px-4 py-3 text-right">{t.table.colActions}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {groups.map((group) => (
               <tr
                 key={group.id}
                 className={clsx(
                   'transition-colors duration-fast ease-out-expo',
-                  'hover:bg-slate-50',
+                  'hover:bg-(--surface-subtle)',
                 )}
               >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <span
-                      className="h-4 w-4 shrink-0 rounded-full border border-slate-200"
+                      className="h-4 w-4 shrink-0 rounded-full border border-(--border)"
                       style={{ backgroundColor: group.color }}
                     />
-                    <span className="font-medium text-slate-800">{group.name}</span>
+                    <span className="font-medium text-(--text-primary)">{group.name}</span>
                     {group.isSystem && (
-                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                      <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2 py-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                         {t.table.systemBadge}
                       </span>
                     )}
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+                  <span className="rounded-full bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 text-xs font-medium text-blue-600 dark:text-blue-400">
                     {t.table.permissionsCount(group.permissions.length)}
                   </span>
                 </td>
@@ -93,8 +93,8 @@ export const UserGroupTable = ({
                     className={clsx(
                       'rounded-full px-2 py-0.5 text-xs font-medium',
                       group.status === 'active'
-                        ? 'bg-green-50 text-green-700'
-                        : 'bg-slate-100 text-slate-500',
+                        ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400',
                     )}
                   >
                     {t.status[group.status]}
@@ -139,7 +139,7 @@ export const UserGroupTable = ({
         </table>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-slate-500">
+      <div className="flex items-center justify-between text-sm text-(--text-secondary)">
         <span>{t.table.totalCount(total)}</span>
         {pages > 1 && (
           <div className="flex items-center gap-1">
@@ -151,7 +151,7 @@ export const UserGroupTable = ({
               disabled={page <= 1}
               onClick={() => onPageChange(page - 1)}
             />
-            <span className="px-2 font-medium text-slate-700">
+            <span className="px-2 font-medium text-(--text-primary)">
               {page} / {pages}
             </span>
             <IconButton

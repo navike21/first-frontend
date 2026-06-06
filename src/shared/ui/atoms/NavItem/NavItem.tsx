@@ -25,8 +25,8 @@ export const NavItem = ({
     'flex w-full cursor-pointer items-center gap-3 px-3 py-2.5',
     'rounded-lg text-sm font-medium',
     'transition-colors duration-fast ease-out-expo',
-    !isActive && 'hover:bg-slate-50 hover:text-slate-900',
-    isActive ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-600',
+    !isActive && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+    isActive ? 'bg-(--surface-subtle) text-(--text-primary) font-semibold' : 'text-(--text-secondary)',
     className
   )
 
@@ -34,7 +34,7 @@ export const NavItem = ({
     <>
       <IconComponent
         icon={icon}
-        className={clsx('h-5 w-5 shrink-0', isActive ? 'text-slate-700' : 'text-slate-500')}
+        className={clsx('h-5 w-5 shrink-0', isActive ? 'text-(--text-primary)' : 'text-(--text-secondary)')}
       />
       <span>{label}</span>
     </>

@@ -12,7 +12,7 @@ export const MainLayout = () => {
   const showBreadcrumbs = breadcrumbs.length > 1
 
   return (
-    <div className={clsx('flex h-screen w-full flex-col', 'bg-slate-50 text-slate-800')}>
+    <div className={clsx('flex h-screen w-full flex-col', 'bg-(--surface-subtle) text-(--text-primary)')}>
       <Header />
 
       <div className="flex flex-1 overflow-hidden">

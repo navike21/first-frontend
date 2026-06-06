@@ -53,29 +53,29 @@ export const UserGroupsTrashPage = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <div className={clsx('h-8 w-8', 'rounded-full border-2 border-slate-300 border-t-slate-700', 'animate-spin')} />
+          <div className={clsx('h-8 w-8', 'rounded-full border-2 border-slate-300 dark:border-slate-600 border-t-slate-700 dark:border-t-slate-300', 'animate-spin')} />
         </div>
       ) : groups.length === 0 ? (
         <div className={clsx(
           'flex flex-col items-center justify-center py-20',
-          'rounded-xl border border-dashed border-slate-200 bg-slate-50',
+          'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
           'text-center',
         )}>
           <IconComponent
             icon="RiDeleteBinLine"
-            className="mb-3 h-10 w-10 text-slate-300"
+            className="mb-3 h-10 w-10 text-(--text-disabled)"
           />
-          <p className="text-lg font-semibold text-slate-700">
+          <p className="text-lg font-semibold text-(--text-primary)">
             {t.page.trashEmpty}
           </p>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-(--text-muted)">
             {t.page.trashEmptyDescription}
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-(--border) bg-(--surface) shadow-sm">
           <table className="w-full text-sm">
-            <thead className="bg-slate-50 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+            <thead className="bg-(--surface-subtle) text-xs font-semibold tracking-wider text-(--text-secondary) uppercase">
               <tr>
                 <th className="px-4 py-3 text-left">{t.table.colName}</th>
                 <th className="px-4 py-3 text-left">
@@ -85,11 +85,11 @@ export const UserGroupsTrashPage = () => {
                 <th className="px-4 py-3 text-right">{t.table.colActions}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {groups.map((group) => (
                 <tr
                   key={group.id}
-                  className={clsx('transition-colors', 'hover:bg-slate-50/50')}
+                  className={clsx('transition-colors', 'hover:bg-(--surface-subtle)')}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
@@ -97,15 +97,15 @@ export const UserGroupsTrashPage = () => {
                         className="inline-block h-3 w-3 flex-shrink-0 rounded-full"
                         style={{ backgroundColor: group.color }}
                       />
-                      <span className="font-medium text-slate-900">
+                      <span className="font-medium text-(--text-primary)">
                         {group.name}
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-(--text-secondary)">
                     {t.table.permissionsCount(group.permissions.length)}
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-(--text-secondary)">
                     {group.deletedAt
                       ? new Date(group.deletedAt).toLocaleDateString()
                       : '—'}
@@ -153,8 +153,8 @@ export const UserGroupsTrashPage = () => {
           </table>
 
           {pages > 1 && (
-            <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3">
-              <span className="text-sm text-slate-500">
+            <div className="flex items-center justify-between border-t border-(--border-subtle) px-4 py-3">
+              <span className="text-sm text-(--text-secondary)">
                 {t.table.totalCount(total)}
               </span>
               <div className="flex items-center gap-1">
@@ -166,7 +166,7 @@ export const UserGroupsTrashPage = () => {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 />
-                <span className="text-sm text-slate-500">
+                <span className="text-sm text-(--text-secondary)">
                   {page} / {pages}
                 </span>
                 <IconButton

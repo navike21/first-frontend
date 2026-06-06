@@ -68,7 +68,7 @@ export const Modal = ({
         <div
           className={clsx(
             'relative flex flex-col',
-            'rounded-2xl bg-white shadow-2xl',
+            'rounded-2xl bg-(--surface) shadow-2xl',
             'transition-[transform,opacity] duration-normal ease-out-expo',
             isOpen
               ? 'scale-100 opacity-100 delay-50'
@@ -78,18 +78,18 @@ export const Modal = ({
         >
           {/* Header */}
           {hasHeader && (
-            <div className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-4">
+            <div className="flex items-start justify-between gap-4 border-b border-(--border-subtle) px-6 py-4">
               <div>
                 {title && (
                   <h2
                     id="modal-title"
-                    className="text-base font-semibold text-slate-800"
+                    className="text-base font-semibold text-(--text-primary)"
                   >
                     {title}
                   </h2>
                 )}
                 {description && (
-                  <p className="mt-1 text-sm text-slate-500">{description}</p>
+                  <p className="mt-1 text-sm text-(--text-secondary)">{description}</p>
                 )}
               </div>
               {showCloseButton && (
@@ -97,9 +97,9 @@ export const Modal = ({
                   onClick={onClose}
                   className={clsx(
                     'shrink-0 cursor-pointer p-1.5',
-                    'rounded-md text-slate-400',
+                    'rounded-md text-(--text-muted)',
                     'transition-colors duration-fast ease-out-expo',
-                    'hover:bg-slate-100 hover:text-slate-700',
+                    'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
                     'focus:outline-none',
                   )}
                   aria-label="Cerrar"
@@ -115,7 +115,7 @@ export const Modal = ({
 
           {/* Footer */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4">
+            <div className="flex items-center justify-end gap-3 border-t border-(--border-subtle) px-6 py-4">
               {footer}
             </div>
           )}

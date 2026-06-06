@@ -29,7 +29,7 @@ export const Avatar = memo(
         ) : (
           <span className={clsx(
             'flex h-full w-full items-center justify-center',
-            'rounded-full bg-gray-200 font-bold text-gray-600 uppercase select-none',
+            'rounded-full bg-gray-200 dark:bg-slate-700 font-bold text-gray-600 dark:text-slate-300 uppercase select-none',
           )}>
             {initials}
           </span>
@@ -39,7 +39,7 @@ export const Avatar = memo(
           <span
             className={clsx(
               'absolute right-0 bottom-0',
-              'rounded-full ring-2 ring-white',
+              'rounded-full ring-2 ring-(--surface)',
               statusColorMap[status],
               statusEffectMap[status],
               statusSizeMap[size],

@@ -23,8 +23,8 @@ export const Label = ({
       'text-sm font-semibold',
       'transition-all duration-fast ease-out-expo',
       {
-        'cursor-not-allowed text-slate-500': disabled,
-        'text-slate-900': !disabled && !hasTextClassColor(className),
+        'cursor-not-allowed text-(--text-secondary)': disabled,
+        'text-(--text-primary)': !disabled && !hasTextClassColor(className),
       }
     )}
   >

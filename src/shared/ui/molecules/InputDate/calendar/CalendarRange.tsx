@@ -58,7 +58,7 @@ export const CalendarRange = ({
                   {monthLabel}
                 </button>
               ) : (
-                <span className="px-1.5 py-0.5 text-sm font-semibold text-slate-900">
+                <span className="px-1.5 py-0.5 text-sm font-semibold text-(--text-primary)">
                   {monthLabel}
                 </span>
               )}
@@ -67,7 +67,7 @@ export const CalendarRange = ({
                   {yearLabel}
                 </button>
               ) : (
-                <span className="px-1.5 py-0.5 text-sm font-semibold text-slate-900">
+                <span className="px-1.5 py-0.5 text-sm font-semibold text-(--text-primary)">
                   {yearLabel}
                 </span>
               )}

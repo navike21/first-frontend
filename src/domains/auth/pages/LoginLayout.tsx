@@ -7,7 +7,7 @@ export const LoginLayout = () => {
   const { t } = useLoginTranslation()
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-slate-50">
+    <div className="relative flex min-h-screen items-center justify-center bg-(--surface-subtle)">
       <div className="absolute right-4 top-4">
         <LanguageSwitcher />
       </div>
@@ -20,11 +20,11 @@ export const LoginLayout = () => {
           )}>
             F
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{t.title}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t.subtitle}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-(--text-primary)">{t.title}</h1>
+          <p className="mt-1 text-sm text-(--text-secondary)">{t.subtitle}</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="mb-6 text-base font-semibold text-slate-800">{t.form.submit}</h2>
+        <div className="rounded-xl border border-(--border) bg-(--surface) p-8 shadow-sm">
+          <h2 className="mb-6 text-base font-semibold text-(--text-primary)">{t.form.submit}</h2>
           <LoginForm />
         </div>
       </div>

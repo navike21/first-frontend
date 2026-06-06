@@ -23,7 +23,7 @@ export const OptionsList = memo(({
 
   if (options.length === 0) {
     return (
-      <div className="px-3 py-2 text-sm text-slate-400">{noOptionsFound}</div>
+      <div className="px-3 py-2 text-sm text-(--text-muted)">{noOptionsFound}</div>
     )
   }
   // Pre-compute enabled index map once per render — O(n) instead of O(n²)
@@ -56,9 +56,9 @@ export const OptionsList = memo(({
               {
                 'cursor-pointer': !opt.disabled,
                 'cursor-not-allowed opacity-50': opt.disabled,
-                'bg-slate-50': isSelected && !opt.disabled,
+                'bg-(--surface-subtle)': isSelected && !opt.disabled,
               },
-              !opt.disabled && 'hover:bg-slate-50',
+              !opt.disabled && 'hover:bg-(--surface-subtle)',
             )}
           >
             {opt.content && (
@@ -69,14 +69,14 @@ export const OptionsList = memo(({
             {!opt.content && opt.icon && (
               <IconComponent
                 icon={opt.icon}
-                className="h-4 w-4 shrink-0 text-slate-600"
+                className="h-4 w-4 shrink-0 text-(--text-secondary)"
               />
             )}
             <span className="flex-1">{opt.label}</span>
             {multiple && isSelected && (
               <IconComponent
                 icon="RiCheckLine"
-                className="h-4 w-4 shrink-0 text-slate-700"
+                className="h-4 w-4 shrink-0 text-(--text-primary)"
               />
             )}
           </button>

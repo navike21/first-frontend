@@ -22,13 +22,13 @@ export const TriggerDisplay = ({
     {!singleOption?.content && singleOption?.icon && (
       <IconComponent
         icon={singleOption.icon}
-        className="h-4 w-4 shrink-0 text-slate-600"
+        className="h-4 w-4 shrink-0 text-(--text-secondary)"
       />
     )}
     <span
       className={clsx('text-sm', {
-        'text-slate-900': singleLabel,
-        'text-slate-400': !singleLabel,
+        'text-(--text-primary)': singleLabel,
+        'text-(--text-muted)': !singleLabel,
       })}
     >
       {singleLabel || placeholder || ''}

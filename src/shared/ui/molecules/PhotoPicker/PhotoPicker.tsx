@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui/atoms/IconComponent'
 import { usePhotoPicker } from './PhotoPicker.hooks'
 
@@ -33,28 +34,29 @@ export const PhotoPicker = ({
         aria-label={uploadLabel}
       >
         <div
-          className={`h-32 w-32 overflow-hidden rounded-full border-2 border-dashed transition-colors ${
+          className={clsx(
+            'h-32 w-32 overflow-hidden rounded-full border-2 border-dashed transition-colors',
             preview
               ? 'border-transparent'
-              : 'border-slate-300 group-hover:border-blue-400'
-          }`}
+              : 'border-slate-300 dark:border-slate-600 group-hover:border-blue-400',
+          )}
         >
           {preview ? (
             <img src={preview} alt="avatar" className="h-full w-full object-cover" />
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-slate-100">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800">
               <IconComponent
                 icon="RiCameraLine"
-                className="h-7 w-7 text-slate-400 transition-colors group-hover:text-blue-400"
+                className="h-7 w-7 text-slate-400 dark:text-slate-500 transition-colors group-hover:text-blue-400"
               />
-              <span className="px-2 text-center text-xs leading-tight text-slate-400 transition-colors group-hover:text-blue-400">
+              <span className="px-2 text-center text-xs leading-tight text-slate-400 dark:text-slate-500 transition-colors group-hover:text-blue-400">
                 {uploadLabel}
               </span>
             </div>
           )}
         </div>
         {preview && (
-          <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-white">
+          <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-(--surface)">
             <IconComponent icon="RiCameraLine" className="h-3.5 w-3.5" />
           </span>
         )}
@@ -67,7 +69,7 @@ export const PhotoPicker = ({
         onChange={handleChange}
         disabled={disabled}
       />
-      <p className="text-center text-xs leading-snug text-slate-500">{formatsHint}</p>
+      <p className="text-center text-xs leading-snug text-(--text-secondary)">{formatsHint}</p>
       {error && <p className="text-center text-xs text-red-500">{error}</p>}
     </div>
   )

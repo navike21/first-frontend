@@ -56,7 +56,7 @@ export const PermissionsSelector = ({
 
   if (resources.length === 0) {
     return (
-      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-400">
+      <div className="rounded-lg border border-(--border) bg-(--surface-subtle) p-4 text-sm text-(--text-muted)">
         No permissions available
       </div>
     )
@@ -74,7 +74,7 @@ export const PermissionsSelector = ({
         return (
           <div
             key={resource}
-            className="rounded-lg border border-slate-200 bg-white p-3"
+            className="rounded-lg border border-(--border) bg-(--surface) p-3"
           >
             {/* Resource header */}
             <label className="flex cursor-pointer items-center gap-2 pb-2">
@@ -86,14 +86,14 @@ export const PermissionsSelector = ({
                 }}
                 onChange={() => !disabled && toggleAll(resource)}
                 disabled={disabled}
-                className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 text-blue-600', 'disabled:cursor-not-allowed')}
+                className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 dark:border-slate-600 text-blue-600', 'disabled:cursor-not-allowed')}
               />
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-semibold text-(--text-primary)">
                 {formatResource(resource)}
               </span>
             </label>
             {/* Action checkboxes */}
-            <div className="flex flex-col gap-1 border-t border-slate-100 pt-2">
+            <div className="flex flex-col gap-1 border-t border-(--border-subtle) pt-2">
               {actions.map((action) => {
                 const perm = `${resource}:${action}`
                 return (
@@ -103,9 +103,9 @@ export const PermissionsSelector = ({
                       checked={value.includes(perm)}
                       onChange={() => !disabled && toggle(perm)}
                       disabled={disabled}
-                      className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 text-blue-600', 'disabled:cursor-not-allowed')}
+                      className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 dark:border-slate-600 text-blue-600', 'disabled:cursor-not-allowed')}
                     />
-                    <span className="text-xs text-slate-600">{capitalize(action)}</span>
+                    <span className="text-xs text-(--text-secondary)">{capitalize(action)}</span>
                   </label>
                 )
               })}

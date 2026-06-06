@@ -14,7 +14,7 @@ import { CalendarMonth } from './calendar/CalendarMonth'
 import { CalendarYear } from './calendar/CalendarYear'
 
 const VARIANT_RING: Record<InputDateVariant, string> = {
-  default: 'ring-slate-300',
+  default: 'ring-(--border)',
   success: 'ring-emerald-500',
   error: 'ring-red-500',
   warning: 'ring-yellow-500',
@@ -166,8 +166,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             'transition-all duration-fast ease-out-expo',
             'focus-within:ring-2',
             {
-              'bg-slate-400/50': disabled,
-              'bg-white ring-1 ring-inset': !disabled,
+              'bg-slate-400/50 dark:bg-slate-600/50': disabled,
+              'bg-(--surface) ring-1 ring-inset': !disabled,
               'pointer-events-none': loading,
             },
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -179,7 +179,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
         >
           {/* Left slot */}
           {leftSlot && (
-            <div className="flex h-10 min-w-10 items-center justify-center px-3 text-slate-700">
+            <div className="flex h-10 min-w-10 items-center justify-center px-3 text-(--text-primary)">
               {leftSlot}
             </div>
           )}
@@ -187,16 +187,16 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           {/* Calendar icon (default left icon when no leftSlot) */}
           {!leftSlot && (
             <div className="flex h-10 min-w-10 items-center justify-center">
-              <IconComponent icon="RiCalendarLine" className="size-5 text-slate-500" />
+              <IconComponent icon="RiCalendarLine" className="size-5 text-(--text-secondary)" />
             </div>
           )}
 
           {/* Display text */}
           <span
             className={clsx('flex-1 truncate text-sm', {
-              'text-slate-400': isPlaceholder,
-              'text-slate-900': !isPlaceholder && !disabled,
-              'text-slate-500': !isPlaceholder && disabled,
+              'text-(--text-muted)': isPlaceholder,
+              'text-(--text-primary)': !isPlaceholder && !disabled,
+              'text-(--text-secondary)': !isPlaceholder && disabled,
               'pl-4': leftSlot,
             })}
           >
@@ -214,9 +214,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
               }}
               className={clsx(
                 'flex h-10 min-w-8 items-center justify-center',
-                'text-slate-400',
+                'text-(--text-muted)',
                 'transition-all duration-fast ease-out-expo',
-                'hover:text-slate-600',
+                'hover:text-(--text-secondary)',
               )}
             >
               <IconComponent icon="RiCloseLine" className="size-4" />
@@ -341,8 +341,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     }
               }
               className={clsx(
-                'overflow-hidden rounded-md bg-white shadow-lg',
-                'ring-1 ring-slate-200',
+                'overflow-hidden rounded-md bg-(--surface) shadow-lg',
+                'ring-1 ring-(--border)',
                 'animate-dropdown-in'
               )}
             >
@@ -442,14 +442,14 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
 
               {/* Footer */}
               {(mode === 'date' || mode === 'month') && (
-                <div className="flex items-center justify-between border-t border-slate-100 px-3 py-2">
+                <div className="flex items-center justify-between border-t border-(--border-subtle) px-3 py-2">
                   <button
                     type="button"
                     onClick={handleClear}
                     className={clsx(
-                      'rounded-sm px-2 py-1 text-xs text-slate-500',
+                      'rounded-sm px-2 py-1 text-xs text-(--text-secondary)',
                       'transition-all duration-fast ease-out-expo',
-                      'hover:bg-slate-100 hover:text-slate-700',
+                      'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
                     )}
                   >
@@ -462,7 +462,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                       className={clsx(
                         'rounded-sm px-2 py-1 text-xs font-medium text-primary-600',
                         'transition-all duration-fast ease-out-expo',
-                        'hover:bg-primary-50',
+                        'hover:bg-primary-50 dark:hover:bg-primary-900/20',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
                       )}
                     >
