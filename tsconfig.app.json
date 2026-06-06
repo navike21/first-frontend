@@ -24,7 +24,8 @@
 
     /* Path aliases */
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@domains/*": ["./src/domains/*"]
     }
   },
   "include": ["src"],
