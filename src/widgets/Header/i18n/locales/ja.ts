@@ -10,6 +10,7 @@ export const ja: HeaderTranslations = {
   profileDrawer: {
     title: 'マイアカウント',
     accountSettings: 'アカウント設定',
+    theme: '外観',
     logout: 'ログアウト',
   },
 }

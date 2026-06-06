@@ -8,6 +8,7 @@ export interface HeaderTranslations {
   profileDrawer: {
     title: string
     accountSettings: string
+    theme: string
     logout: string
   }
 }

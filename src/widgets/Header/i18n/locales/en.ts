@@ -10,6 +10,7 @@ export const en: HeaderTranslations = {
   profileDrawer: {
     title: 'My account',
     accountSettings: 'Account settings',
+    theme: 'Appearance',
     logout: 'Sign out',
   },
 }

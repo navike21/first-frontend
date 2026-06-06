@@ -2,6 +2,9 @@
 
 @import 'tailwindcss';
 
+/* ── Dark mode: class strategy (.dark on <html>) ────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @keyframes page-in {
   from {
     opacity: 0;
@@ -55,6 +58,38 @@
   --color-primary-950: #004254;
 }
 
+/* ── Semantic color tokens ──────────────────────────────────────────────────
+   Components use: bg-(--surface), text-(--text-primary), border-(--border)
+   Single source of truth — change once here to update all components.      */
+@layer base {
+  :root {
+    /* Surfaces */
+    --surface:          #ffffff;   /* page / card background            */
+    --surface-subtle:   #f8fafc;   /* sidebar, table rows, inputs       */
+    --surface-raised:   #ffffff;   /* modals, dropdowns, popovers       */
+    /* Borders */
+    --border:           #e2e8f0;   /* default border (gray-200)         */
+    --border-subtle:    #f1f5f9;   /* dividers, skeleton lines          */
+    /* Text */
+    --text-primary:     #0f172a;   /* headings, body                    */
+    --text-secondary:   #64748b;   /* labels, helper text               */
+    --text-muted:       #94a3b8;   /* placeholders, disabled labels     */
+    --text-disabled:    #cbd5e1;   /* disabled control text             */
+  }
+
+  .dark {
+    --surface:          #0f172a;   /* slate-950                         */
+    --surface-subtle:   #1e293b;   /* slate-800                         */
+    --surface-raised:   #1e293b;   /* modals, dropdowns                 */
+    --border:           #334155;   /* slate-700                         */
+    --border-subtle:    #1e293b;   /* slate-800                         */
+    --text-primary:     #f1f5f9;   /* slate-100                         */
+    --text-secondary:   #94a3b8;   /* slate-400                         */
+    --text-muted:       #475569;   /* slate-600                         */
+    --text-disabled:    #334155;   /* slate-700                         */
+  }
+}
+
 /* ── Autofill cross-browser ─────────────────────────────────────────────────
    El box-shadow inset cubre el fondo amarillo/azul que el browser inyecta.
    El ring del contenedor padre desaparecería porque el input lo tapa, pero
@@ -72,6 +107,20 @@ input:-webkit-autofill:active {
 input:autofill {
   box-shadow: 0 0 0 1000px white inset !important;
   color: #0f172a !important;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #1e293b inset !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+  caret-color: #f1f5f9;
+}
+
+.dark input:autofill {
+  box-shadow: 0 0 0 1000px #1e293b inset !important;
+  color: #f1f5f9 !important;
 }
 
 .content-input {

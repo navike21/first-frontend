@@ -10,6 +10,7 @@ export const ko: HeaderTranslations = {
   profileDrawer: {
     title: '내 계정',
     accountSettings: '계정 설정',
+    theme: '외관',
     logout: '로그아웃',
   },
 }

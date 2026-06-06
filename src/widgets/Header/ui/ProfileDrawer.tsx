@@ -1,4 +1,5 @@
-import { Avatar, Button, Drawer, NavItem } from '@/shared/ui'
+import clsx from 'clsx'
+import { Avatar, Button, Drawer, NavItem, ThemeToggle } from '@/shared/ui'
 import { useHeaderTranslation } from '../i18n'
 import type { AuthUser } from '@/shared/types'
 
@@ -34,6 +35,17 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
 
       <div className="flex-1 px-4 py-6">
         <NavItem icon="RiSettings3Line" label={t.profileDrawer.accountSettings} />
+
+        {/* Theme toggle row */}
+        <div className={clsx(
+          'mt-1 flex items-center justify-between px-3 py-2.5',
+          'rounded-lg',
+        )}>
+          <span className="text-sm font-medium text-slate-600">
+            {t.profileDrawer.theme}
+          </span>
+          <ThemeToggle />
+        </div>
       </div>
 
       <div className="border-t border-gray-100 p-4">

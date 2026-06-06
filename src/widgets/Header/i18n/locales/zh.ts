@@ -10,6 +10,7 @@ export const zh: HeaderTranslations = {
   profileDrawer: {
     title: '我的账户',
     accountSettings: '账户设置',
+    theme: '外观',
     logout: '退出登录',
   },
 }

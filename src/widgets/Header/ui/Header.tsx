@@ -1,4 +1,4 @@
-import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
+import { AppLogo, IconComponent, Avatar, IconButton, ThemeToggle } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
@@ -71,6 +71,7 @@ export const Header = () => {
 
       <div className="flex items-center gap-4">
         <LanguageSwitcher label={t.language.label} />
+        <ThemeToggle />
 
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
