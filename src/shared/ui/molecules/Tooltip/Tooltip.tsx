@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import type {
@@ -10,8 +11,9 @@ import type {
 import { useTooltipPosition } from './Tooltip.hooks'
 
 const variantClasses: Record<TooltipVariant, string> = {
-  dark: 'bg-gray-900 text-white',
-  light: 'bg-white dark:bg-slate-700 text-(--text-primary) shadow ring-1 ring-black/10 dark:ring-white/10',
+  dark: 'bg-gray-950 text-white',
+  light:
+    'bg-white dark:bg-slate-700 text-(--text-primary) shadow ring-1 ring-black/10 dark:ring-white/10',
 }
 
 const arrowVariantClasses: Record<TooltipVariant, string> = {
@@ -23,13 +25,6 @@ const sizeClasses: Record<TooltipSize, string> = {
   small: 'text-xs px-2 py-1',
   medium: 'text-sm px-3 py-1.5',
   large: 'text-base px-4 py-2',
-}
-
-const positionClasses: Record<ResolvedTooltipPosition, string> = {
-  top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-  bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
-  left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-  right: 'left-full top-1/2 -translate-y-1/2 ml-2',
 }
 
 const arrowPositionClasses: Record<ResolvedTooltipPosition, string> = {
@@ -55,7 +50,11 @@ export const Tooltip = ({
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const isVisible = isHovered || isClicked
-  const resolvedPosition = useTooltipPosition(wrapperRef, position, isVisible)
+  const { resolvedPosition, style } = useTooltipPosition(
+    wrapperRef,
+    position,
+    isVisible
+  )
 
   const isStructured = Boolean(heading)
   const hasSubtitle = Boolean(subtitle)
@@ -86,58 +85,69 @@ export const Tooltip = ({
       onClick={() => setIsClicked((prev) => !prev)}
     >
       {children}
-      {isVisible && (
-        <div
-          role="tooltip"
-          className={clsx(
-            'pointer-events-none absolute z-50',
-            'rounded-md',
-            positionClasses[resolvedPosition],
-            variantClasses[variant],
-            sizeClasses[size],
-            hasSubtitle ? 'max-w-xs whitespace-normal' : 'whitespace-nowrap',
-          )}
-        >
-          {isStructured ? (
-            <div className={clsx('flex items-start', hasSubtitle ? 'gap-2' : 'gap-1.5')}>
-              {icon && (
-                <IconComponent
-                  icon={icon}
-                  className={clsx(
-                    'shrink-0',
-                    hasSubtitle ? 'h-4 w-4 mt-0.5' : 'h-3.5 w-3.5',
-                    variant === 'dark' ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400',
-                  )}
-                />
-              )}
-              <div className="flex flex-col gap-0.5">
-                <span className="font-medium leading-tight">{heading}</span>
-                {subtitle && (
-                  <span
-                    className={clsx(
-                      'font-normal leading-snug',
-                      variant === 'dark' ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400',
-                      size === 'small' ? 'text-xs' : 'text-xs',
-                    )}
-                  >
-                    {subtitle}
-                  </span>
-                )}
-              </div>
-            </div>
-          ) : (
-            content
-          )}
-          <span
-            aria-hidden="true"
+      {isVisible &&
+        createPortal(
+          <div
+            role="tooltip"
+            style={style}
             className={clsx(
-              'absolute h-2 w-2 rotate-45',
-              arrowVariantClasses[variant],
-              arrowPositionClasses[resolvedPosition],
+              'pointer-events-none z-[9999]',
+              'rounded-md',
+              variantClasses[variant],
+              sizeClasses[size],
+              hasSubtitle ? 'max-w-xs whitespace-normal' : 'whitespace-nowrap'
             )}
-          />
-        </div>
-      )}
+          >
+            {isStructured ? (
+              <div
+                className={clsx(
+                  'flex items-start',
+                  hasSubtitle ? 'gap-2' : 'gap-1.5'
+                )}
+              >
+                {icon && (
+                  <IconComponent
+                    icon={icon}
+                    className={clsx(
+                      'shrink-0',
+                      hasSubtitle ? 'mt-0.5 h-4 w-4' : 'h-3.5 w-3.5',
+                      variant === 'dark'
+                        ? 'text-slate-300'
+                        : 'text-slate-500 dark:text-slate-400'
+                    )}
+                  />
+                )}
+                <div className="flex flex-col gap-0.5">
+                  <span className="leading-tight font-medium">{heading}</span>
+                  {subtitle && (
+                    <span
+                      className={clsx(
+                        'leading-snug font-normal',
+                        variant === 'dark'
+                          ? 'text-slate-400'
+                          : 'text-slate-500 dark:text-slate-400',
+                        size === 'small' ? 'text-xs' : 'text-xs'
+                      )}
+                    >
+                      {subtitle}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ) : (
+              content
+            )}
+            <span
+              aria-hidden="true"
+              className={clsx(
+                'absolute h-2 w-2 rotate-45',
+                arrowVariantClasses[variant],
+                arrowPositionClasses[resolvedPosition]
+              )}
+            />
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

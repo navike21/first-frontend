@@ -1,7 +1,10 @@
 import clsx from 'clsx'
-import { Avatar, Button, Drawer, NavItem, ThemeToggle, ColorPicker } from '@/shared/ui'
+import { Avatar, Button, Drawer, IconComponent } from '@/shared/ui'
+import { Link } from '@tanstack/react-router'
 import { useHeaderTranslation } from '../i18n'
+import { navPaths } from '@/shared/router'
 import type { AuthUser } from '@/shared/types'
+import type { IconName } from '@/shared/types/icons'
 
 interface ProfileDrawerProps {
   isOpen: boolean
@@ -10,54 +13,82 @@ interface ProfileDrawerProps {
   user: AuthUser | null
 }
 
+interface NavLinkItem {
+  icon: IconName
+  label: string
+  to: string
+}
+
 export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawerProps) => {
   const { t } = useHeaderTranslation()
+
+  const navLinks: NavLinkItem[] = [
+    { icon: 'RiHomeLine', label: t.profileDrawer.home, to: navPaths.home() },
+    { icon: 'RiUserLine', label: t.profileDrawer.users, to: navPaths.users() },
+    { icon: 'RiGroupLine', label: t.profileDrawer.userGroups, to: navPaths.userGroups() },
+  ]
 
   return (
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
       placement="right"
-      title={<span className="text-sm font-semibold text-(--text-primary)">{t.profileDrawer.title}</span>}
+      title={
+        <span className="text-sm font-semibold text-(--text-primary)">
+          {t.profileDrawer.title}
+        </span>
+      }
       className="w-80"
     >
-      <div className="flex flex-col items-center justify-center border-b border-(--border-subtle) p-6 pt-10 text-center">
+      {/* Profile header */}
+      <div
+        className={clsx(
+          'flex flex-col items-center gap-3',
+          'border-b border-(--border-subtle) px-6 py-8',
+        )}
+      >
         <Avatar
           src={user?.profilePictureUrl}
           alt={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
           size="lg"
         />
-        <span className="text-lg font-bold text-(--text-primary)">
-          {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
-        </span>
-        <span className="text-sm text-(--text-secondary)">{user?.email || 'test@navike21.com'}</span>
-      </div>
-
-      <div className="flex-1 px-4 py-6">
-        <NavItem icon="RiSettings3Line" label={t.profileDrawer.accountSettings} />
-
-        {/* Appearance section */}
-        <div className="mt-3 space-y-0.5">
-          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
-            {t.profileDrawer.theme}
+        <div className="text-center">
+          <p className="text-base font-bold text-(--text-primary)">
+            {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
           </p>
-          {/* Color picker block */}
-          <div className={clsx('flex flex-col gap-2 rounded-lg px-3 py-2')}>
-            <span className="text-sm font-medium text-(--text-secondary)">
-              {t.profileDrawer.color}
-            </span>
-            <ColorPicker />
-          </div>
-          {/* Mode toggle row */}
-          <div className={clsx('flex items-center justify-between rounded-lg px-3 py-2')}>
-            <span className="text-sm font-medium text-(--text-secondary)">
-              {t.profileDrawer.mode}
-            </span>
-            <ThemeToggle />
-          </div>
+          <p className="mt-0.5 text-sm text-(--text-secondary)">
+            {user?.email || t.guestEmail}
+          </p>
         </div>
       </div>
 
+      {/* Nav links */}
+      <nav className="flex-1 px-3 py-4">
+        <ul className="space-y-0.5">
+          {navLinks.map(({ icon, label, to }) => (
+            <li key={to}>
+              <Link
+                to={to}
+                onClick={onClose}
+                className={clsx(
+                  'group flex items-center gap-3 rounded-lg px-3 py-2.5',
+                  'text-sm font-medium text-(--text-secondary)',
+                  'transition-colors duration-fast ease-out-expo',
+                  'hover:bg-(--color-primary-950)/20 hover:text-white',
+                )}
+              >
+                <IconComponent
+                  icon={icon}
+                  className="h-5 w-5 shrink-0 text-(--text-muted) transition-colors group-hover:text-white"
+                />
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Logout */}
       <div className="border-t border-(--border-subtle) p-4">
         <Button fullWidth variant="primary" icon="RiLogoutBoxRLine" onClick={onLogout}>
           {t.profileDrawer.logout}

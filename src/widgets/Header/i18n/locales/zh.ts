@@ -9,10 +9,14 @@ export const zh: HeaderTranslations = {
   guestEmail: '未登录',
   profileDrawer: {
     title: '我的账户',
-    accountSettings: '账户设置',
-    theme: '外观',
-    color: '颜色',
-    mode: '模式',
+    home: '首页',
+    users: '用户',
+    userGroups: '用户组',
     logout: '退出登录',
+  },
+  settingsDrawer: {
+    title: '设置',
+    mode: '模式',
+    color: '颜色',
   },
 }

@@ -9,10 +9,14 @@ export const ru: HeaderTranslations = {
   guestEmail: 'Не выполнен вход',
   profileDrawer: {
     title: 'Мой аккаунт',
-    accountSettings: 'Настройки аккаунта',
-    theme: 'Внешний вид',
-    color: 'Цвет',
-    mode: 'Режим',
+    home: 'Главная',
+    users: 'Пользователи',
+    userGroups: 'Группы пользователей',
     logout: 'Выйти',
+  },
+  settingsDrawer: {
+    title: 'Настройки',
+    mode: 'Режим',
+    color: 'Цвет',
   },
 }

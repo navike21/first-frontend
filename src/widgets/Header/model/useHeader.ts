@@ -9,14 +9,25 @@ export const useHeader = () => {
   const user = useSessionStore((state) => state.user)
   const clearSession = useSessionStore((state) => state.clearSession)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const router = useRouter()
 
   const toggleProfile = useCallback(() => {
     setIsProfileOpen((prev) => !prev)
+    setIsSettingsOpen(false)
   }, [])
 
   const closeProfile = useCallback(() => {
     setIsProfileOpen(false)
+  }, [])
+
+  const toggleSettings = useCallback(() => {
+    setIsSettingsOpen((prev) => !prev)
+    setIsProfileOpen(false)
+  }, [])
+
+  const closeSettings = useCallback(() => {
+    setIsSettingsOpen(false)
   }, [])
 
   const logout = useCallback(() => {
@@ -31,6 +42,9 @@ export const useHeader = () => {
     isProfileOpen,
     toggleProfile,
     closeProfile,
+    isSettingsOpen,
+    toggleSettings,
+    closeSettings,
     logout,
     toggleSidebar,
     toggleMobileSidebar,

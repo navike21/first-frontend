@@ -9,10 +9,14 @@ export const ko: HeaderTranslations = {
   guestEmail: '로그인 안 됨',
   profileDrawer: {
     title: '내 계정',
-    accountSettings: '계정 설정',
-    theme: '외관',
-    color: '색상',
-    mode: '모드',
+    home: '홈',
+    users: '사용자',
+    userGroups: '사용자 그룹',
     logout: '로그아웃',
+  },
+  settingsDrawer: {
+    title: '설정',
+    mode: '모드',
+    color: '색상',
   },
 }

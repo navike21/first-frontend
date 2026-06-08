@@ -154,7 +154,7 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('bg-gray-900', 'text-white')
+    expect(screen.getByRole('tooltip')).toHaveClass('bg-gray-950', 'text-white')
   })
 
   it('should apply light variant classes', async () => {
@@ -216,7 +216,7 @@ describe('Tooltip component', () => {
     expect(screen.getByRole('tooltip')).toHaveClass('text-base', 'px-4', 'py-2')
   })
 
-  it('should apply top position classes', async () => {
+  it('should apply top position style', async () => {
     // Arrange
     const user = userEvent.setup()
     render(
@@ -226,11 +226,14 @@ describe('Tooltip component', () => {
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
-    // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('bottom-full', 'left-1/2')
+    // Assert — fixed portal with transform placing tooltip above the trigger
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      position: 'fixed',
+      transform: 'translateX(-50%) translateY(-100%)',
+    })
   })
 
-  it('should apply bottom position classes', async () => {
+  it('should apply bottom position style', async () => {
     // Arrange
     const user = userEvent.setup()
     render(
@@ -240,11 +243,14 @@ describe('Tooltip component', () => {
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
-    // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('top-full', 'left-1/2')
+    // Assert — fixed portal with transform placing tooltip below the trigger
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      position: 'fixed',
+      transform: 'translateX(-50%)',
+    })
   })
 
-  it('should apply left position classes', async () => {
+  it('should apply left position style', async () => {
     // Arrange
     const user = userEvent.setup()
     render(
@@ -254,11 +260,14 @@ describe('Tooltip component', () => {
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
-    // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('right-full', 'top-1/2')
+    // Assert — fixed portal with transform placing tooltip to the left of the trigger
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      position: 'fixed',
+      transform: 'translateX(-100%) translateY(-50%)',
+    })
   })
 
-  it('should apply right position classes', async () => {
+  it('should apply right position style', async () => {
     // Arrange
     const user = userEvent.setup()
     render(
@@ -268,8 +277,11 @@ describe('Tooltip component', () => {
     )
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
-    // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('left-full', 'top-1/2')
+    // Assert — fixed portal with transform placing tooltip to the right of the trigger
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      position: 'fixed',
+      transform: 'translateY(-50%)',
+    })
   })
 
   it('should auto-position to top when element is in the bottom half of viewport', async () => {
@@ -298,7 +310,9 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert — element center (610) > midpoint (384) → top
-    expect(screen.getByRole('tooltip')).toHaveClass('bottom-full')
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      transform: 'translateX(-50%) translateY(-100%)',
+    })
   })
 
   it('should auto-position to bottom when element is in the top half of viewport', async () => {
@@ -328,7 +342,9 @@ describe('Tooltip component', () => {
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert — element center (110) < midpoint (384) → bottom
     await act(async () => {})
-    expect(screen.getByRole('tooltip')).toHaveClass('top-full')
+    expect(screen.getByRole('tooltip')).toHaveStyle({
+      transform: 'translateX(-50%)',
+    })
   })
 
   it('should render an arrow element inside the tooltip', async () => {

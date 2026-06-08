@@ -7,10 +7,14 @@ export interface HeaderTranslations {
   guestEmail: string
   profileDrawer: {
     title: string
-    accountSettings: string
-    theme: string
-    color: string
-    mode: string
+    home: string
+    users: string
+    userGroups: string
     logout: string
+  }
+  settingsDrawer: {
+    title: string
+    mode: string
+    color: string
   }
 }

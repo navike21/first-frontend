@@ -54,8 +54,8 @@ export const Sidebar = () => {
                     'mb-2 hidden items-center justify-center p-3 md:flex',
                     'rounded-lg',
                     'transition-colors duration-fast ease-out-expo',
-                    !isItemActive && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
-                    isItemActive ? 'bg-(--surface-subtle) text-(--text-primary)' : 'text-(--text-secondary)',
+                    !isItemActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
+                    isItemActive ? 'bg-(--color-primary-950)/40 text-white' : 'text-(--text-secondary)',
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -74,7 +74,7 @@ export const Sidebar = () => {
                       icon={item.icon}
                       className={clsx(
                         'h-5 w-5',
-                        isItemActive ? 'text-(--text-primary)' : 'text-(--text-secondary)'
+                        isItemActive ? 'text-(--color-primary-300)' : 'text-(--text-secondary)'
                       )}
                     />
                   }
@@ -94,9 +94,9 @@ export const Sidebar = () => {
                             'block px-2 py-1.5',
                             'rounded-md text-sm font-medium',
                             'transition-colors',
-                            !isChildActive && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+                            !isChildActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
                             isChildActive
-                              ? 'bg-(--surface-subtle) font-semibold text-(--text-primary)'
+                              ? 'bg-(--color-primary-950)/30 font-semibold text-white'
                               : 'text-(--text-secondary)',
                           )}
                         >

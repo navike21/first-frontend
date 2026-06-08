@@ -4,7 +4,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ProfileDrawer } from './ProfileDrawer'
 import type { AuthUser } from '@/shared/types'
 
-// Factory
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
   firstName: 'María',
@@ -15,8 +14,8 @@ const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
 })
 
 vi.mock('@/shared/ui', () => ({
-  Avatar: ({ alt, className }: { alt?: string; className?: string }) => (
-    <div data-testid="avatar" aria-label={alt} className={className} />
+  Avatar: ({ alt }: { alt?: string }) => (
+    <div data-testid="avatar" aria-label={alt} />
   ),
   Button: ({
     children,
@@ -60,12 +59,30 @@ vi.mock('@/shared/ui', () => ({
         {children}
       </dialog>
     ) : null,
-  NavItem: ({ label }: { label: string }) => (
-    <div data-testid="nav-item">{label}</div>
+  IconComponent: ({ icon }: { icon: string }) => (
+    <span data-testid={`icon-${icon}`} />
   ),
-  ThemeToggle: () => <div data-testid="theme-toggle" />,
-  ColorPicker: () => <div data-testid="color-picker" />,
 }))
+
+vi.mock('@tanstack/react-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@tanstack/react-router')>()
+  return {
+    ...actual,
+    Link: ({
+      children,
+      onClick,
+      to,
+    }: {
+      children: React.ReactNode
+      onClick?: () => void
+      to?: string
+    }) => (
+      <a href={to} onClick={onClick}>
+        {children}
+      </a>
+    ),
+  }
+})
 
 const mockUser: AuthUser = makeAuthUser()
 
@@ -75,108 +92,90 @@ describe('ProfileDrawer component', () => {
   })
 
   it('should render nothing when isOpen is false', () => {
-    // Arrange & Act
     render(
-      <ProfileDrawer
-        isOpen={false}
-        onClose={vi.fn()}
-        onLogout={vi.fn()}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={false} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
     )
-    // Assert
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('should render drawer content when isOpen is true', () => {
-    // Arrange & Act
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={vi.fn()}
-        onLogout={vi.fn()}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
     )
-    // Assert
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should display the user name', () => {
-    // Arrange & Act
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={vi.fn()}
-        onLogout={vi.fn()}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
     )
-    // Assert
     expect(screen.getByText('María García')).toBeInTheDocument()
   })
 
   it('should display the user email', () => {
-    // Arrange & Act
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={vi.fn()}
-        onLogout={vi.fn()}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
     )
-    // Assert
     expect(screen.getByText('m.garcia@navike21.com')).toBeInTheDocument()
   })
 
   it('should display fallback name when user is null', () => {
-    // Arrange & Act
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={vi.fn()}
-        onLogout={vi.fn()}
-        user={null}
-      />
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={null} />
     )
-    // Assert
     expect(screen.getByText('Usuario Invitado')).toBeInTheDocument()
   })
 
+  it('should display fallback email when user is null', () => {
+    render(
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={null} />
+    )
+    expect(screen.getByText('Sin iniciar sesión')).toBeInTheDocument()
+  })
+
+  it('should render the nav links', () => {
+    render(
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+    )
+    expect(screen.getByText('Inicio')).toBeInTheDocument()
+    expect(screen.getByText('Usuarios')).toBeInTheDocument()
+    expect(screen.getByText('Grupos de usuarios')).toBeInTheDocument()
+  })
+
+  it('should call onClose when a nav link is clicked', async () => {
+    const user = userEvent.setup()
+    const onClose = vi.fn()
+    render(
+      <ProfileDrawer isOpen={true} onClose={onClose} onLogout={vi.fn()} user={mockUser} />
+    )
+    await user.click(screen.getByText('Inicio'))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('should call onLogout when logout button is clicked', async () => {
-    // Arrange
     const user = userEvent.setup()
     const onLogout = vi.fn()
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={vi.fn()}
-        onLogout={onLogout}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={onLogout} user={mockUser} />
     )
-    // Act
     await user.click(screen.getByText('Cerrar sesión'))
-    // Assert
     expect(onLogout).toHaveBeenCalledTimes(1)
   })
 
   it('should call onClose when close button is clicked', async () => {
-    // Arrange
     const user = userEvent.setup()
     const onClose = vi.fn()
     render(
-      <ProfileDrawer
-        isOpen={true}
-        onClose={onClose}
-        onLogout={vi.fn()}
-        user={mockUser}
-      />
+      <ProfileDrawer isOpen={true} onClose={onClose} onLogout={vi.fn()} user={mockUser} />
     )
-    // Act
     await user.click(screen.getByLabelText('close-drawer'))
-    // Assert
     expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('should render avatar', () => {
+    render(
+      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+    )
+    expect(screen.getByTestId('avatar')).toBeInTheDocument()
   })
 })

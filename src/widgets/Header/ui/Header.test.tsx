@@ -6,6 +6,8 @@ import type { AuthUser } from '@/shared/types'
 
 const toggleProfileMock = vi.fn()
 const closeProfileMock = vi.fn()
+const toggleSettingsMock = vi.fn()
+const closeSettingsMock = vi.fn()
 const logoutMock = vi.fn()
 const toggleSidebarMock = vi.fn()
 const toggleMobileSidebarMock = vi.fn()
@@ -25,6 +27,9 @@ const makeHeaderState = (overrides?: Partial<ReturnType<typeof import('../model/
   isProfileOpen: false,
   toggleProfile: toggleProfileMock,
   closeProfile: closeProfileMock,
+  isSettingsOpen: false,
+  toggleSettings: toggleSettingsMock,
+  closeSettings: closeSettingsMock,
   logout: logoutMock,
   toggleSidebar: toggleSidebarMock,
   toggleMobileSidebar: toggleMobileSidebarMock,
@@ -51,11 +56,12 @@ vi.mock('@/shared/ui', async (importOriginal) => {
       icon: string
       className?: string
     }) => <span data-testid={`icon-${icon}`} className={className} />,
-    IconButton: () => <button data-testid="icon-button" />,
+    IconButton: ({ onClick, 'aria-label': ariaLabel }: { onClick?: () => void; 'aria-label'?: string }) => (
+      <button data-testid="icon-button" onClick={onClick} aria-label={ariaLabel} />
+    ),
     Avatar: ({ alt, name }: { alt?: string; name?: string }) => (
       <div data-testid="avatar" aria-label={alt ?? name} />
     ),
-    ThemeToggle: () => <button data-testid="theme-toggle" aria-label="theme-toggle" />,
     LanguageSwitcher: ({ label }: { label?: string }) => (
       <div data-testid="language-switcher">{label}</div>
     ),
@@ -65,6 +71,11 @@ vi.mock('@/shared/ui', async (importOriginal) => {
 vi.mock('./ProfileDrawer', () => ({
   ProfileDrawer: ({ isOpen }: { isOpen: boolean }) =>
     isOpen ? <div data-testid="profile-drawer" /> : null,
+}))
+
+vi.mock('./SettingsDrawer', () => ({
+  SettingsDrawer: ({ isOpen }: { isOpen: boolean }) =>
+    isOpen ? <div data-testid="settings-drawer" /> : null,
 }))
 
 describe('Header component', () => {
@@ -113,9 +124,11 @@ describe('Header component', () => {
     expect(toggleProfileMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should render ThemeToggle', () => {
+  it('should call toggleSettings when settings button is clicked', async () => {
+    const user = userEvent.setup()
     render(<Header />)
-    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument()
+    await user.click(screen.getByLabelText('Configuración'))
+    expect(toggleSettingsMock).toHaveBeenCalledTimes(1)
   })
 
   it('should render LanguageSwitcher', () => {
@@ -158,5 +171,17 @@ describe('Header component', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ user: null }))
     render(<Header />)
     expect(screen.getByText('Sin iniciar sesión')).toBeInTheDocument()
+  })
+
+  it('should render ProfileDrawer when isProfileOpen is true', () => {
+    useHeaderMock.mockReturnValue(makeHeaderState({ isProfileOpen: true }))
+    render(<Header />)
+    expect(screen.getByTestId('profile-drawer')).toBeInTheDocument()
+  })
+
+  it('should render SettingsDrawer when isSettingsOpen is true', () => {
+    useHeaderMock.mockReturnValue(makeHeaderState({ isSettingsOpen: true }))
+    render(<Header />)
+    expect(screen.getByTestId('settings-drawer')).toBeInTheDocument()
   })
 })

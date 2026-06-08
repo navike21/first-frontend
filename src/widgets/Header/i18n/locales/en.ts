@@ -9,10 +9,14 @@ export const en: HeaderTranslations = {
   guestEmail: 'Not signed in',
   profileDrawer: {
     title: 'My account',
-    accountSettings: 'Account settings',
-    theme: 'Appearance',
-    color: 'Color',
-    mode: 'Mode',
+    home: 'Home',
+    users: 'Users',
+    userGroups: 'User groups',
     logout: 'Sign out',
+  },
+  settingsDrawer: {
+    title: 'Settings',
+    mode: 'Mode',
+    color: 'Color',
   },
 }

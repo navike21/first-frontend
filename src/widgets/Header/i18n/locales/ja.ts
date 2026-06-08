@@ -9,10 +9,14 @@ export const ja: HeaderTranslations = {
   guestEmail: '未ログイン',
   profileDrawer: {
     title: 'マイアカウント',
-    accountSettings: 'アカウント設定',
-    theme: '外観',
-    color: 'カラー',
-    mode: 'モード',
+    home: 'ホーム',
+    users: 'ユーザー',
+    userGroups: 'ユーザーグループ',
     logout: 'ログアウト',
+  },
+  settingsDrawer: {
+    title: '設定',
+    mode: 'モード',
+    color: 'カラー',
   },
 }

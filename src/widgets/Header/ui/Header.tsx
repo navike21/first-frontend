@@ -1,8 +1,9 @@
-import { AppLogo, IconComponent, Avatar, IconButton, ThemeToggle } from '@/shared/ui'
+import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
 import { ProfileDrawer } from './ProfileDrawer'
+import { SettingsDrawer } from './SettingsDrawer'
 import { LanguageSwitcher } from '@/shared/ui'
 import { useUserAvatarStatus } from '@/shared/model/presence.store'
 
@@ -13,6 +14,9 @@ export const Header = () => {
     isProfileOpen,
     toggleProfile,
     closeProfile,
+    isSettingsOpen,
+    toggleSettings,
+    closeSettings,
     logout,
     toggleSidebar,
     toggleMobileSidebar,
@@ -69,18 +73,27 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1">
         <LanguageSwitcher label={t.language.label} />
-        <ThemeToggle />
 
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
+
+        {/* Settings */}
+        <IconButton
+          icon="RiSettings3Line"
+          shape="circle"
+          variant="text"
+          onClick={toggleSettings}
+          aria-label={t.settingsDrawer.title}
+          aria-expanded={isSettingsOpen}
+        />
 
         {/* Profile trigger */}
         <button
           onClick={toggleProfile}
           className={clsx(
-            'flex cursor-pointer items-center gap-3 pl-4',
+            'flex cursor-pointer items-center gap-3 pl-4 ml-2',
             'appearance-none border-l border-(--border) outline-none',
             'transition-opacity',
             'hover:opacity-80',
@@ -105,6 +118,7 @@ export const Header = () => {
         </button>
       </div>
 
+      <SettingsDrawer isOpen={isSettingsOpen} onClose={closeSettings} />
       <ProfileDrawer isOpen={isProfileOpen} onClose={closeProfile} onLogout={logout} user={user} />
     </header>
   )

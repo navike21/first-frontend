@@ -92,29 +92,15 @@
   }
 
   .dark {
-    --surface: var(--color-slate-950); /* page / card background            */
-    --surface-subtle: var(
-      --color-slate-900
-    ); /* sidebar, table rows, inputs       */
-    --surface-raised: var(
-      --color-slate-800
-    ); /* modals, dropdowns                 */
-    --border: var(--color-slate-700); /* default border                    */
-    --border-subtle: var(
-      --color-slate-800
-    ); /* dividers, skeleton lines          */
-    --text-primary: var(
-      --color-slate-100
-    ); /* headings, body                    */
-    --text-secondary: var(
-      --color-slate-400
-    ); /* labels, helper text               */
-    --text-muted: var(
-      --color-slate-600
-    ); /* placeholders, disabled labels     */
-    --text-disabled: var(
-      --color-slate-700
-    ); /* disabled control text             */
+    --surface: #1c252e; /* page / card background            */
+    --surface-subtle: #141a21; /* sidebar, table rows, inputs       */
+    --surface-raised: #1c252e; /* modals, dropdowns, cards          */
+    --border: #2d3a45; /* default border                    */
+    --border-subtle: #1e2a35; /* dividers, skeleton lines          */
+    --text-primary: #f4f6f8; /* headings, body                    */
+    --text-secondary: #8899a6; /* labels, helper text               */
+    --text-muted: #637381; /* placeholders, disabled labels     */
+    --text-disabled: #454f5b; /* disabled control text             */
   }
 
   /* ── Brand color themes ─────────────────────────────────────────────────────
@@ -300,14 +286,14 @@ input:autofill {
 .dark input:-webkit-autofill:hover,
 .dark input:-webkit-autofill:focus,
 .dark input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #020618 inset !important;
-  -webkit-text-fill-color: #f1f5f9 !important;
-  caret-color: #f1f5f9;
+  -webkit-box-shadow: 0 0 0 1000px #1c252e inset !important;
+  -webkit-text-fill-color: #f4f6f8 !important;
+  caret-color: #f4f6f8;
 }
 
 .dark input:autofill {
-  box-shadow: 0 0 0 1000px #020618 inset !important;
-  color: #f1f5f9 !important;
+  box-shadow: 0 0 0 1000px #1c252e inset !important;
+  color: #f4f6f8 !important;
 }
 
 .content-input {
