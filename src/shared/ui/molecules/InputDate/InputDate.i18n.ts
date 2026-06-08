@@ -18,16 +18,16 @@ export const DATE_FNS_LOCALES: Record<Language, Locale> = {
 
 /** Default display formats per language (date-fns pattern strings) */
 export const DATE_DISPLAY_FORMATS: Record<Language, string> = {
-  es: "d 'de' MMMM 'de' yyyy",  // 15 de enero de 2024
-  en: 'MMMM d, yyyy',            // January 15, 2024
-  de: 'd. MMMM yyyy',            // 15. Januar 2024
-  fr: 'd MMMM yyyy',             // 15 janvier 2024
-  pt: "d 'de' MMMM 'de' yyyy",  // 15 de janeiro de 2024
-  it: 'd MMMM yyyy',             // 15 gennaio 2024
-  ja: 'yyyy年M月d日',             // 2024年1月15日
-  ko: 'yyyy년 M월 d일',           // 2024년 1월 15일
-  zh: 'yyyy年M月d日',             // 2024年1月15日
-  ru: "d MMMM yyyy 'г.'",        // 15 января 2024 г.
+  es: "d 'de' MMMM 'de' yyyy", // 15 de enero de 2024
+  en: 'MMMM d, yyyy', // January 15, 2024
+  de: 'd. MMMM yyyy', // 15. Januar 2024
+  fr: 'd MMMM yyyy', // 15 janvier 2024
+  pt: "d 'de' MMMM 'de' yyyy", // 15 de janeiro de 2024
+  it: 'd MMMM yyyy', // 15 gennaio 2024
+  ja: 'yyyy年M月d日', // 2024年1月15日
+  ko: 'yyyy년 M월 d일', // 2024년 1월 15일
+  zh: 'yyyy年M月d日', // 2024年1月15日
+  ru: "d MMMM yyyy 'г.'", // 15 января 2024 г.
 }
 
 /** Short display formats (used in range trigger) */

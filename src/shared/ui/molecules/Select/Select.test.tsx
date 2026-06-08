@@ -644,7 +644,9 @@ describe('optional prop spread (branch coverage)', () => {
   })
 
   it('should accept classInput prop (covers classInput !== undefined true branch)', () => {
-    const { container } = render(<Select options={options} classInput="custom-input" />)
+    const { container } = render(
+      <Select options={options} classInput="custom-input" />
+    )
     expect(container.firstChild).toBeInTheDocument()
   })
 
@@ -654,7 +656,9 @@ describe('optional prop spread (branch coverage)', () => {
   })
 
   it('should render errorMessage when provided (covers errorMessage !== undefined true branch)', () => {
-    render(<Select options={options} variant="error" errorMessage="Error occurred" />)
+    render(
+      <Select options={options} variant="error" errorMessage="Error occurred" />
+    )
     expect(screen.getByText('Error occurred')).toBeInTheDocument()
   })
 

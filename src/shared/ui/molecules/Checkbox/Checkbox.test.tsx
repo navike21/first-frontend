@@ -135,7 +135,10 @@ describe('Checkbox', () => {
     // Arrange & Act
     render(<Checkbox />)
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('ring-slate-30', 'bg-(--surface)')
+    expect(screen.getByRole('button')).toHaveClass(
+      'ring-slate-30',
+      'bg-(--surface)'
+    )
   })
 
   it('should apply correct classes when checked and not error', () => {

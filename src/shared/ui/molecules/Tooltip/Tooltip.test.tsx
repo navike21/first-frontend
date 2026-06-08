@@ -406,7 +406,12 @@ describe('Tooltip component', () => {
     it('should render icon in structured layout when icon is provided', async () => {
       const user = userEvent.setup()
       render(
-        <Tooltip content="content" heading="Title" icon="RiHomeLine" variant="dark">
+        <Tooltip
+          content="content"
+          heading="Title"
+          icon="RiHomeLine"
+          variant="dark"
+        >
           <button>Trigger</button>
         </Tooltip>
       )
@@ -450,7 +455,12 @@ describe('Tooltip component', () => {
     it('should render light variant subtitle correctly', async () => {
       const user = userEvent.setup()
       render(
-        <Tooltip content="content" heading="Title" subtitle="Detail" variant="light">
+        <Tooltip
+          content="content"
+          heading="Title"
+          subtitle="Detail"
+          variant="light"
+        >
           <button>Trigger</button>
         </Tooltip>
       )
@@ -461,7 +471,12 @@ describe('Tooltip component', () => {
     it('should apply large icon class when icon and subtitle both present', async () => {
       const user = userEvent.setup()
       render(
-        <Tooltip content="content" heading="Title" icon="RiHomeLine" subtitle="Detail">
+        <Tooltip
+          content="content"
+          heading="Title"
+          icon="RiHomeLine"
+          subtitle="Detail"
+        >
           <button>Trigger</button>
         </Tooltip>
       )
@@ -473,7 +488,12 @@ describe('Tooltip component', () => {
     it('should apply light variant icon color when variant is light', async () => {
       const user = userEvent.setup()
       render(
-        <Tooltip content="content" heading="Title" icon="RiHomeLine" variant="light">
+        <Tooltip
+          content="content"
+          heading="Title"
+          icon="RiHomeLine"
+          variant="light"
+        >
           <button>Trigger</button>
         </Tooltip>
       )
@@ -484,7 +504,12 @@ describe('Tooltip component', () => {
     it('should apply small size class to subtitle when size is small', async () => {
       const user = userEvent.setup()
       render(
-        <Tooltip content="content" heading="Title" subtitle="Detail" size="small">
+        <Tooltip
+          content="content"
+          heading="Title"
+          subtitle="Detail"
+          size="small"
+        >
           <button>Trigger</button>
         </Tooltip>
       )

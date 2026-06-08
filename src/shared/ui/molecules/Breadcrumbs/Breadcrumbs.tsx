@@ -10,7 +10,7 @@ const BreadcrumbLink = ({ item }: { readonly item: BreadcrumbItem }) => (
       'flex items-center gap-1',
       'text-(--text-secondary)',
       'transition-colors',
-      'hover:text-(--text-primary)',
+      'hover:text-(--text-primary)'
     )}
   >
     {item.icon && <IconComponent icon={item.icon} className="h-4 w-4" />}

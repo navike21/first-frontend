@@ -45,11 +45,16 @@ export const HelperText = ({
         className,
         'flex items-center gap-2',
         {
-          'text-(--text-secondary)': variant === 'default' && !HAS_TEXT_CLASS_COLOR,
-          'text-red-500 dark:text-red-400': variant === 'error' && !HAS_TEXT_CLASS_COLOR,
-          'text-emerald-500 dark:text-emerald-400': variant === 'success' && !HAS_TEXT_CLASS_COLOR,
-          'text-yellow-500 dark:text-yellow-400': variant === 'warning' && !HAS_TEXT_CLASS_COLOR,
-          'text-blue-500 dark:text-blue-400': variant === 'info' && !HAS_TEXT_CLASS_COLOR,
+          'text-(--text-secondary)':
+            variant === 'default' && !HAS_TEXT_CLASS_COLOR,
+          'text-red-500 dark:text-red-400':
+            variant === 'error' && !HAS_TEXT_CLASS_COLOR,
+          'text-emerald-500 dark:text-emerald-400':
+            variant === 'success' && !HAS_TEXT_CLASS_COLOR,
+          'text-yellow-500 dark:text-yellow-400':
+            variant === 'warning' && !HAS_TEXT_CLASS_COLOR,
+          'text-blue-500 dark:text-blue-400':
+            variant === 'info' && !HAS_TEXT_CLASS_COLOR,
         },
         {
           'text-xs': size === 'small',

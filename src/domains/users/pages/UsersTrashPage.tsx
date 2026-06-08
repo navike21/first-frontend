@@ -53,14 +53,22 @@ export const UsersTrashPage = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <div className={clsx('h-8 w-8', 'rounded-full border-2 border-slate-300 dark:border-slate-600 border-t-slate-700 dark:border-t-slate-300', 'animate-spin')} />
+          <div
+            className={clsx(
+              'h-8 w-8',
+              'rounded-full border-2 border-slate-300 border-t-slate-700 dark:border-slate-600 dark:border-t-slate-300',
+              'animate-spin'
+            )}
+          />
         </div>
       ) : users.length === 0 ? (
-        <div className={clsx(
-          'flex flex-col items-center justify-center py-20',
-          'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
-          'text-center',
-        )}>
+        <div
+          className={clsx(
+            'flex flex-col items-center justify-center py-20',
+            'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
+            'text-center'
+          )}
+        >
           <IconComponent
             icon="RiDeleteBinLine"
             className="mb-3 h-10 w-10 text-(--text-disabled)"
@@ -87,7 +95,10 @@ export const UsersTrashPage = () => {
               {users.map((user) => (
                 <tr
                   key={user.id}
-                  className={clsx('transition-colors', 'hover:bg-(--surface-subtle)')}
+                  className={clsx(
+                    'transition-colors',
+                    'hover:bg-(--surface-subtle)'
+                  )}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -98,7 +109,7 @@ export const UsersTrashPage = () => {
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
                           {user.firstName[0]}
                           {user.lastName[0]}
                         </div>
@@ -108,7 +119,9 @@ export const UsersTrashPage = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-(--text-secondary)">{user.email}</td>
+                  <td className="px-4 py-3 text-(--text-secondary)">
+                    {user.email}
+                  </td>
                   <td className="px-4 py-3 text-(--text-secondary)">
                     {user.deletedAt
                       ? new Date(user.deletedAt).toLocaleDateString()

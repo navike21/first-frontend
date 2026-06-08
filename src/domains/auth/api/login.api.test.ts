@@ -8,7 +8,13 @@ vi.mock('@/shared/api', () => ({
       if (email === 'admin@navike21.com' && password === 'admin123') {
         return Promise.resolve({
           token: 'mock-token-local-dev',
-          user: { id: '1', email: 'admin@navike21.com', firstName: 'Admin', lastName: 'First', permissions: [] },
+          user: {
+            id: '1',
+            email: 'admin@navike21.com',
+            firstName: 'Admin',
+            lastName: 'First',
+            permissions: [],
+          },
         })
       }
       return Promise.reject(new Error('Usuario o contraseña incorrectos'))
@@ -34,8 +40,8 @@ describe('loginApi', () => {
   })
 
   it('rejects with error message for invalid credentials', async () => {
-    await expect(loginApi(makeLoginRequest({ email: 'wrong@test.com', password: 'bad' }))).rejects.toThrow(
-      'Usuario o contraseña incorrectos',
-    )
+    await expect(
+      loginApi(makeLoginRequest({ email: 'wrong@test.com', password: 'bad' }))
+    ).rejects.toThrow('Usuario o contraseña incorrectos')
   })
 })

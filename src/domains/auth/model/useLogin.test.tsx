@@ -285,7 +285,9 @@ describe('useLogin', () => {
     const wrapper = createWrapper()
     const { result } = renderHook(() => useLogin(), { wrapper })
 
-    act(() => { result.current.login(makeLoginFormData()) })
+    act(() => {
+      result.current.login(makeLoginFormData())
+    })
     await waitFor(() => expect(result.current.isPending).toBe(false))
     // no unhandled rejection — catch handler silenced it
     expect(result.current.errorMessage).toBeNull()

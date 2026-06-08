@@ -33,9 +33,13 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 })
 
 vi.mock('@/shared/ui', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
   Accordion: ({
     title,
     icon,
@@ -73,12 +77,28 @@ vi.mock('@/shared/ui', () => ({
   }) => (
     <div data-testid="drawer" className={className} data-open={isOpen}>
       {title}
-      <button onClick={onClose} aria-label="close-drawer">Close</button>
+      <button onClick={onClose} aria-label="close-drawer">
+        Close
+      </button>
       {children}
     </div>
   ),
-  NavItem: ({ label, to, isActive }: { label: string; to?: string; isActive?: boolean }) => (
-    <a href={to ?? '#'} data-testid={`nav-item-${label}`} data-active={String(isActive)}>{label}</a>
+  NavItem: ({
+    label,
+    to,
+    isActive,
+  }: {
+    label: string
+    to?: string
+    isActive?: boolean
+  }) => (
+    <a
+      href={to ?? '#'}
+      data-testid={`nav-item-${label}`}
+      data-active={String(isActive)}
+    >
+      {label}
+    </a>
   ),
 }))
 
@@ -122,13 +142,19 @@ describe('Sidebar active-state branches', () => {
 
   it('passes isActive=true to NavItem when route matches item href', () => {
     render(<Sidebar />)
-    expect(screen.getByTestId('nav-item-Usuarios')).toHaveAttribute('data-active', 'true')
+    expect(screen.getByTestId('nav-item-Usuarios')).toHaveAttribute(
+      'data-active',
+      'true'
+    )
   })
 
   it('passes isActive=false to NavItem when route does not match', () => {
     pathnameMock.value = '/es/otros'
     render(<Sidebar />)
-    expect(screen.getByTestId('nav-item-Usuarios')).toHaveAttribute('data-active', 'false')
+    expect(screen.getByTestId('nav-item-Usuarios')).toHaveAttribute(
+      'data-active',
+      'false'
+    )
   })
 
   it('renders NavItem with to=/ when item has no href (line 118 ?? fallback)', () => {
@@ -152,7 +178,9 @@ describe('Sidebar active-state branches', () => {
     it('applies active bg class to collapsed item when isItemActive=true', () => {
       pathnameMock.value = '/es/usuarios'
       const { container } = render(<Sidebar />)
-      const activeLinks = container.querySelectorAll('a.bg-\\(--color-primary-950\\)\\/40')
+      const activeLinks = container.querySelectorAll(
+        'a.bg-\\(--color-primary-950\\)\\/40'
+      )
       expect(activeLinks.length).toBeGreaterThan(0)
     })
 

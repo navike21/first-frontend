@@ -41,7 +41,9 @@ export const PermissionsSelector = ({
   }
 
   const toggleAll = (resource: string) => {
-    const perms = (grouped[resource] ?? []).map((action) => `${resource}:${action}`)
+    const perms = (grouped[resource] ?? []).map(
+      (action) => `${resource}:${action}`
+    )
     const allSelected = perms.every((p) => value.includes(p))
     if (allSelected) {
       onChange(value.filter((p) => !perms.includes(p)))
@@ -86,7 +88,11 @@ export const PermissionsSelector = ({
                 }}
                 onChange={() => !disabled && toggleAll(resource)}
                 disabled={disabled}
-                className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 dark:border-slate-600 text-blue-600', 'disabled:cursor-not-allowed')}
+                className={clsx(
+                  'h-4 w-4 cursor-pointer rounded',
+                  'border-slate-300 text-blue-600 dark:border-slate-600',
+                  'disabled:cursor-not-allowed'
+                )}
               />
               <span className="text-sm font-semibold text-(--text-primary)">
                 {formatResource(resource)}
@@ -97,15 +103,24 @@ export const PermissionsSelector = ({
               {actions.map((action) => {
                 const perm = `${resource}:${action}`
                 return (
-                  <label key={action} className="flex cursor-pointer items-center gap-2">
+                  <label
+                    key={action}
+                    className="flex cursor-pointer items-center gap-2"
+                  >
                     <input
                       type="checkbox"
                       checked={value.includes(perm)}
                       onChange={() => !disabled && toggle(perm)}
                       disabled={disabled}
-                      className={clsx('h-4 w-4 cursor-pointer rounded', 'border-slate-300 dark:border-slate-600 text-blue-600', 'disabled:cursor-not-allowed')}
+                      className={clsx(
+                        'h-4 w-4 cursor-pointer rounded',
+                        'border-slate-300 text-blue-600 dark:border-slate-600',
+                        'disabled:cursor-not-allowed'
+                      )}
                     />
-                    <span className="text-xs text-(--text-secondary)">{capitalize(action)}</span>
+                    <span className="text-xs text-(--text-secondary)">
+                      {capitalize(action)}
+                    </span>
                   </label>
                 )
               })}

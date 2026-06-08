@@ -5,13 +5,16 @@ export const pt: UserGroupsTranslations = {
     listTitle: 'Grupos de utilizadores',
     listDescription: 'Gerir grupos e as suas permissões',
     createTitle: 'Novo grupo',
-    createDescription: 'Preencha os campos para criar um novo grupo de utilizadores',
+    createDescription:
+      'Preencha os campos para criar um novo grupo de utilizadores',
     editTitle: 'Editar grupo',
     editDescription: (name) => `Editar grupo "${name}"`,
     trashTitle: 'Lixeira de grupos',
-    trashDescription: 'Grupos movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Grupos movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum grupo na lixeira',
-    trashEmptyDescription: 'Quando grupos forem excluídos, eles aparecerão aqui.',
+    trashEmptyDescription:
+      'Quando grupos forem excluídos, eles aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhum grupo encontrado',
@@ -39,7 +42,8 @@ export const pt: UserGroupsTranslations = {
     permissions: 'Permissões',
     permissionsHint: 'Selecione as permissões para este grupo',
     statusLabel: 'Estado do grupo',
-    statusDescription: 'Grupos inativos não podem ser atribuídos a utilizadores',
+    statusDescription:
+      'Grupos inativos não podem ser atribuídos a utilizadores',
     systemNotice: 'Este é um grupo de sistema e não pode ser modificado',
     createButton: 'Criar grupo',
     saveButton: 'Guardar alterações',
@@ -56,9 +60,11 @@ export const pt: UserGroupsTranslations = {
     restoreGroup: 'Restaurar',
     purgeGroup: 'Excluir permanentemente',
     restoreTitle: 'Restaurar grupo',
-    restoreDescription: (name) => `Restaurar o grupo "${name}" para a lista ativa?`,
+    restoreDescription: (name) =>
+      `Restaurar o grupo "${name}" para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `O grupo "${name}" será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `O grupo "${name}" será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmRestore: 'Restaurar',
     purgeWarning: 'Esta ação não pode ser desfeita.',
     confirmPurge: 'Excluir permanentemente',
@@ -76,7 +82,8 @@ export const pt: UserGroupsTranslations = {
     descriptionLabel: 'Descrição',
     permissionsLabel: 'Permissões',
     noPermissions: 'Sem permissões atribuídas',
-    superadminNotice: 'Este grupo tem acesso total ao sistema (todas as permissões)',
+    superadminNotice:
+      'Este grupo tem acesso total ao sistema (todas as permissões)',
     actionAll: 'Todas',
     createdAt: 'Criado',
     updatedAt: 'Atualizado',

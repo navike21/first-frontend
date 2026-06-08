@@ -5,7 +5,8 @@ import type { AuthUser } from '@/shared/types'
 
 // Override constants to include recent activity items — covers line 55
 vi.mock('../lib/dashboard.constants', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../lib/dashboard.constants')>()
+  const actual =
+    await importOriginal<typeof import('../lib/dashboard.constants')>()
   return {
     ...actual,
     RECENT_ACTIVITY: [
@@ -29,7 +30,11 @@ const makeUser = (overrides?: Partial<AuthUser>): AuthUser => ({
 describe('DashboardPage component', () => {
   beforeEach(() => {
     vi.resetAllMocks()
-    useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
   })
 
   it('renders welcome heading with user name when session exists', () => {
@@ -40,13 +45,15 @@ describe('DashboardPage component', () => {
     })
     render(<DashboardPage />)
     expect(
-      screen.getByRole('heading', { name: /Bienvenido, María/i }),
+      screen.getByRole('heading', { name: /Bienvenido, María/i })
     ).toBeInTheDocument()
   })
 
   it('renders welcome heading without name when no session', () => {
     render(<DashboardPage />)
-    expect(screen.getByRole('heading', { name: /Bienvenido/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /Bienvenido/i })
+    ).toBeInTheDocument()
   })
 
   it('renders the KPI summary section', () => {
@@ -63,7 +70,9 @@ describe('DashboardPage component', () => {
 
   it('renders the recent activity section', () => {
     render(<DashboardPage />)
-    expect(screen.getByRole('region', { name: /Actividad reciente/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /Actividad reciente/i })
+    ).toBeInTheDocument()
   })
 
   it('renders recent activity items list', () => {

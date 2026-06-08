@@ -52,13 +52,17 @@ describe('notify', () => {
     it('shows localized HTTP 404 message for es', () => {
       useLanguageStore.setState({ language: 'es' })
       notify.queryError(new HttpError(404, 'Not Found'))
-      expect(toast.error).toHaveBeenCalledWith('El recurso solicitado no existe.')
+      expect(toast.error).toHaveBeenCalledWith(
+        'El recurso solicitado no existe.'
+      )
     })
 
     it('shows localized HTTP 404 message for en', () => {
       useLanguageStore.setState({ language: 'en' })
       notify.queryError(new HttpError(404, 'Not Found'))
-      expect(toast.error).toHaveBeenCalledWith('The requested resource does not exist.')
+      expect(toast.error).toHaveBeenCalledWith(
+        'The requested resource does not exist.'
+      )
     })
 
     it('uses HttpError.message when status has no locale mapping', () => {

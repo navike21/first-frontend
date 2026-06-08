@@ -1,4 +1,10 @@
-import { type RefObject, type CSSProperties, useState, useLayoutEffect, useEffect } from 'react'
+import {
+  type RefObject,
+  type CSSProperties,
+  useState,
+  useLayoutEffect,
+  useEffect,
+} from 'react'
 import type { TooltipPosition, ResolvedTooltipPosition } from './Tooltip.types'
 
 const GAP = 8
@@ -74,7 +80,7 @@ export function useTooltipPosition(
 
   useLayoutEffect(() => {
     if (!isVisible || !ref.current) return
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+
     setState(computePositionState(ref.current, position))
   }, [position, isVisible, ref])
 

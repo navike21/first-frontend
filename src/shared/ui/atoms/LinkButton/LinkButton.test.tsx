@@ -54,7 +54,13 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     const link = screen.getByRole('link')
-    expect(link).toHaveClass('bg-(--surface)', 'text-(--text-primary)', 'ring-1', 'ring-black', 'ring-inset')
+    expect(link).toHaveClass(
+      'bg-(--surface)',
+      'text-(--text-primary)',
+      'ring-1',
+      'ring-black',
+      'ring-inset'
+    )
   })
 
   it('should apply correct size classes', () => {

@@ -256,7 +256,11 @@ describe('HelperText', () => {
   it('applies custom className without overriding text colors', () => {
     render(<HelperText className="bg-white font-bold">Test</HelperText>)
     const element = screen.getByText('Test')
-    expect(element).toHaveClass('font-bold', 'bg-white', 'text-(--text-secondary)')
+    expect(element).toHaveClass(
+      'font-bold',
+      'bg-white',
+      'text-(--text-secondary)'
+    )
   })
 
   it('handles classes that start with text- but are not colors', () => {

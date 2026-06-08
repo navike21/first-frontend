@@ -27,7 +27,13 @@ describe('Button component', () => {
   it('should apply secondary variant styles', () => {
     render(<Button variant="secondary">Secondary Button</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('bg-(--surface)', 'text-(--text-primary)', 'ring-1', 'ring-black', 'ring-inset')
+    expect(button).toHaveClass(
+      'bg-(--surface)',
+      'text-(--text-primary)',
+      'ring-1',
+      'ring-black',
+      'ring-inset'
+    )
   })
 
   it('should apply correct size classes', () => {
@@ -110,18 +116,34 @@ describe('Button component', () => {
     })
 
     it('should apply size text classes for variant text', () => {
-      const { rerender } = render(<Button variant="text" size="small">S</Button>)
+      const { rerender } = render(
+        <Button variant="text" size="small">
+          S
+        </Button>
+      )
       expect(screen.getByRole('button')).toHaveClass('text-xs')
 
-      rerender(<Button variant="text" size="medium">M</Button>)
+      rerender(
+        <Button variant="text" size="medium">
+          M
+        </Button>
+      )
       expect(screen.getByRole('button')).toHaveClass('text-sm')
 
-      rerender(<Button variant="text" size="large">L</Button>)
+      rerender(
+        <Button variant="text" size="large">
+          L
+        </Button>
+      )
       expect(screen.getByRole('button')).toHaveClass('text-md')
     })
 
     it('should apply inline-flex when variant text and loading', () => {
-      render(<Button variant="text" loading>Loading</Button>)
+      render(
+        <Button variant="text" loading>
+          Loading
+        </Button>
+      )
       const button = screen.getByRole('button')
       expect(button).toHaveClass('inline-flex', 'align-middle')
     })

@@ -11,7 +11,7 @@ export const fr: HeaderTranslations = {
     title: 'Mon compte',
     home: 'Accueil',
     users: 'Utilisateurs',
-    userGroups: 'Groupes d\'utilisateurs',
+    userGroups: "Groupes d'utilisateurs",
     logout: 'Se déconnecter',
   },
   settingsDrawer: {

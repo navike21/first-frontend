@@ -12,9 +12,15 @@ const mockStorage = (() => {
   let store: Record<string, string> = {}
   return {
     getItem: (key: string): string | null => store[key] ?? null,
-    setItem: (key: string, value: string): void => { store[key] = value },
-    removeItem: (key: string): void => { delete store[key] },
-    clear: (): void => { store = {} },
+    setItem: (key: string, value: string): void => {
+      store[key] = value
+    },
+    removeItem: (key: string): void => {
+      delete store[key]
+    },
+    clear: (): void => {
+      store = {}
+    },
   }
 })()
 
@@ -68,7 +74,9 @@ describe('useThemeStore', () => {
       document.documentElement.classList.remove('color-violet')
       useThemeStore.persist.rehydrate()
       expect(document.documentElement.classList.contains('dark')).toBe(true)
-      expect(document.documentElement.classList.contains('color-violet')).toBe(true)
+      expect(document.documentElement.classList.contains('color-violet')).toBe(
+        true
+      )
     })
 
     it('does nothing when stored state is null (invalid JSON in storage)', () => {
@@ -110,14 +118,20 @@ describe('useThemeStore', () => {
     it('sets color and adds the corresponding class', () => {
       useThemeStore.getState().setColor('violet')
       expect(useThemeStore.getState().color).toBe('violet')
-      expect(document.documentElement.classList.contains('color-violet')).toBe(true)
+      expect(document.documentElement.classList.contains('color-violet')).toBe(
+        true
+      )
     })
 
     it('removes previous color class when changing colors', () => {
       useThemeStore.getState().setColor('rose')
       useThemeStore.getState().setColor('emerald')
-      expect(document.documentElement.classList.contains('color-rose')).toBe(false)
-      expect(document.documentElement.classList.contains('color-emerald')).toBe(true)
+      expect(document.documentElement.classList.contains('color-rose')).toBe(
+        false
+      )
+      expect(document.documentElement.classList.contains('color-emerald')).toBe(
+        true
+      )
     })
   })
 

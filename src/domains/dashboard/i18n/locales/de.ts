@@ -7,6 +7,6 @@ export const de: DashboardTranslations = {
   recentActivity: 'Letzte Aktivitäten',
   noRecentActivity: 'Keine aktuellen Aktivitäten.',
   kpi: { clients: 'Kunden', users: 'Benutzer', services: 'Dienste' },
-  dateFormat: "EEEE, d. MMMM yyyy",
+  dateFormat: 'EEEE, d. MMMM yyyy',
   dateLocale: dateFnsDe,
 }

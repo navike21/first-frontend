@@ -13,5 +13,12 @@ export {
   usePermissionsCatalog,
   userGroupKeys,
 } from './api/userGroups.queries'
-export type { UserGroup, UserGroupStatus, UserGroupListParams } from './model/userGroup.types'
-export type { CreateUserGroupFormData, UpdateUserGroupFormData } from './model/userGroup.schema'
+export type {
+  UserGroup,
+  UserGroupStatus,
+  UserGroupListParams,
+} from './model/userGroup.types'
+export type {
+  CreateUserGroupFormData,
+  UpdateUserGroupFormData,
+} from './model/userGroup.schema'

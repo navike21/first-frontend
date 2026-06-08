@@ -67,7 +67,10 @@ describe('loginSchema', () => {
 
   it('should reject empty password', () => {
     // Arrange & Act
-    const result = loginSchema.safeParse({ email: 'admin@navike21.com', password: '' })
+    const result = loginSchema.safeParse({
+      email: 'admin@navike21.com',
+      password: '',
+    })
     // Assert
     expect(result.success).toBe(false)
   })

@@ -30,7 +30,7 @@ export const AppLogo = ({
         'fill-white': color === 'white',
         'fill-[#0f172a] dark:fill-slate-100': color === 'default',
       },
-      sizeClass[size],
+      sizeClass[size]
     )}
     {...props}
   >

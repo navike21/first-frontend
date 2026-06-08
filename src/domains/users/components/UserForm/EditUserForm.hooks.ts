@@ -16,10 +16,18 @@ export interface UseEditUserFormProps {
   onUpdate: (data: UpdateUserFormData) => void
 }
 
-export function useEditUserForm({ defaultValues, isSubmitting, onCancel, onUpdate }: UseEditUserFormProps) {
+export function useEditUserForm({
+  defaultValues,
+  isSubmitting,
+  onCancel,
+  onUpdate,
+}: UseEditUserFormProps) {
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
-  const schema = useMemo(() => createUpdateUserSchema(t.validation), [t.validation])
+  const schema = useMemo(
+    () => createUpdateUserSchema(t.validation),
+    [t.validation]
+  )
   const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
 
   useEffect(() => {
@@ -43,7 +51,10 @@ export function useEditUserForm({ defaultValues, isSubmitting, onCancel, onUpdat
       gender: defaultValues.gender,
       groupId: defaultValues.groupId ?? '',
       address: defaultValues.address ?? {},
-      status: defaultValues.status === 'deleted' ? 'inactive' : (defaultValues.status ?? 'active'),
+      status:
+        defaultValues.status === 'deleted'
+          ? 'inactive'
+          : (defaultValues.status ?? 'active'),
     },
   })
 

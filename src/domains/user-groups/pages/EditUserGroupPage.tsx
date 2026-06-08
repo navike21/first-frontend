@@ -50,7 +50,9 @@ export const EditUserGroupPage = () => {
           mode="edit"
           defaultValues={group}
           isSubmitting={updateUserGroup.isPending}
-          onCancel={() => navigate({ to: navPaths.userGroups(language) as never })}
+          onCancel={() =>
+            navigate({ to: navPaths.userGroups(language) as never })
+          }
           onCreate={() => {}}
           onUpdate={handleUpdate}
         />

@@ -35,7 +35,10 @@ export const CalendarMonth = ({
 }: CalendarMonthProps) => {
   const today = parseToDate(format(new Date(), 'yyyy-MM-dd'))
   const [viewYear, setViewYear] = useState(
-    displayYear ?? selected?.getFullYear() ?? today?.getFullYear() ?? new Date().getFullYear()
+    displayYear ??
+      selected?.getFullYear() ??
+      today?.getFullYear() ??
+      new Date().getFullYear()
   )
 
   const monthLabels = getMonthLabels(viewYear, locale)
@@ -73,13 +76,14 @@ export const CalendarMonth = ({
               className={clsx(
                 'flex h-9 items-center justify-center',
                 'rounded-sm text-sm',
-                'transition-all duration-fast ease-out-expo',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
+                'duration-fast ease-out-expo transition-all',
+                'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none',
                 {
                   'bg-primary-500 text-white': isSelected,
                   'text-(--text-primary)': !isSelected && !disabled,
-                  'cursor-not-allowed text-slate-300 dark:text-slate-600': disabled,
-                  'font-bold ring-1 ring-primary-400': isToday && !isSelected,
+                  'cursor-not-allowed text-slate-300 dark:text-slate-600':
+                    disabled,
+                  'ring-primary-400 font-bold ring-1': isToday && !isSelected,
                 },
                 {
                   'hover:bg-primary-600': isSelected,

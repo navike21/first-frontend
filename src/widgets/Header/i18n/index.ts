@@ -13,5 +13,14 @@ import { ru } from './locales/ru'
 export type { HeaderTranslations } from './types'
 
 export const useHeaderTranslation = createTranslations({
-  es, en, de, fr, pt, it, ja, ko, zh, ru,
+  es,
+  en,
+  de,
+  fr,
+  pt,
+  it,
+  ja,
+  ko,
+  zh,
+  ru,
 })

@@ -21,7 +21,7 @@ export const Label = ({
     className={clsx(
       className,
       'text-sm font-semibold',
-      'transition-all duration-fast ease-out-expo',
+      'duration-fast ease-out-expo transition-all',
       {
         'cursor-not-allowed text-(--text-secondary)': disabled,
         'text-(--text-primary)': !disabled && !hasTextClassColor(className),

@@ -66,7 +66,10 @@ describe('LoginForm component', () => {
     const user = userEvent.setup()
     render(<LoginForm />, { wrapper })
     // Act
-    await user.type(screen.getByLabelText(/correo electrónico/i), 'admin@navike21.com')
+    await user.type(
+      screen.getByLabelText(/correo electrónico/i),
+      'admin@navike21.com'
+    )
     await user.type(screen.getByLabelText(/contraseña/i), 'short')
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
     // Assert
@@ -82,7 +85,10 @@ describe('LoginForm component', () => {
     const user = userEvent.setup()
     render(<LoginForm />, { wrapper })
     // Act
-    await user.type(screen.getByLabelText(/correo electrónico/i), 'j.chaponan@navike21.com')
+    await user.type(
+      screen.getByLabelText(/correo electrónico/i),
+      'j.chaponan@navike21.com'
+    )
     await user.type(screen.getByLabelText(/contraseña/i), 'admin123')
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
     // Assert

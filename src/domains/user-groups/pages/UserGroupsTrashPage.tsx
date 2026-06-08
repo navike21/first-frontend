@@ -53,14 +53,22 @@ export const UserGroupsTrashPage = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <div className={clsx('h-8 w-8', 'rounded-full border-2 border-slate-300 dark:border-slate-600 border-t-slate-700 dark:border-t-slate-300', 'animate-spin')} />
+          <div
+            className={clsx(
+              'h-8 w-8',
+              'rounded-full border-2 border-slate-300 border-t-slate-700 dark:border-slate-600 dark:border-t-slate-300',
+              'animate-spin'
+            )}
+          />
         </div>
       ) : groups.length === 0 ? (
-        <div className={clsx(
-          'flex flex-col items-center justify-center py-20',
-          'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
-          'text-center',
-        )}>
+        <div
+          className={clsx(
+            'flex flex-col items-center justify-center py-20',
+            'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
+            'text-center'
+          )}
+        >
           <IconComponent
             icon="RiDeleteBinLine"
             className="mb-3 h-10 w-10 text-(--text-disabled)"
@@ -89,7 +97,10 @@ export const UserGroupsTrashPage = () => {
               {groups.map((group) => (
                 <tr
                   key={group.id}
-                  className={clsx('transition-colors', 'hover:bg-(--surface-subtle)')}
+                  className={clsx(
+                    'transition-colors',
+                    'hover:bg-(--surface-subtle)'
+                  )}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">

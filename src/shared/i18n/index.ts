@@ -27,7 +27,11 @@ export const NATIVE_LANGUAGE_NAMES: Record<Language, string> = {
  *   const { t, language, setLanguage } = useMyTranslation()
  */
 export function createTranslations<T>(locales: Record<Language, T>) {
-  return (): { t: T; language: Language; setLanguage: (lang: Language) => void } => {
+  return (): {
+    t: T
+    language: Language
+    setLanguage: (lang: Language) => void
+  } => {
     const language = useLanguageStore((state) => state.language)
     const setLanguage = useLanguageStore((state) => state.setLanguage)
     return { t: locales[language], language, setLanguage }

@@ -11,7 +11,9 @@ describe('ColorPicker', () => {
 
   it('renders a radiogroup with aria-label', () => {
     render(<ColorPicker />)
-    expect(screen.getByRole('radiogroup', { name: /brand color/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('radiogroup', { name: /brand color/i })
+    ).toBeInTheDocument()
   })
 
   it('renders 10 color buttons', () => {
@@ -22,14 +24,26 @@ describe('ColorPicker', () => {
 
   it('marks the active color as checked', () => {
     render(<ColorPicker />)
-    expect(screen.getByRole('radio', { name: 'Teal' })).toHaveAttribute('aria-checked', 'true')
+    expect(screen.getByRole('radio', { name: 'Teal' })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    )
   })
 
   it('marks non-selected colors as not checked', () => {
     render(<ColorPicker />)
-    expect(screen.getByRole('radio', { name: 'Violet' })).toHaveAttribute('aria-checked', 'false')
-    expect(screen.getByRole('radio', { name: 'Sky' })).toHaveAttribute('aria-checked', 'false')
-    expect(screen.getByRole('radio', { name: 'Indigo' })).toHaveAttribute('aria-checked', 'false')
+    expect(screen.getByRole('radio', { name: 'Violet' })).toHaveAttribute(
+      'aria-checked',
+      'false'
+    )
+    expect(screen.getByRole('radio', { name: 'Sky' })).toHaveAttribute(
+      'aria-checked',
+      'false'
+    )
+    expect(screen.getByRole('radio', { name: 'Indigo' })).toHaveAttribute(
+      'aria-checked',
+      'false'
+    )
   })
 
   it('calls setColor when a color button is clicked', async () => {

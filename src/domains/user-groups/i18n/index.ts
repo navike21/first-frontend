@@ -13,5 +13,14 @@ import { ru } from './locales/ru'
 export type { UserGroupsTranslations } from './types'
 
 export const useUserGroupsTranslation = createTranslations({
-  es, en, de, fr, pt, it, ja, ko, zh, ru,
+  es,
+  en,
+  de,
+  fr,
+  pt,
+  it,
+  ja,
+  ko,
+  zh,
+  ru,
 })

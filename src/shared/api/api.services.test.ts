@@ -44,7 +44,11 @@ describe('api.services', () => {
 
   describe('request()', () => {
     beforeEach(() => {
-      useSessionStore.setState({ token: null, isAuthenticated: false, user: null })
+      useSessionStore.setState({
+        token: null,
+        isAuthenticated: false,
+        user: null,
+      })
     })
 
     it('should call fetch with correct URL, method and headers for GET', async () => {
@@ -121,7 +125,9 @@ describe('api.services', () => {
         json: async () => ({ message: 'Token expirado' }),
       })
       // Act & Assert
-      const err = await request({ api: '/secure', method: 'GET' }).catch((e) => e) as HttpError
+      const err = (await request({ api: '/secure', method: 'GET' }).catch(
+        (e) => e
+      )) as HttpError
       expect(err).toBeInstanceOf(HttpError)
       expect(err.message).toBe('Token expirado')
     })
@@ -140,17 +146,32 @@ describe('api.services', () => {
     })
 
     it('should include Authorization header when session token is present', async () => {
-      useSessionStore.setState({ token: 'bearer-tok', isAuthenticated: true, user: null })
-      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({}) })
+      useSessionStore.setState({
+        token: 'bearer-tok',
+        isAuthenticated: true,
+        user: null,
+      })
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      })
       await request({ api: '/me', method: 'GET' })
-      const [, options] = mockFetch.mock.calls[0] as [string, RequestInit & { headers: Record<string, string> }]
+      const [, options] = mockFetch.mock.calls[0] as [
+        string,
+        RequestInit & { headers: Record<string, string> },
+      ]
       expect(options.headers['Authorization']).toBe('Bearer bearer-tok')
     })
 
     it('uses empty string when VITE_API_BASE_URL is undefined (line 75 ?? right branch)', async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.stubEnv('VITE_API_BASE_URL', undefined as any)
-      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({}) })
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      })
       await request({ api: '/test', method: 'GET' })
       const [url] = mockFetch.mock.calls[0] as [string]
       expect(url).toBe('/test')
@@ -191,9 +212,9 @@ describe('api.services', () => {
         json: async () => ({ message: 'Validation failed' }),
       })
       // Act & Assert
-      await expect(request({ api: '/test', method: 'POST', body: {} })).rejects.toThrow(
-        'Validation failed'
-      )
+      await expect(
+        request({ api: '/test', method: 'POST', body: {} })
+      ).rejects.toThrow('Validation failed')
     })
 
     it('should use HTTP defaults when error body json fails to parse', async () => {
@@ -202,10 +223,14 @@ describe('api.services', () => {
         ok: false,
         status: 500,
         statusText: 'Internal Server Error',
-        json: async () => { throw new Error('invalid json') },
+        json: async () => {
+          throw new Error('invalid json')
+        },
       })
       // Act & Assert
-      const err = await request({ api: '/test', method: 'GET' }).catch((e) => e) as HttpError
+      const err = (await request({ api: '/test', method: 'GET' }).catch(
+        (e) => e
+      )) as HttpError
       expect(err).toBeInstanceOf(HttpError)
       expect(err.status).toBe(500)
     })

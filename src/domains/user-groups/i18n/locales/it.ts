@@ -9,7 +9,8 @@ export const it: UserGroupsTranslations = {
     editTitle: 'Modifica gruppo',
     editDescription: (name) => `Modifica il gruppo "${name}"`,
     trashTitle: 'Cestino – Gruppi',
-    trashDescription: 'Gruppi spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Gruppi spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun gruppo nel cestino',
     trashEmptyDescription: 'I gruppi eliminati appariranno qui.',
   },
@@ -39,7 +40,8 @@ export const it: UserGroupsTranslations = {
     permissions: 'Permessi',
     permissionsHint: 'Seleziona i permessi per questo gruppo',
     statusLabel: 'Stato del gruppo',
-    statusDescription: 'I gruppi inattivi non possono essere assegnati agli utenti',
+    statusDescription:
+      'I gruppi inattivi non possono essere assegnati agli utenti',
     systemNotice: 'Questo è un gruppo di sistema e non può essere modificato',
     createButton: 'Crea gruppo',
     saveButton: 'Salva modifiche',
@@ -56,9 +58,11 @@ export const it: UserGroupsTranslations = {
     restoreGroup: 'Ripristina',
     purgeGroup: 'Elimina definitivamente',
     restoreTitle: 'Ripristina gruppo',
-    restoreDescription: (name) => `Ripristinare il gruppo "${name}" nella lista attiva?`,
+    restoreDescription: (name) =>
+      `Ripristinare il gruppo "${name}" nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `Il gruppo "${name}" verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `Il gruppo "${name}" verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmRestore: 'Ripristina',
     purgeWarning: 'Questa azione non può essere annullata.',
     confirmPurge: 'Elimina definitivamente',
@@ -76,7 +80,8 @@ export const it: UserGroupsTranslations = {
     descriptionLabel: 'Descrizione',
     permissionsLabel: 'Permessi',
     noPermissions: 'Nessun permesso assegnato',
-    superadminNotice: 'Questo gruppo ha accesso completo al sistema (tutti i permessi)',
+    superadminNotice:
+      'Questo gruppo ha accesso completo al sistema (tutti i permessi)',
     actionAll: 'Tutti',
     createdAt: 'Creato',
     updatedAt: 'Aggiornato',

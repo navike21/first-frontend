@@ -11,8 +11,16 @@ export function useUserGroupsTrashPage() {
   const [restoringGroup, setRestoringGroup] = useState<UserGroup | null>(null)
   const [purgingGroup, setPurgingGroup] = useState<UserGroup | null>(null)
 
-  const canRestore = useHasPermission('user-groups:update', 'user-groups:manage', '*:*')
-  const canPurge = useHasPermission('user-groups:purge', 'user-groups:manage', '*:*')
+  const canRestore = useHasPermission(
+    'user-groups:update',
+    'user-groups:manage',
+    '*:*'
+  )
+  const canPurge = useHasPermission(
+    'user-groups:purge',
+    'user-groups:manage',
+    '*:*'
+  )
 
   const { data, isLoading } = useUserGroupsTrash({ page, limit: 20 })
   const restore = useRestoreUserGroup()

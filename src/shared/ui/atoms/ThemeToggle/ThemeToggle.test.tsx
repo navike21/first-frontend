@@ -14,7 +14,11 @@ vi.mock('../IconButton/IconButton', () => ({
     onClick?: () => void
     'aria-label'?: string
   }) => (
-    <button onClick={onClick} aria-label={ariaLabel} data-testid={`icon-btn-${icon}`}>
+    <button
+      onClick={onClick}
+      aria-label={ariaLabel}
+      data-testid={`icon-btn-${icon}`}
+    >
       {icon}
     </button>
   ),

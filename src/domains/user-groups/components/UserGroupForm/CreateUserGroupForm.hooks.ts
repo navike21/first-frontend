@@ -18,7 +18,10 @@ export function useCreateUserGroupForm({
   onCreate,
 }: UseCreateUserGroupFormProps) {
   const { t } = useUserGroupsTranslation()
-  const schema = useMemo(() => createCreateUserGroupSchema(t.validation), [t.validation])
+  const schema = useMemo(
+    () => createCreateUserGroupSchema(t.validation),
+    [t.validation]
+  )
   const { data: catalog = [] } = usePermissionsCatalog()
 
   const {

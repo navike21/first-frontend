@@ -11,7 +11,9 @@ export const ThemeToggle = () => {
       variant="text"
       shape="circle"
       onClick={toggle}
-      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={
+        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+      }
     />
   )
 }

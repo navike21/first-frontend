@@ -9,24 +9,24 @@ const meta = {
   args: {
     children: 'Button',
     variant: 'primary',
-    size: 'medium'
+    size: 'medium',
   },
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'text']
+      options: ['primary', 'secondary', 'text'],
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large']
+      options: ['small', 'medium', 'large'],
     },
     icon: {
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
     loading: {
-      control: { type: 'boolean' }
-    }
-  }
+      control: { type: 'boolean' },
+    },
+  },
 } satisfies Meta<typeof Button>
 
 export default meta
@@ -37,13 +37,13 @@ export const Default: Story = {}
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary'
-  }
+    variant: 'secondary',
+  },
 }
 
 export const Sizes: Story = {
-  render: args => (
-    <div className="flex flex-col gap-4 items-start">
+  render: (args) => (
+    <div className="flex flex-col items-start gap-4">
       <Button {...args} size="small">
         Small
       </Button>
@@ -54,53 +54,53 @@ export const Sizes: Story = {
         Large
       </Button>
     </div>
-  )
+  ),
 }
 
 export const WithIcon: Story = {
   args: {
     children: 'With icon',
-    icon: 'RiHomeLine'
-  }
+    icon: 'RiHomeLine',
+  },
 }
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: 'Disabled'
-  }
+    children: 'Disabled',
+  },
 }
 
 export const Loading: Story = {
   args: {
     loading: true,
-    children: 'Loading'
-  }
+    children: 'Loading',
+  },
 }
 
 export const LoadingWithIcon: Story = {
   tags: ['important'],
   decorators: [
-    Story => (
+    (Story) => (
       <div className="flex flex-col gap-4">
         <Story />
         <span className="text-xs text-gray-700">
           (Icon is hidden when loading is true to avoid confusion)
         </span>
       </div>
-    )
+    ),
   ],
   args: {
     loading: true,
     icon: 'RiHomeLine',
-    children: 'Loading with icon'
+    children: 'Loading with icon',
   },
-  render: args => <Button {...args}>Loading with icon</Button>
+  render: (args) => <Button {...args}>Loading with icon</Button>,
 }
 
 export const TextVariant: Story = {
   args: {
     variant: 'text',
-    children: 'Text Button'
-  }
+    children: 'Text Button',
+  },
 }

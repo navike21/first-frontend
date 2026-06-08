@@ -7,7 +7,11 @@ import { DashboardPage } from './DashboardPage'
 
 describe('DashboardPage empty activity state', () => {
   beforeEach(() => {
-    useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
   })
 
   it('renders no-recent-activity message when RECENT_ACTIVITY is empty', () => {

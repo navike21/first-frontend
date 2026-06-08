@@ -93,49 +93,84 @@ describe('ProfileDrawer component', () => {
 
   it('should render nothing when isOpen is false', () => {
     render(
-      <ProfileDrawer isOpen={false} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={false}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('should render drawer content when isOpen is true', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should display the user name', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.getByText('María García')).toBeInTheDocument()
   })
 
   it('should display the user email', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.getByText('m.garcia@navike21.com')).toBeInTheDocument()
   })
 
   it('should display fallback name when user is null', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={null} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={null}
+      />
     )
     expect(screen.getByText('Usuario Invitado')).toBeInTheDocument()
   })
 
   it('should display fallback email when user is null', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={null} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={null}
+      />
     )
     expect(screen.getByText('Sin iniciar sesión')).toBeInTheDocument()
   })
 
   it('should render the nav links', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.getByText('Inicio')).toBeInTheDocument()
     expect(screen.getByText('Usuarios')).toBeInTheDocument()
@@ -146,7 +181,12 @@ describe('ProfileDrawer component', () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
     render(
-      <ProfileDrawer isOpen={true} onClose={onClose} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={onClose}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     await user.click(screen.getByText('Inicio'))
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -156,7 +196,12 @@ describe('ProfileDrawer component', () => {
     const user = userEvent.setup()
     const onLogout = vi.fn()
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={onLogout} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={onLogout}
+        user={mockUser}
+      />
     )
     await user.click(screen.getByText('Cerrar sesión'))
     expect(onLogout).toHaveBeenCalledTimes(1)
@@ -166,7 +211,12 @@ describe('ProfileDrawer component', () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
     render(
-      <ProfileDrawer isOpen={true} onClose={onClose} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={onClose}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     await user.click(screen.getByLabelText('close-drawer'))
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -174,7 +224,12 @@ describe('ProfileDrawer component', () => {
 
   it('should render avatar', () => {
     render(
-      <ProfileDrawer isOpen={true} onClose={vi.fn()} onLogout={vi.fn()} user={mockUser} />
+      <ProfileDrawer
+        isOpen={true}
+        onClose={vi.fn()}
+        onLogout={vi.fn()}
+        user={mockUser}
+      />
     )
     expect(screen.getByTestId('avatar')).toBeInTheDocument()
   })

@@ -37,7 +37,11 @@ const routeTree = rootRoute.addChildren([
   rootRedirect,
   langRoute.addChildren([
     publicLayout.addChildren([loginRouteTree]),
-    privateLayout.addChildren([dashboardRoute, ...allUsersRouteTrees, ...allUserGroupsRouteTrees]),
+    privateLayout.addChildren([
+      dashboardRoute,
+      ...allUsersRouteTrees,
+      ...allUserGroupsRouteTrees,
+    ]),
     ...allForbiddenRouteTrees,
     ...allNotFoundRouteTrees,
     langCatchAll,

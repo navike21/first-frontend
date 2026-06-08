@@ -24,7 +24,8 @@ const loadingVariants: LoadingVariant = {
 
 const variantColorClasses: Record<IconButtonVariant, string> = {
   primary: 'bg-primary-700 text-white',
-  secondary: 'text-(--text-primary) bg-(--surface) ring-1 ring-black dark:ring-slate-600 ring-inset',
+  secondary:
+    'text-(--text-primary) bg-(--surface) ring-1 ring-black dark:ring-slate-600 ring-inset',
   text: 'text-(--text-primary) bg-transparent',
   warning: 'bg-amber-500 text-white',
   error: 'bg-red-600 text-white',
@@ -76,14 +77,15 @@ export const IconButton = ({
         sizePaddingClasses[size],
         'font-medium',
         variantColorClasses[variant],
-        'transition-all duration-fast ease-out-expo',
+        'duration-fast ease-out-expo transition-all',
         {
           'shadow-md shadow-black/30': variant !== 'text',
         },
         {
           'hover:shadow-lg': variant !== 'text' && !disabled && !loading,
           'active:scale-95': !disabled && !loading,
-          'hover:bg-(--surface-subtle)': variant === 'text' && !disabled && !loading,
+          'hover:bg-(--surface-subtle)':
+            variant === 'text' && !disabled && !loading,
         },
         !disabled && !loading && variantHoverClasses[variant],
         {

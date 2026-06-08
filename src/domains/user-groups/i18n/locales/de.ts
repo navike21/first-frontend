@@ -5,11 +5,13 @@ export const de: UserGroupsTranslations = {
     listTitle: 'Benutzergruppen',
     listDescription: 'Gruppen und Berechtigungen verwalten',
     createTitle: 'Neue Gruppe',
-    createDescription: 'Füllen Sie die Felder aus, um eine neue Benutzergruppe zu erstellen',
+    createDescription:
+      'Füllen Sie die Felder aus, um eine neue Benutzergruppe zu erstellen',
     editTitle: 'Gruppe bearbeiten',
     editDescription: (name) => `Gruppe „${name}" bearbeiten`,
     trashTitle: 'Papierkorb – Gruppen',
-    trashDescription: 'Gruppen, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Gruppen, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Gruppen im Papierkorb',
     trashEmptyDescription: 'Gelöschte Gruppen werden hier angezeigt.',
   },
@@ -39,7 +41,8 @@ export const de: UserGroupsTranslations = {
     permissions: 'Berechtigungen',
     permissionsHint: 'Berechtigungen für diese Gruppe auswählen',
     statusLabel: 'Gruppenstatus',
-    statusDescription: 'Inaktive Gruppen können Benutzern nicht zugewiesen werden',
+    statusDescription:
+      'Inaktive Gruppen können Benutzern nicht zugewiesen werden',
     systemNotice: 'Dies ist eine Systemgruppe und kann nicht geändert werden',
     createButton: 'Gruppe erstellen',
     saveButton: 'Änderungen speichern',
@@ -56,9 +59,11 @@ export const de: UserGroupsTranslations = {
     restoreGroup: 'Wiederherstellen',
     purgeGroup: 'Endgültig löschen',
     restoreTitle: 'Gruppe wiederherstellen',
-    restoreDescription: (name) => `Gruppe „${name}" in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `Gruppe „${name}" in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `Gruppe „${name}" wird endgültig gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden.`,
+    purgeDescription: (name) =>
+      `Gruppe „${name}" wird endgültig gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden.`,
     confirmRestore: 'Wiederherstellen',
     purgeWarning: 'Diese Aktion kann nicht rückgängig gemacht werden.',
     confirmPurge: 'Endgültig löschen',
@@ -76,7 +81,8 @@ export const de: UserGroupsTranslations = {
     descriptionLabel: 'Beschreibung',
     permissionsLabel: 'Berechtigungen',
     noPermissions: 'Keine Berechtigungen zugewiesen',
-    superadminNotice: 'Diese Gruppe hat vollständigen Systemzugriff (alle Berechtigungen)',
+    superadminNotice:
+      'Diese Gruppe hat vollständigen Systemzugriff (alle Berechtigungen)',
     actionAll: 'Alle',
     createdAt: 'Erstellt',
     updatedAt: 'Aktualisiert',

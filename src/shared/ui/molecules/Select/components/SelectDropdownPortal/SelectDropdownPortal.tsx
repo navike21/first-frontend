@@ -38,7 +38,7 @@ export const SelectDropdownPortal = ({
   filteredOptions,
   selectedValues,
   handleOptionSelect,
-  setFocusedOptionIndex
+  setFocusedOptionIndex,
 }: SelectDropdownPortalProps) => {
   const { searchPlaceholder, searchAriaLabel } = useSelectTexts()
 
@@ -55,28 +55,28 @@ export const SelectDropdownPortal = ({
           ? { bottom: dropdownStyle.bottom }
           : { top: dropdownStyle.top }),
         left: dropdownStyle.left,
-        width: dropdownStyle.width
+        width: dropdownStyle.width,
       }}
       className={clsx(
-        'z-[9999] max-h-60 overflow-y-auto origin-top',
+        'z-[9999] max-h-60 origin-top overflow-y-auto',
         'rounded-sm bg-(--surface) shadow-lg ring-1 ring-(--border)',
-        'animate-dropdown-in',
+        'animate-dropdown-in'
       )}
     >
       {search && (
-        <div className="p-2 border-b border-(--border-subtle)">
+        <div className="border-b border-(--border-subtle) p-2">
           <input
             ref={searchInputRef}
             type="text"
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={searchPlaceholder}
             aria-label={searchAriaLabel}
             className={clsx(
               'h-8 w-full px-3',
               'rounded-sm border border-(--border) bg-(--surface-subtle) text-sm outline-none',
               'focus:ring-1 focus:ring-(--border)',
-              'placeholder:text-(--text-muted)',
+              'placeholder:text-(--text-muted)'
             )}
           />
         </div>

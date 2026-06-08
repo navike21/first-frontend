@@ -102,9 +102,7 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(
-      screen.getByTestId('icon-RiArrowRightSLine')
-    ).toBeInTheDocument()
+    expect(screen.getByTestId('icon-RiArrowRightSLine')).toBeInTheDocument()
   })
 
   it('should not render any separator when there is only one item', () => {
@@ -113,9 +111,7 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(
-      screen.queryByTestId('icon-RiArrowRightSLine')
-    ).toBeNull()
+    expect(screen.queryByTestId('icon-RiArrowRightSLine')).toBeNull()
   })
 
   it('should render the icon when the item has an icon prop', () => {
@@ -139,9 +135,7 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert — 3 items → 2 separators
-    expect(
-      screen.getAllByTestId('icon-RiArrowRightSLine')
-    ).toHaveLength(2)
+    expect(screen.getAllByTestId('icon-RiArrowRightSLine')).toHaveLength(2)
   })
 
   it('should render a single item as a span (current page)', () => {
@@ -176,6 +170,9 @@ describe('Breadcrumbs', () => {
     // Act
     render(<Breadcrumbs items={items} />)
     // Assert
-    expect(screen.getByRole('link', { name: /Inicio/i })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: /Inicio/i })).toHaveAttribute(
+      'href',
+      '/'
+    )
   })
 })

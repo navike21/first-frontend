@@ -30,12 +30,14 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         <button
           className={clsx(
             'group relative flex h-5 w-5 items-center justify-center border-none outline-none',
-            'transition-all duration-fast ease-out-expo',
+            'duration-fast ease-out-expo transition-all',
             'rounded-full ring-1 ring-inset',
             {
-              'cursor-not-allowed bg-slate-200 dark:bg-slate-700 ring-slate-400 dark:ring-slate-600': disabled,
+              'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
+                disabled,
               'bg-(--surface) ring-(--border)': !disabled,
-              'has-[input:checked]:ring-slate-700 dark:has-[input:checked]:ring-slate-400': !disabled && !error,
+              'has-[input:checked]:ring-slate-700 dark:has-[input:checked]:ring-slate-400':
+                !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500': error,
             }
           )}
@@ -45,7 +47,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
           <div
             className={clsx(
               'h-2.5 w-2.5 rounded-full',
-              'transition-all duration-fast ease-out-expo',
+              'duration-fast ease-out-expo transition-all',
               'opacity-0',
               'group-has-[input:checked]:opacity-100',
               {

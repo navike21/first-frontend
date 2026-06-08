@@ -32,7 +32,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         className={clsx(
           'fixed inset-0 z-40',
           'bg-slate-950/70 backdrop-blur-xs',
-          'transition-opacity duration-fast ease-out-expo',
+          'duration-fast ease-out-expo transition-opacity',
           isMobileOnly && 'md:hidden',
           isOpen
             ? 'opacity-100 delay-0'
@@ -52,7 +52,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         className={clsx(
           'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto',
           'bg-(--surface)',
-          'transition-[translate,width] duration-normal ease-out-expo',
+          'duration-normal ease-out-expo transition-[translate,width]',
           isMobileOnly
             ? 'shadow-xl md:relative md:z-auto md:translate-x-0 md:shadow-none'
             : 'shadow-xl',
@@ -82,9 +82,9 @@ export const Drawer: React.FC<DrawerProps> = ({
               className={clsx(
                 'cursor-pointer p-1.5',
                 'rounded-md text-(--text-secondary)',
-                'transition-colors duration-fast ease-out-expo',
+                'duration-fast ease-out-expo transition-colors',
                 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
-                'focus:outline-none',
+                'focus:outline-none'
               )}
               aria-label="Cerrar menú"
             >

@@ -25,7 +25,9 @@ describe('useBreadcrumbs', () => {
   })
 
   it('returns home + users when at /es/usuarios', () => {
-    useRouterStateMock.mockReturnValue({ location: { pathname: '/es/usuarios' } })
+    useRouterStateMock.mockReturnValue({
+      location: { pathname: '/es/usuarios' },
+    })
     const { result } = renderHook(() => useBreadcrumbs())
     expect(result.current).toHaveLength(2)
     expect(result.current[0].label).toBe('Inicio')
@@ -33,7 +35,9 @@ describe('useBreadcrumbs', () => {
   })
 
   it('returns home + users (as link) + new (as current) for create path', () => {
-    useRouterStateMock.mockReturnValue({ location: { pathname: '/es/usuarios/nuevo' } })
+    useRouterStateMock.mockReturnValue({
+      location: { pathname: '/es/usuarios/nuevo' },
+    })
     const { result } = renderHook(() => useBreadcrumbs())
     expect(result.current).toHaveLength(3)
     expect(result.current[1].href).toBe('/es/usuarios')
@@ -45,12 +49,16 @@ describe('useBreadcrumbs', () => {
       location: { pathname: '/es/usuarios/507f1f77bcf86cd799439011/editar' },
     })
     const { result } = renderHook(() => useBreadcrumbs())
-    expect(result.current.some((i) => i.label === '507f1f77bcf86cd799439011')).toBe(false)
+    expect(
+      result.current.some((i) => i.label === '507f1f77bcf86cd799439011')
+    ).toBe(false)
   })
 
   it('skips UUID segments', () => {
     useRouterStateMock.mockReturnValue({
-      location: { pathname: '/es/usuarios/123e4567-e89b-12d3-a456-426614174000/editar' },
+      location: {
+        pathname: '/es/usuarios/123e4567-e89b-12d3-a456-426614174000/editar',
+      },
     })
     const { result } = renderHook(() => useBreadcrumbs())
     expect(result.current.some((i) => i.label.includes('123e4567'))).toBe(false)

@@ -8,22 +8,22 @@ export interface SpinnerProps {
 
 export const Spinner = ({
   size = 'medium',
-  variant = 'default'
+  variant = 'default',
 }: SpinnerProps) => {
   const COLOR_SPINNER = useMemo(
     () => ({
       default: {
         colorFrom: '#62748e',
-        colorTo: '#62748e'
+        colorTo: '#62748e',
       },
       white: {
         colorFrom: '#f9f3f4',
-        colorTo: '#f9f3f4'
+        colorTo: '#f9f3f4',
       },
       gradient: {
         colorFrom: '#17CADD',
-        colorTo: '#332eb9ff'
-      }
+        colorTo: '#332eb9ff',
+      },
     }),
     []
   )
@@ -32,11 +32,11 @@ export const Spinner = ({
     <div
       className={clsx(
         'relative flex items-center justify-center',
-        'transition-all ease-out-expo duration-fast animate-spin',
+        'ease-out-expo duration-fast animate-spin transition-all',
         {
-          'w-5 h-5': size === 'small',
-          'w-10 h-10': size === 'medium',
-          'w-16 h-16': size === 'large'
+          'h-5 w-5': size === 'small',
+          'h-10 w-10': size === 'medium',
+          'h-16 w-16': size === 'large',
         }
       )}
       data-testid="spinner"
@@ -46,8 +46,9 @@ export const Spinner = ({
         <path
           d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16ZM3.2 16C3.2 23.0692 8.93075 28.8 16 28.8C23.0692 28.8 28.8 23.0692 28.8 16C28.8 8.93075 23.0692 3.2 16 3.2C8.93075 3.2 3.2 8.93075 3.2 16Z"
           className={clsx({
-            'fill-slate-200 dark:fill-slate-700': variant === 'default' || variant === 'gradient',
-            'fill-slate-50/10': variant === 'white'
+            'fill-slate-200 dark:fill-slate-700':
+              variant === 'default' || variant === 'gradient',
+            'fill-slate-50/10': variant === 'white',
           })}
         />
         <path

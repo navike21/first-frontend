@@ -1,4 +1,11 @@
-import { Button, InputField, InputDate, Select, PhotoPicker, Switch } from '@/shared/ui'
+import {
+  Button,
+  InputField,
+  InputDate,
+  Select,
+  PhotoPicker,
+  Switch,
+} from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'

@@ -31,7 +31,11 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
       to?: string
       className?: string
       children: React.ReactNode
-    }) => <a href={to} className={className}>{children}</a>,
+    }) => (
+      <a href={to} className={className}>
+        {children}
+      </a>
+    ),
   }
 })
 
@@ -74,7 +78,9 @@ describe('NotFoundPage component', () => {
 
   it('should render the descriptive message', () => {
     render(<NotFoundPage />)
-    expect(screen.getByText(/La página que buscas no existe/i)).toBeInTheDocument()
+    expect(
+      screen.getByText(/La página que buscas no existe/i)
+    ).toBeInTheDocument()
   })
 
   it('should render the app logo', () => {
@@ -97,13 +103,17 @@ describe('NotFoundPage component', () => {
   it('should render "Iniciar sesión" button when not authenticated', () => {
     isAuthenticatedMock.value = false
     render(<NotFoundPage />)
-    expect(screen.getByRole('button', { name: /iniciar sesión/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /iniciar sesión/i })
+    ).toBeInTheDocument()
   })
 
   it('should render "Ir al inicio" button when authenticated', () => {
     isAuthenticatedMock.value = true
     render(<NotFoundPage />)
-    expect(screen.getByRole('button', { name: /ir al inicio/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /ir al inicio/i })
+    ).toBeInTheDocument()
   })
 
   it('should navigate to login when unauthenticated and button is clicked', async () => {
@@ -111,7 +121,10 @@ describe('NotFoundPage component', () => {
     const user = userEvent.setup()
     render(<NotFoundPage />)
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/es/login', replace: true })
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/es/login',
+      replace: true,
+    })
   })
 
   it('should navigate to home when authenticated and button is clicked', async () => {
@@ -124,7 +137,9 @@ describe('NotFoundPage component', () => {
 
   it('should render "Página anterior" button when history.length > 1', () => {
     render(<NotFoundPage />)
-    expect(screen.getByRole('button', { name: /página anterior/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /página anterior/i })
+    ).toBeInTheDocument()
   })
 
   it('should call router.history.back() when "Página anterior" is clicked', async () => {
@@ -140,7 +155,9 @@ describe('NotFoundPage component', () => {
       writable: true,
     })
     render(<NotFoundPage />)
-    expect(screen.queryByRole('button', { name: /página anterior/i })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /página anterior/i })
+    ).not.toBeInTheDocument()
   })
 
   it('catch handler does not throw when navigate rejects on home', async () => {

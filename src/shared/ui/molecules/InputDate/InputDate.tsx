@@ -163,7 +163,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             'content-input',
             'flex h-10 w-full items-center',
             'rounded-sm select-none',
-            'transition-all duration-fast ease-out-expo',
+            'duration-fast ease-out-expo transition-all',
             'focus-within:ring-2',
             {
               'bg-slate-400/50 dark:bg-slate-600/50': disabled,
@@ -187,7 +187,10 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           {/* Calendar icon (default left icon when no leftSlot) */}
           {!leftSlot && (
             <div className="flex h-10 min-w-10 items-center justify-center">
-              <IconComponent icon="RiCalendarLine" className="size-5 text-(--text-secondary)" />
+              <IconComponent
+                icon="RiCalendarLine"
+                className="size-5 text-(--text-secondary)"
+              />
             </div>
           )}
 
@@ -215,8 +218,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
               className={clsx(
                 'flex h-10 min-w-8 items-center justify-center',
                 'text-(--text-muted)',
-                'transition-all duration-fast ease-out-expo',
-                'hover:text-(--text-secondary)',
+                'duration-fast ease-out-expo transition-all',
+                'hover:text-(--text-secondary)'
               )}
             >
               <IconComponent icon="RiCloseLine" className="size-4" />
@@ -234,7 +237,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           {variantIcon && (
             <div className="mr-3 min-w-5">
               <IconComponent
-                icon={variantIcon as Parameters<typeof IconComponent>[0]['icon']}
+                icon={
+                  variantIcon as Parameters<typeof IconComponent>[0]['icon']
+                }
                 className={clsx('size-5', VARIANT_ICON_COLOR[variant])}
               />
             </div>
@@ -355,10 +360,15 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     onSelect={handleSelectDate}
                     displayMonth={displayMonth}
                     onMonthChange={setDisplayMonth}
-                    disabled={disabledMatcher.length > 0 ? disabledMatcher : undefined}
+                    disabled={
+                      disabledMatcher.length > 0 ? disabledMatcher : undefined
+                    }
                     locale={locale}
                     onMonthLabelClick={() => setCalendarView('month')}
-                    onYearLabelClick={(year) => { setYearPageCenter(year); setCalendarView('year') }}
+                    onYearLabelClick={(year) => {
+                      setYearPageCenter(year)
+                      setCalendarView('year')
+                    }}
                   />
                 )}
                 {mode === 'date' && calendarView === 'month' && (
@@ -390,10 +400,15 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     onSelect={handleSelectRange}
                     displayMonth={displayMonth}
                     onMonthChange={setDisplayMonth}
-                    disabled={disabledMatcher.length > 0 ? disabledMatcher : undefined}
+                    disabled={
+                      disabledMatcher.length > 0 ? disabledMatcher : undefined
+                    }
                     locale={locale}
                     onMonthLabelClick={() => setCalendarView('month')}
-                    onYearLabelClick={(year) => { setYearPageCenter(year); setCalendarView('year') }}
+                    onYearLabelClick={(year) => {
+                      setYearPageCenter(year)
+                      setCalendarView('year')
+                    }}
                   />
                 )}
                 {mode === 'dateRange' && calendarView === 'month' && (
@@ -448,9 +463,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     onClick={handleClear}
                     className={clsx(
                       'rounded-sm px-2 py-1 text-xs text-(--text-secondary)',
-                      'transition-all duration-fast ease-out-expo',
+                      'duration-fast ease-out-expo transition-all',
                       'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
+                      'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none'
                     )}
                   >
                     {mergedTexts.clear}
@@ -460,10 +475,10 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                       type="button"
                       onClick={handleToday}
                       className={clsx(
-                        'rounded-sm px-2 py-1 text-xs font-medium text-primary-600',
-                        'transition-all duration-fast ease-out-expo',
+                        'text-primary-600 rounded-sm px-2 py-1 text-xs font-medium',
+                        'duration-fast ease-out-expo transition-all',
                         'hover:bg-primary-50 dark:hover:bg-primary-900/20',
-                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
+                        'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none'
                       )}
                     >
                       {mergedTexts.today}

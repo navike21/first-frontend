@@ -23,12 +23,17 @@ export const CreateUserGroupPage = () => {
 
   return (
     <div className="animate-page-in space-y-6">
-      <PageHeader title={t.page.createTitle} description={t.page.createDescription} />
+      <PageHeader
+        title={t.page.createTitle}
+        description={t.page.createDescription}
+      />
       <div>
         <UserGroupForm
           mode="create"
           isSubmitting={createUserGroup.isPending}
-          onCancel={() => navigate({ to: navPaths.userGroups(language) as never })}
+          onCancel={() =>
+            navigate({ to: navPaths.userGroups(language) as never })
+          }
           onCreate={handleCreate}
           onUpdate={() => {}}
         />

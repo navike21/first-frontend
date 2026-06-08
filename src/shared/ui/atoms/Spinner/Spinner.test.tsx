@@ -166,6 +166,10 @@ describe('Spinner', () => {
     render(<Spinner />)
     // Assert
     const spinner = screen.getByTestId('spinner')
-    expect(spinner).toHaveClass('transition-all', 'ease-out-expo', 'duration-fast')
+    expect(spinner).toHaveClass(
+      'transition-all',
+      'ease-out-expo',
+      'duration-fast'
+    )
   })
 })

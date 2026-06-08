@@ -2,17 +2,22 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { userGroupsApi } from './userGroups.api'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
 import type { UserGroup, UserGroupListParams } from '../model/userGroup.types'
-import type { CreateUserGroupFormData, UpdateUserGroupFormData } from '../model/userGroup.schema'
+import type {
+  CreateUserGroupFormData,
+  UpdateUserGroupFormData,
+} from '../model/userGroup.schema'
 
 export const userGroupKeys = {
   all: ['user-groups'] as const,
   lists: () => [...userGroupKeys.all, 'list'] as const,
-  list: (params: UserGroupListParams) => [...userGroupKeys.lists(), params] as const,
+  list: (params: UserGroupListParams) =>
+    [...userGroupKeys.lists(), params] as const,
   details: () => [...userGroupKeys.all, 'detail'] as const,
   detail: (id: string) => [...userGroupKeys.details(), id] as const,
   catalog: () => [...userGroupKeys.all, 'catalog'] as const,
   trash: () => [...userGroupKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...userGroupKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...userGroupKeys.trash(), params] as const,
 }
 
 export const useUserGroups = (params: UserGroupListParams = {}) =>
@@ -41,7 +46,8 @@ export const useCreateUserGroup = () => {
 export const useUpdateUserGroup = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: UpdateUserGroupFormData) => userGroupsApi.update(id, data),
+    mutationFn: (data: UpdateUserGroupFormData) =>
+      userGroupsApi.update(id, data),
     onSuccess: (res) => {
       const updated = res.data
 
@@ -53,10 +59,12 @@ export const useUpdateUserGroup = (id: string) => {
             ...old,
             data: {
               ...old.data,
-              items: old.data.items.map((g) => (g.id === id ? { ...g, ...updated } : g)),
+              items: old.data.items.map((g) =>
+                g.id === id ? { ...g, ...updated } : g
+              ),
             },
           }
-        },
+        }
       )
 
       qc.invalidateQueries({ queryKey: userGroupKeys.lists() })
@@ -81,7 +89,9 @@ export const usePermissionsCatalog = () =>
     staleTime: Infinity,
   })
 
-export const useUserGroupsTrash = (params: { page?: number; limit?: number } = {}) =>
+export const useUserGroupsTrash = (
+  params: { page?: number; limit?: number } = {}
+) =>
   useQuery({
     queryKey: userGroupKeys.trashList(params),
     queryFn: () => userGroupsApi.trash(params),

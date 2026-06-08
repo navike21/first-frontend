@@ -26,7 +26,9 @@ export const NavItem = ({
     'rounded-lg text-sm font-medium',
     'transition-colors duration-fast ease-out-expo',
     !isActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
-    isActive ? 'bg-(--color-primary-950)/40 text-white font-semibold' : 'text-(--text-secondary)',
+    isActive
+      ? 'bg-(--color-primary-950)/40 text-white font-semibold'
+      : 'text-(--text-secondary)',
     className
   )
 
@@ -34,7 +36,12 @@ export const NavItem = ({
     <>
       <IconComponent
         icon={icon}
-        className={clsx('h-5 w-5 shrink-0', isActive ? 'text-(--color-primary-300)' : 'text-(--text-secondary) group-hover:text-white')}
+        className={clsx(
+          'h-5 w-5 shrink-0',
+          isActive
+            ? 'text-(--color-primary-300)'
+            : 'text-(--text-secondary) group-hover:text-white'
+        )}
       />
       <span>{label}</span>
     </>

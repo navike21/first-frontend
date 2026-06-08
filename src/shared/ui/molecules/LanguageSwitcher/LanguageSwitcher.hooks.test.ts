@@ -31,15 +31,21 @@ describe('useLanguageSwitcher', () => {
 
   it('handleChange updates language in store', async () => {
     const { result } = renderHook(() => useLanguageSwitcher())
-    await act(async () => { result.current.handleChange('en') })
+    await act(async () => {
+      result.current.handleChange('en')
+    })
     expect(useLanguageStore.getState().language).toBe('en')
   })
 
   it('handleChange calls router.navigate with translated path', async () => {
     const { result } = renderHook(() => useLanguageSwitcher())
-    await act(async () => { result.current.handleChange('en') })
+    await act(async () => {
+      result.current.handleChange('en')
+    })
     expect(navigateMock).toHaveBeenCalledOnce()
-    const [callArg] = navigateMock.mock.calls[0] as [{ to: string; replace: boolean }][]
+    const [callArg] = navigateMock.mock.calls[0] as [
+      { to: string; replace: boolean },
+    ][]
     expect(callArg).toMatchObject({ replace: true })
   })
 
@@ -47,7 +53,9 @@ describe('useLanguageSwitcher', () => {
     navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
     const { result } = renderHook(() => useLanguageSwitcher())
     await expect(
-      act(async () => { result.current.handleChange('en') })
+      act(async () => {
+        result.current.handleChange('en')
+      })
     ).resolves.not.toThrow()
   })
 })

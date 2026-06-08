@@ -9,15 +9,25 @@ describe('hasPermission', () => {
   })
 
   it('returns true when one of the required permissions is present', () => {
-    expect(hasPermission(['users:read', 'users:write'], 'users:read')).toBe(true)
+    expect(hasPermission(['users:read', 'users:write'], 'users:read')).toBe(
+      true
+    )
   })
 
   it('returns true when multiple required permissions match', () => {
-    expect(hasPermission(['users:read', 'users:delete'], 'users:write', 'users:delete')).toBe(true)
+    expect(
+      hasPermission(
+        ['users:read', 'users:delete'],
+        'users:write',
+        'users:delete'
+      )
+    ).toBe(true)
   })
 
   it('returns false when no required permissions match', () => {
-    expect(hasPermission(['users:read'], 'users:write', 'users:delete')).toBe(false)
+    expect(hasPermission(['users:read'], 'users:write', 'users:delete')).toBe(
+      false
+    )
   })
 
   it('returns false for empty permissions array', () => {
@@ -31,7 +41,11 @@ describe('hasPermission', () => {
 
 describe('useHasPermission', () => {
   beforeEach(() => {
-    useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
   })
 
   it('returns false when user has no permissions', () => {
@@ -83,7 +97,11 @@ describe('useHasPermission', () => {
   })
 
   it('returns false when user is null (null-coalescing branch)', () => {
-    useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
     const { result } = renderHook(() => useHasPermission('users:read'))
     expect(result.current).toBe(false)
   })

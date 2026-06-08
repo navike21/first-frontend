@@ -69,7 +69,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           className={clsx(
             'h-10 w-full',
             'border-0 border-none bg-transparent text-sm font-normal',
-            'transition-all duration-fast ease-out-expo',
+            'duration-fast ease-out-expo transition-all',
             'placeholder:text-(--text-muted)',
             'focus:border-transparent focus:ring-0 focus:outline-none',
             {
@@ -93,7 +93,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             type="button"
             className={clsx(
               'flex h-10 min-w-10 items-center justify-center outline-none',
-              'transition-all duration-fast ease-out-expo',
+              'duration-fast ease-out-expo transition-all',
               'active:scale-90',
               {
                 'cursor-pointer hover:bg-(--surface-subtle)': !disabled,

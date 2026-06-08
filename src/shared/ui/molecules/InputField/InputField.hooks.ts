@@ -18,14 +18,14 @@ export const useInputField = ({ type = 'text', name }: InputFieldProps) => {
         {
           'px-3': type === 'text',
           'pr-3': type !== 'text' && position === 'left',
-          'pl-3 pr-3': type !== 'text' && position === 'right'
+          'pl-3 pr-3': type !== 'text' && position === 'right',
         }
       ),
     []
   )
 
   const handleChangeTypePassword = () => {
-    setShowPassword(prev => !prev)
+    setShowPassword((prev) => !prev)
   }
 
   return {
@@ -33,6 +33,6 @@ export const useInputField = ({ type = 'text', name }: InputFieldProps) => {
     showPassword,
     typeField: TYPE_FIELD,
     handleClassSlot,
-    handleChangeTypePassword
+    handleChangeTypePassword,
   }
 }

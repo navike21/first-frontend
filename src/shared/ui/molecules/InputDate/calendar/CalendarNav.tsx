@@ -26,9 +26,9 @@ export const CalendarNav = ({
       className={clsx(
         'flex size-7 shrink-0 items-center justify-center',
         'rounded-sm text-(--text-secondary)',
-        'transition-all duration-fast ease-out-expo',
+        'duration-fast ease-out-expo transition-all',
         'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
+        'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-30'
       )}
     >
@@ -42,9 +42,9 @@ export const CalendarNav = ({
         className={clsx(
           'min-w-0 flex-1 px-2',
           'rounded-sm text-sm font-semibold text-(--text-primary)',
-          'transition-all duration-fast ease-out-expo',
+          'duration-fast ease-out-expo transition-all',
           'hover:bg-(--surface-subtle)',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
+          'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none'
         )}
       >
         {label}
@@ -62,9 +62,9 @@ export const CalendarNav = ({
       className={clsx(
         'flex size-7 shrink-0 items-center justify-center',
         'rounded-sm text-(--text-secondary)',
-        'transition-all duration-fast ease-out-expo',
+        'duration-fast ease-out-expo transition-all',
         'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
+        'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-30'
       )}
     >

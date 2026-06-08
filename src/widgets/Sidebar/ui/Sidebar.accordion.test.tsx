@@ -28,9 +28,13 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 })
 
 vi.mock('@/shared/ui', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
   Accordion: ({
     title,
     children,
@@ -63,12 +67,16 @@ vi.mock('@/shared/ui', () => ({
   }) => (
     <div data-testid="drawer" data-open={isOpen}>
       {title}
-      <button onClick={onClose} aria-label="close-drawer">Close</button>
+      <button onClick={onClose} aria-label="close-drawer">
+        Close
+      </button>
       {children}
     </div>
   ),
   NavItem: ({ label, to }: { label: string; to?: string }) => (
-    <a href={to ?? '#'} data-testid={`nav-item-${label}`}>{label}</a>
+    <a href={to ?? '#'} data-testid={`nav-item-${label}`}>
+      {label}
+    </a>
   ),
 }))
 
@@ -113,6 +121,9 @@ describe('Sidebar accordion children (lines 68-88)', () => {
     const user = userEvent.setup()
     render(<Sidebar />)
     await user.click(screen.getByRole('button', { name: 'Gestión' }))
-    expect(screen.getByRole('link', { name: 'Listado' })).toHaveAttribute('href', '/es/usuarios')
+    expect(screen.getByRole('link', { name: 'Listado' })).toHaveAttribute(
+      'href',
+      '/es/usuarios'
+    )
   })
 })

@@ -52,7 +52,9 @@ export const apiAuthService: IAuthService = {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       if (profileRes.ok) {
-        const profileBody = (await profileRes.json()) as { data: { profilePictureUrl?: string } }
+        const profileBody = (await profileRes.json()) as {
+          data: { profilePictureUrl?: string }
+        }
         authUser.profilePictureUrl = profileBody.data.profilePictureUrl
       }
     } catch {

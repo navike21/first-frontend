@@ -2,9 +2,16 @@ import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type ButtonProps } from '@/shared/types/buttonProps'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
-import { variantColorClasses, variantHoverClasses, type ButtonVariant } from '@/shared/types/buttonVariants'
+import {
+  variantColorClasses,
+  variantHoverClasses,
+  type ButtonVariant,
+} from '@/shared/types/buttonVariants'
 
-type LoadingVariant = Record<ButtonVariant, NonNullable<SpinnerProps['variant']>>
+type LoadingVariant = Record<
+  ButtonVariant,
+  NonNullable<SpinnerProps['variant']>
+>
 
 const loadingVariants: LoadingVariant = {
   primary: 'white',
@@ -32,7 +39,7 @@ export const Button = ({
         className,
         'relative w-full',
         'font-medium',
-        'transition-all duration-fast ease-out-expo',
+        'duration-fast ease-out-expo transition-all',
         {
           'w-full': fullWidth,
           'sm:w-full': fullWidth,
@@ -56,9 +63,10 @@ export const Button = ({
         variantColorClasses[variant],
         !disabled && !loading && variantHoverClasses[variant],
         {
-          'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-(--text-muted) before:opacity-0 before:transition-all before:duration-fast before:ease-out-expo before:content-[""]':
+          'before:duration-fast before:ease-out-expo before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-(--text-muted) before:opacity-0 before:transition-all before:content-[""]':
             variant === 'text',
-          'hover:before:w-full hover:before:opacity-100': variant === 'text' && !loading,
+          'hover:before:w-full hover:before:opacity-100':
+            variant === 'text' && !loading,
         },
         {
           'text-xs': size === 'small' && variant === 'text',
@@ -72,7 +80,7 @@ export const Button = ({
         },
         {
           'inline-flex align-middle': variant === 'text' && loading,
-        },
+        }
       )}
       {...props}
       disabled={loading || disabled}

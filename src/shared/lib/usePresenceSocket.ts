@@ -21,9 +21,12 @@ export function usePresenceSocket() {
       setOnlineUsers(data.onlineUsers)
     })
 
-    socket.on('presence:changed', (data: { userId: string; status: PresenceStatus }) => {
-      setUserPresence(data.userId, data.status)
-    })
+    socket.on(
+      'presence:changed',
+      (data: { userId: string; status: PresenceStatus }) => {
+        setUserPresence(data.userId, data.status)
+      }
+    )
 
     return () => {
       socket.off('presence:init')

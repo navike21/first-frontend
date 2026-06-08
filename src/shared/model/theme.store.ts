@@ -3,25 +3,53 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 
 export type Theme = 'light' | 'dark'
 export type BrandColor =
-  | 'teal' | 'violet' | 'emerald' | 'rose' | 'amber'
-  | 'sky' | 'indigo' | 'orange' | 'pink' | 'cyan'
+  | 'teal'
+  | 'violet'
+  | 'emerald'
+  | 'rose'
+  | 'amber'
+  | 'sky'
+  | 'indigo'
+  | 'orange'
+  | 'pink'
+  | 'cyan'
 
 const THEME_KEY = '_first_theme'
 
 const BRAND_COLORS: BrandColor[] = [
-  'teal', 'violet', 'emerald', 'rose', 'amber',
-  'sky', 'indigo', 'orange', 'pink', 'cyan',
+  'teal',
+  'violet',
+  'emerald',
+  'rose',
+  'amber',
+  'sky',
+  'indigo',
+  'orange',
+  'pink',
+  'cyan',
 ]
 
 const safeLocalStorage = {
   getItem: (key: string): string | null => {
-    try { return localStorage.getItem(key) } catch { return null }
+    try {
+      return localStorage.getItem(key)
+    } catch {
+      return null
+    }
   },
   setItem: (key: string, value: string): void => {
-    try { localStorage.setItem(key, value) } catch { /* unavailable */ }
+    try {
+      localStorage.setItem(key, value)
+    } catch {
+      /* unavailable */
+    }
   },
   removeItem: (key: string): void => {
-    try { localStorage.removeItem(key) } catch { /* unavailable */ }
+    try {
+      localStorage.removeItem(key)
+    } catch {
+      /* unavailable */
+    }
   },
 }
 
@@ -93,6 +121,8 @@ export const useThemeStore = create<ThemeStore>()(
 )
 
 export const useTheme = (): Theme => useThemeStore((s) => s.theme)
-export const useToggleTheme = (): (() => void) => useThemeStore((s) => s.toggleTheme)
+export const useToggleTheme = (): (() => void) =>
+  useThemeStore((s) => s.toggleTheme)
 export const useBrandColor = (): BrandColor => useThemeStore((s) => s.color)
-export const useSetColor = (): ((c: BrandColor) => void) => useThemeStore((s) => s.setColor)
+export const useSetColor = (): ((c: BrandColor) => void) =>
+  useThemeStore((s) => s.setColor)

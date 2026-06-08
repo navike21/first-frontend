@@ -11,7 +11,8 @@ export const DAY_PICKER_CLASS_NAMES = {
   button_next: '',
   month_grid: 'w-full border-collapse',
   weekdays: 'flex',
-  weekday: 'w-9 py-1 text-center text-xs font-medium text-(--text-muted) capitalize',
+  weekday:
+    'w-9 py-1 text-center text-xs font-medium text-(--text-muted) capitalize',
   week: 'mt-1 flex',
   day: 'relative flex-1 p-0 text-center',
   day_button: [
@@ -23,7 +24,8 @@ export const DAY_PICKER_CLASS_NAMES = {
     'aria-disabled:pointer-events-none aria-disabled:opacity-40',
   ].join(' '),
   selected: '',
-  today: '[&>button]:font-bold [&>button]:ring-1 [&>button]:ring-primary-400 [&>button]:ring-offset-0',
+  today:
+    '[&>button]:font-bold [&>button]:ring-1 [&>button]:ring-primary-400 [&>button]:ring-offset-0',
   outside: 'opacity-40',
   disabled: '',
   range_start: [

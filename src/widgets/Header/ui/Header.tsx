@@ -29,7 +29,7 @@ export const Header = () => {
     <header
       className={clsx(
         'z-10 flex w-full items-center justify-between px-6 py-4',
-        'border-b border-(--border) bg-(--surface) shadow-sm',
+        'border-b border-(--border) bg-(--surface) shadow-sm'
       )}
     >
       <div className="flex items-center gap-4">
@@ -39,10 +39,10 @@ export const Header = () => {
           className={clsx(
             'cursor-pointer p-2',
             'rounded-md text-(--text-secondary)',
-            'transition-colors duration-fast ease-out-expo',
+            'duration-fast ease-out-expo transition-colors',
             'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
             'focus:outline-none',
-            'md:hidden',
+            'md:hidden'
           )}
         >
           <IconComponent icon="RiMenuLine" className="h-5 w-5" />
@@ -54,10 +54,10 @@ export const Header = () => {
           className={clsx(
             'cursor-pointer p-2',
             'rounded-md text-(--text-secondary)',
-            'transition-colors duration-fast ease-out-expo',
+            'duration-fast ease-out-expo transition-colors',
             'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
             'focus:outline-none',
-            'hidden md:block',
+            'hidden md:block'
           )}
           aria-label={isCollapsed ? t.expandMenu : t.collapseMenu}
         >
@@ -69,7 +69,9 @@ export const Header = () => {
 
         <div className="flex items-center gap-3">
           <AppLogo size="x-small" color="default" />
-          <h1 className="text-xl font-bold tracking-tight text-(--text-primary)">First</h1>
+          <h1 className="text-xl font-bold tracking-tight text-(--text-primary)">
+            First
+          </h1>
         </div>
       </div>
 
@@ -93,10 +95,10 @@ export const Header = () => {
         <button
           onClick={toggleProfile}
           className={clsx(
-            'flex cursor-pointer items-center gap-3 pl-4 ml-2',
+            'ml-2 flex cursor-pointer items-center gap-3 pl-4',
             'appearance-none border-l border-(--border) outline-none',
             'transition-opacity',
-            'hover:opacity-80',
+            'hover:opacity-80'
           )}
           aria-label={t.userMenu}
         >
@@ -119,7 +121,12 @@ export const Header = () => {
       </div>
 
       <SettingsDrawer isOpen={isSettingsOpen} onClose={closeSettings} />
-      <ProfileDrawer isOpen={isProfileOpen} onClose={closeProfile} onLogout={logout} user={user} />
+      <ProfileDrawer
+        isOpen={isProfileOpen}
+        onClose={closeProfile}
+        onLogout={logout}
+        user={user}
+      />
     </header>
   )
 }

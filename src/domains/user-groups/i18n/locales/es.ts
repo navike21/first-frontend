@@ -5,11 +5,13 @@ export const es: UserGroupsTranslations = {
     listTitle: 'Grupos de usuarios',
     listDescription: 'Gestiona los grupos y sus permisos',
     createTitle: 'Nuevo grupo',
-    createDescription: 'Completa los campos para crear un nuevo grupo de usuarios',
+    createDescription:
+      'Completa los campos para crear un nuevo grupo de usuarios',
     editTitle: 'Editar grupo',
     editDescription: (name) => `Modifica los datos del grupo ${name}`,
     trashTitle: 'Papelera de grupos',
-    trashDescription: 'Grupos que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashDescription:
+      'Grupos que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
     trashEmpty: 'No hay grupos en la papelera',
     trashEmptyDescription: 'Cuando se eliminen grupos, aparecerán aquí.',
   },
@@ -39,7 +41,8 @@ export const es: UserGroupsTranslations = {
     permissions: 'Permisos',
     permissionsHint: 'Selecciona los permisos que tendrá este grupo',
     statusLabel: 'Estado del grupo',
-    statusDescription: 'Los grupos inactivos no pueden ser asignados a usuarios',
+    statusDescription:
+      'Los grupos inactivos no pueden ser asignados a usuarios',
     systemNotice: 'Este es un grupo del sistema y no puede ser modificado',
     createButton: 'Crear grupo',
     saveButton: 'Guardar cambios',
@@ -56,9 +59,11 @@ export const es: UserGroupsTranslations = {
     restoreGroup: 'Restaurar',
     purgeGroup: 'Eliminar permanentemente',
     restoreTitle: 'Restaurar grupo',
-    restoreDescription: (name) => `¿Restaurar el grupo "${name}" en la lista activa?`,
+    restoreDescription: (name) =>
+      `¿Restaurar el grupo "${name}" en la lista activa?`,
     purgeTitle: 'Eliminar permanentemente',
-    purgeDescription: (name) => `Esto eliminará permanentemente el grupo "${name}". Esta acción es IRREVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente el grupo "${name}". Esta acción es IRREVERSIBLE.`,
     confirmRestore: 'Restaurar',
     purgeWarning: 'Esta acción no se puede deshacer.',
     confirmPurge: 'Eliminar permanentemente',
@@ -76,7 +81,8 @@ export const es: UserGroupsTranslations = {
     descriptionLabel: 'Descripción',
     permissionsLabel: 'Permisos',
     noPermissions: 'Sin permisos asignados',
-    superadminNotice: 'Este grupo tiene acceso total al sistema (todos los permisos)',
+    superadminNotice:
+      'Este grupo tiene acceso total al sistema (todos los permisos)',
     actionAll: 'Todos',
     createdAt: 'Creado',
     updatedAt: 'Actualizado',

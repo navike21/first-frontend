@@ -32,8 +32,12 @@ export const DashboardPage = () => {
               className="flex items-center gap-4 rounded-xl border border-(--border-subtle) bg-(--surface) p-5 shadow-sm"
             >
               <div>
-                <p className="text-2xl font-bold text-(--text-primary)">{kpi.value}</p>
-                <p className="text-xs text-(--text-secondary)">{t.kpi[kpi.key]}</p>
+                <p className="text-2xl font-bold text-(--text-primary)">
+                  {kpi.value}
+                </p>
+                <p className="text-xs text-(--text-secondary)">
+                  {t.kpi[kpi.key]}
+                </p>
               </div>
             </div>
           ))}
@@ -52,8 +56,13 @@ export const DashboardPage = () => {
         ) : (
           <ul className="space-y-2">
             {RECENT_ACTIVITY.map((item) => (
-              <li key={item.timestamp} className="text-sm text-(--text-secondary)">
-                <span className="mr-2 text-(--text-muted)">{item.timestamp}</span>
+              <li
+                key={item.timestamp}
+                className="text-sm text-(--text-secondary)"
+              >
+                <span className="mr-2 text-(--text-muted)">
+                  {item.timestamp}
+                </span>
                 {item.text}
               </li>
             ))}

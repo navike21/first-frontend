@@ -15,7 +15,10 @@ const makeStorageFile = (): StorageFile => ({
   mimeType: 'image/jpeg',
   size: 12345,
   isImage: true,
-  original: { pathname: '/files/avatar.jpg', url: 'https://cdn.example.com/avatar.jpg' },
+  original: {
+    pathname: '/files/avatar.jpg',
+    url: 'https://cdn.example.com/avatar.jpg',
+  },
   uploadedBy: 'u-1',
   status: 'active',
   createdAt: '2024-01-01T00:00:00Z',
@@ -26,7 +29,11 @@ describe('uploadFile', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.stubEnv('VITE_API_BASE_URL', '')
-    useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
   })
 
   it('sends a POST to /storage/upload with FormData', async () => {
@@ -47,7 +54,11 @@ describe('uploadFile', () => {
   })
 
   it('includes Authorization header when token is present', async () => {
-    useSessionStore.setState({ isAuthenticated: true, token: 'my-token', user: null })
+    useSessionStore.setState({
+      isAuthenticated: true,
+      token: 'my-token',
+      user: null,
+    })
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ data: makeStorageFile() }),
@@ -56,8 +67,13 @@ describe('uploadFile', () => {
     const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' })
     await uploadFile(file, 'user', 'u-1')
 
-    const [, options] = mockFetch.mock.calls[0] as [string, RequestInit & { headers: Record<string, string> }]
-    expect((options.headers as Record<string, string>)['Authorization']).toBe('Bearer my-token')
+    const [, options] = mockFetch.mock.calls[0] as [
+      string,
+      RequestInit & { headers: Record<string, string> },
+    ]
+    expect((options.headers as Record<string, string>)['Authorization']).toBe(
+      'Bearer my-token'
+    )
   })
 
   it('omits Authorization header when token is null', async () => {
@@ -69,8 +85,13 @@ describe('uploadFile', () => {
     const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' })
     await uploadFile(file, 'user', 'u-1')
 
-    const [, options] = mockFetch.mock.calls[0] as [string, RequestInit & { headers: Record<string, string> }]
-    expect((options.headers as Record<string, string>)['Authorization']).toBeUndefined()
+    const [, options] = mockFetch.mock.calls[0] as [
+      string,
+      RequestInit & { headers: Record<string, string> },
+    ]
+    expect(
+      (options.headers as Record<string, string>)['Authorization']
+    ).toBeUndefined()
   })
 
   it('throws Error when response is not ok with JSON message', async () => {
@@ -81,24 +102,33 @@ describe('uploadFile', () => {
     })
 
     const file = new File(['content'], 'big.jpg', { type: 'image/jpeg' })
-    await expect(uploadFile(file, 'user', 'u-1')).rejects.toThrow('File too large')
+    await expect(uploadFile(file, 'user', 'u-1')).rejects.toThrow(
+      'File too large'
+    )
   })
 
   it('throws Error with status code when response is not ok and JSON parse fails', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
-      json: async () => { throw new Error('invalid json') },
+      json: async () => {
+        throw new Error('invalid json')
+      },
     })
 
     const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' })
-    await expect(uploadFile(file, 'user', 'u-1')).rejects.toThrow('Upload failed: 500')
+    await expect(uploadFile(file, 'user', 'u-1')).rejects.toThrow(
+      'Upload failed: 500'
+    )
   })
 
   it('uses empty string when VITE_API_BASE_URL is undefined (line 27 ?? right branch)', async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.stubEnv('VITE_API_BASE_URL', undefined as any)
-    mockFetch.mockResolvedValueOnce({ ok: true, json: async () => ({ data: makeStorageFile() }) })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ data: makeStorageFile() }),
+    })
     const file = new File(['x'], 'test.jpg', { type: 'image/jpeg' })
     await uploadFile(file, 'user', 'u-1')
     const [url] = mockFetch.mock.calls[0] as [string]

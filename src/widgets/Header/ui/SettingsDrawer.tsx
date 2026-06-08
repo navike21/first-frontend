@@ -8,7 +8,7 @@ interface SettingsDrawerProps {
 }
 
 const SectionLabel = ({ children }: { children: string }) => (
-  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-(--text-muted)">
+  <p className="mb-3 text-xs font-semibold tracking-widest text-(--text-muted) uppercase">
     {children}
   </p>
 )
@@ -36,7 +36,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
             className={clsx(
               'flex items-center justify-between',
               'rounded-xl border border-(--border) bg-(--surface-raised)',
-              'px-4 py-3',
+              'px-4 py-3'
             )}
           >
             <span className="text-sm font-medium text-(--text-primary)">
@@ -52,7 +52,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
           <div
             className={clsx(
               'rounded-xl border border-(--border) bg-(--surface-raised)',
-              'px-4 py-4',
+              'px-4 py-4'
             )}
           >
             <ColorPicker />

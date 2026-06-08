@@ -17,8 +17,8 @@ export const queryClient = new QueryClient({
   queryCache,
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,   // 5 min — serve fresh data when online
-      gcTime: CACHE_MAX_AGE,       // 24 h — keep in memory for offline use
+      staleTime: 1000 * 60 * 5, // 5 min — serve fresh data when online
+      gcTime: CACHE_MAX_AGE, // 24 h — keep in memory for offline use
       retry: 1,
       networkMode: 'offlineFirst', // serve cached data when offline
     },

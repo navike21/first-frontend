@@ -5,7 +5,11 @@ import type { MonthCaptionProps, DateRange, Matcher } from 'react-day-picker'
 import type { Locale } from 'date-fns'
 import clsx from 'clsx'
 import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
-import { DAY_PICKER_CLASS_NAMES, CAPTION_BTN_CLS, NAV_BTN_CLS } from './CalendarSingle.constants'
+import {
+  DAY_PICKER_CLASS_NAMES,
+  CAPTION_BTN_CLS,
+  NAV_BTN_CLS,
+} from './CalendarSingle.constants'
 
 interface CalendarRangeProps {
   selected?: DateRange
@@ -54,7 +58,11 @@ export const CalendarRange = ({
 
             <div className="flex min-w-0 flex-1 items-center justify-center gap-0.5">
               {onMonthLabelClick ? (
-                <button type="button" onClick={onMonthLabelClick} className={CAPTION_BTN_CLS}>
+                <button
+                  type="button"
+                  onClick={onMonthLabelClick}
+                  className={CAPTION_BTN_CLS}
+                >
                   {monthLabel}
                 </button>
               ) : (
@@ -63,7 +71,11 @@ export const CalendarRange = ({
                 </span>
               )}
               {onYearLabelClick ? (
-                <button type="button" onClick={() => onYearLabelClick(year)} className={CAPTION_BTN_CLS}>
+                <button
+                  type="button"
+                  onClick={() => onYearLabelClick(year)}
+                  className={CAPTION_BTN_CLS}
+                >
                   {yearLabel}
                 </button>
               ) : (

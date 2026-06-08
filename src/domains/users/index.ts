@@ -12,5 +12,14 @@ export {
   usePurgeUser,
   userKeys,
 } from './api/users.queries'
-export type { User, UserStatus, UserGender, PresenceStatus, UserListParams } from './model/user.types'
-export type { CreateUserFormData, UpdateUserFormData } from './model/user.schema'
+export type {
+  User,
+  UserStatus,
+  UserGender,
+  PresenceStatus,
+  UserListParams,
+} from './model/user.types'
+export type {
+  CreateUserFormData,
+  UpdateUserFormData,
+} from './model/user.schema'

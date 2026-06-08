@@ -16,13 +16,25 @@ type LanguageStore = LanguageState & LanguageActions
 
 const safeLocalStorage = {
   getItem: (key: string): string | null => {
-    try { return localStorage.getItem(key) } catch { return null }
+    try {
+      return localStorage.getItem(key)
+    } catch {
+      return null
+    }
   },
   setItem: (key: string, value: string): void => {
-    try { localStorage.setItem(key, value) } catch { /* unavailable */ }
+    try {
+      localStorage.setItem(key, value)
+    } catch {
+      /* unavailable */
+    }
   },
   removeItem: (key: string): void => {
-    try { localStorage.removeItem(key) } catch { /* unavailable */ }
+    try {
+      localStorage.removeItem(key)
+    } catch {
+      /* unavailable */
+    }
   },
 }
 
@@ -31,7 +43,8 @@ export const useLanguageStore = create<LanguageStore>()(
     persist(
       (set) => ({
         language: 'es',
-        setLanguage: (lang) => set({ language: lang }, false, 'language/setLanguage'),
+        setLanguage: (lang) =>
+          set({ language: lang }, false, 'language/setLanguage'),
       }),
       {
         name: LANGUAGE_KEY,

@@ -19,10 +19,12 @@ export const PhotoPicker = ({
   onChange,
   disabled,
 }: PhotoPickerProps) => {
-  const { inputRef, preview, error, handleChange, openPicker } = usePhotoPicker({
-    currentUrl,
-    onChange,
-  })
+  const { inputRef, preview, error, handleChange, openPicker } = usePhotoPicker(
+    {
+      currentUrl,
+      onChange,
+    }
+  )
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -38,18 +40,22 @@ export const PhotoPicker = ({
             'h-32 w-32 overflow-hidden rounded-full border-2 border-dashed transition-colors',
             preview
               ? 'border-transparent'
-              : 'border-slate-300 dark:border-slate-600 group-hover:border-blue-400',
+              : 'border-slate-300 group-hover:border-blue-400 dark:border-slate-600'
           )}
         >
           {preview ? (
-            <img src={preview} alt="avatar" className="h-full w-full object-cover" />
+            <img
+              src={preview}
+              alt="avatar"
+              className="h-full w-full object-cover"
+            />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800">
               <IconComponent
                 icon="RiCameraLine"
-                className="h-7 w-7 text-slate-400 dark:text-slate-500 transition-colors group-hover:text-blue-400"
+                className="h-7 w-7 text-slate-400 transition-colors group-hover:text-blue-400 dark:text-slate-500"
               />
-              <span className="px-2 text-center text-xs leading-tight text-slate-400 dark:text-slate-500 transition-colors group-hover:text-blue-400">
+              <span className="px-2 text-center text-xs leading-tight text-slate-400 transition-colors group-hover:text-blue-400 dark:text-slate-500">
                 {uploadLabel}
               </span>
             </div>
@@ -69,7 +75,9 @@ export const PhotoPicker = ({
         onChange={handleChange}
         disabled={disabled}
       />
-      <p className="text-center text-xs leading-snug text-(--text-secondary)">{formatsHint}</p>
+      <p className="text-center text-xs leading-snug text-(--text-secondary)">
+        {formatsHint}
+      </p>
       {error && <p className="text-center text-xs text-red-500">{error}</p>}
     </div>
   )

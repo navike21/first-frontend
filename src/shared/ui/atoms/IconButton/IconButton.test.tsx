@@ -38,7 +38,13 @@ describe('IconButton component', () => {
     )
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-(--surface)', 'text-(--text-primary)', 'ring-1', 'ring-black', 'ring-inset')
+    expect(button).toHaveClass(
+      'bg-(--surface)',
+      'text-(--text-primary)',
+      'ring-1',
+      'ring-black',
+      'ring-inset'
+    )
   })
 
   it('should apply warning variant styles', () => {

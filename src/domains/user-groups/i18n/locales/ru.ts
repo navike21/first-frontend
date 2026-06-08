@@ -9,7 +9,8 @@ export const ru: UserGroupsTranslations = {
     editTitle: 'Редактировать группу',
     editDescription: (name) => `Редактировать группу «${name}»`,
     trashTitle: 'Корзина – Группы',
-    trashDescription: 'Группы, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Группы, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые группы будут отображаться здесь.',
   },
@@ -25,7 +26,8 @@ export const ru: UserGroupsTranslations = {
     prevPage: 'Предыдущая страница',
     nextPage: 'Следующая страница',
     totalCount: (n) => `Всего ${n} групп${n === 1 ? 'а' : n < 5 ? 'ы' : ''}`,
-    permissionsCount: (n) => `${n} разрешени${n === 1 ? 'е' : n < 5 ? 'я' : 'й'}`,
+    permissionsCount: (n) =>
+      `${n} разрешени${n === 1 ? 'е' : n < 5 ? 'я' : 'й'}`,
     systemBadge: 'Система',
     deletedAt: 'Удалена',
   },
@@ -56,9 +58,11 @@ export const ru: UserGroupsTranslations = {
     restoreGroup: 'Восстановить',
     purgeGroup: 'Удалить навсегда',
     restoreTitle: 'Восстановить группу',
-    restoreDescription: (name) => `Восстановить группу «${name}» в активный список?`,
+    restoreDescription: (name) =>
+      `Восстановить группу «${name}» в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `Группа «${name}» будет удалена навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `Группа «${name}» будет удалена навсегда. Это действие НЕОБРАТИМО.`,
     confirmRestore: 'Восстановить',
     purgeWarning: 'Это действие нельзя отменить.',
     confirmPurge: 'Удалить навсегда',
@@ -76,7 +80,8 @@ export const ru: UserGroupsTranslations = {
     descriptionLabel: 'Описание',
     permissionsLabel: 'Разрешения',
     noPermissions: 'Разрешения не назначены',
-    superadminNotice: 'Эта группа имеет полный доступ к системе (все разрешения)',
+    superadminNotice:
+      'Эта группа имеет полный доступ к системе (все разрешения)',
     actionAll: 'Все',
     createdAt: 'Создано',
     updatedAt: 'Обновлено',

@@ -21,7 +21,11 @@ const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   ...overrides,
 })
 
-const makeHeaderState = (overrides?: Partial<ReturnType<typeof import('../model/useHeader')['useHeader']>>) => ({
+const makeHeaderState = (
+  overrides?: Partial<
+    ReturnType<(typeof import('../model/useHeader'))['useHeader']>
+  >
+) => ({
   user: makeAuthUser() as AuthUser | null,
   isCollapsed: false,
   isProfileOpen: false,
@@ -56,8 +60,18 @@ vi.mock('@/shared/ui', async (importOriginal) => {
       icon: string
       className?: string
     }) => <span data-testid={`icon-${icon}`} className={className} />,
-    IconButton: ({ onClick, 'aria-label': ariaLabel }: { onClick?: () => void; 'aria-label'?: string }) => (
-      <button data-testid="icon-button" onClick={onClick} aria-label={ariaLabel} />
+    IconButton: ({
+      onClick,
+      'aria-label': ariaLabel,
+    }: {
+      onClick?: () => void
+      'aria-label'?: string
+    }) => (
+      <button
+        data-testid="icon-button"
+        onClick={onClick}
+        aria-label={ariaLabel}
+      />
     ),
     Avatar: ({ alt, name }: { alt?: string; name?: string }) => (
       <div data-testid="avatar" aria-label={alt ?? name} />

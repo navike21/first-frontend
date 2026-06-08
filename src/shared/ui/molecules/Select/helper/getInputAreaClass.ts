@@ -7,7 +7,7 @@ export const getInputAreaClass = ({
   isOpen,
   variant,
   isMultipleWithChips,
-  classInput
+  classInput,
 }: {
   disabled: boolean
   isOpen: boolean
@@ -20,12 +20,15 @@ export const getInputAreaClass = ({
     'transition-all ease-in-out duration-300',
     'ring-inset',
     isOpen ? 'ring-2' : 'ring-1',
-    { 'bg-slate-400/50 dark:bg-slate-600/50': disabled, 'bg-(--surface)': !disabled },
+    {
+      'bg-slate-400/50 dark:bg-slate-600/50': disabled,
+      'bg-(--surface)': !disabled,
+    },
     {
       'ring-(--border)': variant === 'default' && !disabled,
       'ring-emerald-500': variant === 'success' && !disabled,
       'ring-red-500': variant === 'error' && !disabled,
-      'ring-yellow-500': variant === 'warning' && !disabled
+      'ring-yellow-500': variant === 'warning' && !disabled,
     },
     isMultipleWithChips ? 'h-auto min-h-10' : 'h-10',
     classInput

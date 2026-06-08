@@ -1,5 +1,11 @@
 import clsx from 'clsx'
-import { Avatar, IconButton, IconComponent, Spinner, Tooltip } from '@/shared/ui'
+import {
+  Avatar,
+  IconButton,
+  IconComponent,
+  Spinner,
+  Tooltip,
+} from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import { PresenceDot } from './PresenceDot'
@@ -50,10 +56,12 @@ export const UserTable = ({
       <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className={clsx(
-              'text-left',
-              'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold uppercase tracking-wide text-(--text-secondary)',
-            )}>
+            <tr
+              className={clsx(
+                'text-left',
+                'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold tracking-wide text-(--text-secondary) uppercase'
+              )}
+            >
               <th className="px-4 py-3">{t.table.colUser}</th>
               <th className="px-4 py-3">{t.table.colEmail}</th>
               <th className="px-4 py-3">{t.table.colStatus}</th>
@@ -66,8 +74,8 @@ export const UserTable = ({
               <tr
                 key={user.id}
                 className={clsx(
-                  'transition-colors duration-fast ease-out-expo',
-                  'hover:bg-(--surface-subtle)',
+                  'duration-fast ease-out-expo transition-colors',
+                  'hover:bg-(--surface-subtle)'
                 )}
               >
                 <td className="px-4 py-3">
@@ -83,7 +91,9 @@ export const UserTable = ({
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-(--text-secondary)">{user.email}</td>
+                <td className="px-4 py-3 text-(--text-secondary)">
+                  {user.email}
+                </td>
                 <td className="px-4 py-3">
                   <UserStatusBadge status={user.status} />
                 </td>
@@ -95,7 +105,12 @@ export const UserTable = ({
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <Tooltip heading={t.table.editUser} icon="RiPencilLine" position="top" size="small">
+                    <Tooltip
+                      heading={t.table.editUser}
+                      icon="RiPencilLine"
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiPencilLine"
                         variant="text"
@@ -104,7 +119,12 @@ export const UserTable = ({
                         onClick={() => onEdit(user)}
                       />
                     </Tooltip>
-                    <Tooltip heading={t.table.deleteUser} icon="RiDeleteBinLine" position="top" size="small">
+                    <Tooltip
+                      heading={t.table.deleteUser}
+                      icon="RiDeleteBinLine"
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiDeleteBinLine"
                         variant="text"
@@ -150,4 +170,3 @@ export const UserTable = ({
     </div>
   )
 }
-

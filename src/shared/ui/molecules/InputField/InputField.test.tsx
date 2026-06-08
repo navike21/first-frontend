@@ -36,7 +36,7 @@ vi.mock('@Components/atoms/Label/Label', () => ({
   }) => (
     <label
       htmlFor={htmlFor}
-      className={`text-sm font-semibold transition-all duration-fast ease-out-expo ${disabled ? 'cursor-not-allowed text-(--text-secondary)' : 'text-(--text-primary)'} ${className || ''}`}
+      className={`duration-fast ease-out-expo text-sm font-semibold transition-all ${disabled ? 'cursor-not-allowed text-(--text-secondary)' : 'text-(--text-primary)'} ${className || ''}`}
     >
       {children}
     </label>
@@ -330,7 +330,10 @@ describe('InputField', () => {
     // Assert
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).not.toBeDisabled()
-    expect(toggleButton).toHaveClass('hover:bg-(--surface-subtle)', 'cursor-pointer')
+    expect(toggleButton).toHaveClass(
+      'hover:bg-(--surface-subtle)',
+      'cursor-pointer'
+    )
   })
 
   it('should apply correct classes to toggle button when disabled', () => {

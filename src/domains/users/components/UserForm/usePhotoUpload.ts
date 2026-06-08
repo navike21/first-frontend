@@ -5,7 +5,9 @@ export function usePhotoUpload() {
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [isUploading, setIsUploading] = useState(false)
 
-  const uploadIfNeeded = async (entityId: string): Promise<string | undefined> => {
+  const uploadIfNeeded = async (
+    entityId: string
+  ): Promise<string | undefined> => {
     if (!pendingFile) return undefined
     setIsUploading(true)
     try {

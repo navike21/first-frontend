@@ -5,11 +5,13 @@ export const fr: UserGroupsTranslations = {
     listTitle: "Groupes d'utilisateurs",
     listDescription: 'Gérer les groupes et leurs permissions',
     createTitle: 'Nouveau groupe',
-    createDescription: "Remplissez les champs pour créer un nouveau groupe d'utilisateurs",
+    createDescription:
+      "Remplissez les champs pour créer un nouveau groupe d'utilisateurs",
     editTitle: 'Modifier le groupe',
     editDescription: (name) => `Modifier le groupe « ${name} »`,
     trashTitle: 'Corbeille – Groupes',
-    trashDescription: 'Groupes déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Groupes déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun groupe dans la corbeille',
     trashEmptyDescription: 'Les groupes supprimés apparaîtront ici.',
   },
@@ -39,7 +41,8 @@ export const fr: UserGroupsTranslations = {
     permissions: 'Permissions',
     permissionsHint: 'Sélectionnez les permissions pour ce groupe',
     statusLabel: 'Statut du groupe',
-    statusDescription: 'Les groupes inactifs ne peuvent pas être assignés aux utilisateurs',
+    statusDescription:
+      'Les groupes inactifs ne peuvent pas être assignés aux utilisateurs',
     systemNotice: 'Ceci est un groupe système et ne peut pas être modifié',
     createButton: 'Créer le groupe',
     saveButton: 'Enregistrer les modifications',
@@ -56,9 +59,11 @@ export const fr: UserGroupsTranslations = {
     restoreGroup: 'Restaurer',
     purgeGroup: 'Supprimer définitivement',
     restoreTitle: 'Restaurer le groupe',
-    restoreDescription: (name) => `Restaurer le groupe « ${name} » dans la liste active ?`,
+    restoreDescription: (name) =>
+      `Restaurer le groupe « ${name} » dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `Le groupe « ${name} » sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Le groupe « ${name} » sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmRestore: 'Restaurer',
     purgeWarning: 'Cette action est irréversible.',
     confirmPurge: 'Supprimer définitivement',
@@ -76,7 +81,8 @@ export const fr: UserGroupsTranslations = {
     descriptionLabel: 'Description',
     permissionsLabel: 'Permissions',
     noPermissions: 'Aucune permission assignée',
-    superadminNotice: 'Ce groupe a un accès total au système (toutes les permissions)',
+    superadminNotice:
+      'Ce groupe a un accès total au système (toutes les permissions)',
     actionAll: 'Toutes',
     createdAt: 'Créé',
     updatedAt: 'Mis à jour',

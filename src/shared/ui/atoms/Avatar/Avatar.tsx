@@ -15,22 +15,38 @@ export const Avatar = memo(
     title,
     ...props
   }: Readonly<AvatarProps>) => {
-    const { sizeMap, statusColorMap, statusEffectMap, statusSizeMap, initials, ariaLabel } =
-      useAvatar({ ...props, alt })
+    const {
+      sizeMap,
+      statusColorMap,
+      statusEffectMap,
+      statusSizeMap,
+      initials,
+      ariaLabel,
+    } = useAvatar({ ...props, alt })
 
     return (
       <figure
-        className={clsx('relative inline-flex rounded-full shadow-sm', sizeMap[size], className)}
+        className={clsx(
+          'relative inline-flex rounded-full shadow-sm',
+          sizeMap[size],
+          className
+        )}
         aria-label={ariaLabel}
         title={title ?? ariaLabel}
       >
         {src ? (
-          <img src={src} alt={alt} className={clsx('h-full w-full object-cover', 'rounded-full')} />
+          <img
+            src={src}
+            alt={alt}
+            className={clsx('h-full w-full object-cover', 'rounded-full')}
+          />
         ) : (
-          <span className={clsx(
-            'flex h-full w-full items-center justify-center',
-            'rounded-full bg-gray-200 dark:bg-slate-700 font-bold text-gray-600 dark:text-slate-300 uppercase select-none',
-          )}>
+          <span
+            className={clsx(
+              'flex h-full w-full items-center justify-center',
+              'rounded-full bg-gray-200 font-bold text-gray-600 uppercase select-none dark:bg-slate-700 dark:text-slate-300'
+            )}
+          >
             {initials}
           </span>
         )}
@@ -42,11 +58,11 @@ export const Avatar = memo(
               'rounded-full ring-2 ring-(--surface)',
               statusColorMap[status],
               statusEffectMap[status],
-              statusSizeMap[size],
+              statusSizeMap[size]
             )}
           />
         )}
       </figure>
     )
-  },
+  }
 )

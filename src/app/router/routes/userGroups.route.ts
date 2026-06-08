@@ -42,4 +42,6 @@ function createUserGroupsRouteTree(lang: Language) {
   return layout.addChildren([index, create, edit, trash])
 }
 
-export const allUserGroupsRouteTrees = SUPPORTED_LANGUAGES.map(createUserGroupsRouteTree)
+export const allUserGroupsRouteTrees = SUPPORTED_LANGUAGES.map(
+  createUserGroupsRouteTree
+)

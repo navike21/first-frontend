@@ -9,7 +9,8 @@ export const en: UserGroupsTranslations = {
     editTitle: 'Edit group',
     editDescription: (name) => `Edit group "${name}"`,
     trashTitle: 'Groups Trash',
-    trashDescription: 'Groups that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Groups that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No groups in trash',
     trashEmptyDescription: 'When groups are deleted, they will appear here.',
   },
@@ -58,7 +59,8 @@ export const en: UserGroupsTranslations = {
     restoreTitle: 'Restore group',
     restoreDescription: (name) => `Restore group "${name}" to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete "${name}". This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete "${name}". This action cannot be undone.`,
     confirmRestore: 'Restore',
     confirmPurge: 'Delete permanently',
     purgeWarning: 'Cannot be undone.',

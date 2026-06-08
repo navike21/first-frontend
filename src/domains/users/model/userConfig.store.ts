@@ -34,10 +34,7 @@ export const useUserConfigStore = create<UserConfigStore>((set, get) => ({
     if (get().isLoaded) return Promise.resolve()
     if (inflightPromise) return inflightPromise
 
-    inflightPromise = Promise.all([
-      usersApi.metadata(),
-      userGroupsApi.list(),
-    ])
+    inflightPromise = Promise.all([usersApi.metadata(), userGroupsApi.list()])
       .then(([metaRes, groupsRes]) => {
         const meta: UserMetadata = metaRes.data
         set({

@@ -9,9 +9,13 @@ vi.mock('react-dom', async () => {
 })
 
 vi.mock('@/shared/ui', () => ({
-  IconComponent: ({ icon, className }: { icon: string; className?: string }) => (
-    <span data-testid={`icon-${icon}`} className={className} />
-  ),
+  IconComponent: ({
+    icon,
+    className,
+  }: {
+    icon: string
+    className?: string
+  }) => <span data-testid={`icon-${icon}`} className={className} />,
 }))
 
 describe('Modal component', () => {
@@ -24,7 +28,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()}>
         <p>Modal content</p>
-      </Modal>,
+      </Modal>
     )
     expect(screen.getByText('Modal content')).toBeInTheDocument()
   })
@@ -33,16 +37,21 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="My Modal">
         Content
-      </Modal>,
+      </Modal>
     )
     expect(screen.getByText('My Modal')).toBeInTheDocument()
   })
 
   it('should render description when provided', () => {
     render(
-      <Modal isOpen={true} onClose={vi.fn()} title="Title" description="Some description">
+      <Modal
+        isOpen={true}
+        onClose={vi.fn()}
+        title="Title"
+        description="Some description"
+      >
         Content
-      </Modal>,
+      </Modal>
     )
     expect(screen.getByText('Some description')).toBeInTheDocument()
   })
@@ -51,7 +60,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} footer={<button>Confirm</button>}>
         Content
-      </Modal>,
+      </Modal>
     )
     expect(screen.getByRole('button', { name: 'Confirm' })).toBeInTheDocument()
   })
@@ -60,16 +69,21 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Title">
         Content
-      </Modal>,
+      </Modal>
     )
     expect(screen.getByLabelText('Cerrar')).toBeInTheDocument()
   })
 
   it('should not render close button when showCloseButton=false', () => {
     render(
-      <Modal isOpen={true} onClose={vi.fn()} showCloseButton={false} title="Title">
+      <Modal
+        isOpen={true}
+        onClose={vi.fn()}
+        showCloseButton={false}
+        title="Title"
+      >
         Content
-      </Modal>,
+      </Modal>
     )
     expect(screen.queryByLabelText('Cerrar')).not.toBeInTheDocument()
   })
@@ -80,7 +94,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={onClose} title="Title">
         Content
-      </Modal>,
+      </Modal>
     )
     await user.click(screen.getByLabelText('Cerrar'))
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -92,9 +106,11 @@ describe('Modal component', () => {
     const { container } = render(
       <Modal isOpen={true} onClose={onClose}>
         Content
-      </Modal>,
+      </Modal>
     )
-    const backdrop = container.querySelector('[aria-hidden="true"]') as HTMLElement
+    const backdrop = container.querySelector(
+      '[aria-hidden="true"]'
+    ) as HTMLElement
     await user.click(backdrop)
     expect(onClose).toHaveBeenCalledTimes(1)
   })
@@ -105,9 +121,11 @@ describe('Modal component', () => {
     const { container } = render(
       <Modal isOpen={true} onClose={onClose} closeOnBackdrop={false}>
         Content
-      </Modal>,
+      </Modal>
     )
-    const backdrop = container.querySelector('[aria-hidden="true"]') as HTMLElement
+    const backdrop = container.querySelector(
+      '[aria-hidden="true"]'
+    ) as HTMLElement
     await user.click(backdrop)
     expect(onClose).not.toHaveBeenCalled()
   })
@@ -118,7 +136,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={onClose}>
         Content
-      </Modal>,
+      </Modal>
     )
     await user.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -130,7 +148,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={false} onClose={onClose}>
         Content
-      </Modal>,
+      </Modal>
     )
     await user.keyboard('{Escape}')
     expect(onClose).not.toHaveBeenCalled()
@@ -143,7 +161,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={onClose}>
         Content
-      </Modal>,
+      </Modal>
     )
     await user.keyboard('{Enter}')
     expect(onClose).not.toHaveBeenCalled()
@@ -153,7 +171,7 @@ describe('Modal component', () => {
     const { container } = render(
       <Modal isOpen={false} onClose={vi.fn()}>
         Content
-      </Modal>,
+      </Modal>
     )
     const wrapper = container.querySelector('[role="dialog"]')
     expect(wrapper).toHaveClass('pointer-events-none')
@@ -163,7 +181,7 @@ describe('Modal component', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()}>
         Content
-      </Modal>,
+      </Modal>
     )
     expect(document.body.style.overflow).toBe('hidden')
   })
@@ -172,7 +190,7 @@ describe('Modal component', () => {
     const { container } = render(
       <Modal isOpen={true} onClose={vi.fn()}>
         Content
-      </Modal>,
+      </Modal>
     )
     const panel = container.querySelector('[role="dialog"] > div')
     expect(panel).toHaveClass('scale-100', 'opacity-100')
@@ -182,7 +200,7 @@ describe('Modal component', () => {
     const { container } = render(
       <Modal isOpen={false} onClose={vi.fn()}>
         Content
-      </Modal>,
+      </Modal>
     )
     const panel = container.querySelector('[role="dialog"] > div')
     expect(panel).toHaveClass('scale-95', 'opacity-0')

@@ -25,7 +25,10 @@ const DROPDOWN_HEIGHT = 380
 const fireNativeChange = (el: HTMLInputElement | null, value: string) => {
   if (!el) return
   // Use native setter to bypass React's controlled-input guard
-  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+  const setter = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    'value'
+  )?.set
   setter?.call(el, value)
   el.dispatchEvent(new Event('input', { bubbles: true }))
   el.dispatchEvent(new Event('change', { bubbles: true }))
@@ -55,7 +58,10 @@ export const useInputDate = (
   const activeLang = lang ?? storeLang
   const locale = DATE_FNS_LOCALES[activeLang]
 
-  const mergedTexts: InputDateTexts = { ...INPUT_DATE_TEXTS[activeLang], ...texts }
+  const mergedTexts: InputDateTexts = {
+    ...INPUT_DATE_TEXTS[activeLang],
+    ...texts,
+  }
 
   const effectiveDisplayFormat =
     displayFormat ??
@@ -68,7 +74,9 @@ export const useInputDate = (
   // ── State ────────────────────────────────────────────────────────────────────
   const [isOpen, setIsOpen] = useState(false)
   // Drill-down view — only used when mode is 'date' or 'dateRange'
-  const [calendarView, setCalendarView] = useState<'day' | 'month' | 'year'>('day')
+  const [calendarView, setCalendarView] = useState<'day' | 'month' | 'year'>(
+    'day'
+  )
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(() =>
     parseToDate(value ?? (defaultValue as string | undefined))
@@ -76,7 +84,9 @@ export const useInputDate = (
   const [selectedRange, setSelectedRange] = useState<DateRange>({})
 
   const [displayMonth, setDisplayMonth] = useState<Date>(() => {
-    return parseToDate(value ?? (defaultValue as string | undefined)) ?? todayDate()
+    return (
+      parseToDate(value ?? (defaultValue as string | undefined)) ?? todayDate()
+    )
   })
 
   const [yearPageCenter, setYearPageCenter] = useState<number>(() => {
@@ -100,7 +110,9 @@ export const useInputDate = (
         forwardedRef(node)
       } else if (forwardedRef !== null && forwardedRef !== undefined) {
         // eslint-disable-next-line react-hooks/immutability -- merged-ref pattern
-        ;(forwardedRef as React.MutableRefObject<HTMLInputElement | null>).current = node
+        ;(
+          forwardedRef as React.MutableRefObject<HTMLInputElement | null>
+        ).current = node
       }
     },
     [forwardedRef]
@@ -289,9 +301,13 @@ export const useInputDate = (
       capture: true,
       passive: true,
     })
-    globalThis.addEventListener('resize', calculateDropdownPosition, { passive: true })
+    globalThis.addEventListener('resize', calculateDropdownPosition, {
+      passive: true,
+    })
     return () => {
-      globalThis.removeEventListener('scroll', calculateDropdownPosition, { capture: true })
+      globalThis.removeEventListener('scroll', calculateDropdownPosition, {
+        capture: true,
+      })
       globalThis.removeEventListener('resize', calculateDropdownPosition)
     }
   }, [isOpen, calculateDropdownPosition])

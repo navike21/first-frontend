@@ -140,5 +140,4 @@ describe('Sidebar component', () => {
     // Assert
     expect(screen.getByTestId('drawer')).toHaveAttribute('data-open', 'true')
   })
-
 })

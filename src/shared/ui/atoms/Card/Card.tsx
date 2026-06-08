@@ -17,7 +17,7 @@ export const Card = ({
     <div
       className={clsx(
         'rounded-xl border border-(--border) bg-(--surface) shadow-sm',
-        'transition-all duration-fast ease-out-expo',
+        'duration-fast ease-out-expo transition-all',
         {
           'p-0': padding === 'none',
           'p-4': padding === 'small',
@@ -25,7 +25,8 @@ export const Card = ({
           'p-8': padding === 'large',
         },
         {
-          'hover:shadow-md hover:border-gray-300 dark:hover:border-slate-500': interactive,
+          'hover:border-gray-300 hover:shadow-md dark:hover:border-slate-500':
+            interactive,
         },
         className
       )}

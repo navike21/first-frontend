@@ -28,7 +28,9 @@ describe('usePresenceStore', () => {
     it('upgrades offline user to available', () => {
       usePresenceStore.setState({ presenceByUserId: { u1: 'offline' } })
       usePresenceStore.getState().setOnlineUsers(['u1'])
-      expect(usePresenceStore.getState().presenceByUserId['u1']).toBe('available')
+      expect(usePresenceStore.getState().presenceByUserId['u1']).toBe(
+        'available'
+      )
     })
   })
 

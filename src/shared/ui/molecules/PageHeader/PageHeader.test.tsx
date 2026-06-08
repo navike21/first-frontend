@@ -26,11 +26,15 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 describe('PageHeader', () => {
   it('should render the title', () => {
     render(<PageHeader title="Plantillas" />)
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Plantillas')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Plantillas'
+    )
   })
 
   it('should render the description when provided', () => {
-    render(<PageHeader title="Plantillas" description="Descripción de prueba" />)
+    render(
+      <PageHeader title="Plantillas" description="Descripción de prueba" />
+    )
     expect(screen.getByText('Descripción de prueba')).toBeInTheDocument()
   })
 
@@ -64,7 +68,13 @@ describe('PageHeader', () => {
     render(
       <PageHeader
         title="Plantillas"
-        actions={[{ type: 'link', label: 'Crear', to: '/configuracion/plantillas/crear' }]}
+        actions={[
+          {
+            type: 'link',
+            label: 'Crear',
+            to: '/configuracion/plantillas/crear',
+          },
+        ]}
       />
     )
     const link = screen.getByRole('link', { name: 'Crear' })
@@ -77,7 +87,11 @@ describe('PageHeader', () => {
       <PageHeader
         title="Plantillas"
         actions={[
-          { type: 'link', label: 'Crear', to: '/configuracion/plantillas/crear' },
+          {
+            type: 'link',
+            label: 'Crear',
+            to: '/configuracion/plantillas/crear',
+          },
           { type: 'button', label: 'Exportar', onClick },
         ]}
       />
@@ -90,7 +104,14 @@ describe('PageHeader', () => {
     render(
       <PageHeader
         title="Plantillas"
-        actions={[{ type: 'button', label: 'Guardar', onClick: vi.fn(), disabled: true }]}
+        actions={[
+          {
+            type: 'button',
+            label: 'Guardar',
+            onClick: vi.fn(),
+            disabled: true,
+          },
+        ]}
       />
     )
     expect(screen.getByRole('button', { name: 'Guardar' })).toBeDisabled()

@@ -13,7 +13,10 @@ export function useUsersPage() {
   const [search, setSearch] = useState('')
   const [deletingUser, setDeletingUser] = useState<User | null>(null)
 
-  const { data, isLoading } = useUsers({ ...params, search: search || undefined })
+  const { data, isLoading } = useUsers({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteUser()
 
   const handleEdit = (user: User) =>

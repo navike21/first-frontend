@@ -3,7 +3,10 @@ import { usersApi } from './users.api'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
 import type { User, UserListParams } from '../model/user.types'
-import type { CreateUserFormData, UpdateUserFormData } from '../model/user.schema'
+import type {
+  CreateUserFormData,
+  UpdateUserFormData,
+} from '../model/user.schema'
 
 export const userKeys = {
   all: ['users'] as const,
@@ -12,7 +15,8 @@ export const userKeys = {
   details: () => [...userKeys.all, 'detail'] as const,
   detail: (id: string) => [...userKeys.details(), id] as const,
   trash: () => [...userKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...userKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...userKeys.trash(), params] as const,
 }
 
 export const useUsers = (params: UserListParams = {}) =>
@@ -53,10 +57,12 @@ export const useUpdateUser = (id: string) => {
             ...old,
             data: {
               ...old.data,
-              items: old.data.items.map((u) => (u.id === id ? { ...u, ...updated } : u)),
+              items: old.data.items.map((u) =>
+                u.id === id ? { ...u, ...updated } : u
+              ),
             },
           }
-        },
+        }
       )
 
       qc.invalidateQueries({ queryKey: userKeys.lists() })

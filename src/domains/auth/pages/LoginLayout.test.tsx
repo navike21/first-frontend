@@ -28,6 +28,8 @@ describe('LoginLayout component', () => {
 
   it('renders the section heading', () => {
     render(<LoginLayout />)
-    expect(screen.getByRole('heading', { name: /iniciar sesión/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /iniciar sesión/i })
+    ).toBeInTheDocument()
   })
 })

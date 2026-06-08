@@ -19,13 +19,22 @@ interface NavLinkItem {
   to: string
 }
 
-export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawerProps) => {
+export const ProfileDrawer = ({
+  isOpen,
+  onClose,
+  onLogout,
+  user,
+}: ProfileDrawerProps) => {
   const { t } = useHeaderTranslation()
 
   const navLinks: NavLinkItem[] = [
     { icon: 'RiHomeLine', label: t.profileDrawer.home, to: navPaths.home() },
     { icon: 'RiUserLine', label: t.profileDrawer.users, to: navPaths.users() },
-    { icon: 'RiGroupLine', label: t.profileDrawer.userGroups, to: navPaths.userGroups() },
+    {
+      icon: 'RiGroupLine',
+      label: t.profileDrawer.userGroups,
+      to: navPaths.userGroups(),
+    },
   ]
 
   return (
@@ -44,17 +53,21 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
       <div
         className={clsx(
           'flex flex-col items-center gap-3',
-          'border-b border-(--border-subtle) px-6 py-8',
+          'border-b border-(--border-subtle) px-6 py-8'
         )}
       >
         <Avatar
           src={user?.profilePictureUrl}
-          alt={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
+          alt={
+            `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() ||
+            t.guestName
+          }
           size="lg"
         />
         <div className="text-center">
           <p className="text-base font-bold text-(--text-primary)">
-            {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || t.guestName}
+            {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() ||
+              t.guestName}
           </p>
           <p className="mt-0.5 text-sm text-(--text-secondary)">
             {user?.email || t.guestEmail}
@@ -73,8 +86,8 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
                 className={clsx(
                   'group flex items-center gap-3 rounded-lg px-3 py-2.5',
                   'text-sm font-medium text-(--text-secondary)',
-                  'transition-colors duration-fast ease-out-expo',
-                  'hover:bg-(--color-primary-950)/20 hover:text-white',
+                  'duration-fast ease-out-expo transition-colors',
+                  'hover:bg-(--color-primary-950)/20 hover:text-white'
                 )}
               >
                 <IconComponent
@@ -90,7 +103,12 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
 
       {/* Logout */}
       <div className="border-t border-(--border-subtle) p-4">
-        <Button fullWidth variant="primary" icon="RiLogoutBoxRLine" onClick={onLogout}>
+        <Button
+          fullWidth
+          variant="primary"
+          icon="RiLogoutBoxRLine"
+          onClick={onLogout}
+        >
           {t.profileDrawer.logout}
         </Button>
       </div>

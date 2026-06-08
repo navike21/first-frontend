@@ -145,8 +145,7 @@ export const notify = {
     const lang = getLang()
     if (error instanceof HttpError) {
       if (error.status === 401) return
-      const message =
-        HTTP_MESSAGES[lang][error.status] ?? error.message
+      const message = HTTP_MESSAGES[lang][error.status] ?? error.message
       toast.error(message)
     } else {
       toast.error(NETWORK_MESSAGES[lang])

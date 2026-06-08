@@ -306,15 +306,25 @@ describe('OptionsList', () => {
           />
         )
       )
-      const disabledOption = screen.getByRole('option', { name: 'Disabled' }) as HTMLButtonElement
+      const disabledOption = screen.getByRole('option', {
+        name: 'Disabled',
+      }) as HTMLButtonElement
       // React 19 suppresses onClick via fiber props; invoke the handler directly from the fiber
-      const fiberKey = Object.keys(disabledOption).find((k) => k.startsWith('__reactFiber'))
+      const fiberKey = Object.keys(disabledOption).find((k) =>
+        k.startsWith('__reactFiber')
+      )
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const fiber = fiberKey ? (disabledOption as any)[fiberKey] : null
-      const onClickProp = fiber?.pendingProps?.onClick ?? fiber?.memoizedProps?.onClick
+      const onClickProp =
+        fiber?.pendingProps?.onClick ?? fiber?.memoizedProps?.onClick
       if (onClickProp) {
         act(() => {
-          onClickProp({ target: disabledOption, type: 'click', preventDefault: vi.fn(), stopPropagation: vi.fn() })
+          onClickProp({
+            target: disabledOption,
+            type: 'click',
+            preventDefault: vi.fn(),
+            stopPropagation: vi.fn(),
+          })
         })
       }
       expect(onSelect).not.toHaveBeenCalled()

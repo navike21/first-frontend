@@ -26,7 +26,12 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-4 rounded-xl border border-(--border) bg-(--surface) p-6">
         {isSystem && (
-          <div className={clsx('flex items-center gap-2 px-4 py-3', 'rounded-lg border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/20 text-sm text-amber-700 dark:text-amber-400')}>
+          <div
+            className={clsx(
+              'flex items-center gap-2 px-4 py-3',
+              'rounded-lg border border-amber-200 bg-amber-50 text-sm text-amber-700 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400'
+            )}
+          >
             <span>{t.form.systemNotice}</span>
           </div>
         )}
@@ -49,14 +54,20 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
             {...register('description')}
           />
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-(--text-primary)">{t.form.color}</label>
+            <label className="text-sm font-medium text-(--text-primary)">
+              {t.form.color}
+            </label>
             <div className="flex items-center gap-2">
               <input
                 type="color"
                 value={colorValue ?? props.defaultValues.color}
                 onChange={(e) => setColor(e.target.value)}
                 disabled={busy || isSystem}
-                className={clsx('h-9 w-14 cursor-pointer p-0.5', 'rounded border border-(--border)', 'disabled:cursor-not-allowed')}
+                className={clsx(
+                  'h-9 w-14 cursor-pointer p-0.5',
+                  'rounded border border-(--border)',
+                  'disabled:cursor-not-allowed'
+                )}
               />
               <input
                 type="text"
@@ -67,8 +78,8 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
                 className={clsx(
                   'h-9 w-28 px-3',
                   'rounded-lg border border-(--border) bg-(--surface) text-sm text-(--text-primary)',
-                  'focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200',
-                  'disabled:cursor-not-allowed disabled:bg-(--surface-subtle)',
+                  'focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none',
+                  'disabled:cursor-not-allowed disabled:bg-(--surface-subtle)'
                 )}
               />
             </div>
@@ -89,8 +100,12 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-(--text-primary)">{t.form.permissions}</label>
-          <p className="text-xs text-(--text-muted)">{t.form.permissionsHint}</p>
+          <label className="text-sm font-medium text-(--text-primary)">
+            {t.form.permissions}
+          </label>
+          <p className="text-xs text-(--text-muted)">
+            {t.form.permissionsHint}
+          </p>
           <PermissionsSelector
             value={permissionsValue ?? []}
             onChange={setPermissionsValue}
@@ -100,10 +115,20 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
         </div>
 
         <div className="flex justify-end gap-3 pt-2">
-          <Button variant="secondary" type="button" disabled={busy} onClick={handleCancel}>
+          <Button
+            variant="secondary"
+            type="button"
+            disabled={busy}
+            onClick={handleCancel}
+          >
             {t.form.cancelButton}
           </Button>
-          <Button variant="primary" type="submit" loading={busy} disabled={isSystem}>
+          <Button
+            variant="primary"
+            type="submit"
+            loading={busy}
+            disabled={isSystem}
+          >
             {t.form.saveButton}
           </Button>
         </div>

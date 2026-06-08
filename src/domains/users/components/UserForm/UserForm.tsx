@@ -1,4 +1,7 @@
-import type { CreateUserFormData, UpdateUserFormData } from '../../model/user.schema'
+import type {
+  CreateUserFormData,
+  UpdateUserFormData,
+} from '../../model/user.schema'
 import type { User } from '../../model/user.types'
 import { CreateUserForm } from './CreateUserForm'
 import { EditUserForm } from './EditUserForm'
@@ -21,7 +24,13 @@ export const UserForm = ({
   onUpdate,
 }: UserFormProps) => {
   if (mode === 'create') {
-    return <CreateUserForm isSubmitting={isSubmitting} onCancel={onCancel} onCreate={onCreate} />
+    return (
+      <CreateUserForm
+        isSubmitting={isSubmitting}
+        onCancel={onCancel}
+        onCreate={onCreate}
+      />
+    )
   }
   return (
     <EditUserForm

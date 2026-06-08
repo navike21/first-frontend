@@ -50,10 +50,12 @@ export const UserGroupTable = ({
       <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className={clsx(
-              'text-left',
-              'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold uppercase tracking-wide text-(--text-secondary)',
-            )}>
+            <tr
+              className={clsx(
+                'text-left',
+                'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold tracking-wide text-(--text-secondary) uppercase'
+              )}
+            >
               <th className="px-4 py-3">{t.table.colName}</th>
               <th className="px-4 py-3">{t.table.colPermissions}</th>
               <th className="px-4 py-3">{t.table.colStatus}</th>
@@ -65,8 +67,8 @@ export const UserGroupTable = ({
               <tr
                 key={group.id}
                 className={clsx(
-                  'transition-colors duration-fast ease-out-expo',
-                  'hover:bg-(--surface-subtle)',
+                  'duration-fast ease-out-expo transition-colors',
+                  'hover:bg-(--surface-subtle)'
                 )}
               >
                 <td className="px-4 py-3">
@@ -75,16 +77,18 @@ export const UserGroupTable = ({
                       className="h-4 w-4 shrink-0 rounded-full border border-(--border)"
                       style={{ backgroundColor: group.color }}
                     />
-                    <span className="font-medium text-(--text-primary)">{group.name}</span>
+                    <span className="font-medium text-(--text-primary)">
+                      {group.name}
+                    </span>
                     {group.isSystem && (
-                      <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2 py-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
                         {t.table.systemBadge}
                       </span>
                     )}
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="rounded-full bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                     {t.table.permissionsCount(group.permissions.length)}
                   </span>
                 </td>
@@ -93,8 +97,8 @@ export const UserGroupTable = ({
                     className={clsx(
                       'rounded-full px-2 py-0.5 text-xs font-medium',
                       group.status === 'active'
-                        ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-                        : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400',
+                        ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                        : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
                     )}
                   >
                     {t.status[group.status]}
@@ -102,7 +106,12 @@ export const UserGroupTable = ({
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-1">
-                    <Tooltip heading={t.table.viewGroup} icon="RiEyeLine" position="top" size="small">
+                    <Tooltip
+                      heading={t.table.viewGroup}
+                      icon="RiEyeLine"
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiEyeLine"
                         variant="text"
@@ -111,7 +120,12 @@ export const UserGroupTable = ({
                         onClick={() => onView(group)}
                       />
                     </Tooltip>
-                    <Tooltip heading={t.table.editGroup} icon="RiPencilLine" position="top" size="small">
+                    <Tooltip
+                      heading={t.table.editGroup}
+                      icon="RiPencilLine"
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiPencilLine"
                         variant="text"
@@ -121,7 +135,12 @@ export const UserGroupTable = ({
                         onClick={() => onEdit(group)}
                       />
                     </Tooltip>
-                    <Tooltip heading={t.table.deleteGroup} icon="RiDeleteBinLine" position="top" size="small">
+                    <Tooltip
+                      heading={t.table.deleteGroup}
+                      icon="RiDeleteBinLine"
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiDeleteBinLine"
                         variant="text"

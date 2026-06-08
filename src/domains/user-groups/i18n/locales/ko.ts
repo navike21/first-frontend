@@ -9,7 +9,8 @@ export const ko: UserGroupsTranslations = {
     editTitle: '그룹 편집',
     editDescription: (name) => `그룹 "${name}" 편집`,
     trashTitle: '휴지통 – 그룹',
-    trashDescription: '휴지통으로 이동된 그룹입니다. 복원하거나 영구 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 그룹입니다. 복원하거나 영구 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 그룹이 없습니다',
     trashEmptyDescription: '삭제된 그룹이 여기에 표시됩니다.',
   },
@@ -56,9 +57,11 @@ export const ko: UserGroupsTranslations = {
     restoreGroup: '복원',
     purgeGroup: '영구 삭제',
     restoreTitle: '그룹 복원',
-    restoreDescription: (name) => `그룹 "${name}"을(를) 활성 목록으로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `그룹 "${name}"을(를) 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `그룹 "${name}"을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `그룹 "${name}"을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmRestore: '복원',
     purgeWarning: '이 작업은 취소할 수 없습니다.',
     confirmPurge: '영구 삭제',
@@ -76,7 +79,8 @@ export const ko: UserGroupsTranslations = {
     descriptionLabel: '설명',
     permissionsLabel: '권한',
     noPermissions: '할당된 권한 없음',
-    superadminNotice: '이 그룹은 시스템에 대한 전체 액세스 권한을 가집니다 (모든 권한)',
+    superadminNotice:
+      '이 그룹은 시스템에 대한 전체 액세스 권한을 가집니다 (모든 권한)',
     actionAll: '전체',
     createdAt: '생성일',
     updatedAt: '수정일',

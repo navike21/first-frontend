@@ -135,34 +135,50 @@ describe('useHeader', () => {
   it('should toggle isSettingsOpen when toggleSettings is called', () => {
     const { result } = renderHook(() => useHeader())
     expect(result.current.isSettingsOpen).toBe(false)
-    act(() => { result.current.toggleSettings() })
+    act(() => {
+      result.current.toggleSettings()
+    })
     expect(result.current.isSettingsOpen).toBe(true)
-    act(() => { result.current.toggleSettings() })
+    act(() => {
+      result.current.toggleSettings()
+    })
     expect(result.current.isSettingsOpen).toBe(false)
   })
 
   it('should set isSettingsOpen to false when closeSettings is called', () => {
     const { result } = renderHook(() => useHeader())
-    act(() => { result.current.toggleSettings() })
+    act(() => {
+      result.current.toggleSettings()
+    })
     expect(result.current.isSettingsOpen).toBe(true)
-    act(() => { result.current.closeSettings() })
+    act(() => {
+      result.current.closeSettings()
+    })
     expect(result.current.isSettingsOpen).toBe(false)
   })
 
   it('should close settings when profile is toggled', () => {
     const { result } = renderHook(() => useHeader())
-    act(() => { result.current.toggleSettings() })
+    act(() => {
+      result.current.toggleSettings()
+    })
     expect(result.current.isSettingsOpen).toBe(true)
-    act(() => { result.current.toggleProfile() })
+    act(() => {
+      result.current.toggleProfile()
+    })
     expect(result.current.isSettingsOpen).toBe(false)
     expect(result.current.isProfileOpen).toBe(true)
   })
 
   it('should close profile when settings is toggled', () => {
     const { result } = renderHook(() => useHeader())
-    act(() => { result.current.toggleProfile() })
+    act(() => {
+      result.current.toggleProfile()
+    })
     expect(result.current.isProfileOpen).toBe(true)
-    act(() => { result.current.toggleSettings() })
+    act(() => {
+      result.current.toggleSettings()
+    })
     expect(result.current.isProfileOpen).toBe(false)
     expect(result.current.isSettingsOpen).toBe(true)
   })
@@ -202,7 +218,9 @@ describe('useHeader', () => {
     navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
     const { result } = renderHook(() => useHeader())
     await expect(async () => {
-      act(() => { result.current.logout() })
+      act(() => {
+        result.current.logout()
+      })
     }).not.toThrow()
   })
 })

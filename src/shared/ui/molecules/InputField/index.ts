@@ -1,2 +1,6 @@
 export { InputField } from './InputField'
-export type { InputFieldProps, TypeInput, variantInput } from './InputField.types'
+export type {
+  InputFieldProps,
+  TypeInput,
+  variantInput,
+} from './InputField.types'

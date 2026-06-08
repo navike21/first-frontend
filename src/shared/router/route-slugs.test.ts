@@ -42,7 +42,9 @@ describe('translatePath', () => {
   })
 
   it('translates to de', () => {
-    expect(translatePath('/es/usuarios', 'de')).toBe(`/de/${ROUTE_SLUGS.users.de}`)
+    expect(translatePath('/es/usuarios', 'de')).toBe(
+      `/de/${ROUTE_SLUGS.users.de}`
+    )
   })
 
   it('handles path with only a lang prefix', () => {

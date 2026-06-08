@@ -5,11 +5,13 @@ export const ja: UserGroupsTranslations = {
     listTitle: 'ユーザーグループ',
     listDescription: 'グループと権限を管理する',
     createTitle: '新しいグループ',
-    createDescription: '新しいユーザーグループを作成するフィールドを入力してください',
+    createDescription:
+      '新しいユーザーグループを作成するフィールドを入力してください',
     editTitle: 'グループを編集',
     editDescription: (name) => `グループ「${name}」を編集`,
     trashTitle: 'ゴミ箱 – グループ',
-    trashDescription: 'ゴミ箱に移動されたグループです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたグループです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にグループはありません',
     trashEmptyDescription: '削除されたグループはここに表示されます。',
   },
@@ -56,9 +58,11 @@ export const ja: UserGroupsTranslations = {
     restoreGroup: '復元',
     purgeGroup: '完全削除',
     restoreTitle: 'グループを復元',
-    restoreDescription: (name) => `グループ「${name}」をアクティブリストに復元しますか？`,
+    restoreDescription: (name) =>
+      `グループ「${name}」をアクティブリストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `グループ「${name}」を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `グループ「${name}」を完全削除します。この操作は元に戻せません。`,
     confirmRestore: '復元',
     purgeWarning: 'この操作は元に戻せません。',
     confirmPurge: '完全削除',
@@ -76,7 +80,8 @@ export const ja: UserGroupsTranslations = {
     descriptionLabel: '説明',
     permissionsLabel: '権限',
     noPermissions: '権限が割り当てられていません',
-    superadminNotice: 'このグループはシステムへの完全なアクセス権を持っています（全権限）',
+    superadminNotice:
+      'このグループはシステムへの完全なアクセス権を持っています（全権限）',
     actionAll: '全て',
     createdAt: '作成日',
     updatedAt: '更新日',

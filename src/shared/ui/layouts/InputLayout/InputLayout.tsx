@@ -54,7 +54,7 @@ export const InputLayout = ({
           'content-input',
           'flex h-10 w-full items-center',
           'rounded-sm',
-          'transition-all duration-fast ease-out-expo',
+          'duration-fast ease-out-expo transition-all',
           'focus-within:ring-2',
           {
             'bg-slate-400/50 dark:bg-slate-600/50': disabled,

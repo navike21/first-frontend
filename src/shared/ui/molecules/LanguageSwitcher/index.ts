@@ -1,1 +1,4 @@
-export { LanguageSwitcher, type LanguageSwitcherProps } from './LanguageSwitcher'
+export {
+  LanguageSwitcher,
+  type LanguageSwitcherProps,
+} from './LanguageSwitcher'

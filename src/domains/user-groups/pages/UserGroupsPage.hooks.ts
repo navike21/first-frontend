@@ -9,12 +9,18 @@ import { navPaths } from '@/shared/router'
 export function useUserGroupsPage() {
   const navigate = useNavigate()
   const { t, language } = useUserGroupsTranslation()
-  const [params, setParams] = useState<UserGroupListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<UserGroupListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [search, setSearch] = useState('')
   const [viewingGroup, setViewingGroup] = useState<UserGroup | null>(null)
   const [deletingGroup, setDeletingGroup] = useState<UserGroup | null>(null)
 
-  const { data, isLoading } = useUserGroups({ ...params, search: search || undefined })
+  const { data, isLoading } = useUserGroups({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteUserGroup()
 
   const handleView = (group: UserGroup) => setViewingGroup(group)

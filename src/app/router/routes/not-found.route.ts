@@ -13,4 +13,5 @@ function createNotFoundRoute(lang: Language) {
   })
 }
 
-export const allNotFoundRouteTrees = SUPPORTED_LANGUAGES.map(createNotFoundRoute)
+export const allNotFoundRouteTrees =
+  SUPPORTED_LANGUAGES.map(createNotFoundRoute)

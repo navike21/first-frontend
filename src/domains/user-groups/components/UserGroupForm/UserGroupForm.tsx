@@ -1,4 +1,7 @@
-import type { CreateUserGroupFormData, UpdateUserGroupFormData } from '../../model/userGroup.schema'
+import type {
+  CreateUserGroupFormData,
+  UpdateUserGroupFormData,
+} from '../../model/userGroup.schema'
 import type { UserGroup } from '../../model/userGroup.types'
 import { CreateUserGroupForm } from './CreateUserGroupForm'
 import { EditUserGroupForm } from './EditUserGroupForm'

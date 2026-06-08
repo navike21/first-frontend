@@ -1,13 +1,19 @@
 import { request } from '@/shared/api'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
 import type { User, UserListParams, UserMetadata } from '../model/user.types'
-import type { CreateUserFormData, UpdateUserFormData } from '../model/user.schema'
+import type {
+  CreateUserFormData,
+  UpdateUserFormData,
+} from '../model/user.schema'
 
 const BASE = '/users'
 
 export const usersApi = {
   metadata: () =>
-    request<ApiResponse<UserMetadata>>({ api: `${BASE}/metadata`, method: 'GET' }),
+    request<ApiResponse<UserMetadata>>({
+      api: `${BASE}/metadata`,
+      method: 'GET',
+    }),
 
   list: (params: UserListParams = {}) => {
     const query = new URLSearchParams()
@@ -23,16 +29,18 @@ export const usersApi = {
     })
   },
 
-  getById: (id: string) => request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
+  getById: (id: string) =>
+    request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
   create: (body: CreateUserFormData) =>
-    request<ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>, CreateUserFormData>(
-      {
-        api: BASE,
-        method: 'POST',
-        body,
-      },
-    ),
+    request<
+      ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>,
+      CreateUserFormData
+    >({
+      api: BASE,
+      method: 'POST',
+      body,
+    }),
 
   update: (id: string, body: UpdateUserFormData) =>
     request<ApiResponse<User>, UpdateUserFormData>({
@@ -59,27 +67,42 @@ export const usersApi = {
   },
 
   restore: (id: string) =>
-    request<ApiResponse<User>>({ api: `${BASE}/${id}/restore`, method: 'PATCH' }),
+    request<ApiResponse<User>>({
+      api: `${BASE}/${id}/restore`,
+      method: 'PATCH',
+    }),
 
   purge: (id: string) =>
-    request<ApiResponse<User>>({ api: `${BASE}/${id}/permanent`, method: 'DELETE' }),
+    request<ApiResponse<User>>({
+      api: `${BASE}/${id}/permanent`,
+      method: 'DELETE',
+    }),
 
   bulkSoftDelete: (ids: string[]) =>
-    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+    request<
+      ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>,
+      { ids: string[] }
+    >({
       api: `${BASE}/bulk`,
       method: 'DELETE',
       body: { ids },
     }),
 
   bulkRestore: (ids: string[]) =>
-    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+    request<
+      ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>,
+      { ids: string[] }
+    >({
       api: `${BASE}/bulk/restore`,
       method: 'PATCH',
       body: { ids },
     }),
 
   bulkPurge: (ids: string[]) =>
-    request<ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>, { ids: string[] }>({
+    request<
+      ApiResponse<{ processedIds: string[]; notFoundIds: string[] }>,
+      { ids: string[] }
+    >({
       api: `${BASE}/bulk/permanent`,
       method: 'DELETE',
       body: { ids },

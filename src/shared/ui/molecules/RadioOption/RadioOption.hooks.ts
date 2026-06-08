@@ -12,6 +12,6 @@ export const useRadioOption = (
   return {
     idField,
     resolvedRef,
-    inputProps: props
+    inputProps: props,
   }
 }

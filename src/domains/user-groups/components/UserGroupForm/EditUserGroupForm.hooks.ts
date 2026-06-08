@@ -21,7 +21,10 @@ export function useEditUserGroupForm({
   onUpdate,
 }: UseEditUserGroupFormProps) {
   const { t } = useUserGroupsTranslation()
-  const schema = useMemo(() => createUpdateUserGroupSchema(t.validation), [t.validation])
+  const schema = useMemo(
+    () => createUpdateUserGroupSchema(t.validation),
+    [t.validation]
+  )
   const { data: catalog = [] } = usePermissionsCatalog()
 
   const {
@@ -42,9 +45,11 @@ export function useEditUserGroupForm({
     },
   })
 
-  const permissionsValue = useWatch({ control, name: 'permissions' }) ?? defaultValues.permissions
+  const permissionsValue =
+    useWatch({ control, name: 'permissions' }) ?? defaultValues.permissions
   const colorValue = useWatch({ control, name: 'color' }) ?? defaultValues.color
-  const statusValue = useWatch({ control, name: 'status' }) ?? defaultValues.status
+  const statusValue =
+    useWatch({ control, name: 'status' }) ?? defaultValues.status
   const busy = isSubmitting
   const isSystem = defaultValues.isSystem
 

@@ -126,11 +126,14 @@ export const ROUTE_SLUGS = {
 export type RouteModule = keyof typeof ROUTE_SLUGS
 
 // Reverse lookup: any slug (across all languages) -> module key
-export const SLUG_TO_MODULE: Readonly<Record<string, RouteModule>> = Object.fromEntries(
-  (Object.entries(ROUTE_SLUGS) as [RouteModule, Record<Language, string>][]).flatMap(
-    ([module, langs]) => Object.values(langs).map((slug) => [slug, module]),
-  ),
-)
+export const SLUG_TO_MODULE: Readonly<Record<string, RouteModule>> =
+  Object.fromEntries(
+    (
+      Object.entries(ROUTE_SLUGS) as [RouteModule, Record<Language, string>][]
+    ).flatMap(([module, langs]) =>
+      Object.values(langs).map((slug) => [slug, module])
+    )
+  )
 
 export function translatePath(path: string, newLang: Language): string {
   const segments = path.split('/').filter(Boolean)

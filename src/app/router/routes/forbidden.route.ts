@@ -13,4 +13,5 @@ function createForbiddenRoute(lang: Language) {
   })
 }
 
-export const allForbiddenRouteTrees = SUPPORTED_LANGUAGES.map(createForbiddenRoute)
+export const allForbiddenRouteTrees =
+  SUPPORTED_LANGUAGES.map(createForbiddenRoute)

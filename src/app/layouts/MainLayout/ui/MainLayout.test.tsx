@@ -29,7 +29,9 @@ vi.mock('@/shared/ui', async (importOriginal) => {
     ...actual,
     Breadcrumbs: ({ items }: { items: { label: string }[] }) => (
       <nav data-testid="breadcrumbs" aria-label="breadcrumb">
-        {items.map((i) => <span key={i.label}>{i.label}</span>)}
+        {items.map((i) => (
+          <span key={i.label}>{i.label}</span>
+        ))}
       </nav>
     ),
   }

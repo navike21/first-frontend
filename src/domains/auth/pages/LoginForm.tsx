@@ -3,10 +3,15 @@ import { Button, InputField, HelperText } from '@/shared/ui'
 import { useLoginForm } from './LoginForm.hooks'
 
 export const LoginForm = () => {
-  const { t, register, onSubmit, errors, isPending, errorMessage } = useLoginForm()
+  const { t, register, onSubmit, errors, isPending, errorMessage } =
+    useLoginForm()
 
   return (
-    <form className={clsx('mt-4 flex w-full max-w-96 flex-col gap-4')} onSubmit={onSubmit} noValidate>
+    <form
+      className={clsx('mt-4 flex w-full max-w-96 flex-col gap-4')}
+      onSubmit={onSubmit}
+      noValidate
+    >
       <InputField
         label={t.form.email}
         type="email"
@@ -24,7 +29,13 @@ export const LoginForm = () => {
         {...register('password')}
       />
       {errorMessage && <HelperText variant="error">{errorMessage}</HelperText>}
-      <Button fullWidth variant="primary" className="mt-4" type="submit" loading={isPending}>
+      <Button
+        fullWidth
+        variant="primary"
+        className="mt-4"
+        type="submit"
+        loading={isPending}
+      >
         {t.form.submit}
       </Button>
     </form>

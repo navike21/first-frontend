@@ -14,10 +14,17 @@ export interface UseCreateUserFormProps {
   onCreate: (data: CreateUserFormData) => void
 }
 
-export function useCreateUserForm({ isSubmitting, onCancel, onCreate }: UseCreateUserFormProps) {
+export function useCreateUserForm({
+  isSubmitting,
+  onCancel,
+  onCreate,
+}: UseCreateUserFormProps) {
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
-  const schema = useMemo(() => createCreateUserSchema(t.validation), [t.validation])
+  const schema = useMemo(
+    () => createCreateUserSchema(t.validation),
+    [t.validation]
+  )
   const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
 
   useEffect(() => {

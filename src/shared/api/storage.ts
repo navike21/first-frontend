@@ -22,9 +22,10 @@ export async function uploadFile(
   file: File,
   entityType: string,
   entityId: string,
-  quality = 80,
+  quality = 80
 ): Promise<StorageFile> {
-  const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
+  const baseUrl =
+    (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
   const token = useSessionStore.getState().token
 
   const form = new FormData()

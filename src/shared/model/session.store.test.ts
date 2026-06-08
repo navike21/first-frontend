@@ -1,6 +1,11 @@
 import { renderHook } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useSessionStore, TOKEN_KEY, isTokenStored, useIsAuthenticated } from './session.store'
+import {
+  useSessionStore,
+  TOKEN_KEY,
+  isTokenStored,
+  useIsAuthenticated,
+} from './session.store'
 import type { AuthUser } from '@/shared/types'
 
 const mockStorage = (() => {
@@ -173,7 +178,11 @@ describe('useSessionStore', () => {
 
   describe('useIsAuthenticated', () => {
     it('returns false when not authenticated', () => {
-      useSessionStore.setState({ isAuthenticated: false, token: null, user: null })
+      useSessionStore.setState({
+        isAuthenticated: false,
+        token: null,
+        user: null,
+      })
       const { result } = renderHook(() => useIsAuthenticated())
       expect(result.current).toBe(false)
     })

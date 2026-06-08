@@ -13,8 +13,19 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 
 vi.mock('../model/menu.config', () => ({
   getMenuConfig: () => [
-    { id: 'dashboard', label: 'Dashboard', icon: 'RiDashboard2Line', href: '/es', exact: true },
-    { id: 'users', label: 'Usuarios', icon: 'RiGroupLine', href: '/es/usuarios' },
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: 'RiDashboard2Line',
+      href: '/es',
+      exact: true,
+    },
+    {
+      id: 'users',
+      label: 'Usuarios',
+      icon: 'RiGroupLine',
+      href: '/es/usuarios',
+    },
   ],
 }))
 

@@ -99,7 +99,9 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               )}
             </div>
 
-            <p className="text-sm font-medium text-(--text-secondary)">{t.form.addressSection}</p>
+            <p className="text-sm font-medium text-(--text-secondary)">
+              {t.form.addressSection}
+            </p>
             <InputField
               label={t.form.addressStreet}
               placeholder={t.form.addressStreetPlaceholder}
@@ -129,7 +131,12 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             </div>
 
             <div className="flex justify-end gap-3 pt-2">
-              <Button variant="secondary" type="button" disabled={busy} onClick={handleCancel}>
+              <Button
+                variant="secondary"
+                type="button"
+                disabled={busy}
+                onClick={handleCancel}
+              >
                 {t.form.cancelButton}
               </Button>
               <Button variant="primary" type="submit" loading={busy}>

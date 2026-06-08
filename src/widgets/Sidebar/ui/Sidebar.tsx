@@ -53,9 +53,12 @@ export const Sidebar = () => {
                   className={clsx(
                     'mb-2 hidden items-center justify-center p-3 md:flex',
                     'rounded-lg',
-                    'transition-colors duration-fast ease-out-expo',
-                    !isItemActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
-                    isItemActive ? 'bg-(--color-primary-950)/40 text-white' : 'text-(--text-secondary)',
+                    'duration-fast ease-out-expo transition-colors',
+                    !isItemActive &&
+                      'hover:bg-(--color-primary-950)/20 hover:text-white',
+                    isItemActive
+                      ? 'bg-(--color-primary-950)/40 text-white'
+                      : 'text-(--text-secondary)'
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -74,7 +77,9 @@ export const Sidebar = () => {
                       icon={item.icon}
                       className={clsx(
                         'h-5 w-5',
-                        isItemActive ? 'text-(--color-primary-300)' : 'text-(--text-secondary)'
+                        isItemActive
+                          ? 'text-(--color-primary-300)'
+                          : 'text-(--text-secondary)'
                       )}
                     />
                   }
@@ -84,7 +89,8 @@ export const Sidebar = () => {
                   <div className="ml-5 space-y-1 border-l border-(--border) pl-4">
                     {item.children.map((child) => {
                       const isChildActive =
-                        pathname === child.href || pathname.startsWith(child.href + '/')
+                        pathname === child.href ||
+                        pathname.startsWith(child.href + '/')
                       return (
                         <Link
                           key={child.id}
@@ -94,10 +100,11 @@ export const Sidebar = () => {
                             'block px-2 py-1.5',
                             'rounded-md text-sm font-medium',
                             'transition-colors',
-                            !isChildActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
+                            !isChildActive &&
+                              'hover:bg-(--color-primary-950)/20 hover:text-white',
                             isChildActive
                               ? 'bg-(--color-primary-950)/30 font-semibold text-white'
-                              : 'text-(--text-secondary)',
+                              : 'text-(--text-secondary)'
                           )}
                         >
                           {child.label}

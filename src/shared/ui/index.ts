@@ -63,7 +63,10 @@ export {
 } from './molecules/Select'
 export { Modal, type ModalProps, type ModalSize } from './molecules/Modal'
 export { PhotoPicker, type PhotoPickerProps } from './molecules/PhotoPicker'
-export { LanguageSwitcher, type LanguageSwitcherProps } from './molecules/LanguageSwitcher'
+export {
+  LanguageSwitcher,
+  type LanguageSwitcherProps,
+} from './molecules/LanguageSwitcher'
 export {
   PageHeader,
   type PageHeaderProps,
