@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type ButtonProps } from '@/shared/types/buttonProps'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
-import { variantColorClasses, variantHoverClasses, type ButtonVariant } from './buttonVariants'
+import { variantColorClasses, variantHoverClasses, type ButtonVariant } from '@/shared/types/buttonVariants'
 
 type LoadingVariant = Record<ButtonVariant, NonNullable<SpinnerProps['variant']>>
 

@@ -5,12 +5,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { LoginForm } from './LoginForm'
 
 const { loginMock } = vi.hoisted(() => ({ loginMock: vi.fn() }))
+const errorMessageRef = { value: null as string | null }
 
 vi.mock('../model/useLogin', () => ({
   useLogin: () => ({
     login: loginMock,
     isPending: false,
-    errorMessage: null,
+    errorMessage: errorMessageRef.value,
   }),
 }))
 
@@ -26,6 +27,7 @@ function wrapper({ children }: { children: React.ReactNode }) {
 describe('LoginForm component', () => {
   beforeEach(() => {
     vi.resetAllMocks()
+    errorMessageRef.value = null
   })
 
   it('should render email and password fields', () => {
@@ -106,5 +108,14 @@ describe('LoginForm component', () => {
     const form = container.querySelector('form')
     // Assert
     expect(form).toHaveClass('flex', 'flex-col')
+  })
+
+  it('should display errorMessage when login fails', () => {
+    // Arrange — covers line 26: {errorMessage && <HelperText variant="error">}
+    errorMessageRef.value = 'Credenciales incorrectas'
+    // Act
+    render(<LoginForm />, { wrapper })
+    // Assert
+    expect(screen.getByText('Credenciales incorrectas')).toBeInTheDocument()
   })
 })

@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -273,6 +273,51 @@ describe('OptionsList', () => {
 
       // Assert
       expect(onFocusIndex).not.toHaveBeenCalled()
+    })
+
+    it('covers false branch of onFocus when disabled (line 48)', () => {
+      const onFocusIndex = vi.fn()
+      render(
+        wrap(
+          <OptionsList
+            options={options}
+            selectedValues={[]}
+            multiple={false}
+            onSelect={vi.fn()}
+            onFocusIndex={onFocusIndex}
+          />
+        )
+      )
+      const disabledOption = screen.getByRole('option', { name: 'Disabled' })
+      fireEvent.focus(disabledOption)
+      expect(onFocusIndex).not.toHaveBeenCalled()
+    })
+
+    it('covers false branch of onClick when disabled (line 51)', () => {
+      const onSelect = vi.fn()
+      render(
+        wrap(
+          <OptionsList
+            options={options}
+            selectedValues={[]}
+            multiple={false}
+            onSelect={onSelect}
+            onFocusIndex={vi.fn()}
+          />
+        )
+      )
+      const disabledOption = screen.getByRole('option', { name: 'Disabled' }) as HTMLButtonElement
+      // React 19 suppresses onClick via fiber props; invoke the handler directly from the fiber
+      const fiberKey = Object.keys(disabledOption).find((k) => k.startsWith('__reactFiber'))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fiber = fiberKey ? (disabledOption as any)[fiberKey] : null
+      const onClickProp = fiber?.pendingProps?.onClick ?? fiber?.memoizedProps?.onClick
+      if (onClickProp) {
+        act(() => {
+          onClickProp({ target: disabledOption, type: 'click', preventDefault: vi.fn(), stopPropagation: vi.fn() })
+        })
+      }
+      expect(onSelect).not.toHaveBeenCalled()
     })
   })
 

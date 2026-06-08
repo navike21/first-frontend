@@ -19,7 +19,19 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
   return {
     ...actual,
     Outlet: () => <main data-testid="outlet" />,
-    useRouterState: () => ({ location: { pathname: '/' } }),
+    useRouterState: () => ({ location: { pathname: '/es/usuarios' } }),
+  }
+})
+
+vi.mock('@/shared/ui', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/shared/ui')>()
+  return {
+    ...actual,
+    Breadcrumbs: ({ items }: { items: { label: string }[] }) => (
+      <nav data-testid="breadcrumbs" aria-label="breadcrumb">
+        {items.map((i) => <span key={i.label}>{i.label}</span>)}
+      </nav>
+    ),
   }
 })
 
@@ -54,5 +66,12 @@ describe('MainLayout component', () => {
     render(<MainLayout />)
     // Assert
     expect(screen.getByTestId('outlet')).toBeInTheDocument()
+  })
+
+  it('should render Breadcrumbs when path has more than one segment', () => {
+    // Arrange — router mock returns /es/usuarios which has 2 segments → showBreadcrumbs=true
+    render(<MainLayout />)
+    // Assert
+    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 })

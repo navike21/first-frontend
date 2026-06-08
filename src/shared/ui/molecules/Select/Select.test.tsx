@@ -472,6 +472,15 @@ describe('Select', () => {
       expect(screen.getByRole('listbox')).toBeInTheDocument()
     })
 
+    it('should do nothing when a non-navigation key is pressed while dropdown is closed (line 271 false branch)', async () => {
+      const user = userEvent.setup()
+      render(<Select options={options} />)
+      screen.getByRole('combobox').focus()
+      // Act — pressing 'a' when closed does not open dropdown
+      await user.keyboard('a')
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    })
+
     it('should not close dropdown when pointerdown fires inside the container', async () => {
       const user = userEvent.setup()
       render(<Select options={options} />)
@@ -621,6 +630,37 @@ describe('Select', () => {
       await user.type(screen.getByLabelText('Buscar pais'), 'zzz')
       expect(screen.getByText('Pais no encontrado')).toBeInTheDocument()
     })
+  })
+})
+
+describe('optional prop spread (branch coverage)', () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+  })
+
+  it('should accept id prop (covers id !== undefined true branch)', () => {
+    render(<Select options={options} id="my-select" />)
+    expect(document.querySelector('select')).toHaveAttribute('id', 'my-select')
+  })
+
+  it('should accept classInput prop (covers classInput !== undefined true branch)', () => {
+    const { container } = render(<Select options={options} classInput="custom-input" />)
+    expect(container.firstChild).toBeInTheDocument()
+  })
+
+  it('should show variant icon when variant is success (covers variantIconDef !== undefined true branch)', () => {
+    render(<Select options={options} variant="success" />)
+    expect(screen.getByTestId('icon-RiCheckboxCircleFill')).toBeInTheDocument()
+  })
+
+  it('should render errorMessage when provided (covers errorMessage !== undefined true branch)', () => {
+    render(<Select options={options} variant="error" errorMessage="Error occurred" />)
+    expect(screen.getByText('Error occurred')).toBeInTheDocument()
+  })
+
+  it('should render helperText when provided (covers helperText !== undefined true branch)', () => {
+    render(<Select options={options} helperText="Helper text" />)
+    expect(screen.getByText('Helper text')).toBeInTheDocument()
   })
 })
 

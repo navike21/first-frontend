@@ -47,7 +47,7 @@ describe('HelperText', () => {
     render(<HelperText>Test</HelperText>)
     // Assert
     const element = screen.getByText('Test')
-    expect(element).toHaveClass('text-slate-500')
+    expect(element).toHaveClass('text-(--text-secondary)')
   })
 
   it('should not apply default variant color when className has text color', () => {
@@ -56,7 +56,7 @@ describe('HelperText', () => {
     // Assert
     const element = screen.getByText('Test')
     expect(element).toHaveClass('text-blue-500')
-    expect(element).not.toHaveClass('text-slate-500')
+    expect(element).not.toHaveClass('text-(--text-secondary)')
   })
 
   it('should apply error variant classes and accessibility attributes', () => {
@@ -256,26 +256,26 @@ describe('HelperText', () => {
   it('applies custom className without overriding text colors', () => {
     render(<HelperText className="bg-white font-bold">Test</HelperText>)
     const element = screen.getByText('Test')
-    expect(element).toHaveClass('font-bold', 'bg-white', 'text-slate-500')
+    expect(element).toHaveClass('font-bold', 'bg-white', 'text-(--text-secondary)')
   })
 
   it('handles classes that start with text- but are not colors', () => {
     render(<HelperText className="texture-bg">Test</HelperText>)
     const element = screen.getByText('Test')
-    expect(element).toHaveClass('texture-bg', 'text-slate-500')
+    expect(element).toHaveClass('texture-bg', 'text-(--text-secondary)')
   })
 
   it('handles empty className string', () => {
     render(<HelperText className="">Test</HelperText>)
     const element = screen.getByText('Test')
-    expect(element).toHaveClass('text-slate-500')
+    expect(element).toHaveClass('text-(--text-secondary)')
   })
 
   it('handles className with multiple spaces', () => {
     render(<HelperText className="bg-white text-blue-500">Test</HelperText>)
     const element = screen.getByText('Test')
     expect(element).toHaveClass('text-blue-500', 'bg-white')
-    expect(element).not.toHaveClass('text-slate-500')
+    expect(element).not.toHaveClass('text-(--text-secondary)')
   })
 
   it('spreads additional props to the div element', () => {

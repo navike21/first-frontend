@@ -142,4 +142,13 @@ describe('NotFoundPage component', () => {
     render(<NotFoundPage />)
     expect(screen.queryByRole('button', { name: /página anterior/i })).not.toBeInTheDocument()
   })
+
+  it('catch handler does not throw when navigate rejects on home', async () => {
+    navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
+    const user = userEvent.setup()
+    render(<NotFoundPage />)
+    await expect(
+      user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
+    ).resolves.not.toThrow()
+  })
 })

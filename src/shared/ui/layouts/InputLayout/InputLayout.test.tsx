@@ -175,7 +175,7 @@ describe('InputLayout', () => {
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
-    expect(inputContainer).toHaveClass('ring-slate-300')
+    expect(inputContainer).toHaveClass('ring-(--border)')
   })
 
   it('should render with variant success', () => {
@@ -302,6 +302,6 @@ describe('InputLayout', () => {
 
     const inputContainer = screen.getByRole('textbox').parentElement
     expect(inputContainer).toHaveClass('ring-1')
-    expect(inputContainer).toHaveClass('ring-slate-300')
+    expect(inputContainer).toHaveClass('ring-(--border)')
   })
 })

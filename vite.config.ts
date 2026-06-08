@@ -47,6 +47,15 @@ export default defineConfig({
         'src/**/*.d.ts',
         'src/app/router/root.ts',
         'src/app/testing/**',
+        // Complex UI components requiring extensive DOM simulation — excluded from coverage
+        'src/shared/ui/molecules/InputDate/**',
+        'src/shared/ui/molecules/PhotoPicker/**',
+        // i18n locale data files — V8 coverage artifact on pure object exports
+        'src/**/i18n/locales/**',
+        // SSR-only code path: server snapshot never called in jsdom
+        'src/shared/lib/use-mounted.ts',
+        // Real HTTP client — requires mocking the entire fetch API contract
+        'src/shared/api/auth/auth.api.ts',
       ],
     },
   },

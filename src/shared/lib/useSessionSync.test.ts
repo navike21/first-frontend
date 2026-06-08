@@ -102,4 +102,41 @@ describe('useSessionSync', () => {
     expect(clearSessionMock).not.toHaveBeenCalled()
     expect(navigateMock).not.toHaveBeenCalled()
   })
+
+  it('catch handler does not throw when navigate rejects on token clear', () => {
+    navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
+    renderHook(() => useSessionSync())
+    const event = new StorageEvent('storage', {
+      key: TOKEN_KEY,
+      oldValue: makePersistedBlob('tok-abc'),
+      newValue: makePersistedBlob(null),
+    })
+    expect(() => globalThis.dispatchEvent(event)).not.toThrow()
+  })
+
+  it('catch handler does not throw when navigate rejects on token set', () => {
+    navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
+    renderHook(() => useSessionSync())
+    const event = new StorageEvent('storage', {
+      key: TOKEN_KEY,
+      oldValue: makePersistedBlob(null),
+      newValue: makePersistedBlob('tok-new'),
+    })
+    expect(() => globalThis.dispatchEvent(event)).not.toThrow()
+  })
+
+  it('should not navigate when oldValue contains malformed JSON', () => {
+    // Arrange — triggers the catch block in parseStoredToken
+    renderHook(() => useSessionSync())
+    const event = new StorageEvent('storage', {
+      key: TOKEN_KEY,
+      oldValue: 'not-valid-json',
+      newValue: null,
+    })
+    // Act
+    globalThis.dispatchEvent(event)
+    // Assert — prevToken = null (catch), nextToken = null → no action
+    expect(clearSessionMock).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
+  })
 })

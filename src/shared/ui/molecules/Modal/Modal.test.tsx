@@ -136,6 +136,19 @@ describe('Modal component', () => {
     expect(onClose).not.toHaveBeenCalled()
   })
 
+  it('should not call onClose when a non-Escape key is pressed while open', async () => {
+    // Covers the false branch of `if (e.key === 'Escape')` at line 28
+    const user = userEvent.setup()
+    const onClose = vi.fn()
+    render(
+      <Modal isOpen={true} onClose={onClose}>
+        Content
+      </Modal>,
+    )
+    await user.keyboard('{Enter}')
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
   it('should apply pointer-events-none when closed', () => {
     const { container } = render(
       <Modal isOpen={false} onClose={vi.fn()}>

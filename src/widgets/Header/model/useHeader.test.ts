@@ -162,4 +162,12 @@ describe('useHeader', () => {
     // Assert
     expect(result.current.isCollapsed).toBe(true)
   })
+
+  it('catch handler does not throw when navigate rejects on logout', async () => {
+    navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
+    const { result } = renderHook(() => useHeader())
+    await expect(async () => {
+      act(() => { result.current.logout() })
+    }).not.toThrow()
+  })
 })

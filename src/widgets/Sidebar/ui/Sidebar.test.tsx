@@ -11,12 +11,14 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
       to,
       className,
       children,
+      onClick,
     }: {
       to: string
       className?: string
       children: React.ReactNode
+      onClick?: () => void
     }) => (
-      <a href={to} className={className}>
+      <a href={to} className={className} onClick={onClick}>
         {children}
       </a>
     ),
@@ -138,4 +140,5 @@ describe('Sidebar component', () => {
     // Assert
     expect(screen.getByTestId('drawer')).toHaveAttribute('data-open', 'true')
   })
+
 })

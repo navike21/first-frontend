@@ -173,4 +173,43 @@ describe('Drawer component', () => {
     // Assert
     expect(onClose).not.toHaveBeenCalled()
   })
+
+  it('should not call onClose when a non-Escape key is pressed while open', async () => {
+    // Arrange — covers the false branch of `if (e.key === 'Escape')`
+    const user = userEvent.setup()
+    const onClose = vi.fn()
+    render(
+      <Drawer isOpen={true} onClose={onClose}>
+        Content
+      </Drawer>
+    )
+    // Act
+    await user.keyboard('{Enter}')
+    // Assert
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('should apply md:hidden to backdrop when isMobileOnly is true', () => {
+    // Arrange & Act — covers isMobileOnly branch at line 56
+    const { container } = render(
+      <Drawer isOpen={true} onClose={vi.fn()} isMobileOnly>
+        Content
+      </Drawer>
+    )
+    // Assert
+    const backdrop = container.querySelector('[aria-hidden="true"]')
+    expect(backdrop).toHaveClass('md:hidden')
+  })
+
+  it('should apply md:hidden to title div when isMobileOnly is true', () => {
+    // Arrange & Act — covers isMobileOnly branch at line 76
+    const { container } = render(
+      <Drawer isOpen={true} onClose={vi.fn()} isMobileOnly title="Mobile Title">
+        Content
+      </Drawer>
+    )
+    // Assert — the title header div should have md:hidden
+    const titleDiv = container.querySelector('aside > div')
+    expect(titleDiv).toHaveClass('md:hidden')
+  })
 })

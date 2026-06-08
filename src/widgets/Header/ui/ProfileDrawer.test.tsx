@@ -63,6 +63,8 @@ vi.mock('@/shared/ui', () => ({
   NavItem: ({ label }: { label: string }) => (
     <div data-testid="nav-item">{label}</div>
   ),
+  ThemeToggle: () => <div data-testid="theme-toggle" />,
+  ColorPicker: () => <div data-testid="color-picker" />,
 }))
 
 const mockUser: AuthUser = makeAuthUser()

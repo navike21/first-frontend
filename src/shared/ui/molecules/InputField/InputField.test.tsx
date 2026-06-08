@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 
 import { InputField } from './InputField'
@@ -35,7 +36,7 @@ vi.mock('@Components/atoms/Label/Label', () => ({
   }) => (
     <label
       htmlFor={htmlFor}
-      className={`text-sm font-semibold transition-all duration-fast ease-out-expo ${disabled ? 'cursor-not-allowed text-slate-500' : 'text-slate-900'} ${className || ''}`}
+      className={`text-sm font-semibold transition-all duration-fast ease-out-expo ${disabled ? 'cursor-not-allowed text-(--text-secondary)' : 'text-(--text-primary)'} ${className || ''}`}
     >
       {children}
     </label>
@@ -257,7 +258,7 @@ describe('InputField', () => {
     )
     // Assert
     const label = screen.getByText('Disabled Label')
-    expect(label).toHaveClass('text-slate-500', 'cursor-not-allowed')
+    expect(label).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
   })
 
   it('should apply correct classes for enabled label', () => {
@@ -265,7 +266,7 @@ describe('InputField', () => {
     render(<InputField label="Enabled Label" placeholder="Enter text" />)
     // Assert
     const label = screen.getByText('Enabled Label')
-    expect(label).toHaveClass('text-slate-900')
+    expect(label).toHaveClass('text-(--text-primary)')
   })
 
   it('should handle class slot for different types and positions', () => {
@@ -329,7 +330,7 @@ describe('InputField', () => {
     // Assert
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).not.toBeDisabled()
-    expect(toggleButton).toHaveClass('hover:bg-slate-200/50', 'cursor-pointer')
+    expect(toggleButton).toHaveClass('hover:bg-(--surface-subtle)', 'cursor-pointer')
   })
 
   it('should apply correct classes to toggle button when disabled', () => {
@@ -401,7 +402,7 @@ describe('InputField', () => {
     render(<InputField disabled placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('text-slate-500', 'cursor-not-allowed')
+    expect(input).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
   })
 
   it('should apply loading classes to input', () => {
@@ -423,5 +424,18 @@ describe('InputField', () => {
     )
     // Assert
     expect(screen.getByText('Error occurred')).toBeInTheDocument()
+  })
+
+  it('should toggle password visibility and cover both icon branches', async () => {
+    const user = userEvent.setup()
+    render(<InputField type="password" placeholder="Enter password" />)
+    const input = screen.getByPlaceholderText('Enter password')
+    expect(input).toHaveAttribute('type', 'password')
+    // Click toggle — showPassword becomes true → 'RiEyeOffFill' branch
+    await user.click(screen.getByRole('button'))
+    expect(input).toHaveAttribute('type', 'text')
+    // Click again — showPassword becomes false → 'RiEyeFill' branch
+    await user.click(screen.getByRole('button'))
+    expect(input).toHaveAttribute('type', 'password')
   })
 })

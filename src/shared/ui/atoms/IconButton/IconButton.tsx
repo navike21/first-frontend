@@ -23,7 +23,7 @@ const loadingVariants: LoadingVariant = {
 }
 
 const variantColorClasses: Record<IconButtonVariant, string> = {
-  primary: 'bg-primary-950 text-white',
+  primary: 'bg-primary-700 text-white',
   secondary: 'text-(--text-primary) bg-(--surface) ring-1 ring-black dark:ring-slate-600 ring-inset',
   text: 'text-(--text-primary) bg-transparent',
   warning: 'bg-amber-500 text-white',
@@ -32,7 +32,7 @@ const variantColorClasses: Record<IconButtonVariant, string> = {
 }
 
 const variantHoverClasses: Record<IconButtonVariant, string> = {
-  primary: 'hover:bg-gray-800',
+  primary: 'hover:bg-primary-800',
   secondary: 'hover:bg-gray-100 dark:hover:bg-slate-800 hover:ring-2',
   text: '',
   warning: 'hover:bg-amber-600',

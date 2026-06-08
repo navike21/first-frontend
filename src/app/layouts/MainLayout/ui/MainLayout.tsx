@@ -12,15 +12,27 @@ export const MainLayout = () => {
   const showBreadcrumbs = breadcrumbs.length > 1
 
   return (
-    <div className={clsx('flex h-screen w-full flex-col', 'bg-(--surface-subtle) text-(--text-primary)')}>
+    <div
+      className={clsx(
+        'flex h-screen w-full flex-col',
+        'bg-(--surface-subtle) text-(--text-primary)'
+      )}
+    >
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
 
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <main className={clsx('flex-1 w-full overflow-y-auto', 'p-4', 'md:p-8')}>
-            <div className={clsx('w-10/12 max-w-7xl mx-auto space-y-6', 'md:w-full')}>
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <main
+            className={clsx('w-full flex-1 overflow-y-auto', 'p-4', 'md:p-8')}
+          >
+            <div
+              className={clsx(
+                'mx-auto w-10/12 max-w-7xl space-y-6',
+                'md:w-full'
+              )}
+            >
               {showBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
               <Outlet />
             </div>

@@ -153,4 +153,29 @@ describe('Breadcrumbs', () => {
     expect(screen.getByText('Inicio').tagName).toBe('SPAN')
     expect(screen.queryByRole('link')).toBeNull()
   })
+
+  it('should render icon in non-last BreadcrumbLink', () => {
+    // Arrange — covers icon branch in BreadcrumbLink (lines 8-16)
+    const items: BreadcrumbItem[] = [
+      { label: 'Inicio', href: '/', icon: 'RiHomeLine' },
+      { label: 'Subsección' },
+    ]
+    // Act
+    render(<Breadcrumbs items={items} />)
+    // Assert
+    expect(screen.getByTestId('icon-RiHomeLine')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Inicio/i })).toBeInTheDocument()
+  })
+
+  it('should use / as href fallback when non-last item has no href', () => {
+    // Arrange — covers href ?? '/' branch in BreadcrumbLink
+    const items: BreadcrumbItem[] = [
+      { label: 'Inicio' },
+      { label: 'Subsección' },
+    ]
+    // Act
+    render(<Breadcrumbs items={items} />)
+    // Assert
+    expect(screen.getByRole('link', { name: /Inicio/i })).toHaveAttribute('href', '/')
+  })
 })

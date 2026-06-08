@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type LinkButtonProps } from '@/shared/types/buttonProps'
-import { variantColorClasses, variantHoverClasses } from '../Button/buttonVariants'
+import { variantColorClasses, variantHoverClasses } from '@/shared/types/buttonVariants'
 import { Link } from '@tanstack/react-router'
 
 export const LinkButton = ({

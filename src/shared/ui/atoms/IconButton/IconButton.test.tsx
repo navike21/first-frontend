@@ -28,7 +28,7 @@ describe('IconButton component', () => {
     render(<IconButton icon="RiHomeLine" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-primary-950', 'text-white')
+    expect(button).toHaveClass('bg-primary-700', 'text-white')
   })
 
   it('should apply secondary variant styles', () => {
@@ -38,7 +38,7 @@ describe('IconButton component', () => {
     )
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-white', 'text-primary-text')
+    expect(button).toHaveClass('bg-(--surface)', 'text-(--text-primary)', 'ring-1', 'ring-black', 'ring-inset')
   })
 
   it('should apply warning variant styles', () => {
@@ -84,7 +84,7 @@ describe('IconButton component', () => {
     render(<IconButton icon="RiHomeLine" variant="text" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-transparent', 'text-primary-text')
+    expect(button).toHaveClass('bg-transparent', 'text-(--text-primary)')
   })
 
   it('should apply square shape (rounded-md) by default', () => {

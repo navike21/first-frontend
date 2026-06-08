@@ -2,11 +2,16 @@ import { create } from 'zustand'
 import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 
 export type Theme = 'light' | 'dark'
-export type BrandColor = 'teal' | 'violet' | 'emerald' | 'rose' | 'amber'
+export type BrandColor =
+  | 'teal' | 'violet' | 'emerald' | 'rose' | 'amber'
+  | 'sky' | 'indigo' | 'orange' | 'pink' | 'cyan'
 
 const THEME_KEY = '_first_theme'
 
-const BRAND_COLORS: BrandColor[] = ['teal', 'violet', 'emerald', 'rose', 'amber']
+const BRAND_COLORS: BrandColor[] = [
+  'teal', 'violet', 'emerald', 'rose', 'amber',
+  'sky', 'indigo', 'orange', 'pink', 'cyan',
+]
 
 const safeLocalStorage = {
   getItem: (key: string): string | null => {

@@ -343,4 +343,44 @@ describe('SelectInputArea', () => {
       expect(screen.queryByTestId('dropdown-portal')).not.toBeInTheDocument()
     })
   })
+
+  describe('classInput prop (branch coverage)', () => {
+    it('should accept classInput prop without error (covers classInput !== undefined true branch)', () => {
+      const triggerRef = createRef<HTMLDivElement>()
+      const dropdownRef = createRef<HTMLDivElement>()
+      const searchInputRef = createRef<HTMLInputElement>()
+      render(
+        <SelectInputArea
+          triggerRef={triggerRef}
+          disabled={false}
+          loading={false}
+          isOpen={false}
+          variant="default"
+          isMultipleWithChips={false}
+          classInput="custom-class"
+          triggerTabIndex={0}
+          onTriggerClick={vi.fn()}
+          handleInnerKeyDown={vi.fn()}
+          selectedValues={[]}
+          options={options}
+          handleOptionDeselect={vi.fn()}
+          singleLabel=""
+          placeholder="Pick"
+          multiple={false}
+          idField="test-select"
+          dropdownRef={dropdownRef}
+          dropdownStyle={dropdownStyle}
+          search={false}
+          searchInputRef={searchInputRef}
+          searchQuery=""
+          setSearchQuery={vi.fn()}
+          filteredOptions={options}
+          handleOptionSelect={vi.fn()}
+          setFocusedOptionIndex={vi.fn()}
+          mounted={true}
+        />
+      )
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+  })
 })

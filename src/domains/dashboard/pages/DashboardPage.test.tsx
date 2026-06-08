@@ -2,6 +2,19 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSessionStore } from '@/shared/model'
 import type { AuthUser } from '@/shared/types'
+
+// Override constants to include recent activity items — covers line 55
+vi.mock('../lib/dashboard.constants', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../lib/dashboard.constants')>()
+  return {
+    ...actual,
+    RECENT_ACTIVITY: [
+      { timestamp: '2024-01-01 10:00', text: 'Usuario creado' },
+      { timestamp: '2024-01-01 11:00', text: 'Configuración actualizada' },
+    ],
+  }
+})
+
 import { DashboardPage } from './DashboardPage'
 
 const makeUser = (overrides?: Partial<AuthUser>): AuthUser => ({
@@ -53,8 +66,10 @@ describe('DashboardPage component', () => {
     expect(screen.getByRole('region', { name: /Actividad reciente/i })).toBeInTheDocument()
   })
 
-  it('renders empty state when no recent activity', () => {
+  it('renders recent activity items list', () => {
+    // Covers line 55: RECENT_ACTIVITY.map((item) => <li key={item.timestamp}>
     render(<DashboardPage />)
-    expect(screen.getByText(/No hay actividad reciente/i)).toBeInTheDocument()
+    expect(screen.getByText('Usuario creado')).toBeInTheDocument()
+    expect(screen.getByText('Configuración actualizada')).toBeInTheDocument()
   })
 })

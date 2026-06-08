@@ -279,6 +279,18 @@ describe('useLogin', () => {
     expect(result.current.errorMessage).toBeNull()
   })
 
+  it('catch handler does not throw when navigate rejects after successful login', async () => {
+    navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
+    loginApiMock.mockResolvedValueOnce({ token: 'tok', user: makeAuthUser() })
+    const wrapper = createWrapper()
+    const { result } = renderHook(() => useLogin(), { wrapper })
+
+    act(() => { result.current.login(makeLoginFormData()) })
+    await waitFor(() => expect(result.current.isPending).toBe(false))
+    // no unhandled rejection — catch handler silenced it
+    expect(result.current.errorMessage).toBeNull()
+  })
+
   it('should forward the form data to loginApi', async () => {
     // Arrange
     const formData = makeLoginFormData({

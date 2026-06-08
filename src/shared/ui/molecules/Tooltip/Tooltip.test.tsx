@@ -170,7 +170,7 @@ describe('Tooltip component', () => {
     // Assert
     expect(screen.getByRole('tooltip')).toHaveClass(
       'bg-white',
-      'text-primary-text'
+      'text-(--text-primary)'
     )
   })
 
@@ -373,5 +373,107 @@ describe('Tooltip component', () => {
     expect(screen.getByRole('tooltip')).toContainElement(
       screen.getByText('Bold content')
     )
+  })
+
+  describe('structured tooltip (heading prop)', () => {
+    it('should render heading text in structured layout', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Tooltip heading">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByText('Tooltip heading')).toBeInTheDocument()
+    })
+
+    it('should render icon in structured layout when icon is provided', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" icon="RiHomeLine" variant="dark">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+    })
+
+    it('should render subtitle when provided', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" subtitle="Extra detail">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByText('Extra detail')).toBeInTheDocument()
+    })
+
+    it('should apply whitespace-normal class when subtitle is present', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" subtitle="Extra detail">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByRole('tooltip')).toHaveClass('whitespace-normal')
+    })
+
+    it('should apply whitespace-nowrap when heading has no subtitle', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByRole('tooltip')).toHaveClass('whitespace-nowrap')
+    })
+
+    it('should render light variant subtitle correctly', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" subtitle="Detail" variant="light">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByText('Detail')).toBeInTheDocument()
+    })
+
+    it('should apply large icon class when icon and subtitle both present', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" icon="RiHomeLine" subtitle="Detail">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      expect(screen.getByText('Detail')).toBeInTheDocument()
+    })
+
+    it('should apply light variant icon color when variant is light', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" icon="RiHomeLine" variant="light">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+    })
+
+    it('should apply small size class to subtitle when size is small', async () => {
+      const user = userEvent.setup()
+      render(
+        <Tooltip content="content" heading="Title" subtitle="Detail" size="small">
+          <button>Trigger</button>
+        </Tooltip>
+      )
+      await user.hover(screen.getByTestId('tooltip-wrapper'))
+      expect(screen.getByText('Detail')).toBeInTheDocument()
+    })
   })
 })

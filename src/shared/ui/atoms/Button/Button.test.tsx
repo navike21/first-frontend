@@ -21,13 +21,13 @@ describe('Button component', () => {
   it('should apply primary variant styles by default', () => {
     render(<Button>Primary Button</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('bg-primary-950', 'text-white')
+    expect(button).toHaveClass('bg-primary-700', 'text-white')
   })
 
   it('should apply secondary variant styles', () => {
     render(<Button variant="secondary">Secondary Button</Button>)
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('bg-white', 'text-primary-text')
+    expect(button).toHaveClass('bg-(--surface)', 'text-(--text-primary)', 'ring-1', 'ring-black', 'ring-inset')
   })
 
   it('should apply correct size classes', () => {
@@ -94,5 +94,52 @@ describe('Button component', () => {
       'font-medium',
       'rounded-md'
     )
+  })
+
+  describe('variant text', () => {
+    it('should apply text-variant underline pseudo-element class', () => {
+      render(<Button variant="text">Text Button</Button>)
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('before:absolute')
+    })
+
+    it('should apply hover underline class when not loading', () => {
+      render(<Button variant="text">Text Button</Button>)
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('hover:before:w-full')
+    })
+
+    it('should apply size text classes for variant text', () => {
+      const { rerender } = render(<Button variant="text" size="small">S</Button>)
+      expect(screen.getByRole('button')).toHaveClass('text-xs')
+
+      rerender(<Button variant="text" size="medium">M</Button>)
+      expect(screen.getByRole('button')).toHaveClass('text-sm')
+
+      rerender(<Button variant="text" size="large">L</Button>)
+      expect(screen.getByRole('button')).toHaveClass('text-md')
+    })
+
+    it('should apply inline-flex when variant text and loading', () => {
+      render(<Button variant="text" loading>Loading</Button>)
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('inline-flex', 'align-middle')
+    })
+  })
+
+  describe('loading state', () => {
+    it('should render spinner when loading', () => {
+      render(<Button loading>Loading</Button>)
+      // The loading div should be present (spinner container)
+      const button = screen.getByRole('button')
+      expect(button).toBeDisabled()
+      expect(button).toHaveClass('cursor-wait')
+    })
+
+    it('should not apply hover classes when loading', () => {
+      render(<Button loading>Loading</Button>)
+      const button = screen.getByRole('button')
+      expect(button).not.toHaveClass('hover:shadow-lg')
+    })
   })
 })

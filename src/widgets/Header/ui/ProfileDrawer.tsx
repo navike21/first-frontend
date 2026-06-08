@@ -41,8 +41,8 @@ export const ProfileDrawer = ({ isOpen, onClose, onLogout, user }: ProfileDrawer
           <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
             {t.profileDrawer.theme}
           </p>
-          {/* Color picker row */}
-          <div className={clsx('flex items-center justify-between rounded-lg px-3 py-2')}>
+          {/* Color picker block */}
+          <div className={clsx('flex flex-col gap-2 rounded-lg px-3 py-2')}>
             <span className="text-sm font-medium text-(--text-secondary)">
               {t.profileDrawer.color}
             </span>
