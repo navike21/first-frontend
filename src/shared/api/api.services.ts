@@ -26,15 +26,42 @@ export class OfflineQueuedError extends Error {
   }
 }
 
+/** Field-level validation issue returned by the backend in `details.validation[]`. */
+export interface ValidationIssue {
+  path: string
+  message: string
+}
+
+/** Structured error payload the backend may attach under `details`. */
+export interface ApiErrorDetails {
+  /** 422 VALIDATION_SCHEMA_ERROR — per-field issues. */
+  validation?: ValidationIssue[]
+  /** 409 RESOURCE_DUPLICATE — offending unique key names. */
+  keys?: string[]
+  [key: string]: unknown
+}
+
 export class HttpError extends Error {
   readonly status: number
   readonly statusText: string
+  /** Backend error code (e.g. `VALIDATION_SCHEMA_ERROR`, `RESOURCE_DUPLICATE`). */
+  readonly code?: string
+  /** Structured details (validation issues, duplicate keys, …). */
+  readonly details?: ApiErrorDetails
 
-  constructor(status: number, statusText: string, message?: string) {
+  constructor(
+    status: number,
+    statusText: string,
+    message?: string,
+    code?: string,
+    details?: ApiErrorDetails
+  ) {
     super(message ?? `HTTP ${status}: ${statusText}`)
     this.name = 'HttpError'
     this.status = status
     this.statusText = statusText
+    this.code = code
+    this.details = details
   }
 }
 
@@ -62,7 +89,12 @@ export async function request<TResponse, TBody = unknown>({
   body,
   ...init
 }: RequestConfig<TBody>): Promise<TResponse> {
-  if (!navigator.onLine && method !== 'GET') {
+  const isFormData =
+    typeof FormData !== 'undefined' && body instanceof FormData
+
+  // Multipart uploads can't be JSON-serialised into the offline queue, so they
+  // require a live connection; only JSON mutations are queued offline.
+  if (!navigator.onLine && method !== 'GET' && !isFormData) {
     await enqueue({
       api,
       method,
@@ -76,24 +108,41 @@ export async function request<TResponse, TBody = unknown>({
 
   const token = useSessionStore.getState().token
 
+  // For FormData the browser sets `Content-Type` (with the multipart boundary)
+  // automatically — setting it by hand breaks the upload.
   const defaultHeaders: HeadersInit = {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
+    ...(!isFormData && { 'Content-Type': 'application/json' }),
     ...(token !== null && { Authorization: `Bearer ${token}` }),
+  }
+
+  let requestBody: BodyInit | undefined
+  if (isFormData) {
+    requestBody = body as FormData
+  } else if (body !== undefined) {
+    requestBody = JSON.stringify(body)
   }
 
   const response = await fetch(`${baseUrl}${api}`, {
     ...init,
     method,
     headers: { ...defaultHeaders, ...init.headers },
-    body: (body !== undefined && JSON.stringify(body)) || undefined,
+    body: requestBody,
   })
 
   if (!response.ok) {
     let apiMessage: string | undefined
+    let apiCode: string | undefined
+    let apiDetails: ApiErrorDetails | undefined
     try {
-      const errBody = (await response.json()) as { message?: string }
+      const errBody = (await response.json()) as {
+        message?: string
+        code?: string
+        details?: ApiErrorDetails
+      }
       apiMessage = errBody.message
+      apiCode = errBody.code
+      apiDetails = errBody.details
     } catch {
       // body not parseable — use HTTP defaults
     }
@@ -104,7 +153,13 @@ export async function request<TResponse, TBody = unknown>({
       handleUnauthorized()
     }
 
-    throw new HttpError(response.status, response.statusText, apiMessage)
+    throw new HttpError(
+      response.status,
+      response.statusText,
+      apiMessage,
+      apiCode,
+      apiDetails
+    )
   }
 
   // 204 No Content — no body to parse; caller should type TResponse as void

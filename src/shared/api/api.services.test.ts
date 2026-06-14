@@ -234,6 +234,67 @@ describe('api.services', () => {
       expect(err).toBeInstanceOf(HttpError)
       expect(err.status).toBe(500)
     })
+
+    it('should send FormData as body without forcing Content-Type', async () => {
+      // Arrange
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ ok: true }),
+      })
+      const fd = new FormData()
+      fd.append('data', JSON.stringify({ name: 'x' }))
+      // Act
+      await request({ api: '/users', method: 'POST', body: fd })
+      // Assert
+      const [, options] = mockFetch.mock.calls[0] as [
+        string,
+        RequestInit & { headers: Record<string, string> },
+      ]
+      expect(options.body).toBe(fd)
+      expect(options.headers['Content-Type']).toBeUndefined()
+    })
+
+    it('should not queue FormData uploads when offline', async () => {
+      // Arrange — offline, but a multipart upload must hit the network, not the queue
+      vi.stubGlobal('navigator', { onLine: false })
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ ok: true }),
+      })
+      const fd = new FormData()
+      fd.append('file', new Blob(['x']))
+      // Act & Assert
+      await expect(
+        request({ api: '/upload', method: 'POST', body: fd })
+      ).resolves.toEqual({ ok: true })
+      expect(mockFetch).toHaveBeenCalledOnce()
+      vi.stubGlobal('navigator', { onLine: true })
+    })
+
+    it('should attach code and details from the error body to HttpError', async () => {
+      // Arrange
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        json: async () => ({
+          message: 'Validation failed',
+          code: 'VALIDATION_SCHEMA_ERROR',
+          details: { validation: [{ path: 'email', message: 'Invalid' }] },
+        }),
+      })
+      // Act
+      const err = (await request({
+        api: '/users',
+        method: 'POST',
+        body: {},
+      }).catch((e) => e)) as HttpError
+      // Assert
+      expect(err.code).toBe('VALIDATION_SCHEMA_ERROR')
+      expect(err.details?.validation?.[0]?.path).toBe('email')
+    })
   })
 
   describe('OfflineQueuedError', () => {

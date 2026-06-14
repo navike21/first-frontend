@@ -13,11 +13,18 @@ export interface StorageFile {
   full?: { pathname: string; url: string }
   thumb?: { pathname: string; url: string }
   uploadedBy: string
-  status: 'active' | 'inactive' | 'deleted'
+  status: 'active' | 'inactive'
   createdAt: string
   updatedAt: string
+  /** Soft-delete marker (backend migrated from `status:'deleted'` to this). */
+  deletedAt?: string
 }
 
+/**
+ * @deprecated Upload-first flow. The backend now owns uploads: send the file as
+ * a part of the create/update request (multipart `data` + file part) per
+ * `docs/API-UPLOADS.md`. Kept only for any generic, non-entity upload need.
+ */
 export async function uploadFile(
   file: File,
   entityType: string,
