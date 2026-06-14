@@ -15,6 +15,18 @@ export interface AsyncState<T> {
   error: string | null
 }
 
+/** Theme preference as stored by the backend (the UI resolves `system`). */
+export type ThemePreference = 'light' | 'dark' | 'system'
+
+/** Per-user UI preferences synced with the backend (`/users/me/preferences`). */
+export interface UserPreferences {
+  /** Supported language code (e.g. `es`, `en`). */
+  language?: string
+  /** Primary color as hex `#RRGGBB`. */
+  primaryColor?: string
+  theme?: ThemePreference
+}
+
 /** Authenticated user returned by the login API. */
 export interface AuthUser {
   id: string
@@ -23,4 +35,6 @@ export interface AuthUser {
   lastName: string
   profilePictureUrl?: string
   permissions: string[]
+  /** UI preferences returned at login so the front can apply them immediately. */
+  preferences?: UserPreferences
 }

@@ -3,6 +3,7 @@ import { useRouter } from '@tanstack/react-router'
 import { loginApi } from '../api/login.api'
 import { useSessionStore } from '@/shared/model'
 import { HttpError } from '@/shared/api'
+import { hydratePreferences } from '@/shared/lib/preferencesHydrate'
 import { navPaths } from '@/shared/router'
 import type { LoginFormData } from './login.schema'
 
@@ -22,6 +23,8 @@ export const useLogin = (): UseLoginReturn => {
     mutationFn: loginApi,
     onSuccess: ({ token, user }) => {
       setSession(token, user)
+      // Apply the user's saved theme/color/language returned at login.
+      hydratePreferences(user.preferences)
       router.navigate({ to: navPaths.home() as never }).catch(() => null)
     },
   })

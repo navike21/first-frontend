@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 import type { Language } from '@/shared/types/languages'
+import { queuePreferenceSave } from '@/shared/lib/preferencesSync'
 
 const LANGUAGE_KEY = '_first_lang'
 
@@ -10,6 +11,8 @@ interface LanguageState {
 
 interface LanguageActions {
   setLanguage: (lang: Language) => void
+  /** Apply language without persisting to the backend (used on login hydrate). */
+  hydrateLanguage: (lang: Language) => void
 }
 
 type LanguageStore = LanguageState & LanguageActions
@@ -43,8 +46,12 @@ export const useLanguageStore = create<LanguageStore>()(
     persist(
       (set) => ({
         language: 'es',
-        setLanguage: (lang) =>
-          set({ language: lang }, false, 'language/setLanguage'),
+        setLanguage: (lang) => {
+          set({ language: lang }, false, 'language/setLanguage')
+          queuePreferenceSave({ language: lang })
+        },
+        hydrateLanguage: (lang) =>
+          set({ language: lang }, false, 'language/hydrateLanguage'),
       }),
       {
         name: LANGUAGE_KEY,

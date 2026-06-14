@@ -17,3 +17,4 @@ export type {
 } from './types'
 export { uploadFile } from './storage'
 export type { StorageFile } from './storage'
+export { preferencesApi } from './preferences'

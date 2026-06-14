@@ -1,5 +1,9 @@
 import { create } from 'zustand'
 import { devtools, persist, createJSONStorage } from 'zustand/middleware'
+import {
+  queuePreferenceSave,
+  brandColorToHex,
+} from '@/shared/lib/preferencesSync'
 
 export type Theme = 'light' | 'dark'
 export type BrandColor =
@@ -78,6 +82,10 @@ interface ThemeActions {
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
   setColor: (color: BrandColor) => void
+  /** Apply theme without persisting to the backend (used on login hydrate). */
+  hydrateTheme: (theme: Theme) => void
+  /** Apply color without persisting to the backend (used on login hydrate). */
+  hydrateColor: (color: BrandColor) => void
 }
 
 type ThemeStore = ThemeState & ThemeActions
@@ -92,17 +100,30 @@ export const useThemeStore = create<ThemeStore>()(
         setTheme: (theme) => {
           applyTheme(theme)
           set({ theme }, false, 'theme/setTheme')
+          queuePreferenceSave({ theme })
         },
 
         toggleTheme: () => {
           const next: Theme = get().theme === 'light' ? 'dark' : 'light'
           applyTheme(next)
           set({ theme: next }, false, 'theme/toggleTheme')
+          queuePreferenceSave({ theme: next })
         },
 
         setColor: (color) => {
           applyColor(color)
           set({ color }, false, 'theme/setColor')
+          queuePreferenceSave({ primaryColor: brandColorToHex(color) })
+        },
+
+        hydrateTheme: (theme) => {
+          applyTheme(theme)
+          set({ theme }, false, 'theme/hydrateTheme')
+        },
+
+        hydrateColor: (color) => {
+          applyColor(color)
+          set({ color }, false, 'theme/hydrateColor')
         },
       }),
       {
