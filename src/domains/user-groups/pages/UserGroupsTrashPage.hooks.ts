@@ -16,11 +16,9 @@ export function useUserGroupsTrashPage() {
     'user-groups:manage',
     '*:*'
   )
-  const canPurge = useHasPermission(
-    'user-groups:purge',
-    'user-groups:manage',
-    '*:*'
-  )
+  // Purge (physical delete) requires explicit `:purge` or super-root `*:*` —
+  // `:manage` does NOT grant it (matches the backend's purge gating).
+  const canPurge = useHasPermission('user-groups:purge', '*:*')
 
   const { data, isLoading } = useUserGroupsTrash({ page, limit: 20 })
   const restore = useRestoreUserGroup()

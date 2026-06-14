@@ -12,7 +12,9 @@ export function useUsersTrashPage() {
   const [purgingUser, setPurgingUser] = useState<User | null>(null)
 
   const canRestore = useHasPermission('users:update', 'users:manage', '*:*')
-  const canPurge = useHasPermission('users:purge', 'users:manage', '*:*')
+  // Purge (physical delete) requires explicit `:purge` or super-root `*:*` —
+  // `:manage` does NOT grant it (matches the backend's purge gating).
+  const canPurge = useHasPermission('users:purge', '*:*')
 
   const { data, isLoading } = useUsersTrash({ page, limit: 20 })
   const restore = useRestoreUser()
