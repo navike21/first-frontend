@@ -1,4 +1,9 @@
-export { request, HttpError, OfflineQueuedError } from './api.services'
+export {
+  request,
+  HttpError,
+  OfflineQueuedError,
+  registerLanguageProvider,
+} from './api.services'
 export type {
   RequestConfig,
   HttpMethod,

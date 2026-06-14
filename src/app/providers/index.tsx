@@ -1,7 +1,8 @@
 import { useEffect, type ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { QueryProvider } from './query.provider'
-import { registerUnauthorizedHandler } from '@/shared/api'
+import { registerUnauthorizedHandler, registerLanguageProvider } from '@/shared/api'
+import { useLanguageStore } from '@/shared/model'
 import { router } from '../router/router'
 import { navPaths } from '@/shared/router'
 
@@ -14,6 +15,8 @@ export function AppProviders({ children }: Readonly<AppProvidersProps>) {
     registerUnauthorizedHandler(() => {
       router.navigate({ to: navPaths.forbidden() as never }).catch(() => null)
     })
+    // Send the current UI language as Accept-Language on every request.
+    registerLanguageProvider(() => useLanguageStore.getState().language)
   }, [])
 
   return (

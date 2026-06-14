@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { HttpError, OfflineQueuedError, request } from './api.services'
+import {
+  HttpError,
+  OfflineQueuedError,
+  request,
+  registerLanguageProvider,
+} from './api.services'
 import { useSessionStore } from '@/shared/model'
 
 const mockFetch = vi.fn()
@@ -271,6 +276,25 @@ describe('api.services', () => {
       ).resolves.toEqual({ ok: true })
       expect(mockFetch).toHaveBeenCalledOnce()
       vi.stubGlobal('navigator', { onLine: true })
+    })
+
+    it('adds Accept-Language from the registered language provider', async () => {
+      // Arrange
+      registerLanguageProvider(() => 'es')
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      })
+      // Act
+      await request({ api: '/x', method: 'GET' })
+      // Assert
+      const [, options] = mockFetch.mock.calls[0] as [
+        string,
+        RequestInit & { headers: Record<string, string> },
+      ]
+      expect(options.headers['Accept-Language']).toBe('es')
+      registerLanguageProvider(() => undefined) // reset for other tests
     })
 
     it('should attach code and details from the error body to HttpError', async () => {

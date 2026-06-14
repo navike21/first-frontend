@@ -5,6 +5,19 @@ import { handleUnauthorized } from './unauthorized'
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
+type LanguageProvider = () => string | undefined
+let _languageProvider: LanguageProvider | null = null
+
+/**
+ * Registers a getter for the current UI language, sent as `Accept-Language` on
+ * every request so backend messages/warnings come localized. Injected (not
+ * imported) to avoid an import cycle: the language store depends on `request`
+ * (via preference syncing), so `request` must not import the language store.
+ */
+export function registerLanguageProvider(fn: LanguageProvider): void {
+  _languageProvider = fn
+}
+
 /** Represents any value that can be safely serialised with JSON.stringify */
 export type JsonBody =
   | string
@@ -108,10 +121,13 @@ export async function request<TResponse, TBody = unknown>({
 
   const token = useSessionStore.getState().token
 
+  const lang = _languageProvider?.()
+
   // For FormData the browser sets `Content-Type` (with the multipart boundary)
   // automatically — setting it by hand breaks the upload.
   const defaultHeaders: HeadersInit = {
     Accept: 'application/json',
+    ...(lang && { 'Accept-Language': lang }),
     ...(!isFormData && { 'Content-Type': 'application/json' }),
     ...(token !== null && { Authorization: `Bearer ${token}` }),
   }
