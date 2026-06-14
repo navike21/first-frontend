@@ -109,10 +109,11 @@ export const useInputDate = (
       if (typeof forwardedRef === 'function') {
         forwardedRef(node)
       } else if (forwardedRef !== null && forwardedRef !== undefined) {
-        // eslint-disable-next-line react-hooks/immutability -- merged-ref pattern
+        /* eslint-disable react-hooks/immutability -- merged-ref pattern */
         ;(
           forwardedRef as React.MutableRefObject<HTMLInputElement | null>
         ).current = node
+        /* eslint-enable react-hooks/immutability */
       }
     },
     [forwardedRef]
