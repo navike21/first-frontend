@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
 import { createUpdateUserSchema } from '../../model/user.schema'
 import type { UpdateUserFormData } from '../../model/user.schema'
@@ -13,6 +14,8 @@ export interface UseEditUserFormProps {
   isSubmitting: boolean
   onCancel: () => void
   onUpdate: (data: UpdateUserFormData, avatar?: File | null) => void
+  /** Backend error from the submit mutation — mapped to inline field errors. */
+  submitError?: unknown
 }
 
 export function useEditUserForm({
@@ -20,6 +23,7 @@ export function useEditUserForm({
   isSubmitting,
   onCancel,
   onUpdate,
+  submitError,
 }: UseEditUserFormProps) {
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
@@ -37,6 +41,7 @@ export function useEditUserForm({
     register,
     handleSubmit,
     setValue,
+    setError,
     control,
     reset,
     formState: { errors },
@@ -56,6 +61,10 @@ export function useEditUserForm({
           : (defaultValues.status ?? 'active'),
     },
   })
+
+  useEffect(() => {
+    if (submitError) applyServerFieldErrors(submitError, setError)
+  }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'gender' })
   const groupValue = useWatch({ control, name: 'groupId' })

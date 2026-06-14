@@ -41,6 +41,7 @@ export const CreateUserPage = () => {
           onCancel={() => navigate({ to: navPaths.users(language) as never })}
           onCreate={handleCreate}
           onUpdate={() => {}}
+          submitError={createUser.error}
         />
       </div>
     </div>

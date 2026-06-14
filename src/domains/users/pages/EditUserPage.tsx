@@ -62,6 +62,7 @@ export const EditUserPage = () => {
           onCancel={() => navigate({ to: navPaths.users(language) as never })}
           onCreate={() => {}}
           onUpdate={handleUpdate}
+          submitError={updateUser.error}
         />
       </div>
     </div>

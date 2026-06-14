@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUserGroupsTranslation } from '../../i18n'
 import { createUpdateUserGroupSchema } from '../../model/userGroup.schema'
 import type { UpdateUserGroupFormData } from '../../model/userGroup.schema'
@@ -12,6 +13,8 @@ export interface UseEditUserGroupFormProps {
   isSubmitting: boolean
   onCancel: () => void
   onUpdate: (data: UpdateUserGroupFormData) => void
+  /** Backend error from the submit mutation — mapped to inline field errors. */
+  submitError?: unknown
 }
 
 export function useEditUserGroupForm({
@@ -19,6 +22,7 @@ export function useEditUserGroupForm({
   isSubmitting,
   onCancel,
   onUpdate,
+  submitError,
 }: UseEditUserGroupFormProps) {
   const { t } = useUserGroupsTranslation()
   const schema = useMemo(
@@ -31,6 +35,7 @@ export function useEditUserGroupForm({
     register,
     handleSubmit,
     setValue,
+    setError,
     control,
     reset,
     formState: { errors },
@@ -44,6 +49,10 @@ export function useEditUserGroupForm({
       status: defaultValues.status,
     },
   })
+
+  useEffect(() => {
+    if (submitError) applyServerFieldErrors(submitError, setError)
+  }, [submitError, setError])
 
   const permissionsValue =
     useWatch({ control, name: 'permissions' }) ?? defaultValues.permissions

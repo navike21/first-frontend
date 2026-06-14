@@ -13,6 +13,7 @@ interface UserGroupFormProps {
   onCancel: () => void
   onCreate: (data: CreateUserGroupFormData) => void
   onUpdate: (data: UpdateUserGroupFormData) => void
+  submitError?: unknown
 }
 
 export const UserGroupForm = ({
@@ -22,6 +23,7 @@ export const UserGroupForm = ({
   onCancel,
   onCreate,
   onUpdate,
+  submitError,
 }: UserGroupFormProps) => {
   if (mode === 'create') {
     return (
@@ -29,6 +31,7 @@ export const UserGroupForm = ({
         isSubmitting={isSubmitting}
         onCancel={onCancel}
         onCreate={onCreate}
+        submitError={submitError}
       />
     )
   }
@@ -41,6 +44,7 @@ export const UserGroupForm = ({
       isSubmitting={isSubmitting}
       onCancel={onCancel}
       onUpdate={onUpdate}
+      submitError={submitError}
     />
   )
 }

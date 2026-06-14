@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
 import { createCreateUserSchema } from '../../model/user.schema'
 import type { CreateUserFormData } from '../../model/user.schema'
@@ -11,12 +12,15 @@ export interface UseCreateUserFormProps {
   isSubmitting: boolean
   onCancel: () => void
   onCreate: (data: CreateUserFormData, avatar?: File | null) => void
+  /** Backend error from the submit mutation — mapped to inline field errors. */
+  submitError?: unknown
 }
 
 export function useCreateUserForm({
   isSubmitting,
   onCancel,
   onCreate,
+  submitError,
 }: UseCreateUserFormProps) {
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
@@ -34,6 +38,7 @@ export function useCreateUserForm({
     register,
     handleSubmit,
     setValue,
+    setError,
     control,
     reset,
     formState: { errors },
@@ -41,6 +46,10 @@ export function useCreateUserForm({
     resolver: zodResolver(schema),
     defaultValues: { status: 'active' },
   })
+
+  useEffect(() => {
+    if (submitError) applyServerFieldErrors(submitError, setError)
+  }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'gender' })
   const groupValue = useWatch({ control, name: 'groupId' })

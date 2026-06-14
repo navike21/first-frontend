@@ -13,6 +13,7 @@ interface UserFormProps {
   onCancel: () => void
   onCreate: (data: CreateUserFormData, avatar?: File | null) => void
   onUpdate: (data: UpdateUserFormData, avatar?: File | null) => void
+  submitError?: unknown
 }
 
 export const UserForm = ({
@@ -22,6 +23,7 @@ export const UserForm = ({
   onCancel,
   onCreate,
   onUpdate,
+  submitError,
 }: UserFormProps) => {
   if (mode === 'create') {
     return (
@@ -29,6 +31,7 @@ export const UserForm = ({
         isSubmitting={isSubmitting}
         onCancel={onCancel}
         onCreate={onCreate}
+        submitError={submitError}
       />
     )
   }
@@ -38,6 +41,7 @@ export const UserForm = ({
       isSubmitting={isSubmitting}
       onCancel={onCancel}
       onUpdate={onUpdate}
+      submitError={submitError}
     />
   )
 }

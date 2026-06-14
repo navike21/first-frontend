@@ -36,6 +36,7 @@ export const CreateUserGroupPage = () => {
           }
           onCreate={handleCreate}
           onUpdate={() => {}}
+          submitError={createUserGroup.error}
         />
       </div>
     </div>
