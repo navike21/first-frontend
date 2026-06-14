@@ -28,11 +28,8 @@ export function createCreateUserSchema(v: V) {
       .or(z.literal('')),
     gender: z.enum(['female', 'male', 'other', 'prefer_not_to_say']).optional(),
     phone: z.string().max(30).optional().or(z.literal('')),
-    profilePictureUrl: z
-      .url(v.urlInvalid)
-      .max(500)
-      .optional()
-      .or(z.literal('')),
+    // The avatar is sent as a multipart `avatar` File (handled outside the
+    // schema); the backend owns the upload. No URL input in the form.
     address: addressSchema.optional(),
     groupId: z.string().optional(),
     status: z.enum(['active', 'inactive']).default('active'),

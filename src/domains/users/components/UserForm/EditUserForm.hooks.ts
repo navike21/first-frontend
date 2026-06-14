@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { notify } from '@/shared/lib/notify'
 import { useUsersTranslation } from '../../i18n'
 import { createUpdateUserSchema } from '../../model/user.schema'
 import type { UpdateUserFormData } from '../../model/user.schema'
@@ -13,7 +12,7 @@ export interface UseEditUserFormProps {
   defaultValues: Partial<User>
   isSubmitting: boolean
   onCancel: () => void
-  onUpdate: (data: UpdateUserFormData) => void
+  onUpdate: (data: UpdateUserFormData, avatar?: File | null) => void
 }
 
 export function useEditUserForm({
@@ -28,7 +27,7 @@ export function useEditUserForm({
     () => createUpdateUserSchema(t.validation),
     [t.validation]
   )
-  const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
+  const { pendingFile, setPendingFile } = usePhotoUpload()
 
   useEffect(() => {
     load().catch(() => {})
@@ -61,7 +60,7 @@ export function useEditUserForm({
   const genderValue = useWatch({ control, name: 'gender' })
   const groupValue = useWatch({ control, name: 'groupId' })
   const statusValue = useWatch({ control, name: 'status' })
-  const busy = isSubmitting || isUploading
+  const busy = isSubmitting
 
   const genderOptions = [
     { value: 'female', label: t.form.genderFemale },
@@ -74,17 +73,8 @@ export function useEditUserForm({
     .filter((g) => g.status === 'active')
     .map((g) => ({ value: g.id, label: g.name }))
 
-  const onSubmit = handleSubmit(async (data) => {
-    let profilePictureUrl = defaultValues.profilePictureUrl ?? ''
-    try {
-      const entityId = defaultValues.id ?? crypto.randomUUID()
-      const uploaded = await uploadIfNeeded(entityId)
-      if (uploaded) profilePictureUrl = uploaded
-    } catch (err) {
-      notify.error(err instanceof Error ? err.message : 'Upload failed')
-      return
-    }
-    onUpdate({ ...data, profilePictureUrl })
+  const onSubmit = handleSubmit((data) => {
+    onUpdate(data, pendingFile)
   })
 
   const handleCancel = () => {

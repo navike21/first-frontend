@@ -32,22 +32,38 @@ export const usersApi = {
   getById: (id: string) =>
     request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
-  create: (body: CreateUserFormData) =>
-    request<
-      ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>,
-      CreateUserFormData
-    >({
+  create: (body: CreateUserFormData, avatar?: File | null) => {
+    type Created = ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>
+    if (avatar) {
+      const fd = new FormData()
+      fd.append('data', JSON.stringify(body))
+      fd.append('avatar', avatar)
+      return request<Created, FormData>({ api: BASE, method: 'POST', body: fd })
+    }
+    return request<Created, CreateUserFormData>({
       api: BASE,
       method: 'POST',
       body,
-    }),
+    })
+  },
 
-  update: (id: string, body: UpdateUserFormData) =>
-    request<ApiResponse<User>, UpdateUserFormData>({
+  update: (id: string, body: UpdateUserFormData, avatar?: File | null) => {
+    if (avatar) {
+      const fd = new FormData()
+      fd.append('data', JSON.stringify(body))
+      fd.append('avatar', avatar)
+      return request<ApiResponse<User>, FormData>({
+        api: `${BASE}/${id}`,
+        method: 'PATCH',
+        body: fd,
+      })
+    }
+    return request<ApiResponse<User>, UpdateUserFormData>({
       api: `${BASE}/${id}`,
       method: 'PATCH',
       body,
-    }),
+    })
+  },
 
   softDelete: (id: string) =>
     request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'DELETE' }),

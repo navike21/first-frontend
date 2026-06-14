@@ -21,14 +21,21 @@ export const EditUserPage = () => {
     }
   }, [isLoading, user, navigate, language])
 
-  const handleUpdate = (data: UpdateUserFormData) => {
-    updateUser.mutate(data, {
-      onSuccess: () => {
-        notify.success(t.toasts.updated)
-        navigate({ to: navPaths.users(language) as never })
-      },
-      onError: (error) => notify.queryError(error),
-    })
+  const handleUpdate = (data: UpdateUserFormData, avatar?: File | null) => {
+    updateUser.mutate(
+      { data, avatar },
+      {
+        onSuccess: (res) => {
+          notify.success(t.toasts.updated)
+          // 2xx with warnings = record saved but the image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
+          navigate({ to: navPaths.users(language) as never })
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
   }
 
   if (isLoading || !user) {

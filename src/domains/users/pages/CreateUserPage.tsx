@@ -11,14 +11,21 @@ export const CreateUserPage = () => {
   const { t, language } = useUsersTranslation()
   const createUser = useCreateUser()
 
-  const handleCreate = (data: CreateUserFormData) => {
-    createUser.mutate(data, {
-      onSuccess: () => {
-        notify.success(t.toasts.created)
-        navigate({ to: navPaths.users(language) as never })
-      },
-      onError: (error) => notify.queryError(error),
-    })
+  const handleCreate = (data: CreateUserFormData, avatar?: File | null) => {
+    createUser.mutate(
+      { data, avatar },
+      {
+        onSuccess: (res) => {
+          notify.success(t.toasts.created)
+          // 2xx with warnings = record saved but the image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
+          navigate({ to: navPaths.users(language) as never })
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
   }
 
   return (

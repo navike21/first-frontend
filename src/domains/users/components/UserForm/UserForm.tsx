@@ -11,8 +11,8 @@ interface UserFormProps {
   defaultValues?: Partial<User>
   isSubmitting: boolean
   onCancel: () => void
-  onCreate: (data: CreateUserFormData) => void
-  onUpdate: (data: UpdateUserFormData) => void
+  onCreate: (data: CreateUserFormData, avatar?: File | null) => void
+  onUpdate: (data: UpdateUserFormData, avatar?: File | null) => void
 }
 
 export const UserForm = ({

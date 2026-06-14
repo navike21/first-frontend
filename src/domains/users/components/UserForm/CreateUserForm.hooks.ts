@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { notify } from '@/shared/lib/notify'
 import { useUsersTranslation } from '../../i18n'
 import { createCreateUserSchema } from '../../model/user.schema'
 import type { CreateUserFormData } from '../../model/user.schema'
@@ -11,7 +10,7 @@ import { usePhotoUpload } from './usePhotoUpload'
 export interface UseCreateUserFormProps {
   isSubmitting: boolean
   onCancel: () => void
-  onCreate: (data: CreateUserFormData) => void
+  onCreate: (data: CreateUserFormData, avatar?: File | null) => void
 }
 
 export function useCreateUserForm({
@@ -25,7 +24,7 @@ export function useCreateUserForm({
     () => createCreateUserSchema(t.validation),
     [t.validation]
   )
-  const { setPendingFile, isUploading, uploadIfNeeded } = usePhotoUpload()
+  const { pendingFile, setPendingFile } = usePhotoUpload()
 
   useEffect(() => {
     load().catch(() => {})
@@ -45,7 +44,7 @@ export function useCreateUserForm({
 
   const genderValue = useWatch({ control, name: 'gender' })
   const groupValue = useWatch({ control, name: 'groupId' })
-  const busy = isSubmitting || isUploading
+  const busy = isSubmitting
 
   const genderOptions = [
     { value: 'female', label: t.form.genderFemale },
@@ -58,16 +57,8 @@ export function useCreateUserForm({
     .filter((g) => g.status === 'active')
     .map((g) => ({ value: g.id, label: g.name }))
 
-  const onSubmit = handleSubmit(async (data) => {
-    let profilePictureUrl = data.profilePictureUrl ?? ''
-    try {
-      const uploaded = await uploadIfNeeded(crypto.randomUUID())
-      if (uploaded) profilePictureUrl = uploaded
-    } catch (err) {
-      notify.error(err instanceof Error ? err.message : 'Upload failed')
-      return
-    }
-    onCreate({ ...data, profilePictureUrl })
+  const onSubmit = handleSubmit((data) => {
+    onCreate(data, pendingFile)
   })
 
   const handleCancel = () => {

@@ -34,10 +34,21 @@ export const useUser = (id: string) =>
     enabled: !!id,
   })
 
+export interface CreateUserVars {
+  data: CreateUserFormData
+  avatar?: File | null
+}
+
+export interface UpdateUserVars {
+  data: UpdateUserFormData
+  avatar?: File | null
+}
+
 export const useCreateUser = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: CreateUserFormData) => usersApi.create(data),
+    mutationFn: ({ data, avatar }: CreateUserVars) =>
+      usersApi.create(data, avatar),
     onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
   })
 }
@@ -45,7 +56,8 @@ export const useCreateUser = () => {
 export const useUpdateUser = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: UpdateUserFormData) => usersApi.update(id, data),
+    mutationFn: ({ data, avatar }: UpdateUserVars) =>
+      usersApi.update(id, data, avatar),
     onSuccess: (res) => {
       const updated = res.data
 
