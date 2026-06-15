@@ -11,14 +11,22 @@ import type {
 import { useTooltipPosition } from './Tooltip.hooks'
 
 const variantClasses: Record<TooltipVariant, string> = {
-  dark: 'bg-gray-950 text-white',
+  dark: 'bg-gray-950 text-white shadow-lg shadow-black/40 ring-1 ring-white/10',
   light:
-    'bg-white dark:bg-slate-700 text-(--text-primary) shadow ring-1 ring-black/10 dark:ring-white/10',
+    'bg-white dark:bg-slate-700 text-(--text-primary) shadow-lg ring-1 ring-black/10 dark:ring-white/10',
 }
 
 const arrowVariantClasses: Record<TooltipVariant, string> = {
-  dark: 'bg-gray-900',
+  dark: 'bg-gray-950',
   light: 'bg-white dark:bg-slate-700',
+}
+
+// Anchor the entrance scale to the edge nearest the trigger so it grows outward.
+const originByPosition: Record<ResolvedTooltipPosition, string> = {
+  top: 'bottom center',
+  bottom: 'top center',
+  left: 'center right',
+  right: 'center left',
 }
 
 const sizeClasses: Record<TooltipSize, string> = {
@@ -89,10 +97,13 @@ export const Tooltip = ({
         createPortal(
           <div
             role="tooltip"
-            style={style}
+            style={{
+              ...style,
+              transformOrigin: originByPosition[resolvedPosition],
+            }}
             className={clsx(
-              'pointer-events-none z-[9999]',
-              'rounded-md',
+              'animate-tooltip-in pointer-events-none z-[9999]',
+              'rounded-lg',
               variantClasses[variant],
               sizeClasses[size],
               hasSubtitle ? 'max-w-xs whitespace-normal' : 'whitespace-nowrap'

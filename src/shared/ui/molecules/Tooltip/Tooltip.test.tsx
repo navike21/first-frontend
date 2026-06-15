@@ -364,6 +364,22 @@ describe('Tooltip component', () => {
     expect(arrow).toHaveClass('rotate-45', 'w-2', 'h-2')
   })
 
+  it('applies the entrance animation class and anchors its scale origin', async () => {
+    // Arrange
+    const user = userEvent.setup()
+    render(
+      <Tooltip content="Text" position="top">
+        <button>Trigger</button>
+      </Tooltip>
+    )
+    // Act
+    await user.hover(screen.getByTestId('tooltip-wrapper'))
+    // Assert — scale+fade pop; a 'top' tooltip grows from its bottom edge
+    const tooltip = screen.getByRole('tooltip')
+    expect(tooltip).toHaveClass('animate-tooltip-in')
+    expect(tooltip).toHaveStyle({ transformOrigin: 'bottom center' })
+  })
+
   it('should apply custom className to wrapper', () => {
     // Arrange & Act
     const { container } = render(
