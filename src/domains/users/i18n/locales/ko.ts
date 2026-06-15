@@ -50,6 +50,7 @@ export const ko: UsersTranslations = {
     dateOfBirthPlaceholder: 'YYYY-MM-DD',
     uploadPhoto: '사진 업로드',
     uploadFormats: '허용: *.jpeg, *.jpg, *.png — 최대 3 MB',
+    removePhoto: '사진 삭제',
     gender: '성별',
     genderPlaceholder: '선택',
     genderFemale: '여성',

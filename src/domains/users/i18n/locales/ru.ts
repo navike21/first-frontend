@@ -50,6 +50,7 @@ export const ru: UsersTranslations = {
     dateOfBirthPlaceholder: 'ГГГГ-ММ-ДД',
     uploadPhoto: 'Загрузить фото',
     uploadFormats: 'Допустимо *.jpeg, *.jpg, *.png — макс 3 МБ',
+    removePhoto: 'Удалить фото',
     gender: 'Пол',
     genderPlaceholder: 'Выбрать',
     genderFemale: 'Женский',

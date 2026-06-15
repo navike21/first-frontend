@@ -47,7 +47,12 @@ export const usersApi = {
     })
   },
 
-  update: (id: string, body: UpdateUserFormData, avatar?: File | null) => {
+  update: (
+    id: string,
+    body: UpdateUserFormData,
+    avatar?: File | null,
+    removeAvatar?: boolean
+  ) => {
     if (avatar) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(body))
@@ -58,10 +63,12 @@ export const usersApi = {
         body: fd,
       })
     }
-    return request<ApiResponse<User>, UpdateUserFormData>({
+    // Empty profilePictureUrl tells the backend to clear the existing avatar.
+    const payload = removeAvatar ? { ...body, profilePictureUrl: '' } : body
+    return request<ApiResponse<User>, typeof payload>({
       api: `${BASE}/${id}`,
       method: 'PATCH',
-      body,
+      body: payload,
     })
   },
 

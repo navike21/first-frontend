@@ -51,6 +51,7 @@ export interface UsersTranslations {
     dateOfBirthPlaceholder: string
     uploadPhoto: string
     uploadFormats: string
+    removePhoto: string
     gender: string
     genderPlaceholder: string
     genderFemale: string

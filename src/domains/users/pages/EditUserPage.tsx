@@ -21,9 +21,13 @@ export const EditUserPage = () => {
     }
   }, [isLoading, user, navigate, language])
 
-  const handleUpdate = (data: UpdateUserFormData, avatar?: File | null) => {
+  const handleUpdate = (
+    data: UpdateUserFormData,
+    avatar?: File | null,
+    removeAvatar?: boolean
+  ) => {
     updateUser.mutate(
-      { data, avatar },
+      { data, avatar, removeAvatar },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.updated)

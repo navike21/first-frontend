@@ -50,6 +50,7 @@ export const ja: UsersTranslations = {
     dateOfBirthPlaceholder: 'YYYY-MM-DD',
     uploadPhoto: '写真をアップロード',
     uploadFormats: '*.jpeg, *.jpg, *.png — 最大 3 MB',
+    removePhoto: '写真を削除',
     gender: '性別',
     genderPlaceholder: '選択する',
     genderFemale: '女性',

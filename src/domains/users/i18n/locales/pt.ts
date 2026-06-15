@@ -52,6 +52,7 @@ export const pt: UsersTranslations = {
     dateOfBirthPlaceholder: 'AAAA-MM-DD',
     uploadPhoto: 'Carregar foto',
     uploadFormats: 'Permitido *.jpeg, *.jpg, *.png — máx 3 MB',
+    removePhoto: 'Remover foto',
     gender: 'Gênero',
     genderPlaceholder: 'Selecionar',
     genderFemale: 'Feminino',

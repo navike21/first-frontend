@@ -44,6 +44,7 @@ export const zh: UsersTranslations = {
     dateOfBirthPlaceholder: 'YYYY-MM-DD',
     uploadPhoto: '上传照片',
     uploadFormats: '允许 *.jpeg, *.jpg, *.png — 最大 3 MB',
+    removePhoto: '移除照片',
     gender: '性别',
     genderPlaceholder: '请选择',
     genderFemale: '女',

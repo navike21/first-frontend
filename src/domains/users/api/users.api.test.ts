@@ -55,4 +55,13 @@ describe('usersApi — backend-driven avatar (multipart)', () => {
     expect(cfg.body).toBeInstanceOf(FormData)
     expect((cfg.body as FormData).get('avatar')).toBe(file)
   })
+
+  it('update with removeAvatar (no file) sends profilePictureUrl="" to clear', async () => {
+    // Act
+    await usersApi.update('u1', { firstName: 'Ne' }, undefined, true)
+    // Assert
+    const cfg = reqMock.mock.calls[0][0]
+    expect(cfg.body).toEqual({ firstName: 'Ne', profilePictureUrl: '' })
+    expect(cfg.body).not.toBeInstanceOf(FormData)
+  })
 })

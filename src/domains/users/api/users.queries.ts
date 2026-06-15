@@ -42,6 +42,8 @@ export interface CreateUserVars {
 export interface UpdateUserVars {
   data: UpdateUserFormData
   avatar?: File | null
+  /** When true (and no new avatar), clears the existing profile photo. */
+  removeAvatar?: boolean
 }
 
 export const useCreateUser = () => {
@@ -56,8 +58,8 @@ export const useCreateUser = () => {
 export const useUpdateUser = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar }: UpdateUserVars) =>
-      usersApi.update(id, data, avatar),
+    mutationFn: ({ data, avatar, removeAvatar }: UpdateUserVars) =>
+      usersApi.update(id, data, avatar, removeAvatar),
     onSuccess: (res) => {
       const updated = res.data
 

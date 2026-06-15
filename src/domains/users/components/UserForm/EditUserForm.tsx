@@ -23,7 +23,8 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
     busy,
     onSubmit,
     handleCancel,
-    setPendingFile,
+    onPhotoChange,
+    onRemovePhoto,
     onGenderChange,
     onGroupChange,
     onStatusToggle,
@@ -38,7 +39,9 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
               currentUrl={props.defaultValues.profilePictureUrl}
               uploadLabel={t.form.uploadPhoto}
               formatsHint={t.form.uploadFormats}
-              onChange={setPendingFile}
+              onChange={onPhotoChange}
+              onRemove={onRemovePhoto}
+              removeLabel={t.form.removePhoto}
               disabled={busy}
             />
             <div className="w-full border-t border-(--border) pt-4">

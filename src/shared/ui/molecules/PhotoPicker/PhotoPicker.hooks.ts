@@ -5,9 +5,14 @@ const MAX_BYTES = 3 * 1024 * 1024
 interface UsePhotoPickerProps {
   currentUrl?: string
   onChange: (file: File | null) => void
+  onRemove?: () => void
 }
 
-export function usePhotoPicker({ currentUrl, onChange }: UsePhotoPickerProps) {
+export function usePhotoPicker({
+  currentUrl,
+  onChange,
+  onRemove,
+}: UsePhotoPickerProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | undefined>(currentUrl)
   const [error, setError] = useState<string | null>(null)
@@ -34,5 +39,15 @@ export function usePhotoPicker({ currentUrl, onChange }: UsePhotoPickerProps) {
 
   const openPicker = () => inputRef.current?.click()
 
-  return { inputRef, preview, error, handleChange, openPicker }
+  const handleRemove = () => {
+    setError(null)
+    setPreview((prev) => {
+      if (prev?.startsWith('blob:')) URL.revokeObjectURL(prev)
+      return undefined
+    })
+    onChange(null)
+    onRemove?.()
+  }
+
+  return { inputRef, preview, error, handleChange, openPicker, handleRemove }
 }

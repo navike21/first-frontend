@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -13,7 +13,11 @@ export interface UseEditUserFormProps {
   defaultValues: Partial<User>
   isSubmitting: boolean
   onCancel: () => void
-  onUpdate: (data: UpdateUserFormData, avatar?: File | null) => void
+  onUpdate: (
+    data: UpdateUserFormData,
+    avatar?: File | null,
+    removeAvatar?: boolean
+  ) => void
   /** Backend error from the submit mutation — mapped to inline field errors. */
   submitError?: unknown
 }
@@ -32,6 +36,18 @@ export function useEditUserForm({
     [t.validation]
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
+  const [removeAvatar, setRemoveAvatar] = useState(false)
+
+  // Picking a new photo cancels a pending removal; the remove button clears any
+  // pending file and flags the avatar for deletion on submit.
+  const onPhotoChange = (file: File | null) => {
+    setPendingFile(file)
+    if (file) setRemoveAvatar(false)
+  }
+  const onRemovePhoto = () => {
+    setPendingFile(null)
+    setRemoveAvatar(true)
+  }
 
   useEffect(() => {
     load().catch(() => {})
@@ -83,7 +99,7 @@ export function useEditUserForm({
     .map((g) => ({ value: g.id, label: g.name }))
 
   const onSubmit = handleSubmit((data) => {
-    onUpdate(data, pendingFile)
+    onUpdate(data, pendingFile, removeAvatar)
   })
 
   const handleCancel = () => {
@@ -109,7 +125,8 @@ export function useEditUserForm({
     busy,
     onSubmit,
     handleCancel,
-    setPendingFile,
+    onPhotoChange,
+    onRemovePhoto,
     onGenderChange,
     onGroupChange,
     onStatusToggle,
