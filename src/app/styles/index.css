@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import 'tailwindcss';
+
+/* ── Dark mode: class strategy (.dark on <html>) ────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animates the independent `scale` property (not `transform`) so it composes
+   with the tooltip's inline positioning transform instead of overriding it. */
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    scale: 0.9;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@theme {
+  /* ── Easing tokens ──────────────────────────────────────────────────────── */
+  /* Expo-out: arranca explosivo, frena suave — drawers, paneles, accordion   */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Spring: mínimo overshoot — hover de nav items, micro-interacciones       */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Duration tokens ────────────────────────────────────────────────────── */
+  --duration-fast: 150ms; /* hovers, íconos, micro-interactions            */
+  --duration-normal: 350ms; /* drawers, paneles, accordion, banners          */
+
+  /* ── Animations ─────────────────────────────────────────────────────────── */
+  --animate-page-in: page-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-dropdown-in: dropdown-in 150ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* Subtle scale+fade pop with a tiny spring overshoot — tooltips. */
+  --animate-tooltip-in: tooltip-in 160ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  --font-sans: 'Inter', sans-serif;
+
+  /* Colors — default teal brand; overridden per .color-* class on <html> */
+  --color-primary-50: #00b0bd;
+  --color-primary-100: #00a9b4;
+  --color-primary-200: #009fb0;
+  --color-primary-300: #0095ab;
+  --color-primary-400: #008ba7;
+  --color-primary-500: #0081a2;
+  --color-primary-600: #007797;
+  --color-primary-700: #006d8d;
+  --color-primary-800: #006483;
+  --color-primary-900: #005a79;
+  --color-primary-950: #004254;
+}
+
+/* ── Semantic color tokens ──────────────────────────────────────────────────
+   Components use: bg-(--surface), text-(--text-primary), border-(--border)
+   Single source of truth — change once here to update all components.      */
+@layer base {
+  :root {
+    /* Surfaces */
+    --surface: var(--color-white); /* page / card background            */
+    --surface-subtle: var(
+      --color-slate-50
+    ); /* sidebar, table rows, inputs       */
+    --surface-raised: var(
+      --color-white
+    ); /* modals, dropdowns, popovers       */
+    /* Borders */
+    --border: var(--color-slate-200); /* default border                    */
+    --border-subtle: var(
+      --color-slate-100
+    ); /* dividers, skeleton lines          */
+    /* Text */
+    --text-primary: var(
+      --color-slate-950
+    ); /* headings, body                    */
+    --text-secondary: var(
+      --color-slate-500
+    ); /* labels, helper text               */
+    --text-muted: var(
+      --color-slate-400
+    ); /* placeholders, disabled labels     */
+    --text-disabled: var(
+      --color-slate-300
+    ); /* disabled control text             */
+  }
+
+  .dark {
+    --surface: #1c252e; /* page / card background            */
+    --surface-subtle: #141a21; /* sidebar, table rows, inputs       */
+    --surface-raised: #1c252e; /* modals, dropdowns, cards          */
+    --border: #2d3a45; /* default border                    */
+    --border-subtle: #1e2a35; /* dividers, skeleton lines          */
+    --text-primary: #f4f6f8; /* headings, body                    */
+    --text-secondary: #8899a6; /* labels, helper text               */
+    --text-muted: #637381; /* placeholders, disabled labels     */
+    --text-disabled: #454f5b; /* disabled control text             */
+  }
+
+  /* ── Brand color themes ─────────────────────────────────────────────────────
+     Applied as a class on <html>. Overrides --color-primary-* CSS variables
+     so every utility that uses primary-* adapts automatically.
+     teal: custom scale (no Tailwind equivalent) — keeps hex values.
+     All others reference Tailwind's generated CSS variables directly.       */
+
+  .color-teal {
+    --color-primary-50: #00b0bd;
+    --color-primary-100: #00a9b4;
+    --color-primary-200: #009fb0;
+    --color-primary-300: #0095ab;
+    --color-primary-400: #008ba7;
+    --color-primary-500: #0081a2;
+    --color-primary-600: #007797;
+    --color-primary-700: #006d8d;
+    --color-primary-800: #006483;
+    --color-primary-900: #005a79;
+    --color-primary-950: #004254;
+  }
+
+  .color-violet {
+    --color-primary-50: var(--color-violet-50);
+    --color-primary-100: var(--color-violet-100);
+    --color-primary-200: var(--color-violet-200);
+    --color-primary-300: var(--color-violet-300);
+    --color-primary-400: var(--color-violet-400);
+    --color-primary-500: var(--color-violet-500);
+    --color-primary-600: var(--color-violet-600);
+    --color-primary-700: var(--color-violet-700);
+    --color-primary-800: var(--color-violet-800);
+    --color-primary-900: var(--color-violet-900);
+    --color-primary-950: var(--color-violet-950);
+  }
+
+  .color-emerald {
+    --color-primary-50: var(--color-emerald-50);
+    --color-primary-100: var(--color-emerald-100);
+    --color-primary-200: var(--color-emerald-200);
+    --color-primary-300: var(--color-emerald-300);
+    --color-primary-400: var(--color-emerald-400);
+    --color-primary-500: var(--color-emerald-500);
+    --color-primary-600: var(--color-emerald-600);
+    --color-primary-700: var(--color-emerald-700);
+    --color-primary-800: var(--color-emerald-800);
+    --color-primary-900: var(--color-emerald-900);
+    --color-primary-950: var(--color-emerald-950);
+  }
+
+  .color-rose {
+    --color-primary-50: var(--color-rose-50);
+    --color-primary-100: var(--color-rose-100);
+    --color-primary-200: var(--color-rose-200);
+    --color-primary-300: var(--color-rose-300);
+    --color-primary-400: var(--color-rose-400);
+    --color-primary-500: var(--color-rose-500);
+    --color-primary-600: var(--color-rose-600);
+    --color-primary-700: var(--color-rose-700);
+    --color-primary-800: var(--color-rose-800);
+    --color-primary-900: var(--color-rose-900);
+    --color-primary-950: var(--color-rose-950);
+  }
+
+  .color-amber {
+    --color-primary-50: var(--color-amber-50);
+    --color-primary-100: var(--color-amber-100);
+    --color-primary-200: var(--color-amber-200);
+    --color-primary-300: var(--color-amber-300);
+    --color-primary-400: var(--color-amber-400);
+    --color-primary-500: var(--color-amber-500);
+    --color-primary-600: var(--color-amber-600);
+    --color-primary-700: var(--color-amber-700);
+    --color-primary-800: var(--color-amber-800);
+    --color-primary-900: var(--color-amber-900);
+    --color-primary-950: var(--color-amber-950);
+  }
+
+  .color-sky {
+    --color-primary-50: var(--color-sky-50);
+    --color-primary-100: var(--color-sky-100);
+    --color-primary-200: var(--color-sky-200);
+    --color-primary-300: var(--color-sky-300);
+    --color-primary-400: var(--color-sky-400);
+    --color-primary-500: var(--color-sky-500);
+    --color-primary-600: var(--color-sky-600);
+    --color-primary-700: var(--color-sky-700);
+    --color-primary-800: var(--color-sky-800);
+    --color-primary-900: var(--color-sky-900);
+    --color-primary-950: var(--color-sky-950);
+  }
+
+  .color-indigo {
+    --color-primary-50: var(--color-indigo-50);
+    --color-primary-100: var(--color-indigo-100);
+    --color-primary-200: var(--color-indigo-200);
+    --color-primary-300: var(--color-indigo-300);
+    --color-primary-400: var(--color-indigo-400);
+    --color-primary-500: var(--color-indigo-500);
+    --color-primary-600: var(--color-indigo-600);
+    --color-primary-700: var(--color-indigo-700);
+    --color-primary-800: var(--color-indigo-800);
+    --color-primary-900: var(--color-indigo-900);
+    --color-primary-950: var(--color-indigo-950);
+  }
+
+  .color-orange {
+    --color-primary-50: var(--color-orange-50);
+    --color-primary-100: var(--color-orange-100);
+    --color-primary-200: var(--color-orange-200);
+    --color-primary-300: var(--color-orange-300);
+    --color-primary-400: var(--color-orange-400);
+    --color-primary-500: var(--color-orange-500);
+    --color-primary-600: var(--color-orange-600);
+    --color-primary-700: var(--color-orange-700);
+    --color-primary-800: var(--color-orange-800);
+    --color-primary-900: var(--color-orange-900);
+    --color-primary-950: var(--color-orange-950);
+  }
+
+  .color-pink {
+    --color-primary-50: var(--color-pink-50);
+    --color-primary-100: var(--color-pink-100);
+    --color-primary-200: var(--color-pink-200);
+    --color-primary-300: var(--color-pink-300);
+    --color-primary-400: var(--color-pink-400);
+    --color-primary-500: var(--color-pink-500);
+    --color-primary-600: var(--color-pink-600);
+    --color-primary-700: var(--color-pink-700);
+    --color-primary-800: var(--color-pink-800);
+    --color-primary-900: var(--color-pink-900);
+    --color-primary-950: var(--color-pink-950);
+  }
+
+  .color-cyan {
+    --color-primary-50: var(--color-cyan-50);
+    --color-primary-100: var(--color-cyan-100);
+    --color-primary-200: var(--color-cyan-200);
+    --color-primary-300: var(--color-cyan-300);
+    --color-primary-400: var(--color-cyan-400);
+    --color-primary-500: var(--color-cyan-500);
+    --color-primary-600: var(--color-cyan-600);
+    --color-primary-700: var(--color-cyan-700);
+    --color-primary-800: var(--color-cyan-800);
+    --color-primary-900: var(--color-cyan-900);
+    --color-primary-950: var(--color-cyan-950);
+  }
+
+  /* Smooth theme transition — lower specificity than Tailwind utilities,
+     so explicit duration-ease-* classes on components always win.
+     Covers dark-mode toggle and brand-color changes on all surfaces. */
+  *,
+  *::before,
+  *::after {
+    transition-property:
+      color, background-color, border-color, outline-color, fill, stroke,
+      box-shadow;
+    transition-timing-function: ease;
+    transition-duration: 200ms;
+  }
+}
+
+/* ── Autofill cross-browser ─────────────────────────────────────────────────
+   El box-shadow inset cubre el fondo amarillo/azul que el browser inyecta.
+   El ring del contenedor padre desaparecería porque el input lo tapa, pero
+   el ::after en .content-input hereda y re-pinta el ring por encima del
+   input (los positioned elements se pintan después de los static).         */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0f172a;
+}
+
+input:autofill {
+  box-shadow: 0 0 0 1000px white inset !important;
+  color: #0f172a !important;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #1c252e inset !important;
+  -webkit-text-fill-color: #f4f6f8 !important;
+  caret-color: #f4f6f8;
+}
+
+.dark input:autofill {
+  box-shadow: 0 0 0 1000px #1c252e inset !important;
+  color: #f4f6f8 !important;
+}
+
+.content-input {
+  position: relative;
+}
+
+.content-input::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inherit;
+  pointer-events: none;
+}
+
+html,
+body {
+  @apply font-sans;
+  color: var(--text-primary);
+  @apply font-normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-sans;
+  @apply font-bold;
+  letter-spacing: 0.02rem;
+}

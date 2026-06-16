@@ -3,56 +3,40 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import { defineConfig, globalIgnores } from 'eslint/config'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import { includeIgnoreFile } from '@eslint/compat'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+const gitignorePath = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '.gitignore'
+)
+
+export default defineConfig([
+  includeIgnoreFile(gitignorePath),
+  globalIgnores(['dist', 'dist-ssr', 'coverage']),
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+      eslintConfigPrettier,
+    ],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-      '@typescript-eslint/naming-convention': [
+      '@typescript-eslint/no-unused-vars': [
         'error',
-        {
-          selector: 'typeAlias',
-          format: ['PascalCase'],
-          prefix: ['T'],
-        },
-        {
-          selector: 'enum',
-          format: ['PascalCase'],
-          prefix: ['E'],
-        },
-        {
-          selector: 'interface',
-          format: ['PascalCase'],
-          prefix: ['I'],
-        },
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
       '@typescript-eslint/no-explicit-any': 'error',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'no-debugger': 'warn',
-      'no-alert': 'warn',
-      'no-unused-vars': [
-        'warn',
-        {
-          vars: 'all',
-          args: 'after-used',
-          ignoreRestSiblings: false,
-        },
-      ],
     },
-  }
-)
+  },
+])

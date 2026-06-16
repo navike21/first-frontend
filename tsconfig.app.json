@@ -1,46 +1,33 @@
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "types": ["vite/client", "vitest/globals"],
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals"],
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
 
-    /* Alias config */
-    "baseUrl": "./",
+    /* Path aliases */
     "paths": {
-      "@Assets/*": ["src/common/assets/*"],
-      "@Components/*": ["src/common/components/*"],
-      "@Constants/*": ["src/common/constants/*"],
-      "@Enums/*": ["src/common/enums/*"],
-      "@Helpers/*": ["src/common/helpers/*"],
-      "@Hooks/*": ["src/common/hooks/*"],
-      "@Layouts/*": ["src/common/layouts/*"],
-      "@Pages/*": ["src/pages/*"],
-      "@Providers/*": ["src/common/providers/*"],
-      "@Routes/*": ["src/routes/*"],
-      "@Store/*": ["src/common/store/*"],
-      "@Themes/*": ["src/common/themes/*"],
-      "@Types/*": ["src/common/types/*"],
-      "@Utils/*": ["src/common/utils/*"]
+      "@/*": ["./src/*"],
+      "@domains/*": ["./src/domains/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.stories.tsx", "src/**/*.stories.ts"]
 }
