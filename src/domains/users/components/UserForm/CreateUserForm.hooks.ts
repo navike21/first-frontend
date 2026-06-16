@@ -52,7 +52,7 @@ export function useCreateUserForm({
   }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'gender' })
-  const groupValue = useWatch({ control, name: 'groupId' })
+  const groupIdsValue = useWatch({ control, name: 'groupIds' })
   const busy = isSubmitting
 
   const genderOptions = [
@@ -77,14 +77,14 @@ export function useCreateUserForm({
 
   const onGenderChange = (v: string) =>
     setValue('gender', v as CreateUserFormData['gender'])
-  const onGroupChange = (v: string) => setValue('groupId', v)
+  const onGroupsChange = (v: string[]) => setValue('groupIds', v)
 
   return {
     t,
     register,
     errors,
     genderValue,
-    groupValue,
+    groupIdsValue,
     genderOptions,
     groupOptions,
     busy,
@@ -92,6 +92,6 @@ export function useCreateUserForm({
     handleCancel,
     setPendingFile,
     onGenderChange,
-    onGroupChange,
+    onGroupsChange,
   }
 }

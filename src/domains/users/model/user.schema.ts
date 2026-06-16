@@ -31,7 +31,7 @@ export function createCreateUserSchema(v: V) {
     // The avatar is sent as a multipart `avatar` File (handled outside the
     // schema); the backend owns the upload. No URL input in the form.
     address: addressSchema.optional(),
-    groupId: z.string().optional(),
+    groupIds: z.array(z.string()).optional(),
     status: z.enum(['active', 'inactive']).default('active'),
   })
 }

@@ -184,10 +184,19 @@ describe('Sidebar active-state branches', () => {
       expect(activeLinks.length).toBeGreaterThan(0)
     })
 
-    it('renders accordion item in collapsed mode using item href', () => {
+    it('flattens accordion group into child icon links in collapsed mode', () => {
       render(<Sidebar />)
-      const gestionLink = screen.getByTitle('Gestión')
-      expect(gestionLink).toHaveAttribute('href', '/es/gestion')
+      // Collapsed rail expands a group into one icon link per child.
+      expect(screen.getByTitle('Sub A')).toHaveAttribute(
+        'href',
+        '/es/gestion/a'
+      )
+      expect(screen.getByTitle('Sub B')).toHaveAttribute(
+        'href',
+        '/es/gestion/b'
+      )
+      // The group parent itself is not a link in collapsed mode.
+      expect(screen.queryByTitle('Gestión')).not.toBeInTheDocument()
     })
 
     it('renders no-href item in collapsed mode with href=/ (line 51 ?? fallback)', () => {

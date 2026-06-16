@@ -20,3 +20,26 @@ export interface UserGroupListParams {
   status?: UserGroupStatus
   search?: string
 }
+
+/** A user shown as a member of a group (subset of the User entity). */
+export interface GroupMember {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  profilePictureUrl?: string
+  status: 'active' | 'inactive'
+}
+
+export interface GroupMemberListParams {
+  page?: number
+  limit?: number
+  status?: 'active' | 'inactive'
+  search?: string
+}
+
+export interface AddMembersResult {
+  groupId: string
+  addedIds: string[]
+  notFoundIds: string[]
+}

@@ -34,7 +34,7 @@ export interface User {
   phone?: string
   profilePictureUrl?: string
   address?: UserAddress
-  groupId?: string
+  groupIds?: string[]
   isEmailVerified: boolean
   status: UserStatus
   presenceStatus: PresenceStatus

@@ -58,7 +58,7 @@ export const ko: UsersTranslations = {
     genderOther: '기타',
     genderPreferNotToSay: '응답 안 함',
     groupId: '그룹',
-    groupIdPlaceholder: '그룹 ID',
+    groupIdPlaceholder: '그룹 선택',
     addressSection: '주소',
     addressStreet: '도로명',
     addressStreetPlaceholder: '세종대로 1',

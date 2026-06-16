@@ -9,7 +9,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     register,
     errors,
     genderValue,
-    groupValue,
+    groupIdsValue,
     genderOptions,
     groupOptions,
     busy,
@@ -17,7 +17,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     handleCancel,
     setPendingFile,
     onGenderChange,
-    onGroupChange,
+    onGroupsChange,
   } = useCreateUserForm(props)
 
   return (
@@ -90,8 +90,14 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <Select
                   label={t.form.groupId}
                   options={groupOptions}
-                  value={groupValue ?? ''}
-                  onChange={(e) => onGroupChange(e.target.value)}
+                  multiple
+                  search
+                  value={groupIdsValue ?? []}
+                  onChange={(e) =>
+                    onGroupsChange(
+                      Array.from(e.target.selectedOptions, (o) => o.value)
+                    )
+                  }
                   placeholder={t.form.groupIdPlaceholder}
                 />
               ) : (

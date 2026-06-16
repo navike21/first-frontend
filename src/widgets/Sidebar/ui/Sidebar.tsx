@@ -38,31 +38,59 @@ export const Sidebar = () => {
     >
       <nav className="flex-1 space-y-2 px-4 py-6">
         {menuConfig.map((item) => {
-          const isItemActive = item.href
-            ? item.exact
-              ? pathname === item.href
-              : pathname === item.href || pathname.startsWith(item.href + '/')
-            : false
+          const isHrefActive = (href?: string, exact?: boolean) =>
+            href
+              ? exact
+                ? pathname === href
+                : pathname === href || pathname.startsWith(href + '/')
+              : false
+
+          const isItemActive =
+            isHrefActive(item.href, item.exact) ||
+            (item.children?.some((child) => isHrefActive(child.href)) ?? false)
 
           if (isCollapsed && !isOpenMobile) {
+            // Collapsed rail: flatten groups into one icon per leaf destination.
+            const leaves = item.children
+              ? item.children.map((child) => ({
+                  id: child.id,
+                  href: child.href,
+                  label: child.label,
+                  icon: child.icon ?? item.icon,
+                }))
+              : [
+                  {
+                    id: item.id,
+                    href: item.href ?? '/',
+                    label: item.label,
+                    icon: item.icon,
+                  },
+                ]
+
             return (
               <div key={item.id} className="w-full">
-                <Link
-                  to={item.href ?? '/'}
-                  title={item.label}
-                  className={clsx(
-                    'mb-2 hidden items-center justify-center p-3 md:flex',
-                    'rounded-lg',
-                    'duration-fast ease-out-expo transition-colors',
-                    !isItemActive &&
-                      'hover:bg-(--color-primary-950)/20 hover:text-white',
-                    isItemActive
-                      ? 'bg-(--color-primary-950)/40 text-white'
-                      : 'text-(--text-secondary)'
-                  )}
-                >
-                  <IconComponent icon={item.icon} className="h-6 w-6" />
-                </Link>
+                {leaves.map((leaf) => {
+                  const isLeafActive = isHrefActive(leaf.href)
+                  return (
+                    <Link
+                      key={leaf.id}
+                      to={leaf.href}
+                      title={leaf.label}
+                      className={clsx(
+                        'mb-2 hidden items-center justify-center p-3 md:flex',
+                        'rounded-lg',
+                        'duration-fast ease-out-expo transition-colors',
+                        !isLeafActive &&
+                          'hover:bg-(--color-primary-950)/20 hover:text-white',
+                        isLeafActive
+                          ? 'bg-(--color-primary-950)/40 text-white'
+                          : 'text-(--text-secondary)'
+                      )}
+                    >
+                      <IconComponent icon={leaf.icon} className="h-6 w-6" />
+                    </Link>
+                  )
+                })}
               </div>
             )
           }

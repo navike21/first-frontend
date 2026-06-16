@@ -2,17 +2,21 @@ import type { IconName } from '@/shared/types/icons'
 import type { Language } from '@/shared/types/languages'
 import { navPaths } from '@/shared/router'
 
+export interface MenuChild {
+  id: string
+  label: string
+  href: string
+  /** Icon shown for this child in the collapsed rail. */
+  icon?: IconName
+}
+
 export interface MenuItem {
   id: string
   label: string
   icon: IconName
   href?: string
   exact?: boolean
-  children?: {
-    id: string
-    label: string
-    href: string
-  }[]
+  children?: MenuChild[]
 }
 
 const MENU_LABELS: Record<string, Record<Language, string>> = {
@@ -27,6 +31,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     ko: '대시보드',
     zh: '仪表板',
     ru: 'Панель',
+  },
+  administration: {
+    es: 'Administración',
+    en: 'Administration',
+    de: 'Verwaltung',
+    fr: 'Administration',
+    pt: 'Administração',
+    it: 'Amministrazione',
+    ja: '管理',
+    ko: '관리',
+    zh: '管理',
+    ru: 'Администрирование',
   },
   users: {
     es: 'Usuarios',
@@ -64,16 +80,23 @@ export function getMenuConfig(lang: Language): MenuItem[] {
       exact: true,
     },
     {
-      id: 'users',
-      label: MENU_LABELS.users[lang],
-      icon: 'RiGroupLine',
-      href: navPaths.users(lang),
-    },
-    {
-      id: 'userGroups',
-      label: MENU_LABELS.userGroups[lang],
-      icon: 'RiShieldUserLine',
-      href: navPaths.userGroups(lang),
+      id: 'administration',
+      label: MENU_LABELS.administration[lang],
+      icon: 'RiSettings3Line',
+      children: [
+        {
+          id: 'users',
+          label: MENU_LABELS.users[lang],
+          href: navPaths.users(lang),
+          icon: 'RiGroupLine',
+        },
+        {
+          id: 'userGroups',
+          label: MENU_LABELS.userGroups[lang],
+          href: navPaths.userGroups(lang),
+          icon: 'RiShieldUserLine',
+        },
+      ],
     },
   ]
 }

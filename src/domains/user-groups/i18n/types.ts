@@ -40,6 +40,26 @@ export interface UserGroupsTranslations {
     closeButton: string
   }
   status: { active: string; inactive: string }
+  tabs: {
+    settings: string
+    members: string
+  }
+  members: {
+    searchLabel: string
+    searchPlaceholder: string
+    searchHint: string
+    addAction: string
+    noSearchResults: string
+    colMember: string
+    colEmail: string
+    colStatus: string
+    colActions: string
+    removeMember: string
+    empty: string
+    totalCount: (count: number) => string
+    toastAdded: string
+    toastRemoved: string
+  }
   form: {
     name: string
     namePlaceholder: string

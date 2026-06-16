@@ -16,7 +16,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
     register,
     errors,
     genderValue,
-    groupValue,
+    groupIdsValue,
     statusValue,
     genderOptions,
     groupOptions,
@@ -26,7 +26,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
     onPhotoChange,
     onRemovePhoto,
     onGenderChange,
-    onGroupChange,
+    onGroupsChange,
     onStatusToggle,
   } = useEditUserForm(props)
 
@@ -99,8 +99,14 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                 <Select
                   label={t.form.groupId}
                   options={groupOptions}
-                  value={groupValue ?? ''}
-                  onChange={(e) => onGroupChange(e.target.value)}
+                  multiple
+                  search
+                  value={groupIdsValue ?? []}
+                  onChange={(e) =>
+                    onGroupsChange(
+                      Array.from(e.target.selectedOptions, (o) => o.value)
+                    )
+                  }
                   placeholder={t.form.groupIdPlaceholder}
                 />
               ) : (

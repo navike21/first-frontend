@@ -11,15 +11,20 @@ export function useSidebar() {
   const language = useLanguageStore((s) => s.language)
   const menuConfig = useMemo(() => getMenuConfig(language), [language])
 
-  const activeGroupId = useMemo(
-    () =>
-      menuConfig.find((item) => {
-        if (!item.href) return false
-        if (item.exact) return pathname === item.href
-        return pathname === item.href || pathname.startsWith(item.href + '/')
-      })?.id ?? null,
-    [pathname, menuConfig]
-  )
+  const activeGroupId = useMemo(() => {
+    const matches = (href?: string, exact?: boolean) => {
+      if (!href) return false
+      if (exact) return pathname === href
+      return pathname === href || pathname.startsWith(href + '/')
+    }
+    return (
+      menuConfig.find(
+        (item) =>
+          matches(item.href, item.exact) ||
+          (item.children?.some((child) => matches(child.href)) ?? false)
+      )?.id ?? null
+    )
+  }, [pathname, menuConfig])
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(activeGroupId)
 

@@ -69,7 +69,7 @@ export function useEditUserForm({
       phone: defaultValues.phone ?? '',
       dateOfBirth: defaultValues.dateOfBirth ?? '',
       gender: defaultValues.gender,
-      groupId: defaultValues.groupId ?? '',
+      groupIds: defaultValues.groupIds ?? [],
       address: defaultValues.address ?? {},
       status:
         defaultValues.status === 'deleted'
@@ -83,7 +83,7 @@ export function useEditUserForm({
   }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'gender' })
-  const groupValue = useWatch({ control, name: 'groupId' })
+  const groupIdsValue = useWatch({ control, name: 'groupIds' })
   const statusValue = useWatch({ control, name: 'status' })
   const busy = isSubmitting
 
@@ -109,7 +109,7 @@ export function useEditUserForm({
 
   const onGenderChange = (v: string) =>
     setValue('gender', v as UpdateUserFormData['gender'])
-  const onGroupChange = (v: string) => setValue('groupId', v)
+  const onGroupsChange = (v: string[]) => setValue('groupIds', v)
   const onStatusToggle = () =>
     setValue('status', statusValue === 'active' ? 'inactive' : 'active')
 
@@ -118,7 +118,7 @@ export function useEditUserForm({
     register,
     errors,
     genderValue,
-    groupValue,
+    groupIdsValue,
     statusValue,
     genderOptions,
     groupOptions,
@@ -128,7 +128,7 @@ export function useEditUserForm({
     onPhotoChange,
     onRemovePhoto,
     onGenderChange,
-    onGroupChange,
+    onGroupsChange,
     onStatusToggle,
   }
 }

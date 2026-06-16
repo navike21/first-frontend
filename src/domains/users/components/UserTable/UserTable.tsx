@@ -1,10 +1,9 @@
-import clsx from 'clsx'
 import {
   Avatar,
+  DataTable,
   IconButton,
-  IconComponent,
-  Spinner,
   Tooltip,
+  type DataTableColumn,
 } from '@/shared/ui'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
@@ -34,139 +33,100 @@ export const UserTable = ({
 }: UserTableProps) => {
   const { t } = useUsersTranslation()
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Spinner size="medium" />
-      </div>
-    )
-  }
-
-  if (users.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-(--text-muted)">
-        <IconComponent icon="RiUser3Line" className="h-10 w-10" />
-        <p className="text-sm">{t.table.noResults}</p>
-      </div>
-    )
-  }
+  const columns: DataTableColumn<User>[] = [
+    {
+      id: 'user',
+      header: t.table.colUser,
+      cell: (user) => (
+        <div className="flex items-center gap-3">
+          <Avatar
+            alt={`${user.firstName} ${user.lastName}`}
+            src={user.profilePictureUrl}
+            name={`${user.firstName} ${user.lastName}`}
+            size="sm"
+          />
+          <span className="font-medium text-(--text-primary)">
+            {user.firstName} {user.lastName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      id: 'email',
+      header: t.table.colEmail,
+      cellClassName: 'text-(--text-secondary)',
+      cell: (user) => user.email,
+    },
+    {
+      id: 'status',
+      header: t.table.colStatus,
+      cell: (user) => <UserStatusBadge status={user.status} />,
+    },
+    {
+      id: 'presence',
+      header: t.table.colPresence,
+      cell: (user) => (
+        <PresenceDot
+          status={user.presenceStatus}
+          label={t.presence[user.presenceStatus]}
+        />
+      ),
+    },
+    {
+      id: 'actions',
+      header: t.table.colActions,
+      align: 'right',
+      cell: (user) => (
+        <div className="flex items-center justify-end gap-1">
+          <Tooltip
+            heading={t.table.editUser}
+            icon="RiPencilLine"
+            position="top"
+            size="small"
+          >
+            <IconButton
+              icon="RiPencilLine"
+              variant="text"
+              size="small"
+              aria-label={t.table.editUser}
+              onClick={() => onEdit(user)}
+            />
+          </Tooltip>
+          <Tooltip
+            heading={t.table.deleteUser}
+            icon="RiDeleteBinLine"
+            position="top"
+            size="small"
+          >
+            <IconButton
+              icon="RiDeleteBinLine"
+              variant="text"
+              size="small"
+              aria-label={t.table.deleteUser}
+              onClick={() => onDelete(user)}
+            />
+          </Tooltip>
+        </div>
+      ),
+    },
+  ]
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
-        <table className="w-full text-sm">
-          <thead>
-            <tr
-              className={clsx(
-                'text-left',
-                'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold tracking-wide text-(--text-secondary) uppercase'
-              )}
-            >
-              <th className="px-4 py-3">{t.table.colUser}</th>
-              <th className="px-4 py-3">{t.table.colEmail}</th>
-              <th className="px-4 py-3">{t.table.colStatus}</th>
-              <th className="px-4 py-3">{t.table.colPresence}</th>
-              <th className="px-4 py-3 text-right">{t.table.colActions}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-            {users.map((user) => (
-              <tr
-                key={user.id}
-                className={clsx(
-                  'duration-fast ease-out-expo transition-colors',
-                  'hover:bg-(--surface-subtle)'
-                )}
-              >
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      alt={`${user.firstName} ${user.lastName}`}
-                      src={user.profilePictureUrl}
-                      name={`${user.firstName} ${user.lastName}`}
-                      size="sm"
-                    />
-                    <span className="font-medium text-(--text-primary)">
-                      {user.firstName} {user.lastName}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-(--text-secondary)">
-                  {user.email}
-                </td>
-                <td className="px-4 py-3">
-                  <UserStatusBadge status={user.status} />
-                </td>
-                <td className="px-4 py-3">
-                  <PresenceDot
-                    status={user.presenceStatus}
-                    label={t.presence[user.presenceStatus]}
-                  />
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <Tooltip
-                      heading={t.table.editUser}
-                      icon="RiPencilLine"
-                      position="top"
-                      size="small"
-                    >
-                      <IconButton
-                        icon="RiPencilLine"
-                        variant="text"
-                        size="small"
-                        aria-label={t.table.editUser}
-                        onClick={() => onEdit(user)}
-                      />
-                    </Tooltip>
-                    <Tooltip
-                      heading={t.table.deleteUser}
-                      icon="RiDeleteBinLine"
-                      position="top"
-                      size="small"
-                    >
-                      <IconButton
-                        icon="RiDeleteBinLine"
-                        variant="text"
-                        size="small"
-                        aria-label={t.table.deleteUser}
-                        onClick={() => onDelete(user)}
-                      />
-                    </Tooltip>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="flex items-center justify-between text-sm text-(--text-secondary)">
-        <span>{t.table.totalCount(total)}</span>
-        {pages > 1 && (
-          <div className="flex items-center gap-1">
-            <IconButton
-              icon="RiArrowLeftSLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.prevPage}
-              disabled={page <= 1}
-              onClick={() => onPageChange(page - 1)}
-            />
-            <span className="px-2 font-medium text-(--text-primary)">
-              {page} / {pages}
-            </span>
-            <IconButton
-              icon="RiArrowRightSLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.nextPage}
-              disabled={page >= pages}
-              onClick={() => onPageChange(page + 1)}
-            />
-          </div>
-        )}
-      </div>
-    </div>
+    <DataTable
+      columns={columns}
+      rows={users}
+      getRowKey={(user) => user.id}
+      isLoading={isLoading}
+      emptyIcon="RiUser3Line"
+      emptyLabel={t.table.noResults}
+      totalLabel={t.table.totalCount(total)}
+      pagination={{
+        page,
+        pages,
+        onPageChange,
+        prevLabel: t.table.prevPage,
+        nextLabel: t.table.nextPage,
+      }}
+    />
   )
 }

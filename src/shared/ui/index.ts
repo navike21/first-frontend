@@ -62,6 +62,13 @@ export {
   type SelectTexts,
 } from './molecules/Select'
 export { Modal, type ModalProps, type ModalSize } from './molecules/Modal'
+export {
+  DataTable,
+  type DataTableProps,
+  type DataTableColumn,
+  type DataTablePagination,
+} from './molecules/DataTable'
+export { Tabs, type TabsProps, type TabItem } from './molecules/Tabs'
 export { PhotoPicker, type PhotoPickerProps } from './molecules/PhotoPicker'
 export {
   LanguageSwitcher,

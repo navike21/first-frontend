@@ -4,6 +4,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Sidebar } from './Sidebar'
 import { useSidebarStore } from '../model/store'
 
+const { pathnameMock } = vi.hoisted(() => ({
+  pathnameMock: { value: '/es' },
+}))
+
 vi.mock('@tanstack/react-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-router')>()
   return {
@@ -23,7 +27,7 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
         {children}
       </a>
     ),
-    useRouterState: () => ({ location: { pathname: '/es' } }),
+    useRouterState: () => ({ location: { pathname: pathnameMock.value } }),
   }
 })
 
@@ -98,6 +102,7 @@ vi.mock('../model/menu.config', () => ({
 describe('Sidebar accordion children (lines 68-88)', () => {
   beforeEach(() => {
     vi.resetAllMocks()
+    pathnameMock.value = '/es'
     useSidebarStore.setState({ isCollapsed: false, isOpenMobile: false })
   })
 
@@ -125,5 +130,14 @@ describe('Sidebar accordion children (lines 68-88)', () => {
       'href',
       '/es/usuarios'
     )
+  })
+
+  it('auto-opens the group (no own href) when a child route is active', () => {
+    // The parent has no href; activeGroupId must derive from the child match.
+    pathnameMock.value = '/es/usuarios'
+    render(<Sidebar />)
+    // Children are visible without clicking → the accordion opened on its own.
+    expect(screen.getByText('Listado')).toBeInTheDocument()
+    expect(screen.getByText('Nuevo')).toBeInTheDocument()
   })
 })

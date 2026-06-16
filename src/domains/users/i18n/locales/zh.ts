@@ -52,7 +52,7 @@ export const zh: UsersTranslations = {
     genderOther: '其他',
     genderPreferNotToSay: '不愿透露',
     groupId: '群组',
-    groupIdPlaceholder: '群组 ID',
+    groupIdPlaceholder: '选择群组',
     addressSection: '地址',
     addressStreet: '街道',
     addressStreetPlaceholder: '长安街1号',

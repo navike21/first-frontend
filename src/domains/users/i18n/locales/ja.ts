@@ -58,7 +58,7 @@ export const ja: UsersTranslations = {
     genderOther: 'その他',
     genderPreferNotToSay: '回答しない',
     groupId: 'グループ',
-    groupIdPlaceholder: 'グループID',
+    groupIdPlaceholder: 'グループを選択',
     addressSection: '住所',
     addressStreet: '番地',
     addressStreetPlaceholder: '1-1 千代田',
