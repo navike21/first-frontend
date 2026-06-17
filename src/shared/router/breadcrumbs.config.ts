@@ -99,6 +99,18 @@ const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
     zh: '编辑',
     ru: 'Редактировать',
   },
+  userGroupUsers: {
+    es: 'Miembros',
+    en: 'Members',
+    de: 'Mitglieder',
+    fr: 'Membres',
+    pt: 'Membros',
+    it: 'Membri',
+    ja: 'メンバー',
+    ko: '구성원',
+    zh: '成员',
+    ru: 'Участники',
+  },
   userTrash: {
     es: 'Papelera',
     en: 'Trash',

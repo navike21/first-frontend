@@ -2,6 +2,8 @@ import type { UserGroupsTranslations } from '../types'
 
 export const zh: UserGroupsTranslations = {
   page: {
+    usersTitle: (name) => `${name} 的用户`,
+    usersDescription: '管理属于该群组的用户',
     listTitle: '用户组',
     listDescription: '管理用户组及其权限',
     createTitle: '新建用户组',
@@ -14,6 +16,9 @@ export const zh: UserGroupsTranslations = {
     trashEmptyDescription: '删除的用户组将显示在此处。',
   },
   table: {
+    manageUsers: '管理用户',
+    selectAll: '全选',
+    selectRow: '选择行',
     noResults: '未找到用户组',
     colName: '名称',
     colPermissions: '权限',
@@ -35,6 +40,14 @@ export const zh: UserGroupsTranslations = {
     members: '成员',
   },
   members: {
+    backLabel: '返回群组',
+    bulkRemove: '从群组移除',
+    removeTitle: '从群组移除',
+    removeDescription: (n) => `从该群组移除 ${n} 个用户？`,
+    confirmRemove: '移除',
+    toastBulkRemoved: '用户已从群组移除',
+    selectedCount: (n) => `已选择 ${n} 项`,
+    clearSelection: '清除选择',
     searchLabel: '添加成员',
     searchPlaceholder: '按姓名或邮箱搜索用户…',
     searchHint: '输入以搜索要添加的用户',
@@ -52,9 +65,7 @@ export const zh: UserGroupsTranslations = {
   },
   form: {
     name: '名称',
-    namePlaceholder: '例：管理员',
     description: '描述',
-    descriptionPlaceholder: '描述此用户组的用途…',
     color: '颜色',
     permissions: '权限',
     permissionsHint: '选择此用户组的权限',

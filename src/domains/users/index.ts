@@ -10,6 +10,9 @@ export {
   useUsersTrash,
   useRestoreUser,
   usePurgeUser,
+  useBulkSoftDeleteUsers,
+  useBulkRestoreUsers,
+  useBulkPurgeUsers,
   userKeys,
 } from './api/users.queries'
 export type {

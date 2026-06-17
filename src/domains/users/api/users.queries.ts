@@ -129,3 +129,30 @@ export const usePurgeUser = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.trash() }),
   })
 }
+
+export const useBulkSoftDeleteUsers = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (ids: string[]) => usersApi.bulkSoftDelete(ids),
+    onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
+  })
+}
+
+export const useBulkRestoreUsers = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (ids: string[]) => usersApi.bulkRestore(ids),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: userKeys.trash() })
+      qc.invalidateQueries({ queryKey: userKeys.lists() })
+    },
+  })
+}
+
+export const useBulkPurgeUsers = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (ids: string[]) => usersApi.bulkPurge(ids),
+    onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.trash() }),
+  })
+}

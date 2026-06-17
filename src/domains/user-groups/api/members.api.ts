@@ -21,7 +21,9 @@ export const membersApi = {
   list: (groupId: string, params: GroupMemberListParams = {}) => {
     const qs = buildQuery(params)
     return request<ApiResponse<PaginatedData<GroupMember>>>({
-      api: qs ? `${BASE}/${groupId}/members?${qs}` : `${BASE}/${groupId}/members`,
+      api: qs
+        ? `${BASE}/${groupId}/members?${qs}`
+        : `${BASE}/${groupId}/members`,
       method: 'GET',
     })
   },
@@ -37,6 +39,20 @@ export const membersApi = {
     request<ApiResponse<{ groupId: string; userId: string }>>({
       api: `${BASE}/${groupId}/members/${userId}`,
       method: 'DELETE',
+    }),
+
+  removeBulk: (groupId: string, userIds: string[]) =>
+    request<
+      ApiResponse<{
+        groupId: string
+        removedIds: string[]
+        notFoundIds: string[]
+      }>,
+      { userIds: string[] }
+    >({
+      api: `${BASE}/${groupId}/members`,
+      method: 'DELETE',
+      body: { userIds },
     }),
 
   /** Searches users to add as members (active users, by name/email). */

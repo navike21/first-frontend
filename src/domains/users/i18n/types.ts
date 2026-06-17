@@ -24,6 +24,12 @@ export interface UsersTranslations {
     nextPage: string
     totalCount: (count: number) => string
     deletedAt: string
+    selectAll: string
+    selectRow: string
+  }
+  detail: {
+    title: string
+    closeButton: string
   }
   status: {
     active: string
@@ -38,17 +44,11 @@ export interface UsersTranslations {
   }
   form: {
     firstName: string
-    firstNamePlaceholder: string
     lastName: string
-    lastNamePlaceholder: string
     email: string
-    emailPlaceholder: string
     password: string
-    passwordPlaceholder: string
     phone: string
-    phonePlaceholder: string
     dateOfBirth: string
-    dateOfBirthPlaceholder: string
     uploadPhoto: string
     uploadFormats: string
     removePhoto: string
@@ -62,15 +62,10 @@ export interface UsersTranslations {
     groupIdPlaceholder: string
     addressSection: string
     addressStreet: string
-    addressStreetPlaceholder: string
     addressCity: string
-    addressCityPlaceholder: string
     addressState: string
-    addressStatePlaceholder: string
     addressCountry: string
-    addressCountryPlaceholder: string
     addressPostalCode: string
-    addressPostalCodePlaceholder: string
     statusLabel: string
     statusDescription: string
     statusActive: string
@@ -95,6 +90,15 @@ export interface UsersTranslations {
     confirmRestore: string
     confirmPurge: string
     purgeWarning: string
+    selectedCount: (n: number) => string
+    clearSelection: string
+    viewDetail: string
+    bulkDeactivate: string
+    bulkDeactivateDescription: (n: number) => string
+    bulkRestore: string
+    bulkRestoreDescription: (n: number) => string
+    bulkPurge: string
+    bulkPurgeDescription: (n: number) => string
   }
   filters: {
     searchLabel: string
@@ -110,6 +114,9 @@ export interface UsersTranslations {
     deactivated: string
     restored: string
     purged: string
+    bulkDeactivated: string
+    bulkRestored: string
+    bulkPurged: string
   }
   validation: {
     emailInvalid: string

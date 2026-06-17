@@ -2,6 +2,8 @@ import type { UserGroupsTranslations } from '../types'
 
 export const ko: UserGroupsTranslations = {
   page: {
+    usersTitle: (name) => `${name} 사용자`,
+    usersDescription: '이 그룹에 속한 사용자를 관리합니다',
     listTitle: '사용자 그룹',
     listDescription: '그룹 및 권한 관리',
     createTitle: '새 그룹',
@@ -15,6 +17,9 @@ export const ko: UserGroupsTranslations = {
     trashEmptyDescription: '삭제된 그룹이 여기에 표시됩니다.',
   },
   table: {
+    manageUsers: '사용자 관리',
+    selectAll: '전체 선택',
+    selectRow: '행 선택',
     noResults: '그룹을 찾을 수 없습니다',
     colName: '이름',
     colPermissions: '권한',
@@ -36,6 +41,14 @@ export const ko: UserGroupsTranslations = {
     members: '구성원',
   },
   members: {
+    backLabel: '그룹으로 돌아가기',
+    bulkRemove: '그룹에서 제거',
+    removeTitle: '그룹에서 제거',
+    removeDescription: (n) => `${n}명의 사용자를 이 그룹에서 제거하시겠습니까?`,
+    confirmRemove: '제거',
+    toastBulkRemoved: '사용자가 그룹에서 제거되었습니다',
+    selectedCount: (n) => `${n}개 선택됨`,
+    clearSelection: '선택 해제',
     searchLabel: '구성원 추가',
     searchPlaceholder: '이름 또는 이메일로 사용자 검색…',
     searchHint: '추가할 사용자를 검색하려면 입력하세요',
@@ -53,9 +66,7 @@ export const ko: UserGroupsTranslations = {
   },
   form: {
     name: '이름',
-    namePlaceholder: '예: 관리자',
     description: '설명',
-    descriptionPlaceholder: '이 그룹의 목적을 설명하세요…',
     color: '색상',
     permissions: '권한',
     permissionsHint: '이 그룹의 권한을 선택하세요',

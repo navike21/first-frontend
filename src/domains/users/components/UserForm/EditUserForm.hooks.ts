@@ -67,8 +67,10 @@ export function useEditUserForm({
       firstName: defaultValues.firstName ?? '',
       lastName: defaultValues.lastName ?? '',
       phone: defaultValues.phone ?? '',
-      dateOfBirth: defaultValues.dateOfBirth ?? '',
       gender: defaultValues.gender,
+      // The API returns dateOfBirth as a full ISO datetime; the form (and its
+      // schema regex) expects YYYY-MM-DD, so slice off the time part on load.
+      dateOfBirth: defaultValues.dateOfBirth?.slice(0, 10) ?? '',
       groupIds: defaultValues.groupIds ?? [],
       address: defaultValues.address ?? {},
       status:

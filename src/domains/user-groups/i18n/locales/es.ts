@@ -2,6 +2,8 @@ import type { UserGroupsTranslations } from '../types'
 
 export const es: UserGroupsTranslations = {
   page: {
+    usersTitle: (name) => `Usuarios de ${name}`,
+    usersDescription: 'Gestiona los usuarios que pertenecen a este grupo',
     listTitle: 'Grupos de usuarios',
     listDescription: 'Gestiona los grupos y sus permisos',
     createTitle: 'Nuevo grupo',
@@ -16,6 +18,9 @@ export const es: UserGroupsTranslations = {
     trashEmptyDescription: 'Cuando se eliminen grupos, aparecerán aquí.',
   },
   table: {
+    manageUsers: 'Gestionar usuarios',
+    selectAll: 'Seleccionar todo',
+    selectRow: 'Seleccionar fila',
     noResults: 'No se encontraron grupos',
     colName: 'Nombre',
     colPermissions: 'Permisos',
@@ -37,6 +42,15 @@ export const es: UserGroupsTranslations = {
     members: 'Miembros',
   },
   members: {
+    backLabel: 'Volver a grupos',
+    bulkRemove: 'Quitar del grupo',
+    removeTitle: 'Quitar del grupo',
+    removeDescription: (n) =>
+      `¿Quitar ${n} usuario${n !== 1 ? 's' : ''} de este grupo?`,
+    confirmRemove: 'Quitar',
+    toastBulkRemoved: 'Usuarios quitados del grupo',
+    selectedCount: (n) => `${n} seleccionado${n !== 1 ? 's' : ''}`,
+    clearSelection: 'Limpiar selección',
     searchLabel: 'Añadir miembros',
     searchPlaceholder: 'Busca usuarios por nombre o correo…',
     searchHint: 'Escribe para buscar usuarios que añadir',
@@ -54,9 +68,7 @@ export const es: UserGroupsTranslations = {
   },
   form: {
     name: 'Nombre',
-    namePlaceholder: 'Ej. Administradores',
     description: 'Descripción',
-    descriptionPlaceholder: 'Describe el propósito de este grupo…',
     color: 'Color',
     permissions: 'Permisos',
     permissionsHint: 'Selecciona los permisos que tendrá este grupo',

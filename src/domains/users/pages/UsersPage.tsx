@@ -18,17 +18,24 @@ export const UsersPage = () => {
     params,
     search,
     deletingUser,
+    selectedIds,
+    bulkConfirmOpen,
     data,
     isLoading,
     softDelete,
+    bulkSoftDelete,
     statusOptions,
     handleEdit,
     handleDelete,
     handleConfirmDelete,
+    handleConfirmBulkDelete,
     handleSearchChange,
     handleStatusChange,
     handlePageChange,
     setDeletingUser,
+    setSelectedIds,
+    setBulkConfirmOpen,
+    clearSelection,
   } = useUsersPage()
 
   const canSeeTrash = useHasPermission('users:purge', 'users:manage', '*:*')
@@ -87,6 +94,26 @@ export const UsersPage = () => {
         </div>
       </div>
 
+      {selectedIds.length > 0 && (
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+          <span className="text-sm font-medium text-(--text-primary)">
+            {t.actions.selectedCount(selectedIds.length)}
+          </span>
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" size="small" onClick={clearSelection}>
+              {t.actions.clearSelection}
+            </Button>
+            <Button
+              variant="error"
+              size="small"
+              onClick={() => setBulkConfirmOpen(true)}
+            >
+              {t.actions.bulkDeactivate}
+            </Button>
+          </div>
+        </div>
+      )}
+
       <UserTable
         users={data?.items ?? []}
         isLoading={isLoading}
@@ -96,6 +123,8 @@ export const UsersPage = () => {
         onPageChange={handlePageChange}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
       />
 
       <Modal
@@ -124,6 +153,32 @@ export const UsersPage = () => {
               variant="error"
               loading={softDelete.isPending}
               onClick={handleConfirmDelete}
+            >
+              {t.actions.confirmDeactivate}
+            </Button>
+          </>
+        }
+      />
+
+      <Modal
+        isOpen={bulkConfirmOpen}
+        onClose={() => setBulkConfirmOpen(false)}
+        size="sm"
+        title={t.actions.deactivateTitle}
+        description={t.actions.bulkDeactivateDescription(selectedIds.length)}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkConfirmOpen(false)}
+              disabled={bulkSoftDelete.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="error"
+              loading={bulkSoftDelete.isPending}
+              onClick={handleConfirmBulkDelete}
             >
               {t.actions.confirmDeactivate}
             </Button>

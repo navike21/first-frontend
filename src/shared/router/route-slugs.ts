@@ -97,6 +97,18 @@ export const ROUTE_SLUGS = {
     zh: 'bianji',
     ru: 'redakt',
   },
+  userGroupUsers: {
+    es: 'miembros',
+    en: 'members',
+    de: 'mitglieder',
+    fr: 'membres',
+    pt: 'membros',
+    it: 'membri',
+    ja: 'menbaa',
+    ko: 'guseongwon',
+    zh: 'chengyuan',
+    ru: 'uchastniki',
+  },
   userTrash: {
     es: 'papelera',
     en: 'trash',

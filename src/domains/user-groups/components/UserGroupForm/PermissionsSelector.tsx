@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { Checkbox } from '@/shared/ui'
 
 interface PermissionsSelectorProps {
   value: string[]
@@ -79,49 +79,35 @@ export const PermissionsSelector = ({
             className="rounded-lg border border-(--border) bg-(--surface) p-3"
           >
             {/* Resource header */}
-            <label className="flex cursor-pointer items-center gap-2 pb-2">
-              <input
-                type="checkbox"
+            <div className="pb-2">
+              <Checkbox
+                label={
+                  <span className="text-sm font-semibold text-(--text-primary)">
+                    {formatResource(resource)}
+                  </span>
+                }
                 checked={allSelected}
-                ref={(el) => {
-                  if (el) el.indeterminate = someSelected
-                }}
-                onChange={() => !disabled && toggleAll(resource)}
+                indeterminate={someSelected}
+                onChange={() => toggleAll(resource)}
                 disabled={disabled}
-                className={clsx(
-                  'h-4 w-4 cursor-pointer rounded',
-                  'border-slate-300 text-blue-600 dark:border-slate-600',
-                  'disabled:cursor-not-allowed'
-                )}
               />
-              <span className="text-sm font-semibold text-(--text-primary)">
-                {formatResource(resource)}
-              </span>
-            </label>
+            </div>
             {/* Action checkboxes */}
             <div className="flex flex-col gap-1 border-t border-(--border-subtle) pt-2">
               {actions.map((action) => {
                 const perm = `${resource}:${action}`
                 return (
-                  <label
+                  <Checkbox
                     key={action}
-                    className="flex cursor-pointer items-center gap-2"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={value.includes(perm)}
-                      onChange={() => !disabled && toggle(perm)}
-                      disabled={disabled}
-                      className={clsx(
-                        'h-4 w-4 cursor-pointer rounded',
-                        'border-slate-300 text-blue-600 dark:border-slate-600',
-                        'disabled:cursor-not-allowed'
-                      )}
-                    />
-                    <span className="text-xs text-(--text-secondary)">
-                      {capitalize(action)}
-                    </span>
-                  </label>
+                    label={
+                      <span className="text-xs text-(--text-secondary)">
+                        {capitalize(action)}
+                      </span>
+                    }
+                    checked={value.includes(perm)}
+                    onChange={() => toggle(perm)}
+                    disabled={disabled}
+                  />
                 )
               })}
             </div>

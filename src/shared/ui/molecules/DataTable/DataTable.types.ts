@@ -47,4 +47,15 @@ export interface DataTableProps<T> {
    */
   pagination?: DataTablePagination
   className?: string
+
+  /** Enable a leading checkbox column for row selection. */
+  selectable?: boolean
+  /** Controlled set of selected row keys (from `getRowKey`). */
+  selectedIds?: string[]
+  /** Called with the next selection when a row or the header toggles. */
+  onSelectionChange?: (ids: string[]) => void
+  /** Accessible label for the header "select all" checkbox. */
+  selectAllLabel?: string
+  /** Accessible label for each row checkbox. */
+  selectRowLabel?: string
 }

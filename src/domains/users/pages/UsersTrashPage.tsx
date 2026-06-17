@@ -1,14 +1,17 @@
-import clsx from 'clsx'
 import {
   PageHeader,
   Modal,
   Button,
   IconButton,
-  IconComponent,
   Tooltip,
+  Avatar,
+  DataTable,
+  type DataTableColumn,
 } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
+import { UserDetailModal } from '../components/UserDetailModal/UserDetailModal'
 import { useUsersTrashPage } from './UsersTrashPage.hooks'
+import type { User } from '..'
 
 export const UsersTrashPage = () => {
   const {
@@ -19,20 +22,121 @@ export const UsersTrashPage = () => {
     isLoading,
     restoringUser,
     purgingUser,
+    viewingUser,
+    selectedIds,
+    bulkRestoreOpen,
+    bulkPurgeOpen,
     canRestore,
     canPurge,
     restore,
     purge,
-    setPage,
+    bulkRestore,
+    bulkPurge,
     setRestoringUser,
     setPurgingUser,
+    setViewingUser,
+    setSelectedIds,
+    setBulkRestoreOpen,
+    setBulkPurgeOpen,
+    handlePageChange,
     handleConfirmRestore,
     handleConfirmPurge,
+    handleConfirmBulkRestore,
+    handleConfirmBulkPurge,
   } = useUsersTrashPage()
 
   const users = data?.items ?? []
   const total = data?.total ?? 0
   const pages = data?.pages ?? 1
+
+  const columns: DataTableColumn<User>[] = [
+    {
+      id: 'user',
+      header: t.table.colUser,
+      cell: (user) => (
+        <div className="flex items-center gap-3">
+          <Avatar
+            alt={`${user.firstName} ${user.lastName}`}
+            src={user.profilePictureUrl}
+            name={`${user.firstName} ${user.lastName}`}
+            size="sm"
+          />
+          <span className="font-medium text-(--text-primary)">
+            {user.firstName} {user.lastName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      id: 'email',
+      header: t.table.colEmail,
+      cellClassName: 'text-(--text-secondary)',
+      cell: (user) => user.email,
+    },
+    {
+      id: 'deletedAt',
+      header: t.table.deletedAt,
+      cellClassName: 'text-(--text-secondary)',
+      cell: (user) =>
+        user.deletedAt ? new Date(user.deletedAt).toLocaleDateString() : '—',
+    },
+    {
+      id: 'actions',
+      header: t.table.colActions,
+      align: 'right',
+      cell: (user) => (
+        <div className="flex items-center justify-end gap-1">
+          <Tooltip
+            heading={t.actions.viewDetail}
+            icon="RiEyeLine"
+            position="top"
+            size="small"
+          >
+            <IconButton
+              icon="RiEyeLine"
+              variant="text"
+              size="small"
+              aria-label={t.actions.viewDetail}
+              onClick={() => setViewingUser(user)}
+            />
+          </Tooltip>
+          {canRestore && (
+            <Tooltip
+              heading={t.actions.restoreUser}
+              icon="RiArrowGoBackLine"
+              position="top"
+              size="small"
+            >
+              <IconButton
+                icon="RiArrowGoBackLine"
+                variant="text"
+                size="small"
+                aria-label={t.actions.restoreUser}
+                onClick={() => setRestoringUser(user)}
+              />
+            </Tooltip>
+          )}
+          {canPurge && (
+            <Tooltip
+              heading={t.actions.purgeUser}
+              icon="RiDeleteBin2Line"
+              subtitle={t.actions.purgeWarning}
+              position="top"
+              size="medium"
+            >
+              <IconButton
+                icon="RiDeleteBin2Line"
+                variant="text"
+                size="small"
+                aria-label={t.actions.purgeUser}
+                onClick={() => setPurgingUser(user)}
+              />
+            </Tooltip>
+          )}
+        </div>
+      ),
+    },
+  ]
 
   return (
     <div className="animate-page-in space-y-6">
@@ -51,156 +155,79 @@ export const UsersTrashPage = () => {
         ]}
       />
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <div
-            className={clsx(
-              'h-8 w-8',
-              'rounded-full border-2 border-slate-300 border-t-slate-700 dark:border-slate-600 dark:border-t-slate-300',
-              'animate-spin'
+      {selectedIds.length > 0 && (canRestore || canPurge) && (
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+          <span className="text-sm font-medium text-(--text-primary)">
+            {t.actions.selectedCount(selectedIds.length)}
+          </span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() => setSelectedIds([])}
+            >
+              {t.actions.clearSelection}
+            </Button>
+            {canRestore && (
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setBulkRestoreOpen(true)}
+              >
+                {t.actions.bulkRestore}
+              </Button>
             )}
-          />
-        </div>
-      ) : users.length === 0 ? (
-        <div
-          className={clsx(
-            'flex flex-col items-center justify-center py-20',
-            'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
-            'text-center'
-          )}
-        >
-          <IconComponent
-            icon="RiDeleteBinLine"
-            className="mb-3 h-10 w-10 text-(--text-disabled)"
-          />
-          <p className="text-lg font-semibold text-(--text-primary)">
-            {t.page.trashEmpty}
-          </p>
-          <p className="mt-1 text-sm text-(--text-muted)">
-            {t.page.trashEmptyDescription}
-          </p>
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-(--border) bg-(--surface) shadow-sm">
-          <table className="w-full text-sm">
-            <thead className="bg-(--surface-subtle) text-xs font-semibold tracking-wider text-(--text-secondary) uppercase">
-              <tr>
-                <th className="px-4 py-3 text-left">{t.table.colUser}</th>
-                <th className="px-4 py-3 text-left">{t.table.colEmail}</th>
-                <th className="px-4 py-3 text-left">{t.table.deletedAt}</th>
-                <th className="px-4 py-3 text-right">{t.table.colActions}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-              {users.map((user) => (
-                <tr
-                  key={user.id}
-                  className={clsx(
-                    'transition-colors',
-                    'hover:bg-(--surface-subtle)'
-                  )}
-                >
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      {user.profilePictureUrl ? (
-                        <img
-                          src={user.profilePictureUrl}
-                          alt={`${user.firstName} ${user.lastName}`}
-                          className="h-8 w-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
-                          {user.firstName[0]}
-                          {user.lastName[0]}
-                        </div>
-                      )}
-                      <span className="font-medium text-(--text-primary)">
-                        {user.firstName} {user.lastName}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-(--text-secondary)">
-                    {user.email}
-                  </td>
-                  <td className="px-4 py-3 text-(--text-secondary)">
-                    {user.deletedAt
-                      ? new Date(user.deletedAt).toLocaleDateString()
-                      : '—'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-1">
-                      {canRestore && (
-                        <Tooltip
-                          heading={t.actions.restoreUser}
-                          icon="RiArrowGoBackLine"
-                          position="top"
-                          size="small"
-                        >
-                          <IconButton
-                            icon="RiArrowGoBackLine"
-                            variant="text"
-                            size="small"
-                            aria-label={t.actions.restoreUser}
-                            onClick={() => setRestoringUser(user)}
-                          />
-                        </Tooltip>
-                      )}
-                      {canPurge && (
-                        <Tooltip
-                          heading={t.actions.purgeUser}
-                          icon="RiDeleteBin2Line"
-                          subtitle={t.actions.purgeWarning}
-                          position="top"
-                          size="medium"
-                        >
-                          <IconButton
-                            icon="RiDeleteBin2Line"
-                            variant="text"
-                            size="small"
-                            aria-label={t.actions.purgeUser}
-                            onClick={() => setPurgingUser(user)}
-                          />
-                        </Tooltip>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {pages > 1 && (
-            <div className="flex items-center justify-between border-t border-(--border-subtle) px-4 py-3">
-              <span className="text-sm text-(--text-secondary)">
-                {t.table.totalCount(total)}
-              </span>
-              <div className="flex items-center gap-1">
-                <IconButton
-                  icon="RiArrowLeftSLine"
-                  variant="text"
-                  size="small"
-                  aria-label={t.table.prevPage}
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => p - 1)}
-                />
-                <span className="text-sm text-(--text-secondary)">
-                  {page} / {pages}
-                </span>
-                <IconButton
-                  icon="RiArrowRightSLine"
-                  variant="text"
-                  size="small"
-                  aria-label={t.table.nextPage}
-                  disabled={page >= pages}
-                  onClick={() => setPage((p) => p + 1)}
-                />
-              </div>
-            </div>
-          )}
+            {canPurge && (
+              <Button
+                variant="error"
+                size="small"
+                onClick={() => setBulkPurgeOpen(true)}
+              >
+                {t.actions.bulkPurge}
+              </Button>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Restore confirmation modal */}
+      <DataTable
+        columns={columns}
+        rows={users}
+        getRowKey={(user) => user.id}
+        isLoading={isLoading}
+        emptyIcon="RiDeleteBinLine"
+        emptyLabel={t.page.trashEmpty}
+        totalLabel={t.table.totalCount(total)}
+        pagination={{
+          page,
+          pages,
+          onPageChange: handlePageChange,
+          prevLabel: t.table.prevPage,
+          nextLabel: t.table.nextPage,
+        }}
+        selectable
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        selectAllLabel={t.table.selectAll}
+        selectRowLabel={t.table.selectRow}
+      />
+
+      <UserDetailModal
+        user={viewingUser}
+        onClose={() => setViewingUser(null)}
+        canRestore={canRestore}
+        canPurge={canPurge}
+        onRestore={() => {
+          setRestoringUser(viewingUser)
+          setViewingUser(null)
+        }}
+        onPurge={() => {
+          setPurgingUser(viewingUser)
+          setViewingUser(null)
+        }}
+      />
+
+      {/* Restore confirmation */}
       <Modal
         isOpen={!!restoringUser}
         onClose={() => setRestoringUser(null)}
@@ -233,7 +260,7 @@ export const UsersTrashPage = () => {
         }
       />
 
-      {/* Purge confirmation modal */}
+      {/* Purge confirmation */}
       <Modal
         isOpen={!!purgingUser}
         onClose={() => setPurgingUser(null)}
@@ -259,6 +286,60 @@ export const UsersTrashPage = () => {
               variant="error"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
+            >
+              {t.actions.confirmPurge}
+            </Button>
+          </>
+        }
+      />
+
+      {/* Bulk restore confirmation */}
+      <Modal
+        isOpen={bulkRestoreOpen}
+        onClose={() => setBulkRestoreOpen(false)}
+        size="sm"
+        title={t.actions.restoreTitle}
+        description={t.actions.bulkRestoreDescription(selectedIds.length)}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkRestoreOpen(false)}
+              disabled={bulkRestore.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="primary"
+              loading={bulkRestore.isPending}
+              onClick={handleConfirmBulkRestore}
+            >
+              {t.actions.confirmRestore}
+            </Button>
+          </>
+        }
+      />
+
+      {/* Bulk purge confirmation */}
+      <Modal
+        isOpen={bulkPurgeOpen}
+        onClose={() => setBulkPurgeOpen(false)}
+        size="sm"
+        title={t.actions.purgeTitle}
+        description={t.actions.bulkPurgeDescription(selectedIds.length)}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkPurgeOpen(false)}
+              disabled={bulkPurge.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="error"
+              loading={bulkPurge.isPending}
+              onClick={handleConfirmBulkPurge}
             >
               {t.actions.confirmPurge}
             </Button>

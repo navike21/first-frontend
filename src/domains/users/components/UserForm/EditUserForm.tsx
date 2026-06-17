@@ -60,32 +60,30 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 label={t.form.firstName}
-                placeholder={t.form.firstNamePlaceholder}
                 variant={errors.firstName ? 'error' : undefined}
                 errorMessage={errors.firstName?.message}
                 {...register('firstName')}
               />
               <InputField
                 label={t.form.lastName}
-                placeholder={t.form.lastNamePlaceholder}
                 variant={errors.lastName ? 'error' : undefined}
                 errorMessage={errors.lastName?.message}
                 {...register('lastName')}
               />
               <InputField
                 label={t.form.phone}
-                placeholder={t.form.phonePlaceholder}
                 variant={errors.phone ? 'error' : undefined}
                 errorMessage={errors.phone?.message}
                 {...register('phone')}
               />
               <InputDate
                 label={t.form.dateOfBirth}
-                placeholder={t.form.dateOfBirthPlaceholder}
                 mode="date"
                 variant={errors.dateOfBirth ? 'error' : 'default'}
                 errorMessage={errors.dateOfBirth?.message}
-                defaultValue={props.defaultValues.dateOfBirth ?? ''}
+                defaultValue={
+                  props.defaultValues.dateOfBirth?.slice(0, 10) ?? ''
+                }
                 {...register('dateOfBirth')}
               />
               <Select
@@ -119,28 +117,23 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             </p>
             <InputField
               label={t.form.addressStreet}
-              placeholder={t.form.addressStreetPlaceholder}
               {...register('address.street')}
             />
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 label={t.form.addressCity}
-                placeholder={t.form.addressCityPlaceholder}
                 {...register('address.city')}
               />
               <InputField
                 label={t.form.addressState}
-                placeholder={t.form.addressStatePlaceholder}
                 {...register('address.state')}
               />
               <InputField
                 label={t.form.addressCountry}
-                placeholder={t.form.addressCountryPlaceholder}
                 {...register('address.country')}
               />
               <InputField
                 label={t.form.addressPostalCode}
-                placeholder={t.form.addressPostalCodePlaceholder}
                 {...register('address.postalCode')}
               />
             </div>

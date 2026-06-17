@@ -4,7 +4,8 @@ import { userGroupKeys } from './userGroups.queries'
 import type { GroupMemberListParams } from '../model/userGroup.types'
 
 export const memberKeys = {
-  all: (groupId: string) => [...userGroupKeys.detail(groupId), 'members'] as const,
+  all: (groupId: string) =>
+    [...userGroupKeys.detail(groupId), 'members'] as const,
   list: (groupId: string, params: GroupMemberListParams) =>
     [...memberKeys.all(groupId), params] as const,
   search: (term: string) => ['user-search', term] as const,
@@ -43,6 +44,15 @@ export const useRemoveGroupMember = (groupId: string) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (userId: string) => membersApi.remove(groupId, userId),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: memberKeys.all(groupId) }),
+  })
+}
+
+export const useRemoveGroupMembersBulk = (groupId: string) => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (userIds: string[]) => membersApi.removeBulk(groupId, userIds),
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: memberKeys.all(groupId) }),
   })

@@ -5,6 +5,7 @@ import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { UserGroupsPage } from '@domains/user-groups/pages/UserGroupsPage'
 import { CreateUserGroupPage } from '@domains/user-groups/pages/CreateUserGroupPage'
 import { EditUserGroupPage } from '@domains/user-groups/pages/EditUserGroupPage'
+import { GroupUsersPage } from '@domains/user-groups/pages/GroupUsersPage'
 import { UserGroupsTrashPage } from '@domains/user-groups/pages/UserGroupsTrashPage'
 import type { Language } from '@/shared/types/languages'
 
@@ -33,13 +34,19 @@ function createUserGroupsRouteTree(lang: Language) {
     component: EditUserGroupPage,
   })
 
+  const users = createRoute({
+    getParentRoute: () => layout,
+    path: `$groupId/${ROUTE_SLUGS.userGroupUsers[lang]}`,
+    component: GroupUsersPage,
+  })
+
   const trash = createRoute({
     getParentRoute: () => layout,
     path: ROUTE_SLUGS.userGroupTrash[lang],
     component: UserGroupsTrashPage,
   })
 
-  return layout.addChildren([index, create, edit, trash])
+  return layout.addChildren([index, create, edit, users, trash])
 }
 
 export const allUserGroupsRouteTrees = SUPPORTED_LANGUAGES.map(
