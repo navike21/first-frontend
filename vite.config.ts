@@ -10,7 +10,7 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'https://first-backend-git-develop-navike21.vercel.app',
+        target: 'https://first-backend-navike21.vercel.app',
         changeOrigin: true,
         secure: true,
       },
