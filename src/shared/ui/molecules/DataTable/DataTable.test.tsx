@@ -23,8 +23,28 @@ vi.mock('../../atoms/IconButton', () => ({
     'aria-label': string
     disabled?: boolean
     onClick?: () => void
+  }) => <button aria-label={ariaLabel} disabled={disabled} onClick={onClick} />,
+}))
+
+vi.mock('../Checkbox', () => ({
+  Checkbox: ({
+    checked,
+    indeterminate,
+    onChange,
+    'aria-label': ariaLabel,
+  }: {
+    checked?: boolean
+    indeterminate?: boolean
+    onChange?: (e: unknown) => void
+    'aria-label'?: string
   }) => (
-    <button aria-label={ariaLabel} disabled={disabled} onClick={onClick} />
+    <input
+      type="checkbox"
+      aria-label={ariaLabel}
+      checked={!!checked}
+      data-indeterminate={indeterminate ? 'true' : 'false'}
+      onChange={() => onChange?.({})}
+    />
   ),
 }))
 
@@ -43,7 +63,9 @@ const columns: DataTableColumn<Row>[] = [
   { id: 'actions', header: 'Actions', align: 'right', cell: (r) => `#${r.id}` },
 ]
 
-const renderTable = (props: Partial<Parameters<typeof DataTable<Row>>[0]> = {}) =>
+const renderTable = (
+  props: Partial<Parameters<typeof DataTable<Row>>[0]> = {}
+) =>
   render(
     <DataTable
       columns={columns}
@@ -194,5 +216,94 @@ describe('DataTable component', () => {
     // Assert — last page
     expect(screen.getByLabelText('prev')).not.toBeDisabled()
     expect(screen.getByLabelText('next')).toBeDisabled()
+  })
+})
+
+describe('DataTable row selection', () => {
+  const selProps = {
+    columns,
+    rows,
+    getRowKey: (r: Row) => r.id,
+    emptyIcon: 'RiGroupLine' as const,
+    emptyLabel: 'empty',
+    selectable: true,
+    selectAllLabel: 'all',
+    selectRowLabel: 'row',
+  }
+
+  beforeEach(() => vi.clearAllMocks())
+
+  it('renders no selection checkboxes when not selectable', () => {
+    render(
+      <DataTable {...selProps} selectable={false} onSelectionChange={vi.fn()} />
+    )
+    expect(screen.queryByLabelText('all')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('row')).not.toBeInTheDocument()
+  })
+
+  it('renders a header checkbox and one per row when selectable', () => {
+    render(
+      <DataTable {...selProps} selectedIds={[]} onSelectionChange={vi.fn()} />
+    )
+    expect(screen.getByLabelText('all')).toBeInTheDocument()
+    expect(screen.getAllByLabelText('row')).toHaveLength(2)
+  })
+
+  it('selecting a row reports it via onSelectionChange', async () => {
+    const user = userEvent.setup()
+    const onSel = vi.fn()
+    render(
+      <DataTable {...selProps} selectedIds={[]} onSelectionChange={onSel} />
+    )
+    await user.click(screen.getAllByLabelText('row')[0])
+    expect(onSel).toHaveBeenCalledWith(['1'])
+  })
+
+  it('deselecting an already-selected row removes it', async () => {
+    const user = userEvent.setup()
+    const onSel = vi.fn()
+    render(
+      <DataTable {...selProps} selectedIds={['1']} onSelectionChange={onSel} />
+    )
+    await user.click(screen.getAllByLabelText('row')[0])
+    expect(onSel).toHaveBeenCalledWith([])
+  })
+
+  it('header selects all current rows when none are selected', async () => {
+    const user = userEvent.setup()
+    const onSel = vi.fn()
+    render(
+      <DataTable {...selProps} selectedIds={[]} onSelectionChange={onSel} />
+    )
+    await user.click(screen.getByLabelText('all'))
+    expect(onSel).toHaveBeenCalledWith(['1', '2'])
+  })
+
+  it('header deselects all when all are selected', async () => {
+    const user = userEvent.setup()
+    const onSel = vi.fn()
+    render(
+      <DataTable
+        {...selProps}
+        selectedIds={['1', '2']}
+        onSelectionChange={onSel}
+      />
+    )
+    await user.click(screen.getByLabelText('all'))
+    expect(onSel).toHaveBeenCalledWith([])
+  })
+
+  it('header is indeterminate when only some rows are selected', () => {
+    render(
+      <DataTable
+        {...selProps}
+        selectedIds={['1']}
+        onSelectionChange={vi.fn()}
+      />
+    )
+    expect(screen.getByLabelText('all')).toHaveAttribute(
+      'data-indeterminate',
+      'true'
+    )
   })
 })

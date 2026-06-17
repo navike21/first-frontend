@@ -10,6 +10,8 @@ export interface UserGroupsTranslations {
     trashDescription: string
     trashEmpty: string
     trashEmptyDescription: string
+    usersTitle: (name: string) => string
+    usersDescription: string
   }
   table: {
     noResults: string
@@ -20,12 +22,15 @@ export interface UserGroupsTranslations {
     viewGroup: string
     editGroup: string
     deleteGroup: string
+    manageUsers: string
     prevPage: string
     nextPage: string
     totalCount: (count: number) => string
     permissionsCount: (n: number) => string
     systemBadge: string
     deletedAt: string
+    selectAll: string
+    selectRow: string
   }
   detail: {
     title: string
@@ -59,12 +64,18 @@ export interface UserGroupsTranslations {
     totalCount: (count: number) => string
     toastAdded: string
     toastRemoved: string
+    backLabel: string
+    bulkRemove: string
+    removeTitle: string
+    removeDescription: (n: number) => string
+    confirmRemove: string
+    toastBulkRemoved: string
+    selectedCount: (n: number) => string
+    clearSelection: string
   }
   form: {
     name: string
-    namePlaceholder: string
     description: string
-    descriptionPlaceholder: string
     color: string
     permissions: string
     permissionsHint: string

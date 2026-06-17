@@ -2,6 +2,8 @@ import type { UserGroupsTranslations } from '../types'
 
 export const ja: UserGroupsTranslations = {
   page: {
+    usersTitle: (name) => `${name} のユーザー`,
+    usersDescription: 'このグループに属するユーザーを管理します',
     listTitle: 'ユーザーグループ',
     listDescription: 'グループと権限を管理する',
     createTitle: '新しいグループ',
@@ -16,6 +18,9 @@ export const ja: UserGroupsTranslations = {
     trashEmptyDescription: '削除されたグループはここに表示されます。',
   },
   table: {
+    manageUsers: 'ユーザーを管理',
+    selectAll: 'すべて選択',
+    selectRow: '行を選択',
     noResults: 'グループが見つかりません',
     colName: '名前',
     colPermissions: '権限',
@@ -37,6 +42,15 @@ export const ja: UserGroupsTranslations = {
     members: 'メンバー',
   },
   members: {
+    backLabel: 'グループに戻る',
+    bulkRemove: 'グループから削除',
+    removeTitle: 'グループから削除',
+    removeDescription: (n) =>
+      `${n} 件のユーザーをこのグループから削除しますか？`,
+    confirmRemove: '削除',
+    toastBulkRemoved: 'ユーザーをグループから削除しました',
+    selectedCount: (n) => `${n} 件選択中`,
+    clearSelection: '選択をクリア',
     searchLabel: 'メンバーを追加',
     searchPlaceholder: '名前またはメールでユーザーを検索…',
     searchHint: '追加するユーザーを検索するには入力してください',
@@ -54,9 +68,7 @@ export const ja: UserGroupsTranslations = {
   },
   form: {
     name: '名前',
-    namePlaceholder: '例：管理者',
     description: '説明',
-    descriptionPlaceholder: 'このグループの目的を説明してください…',
     color: 'カラー',
     permissions: '権限',
     permissionsHint: 'このグループの権限を選択してください',

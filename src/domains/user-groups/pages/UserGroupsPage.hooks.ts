@@ -28,6 +28,9 @@ export function useUserGroupsPage() {
   const handleEdit = (group: UserGroup) =>
     navigate({ to: navPaths.userGroupEdit(group.id, language) as never })
 
+  const handleManageUsers = (group: UserGroup) =>
+    navigate({ to: navPaths.userGroupUsers(group.id, language) as never })
+
   const handleDelete = (group: UserGroup) => setDeletingGroup(group)
 
   const handleConfirmDelete = () => {
@@ -76,6 +79,7 @@ export function useUserGroupsPage() {
     statusOptions,
     handleView,
     handleEdit,
+    handleManageUsers,
     handleDelete,
     handleConfirmDelete,
     handleSearchChange,

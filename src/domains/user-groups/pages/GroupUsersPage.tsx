@@ -1,20 +1,18 @@
 import clsx from 'clsx'
 import {
-  Avatar,
+  PageHeader,
+  InputField,
   Button,
+  Avatar,
+  Spinner,
   DataTable,
   IconButton,
-  InputField,
-  Spinner,
   Tooltip,
+  Modal,
   type DataTableColumn,
 } from '@/shared/ui'
-import { useGroupMembersManager } from './GroupMembers.hooks'
-import type { GroupMember } from '../../model/userGroup.types'
-
-interface GroupMembersProps {
-  groupId: string
-}
+import { useGroupUsersPage } from './GroupUsersPage.hooks'
+import type { GroupMember } from '../model/userGroup.types'
 
 const StatusBadge = ({
   status,
@@ -35,22 +33,33 @@ const StatusBadge = ({
   </span>
 )
 
-export const GroupMembers = ({ groupId }: GroupMembersProps) => {
+export const GroupUsersPage = () => {
   const {
     t,
+    group,
     data,
     isLoading,
     page,
-    setPage,
     searchTerm,
     setSearchTerm,
     searchResults,
     isSearching,
     hasSearchTerm,
     adding,
+    selectedIds,
+    setSelectedIds,
+    removingUser,
+    setRemovingUser,
+    bulkRemoveOpen,
+    setBulkRemoveOpen,
+    removeMember,
+    removeBulk,
     handleAdd,
-    handleRemove,
-  } = useGroupMembersManager(groupId)
+    handleConfirmRemove,
+    handleConfirmBulkRemove,
+    handlePageChange,
+    goBack,
+  } = useGroupUsersPage()
 
   const columns: DataTableColumn<GroupMember>[] = [
     {
@@ -90,7 +99,7 @@ export const GroupMembers = ({ groupId }: GroupMembersProps) => {
       cell: (member) => (
         <Tooltip
           heading={t.members.removeMember}
-          icon="RiDeleteBinLine"
+          icon="RiCloseLine"
           position="top"
           size="small"
         >
@@ -99,7 +108,7 @@ export const GroupMembers = ({ groupId }: GroupMembersProps) => {
             variant="text"
             size="small"
             aria-label={t.members.removeMember}
-            onClick={() => handleRemove(member.id)}
+            onClick={() => setRemovingUser(member)}
           />
         </Tooltip>
       ),
@@ -107,16 +116,29 @@ export const GroupMembers = ({ groupId }: GroupMembersProps) => {
   ]
 
   return (
-    <div className="flex flex-col gap-6 rounded-xl border border-(--border) bg-(--surface) p-6">
+    <div className="animate-page-in space-y-6">
+      <PageHeader
+        title={t.page.usersTitle(group?.name ?? '')}
+        description={t.page.usersDescription}
+        actions={[
+          {
+            type: 'button',
+            label: t.members.backLabel,
+            icon: 'RiArrowLeftLine',
+            variant: 'secondary',
+            onClick: goBack,
+            size: 'small',
+          },
+        ]}
+      />
+
       {/* Add members */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 rounded-xl border border-(--border) bg-(--surface) p-4">
         <InputField
           label={t.members.searchLabel}
-          placeholder={t.members.searchPlaceholder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-
         {hasSearchTerm && (
           <div className="rounded-lg border border-(--border) bg-(--surface-subtle)">
             {isSearching ? (
@@ -167,7 +189,32 @@ export const GroupMembers = ({ groupId }: GroupMembersProps) => {
         )}
       </div>
 
-      {/* Current members */}
+      {/* Bulk toolbar */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+          <span className="text-sm font-medium text-(--text-primary)">
+            {t.members.selectedCount(selectedIds.length)}
+          </span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() => setSelectedIds([])}
+            >
+              {t.members.clearSelection}
+            </Button>
+            <Button
+              variant="error"
+              size="small"
+              onClick={() => setBulkRemoveOpen(true)}
+            >
+              {t.members.bulkRemove}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Members table */}
       <DataTable
         columns={columns}
         rows={data?.items ?? []}
@@ -179,10 +226,69 @@ export const GroupMembers = ({ groupId }: GroupMembersProps) => {
         pagination={{
           page,
           pages: data?.pages ?? 1,
-          onPageChange: setPage,
+          onPageChange: handlePageChange,
           prevLabel: t.table.prevPage,
           nextLabel: t.table.nextPage,
         }}
+        selectable
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        selectAllLabel={t.table.selectAll}
+        selectRowLabel={t.table.selectRow}
+      />
+
+      {/* Single remove confirmation */}
+      <Modal
+        isOpen={!!removingUser}
+        onClose={() => setRemovingUser(null)}
+        size="sm"
+        title={t.members.removeTitle}
+        description={t.members.removeDescription(1)}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setRemovingUser(null)}
+              disabled={removeMember.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="error"
+              loading={removeMember.isPending}
+              onClick={handleConfirmRemove}
+            >
+              {t.members.confirmRemove}
+            </Button>
+          </>
+        }
+      />
+
+      {/* Bulk remove confirmation */}
+      <Modal
+        isOpen={bulkRemoveOpen}
+        onClose={() => setBulkRemoveOpen(false)}
+        size="sm"
+        title={t.members.removeTitle}
+        description={t.members.removeDescription(selectedIds.length)}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkRemoveOpen(false)}
+              disabled={removeBulk.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="error"
+              loading={removeBulk.isPending}
+              onClick={handleConfirmBulkRemove}
+            >
+              {t.members.confirmRemove}
+            </Button>
+          </>
+        }
       />
     </div>
   )

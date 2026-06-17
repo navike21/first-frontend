@@ -16,7 +16,13 @@ export const pt: UsersTranslations = {
     trashEmptyDescription:
       'Quando usuários forem excluídos, eles aparecerão aqui.',
   },
+  detail: {
+    title: 'Detalhe do usuário',
+    closeButton: 'Fechar',
+  },
   table: {
+    selectAll: 'Selecionar tudo',
+    selectRow: 'Selecionar linha',
     noResults: 'Nenhum usuário encontrado',
     colUser: 'Usuário',
     colEmail: 'Email',
@@ -39,17 +45,11 @@ export const pt: UsersTranslations = {
   },
   form: {
     firstName: 'Nome',
-    firstNamePlaceholder: 'João',
     lastName: 'Sobrenome',
-    lastNamePlaceholder: 'Silva',
     email: 'Email',
-    emailPlaceholder: 'usuario@navike21.com',
     password: 'Senha',
-    passwordPlaceholder: 'Mínimo 8 caracteres',
     phone: 'Telefone',
-    phonePlaceholder: '+55 99 99999-9999',
     dateOfBirth: 'Data de nascimento',
-    dateOfBirthPlaceholder: 'AAAA-MM-DD',
     uploadPhoto: 'Carregar foto',
     uploadFormats: 'Permitido *.jpeg, *.jpg, *.png — máx 3 MB',
     removePhoto: 'Remover foto',
@@ -63,15 +63,10 @@ export const pt: UsersTranslations = {
     groupIdPlaceholder: 'Selecionar grupos',
     addressSection: 'Endereço',
     addressStreet: 'Rua',
-    addressStreetPlaceholder: 'Rua Principal, 123',
     addressCity: 'Cidade',
-    addressCityPlaceholder: 'São Paulo',
     addressState: 'Estado / Região',
-    addressStatePlaceholder: 'SP',
     addressCountry: 'País',
-    addressCountryPlaceholder: 'Brasil',
     addressPostalCode: 'CEP',
-    addressPostalCodePlaceholder: '01310-100',
     statusLabel: 'Status da conta',
     statusDescription: 'Usuários inativos não podem fazer login',
     statusActive: 'Ativo',
@@ -81,6 +76,18 @@ export const pt: UsersTranslations = {
     cancelButton: 'Cancelar',
   },
   actions: {
+    selectedCount: (n) => `${n} selecionado${n !== 1 ? 's' : ''}`,
+    clearSelection: 'Limpar seleção',
+    viewDetail: 'Ver detalhe',
+    bulkDeactivate: 'Desativar',
+    bulkDeactivateDescription: (n) =>
+      `Desativar ${n} usuário${n !== 1 ? 's' : ''} selecionado${n !== 1 ? 's' : ''}? Perderão o acesso ao sistema.`,
+    bulkRestore: 'Restaurar',
+    bulkRestoreDescription: (n) =>
+      `Restaurar ${n} usuário${n !== 1 ? 's' : ''} para a lista de ativos?`,
+    bulkPurge: 'Excluir permanentemente',
+    bulkPurgeDescription: (n) =>
+      `Isto excluirá permanentemente ${n} usuário${n !== 1 ? 's' : ''}. Esta ação é IRREVERSÍVEL.`,
     newUser: 'Novo usuário',
     deactivateTitle: 'Desativar usuário',
     deactivateDescription: (first, last) =>
@@ -108,6 +115,9 @@ export const pt: UsersTranslations = {
     statusInactive: 'Inativos',
   },
   toasts: {
+    bulkDeactivated: 'Usuários desativados',
+    bulkRestored: 'Usuários restaurados',
+    bulkPurged: 'Usuários excluídos permanentemente',
     created: 'Usuário criado com sucesso',
     updated: 'Usuário atualizado com sucesso',
     deactivated: 'Usuário desativado com sucesso',

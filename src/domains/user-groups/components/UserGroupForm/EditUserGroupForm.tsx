@@ -39,7 +39,6 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField
             label={t.form.name}
-            placeholder={t.form.namePlaceholder}
             variant={errors.name ? 'error' : undefined}
             errorMessage={errors.name?.message}
             disabled={busy || isSystem}
@@ -47,7 +46,6 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
           />
           <InputField
             label={t.form.description}
-            placeholder={t.form.descriptionPlaceholder}
             variant={errors.description ? 'error' : undefined}
             errorMessage={errors.description?.message}
             disabled={busy || isSystem}

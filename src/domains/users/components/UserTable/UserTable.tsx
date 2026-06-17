@@ -19,6 +19,8 @@ interface UserTableProps {
   onPageChange: (page: number) => void
   onEdit: (user: User) => void
   onDelete: (user: User) => void
+  selectedIds?: string[]
+  onSelectionChange?: (ids: string[]) => void
 }
 
 export const UserTable = ({
@@ -30,6 +32,8 @@ export const UserTable = ({
   onPageChange,
   onEdit,
   onDelete,
+  selectedIds,
+  onSelectionChange,
 }: UserTableProps) => {
   const { t } = useUsersTranslation()
 
@@ -127,6 +131,11 @@ export const UserTable = ({
         prevLabel: t.table.prevPage,
         nextLabel: t.table.nextPage,
       }}
+      selectable={!!onSelectionChange}
+      {...(selectedIds !== undefined && { selectedIds })}
+      {...(onSelectionChange !== undefined && { onSelectionChange })}
+      selectAllLabel={t.table.selectAll}
+      selectRowLabel={t.table.selectRow}
     />
   )
 }

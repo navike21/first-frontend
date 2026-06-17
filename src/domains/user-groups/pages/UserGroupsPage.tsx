@@ -25,6 +25,7 @@ export const UserGroupsPage = () => {
     statusOptions,
     handleView,
     handleEdit,
+    handleManageUsers,
     handleDelete,
     handleConfirmDelete,
     handleSearchChange,
@@ -103,6 +104,7 @@ export const UserGroupsPage = () => {
         onPageChange={handlePageChange}
         onView={handleView}
         onEdit={handleEdit}
+        onManageUsers={handleManageUsers}
         onDelete={handleDelete}
       />
 

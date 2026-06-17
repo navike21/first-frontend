@@ -18,6 +18,7 @@ interface UserGroupTableProps {
   onView: (group: UserGroup) => void
   onEdit: (group: UserGroup) => void
   onDelete: (group: UserGroup) => void
+  onManageUsers: (group: UserGroup) => void
 }
 
 export const UserGroupTable = ({
@@ -30,6 +31,7 @@ export const UserGroupTable = ({
   onView,
   onEdit,
   onDelete,
+  onManageUsers,
 }: UserGroupTableProps) => {
   const { t } = useUserGroupsTranslation()
 
@@ -85,6 +87,20 @@ export const UserGroupTable = ({
       align: 'right',
       cell: (group) => (
         <div className="flex items-center justify-end gap-1">
+          <Tooltip
+            heading={t.table.manageUsers}
+            icon="RiUserSettingsLine"
+            position="top"
+            size="small"
+          >
+            <IconButton
+              icon="RiUserSettingsLine"
+              variant="text"
+              size="small"
+              aria-label={t.table.manageUsers}
+              onClick={() => onManageUsers(group)}
+            />
+          </Tooltip>
           <Tooltip
             heading={t.table.viewGroup}
             icon="RiEyeLine"

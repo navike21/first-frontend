@@ -2,6 +2,8 @@ import type { UserGroupsTranslations } from '../types'
 
 export const ru: UserGroupsTranslations = {
   page: {
+    usersTitle: (name) => `Пользователи группы ${name}`,
+    usersDescription: 'Управление пользователями этой группы',
     listTitle: 'Группы пользователей',
     listDescription: 'Управление группами и их разрешениями',
     createTitle: 'Новая группа',
@@ -15,6 +17,9 @@ export const ru: UserGroupsTranslations = {
     trashEmptyDescription: 'Удалённые группы будут отображаться здесь.',
   },
   table: {
+    manageUsers: 'Управление пользователями',
+    selectAll: 'Выбрать все',
+    selectRow: 'Выбрать строку',
     noResults: 'Группы не найдены',
     colName: 'Название',
     colPermissions: 'Разрешения',
@@ -37,6 +42,14 @@ export const ru: UserGroupsTranslations = {
     members: 'Участники',
   },
   members: {
+    backLabel: 'Назад к группам',
+    bulkRemove: 'Удалить из группы',
+    removeTitle: 'Удалить из группы',
+    removeDescription: (n) => `Удалить ${n} пользователей из этой группы?`,
+    confirmRemove: 'Удалить',
+    toastBulkRemoved: 'Пользователи удалены из группы',
+    selectedCount: (n) => `Выбрано: ${n}`,
+    clearSelection: 'Очистить выбор',
     searchLabel: 'Добавить участников',
     searchPlaceholder: 'Поиск пользователей по имени или эл. почте…',
     searchHint: 'Введите запрос для поиска пользователей',
@@ -54,9 +67,7 @@ export const ru: UserGroupsTranslations = {
   },
   form: {
     name: 'Название',
-    namePlaceholder: 'Напр. Администраторы',
     description: 'Описание',
-    descriptionPlaceholder: 'Опишите назначение этой группы…',
     color: 'Цвет',
     permissions: 'Разрешения',
     permissionsHint: 'Выберите разрешения для этой группы',

@@ -39,6 +39,14 @@ describe('membersApi', () => {
     expect(cfg.api).toBe('/user-groups/g1/members/u1')
   })
 
+  it('removeBulk DELETEs the members endpoint with a userIds body', async () => {
+    await membersApi.removeBulk('g1', ['u1', 'u2'])
+    const cfg = reqMock.mock.calls[0][0]
+    expect(cfg.method).toBe('DELETE')
+    expect(cfg.api).toBe('/user-groups/g1/members')
+    expect(cfg.body).toEqual({ userIds: ['u1', 'u2'] })
+  })
+
   it('searchUsers queries active users by term', async () => {
     await membersApi.searchUsers({ search: 'zoe', limit: 5 })
     const cfg = reqMock.mock.calls[0][0]

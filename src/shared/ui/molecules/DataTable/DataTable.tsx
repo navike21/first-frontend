@@ -2,12 +2,15 @@ import clsx from 'clsx'
 import { IconButton } from '../../atoms/IconButton'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { Spinner } from '../../atoms/Spinner'
+import { Checkbox } from '../Checkbox'
 import type { DataTableProps } from './DataTable.types'
 
 /**
  * Domain-agnostic table: pass `columns` (header + cell renderer) and `rows`.
  * Supports API pagination (pass `pagination`) or rendering the full list
- * ("all records" mode, omit `pagination`). Loading and empty states built in.
+ * ("all records" mode, omit `pagination`), and optional row selection
+ * (`selectable` + controlled `selectedIds`/`onSelectionChange`). Loading and
+ * empty states built in.
  */
 export const DataTable = <T,>({
   columns,
@@ -19,6 +22,11 @@ export const DataTable = <T,>({
   totalLabel,
   pagination,
   className,
+  selectable = false,
+  selectedIds,
+  onSelectionChange,
+  selectAllLabel,
+  selectRowLabel,
 }: DataTableProps<T>) => {
   if (isLoading) {
     return (
@@ -37,6 +45,32 @@ export const DataTable = <T,>({
     )
   }
 
+  const selected = selectedIds ?? []
+  const rowKeys = rows.map(getRowKey)
+  const allSelected =
+    rowKeys.length > 0 && rowKeys.every((k) => selected.includes(k))
+  const someSelected = !allSelected && rowKeys.some((k) => selected.includes(k))
+
+  const toggleRow = (key: string) => {
+    if (!onSelectionChange) return
+    onSelectionChange(
+      selected.includes(key)
+        ? selected.filter((k) => k !== key)
+        : [...selected, key]
+    )
+  }
+
+  const toggleAll = () => {
+    if (!onSelectionChange) return
+    if (allSelected) {
+      onSelectionChange(selected.filter((k) => !rowKeys.includes(k)))
+    } else {
+      const next = new Set(selected)
+      rowKeys.forEach((k) => next.add(k))
+      onSelectionChange([...next])
+    }
+  }
+
   const showFooter = Boolean(totalLabel) || Boolean(pagination)
 
   return (
@@ -50,6 +84,16 @@ export const DataTable = <T,>({
                 'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold tracking-wide text-(--text-secondary) uppercase'
               )}
             >
+              {selectable && (
+                <th className="w-px px-4 py-3">
+                  <Checkbox
+                    checked={allSelected}
+                    indeterminate={someSelected}
+                    onChange={toggleAll}
+                    aria-label={selectAllLabel}
+                  />
+                </th>
+              )}
               {columns.map((col) => (
                 <th
                   key={col.id}
@@ -65,28 +109,43 @@ export const DataTable = <T,>({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-            {rows.map((row) => (
-              <tr
-                key={getRowKey(row)}
-                className={clsx(
-                  'duration-fast ease-out-expo transition-colors',
-                  'hover:bg-(--surface-subtle)'
-                )}
-              >
-                {columns.map((col) => (
-                  <td
-                    key={col.id}
-                    className={clsx(
-                      'px-4 py-3',
-                      col.align === 'right' && 'text-right',
-                      col.cellClassName
-                    )}
-                  >
-                    {col.cell(row)}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {rows.map((row) => {
+              const key = getRowKey(row)
+              const isSelected = selected.includes(key)
+              return (
+                <tr
+                  key={key}
+                  className={clsx(
+                    'duration-fast ease-out-expo transition-colors',
+                    isSelected
+                      ? 'bg-(--surface-subtle)'
+                      : 'hover:bg-(--surface-subtle)'
+                  )}
+                >
+                  {selectable && (
+                    <td className="px-4 py-3">
+                      <Checkbox
+                        checked={isSelected}
+                        onChange={() => toggleRow(key)}
+                        aria-label={selectRowLabel}
+                      />
+                    </td>
+                  )}
+                  {columns.map((col) => (
+                    <td
+                      key={col.id}
+                      className={clsx(
+                        'px-4 py-3',
+                        col.align === 'right' && 'text-right',
+                        col.cellClassName
+                      )}
+                    >
+                      {col.cell(row)}
+                    </td>
+                  ))}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
