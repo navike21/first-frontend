@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import localforage from 'localforage'
 import type { QueuedRequest } from './queue.types'
-import { enqueue, getAll, remove, clear } from './queue'
+import { enqueue, getAll, remove, clear, size } from './queue'
 
 vi.mock('localforage')
 
@@ -104,6 +104,21 @@ describe('offline queue', () => {
       await clear()
       // Assert
       expect(localforage.removeItem).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('size', () => {
+    it('returns the number of queued requests', async () => {
+      vi.mocked(localforage.getItem).mockResolvedValue([
+        { id: 'a', api: '/a', method: 'POST', timestamp: 1 },
+        { id: 'b', api: '/b', method: 'POST', timestamp: 2 },
+      ])
+      expect(await size()).toBe(2)
+    })
+
+    it('returns 0 when the queue is empty', async () => {
+      vi.mocked(localforage.getItem).mockResolvedValue(null)
+      expect(await size()).toBe(0)
     })
   })
 })

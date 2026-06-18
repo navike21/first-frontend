@@ -18,6 +18,7 @@ export const de: UsersTranslations = {
   detail: {
     title: 'Benutzerdetails',
     closeButton: 'Schließen',
+    purgeButton: 'Löschen',
   },
   table: {
     selectAll: 'Alle auswählen',
@@ -78,9 +79,9 @@ export const de: UsersTranslations = {
     selectedCount: (n) => `${n} ausgewählt`,
     clearSelection: 'Auswahl aufheben',
     viewDetail: 'Details anzeigen',
-    bulkDeactivate: 'Deaktivieren',
+    bulkDeactivate: 'Löschen',
     bulkDeactivateDescription: (n) =>
-      `${n} ausgewählte Benutzer deaktivieren? Sie verlieren den Systemzugang.`,
+      `${n} ausgewählte Benutzer löschen? Sie werden in den Papierkorb verschoben.`,
     bulkRestore: 'Wiederherstellen',
     bulkRestoreDescription: (n) =>
       `${n} Benutzer in die aktive Liste wiederherstellen?`,
@@ -88,10 +89,10 @@ export const de: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `Dies löscht ${n} Benutzer dauerhaft. Diese Aktion ist UNWIDERRUFLICH.`,
     newUser: 'Neuer Benutzer',
-    deactivateTitle: 'Benutzer deaktivieren',
+    deactivateTitle: 'Benutzer löschen',
     deactivateDescription: (first, last) =>
-      `Möchten Sie ${first} ${last} wirklich deaktivieren? Der Benutzer verliert den Systemzugang.`,
-    confirmDeactivate: 'Deaktivieren',
+      `Möchten Sie ${first} ${last} wirklich löschen? Der Benutzer wird in den Papierkorb verschoben.`,
+    confirmDeactivate: 'Löschen',
     cancel: 'Abbrechen',
     viewTrash: 'Papierkorb anzeigen',
     restoreUser: 'Wiederherstellen',
@@ -103,7 +104,7 @@ export const de: UsersTranslations = {
     purgeDescription: (name) =>
       `${name} wird endgültig gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden.`,
     confirmRestore: 'Wiederherstellen',
-    confirmPurge: 'Endgültig löschen',
+    confirmPurge: 'Löschen',
     purgeWarning: 'Diese Aktion kann nicht rückgängig gemacht werden.',
   },
   filters: {
@@ -115,12 +116,13 @@ export const de: UsersTranslations = {
     statusInactive: 'Inaktiv',
   },
   toasts: {
-    bulkDeactivated: 'Benutzer deaktiviert',
+    bulkDeactivated: 'Benutzer gelöscht',
     bulkRestored: 'Benutzer wiederhergestellt',
     bulkPurged: 'Benutzer dauerhaft gelöscht',
+    offlinePhotoSkipped: 'Bilder werden offline nicht gespeichert; fügen Sie es bei erneuter Verbindung hinzu.',
     created: 'Benutzer erfolgreich erstellt',
     updated: 'Benutzer erfolgreich aktualisiert',
-    deactivated: 'Benutzer erfolgreich deaktiviert',
+    deactivated: 'Benutzer erfolgreich gelöscht',
     restored: 'Benutzer erfolgreich wiederhergestellt',
     purged: 'Benutzer endgültig gelöscht',
   },

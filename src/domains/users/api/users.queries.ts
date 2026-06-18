@@ -100,7 +100,12 @@ export const useSoftDeleteUser = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: string) => usersApi.softDelete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
+    onSuccess: () => {
+      // Invalidate the trash too: deleting again after a restore must refresh
+      // the (otherwise stale, empty) trash list.
+      qc.invalidateQueries({ queryKey: userKeys.lists() })
+      qc.invalidateQueries({ queryKey: userKeys.trash() })
+    },
   })
 }
 
@@ -134,7 +139,10 @@ export const useBulkSoftDeleteUsers = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (ids: string[]) => usersApi.bulkSoftDelete(ids),
-    onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: userKeys.lists() })
+      qc.invalidateQueries({ queryKey: userKeys.trash() })
+    },
   })
 }
 

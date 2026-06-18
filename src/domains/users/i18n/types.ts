@@ -30,6 +30,8 @@ export interface UsersTranslations {
   detail: {
     title: string
     closeButton: string
+    /** Short label for the permanent-delete button inside the detail modal. */
+    purgeButton: string
   }
   status: {
     active: string
@@ -117,6 +119,7 @@ export interface UsersTranslations {
     bulkDeactivated: string
     bulkRestored: string
     bulkPurged: string
+    offlinePhotoSkipped: string
   }
   validation: {
     emailInvalid: string

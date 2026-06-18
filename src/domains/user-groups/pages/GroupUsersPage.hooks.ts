@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { navPaths } from '@/shared/router'
 import { useUserGroupsTranslation } from '../i18n'
 import { useUserGroup } from '..'
@@ -56,7 +57,7 @@ export function useGroupUsersPage() {
         notify.success(t.members.toastAdded)
         setSearchTerm('')
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setSearchTerm('')),
     })
 
   const handleConfirmRemove = () => {
@@ -66,7 +67,7 @@ export function useGroupUsersPage() {
         notify.success(t.members.toastRemoved)
         setRemovingUser(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setRemovingUser(null)),
     })
   }
 
@@ -77,7 +78,10 @@ export function useGroupUsersPage() {
         clearSelection()
         setBulkRemoveOpen(false)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => {
+        clearSelection()
+        setBulkRemoveOpen(false)
+      }),
     })
   }
 

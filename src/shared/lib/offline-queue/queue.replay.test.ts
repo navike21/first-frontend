@@ -1,11 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { QueuedRequest } from './queue.types'
 
-const { getAllMock, removeMock, requestMock } = vi.hoisted(() => ({
-  getAllMock: vi.fn<() => Promise<QueuedRequest[]>>(),
-  removeMock: vi.fn<(id: string) => Promise<void>>(),
-  requestMock: vi.fn<() => Promise<unknown>>(),
-}))
+// Lightweight stand-in for the real HttpError — replayQueue only reads `.status`
+// and checks `instanceof HttpError`, so a class with the same shape suffices.
+// Declared inside vi.hoisted so the (hoisted) mock factory can reference it.
+const { getAllMock, removeMock, requestMock, FakeHttpError } = vi.hoisted(() => {
+  class FakeHttpError extends Error {
+    status: number
+    constructor(status: number) {
+      super(`HTTP ${status}`)
+      this.status = status
+    }
+  }
+  return {
+    getAllMock: vi.fn<() => Promise<QueuedRequest[]>>(),
+    removeMock: vi.fn<(id: string) => Promise<void>>(),
+    requestMock: vi.fn<() => Promise<unknown>>(),
+    FakeHttpError,
+  }
+})
 
 vi.mock('./queue', () => ({
   getAll: getAllMock,
@@ -14,6 +27,7 @@ vi.mock('./queue', () => ({
 
 vi.mock('@/shared/api', () => ({
   request: requestMock,
+  HttpError: FakeHttpError,
 }))
 
 import { replayQueue } from './queue.replay'
@@ -31,55 +45,85 @@ describe('replayQueue', () => {
     vi.resetAllMocks()
   })
 
-  it('should do nothing when the queue is empty', async () => {
-    // Arrange
+  it('does nothing when the queue is empty', async () => {
     getAllMock.mockResolvedValue([])
-    // Act
-    await replayQueue()
-    // Assert
+    const result = await replayQueue()
+    expect(result).toEqual({ synced: 0, failed: [] })
     expect(requestMock).not.toHaveBeenCalled()
     expect(removeMock).not.toHaveBeenCalled()
   })
 
-  it('should call request and then remove for each queued item', async () => {
-    // Arrange
+  it('sends and removes each item in FIFO order', async () => {
     const items = [makeItem({ id: 'a' }), makeItem({ id: 'b', method: 'PUT' })]
-    getAllMock.mockResolvedValue(items)
-    requestMock.mockResolvedValue(undefined)
-    removeMock.mockResolvedValue(undefined)
-    // Act
-    await replayQueue()
-    // Assert
-    expect(requestMock).toHaveBeenCalledTimes(2)
-    expect(removeMock).toHaveBeenCalledWith('a')
-    expect(removeMock).toHaveBeenCalledWith('b')
-  })
-
-  it('should replay items in FIFO order', async () => {
-    // Arrange
-    const items = [
-      makeItem({ id: 'first', timestamp: 100 }),
-      makeItem({ id: 'second', timestamp: 200 }),
-    ]
     getAllMock.mockResolvedValue(items)
     requestMock.mockResolvedValue(undefined)
     const order: string[] = []
     removeMock.mockImplementation(async (id) => {
       order.push(id)
     })
-    // Act
-    await replayQueue()
-    // Assert
-    expect(order).toEqual(['first', 'second'])
+
+    const result = await replayQueue()
+
+    expect(result.synced).toBe(2)
+    expect(result.failed).toEqual([])
+    expect(order).toEqual(['a', 'b'])
   })
 
-  it('should throw and stop replay when a request fails', async () => {
-    // Arrange
-    const items = [makeItem({ id: 'fail' }), makeItem({ id: 'never-reached' })]
+  it('drops a permanent 4xx and reports it, continuing with the rest', async () => {
+    const items = [makeItem({ id: 'dup' }), makeItem({ id: 'ok' })]
     getAllMock.mockResolvedValue(items)
-    requestMock.mockRejectedValue(new Error('network error'))
-    // Act & Assert
-    await expect(replayQueue()).rejects.toThrow('network error')
-    expect(removeMock).not.toHaveBeenCalledWith('never-reached')
+    requestMock
+      .mockRejectedValueOnce(new FakeHttpError(409))
+      .mockResolvedValueOnce(undefined)
+    removeMock.mockResolvedValue(undefined)
+
+    const result = await replayQueue()
+
+    expect(result.synced).toBe(1)
+    expect(result.failed.map((i) => i.id)).toEqual(['dup'])
+    // Both are removed: the duplicate is dropped, the valid one is synced.
+    expect(removeMock).toHaveBeenCalledWith('dup')
+    expect(removeMock).toHaveBeenCalledWith('ok')
+  })
+
+  it('stops on a transient (network) error and keeps the queue intact', async () => {
+    const items = [makeItem({ id: 'flaky' }), makeItem({ id: 'later' })]
+    getAllMock.mockResolvedValue(items)
+    requestMock.mockRejectedValue(new Error('network down'))
+
+    const result = await replayQueue()
+
+    expect(result.synced).toBe(0)
+    expect(result.failed).toEqual([])
+    expect(removeMock).not.toHaveBeenCalled()
+  })
+
+  it('treats 401 as transient — does not drop the item', async () => {
+    getAllMock.mockResolvedValue([makeItem({ id: 'auth' })])
+    requestMock.mockRejectedValue(new FakeHttpError(401))
+
+    const result = await replayQueue()
+
+    expect(result).toEqual({ synced: 0, failed: [] })
+    expect(removeMock).not.toHaveBeenCalled()
+  })
+
+  it('does not run concurrently (in-flight guard)', async () => {
+    let release!: () => void
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    getAllMock.mockImplementation(async () => {
+      await gate
+      return []
+    })
+
+    const first = replayQueue()
+    const second = await replayQueue() // returns immediately while first runs
+
+    expect(second).toEqual({ synced: 0, failed: [] })
+    release()
+    await first
+    expect(getAllMock).toHaveBeenCalledTimes(1)
   })
 })

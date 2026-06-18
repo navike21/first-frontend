@@ -16,6 +16,9 @@ export const enqueue = async (
 
 export const getAll = async (): Promise<QueuedRequest[]> => getQueue()
 
+/** Number of requests currently waiting in the offline queue. */
+export const size = async (): Promise<number> => (await getQueue()).length
+
 export const remove = async (id: string): Promise<void> => {
   const queue = await getQueue()
   await localforage.setItem(

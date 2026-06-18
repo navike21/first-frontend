@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { useUsers, useSoftDeleteUser, useBulkSoftDeleteUsers } from '..'
 import { useUsersTranslation } from '../i18n'
 import type { User, UserListParams } from '..'
@@ -36,7 +37,7 @@ export function useUsersPage() {
         notify.success(t.toasts.deactivated)
         setDeletingUser(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setDeletingUser(null)),
     })
   }
 
@@ -47,7 +48,10 @@ export function useUsersPage() {
         clearSelection()
         setBulkConfirmOpen(false)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => {
+        clearSelection()
+        setBulkConfirmOpen(false)
+      }),
     })
   }
 

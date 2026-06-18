@@ -17,6 +17,7 @@ export const ru: UsersTranslations = {
   detail: {
     title: 'Сведения о пользователе',
     closeButton: 'Закрыть',
+    purgeButton: 'Удалить',
   },
   table: {
     selectAll: 'Выбрать все',
@@ -77,9 +78,9 @@ export const ru: UsersTranslations = {
     selectedCount: (n) => `Выбрано: ${n}`,
     clearSelection: 'Очистить выбор',
     viewDetail: 'Подробнее',
-    bulkDeactivate: 'Деактивировать',
+    bulkDeactivate: 'Удалить',
     bulkDeactivateDescription: (n) =>
-      `Деактивировать выбранных пользователей (${n})? Они потеряют доступ к системе.`,
+      `Удалить выбранных пользователей (${n})? Они будут перемещены в корзину.`,
     bulkRestore: 'Восстановить',
     bulkRestoreDescription: (n) =>
       `Восстановить ${n} пользователей в активный список?`,
@@ -87,10 +88,10 @@ export const ru: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `Это навсегда удалит ${n} пользователей. Действие НЕОБРАТИМО.`,
     newUser: 'Новый пользователь',
-    deactivateTitle: 'Деактивировать пользователя',
+    deactivateTitle: 'Удалить пользователя',
     deactivateDescription: (first, last) =>
-      `Подтвердить деактивацию ${first} ${last}? Пользователь потеряет доступ к системе.`,
-    confirmDeactivate: 'Деактивировать',
+      `Подтвердить удаление ${first} ${last}? Пользователь будет перемещён в корзину.`,
+    confirmDeactivate: 'Удалить',
     cancel: 'Отмена',
     viewTrash: 'Открыть корзину',
     restoreUser: 'Восстановить',
@@ -101,7 +102,7 @@ export const ru: UsersTranslations = {
     purgeDescription: (name) =>
       `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmRestore: 'Восстановить',
-    confirmPurge: 'Удалить навсегда',
+    confirmPurge: 'Удалить',
     purgeWarning: 'Это действие нельзя отменить.',
   },
   filters: {
@@ -113,12 +114,13 @@ export const ru: UsersTranslations = {
     statusInactive: 'Неактивные',
   },
   toasts: {
-    bulkDeactivated: 'Пользователи деактивированы',
+    bulkDeactivated: 'Пользователи удалены',
     bulkRestored: 'Пользователи восстановлены',
     bulkPurged: 'Пользователи удалены навсегда',
+    offlinePhotoSkipped: 'Изображения не сохраняются офлайн; добавьте его при восстановлении связи.',
     created: 'Пользователь создан',
     updated: 'Пользователь обновлён',
-    deactivated: 'Пользователь деактивирован',
+    deactivated: 'Пользователь удалён',
     restored: 'Пользователь восстановлен',
     purged: 'Пользователь удалён навсегда',
   },

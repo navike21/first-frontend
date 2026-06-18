@@ -34,7 +34,10 @@ export const usersApi = {
 
   create: (body: CreateUserFormData, avatar?: File | null) => {
     type Created = ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>
-    if (avatar) {
+    // Multipart can't be serialised into the offline queue, so offline we send
+    // JSON without the avatar (it gets queued); the page warns the photo was
+    // skipped. Online with a photo still uses multipart.
+    if (avatar && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(body))
       fd.append('avatar', avatar)
@@ -53,7 +56,9 @@ export const usersApi = {
     avatar?: File | null,
     removeAvatar?: boolean
   ) => {
-    if (avatar) {
+    // Offline: skip multipart and send JSON so the edit is queued (the photo is
+    // dropped and the page warns); online with a photo uses multipart.
+    if (avatar && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(body))
       fd.append('avatar', avatar)

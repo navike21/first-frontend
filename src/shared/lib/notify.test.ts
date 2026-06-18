@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { toast } from 'sonner'
-import { HttpError } from '@/shared/api'
+import { HttpError, OfflineQueuedError } from '@/shared/api'
 import { useLanguageStore } from '@/shared/model/language.store'
 
 vi.mock('sonner', () => ({
@@ -88,6 +88,51 @@ describe('notify', () => {
     it('skips toast for 401 HttpError', () => {
       notify.queryError(new HttpError(401, 'Unauthorized'))
       expect(toast.error).not.toHaveBeenCalled()
+    })
+
+    it('ignores OfflineQueuedError (the offline toast is shown elsewhere)', () => {
+      notify.queryError(new OfflineQueuedError('POST', '/users'))
+      expect(toast.error).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('offlineQueued', () => {
+    it('shows the localized info toast (es)', () => {
+      notify.offlineQueued()
+      expect(toast.info).toHaveBeenCalledWith(
+        'Guardado sin conexión. Se sincronizará al reconectar.'
+      )
+    })
+  })
+
+  describe('connectionLost', () => {
+    it('shows the localized warning (es)', () => {
+      notify.connectionLost()
+      expect(toast.warning).toHaveBeenCalledWith(
+        'Sin conexión — los cambios se guardarán automáticamente.'
+      )
+    })
+  })
+
+  describe('syncResult', () => {
+    it('no-ops when nothing was processed', () => {
+      notify.syncResult(0, 0)
+      expect(toast.success).not.toHaveBeenCalled()
+      expect(toast.warning).not.toHaveBeenCalled()
+    })
+
+    it('success toast when everything synced (es)', () => {
+      notify.syncResult(3, 0)
+      expect(toast.success).toHaveBeenCalledWith(
+        'Conexión restaurada — 3 cambio(s) sincronizado(s).'
+      )
+    })
+
+    it('warning toast when some changes failed (es)', () => {
+      notify.syncResult(2, 1)
+      expect(toast.warning).toHaveBeenCalledWith(
+        '2 sincronizado(s), 1 no se pudieron sincronizar.'
+      )
     })
   })
 })

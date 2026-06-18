@@ -18,6 +18,7 @@ export const fr: UsersTranslations = {
   detail: {
     title: "Détail de l'utilisateur",
     closeButton: 'Fermer',
+    purgeButton: 'Supprimer',
   },
   table: {
     selectAll: 'Tout sélectionner',
@@ -78,9 +79,9 @@ export const fr: UsersTranslations = {
     selectedCount: (n) => `${n} sélectionné${n !== 1 ? 's' : ''}`,
     clearSelection: 'Effacer la sélection',
     viewDetail: 'Voir le détail',
-    bulkDeactivate: 'Désactiver',
+    bulkDeactivate: 'Supprimer',
     bulkDeactivateDescription: (n) =>
-      `Désactiver ${n} utilisateur${n !== 1 ? 's' : ''} sélectionné${n !== 1 ? 's' : ''} ? Ils perdront l'accès au système.`,
+      `Supprimer ${n} utilisateur${n !== 1 ? 's' : ''} sélectionné${n !== 1 ? 's' : ''} ? Ils seront déplacés vers la corbeille.`,
     bulkRestore: 'Restaurer',
     bulkRestoreDescription: (n) =>
       `Restaurer ${n} utilisateur${n !== 1 ? 's' : ''} dans la liste active ?`,
@@ -88,10 +89,10 @@ export const fr: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `Ceci supprimera définitivement ${n} utilisateur${n !== 1 ? 's' : ''}. Cette action est IRRÉVERSIBLE.`,
     newUser: 'Nouvel utilisateur',
-    deactivateTitle: "Désactiver l'utilisateur",
+    deactivateTitle: "Supprimer l'utilisateur",
     deactivateDescription: (first, last) =>
-      `Confirmer la désactivation de ${first} ${last} ? L'utilisateur perdra l'accès au système.`,
-    confirmDeactivate: 'Désactiver',
+      `Confirmer la suppression de ${first} ${last} ? L'utilisateur sera déplacé vers la corbeille.`,
+    confirmDeactivate: 'Supprimer',
     cancel: 'Annuler',
     viewTrash: 'Voir la corbeille',
     restoreUser: 'Restaurer',
@@ -102,7 +103,7 @@ export const fr: UsersTranslations = {
     purgeDescription: (name) =>
       `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmRestore: 'Restaurer',
-    confirmPurge: 'Supprimer définitivement',
+    confirmPurge: 'Supprimer',
     purgeWarning: 'Cette action est irréversible.',
   },
   filters: {
@@ -114,12 +115,13 @@ export const fr: UsersTranslations = {
     statusInactive: 'Inactifs',
   },
   toasts: {
-    bulkDeactivated: 'Utilisateurs désactivés',
+    bulkDeactivated: 'Utilisateurs supprimés',
     bulkRestored: 'Utilisateurs restaurés',
     bulkPurged: 'Utilisateurs supprimés définitivement',
+    offlinePhotoSkipped: "Les images ne sont pas enregistrées hors ligne ; ajoutez-la à la reconnexion.",
     created: 'Utilisateur créé avec succès',
     updated: 'Utilisateur mis à jour avec succès',
-    deactivated: 'Utilisateur désactivé avec succès',
+    deactivated: 'Utilisateur supprimé avec succès',
     restored: 'Utilisateur restauré avec succès',
     purged: 'Utilisateur supprimé définitivement',
   },

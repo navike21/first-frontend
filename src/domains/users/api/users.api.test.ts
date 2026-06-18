@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { CreateUserFormData } from '../model/user.schema'
 
 vi.mock('@/shared/api', () => ({
@@ -63,5 +63,43 @@ describe('usersApi — backend-driven avatar (multipart)', () => {
     const cfg = reqMock.mock.calls[0][0]
     expect(cfg.body).toEqual({ firstName: 'Ne', profilePictureUrl: '' })
     expect(cfg.body).not.toBeInstanceOf(FormData)
+  })
+})
+
+describe('usersApi — avatar offline (queued without the photo)', () => {
+  beforeEach(() => reqMock.mockClear())
+
+  const setOnline = (online: boolean) =>
+    Object.defineProperty(navigator, 'onLine', {
+      configurable: true,
+      value: online,
+    })
+
+  afterEach(() => setOnline(true))
+
+  it('create with avatar offline sends JSON (FormData cannot be queued)', async () => {
+    // Arrange
+    setOnline(false)
+    const file = new File(['x'], 'a.png', { type: 'image/png' })
+    // Act
+    await usersApi.create(baseData, file)
+    // Assert
+    const cfg = reqMock.mock.calls[0][0]
+    expect(cfg.body).not.toBeInstanceOf(FormData)
+    expect(cfg.body).toEqual(baseData)
+  })
+
+  it('update with avatar offline sends JSON to PATCH /users/:id', async () => {
+    // Arrange
+    setOnline(false)
+    const file = new File(['x'], 'a.webp', { type: 'image/webp' })
+    // Act
+    await usersApi.update('u1', { firstName: 'Ne' }, file)
+    // Assert
+    const cfg = reqMock.mock.calls[0][0]
+    expect(cfg.api).toBe('/users/u1')
+    expect(cfg.method).toBe('PATCH')
+    expect(cfg.body).not.toBeInstanceOf(FormData)
+    expect(cfg.body).toEqual({ firstName: 'Ne' })
   })
 })

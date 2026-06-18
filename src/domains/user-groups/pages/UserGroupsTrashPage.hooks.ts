@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { useUserGroupsTrash, useRestoreUserGroup, usePurgeUserGroup } from '..'
 import { useHasPermission } from '@/shared/lib/permissions'
 import { useUserGroupsTranslation } from '../i18n'
@@ -31,7 +32,7 @@ export function useUserGroupsTrashPage() {
         notify.success(t.toasts.restored)
         setRestoringGroup(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setRestoringGroup(null)),
     })
   }
 
@@ -42,7 +43,7 @@ export function useUserGroupsTrashPage() {
         notify.success(t.toasts.purged)
         setPurgingGroup(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setPurgingGroup(null)),
     })
   }
 

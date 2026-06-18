@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Modal, Button, Avatar } from '@/shared/ui'
+import { formatDate } from '@/shared/lib'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import type { User } from '../../model/user.types'
@@ -31,28 +32,30 @@ export const UserDetailModal = ({
   const { t } = useUsersTranslation()
   const dash = '—'
 
+  const showRestore = canRestore && !!onRestore
+  const showPurge = canPurge && !!onPurge
+
   return (
     <Modal
       isOpen={!!user}
       onClose={onClose}
-      size="md"
+      size="lg"
       title={t.detail.title}
       footer={
-        <>
-          <Button variant="secondary" onClick={onClose}>
-            {t.detail.closeButton}
-          </Button>
-          {canRestore && onRestore && (
-            <Button variant="primary" onClick={onRestore}>
-              {t.actions.restoreUser}
-            </Button>
-          )}
-          {canPurge && onPurge && (
-            <Button variant="error" onClick={onPurge}>
-              {t.actions.purgeUser}
-            </Button>
-          )}
-        </>
+        showRestore || showPurge ? (
+          <>
+            {showRestore && (
+              <Button variant="primary" onClick={onRestore}>
+                {t.actions.restoreUser}
+              </Button>
+            )}
+            {showPurge && (
+              <Button variant="error" onClick={onPurge}>
+                {t.detail.purgeButton}
+              </Button>
+            )}
+          </>
+        ) : undefined
       }
     >
       {user && (
@@ -75,20 +78,13 @@ export const UserDetailModal = ({
             <Row label={t.form.phone} value={user.phone || dash} />
             <Row
               label={t.form.dateOfBirth}
-              value={user.dateOfBirth?.slice(0, 10) || dash}
+              value={formatDate(user.dateOfBirth)}
             />
             <Row
               label={t.form.statusLabel}
               value={<UserStatusBadge status={user.status} />}
             />
-            <Row
-              label={t.table.deletedAt}
-              value={
-                user.deletedAt
-                  ? new Date(user.deletedAt).toLocaleDateString()
-                  : dash
-              }
-            />
+            <Row label={t.table.deletedAt} value={formatDate(user.deletedAt)} />
           </div>
         </div>
       )}

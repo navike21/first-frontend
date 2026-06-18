@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import {
   useUsersTrash,
   useRestoreUser,
@@ -41,7 +42,7 @@ export function useUsersTrashPage() {
         notify.success(t.toasts.restored)
         setRestoringUser(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setRestoringUser(null)),
     })
   }
 
@@ -52,7 +53,7 @@ export function useUsersTrashPage() {
         notify.success(t.toasts.purged)
         setPurgingUser(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setPurgingUser(null)),
     })
   }
 
@@ -63,7 +64,10 @@ export function useUsersTrashPage() {
         clearSelection()
         setBulkRestoreOpen(false)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => {
+        clearSelection()
+        setBulkRestoreOpen(false)
+      }),
     })
   }
 
@@ -74,7 +78,10 @@ export function useUsersTrashPage() {
         clearSelection()
         setBulkPurgeOpen(false)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => {
+        clearSelection()
+        setBulkPurgeOpen(false)
+      }),
     })
   }
 
