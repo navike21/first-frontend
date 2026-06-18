@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { PageHeader, Spinner } from '@/shared/ui'
 import { UserForm, useUser, useUpdateUser } from '..'
 import { useUsersTranslation } from '../i18n'
@@ -37,7 +38,12 @@ export const EditUserPage = () => {
           }
           navigate({ to: navPaths.users(language) as never })
         },
-        onError: (error) => notify.queryError(error),
+        // Offline: the edit is queued (without the photo). Soft success — warn
+        // the photo was skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (avatar) notify.warning(t.toasts.offlinePhotoSkipped)
+          navigate({ to: navPaths.users(language) as never })
+        }),
       }
     )
   }

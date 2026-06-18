@@ -18,6 +18,7 @@ export const en: UsersTranslations = {
   detail: {
     title: 'User detail',
     closeButton: 'Close',
+    purgeButton: 'Delete',
   },
   table: {
     selectAll: 'Select all',
@@ -78,9 +79,9 @@ export const en: UsersTranslations = {
     selectedCount: (n) => `${n} selected`,
     clearSelection: 'Clear selection',
     viewDetail: 'View detail',
-    bulkDeactivate: 'Deactivate',
+    bulkDeactivate: 'Delete',
     bulkDeactivateDescription: (n) =>
-      `Deactivate ${n} selected user${n !== 1 ? 's' : ''}? They will lose access to the system.`,
+      `Delete ${n} selected user${n !== 1 ? 's' : ''}? They will be moved to the trash.`,
     bulkRestore: 'Restore',
     bulkRestoreDescription: (n) =>
       `Restore ${n} user${n !== 1 ? 's' : ''} to the active list?`,
@@ -88,10 +89,10 @@ export const en: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `This will permanently delete ${n} user${n !== 1 ? 's' : ''}. This action is IRREVERSIBLE.`,
     newUser: 'New user',
-    deactivateTitle: 'Deactivate user',
+    deactivateTitle: 'Delete user',
     deactivateDescription: (first, last) =>
-      `Are you sure you want to deactivate ${first} ${last}? The user will lose access to the system.`,
-    confirmDeactivate: 'Deactivate',
+      `Are you sure you want to delete ${first} ${last}? They will be moved to the trash.`,
+    confirmDeactivate: 'Delete',
     cancel: 'Cancel',
     viewTrash: 'View trash',
     restoreUser: 'Restore',
@@ -102,7 +103,7 @@ export const en: UsersTranslations = {
     purgeDescription: (name) =>
       `This will permanently delete ${name}. This action cannot be undone.`,
     confirmRestore: 'Restore',
-    confirmPurge: 'Delete permanently',
+    confirmPurge: 'Delete',
     purgeWarning: 'Cannot be undone.',
   },
   filters: {
@@ -114,12 +115,13 @@ export const en: UsersTranslations = {
     statusInactive: 'Inactive',
   },
   toasts: {
-    bulkDeactivated: 'Users deactivated',
+    bulkDeactivated: 'Users deleted',
     bulkRestored: 'Users restored',
     bulkPurged: 'Users permanently deleted',
+    offlinePhotoSkipped: 'Images are not saved offline; add it when you reconnect.',
     created: 'User created successfully',
     updated: 'User updated successfully',
-    deactivated: 'User deactivated successfully',
+    deactivated: 'User deleted successfully',
     restored: 'User restored successfully',
     purged: 'User permanently deleted',
   },

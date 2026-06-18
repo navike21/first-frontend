@@ -97,7 +97,7 @@ export const de: UserGroupsTranslations = {
       `Gruppe „${name}" wird endgültig gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden.`,
     confirmRestore: 'Wiederherstellen',
     purgeWarning: 'Diese Aktion kann nicht rückgängig gemacht werden.',
-    confirmPurge: 'Endgültig löschen',
+    confirmPurge: 'Löschen',
   },
   filters: {
     searchLabel: 'Suchen',

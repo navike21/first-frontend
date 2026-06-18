@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { PageHeader } from '@/shared/ui'
 import { UserGroupForm, useCreateUserGroup } from '..'
 import { useUserGroupsTranslation } from '../i18n'
@@ -17,7 +18,9 @@ export const CreateUserGroupPage = () => {
         notify.success(t.toasts.created)
         navigate({ to: navPaths.userGroups(language) as never })
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.userGroups(language) as never })
+      ),
     })
   }
 

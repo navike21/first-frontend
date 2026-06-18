@@ -92,7 +92,7 @@ export const zh: UserGroupsTranslations = {
     purgeDescription: (name) => `用户组"${name}"将被永久删除。此操作不可撤销。`,
     confirmRestore: '还原',
     purgeWarning: '此操作无法撤销。',
-    confirmPurge: '永久删除',
+    confirmPurge: '删除',
   },
   filters: {
     searchLabel: '搜索',

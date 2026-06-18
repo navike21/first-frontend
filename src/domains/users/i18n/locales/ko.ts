@@ -17,6 +17,7 @@ export const ko: UsersTranslations = {
   detail: {
     title: '사용자 상세 정보',
     closeButton: '닫기',
+    purgeButton: '삭제',
   },
   table: {
     selectAll: '전체 선택',
@@ -77,9 +78,9 @@ export const ko: UsersTranslations = {
     selectedCount: (n) => `${n}개 선택됨`,
     clearSelection: '선택 해제',
     viewDetail: '상세 보기',
-    bulkDeactivate: '비활성화',
+    bulkDeactivate: '삭제',
     bulkDeactivateDescription: (n) =>
-      `선택한 사용자 ${n}명을 비활성화하시겠습니까? 시스템에 접근할 수 없게 됩니다.`,
+      `선택한 사용자 ${n}명을 삭제하시겠습니까? 휴지통으로 이동됩니다.`,
     bulkRestore: '복원',
     bulkRestoreDescription: (n) =>
       `사용자 ${n}명을 활성 목록으로 복원하시겠습니까?`,
@@ -87,10 +88,10 @@ export const ko: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `사용자 ${n}명을 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     newUser: '새 사용자',
-    deactivateTitle: '사용자 비활성화',
+    deactivateTitle: '사용자 삭제',
     deactivateDescription: (first, last) =>
-      `${last} ${first}를 비활성화하시겠습니까? 사용자는 시스템 접근 권한을 잃게 됩니다.`,
-    confirmDeactivate: '비활성화',
+      `${last} ${first}를 삭제하시겠습니까? 휴지통으로 이동됩니다.`,
+    confirmDeactivate: '삭제',
     cancel: '취소',
     viewTrash: '휴지통 보기',
     restoreUser: '복원',
@@ -102,7 +103,7 @@ export const ko: UsersTranslations = {
     purgeDescription: (name) =>
       `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmRestore: '복원',
-    confirmPurge: '영구 삭제',
+    confirmPurge: '삭제',
     purgeWarning: '이 작업은 취소할 수 없습니다.',
   },
   filters: {
@@ -114,12 +115,13 @@ export const ko: UsersTranslations = {
     statusInactive: '비활성',
   },
   toasts: {
-    bulkDeactivated: '사용자가 비활성화되었습니다',
+    bulkDeactivated: '사용자가 삭제되었습니다',
     bulkRestored: '사용자가 복원되었습니다',
     bulkPurged: '사용자가 영구 삭제되었습니다',
+    offlinePhotoSkipped: '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
     created: '사용자가 생성되었습니다',
     updated: '사용자가 업데이트되었습니다',
-    deactivated: '사용자가 비활성화되었습니다',
+    deactivated: '사용자가 삭제되었습니다',
     restored: '사용자가 복원되었습니다',
     purged: '사용자가 영구 삭제되었습니다',
   },

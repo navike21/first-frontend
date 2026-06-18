@@ -57,19 +57,19 @@ describe('Avatar component', () => {
     it('should apply small size classes', () => {
       const { container } = render(<Avatar name="Test" size="sm" />)
       const figure = container.querySelector('figure')
-      expect(figure).toHaveClass('min-w-8', 'h-8')
+      expect(figure).toHaveClass('size-8')
     })
 
     it('should apply medium size classes by default', () => {
       const { container } = render(<Avatar name="Test" />)
       const figure = container.querySelector('figure')
-      expect(figure).toHaveClass('min-w-12', 'h-12')
+      expect(figure).toHaveClass('size-12')
     })
 
     it('should apply large size classes', () => {
       const { container } = render(<Avatar name="Test" size="lg" />)
       const figure = container.querySelector('figure')
-      expect(figure).toHaveClass('min-w-16', 'h-16')
+      expect(figure).toHaveClass('size-16')
     })
   })
 

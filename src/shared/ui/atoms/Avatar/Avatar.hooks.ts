@@ -1,9 +1,11 @@
 import type { AvatarProps } from './Avatar.types'
 
 const SIZE_MAP = {
-  sm: 'min-w-8 h-8 text-sm ',
-  md: 'min-w-12 h-12 text-base',
-  lg: 'min-w-16 h-16 text-lg',
+  // Fixed width AND height (size-*) so the avatar is always a circle. `min-w-*`
+  // let the figure stretch to a photo's intrinsic width → it rendered as an oval.
+  sm: 'size-8 text-sm',
+  md: 'size-12 text-base',
+  lg: 'size-16 text-lg',
 } as const
 
 const STATUS_COLOR_MAP = {

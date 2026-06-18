@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { useUserGroups, useSoftDeleteUserGroup } from '..'
 import { useUserGroupsTranslation } from '../i18n'
 import type { UserGroup, UserGroupListParams } from '..'
@@ -40,7 +41,7 @@ export function useUserGroupsPage() {
         notify.success(t.toasts.deleted)
         setDeletingGroup(null)
       },
-      onError: (error) => notify.queryError(error),
+      onError: onQueuedOr(() => setDeletingGroup(null)),
     })
   }
 

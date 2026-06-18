@@ -17,7 +17,12 @@ export const langRoute = createRoute({
         to: `/${DEFAULT_LANG}/${ROUTE_SLUGS.notFound[DEFAULT_LANG]}` as never,
       })
     }
-    useLanguageStore.getState().setLanguage(lang as Language)
+    // Sync the store to the URL WITHOUT persisting to the backend. `setLanguage`
+    // would queue a /users/me/preferences save, and beforeLoad runs on every
+    // navigation — that spammed the endpoint. Explicit changes via the
+    // LanguageSwitcher still persist; here we only hydrate, and only on change.
+    const store = useLanguageStore.getState()
+    if (store.language !== lang) store.hydrateLanguage(lang as Language)
   },
 })
 

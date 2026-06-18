@@ -17,6 +17,7 @@ export const ja: UsersTranslations = {
   detail: {
     title: 'ユーザー詳細',
     closeButton: '閉じる',
+    purgeButton: '削除',
   },
   table: {
     selectAll: 'すべて選択',
@@ -77,9 +78,9 @@ export const ja: UsersTranslations = {
     selectedCount: (n) => `${n} 件選択中`,
     clearSelection: '選択をクリア',
     viewDetail: '詳細を表示',
-    bulkDeactivate: '無効化',
+    bulkDeactivate: '削除',
     bulkDeactivateDescription: (n) =>
-      `選択した ${n} 件のユーザーを無効化しますか？システムにアクセスできなくなります。`,
+      `選択した ${n} 件のユーザーを削除しますか？ゴミ箱に移動されます。`,
     bulkRestore: '復元',
     bulkRestoreDescription: (n) =>
       `${n} 件のユーザーを有効リストに復元しますか？`,
@@ -87,10 +88,10 @@ export const ja: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `${n} 件のユーザーを完全に削除します。この操作は元に戻せません。`,
     newUser: '新規ユーザー',
-    deactivateTitle: 'ユーザーを無効化',
+    deactivateTitle: 'ユーザーを削除',
     deactivateDescription: (first, last) =>
-      `${last} ${first} を無効化しますか？ユーザーはシステムへのアクセスを失います。`,
-    confirmDeactivate: '無効化',
+      `${last} ${first} を削除しますか？ゴミ箱に移動されます。`,
+    confirmDeactivate: '削除',
     cancel: 'キャンセル',
     viewTrash: 'ゴミ箱を表示',
     restoreUser: '復元',
@@ -101,7 +102,7 @@ export const ja: UsersTranslations = {
     purgeDescription: (name) =>
       `${name} を完全削除します。この操作は元に戻せません。`,
     confirmRestore: '復元',
-    confirmPurge: '完全削除',
+    confirmPurge: '削除',
     purgeWarning: 'この操作は元に戻せません。',
   },
   filters: {
@@ -113,12 +114,13 @@ export const ja: UsersTranslations = {
     statusInactive: '無効',
   },
   toasts: {
-    bulkDeactivated: 'ユーザーを無効化しました',
+    bulkDeactivated: 'ユーザーを削除しました',
     bulkRestored: 'ユーザーを復元しました',
     bulkPurged: 'ユーザーを完全に削除しました',
+    offlinePhotoSkipped: '画像はオフラインでは保存されません。再接続時に追加してください。',
     created: 'ユーザーを作成しました',
     updated: 'ユーザーを更新しました',
-    deactivated: 'ユーザーを無効化しました',
+    deactivated: 'ユーザーを削除しました',
     restored: 'ユーザーを復元しました',
     purged: 'ユーザーを完全削除しました',
   },

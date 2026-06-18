@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
 import { PageHeader } from '@/shared/ui'
 import { UserForm, useCreateUser } from '..'
 import { useUsersTranslation } from '../i18n'
@@ -23,7 +24,12 @@ export const CreateUserPage = () => {
           }
           navigate({ to: navPaths.users(language) as never })
         },
-        onError: (error) => notify.queryError(error),
+        // Offline: the user is queued (without the photo). Treat it as a soft
+        // success — warn the photo was skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (avatar) notify.warning(t.toasts.offlinePhotoSkipped)
+          navigate({ to: navPaths.users(language) as never })
+        }),
       }
     )
   }

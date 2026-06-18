@@ -97,7 +97,7 @@ export const ja: UserGroupsTranslations = {
       `グループ「${name}」を完全削除します。この操作は元に戻せません。`,
     confirmRestore: '復元',
     purgeWarning: 'この操作は元に戻せません。',
-    confirmPurge: '完全削除',
+    confirmPurge: '削除',
   },
   filters: {
     searchLabel: '検索',

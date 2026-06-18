@@ -77,7 +77,11 @@ export const useSoftDeleteUserGroup = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: string) => userGroupsApi.softDelete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: userGroupKeys.lists() }),
+    onSuccess: () => {
+      // Invalidate the trash too, so deleting again after a restore refreshes it.
+      qc.invalidateQueries({ queryKey: userGroupKeys.lists() })
+      qc.invalidateQueries({ queryKey: userGroupKeys.trash() })
+    },
   })
 }
 

@@ -94,7 +94,7 @@ export const en: UserGroupsTranslations = {
     purgeDescription: (name) =>
       `This will permanently delete "${name}". This action cannot be undone.`,
     confirmRestore: 'Restore',
-    confirmPurge: 'Delete permanently',
+    confirmPurge: 'Delete',
     purgeWarning: 'Cannot be undone.',
   },
   filters: {

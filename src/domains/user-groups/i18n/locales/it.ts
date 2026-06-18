@@ -97,7 +97,7 @@ export const it: UserGroupsTranslations = {
       `Il gruppo "${name}" verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmRestore: 'Ripristina',
     purgeWarning: 'Questa azione non può essere annullata.',
-    confirmPurge: 'Elimina definitivamente',
+    confirmPurge: 'Elimina',
   },
   filters: {
     searchLabel: 'Cerca',

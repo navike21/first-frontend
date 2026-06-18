@@ -18,6 +18,7 @@ export const it: UsersTranslations = {
   detail: {
     title: 'Dettaglio utente',
     closeButton: 'Chiudi',
+    purgeButton: 'Elimina',
   },
   table: {
     selectAll: 'Seleziona tutto',
@@ -78,9 +79,9 @@ export const it: UsersTranslations = {
     selectedCount: (n) => `${n} selezionat${n !== 1 ? 'i' : 'o'}`,
     clearSelection: 'Cancella selezione',
     viewDetail: 'Vedi dettaglio',
-    bulkDeactivate: 'Disattiva',
+    bulkDeactivate: 'Elimina',
     bulkDeactivateDescription: (n) =>
-      `Disattivare ${n} utente${n !== 1 ? 'i' : ''} selezionat${n !== 1 ? 'i' : 'o'}? Perderanno l'accesso al sistema.`,
+      `Eliminare ${n} utente${n !== 1 ? 'i' : ''} selezionat${n !== 1 ? 'i' : 'o'}? Verranno spostati nel cestino.`,
     bulkRestore: 'Ripristina',
     bulkRestoreDescription: (n) =>
       `Ripristinare ${n} utente${n !== 1 ? 'i' : ''} nella lista attiva?`,
@@ -88,10 +89,10 @@ export const it: UsersTranslations = {
     bulkPurgeDescription: (n) =>
       `Questo eliminerà definitivamente ${n} utente${n !== 1 ? 'i' : ''}. Questa azione è IRREVERSIBILE.`,
     newUser: 'Nuovo utente',
-    deactivateTitle: 'Disattiva utente',
+    deactivateTitle: 'Elimina utente',
     deactivateDescription: (first, last) =>
-      `Confermi la disattivazione di ${first} ${last}? L'utente perderà l'accesso al sistema.`,
-    confirmDeactivate: 'Disattiva',
+      `Confermi l'eliminazione di ${first} ${last}? L'utente verrà spostato nel cestino.`,
+    confirmDeactivate: 'Elimina',
     cancel: 'Annulla',
     viewTrash: 'Visualizza cestino',
     restoreUser: 'Ripristina',
@@ -102,7 +103,7 @@ export const it: UsersTranslations = {
     purgeDescription: (name) =>
       `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmRestore: 'Ripristina',
-    confirmPurge: 'Elimina definitivamente',
+    confirmPurge: 'Elimina',
     purgeWarning: 'Questa azione non può essere annullata.',
   },
   filters: {
@@ -114,12 +115,13 @@ export const it: UsersTranslations = {
     statusInactive: 'Inattivi',
   },
   toasts: {
-    bulkDeactivated: 'Utenti disattivati',
+    bulkDeactivated: 'Utenti eliminati',
     bulkRestored: 'Utenti ripristinati',
     bulkPurged: 'Utenti eliminati definitivamente',
+    offlinePhotoSkipped: "Le immagini non vengono salvate offline; aggiungila alla riconnessione.",
     created: 'Utente creato con successo',
     updated: 'Utente aggiornato con successo',
-    deactivated: 'Utente disattivato con successo',
+    deactivated: 'Utente eliminato con successo',
     restored: 'Utente ripristinato con successo',
     purged: 'Utente eliminato definitivamente',
   },

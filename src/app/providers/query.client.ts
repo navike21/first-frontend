@@ -1,4 +1,5 @@
-import { QueryClient, QueryCache } from '@tanstack/react-query'
+import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query'
+import { OfflineQueuedError } from '@/shared/api'
 import { notify } from '@/shared/lib/notify'
 
 // Must match the maxAge in the persister so in-memory GC and
@@ -13,8 +14,19 @@ const queryCache = new QueryCache({
   },
 })
 
+// Offline mutations are enqueued (api.services throws OfflineQueuedError). One
+// global toast covers every module — pages only handle the "soft success"
+// (navigate/close); their own onError funnels through notify.queryError, which
+// no-ops for OfflineQueuedError, so there is no double toast.
+const mutationCache = new MutationCache({
+  onError: (error) => {
+    if (error instanceof OfflineQueuedError) notify.offlineQueued()
+  },
+})
+
 export const queryClient = new QueryClient({
   queryCache,
+  mutationCache,
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // 5 min — serve fresh data when online
