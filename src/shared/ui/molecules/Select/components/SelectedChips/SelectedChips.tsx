@@ -21,8 +21,8 @@ export const SelectedChips = memo(
               key={val}
               size="x-small"
               {...(option.icon !== undefined && { icon: option.icon })}
-              {...(option.content !== undefined && {
-                iconContent: option.content,
+              {...((option.leftSlot ?? option.content) !== undefined && {
+                iconContent: option.leftSlot ?? option.content,
               })}
               deleteable={!disabled}
               deleteButtonProps={{

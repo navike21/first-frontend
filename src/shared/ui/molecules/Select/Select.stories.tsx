@@ -31,6 +31,46 @@ const optionsWithIcons: SelectOptionItem[] = [
   },
 ]
 
+const optionsWithRichSlots: SelectOptionItem[] = [
+  {
+    label: 'Ana Torres',
+    value: 'ana',
+    leftSlot: (
+      <span className="flex size-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white">
+        A
+      </span>
+    ),
+    rightSlot: (
+      <span className="rounded-full bg-emerald-100 px-1.5 text-[10px] font-medium text-emerald-700">
+        online
+      </span>
+    ),
+  },
+  {
+    label: 'Bruno Díaz',
+    value: 'bruno',
+    leftSlot: (
+      <span className="flex size-5 items-center justify-center rounded-full bg-indigo-500 text-[10px] font-bold text-white">
+        B
+      </span>
+    ),
+    rightSlot: (
+      <span className="rounded-full bg-slate-100 px-1.5 text-[10px] font-medium text-slate-500">
+        away
+      </span>
+    ),
+  },
+  {
+    label: 'Carla Méndez',
+    value: 'carla',
+    leftSlot: (
+      <span className="flex size-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">
+        C
+      </span>
+    ),
+  },
+]
+
 const optionsWithDisabled: SelectOptionItem[] = [
   { label: 'Available option', value: '1' },
   { label: 'Disabled option', value: '2', disabled: true },
@@ -260,6 +300,20 @@ export const WithSlots: Story = {
         className="size-5 text-slate-400"
       />
     ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('combobox'))
+  },
+}
+
+export const OptionsWithSlots: Story = {
+  name: 'Options — leftSlot + rightSlot por opción',
+  args: {
+    label: 'Asignar a:',
+    options: optionsWithRichSlots,
+    defaultValue: 'ana',
+    placeholder: 'Selecciona una persona',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)

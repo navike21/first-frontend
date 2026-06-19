@@ -52,8 +52,7 @@ export const UserGroupsPage = () => {
                 {
                   type: 'link' as const,
                   label: t.actions.viewTrash,
-                  icon: 'RiDeleteBinLine' as const,
-                  variant: 'secondary' as const,
+                  variant: 'outline' as const,
                   to: navPaths.userGroupTrash(language),
                   size: 'small' as const,
                 },
@@ -62,7 +61,6 @@ export const UserGroupsPage = () => {
           {
             type: 'link' as const,
             label: t.actions.newGroup,
-            icon: 'RiAddLargeFill' as const,
             variant: 'primary' as const,
             to: navPaths.userGroupCreate(language),
             size: 'small' as const,
@@ -137,7 +135,7 @@ export const UserGroupsPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={softDelete.isPending}
               onClick={handleConfirmDelete}
             >

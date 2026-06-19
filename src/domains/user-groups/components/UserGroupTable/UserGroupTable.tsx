@@ -1,5 +1,5 @@
-import clsx from 'clsx'
 import {
+  Chip,
   DataTable,
   IconButton,
   Tooltip,
@@ -49,9 +49,9 @@ export const UserGroupTable = ({
             {group.name}
           </span>
           {group.isSystem && (
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+            <Chip variant="default" size="small">
               {t.table.systemBadge}
-            </span>
+            </Chip>
           )}
         </div>
       ),
@@ -60,25 +60,21 @@ export const UserGroupTable = ({
       id: 'permissions',
       header: t.table.colPermissions,
       cell: (group) => (
-        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+        <Chip variant="informative" size="small">
           {t.table.permissionsCount(group.permissions.length)}
-        </span>
+        </Chip>
       ),
     },
     {
       id: 'status',
       header: t.table.colStatus,
       cell: (group) => (
-        <span
-          className={clsx(
-            'rounded-full px-2 py-0.5 text-xs font-medium',
-            group.status === 'active'
-              ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-              : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
-          )}
+        <Chip
+          variant={group.status === 'active' ? 'success' : 'default'}
+          size="small"
         >
           {t.status[group.status]}
-        </span>
+        </Chip>
       ),
     },
     {
@@ -89,7 +85,6 @@ export const UserGroupTable = ({
         <div className="flex items-center justify-end gap-1">
           <Tooltip
             heading={t.table.manageUsers}
-            icon="RiUserSettingsLine"
             position="top"
             size="small"
           >
@@ -103,7 +98,6 @@ export const UserGroupTable = ({
           </Tooltip>
           <Tooltip
             heading={t.table.viewGroup}
-            icon="RiEyeLine"
             position="top"
             size="small"
           >
@@ -117,7 +111,6 @@ export const UserGroupTable = ({
           </Tooltip>
           <Tooltip
             heading={t.table.editGroup}
-            icon="RiPencilLine"
             position="top"
             size="small"
           >
@@ -132,7 +125,6 @@ export const UserGroupTable = ({
           </Tooltip>
           <Tooltip
             heading={t.table.deleteGroup}
-            icon="RiDeleteBinLine"
             position="top"
             size="small"
           >

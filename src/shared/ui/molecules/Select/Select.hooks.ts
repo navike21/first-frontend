@@ -230,6 +230,20 @@ export const useSelectHook = (
     }
   }, [isOpen, search])
 
+  // On open, scroll the selected option into view — with a long list it may sit
+  // below the visible window, forcing the user to scroll to find it.
+  useEffect(() => {
+    if (!isOpen) return
+    const frame = requestAnimationFrame(() => {
+      const selected = dropdownRef.current?.querySelector<HTMLElement>(
+        'button[data-option][aria-selected="true"]'
+      )
+      // Optional call: jsdom doesn't implement scrollIntoView.
+      selected?.scrollIntoView?.({ block: 'nearest' })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [isOpen])
+
   // Arrow key: sync focused option index to DOM focus
   useEffect(() => {
     if (!dropdownRef.current || focusedOptionIndex < 0) return

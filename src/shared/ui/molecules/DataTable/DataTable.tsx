@@ -73,9 +73,86 @@ export const DataTable = <T,>({
 
   const showFooter = Boolean(totalLabel) || Boolean(pagination)
 
+  // Mobile (card) layout: classify columns by their `mobile` role, with
+  // sensible fallbacks so tables work without extra config — the first column
+  // becomes the card title and any right-aligned column becomes the footer.
+  const explicitPrimary = columns.find((col) => col.mobile === 'primary')
+  const primaryColumn = explicitPrimary ?? columns[0]
+  const footerColumns = columns.filter((col) =>
+    col.mobile ? col.mobile === 'footer' : col.align === 'right'
+  )
+  const bodyColumns = columns.filter(
+    (col) =>
+      col !== primaryColumn &&
+      !footerColumns.includes(col) &&
+      col.mobile !== 'hidden'
+  )
+
   return (
     <div className={clsx('flex flex-col gap-4', className)}>
-      <div className="overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm">
+      {/* Mobile: one card per row (table collapses below `md`). */}
+      <ul className="flex flex-col gap-3 md:hidden">
+        {rows.map((row) => {
+          const key = getRowKey(row)
+          const isSelected = selected.includes(key)
+          return (
+            <li
+              key={key}
+              className={clsx(
+                'rounded-xl border p-4 shadow-sm',
+                'duration-fast ease-out-expo transition-colors',
+                isSelected
+                  ? 'border-(--color-primary-700) bg-(--surface-subtle)'
+                  : 'border-(--border) bg-(--surface)'
+              )}
+            >
+              <div className="flex items-start gap-3">
+                {selectable && (
+                  <span className="pt-0.5">
+                    <Checkbox
+                      checked={isSelected}
+                      onChange={() => toggleRow(key)}
+                      aria-label={selectRowLabel}
+                    />
+                  </span>
+                )}
+                {primaryColumn && (
+                  <div className="min-w-0 flex-1">{primaryColumn.cell(row)}</div>
+                )}
+              </div>
+
+              {bodyColumns.length > 0 && (
+                <dl className="mt-3 flex flex-col gap-2 border-t border-(--border-subtle) pt-3">
+                  {bodyColumns.map((col) => (
+                    <div
+                      key={col.id}
+                      className="flex items-center justify-between gap-3"
+                    >
+                      <dt className="text-xs font-semibold tracking-wide text-(--text-secondary) uppercase">
+                        {col.header}
+                      </dt>
+                      <dd className="min-w-0 text-right text-sm text-(--text-primary)">
+                        {col.cell(row)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+
+              {footerColumns.length > 0 && (
+                <div className="mt-3 flex items-center justify-end gap-1 border-t border-(--border-subtle) pt-2">
+                  {footerColumns.map((col) => (
+                    <div key={col.id}>{col.cell(row)}</div>
+                  ))}
+                </div>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+
+      {/* Desktop: classic table with horizontal scroll fallback. */}
+      <div className="hidden overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm md:block">
         <table className="w-full text-sm">
           <thead>
             <tr

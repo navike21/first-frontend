@@ -10,6 +10,7 @@ export interface ButtonBaseProps {
   variant?:
     | 'primary'
     | 'secondary'
+    | 'outline'
     | 'text'
     | 'warning'
     | 'error'

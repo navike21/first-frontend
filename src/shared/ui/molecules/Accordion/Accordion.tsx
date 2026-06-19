@@ -34,7 +34,7 @@ export const Accordion = ({
           'duration-fast ease-out-expo transition-colors',
           !isOpen && 'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
           {
-            'bg-primary-50/10 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 font-medium':
+            'bg-primary-700/10 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 font-medium':
               isOpen,
             'text-(--text-secondary)': !isOpen,
           }

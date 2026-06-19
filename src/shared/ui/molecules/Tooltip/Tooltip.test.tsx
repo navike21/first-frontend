@@ -71,44 +71,26 @@ describe('Tooltip component', () => {
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('should pin tooltip on click (stays visible after mouse leaves)', async () => {
-    // Arrange
+  it('should dismiss the tooltip when the trigger is clicked', async () => {
+    // Arrange — a click usually performs an action (e.g. opening a modal),
+    // so the hint should disappear instead of lingering on top of it.
     const user = userEvent.setup()
     render(
       <Tooltip content="Tooltip text">
         <button>Trigger</button>
       </Tooltip>
     )
-    // Act — click to pin
+    const wrapper = screen.getByTestId('tooltip-wrapper')
+    // Act — hover shows the tooltip
+    await user.hover(wrapper)
+    expect(screen.getByRole('tooltip')).toBeInTheDocument()
+    // Act — clicking the trigger dismisses it
     await user.click(screen.getByRole('button'))
-    // Move mouse away — tooltip stays visible because it's pinned
-    await user.pointer({ target: document.body })
-    // Assert
-    expect(screen.getByRole('tooltip')).toBeInTheDocument()
-  })
-
-  it('should unpin and hide tooltip after clicking again and moving away', async () => {
-    // Arrange
-    const user = userEvent.setup()
-    render(
-      <Tooltip content="Tooltip text">
-        <button>Trigger</button>
-      </Tooltip>
-    )
-    const button = screen.getByRole('button')
-    // Act — click to pin, then move away (tooltip still pinned)
-    await user.click(button)
-    await user.pointer({ target: document.body })
-    expect(screen.getByRole('tooltip')).toBeInTheDocument()
-    // Act — click again to unpin
-    await user.click(button)
-    // Move mouse away — tooltip hides (no longer pinned, not hovering)
-    await user.pointer({ target: document.body })
     // Assert
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('should keep tooltip visible after hover ends when clicked (pinned)', async () => {
+  it('should stay hidden after a click even while still hovering', async () => {
     // Arrange
     const user = userEvent.setup()
     render(
@@ -116,30 +98,11 @@ describe('Tooltip component', () => {
         <button>Trigger</button>
       </Tooltip>
     )
-    // Act — pin via click, then move mouse away
+    const wrapper = screen.getByTestId('tooltip-wrapper')
+    await user.hover(wrapper)
+    // Act — click without moving the pointer away
     await user.click(screen.getByRole('button'))
-    await user.pointer({ target: document.body })
-    // Assert — still visible because of click (pinned) state
-    expect(screen.getByRole('tooltip')).toBeInTheDocument()
-  })
-
-  it('should close tooltip when clicking outside', async () => {
-    // Arrange
-    const user = userEvent.setup()
-    render(
-      <div>
-        <Tooltip content="Tooltip text">
-          <button>Trigger</button>
-        </Tooltip>
-        <button>Outside</button>
-      </div>
-    )
-    // Act — open via click
-    await user.click(screen.getByRole('button', { name: /trigger/i }))
-    expect(screen.getByRole('tooltip')).toBeInTheDocument()
-    // Act — click outside
-    await user.click(screen.getByRole('button', { name: /outside/i }))
-    // Assert
+    // Assert — remains hidden until a fresh hover
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
@@ -185,7 +148,11 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('text-xs', 'px-2', 'py-1')
+    expect(screen.getByRole('tooltip')).toHaveClass(
+      'text-xs',
+      'px-2.5',
+      'py-1.5'
+    )
   })
 
   it('should apply medium size classes by default', async () => {
@@ -199,7 +166,7 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('text-sm', 'px-3')
+    expect(screen.getByRole('tooltip')).toHaveClass('text-sm', 'px-3.5', 'py-2')
   })
 
   it('should apply large size classes', async () => {
@@ -213,7 +180,11 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('text-base', 'px-4', 'py-2')
+    expect(screen.getByRole('tooltip')).toHaveClass(
+      'text-base',
+      'px-5',
+      'py-2.5'
+    )
   })
 
   it('should apply top position style', async () => {

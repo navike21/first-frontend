@@ -179,7 +179,7 @@ describe('Sidebar active-state branches', () => {
       pathnameMock.value = '/es/usuarios'
       const { container } = render(<Sidebar />)
       const activeLinks = container.querySelectorAll(
-        'a.bg-\\(--color-primary-950\\)\\/40'
+        'a.bg-\\(--color-primary-700\\)\\/10'
       )
       expect(activeLinks.length).toBeGreaterThan(0)
     })

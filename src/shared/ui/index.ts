@@ -56,6 +56,8 @@ export {
 } from './molecules/Breadcrumbs'
 export {
   Select,
+  Option,
+  type OptionProps,
   type SelectProps,
   type SelectOptionItem,
   type SelectVariant,

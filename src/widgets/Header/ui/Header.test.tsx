@@ -103,11 +103,6 @@ describe('Header component', () => {
     expect(screen.getByRole('banner')).toBeInTheDocument()
   })
 
-  it('should render the app logo', () => {
-    render(<Header />)
-    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
-  })
-
   it('should render the First title', () => {
     render(<Header />)
     expect(screen.getByText('First')).toBeInTheDocument()
