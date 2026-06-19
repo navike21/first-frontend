@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
@@ -43,7 +43,9 @@ export function useCreateUserForm({
     reset,
     formState: { errors },
   } = useForm<CreateUserFormData>({
-    resolver: zodResolver(schema),
+    // zod `.default()` makes the schema's input type looser than its output;
+    // cast the resolver to the (output) form-data type used by useForm.
+    resolver: zodResolver(schema) as Resolver<CreateUserFormData>,
     defaultValues: { status: 'active' },
   })
 

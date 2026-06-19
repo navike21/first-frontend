@@ -53,8 +53,8 @@ export const router = createRouter({
   defaultNotFoundComponent: NotFoundPage,
 })
 
-const forbiddenSlugs = new Set(Object.values(ROUTE_SLUGS.forbidden))
-const notFoundSlugs = new Set(Object.values(ROUTE_SLUGS.notFound))
+const forbiddenSlugs = new Set<string>(Object.values(ROUTE_SLUGS.forbidden))
+const notFoundSlugs = new Set<string>(Object.values(ROUTE_SLUGS.notFound))
 
 router.subscribe('onResolved', () => {
   const { location, matches } = router.state

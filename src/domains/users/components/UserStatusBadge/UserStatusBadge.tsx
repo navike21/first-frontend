@@ -6,10 +6,9 @@ interface UserStatusBadgeProps {
   status: UserStatus
 }
 
-const VARIANT: Record<UserStatus, 'success' | 'default' | 'error'> = {
+const VARIANT: Record<UserStatus, 'success' | 'default'> = {
   active: 'success',
   inactive: 'default',
-  deleted: 'error',
 }
 
 export const UserStatusBadge = ({ status }: UserStatusBadgeProps) => {
