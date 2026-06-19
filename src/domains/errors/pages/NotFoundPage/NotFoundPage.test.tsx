@@ -83,9 +83,9 @@ describe('NotFoundPage component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should render the app logo', () => {
+  it('should render the First wordmark', () => {
     render(<NotFoundPage />)
-    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
+    expect(screen.getByText('First')).toBeInTheDocument()
   })
 
   it('should show the broken URL when brokenPath is in state', () => {

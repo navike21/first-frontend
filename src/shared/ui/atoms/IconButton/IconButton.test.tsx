@@ -40,9 +40,9 @@ describe('IconButton component', () => {
     // Assert
     expect(button).toHaveClass(
       'bg-(--surface)',
-      'text-(--text-primary)',
+      'text-(--color-primary-700)',
       'ring-1',
-      'ring-black',
+      'ring-(--color-primary-700)',
       'ring-inset'
     )
   })
@@ -93,9 +93,18 @@ describe('IconButton component', () => {
     expect(button).toHaveClass('bg-transparent', 'text-(--text-primary)')
   })
 
-  it('should apply square shape (rounded-md) by default', () => {
+  it('should apply circle shape (rounded-full) by default', () => {
     // Arrange & Act
     render(<IconButton icon="RiHomeLine" aria-label="Home" />)
+    const button = screen.getByRole('button')
+    // Assert
+    expect(button).toHaveClass('rounded-full')
+    expect(button).not.toHaveClass('rounded-md')
+  })
+
+  it('should apply square shape (rounded-md) when requested', () => {
+    // Arrange & Act
+    render(<IconButton icon="RiHomeLine" shape="square" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('rounded-md')

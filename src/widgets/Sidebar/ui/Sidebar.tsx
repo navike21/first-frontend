@@ -1,11 +1,10 @@
 import { Link } from '@tanstack/react-router'
-import { IconComponent, Accordion, AppLogo, Drawer, NavItem } from '@/shared/ui'
+import { IconComponent, Accordion, Drawer, NavItem } from '@/shared/ui'
 import clsx from 'clsx'
 import { useSidebar } from './Sidebar.hooks'
 
 const TitleNode = (
   <div className="flex items-center gap-2">
-    <AppLogo size="x-small" color="default" />
     <span className="font-bold text-(--text-primary)">Menú</span>
   </div>
 )
@@ -81,9 +80,9 @@ export const Sidebar = () => {
                         'rounded-lg',
                         'duration-fast ease-out-expo transition-colors',
                         !isLeafActive &&
-                          'hover:bg-(--color-primary-950)/20 hover:text-white',
+                          'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
                         isLeafActive
-                          ? 'bg-(--color-primary-950)/40 text-white'
+                          ? 'bg-(--color-primary-700)/10 text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
                           : 'text-(--text-secondary)'
                       )}
                     >
@@ -128,10 +127,14 @@ export const Sidebar = () => {
                             'block px-2 py-1.5',
                             'rounded-md text-sm font-medium',
                             'transition-colors',
+                            // Inactive hover — light: subtle brand tint + brand
+                            // text; dark: keep the existing dark highlight.
                             !isChildActive &&
-                              'hover:bg-(--color-primary-950)/20 hover:text-white',
+                              'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
+                            // Active — light: light brand tint bg + brand text
+                            // (follows the active color theme); dark: unchanged.
                             isChildActive
-                              ? 'bg-(--color-primary-950)/30 font-semibold text-white'
+                              ? 'bg-(--color-primary-700)/10 font-semibold text-(--color-primary-700) dark:bg-(--color-primary-950)/30 dark:text-white'
                               : 'text-(--text-secondary)'
                           )}
                         >

@@ -88,7 +88,6 @@ export const UsersTrashPage = () => {
         <div className="flex items-center justify-end gap-1">
           <Tooltip
             heading={t.actions.viewDetail}
-            icon="RiEyeLine"
             position="top"
             size="small"
           >
@@ -103,7 +102,6 @@ export const UsersTrashPage = () => {
           {canRestore && (
             <Tooltip
               heading={t.actions.restoreUser}
-              icon="RiArrowGoBackLine"
               position="top"
               size="small"
             >
@@ -119,7 +117,6 @@ export const UsersTrashPage = () => {
           {canPurge && (
             <Tooltip
               heading={t.actions.purgeUser}
-              icon="RiDeleteBin2Line"
               subtitle={t.actions.purgeWarning}
               position="top"
               size="medium"
@@ -147,8 +144,7 @@ export const UsersTrashPage = () => {
           {
             type: 'link',
             label: t.actions.cancel,
-            icon: 'RiArrowLeftLine',
-            variant: 'primary',
+            variant: 'secondary',
             to: navPaths.users(language),
             size: 'small',
           },
@@ -179,7 +175,7 @@ export const UsersTrashPage = () => {
             )}
             {canPurge && (
               <Button
-                variant="error"
+                variant="primary"
                 size="small"
                 onClick={() => setBulkPurgeOpen(true)}
               >
@@ -283,7 +279,7 @@ export const UsersTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >
@@ -337,7 +333,7 @@ export const UsersTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={bulkPurge.isPending}
               onClick={handleConfirmBulkPurge}
             >

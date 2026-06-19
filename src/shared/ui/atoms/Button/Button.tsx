@@ -5,6 +5,11 @@ import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
 import {
   variantColorClasses,
   variantHoverClasses,
+  variantHasShadow,
+  buttonShapeClass,
+  sizeClasses,
+  textSizeClasses,
+  iconSizeClasses,
   type ButtonVariant,
 } from '@/shared/types/buttonVariants'
 
@@ -16,6 +21,7 @@ type LoadingVariant = Record<
 const loadingVariants: LoadingVariant = {
   primary: 'white',
   secondary: 'gradient',
+  outline: 'gradient',
   text: 'default',
   warning: 'white',
   error: 'white',
@@ -54,10 +60,11 @@ export const Button = ({
         {
           'cursor-not-allowed opacity-50 shadow-none': disabled,
         },
+        variant !== 'text' && buttonShapeClass,
         {
-          'flex items-center justify-center gap-2': variant !== 'text',
-          'rounded-md shadow-md shadow-black/30': variant !== 'text',
-          'hover:shadow-lg': variant !== 'text' && !disabled && !loading,
+          'shadow-md shadow-black/30': variantHasShadow[variant],
+          'hover:shadow-lg':
+            variantHasShadow[variant] && !disabled && !loading,
           'active:scale-95': variant !== 'text' && !disabled && !loading,
         },
         variantColorClasses[variant],
@@ -68,16 +75,7 @@ export const Button = ({
           'hover:before:w-full hover:before:opacity-100':
             variant === 'text' && !loading,
         },
-        {
-          'text-xs': size === 'small' && variant === 'text',
-          'text-sm': size === 'medium' && variant === 'text',
-          'text-md': size === 'large' && variant === 'text',
-        },
-        {
-          'px-6 py-3 text-xs': size === 'small' && variant !== 'text',
-          'px-8 py-3.5 text-sm': size === 'medium' && variant !== 'text',
-          'text-md px-10 py-4': size === 'large' && variant !== 'text',
-        },
+        variant === 'text' ? textSizeClasses[size] : sizeClasses[size],
         {
           'inline-flex align-middle': variant === 'text' && loading,
         }
@@ -102,14 +100,7 @@ export const Button = ({
         </div>
       )}
       {icon && !loading && (
-        <IconComponent
-          icon={icon}
-          className={clsx({
-            'h-4 w-4': size === 'small',
-            'h-5 w-5': size === 'medium',
-            'h-6 w-6': size === 'large',
-          })}
-        />
+        <IconComponent icon={icon} className={iconSizeClasses[size]} />
       )}
     </button>
   )

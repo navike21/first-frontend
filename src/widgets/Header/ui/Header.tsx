@@ -1,4 +1,4 @@
-import { AppLogo, IconComponent, Avatar, IconButton } from '@/shared/ui'
+import { IconComponent, Avatar, IconButton } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
@@ -28,7 +28,8 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        'z-10 flex w-full items-center justify-between px-6 py-4',
+        'z-10 flex w-full items-center justify-between gap-2',
+        'px-4 py-3 md:px-6 md:py-4',
         'border-b border-(--border) bg-(--surface) shadow-sm'
       )}
     >
@@ -68,7 +69,6 @@ export const Header = () => {
         </button>
 
         <div className="flex items-center gap-3">
-          <AppLogo size="x-small" color="default" />
           <h1 className="text-xl font-bold tracking-tight text-(--text-primary)">
             First
           </h1>
@@ -76,7 +76,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-1">
-        <LanguageSwitcher label={t.language.label} />
+        <LanguageSwitcher />
 
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />

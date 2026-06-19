@@ -51,8 +51,7 @@ export const UsersPage = () => {
                 {
                   type: 'link' as const,
                   label: t.actions.viewTrash,
-                  icon: 'RiDeleteBinLine' as const,
-                  variant: 'secondary' as const,
+                  variant: 'outline' as const,
                   to: navPaths.userTrash(language),
                   size: 'small' as const,
                 },
@@ -61,7 +60,6 @@ export const UsersPage = () => {
           {
             type: 'link' as const,
             label: t.actions.newUser,
-            icon: 'RiUserAddLine' as const,
             variant: 'primary' as const,
             to: navPaths.userCreate(language),
             size: 'small' as const,
@@ -104,7 +102,7 @@ export const UsersPage = () => {
               {t.actions.clearSelection}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               size="small"
               onClick={() => setBulkConfirmOpen(true)}
             >
@@ -150,7 +148,7 @@ export const UsersPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={softDelete.isPending}
               onClick={handleConfirmDelete}
             >
@@ -176,7 +174,7 @@ export const UsersPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={bulkSoftDelete.isPending}
               onClick={handleConfirmBulkDelete}
             >

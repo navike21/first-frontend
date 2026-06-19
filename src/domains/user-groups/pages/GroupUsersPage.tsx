@@ -1,9 +1,9 @@
-import clsx from 'clsx'
 import {
   PageHeader,
   InputField,
   Button,
   Avatar,
+  Chip,
   Spinner,
   DataTable,
   IconButton,
@@ -21,16 +21,9 @@ const StatusBadge = ({
   status: 'active' | 'inactive'
   label: string
 }) => (
-  <span
-    className={clsx(
-      'rounded-full px-2 py-0.5 text-xs font-medium',
-      status === 'active'
-        ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-        : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
-    )}
-  >
+  <Chip variant={status === 'active' ? 'success' : 'default'} size="small">
     {label}
-  </span>
+  </Chip>
 )
 
 export const GroupUsersPage = () => {
@@ -99,7 +92,6 @@ export const GroupUsersPage = () => {
       cell: (member) => (
         <Tooltip
           heading={t.members.removeMember}
-          icon="RiCloseLine"
           position="top"
           size="small"
         >
@@ -124,7 +116,6 @@ export const GroupUsersPage = () => {
           {
             type: 'button',
             label: t.members.backLabel,
-            icon: 'RiArrowLeftLine',
             variant: 'secondary',
             onClick: goBack,
             size: 'small',
@@ -173,7 +164,7 @@ export const GroupUsersPage = () => {
                       </div>
                     </div>
                     <Button
-                      variant="secondary"
+                      variant="primary"
                       size="small"
                       type="button"
                       disabled={adding}
@@ -204,7 +195,7 @@ export const GroupUsersPage = () => {
               {t.members.clearSelection}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               size="small"
               onClick={() => setBulkRemoveOpen(true)}
             >
@@ -254,7 +245,7 @@ export const GroupUsersPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={removeMember.isPending}
               onClick={handleConfirmRemove}
             >
@@ -281,7 +272,7 @@ export const GroupUsersPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={removeBulk.isPending}
               onClick={handleConfirmBulkRemove}
             >

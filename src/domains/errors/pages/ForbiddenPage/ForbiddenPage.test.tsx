@@ -64,11 +64,11 @@ describe('ForbiddenPage component', () => {
     expect(screen.getByText(/No tienes una sesión activa/i)).toBeInTheDocument()
   })
 
-  it('should render the app logo', () => {
+  it('should render the First wordmark', () => {
     // Arrange & Act
     render(<ForbiddenPage />)
     // Assert
-    expect(screen.getByTestId('app-logo')).toBeInTheDocument()
+    expect(screen.getByText('First')).toBeInTheDocument()
   })
 
   it('should render the login link button', () => {

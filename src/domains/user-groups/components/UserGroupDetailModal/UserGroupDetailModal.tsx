@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import { Modal, Button, IconComponent } from '@/shared/ui'
+import { Modal, Button, Chip, IconComponent } from '@/shared/ui'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
 
@@ -73,20 +72,16 @@ export const UserGroupDetailModal = ({
             {group.name}
           </span>
           {group.isSystem && (
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+            <Chip variant="default" size="small">
               {t.table.systemBadge}
-            </span>
+            </Chip>
           )}
-          <span
-            className={clsx(
-              'rounded-full px-2 py-0.5 text-xs font-medium',
-              group.status === 'active'
-                ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
-            )}
+          <Chip
+            variant={group.status === 'active' ? 'success' : 'default'}
+            size="small"
           >
             {t.status[group.status]}
-          </span>
+          </Chip>
         </div>
 
         {/* Description */}

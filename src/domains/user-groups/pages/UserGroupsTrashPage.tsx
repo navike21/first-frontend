@@ -43,8 +43,7 @@ export const UserGroupsTrashPage = () => {
           {
             type: 'link',
             label: t.actions.cancel,
-            icon: 'RiArrowLeftLine',
-            variant: 'primary',
+            variant: 'secondary',
             to: navPaths.userGroups(language),
             size: 'small',
           },
@@ -126,7 +125,6 @@ export const UserGroupsTrashPage = () => {
                       {canRestore && (
                         <Tooltip
                           heading={t.actions.restoreGroup}
-                          icon="RiArrowGoBackLine"
                           position="top"
                           size="small"
                         >
@@ -142,7 +140,6 @@ export const UserGroupsTrashPage = () => {
                       {canPurge && (
                         <Tooltip
                           heading={t.actions.purgeGroup}
-                          icon="RiDeleteBin2Line"
                           subtitle={t.actions.purgeWarning}
                           position="top"
                           size="medium"
@@ -246,7 +243,7 @@ export const UserGroupsTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="primary"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >

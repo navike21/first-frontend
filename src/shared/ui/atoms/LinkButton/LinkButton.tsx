@@ -4,6 +4,11 @@ import { type LinkButtonProps } from '@/shared/types/buttonProps'
 import {
   variantColorClasses,
   variantHoverClasses,
+  variantHasShadow,
+  buttonShapeClass,
+  sizeClasses,
+  textSizeClasses,
+  iconSizeClasses,
 } from '@/shared/types/buttonVariants'
 import { Link } from '@tanstack/react-router'
 
@@ -22,10 +27,10 @@ export const LinkButton = ({
       className,
       'duration-fast ease-out-expo relative w-full cursor-pointer font-medium transition-all',
       'sm:w-fit',
+      variant !== 'text' && buttonShapeClass,
       {
-        'flex items-center justify-center gap-2 rounded-md shadow-md shadow-black/30':
-          variant !== 'text',
-        'hover:shadow-lg': variant !== 'text',
+        'shadow-md shadow-black/30': variantHasShadow[variant],
+        'hover:shadow-lg': variantHasShadow[variant],
         'active:scale-95': variant !== 'text',
       },
       variantColorClasses[variant],
@@ -35,29 +40,13 @@ export const LinkButton = ({
           variant === 'text',
         'hover:before:w-full hover:before:opacity-100': variant === 'text',
       },
-      {
-        'text-xs': size === 'small' && variant === 'text',
-        'text-sm': size === 'medium' && variant === 'text',
-        'text-md': size === 'large' && variant === 'text',
-      },
-      {
-        'px-6 py-3 text-xs': size === 'small' && variant !== 'text',
-        'px-8 py-3.5 text-sm': size === 'medium' && variant !== 'text',
-        'text-md px-10 py-4': size === 'large' && variant !== 'text',
-      }
+      variant === 'text' ? textSizeClasses[size] : sizeClasses[size]
     )}
     {...props}
   >
     {children}
     {icon && (
-      <IconComponent
-        icon={icon}
-        className={clsx({
-          'h-4 w-4': size === 'small',
-          'h-5 w-5': size === 'medium',
-          'h-6 w-6': size === 'large',
-        })}
-      />
+      <IconComponent icon={icon} className={iconSizeClasses[size]} />
     )}
   </Link>
 )

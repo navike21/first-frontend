@@ -113,14 +113,14 @@ describe('NavItem component', () => {
     it('should apply active text and background classes when isActive is true', () => {
       render(<NavItem icon="RiHomeLine" label="Home" to="/home" isActive />)
       const link = screen.getByRole('link')
-      expect(link).toHaveClass('bg-(--color-primary-950)/40', 'font-semibold')
+      expect(link).toHaveClass('bg-(--color-primary-700)/10', 'font-semibold')
       expect(link).not.toHaveClass('text-(--text-secondary)')
     })
 
     it('should apply active icon class when isActive is true', () => {
       render(<NavItem icon="RiHomeLine" label="Home" isActive />)
       const icon = screen.getByTestId('icon-RiHomeLine')
-      expect(icon).toHaveClass('text-(--color-primary-300)')
+      expect(icon).toHaveClass('text-(--color-primary-700)')
       expect(icon).not.toHaveClass('text-(--text-secondary)')
     })
 

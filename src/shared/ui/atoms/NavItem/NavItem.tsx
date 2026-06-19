@@ -25,9 +25,13 @@ export const NavItem = ({
     'group flex w-full cursor-pointer items-center gap-3 px-3 py-2.5',
     'rounded-lg text-sm font-medium',
     'transition-colors duration-fast ease-out-expo',
-    !isActive && 'hover:bg-(--color-primary-950)/20 hover:text-white',
+    // Inactive hover — light: subtle brand tint + brand text; dark: keep.
+    !isActive &&
+      'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
+    // Active — light: light brand tint bg + brand text (follows the active
+    // color theme); dark: keep the existing dark highlight.
     isActive
-      ? 'bg-(--color-primary-950)/40 text-white font-semibold'
+      ? 'bg-(--color-primary-700)/10 font-semibold text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
       : 'text-(--text-secondary)',
     className
   )
@@ -39,8 +43,8 @@ export const NavItem = ({
         className={clsx(
           'h-5 w-5 shrink-0',
           isActive
-            ? 'text-(--color-primary-300)'
-            : 'text-(--text-secondary) group-hover:text-white'
+            ? 'text-(--color-primary-700) dark:text-(--color-primary-300)'
+            : 'text-(--text-secondary) group-hover:text-(--color-primary-700) dark:group-hover:text-white'
         )}
       />
       <span>{label}</span>

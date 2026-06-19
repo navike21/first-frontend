@@ -107,8 +107,33 @@ interface SelectOptionItem {
   value: string // Valor interno
   disabled?: boolean // Deshabilita la opción
   icon?: IconName // Ícono de la librería de íconos del proyecto
-  content?: ReactNode // Contenido visual personalizado (avatar, badge, etc.)
+  leftSlot?: ReactNode // Visual al inicio: bandera, avatar, imagen, badge…
+  rightSlot?: ReactNode // Visual al final: badge, atajo, meta…
+  content?: ReactNode // @deprecated alias legacy de leftSlot
 }
+```
+
+Orden de resolución del visual izquierdo: `leftSlot` → `content` → `icon`. Los
+slots aceptan **cualquier nodo** (no solo íconos/texto) y se reflejan tanto en
+las filas del dropdown como en el trigger (valor seleccionado) y en los chips
+del modo múltiple.
+
+### 🧩 Componente `Option`
+
+La fila del listado se abstrae en `<Option>` (exportado desde la barrel de UI),
+reutilizable de forma independiente al `Select`:
+
+```tsx
+import { Option } from '@/shared/ui'
+
+<Option
+  value="es"
+  label="Español"
+  selected={false}
+  leftSlot={<img src={flagEs} className="h-4 w-6 rounded-xs" />}
+  rightSlot={<kbd className="text-xs">⌘1</kbd>}
+  onSelect={handleSelect}
+/>
 ```
 
 ---

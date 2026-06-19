@@ -29,9 +29,9 @@ describe('Button component', () => {
     const button = screen.getByRole('button')
     expect(button).toHaveClass(
       'bg-(--surface)',
-      'text-(--text-primary)',
+      'text-(--color-primary-700)',
       'ring-1',
-      'ring-black',
+      'ring-(--color-primary-700)',
       'ring-inset'
     )
   })

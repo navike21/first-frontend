@@ -93,10 +93,11 @@ describe('DataTable component', () => {
   it('should render a cell per row using the column renderer', () => {
     // Arrange & Act
     renderTable()
-    // Assert
-    expect(screen.getByText('Alice')).toBeInTheDocument()
-    expect(screen.getByText('Bob')).toBeInTheDocument()
-    expect(screen.getByText('#1')).toBeInTheDocument()
+    // Assert — content is rendered twice (mobile card list + desktop table),
+    // CSS (display:none) shows only the layout matching the viewport.
+    expect(screen.getAllByText('Alice').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Bob').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('#1').length).toBeGreaterThan(0)
   })
 
   it('should show the spinner while loading', () => {
@@ -246,7 +247,8 @@ describe('DataTable row selection', () => {
       <DataTable {...selProps} selectedIds={[]} onSelectionChange={vi.fn()} />
     )
     expect(screen.getByLabelText('all')).toBeInTheDocument()
-    expect(screen.getAllByLabelText('row')).toHaveLength(2)
+    // One per row in each layout (mobile card list + desktop table body).
+    expect(screen.getAllByLabelText('row')).toHaveLength(rows.length * 2)
   })
 
   it('selecting a row reports it via onSelectionChange', async () => {

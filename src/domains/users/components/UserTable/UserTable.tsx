@@ -84,7 +84,6 @@ export const UserTable = ({
         <div className="flex items-center justify-end gap-1">
           <Tooltip
             heading={t.table.editUser}
-            icon="RiPencilLine"
             position="top"
             size="small"
           >
@@ -98,7 +97,6 @@ export const UserTable = ({
           </Tooltip>
           <Tooltip
             heading={t.table.deleteUser}
-            icon="RiDeleteBinLine"
             position="top"
             size="small"
           >

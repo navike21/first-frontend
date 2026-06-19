@@ -15,6 +15,17 @@ export interface DataTableColumn<T> {
   headerClassName?: string
   /** Extra classes for the body cells. */
   cellClassName?: string
+  /**
+   * Mobile (card layout) role for this column. On screens below `md` the table
+   * collapses into one card per row:
+   * - `'primary'`: rendered prominently as the card title, without a label.
+   *   Defaults to the first column when no column declares it.
+   * - `'footer'`: rendered at the bottom of the card without a label (e.g. an
+   *   actions cluster). Defaults to any column with `align: 'right'`.
+   * - `'hidden'`: omitted from the card.
+   * - otherwise rendered as a `label: value` row using {@link header} as label.
+   */
+  mobile?: 'primary' | 'footer' | 'hidden'
 }
 
 /** Page controls for {@link DataTable}. Omit it for "all records" mode. */

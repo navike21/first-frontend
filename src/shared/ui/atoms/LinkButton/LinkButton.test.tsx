@@ -56,9 +56,9 @@ describe('LinkButton component', () => {
     const link = screen.getByRole('link')
     expect(link).toHaveClass(
       'bg-(--surface)',
-      'text-(--text-primary)',
+      'text-(--color-primary-700)',
       'ring-1',
-      'ring-black',
+      'ring-(--color-primary-700)',
       'ring-inset'
     )
   })
@@ -146,7 +146,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     link = screen.getByRole('link')
-    expect(link).toHaveClass('hover:bg-gray-100', 'hover:ring-2')
+    expect(link).toHaveClass('hover:bg-(--color-primary-700)/10')
   })
 
   it('should render icon with correct size classes', () => {

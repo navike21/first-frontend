@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
@@ -30,9 +30,9 @@ const originByPosition: Record<ResolvedTooltipPosition, string> = {
 }
 
 const sizeClasses: Record<TooltipSize, string> = {
-  small: 'text-xs px-2 py-1',
-  medium: 'text-sm px-3 py-1.5',
-  large: 'text-base px-4 py-2',
+  small: 'text-xs px-2.5 py-1.5',
+  medium: 'text-sm px-3.5 py-2',
+  large: 'text-base px-5 py-2.5',
 }
 
 const arrowPositionClasses: Record<ResolvedTooltipPosition, string> = {
@@ -54,10 +54,9 @@ export const Tooltip = ({
   className = '',
 }: Readonly<TooltipProps>) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [isClicked, setIsClicked] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
-  const isVisible = isHovered || isClicked
+  const isVisible = isHovered
   const { resolvedPosition, style } = useTooltipPosition(
     wrapperRef,
     position,
@@ -67,22 +66,6 @@ export const Tooltip = ({
   const isStructured = Boolean(heading)
   const hasSubtitle = Boolean(subtitle)
 
-  useEffect(() => {
-    if (!isClicked) return
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setIsClicked(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isClicked])
-
   return (
     <div
       ref={wrapperRef}
@@ -90,7 +73,9 @@ export const Tooltip = ({
       className={clsx('relative inline-block', className)}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={() => setIsHovered(false)}
-      onClick={() => setIsClicked((prev) => !prev)}
+      // Dismiss on click: when the trigger performs an action (e.g. opening a
+      // modal), the hint should disappear instead of lingering on top of it.
+      onClick={() => setIsHovered(false)}
     >
       {children}
       {isVisible &&

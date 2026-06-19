@@ -6,7 +6,16 @@ export interface SelectOptionItem {
   label: string
   value: string
   disabled?: boolean
+  /** Convenience: renders a project icon on the leading edge. */
   icon?: IconName
+  /**
+   * Arbitrary leading visual (flag, avatar, image, badge…). Preferred over
+   * `icon`/`content`. Resolution order: `leftSlot` → `content` → `icon`.
+   */
+  leftSlot?: ReactNode
+  /** Arbitrary trailing visual (badge, shortcut hint, meta…). */
+  rightSlot?: ReactNode
+  /** @deprecated Legacy alias for {@link leftSlot}; kept for compatibility. */
   content?: ReactNode
 }
 
