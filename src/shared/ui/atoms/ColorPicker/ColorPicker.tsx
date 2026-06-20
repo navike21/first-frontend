@@ -3,10 +3,12 @@ import { useBrandColor, useSetColor, type BrandColor } from '@/shared/model'
 
 type ColorConfig = { id: BrandColor; bg: string; ring: string; label: string }
 
+// Swatch shade matches the applied strong brand color (`--color-primary-700`,
+// which maps to each theme's `-600`) so the picker preview equals what you get.
 const COLORS: ColorConfig[] = [
-  { id: 'teal', bg: 'bg-[#0081a2]', ring: 'ring-[#0081a2]', label: 'Teal' },
-  { id: 'sky', bg: 'bg-sky-500', ring: 'ring-sky-500', label: 'Sky' },
-  { id: 'cyan', bg: 'bg-cyan-500', ring: 'ring-cyan-500', label: 'Cyan' },
+  { id: 'teal', bg: 'bg-[#006d8d]', ring: 'ring-[#006d8d]', label: 'Teal' },
+  { id: 'sky', bg: 'bg-sky-600', ring: 'ring-sky-600', label: 'Sky' },
+  { id: 'cyan', bg: 'bg-cyan-600', ring: 'ring-cyan-600', label: 'Cyan' },
   {
     id: 'indigo',
     bg: 'bg-indigo-600',
@@ -15,23 +17,23 @@ const COLORS: ColorConfig[] = [
   },
   {
     id: 'violet',
-    bg: 'bg-violet-500',
-    ring: 'ring-violet-500',
+    bg: 'bg-violet-600',
+    ring: 'ring-violet-600',
     label: 'Violet',
   },
-  { id: 'pink', bg: 'bg-pink-500', ring: 'ring-pink-500', label: 'Pink' },
-  { id: 'rose', bg: 'bg-rose-500', ring: 'ring-rose-500', label: 'Rose' },
+  { id: 'pink', bg: 'bg-pink-600', ring: 'ring-pink-600', label: 'Pink' },
+  { id: 'rose', bg: 'bg-rose-600', ring: 'ring-rose-600', label: 'Rose' },
   {
     id: 'orange',
-    bg: 'bg-orange-500',
-    ring: 'ring-orange-500',
+    bg: 'bg-orange-600',
+    ring: 'ring-orange-600',
     label: 'Orange',
   },
-  { id: 'amber', bg: 'bg-amber-400', ring: 'ring-amber-400', label: 'Amber' },
+  { id: 'amber', bg: 'bg-amber-600', ring: 'ring-amber-600', label: 'Amber' },
   {
     id: 'emerald',
-    bg: 'bg-emerald-500',
-    ring: 'ring-emerald-500',
+    bg: 'bg-emerald-600',
+    ring: 'ring-emerald-600',
     label: 'Emerald',
   },
 ]
