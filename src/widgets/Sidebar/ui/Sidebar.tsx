@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { IconComponent, Accordion, Drawer, NavItem } from '@/shared/ui'
 import clsx from 'clsx'
 import { useSidebar } from './Sidebar.hooks'
+import { SidebarFlyout } from './SidebarFlyout'
 
 const TitleNode = (
   <div className="flex items-center gap-2">
@@ -49,47 +50,39 @@ export const Sidebar = () => {
             (item.children?.some((child) => isHrefActive(child.href)) ?? false)
 
           if (isCollapsed && !isOpenMobile) {
-            // Collapsed rail: flatten groups into one icon per leaf destination.
-            const leaves = item.children
-              ? item.children.map((child) => ({
-                  id: child.id,
-                  href: child.href,
-                  label: child.label,
-                  icon: child.icon ?? item.icon,
-                }))
-              : [
-                  {
-                    id: item.id,
-                    href: item.href ?? '/',
-                    label: item.label,
-                    icon: item.icon,
-                  },
-                ]
+            // Collapsed rail mirrors the top-level items. A group shows its own
+            // icon + a flyout submenu; a leaf shows a plain icon link.
+            if (item.children) {
+              return (
+                <div key={item.id} className="hidden w-full md:block">
+                  <SidebarFlyout
+                    item={item}
+                    isItemActive={!!isItemActive}
+                    isChildActive={(href) => isHrefActive(href)}
+                    onNavigate={closeMobileSidebar}
+                  />
+                </div>
+              )
+            }
 
             return (
-              <div key={item.id} className="w-full">
-                {leaves.map((leaf) => {
-                  const isLeafActive = isHrefActive(leaf.href)
-                  return (
-                    <Link
-                      key={leaf.id}
-                      to={leaf.href}
-                      title={leaf.label}
-                      className={clsx(
-                        'mb-2 hidden items-center justify-center p-3 md:flex',
-                        'rounded-lg',
-                        'duration-fast ease-out-expo transition-colors',
-                        !isLeafActive &&
-                          'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
-                        isLeafActive
-                          ? 'bg-(--color-primary-700)/10 text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
-                          : 'text-(--text-secondary)'
-                      )}
-                    >
-                      <IconComponent icon={leaf.icon} className="h-6 w-6" />
-                    </Link>
-                  )
-                })}
+              <div key={item.id} className="hidden w-full md:block">
+                <Link
+                  to={item.href ?? '/'}
+                  title={item.label}
+                  className={clsx(
+                    'mb-2 flex items-center justify-center p-3',
+                    'rounded-lg',
+                    'duration-fast ease-out-expo transition-colors',
+                    !isItemActive &&
+                      'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
+                    isItemActive
+                      ? 'bg-(--color-primary-700)/10 text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
+                      : 'text-(--text-secondary)'
+                  )}
+                >
+                  <IconComponent icon={item.icon} className="h-6 w-6" />
+                </Link>
               </div>
             )
           }
