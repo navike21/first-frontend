@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Sidebar } from './Sidebar'
 import { useSidebarStore } from '../model/store'
@@ -184,19 +185,21 @@ describe('Sidebar active-state branches', () => {
       expect(activeLinks.length).toBeGreaterThan(0)
     })
 
-    it('flattens accordion group into child icon links in collapsed mode', () => {
+    it('renders the group as a single flyout trigger (not flattened) in collapsed mode', () => {
       render(<Sidebar />)
-      // Collapsed rail expands a group into one icon link per child.
-      expect(screen.getByTitle('Sub A')).toHaveAttribute(
-        'href',
-        '/es/gestion/a'
-      )
-      expect(screen.getByTitle('Sub B')).toHaveAttribute(
-        'href',
-        '/es/gestion/b'
-      )
-      // The group parent itself is not a link in collapsed mode.
-      expect(screen.queryByTitle('Gestión')).not.toBeInTheDocument()
+      // The group shows its own icon trigger; its children are NOT flattened
+      // into the rail — they live in a flyout revealed on hover.
+      expect(screen.getByTitle('Gestión')).toBeInTheDocument()
+      expect(screen.queryByText('Sub A')).not.toBeInTheDocument()
+      expect(screen.queryByText('Sub B')).not.toBeInTheDocument()
+    })
+
+    it('reveals the group children in a flyout on hover (collapsed mode)', async () => {
+      const user = userEvent.setup()
+      render(<Sidebar />)
+      await user.hover(screen.getByTitle('Gestión'))
+      expect(await screen.findByText('Sub A')).toBeInTheDocument()
+      expect(screen.getByText('Sub B')).toBeInTheDocument()
     })
 
     it('renders no-href item in collapsed mode with href=/ (line 51 ?? fallback)', () => {
