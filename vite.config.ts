@@ -2,6 +2,7 @@ import path from 'node:path'
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -23,6 +24,60 @@ export default defineConfig({
     // config (ignored at runtime → React Compiler was NOT active). To re-enable
     // it, wire `@rolldown/plugin-babel` with `reactCompilerPreset()` separately.
     react(),
+    // Offline-first: precache the app shell so it loads without network. Data
+    // is cached separately by TanStack Query (IndexedDB), so the SW only needs
+    // the shell + nav fallback + fonts. Registration is manual (main.tsx) to
+    // keep it in the bundle and CSP-safe (no injected inline script).
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: false,
+      manifest: {
+        name: 'First — Gestor navike21',
+        short_name: 'First',
+        description: 'Gestor navike21',
+        theme_color: '#1c252e',
+        background_color: '#1c252e',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: '/favicon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,ico,woff,woff2,png}'],
+        // The main bundle is currently ~3.4 MB; raise the precache size cap so
+        // the shell is fully cached for offline. (TODO perf: code-split routes.)
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/],
+        cleanupOutdatedCaches: true,
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
+            handler: 'StaleWhileRevalidate',
+            options: { cacheName: 'google-fonts-stylesheets' },
+          },
+          {
+            urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
+      },
+      devOptions: { enabled: false },
+    }),
   ],
   resolve: {
     alias: {
