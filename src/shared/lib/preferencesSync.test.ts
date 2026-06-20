@@ -45,14 +45,18 @@ describe('queuePreferenceSave — debounced + auth-gated', () => {
   afterEach(() => vi.useRealTimers())
 
   it('no-ops when unauthenticated (no token)', () => {
-    getStateMock.mockReturnValue({ token: null })
+    getStateMock.mockReturnValue({
+      token: null,
+    } as unknown as ReturnType<typeof useSessionStore.getState>)
     queuePreferenceSave({ theme: 'dark' })
     vi.advanceTimersByTime(1000)
     expect(updateMock).not.toHaveBeenCalled()
   })
 
   it('debounces and merges into a single PATCH when authenticated', () => {
-    getStateMock.mockReturnValue({ token: 'tok' })
+    getStateMock.mockReturnValue({
+      token: 'tok',
+    } as unknown as ReturnType<typeof useSessionStore.getState>)
     queuePreferenceSave({ theme: 'dark' })
     queuePreferenceSave({ primaryColor: '#0081a2' })
     expect(updateMock).not.toHaveBeenCalled() // still within debounce window

@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { defineConfig } from 'vitest/config'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
@@ -18,11 +18,11 @@ export default defineConfig({
   },
   plugins: [
     tailwindcss(),
-    react({
-      babel: {
-        presets: [reactCompilerPreset()],
-      },
-    }),
+    // NOTE: @vitejs/plugin-react v5 (rolldown/oxc) removed the `babel` option,
+    // so the previous `babel: { presets: [reactCompilerPreset()] }` was dead
+    // config (ignored at runtime → React Compiler was NOT active). To re-enable
+    // it, wire `@rolldown/plugin-babel` with `reactCompilerPreset()` separately.
+    react(),
   ],
   resolve: {
     alias: {

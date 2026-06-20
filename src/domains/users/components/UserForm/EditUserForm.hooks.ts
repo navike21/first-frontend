@@ -73,10 +73,7 @@ export function useEditUserForm({
       dateOfBirth: defaultValues.dateOfBirth?.slice(0, 10) ?? '',
       groupIds: defaultValues.groupIds ?? [],
       address: defaultValues.address ?? {},
-      status:
-        defaultValues.status === 'deleted'
-          ? 'inactive'
-          : (defaultValues.status ?? 'active'),
+      status: defaultValues.status ?? 'active',
     },
   })
 

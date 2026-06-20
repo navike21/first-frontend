@@ -41,7 +41,9 @@ export const useSessionSync = (): void => {
       if (nextToken === null && prevToken !== null) {
         // Token cleared in another tab → force logout here too
         clearSession()
-        router.navigate({ to: NAV.forbidden.path }).catch(() => null)
+        // `as never`: NAV paths are plain strings, not the router's typed
+        // path union (same pattern used elsewhere for dynamic navigation).
+        router.navigate({ to: NAV.forbidden.path as never }).catch(() => null)
       } else if (nextToken !== null && prevToken === null) {
         // Token set in another tab → follow the login
         router.navigate({ to: '/' }).catch(() => null)

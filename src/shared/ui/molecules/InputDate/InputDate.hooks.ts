@@ -79,18 +79,20 @@ export const useInputDate = (
   )
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(() =>
-    parseToDate(value ?? (defaultValue as string | undefined))
+    parseToDate((value as string | undefined) ?? (defaultValue as string | undefined))
   )
-  const [selectedRange, setSelectedRange] = useState<DateRange>({})
+  const [selectedRange, setSelectedRange] = useState<DateRange>({
+    from: undefined,
+  })
 
   const [displayMonth, setDisplayMonth] = useState<Date>(() => {
     return (
-      parseToDate(value ?? (defaultValue as string | undefined)) ?? todayDate()
+      parseToDate((value as string | undefined) ?? (defaultValue as string | undefined)) ?? todayDate()
     )
   })
 
   const [yearPageCenter, setYearPageCenter] = useState<number>(() => {
-    const d = parseToDate(value ?? (defaultValue as string | undefined))
+    const d = parseToDate((value as string | undefined) ?? (defaultValue as string | undefined))
     return d ? d.getFullYear() : todayDate().getFullYear()
   })
 
@@ -235,7 +237,7 @@ export const useInputDate = (
 
   const handleSelectRange = useCallback(
     (range: DateRange | undefined) => {
-      const next = range ?? {}
+      const next = range ?? { from: undefined }
       setSelectedRange(next)
 
       if (next.from) {
@@ -253,7 +255,7 @@ export const useInputDate = (
 
   const handleClear = useCallback(() => {
     setSelectedDate(undefined)
-    setSelectedRange({})
+    setSelectedRange({ from: undefined })
     fireNativeChange(internalHiddenRef.current, '')
     fireNativeChange(fromInternalRef.current, '')
     fireNativeChange(toInternalRef.current, '')
@@ -271,7 +273,7 @@ export const useInputDate = (
   // ── Sync controlled value ────────────────────────────────────────────────────
   useEffect(() => {
     if (value !== undefined) {
-      const d = parseToDate(value)
+      const d = parseToDate(value as string | undefined)
       setSelectedDate(d)
       if (d) {
         setDisplayMonth(d)

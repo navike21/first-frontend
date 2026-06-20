@@ -29,8 +29,10 @@ vi.stubGlobal('localStorage', mockStorage)
 // Factory
 const makeAuthUser = (overrides?: Partial<AuthUser>): AuthUser => ({
   id: '1',
-  name: 'Test User',
+  firstName: 'Test',
+  lastName: 'User',
   email: 'test@navike21.com',
+  permissions: [],
   ...overrides,
 })
 
