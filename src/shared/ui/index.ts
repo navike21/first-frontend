@@ -10,6 +10,7 @@ export {
   type AvatarStatus,
 } from './atoms/Avatar'
 export { Button, type ButtonProps } from './atoms/Button'
+export { Can, type CanProps } from './atoms/Can'
 export { Card, type CardProps } from './atoms/Card'
 export {
   IconButton,

@@ -1,6 +1,7 @@
 import type { IconName } from '@/shared/types/icons'
 import type { Language } from '@/shared/types/languages'
 import { navPaths } from '@/shared/router'
+import { CAN } from '@/shared/lib/permissions'
 
 export interface MenuChild {
   id: string
@@ -8,6 +9,8 @@ export interface MenuChild {
   href: string
   /** Icon shown for this child in the collapsed rail. */
   icon?: IconName
+  /** Required permissions (any-of) to show this item. Omit = always visible. */
+  permissions?: readonly string[]
 }
 
 export interface MenuItem {
@@ -17,6 +20,8 @@ export interface MenuItem {
   href?: string
   exact?: boolean
   children?: MenuChild[]
+  /** Required permissions (any-of) to show this item. Omit = always visible. */
+  permissions?: readonly string[]
 }
 
 const MENU_LABELS: Record<string, Record<Language, string>> = {
@@ -89,12 +94,14 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           label: MENU_LABELS.users[lang],
           href: navPaths.users(lang),
           icon: 'RiGroupLine',
+          permissions: CAN.usersView,
         },
         {
           id: 'userGroups',
           label: MENU_LABELS.userGroups[lang],
           href: navPaths.userGroups(lang),
           icon: 'RiShieldUserLine',
+          permissions: CAN.groupsView,
         },
       ],
     },
