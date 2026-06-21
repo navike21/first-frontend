@@ -179,9 +179,7 @@ describe('Sidebar active-state branches', () => {
     it('applies active bg class to collapsed item when isItemActive=true', () => {
       pathnameMock.value = '/es/usuarios'
       const { container } = render(<Sidebar />)
-      const activeLinks = container.querySelectorAll(
-        'a.bg-\\(--color-primary-700\\)\\/10'
-      )
+      const activeLinks = container.querySelectorAll('a.bg-primary-700\\/10')
       expect(activeLinks.length).toBeGreaterThan(0)
     })
 
@@ -220,7 +218,7 @@ describe('Sidebar active-state branches', () => {
     it('renders accordion with active icon color (line 77)', () => {
       render(<Sidebar />)
       const icon = screen.getByTestId('icon-RiGroupLine')
-      expect(icon).toHaveClass('text-(--color-primary-300)')
+      expect(icon).toHaveClass('text-primary-500')
     })
 
     it('renders active child with active classes (lines 97-100)', () => {
@@ -242,7 +240,7 @@ describe('Sidebar active-state branches', () => {
         (a) => a.getAttribute('href') === '/es/gestion/b'
       )
       expect(subBLink).toBeDefined()
-      expect(subBLink?.className).toContain('text-(--text-secondary)')
+      expect(subBLink?.className).toContain('text-slate-400')
     })
   })
 })

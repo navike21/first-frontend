@@ -5,13 +5,13 @@ export type ButtonSize = NonNullable<ButtonBaseProps['size']>
 
 export const variantColorClasses: Record<ButtonVariant, string> = {
   primary: 'bg-primary-700 text-white',
-  // Brand-colored outline (uses --color-primary-* so it follows the active
-  // color theme) over the surface — for "cancel" / dismiss actions.
+  // Brand-colored outline (uses primary-* so it follows the active color
+  // theme) over the surface — for "cancel" / dismiss actions.
   secondary:
-    'text-(--color-primary-700) bg-(--surface) ring-1 ring-(--color-primary-700) ring-inset dark:text-(--color-primary-300) dark:ring-(--color-primary-300)',
+    'text-primary-700 bg-(--surface) ring-1 ring-primary-700 ring-inset dark:text-primary-300 dark:ring-primary-300',
   // Same brand outline on a transparent background — tertiary / infrequent.
   outline:
-    'text-(--color-primary-700) bg-transparent ring-1 ring-(--color-primary-700) ring-inset dark:text-(--color-primary-300) dark:ring-(--color-primary-300)',
+    'text-primary-700 bg-transparent ring-1 ring-primary-700 ring-inset dark:text-primary-300 dark:ring-primary-300',
   text: 'text-(--text-primary) bg-transparent',
   warning: 'bg-amber-500 text-white',
   error: 'bg-red-600 text-white',
@@ -20,8 +20,8 @@ export const variantColorClasses: Record<ButtonVariant, string> = {
 
 export const variantHoverClasses: Record<ButtonVariant, string> = {
   primary: 'hover:bg-primary-800',
-  secondary: 'hover:bg-(--color-primary-700)/10',
-  outline: 'hover:bg-(--color-primary-700)/10',
+  secondary: 'hover:bg-primary-700/10',
+  outline: 'hover:bg-primary-700/10',
   text: '',
   warning: 'hover:bg-amber-600',
   error: 'hover:bg-red-700',
