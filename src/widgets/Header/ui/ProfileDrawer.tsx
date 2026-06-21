@@ -87,7 +87,7 @@ export const ProfileDrawer = ({
                   'group flex items-center gap-3 rounded-lg px-3 py-2.5',
                   'text-sm font-medium text-(--text-secondary)',
                   'duration-fast ease-out-expo transition-colors',
-                  'hover:bg-(--color-primary-950)/20 hover:text-white'
+                  'hover:bg-primary-950/20 hover:text-white'
                 )}
               >
                 <IconComponent

@@ -38,12 +38,11 @@ export const Sidebar = () => {
     >
       <nav className="flex-1 space-y-2 px-4 py-6">
         {menuConfig.map((item) => {
-          const isHrefActive = (href?: string, exact?: boolean) =>
-            href
-              ? exact
-                ? pathname === href
-                : pathname === href || pathname.startsWith(href + '/')
-              : false
+          const isHrefActive = (href?: string, exact?: boolean) => {
+            if (!href) return false
+            if (exact) return pathname === href
+            return pathname === href || pathname.startsWith(href + '/')
+          }
 
           const isItemActive =
             isHrefActive(item.href, item.exact) ||
@@ -75,10 +74,9 @@ export const Sidebar = () => {
                     'rounded-lg',
                     'duration-fast ease-out-expo transition-colors',
                     !isItemActive &&
-                      'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
-                    isItemActive
-                      ? 'bg-(--color-primary-700)/10 text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
-                      : 'text-(--text-secondary)'
+                      'hover:bg-primary-700/5 hover:text-primary-500 dark:hover:bg-primary-950/20 dark:hover:text-primary-500',
+                    isItemActive &&
+                      'text-primary-500 bg-primary-700/10 dark:bg-primary-950/40 dark:text-primary-500'
                   )}
                 >
                   <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -97,16 +95,19 @@ export const Sidebar = () => {
                       icon={item.icon}
                       className={clsx(
                         'h-5 w-5',
-                        isItemActive
-                          ? 'text-(--color-primary-300)'
-                          : 'text-(--text-secondary)'
+                        isItemActive && 'text-primary-500'
                       )}
                     />
                   }
                   isOpen={openMenuId === item.id}
                   onToggle={handleToggle(item.id)}
                 >
-                  <div className="ml-5 space-y-1 border-l border-(--border) pl-4">
+                  <div
+                    className={clsx(
+                      'ml-5 space-y-1 border-l border-slate-400 pl-4',
+                      'dark:border-slate-400'
+                    )}
+                  >
                     {item.children.map((child) => {
                       const isChildActive =
                         pathname === child.href ||
@@ -123,12 +124,12 @@ export const Sidebar = () => {
                             // Inactive hover — light: subtle brand tint + brand
                             // text; dark: keep the existing dark highlight.
                             !isChildActive &&
-                              'hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white',
+                              'hover:text-primary-500 dark:hover:text-primary-500',
                             // Active — light: light brand tint bg + brand text
                             // (follows the active color theme); dark: unchanged.
                             isChildActive
-                              ? 'bg-(--color-primary-700)/10 font-semibold text-(--color-primary-700) dark:bg-(--color-primary-950)/30 dark:text-white'
-                              : 'text-(--text-secondary)'
+                              ? 'dark:text-primary-500 bg-primary-700/10 text-primary-500 dark:bg-primary-700/10 font-semibold'
+                              : 'text-slate-400'
                           )}
                         >
                           {child.label}

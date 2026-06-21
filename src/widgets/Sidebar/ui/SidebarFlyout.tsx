@@ -57,8 +57,8 @@ export const SidebarFlyout = ({
     'rounded-lg',
     'duration-fast ease-out-expo transition-colors',
     isItemActive
-      ? 'bg-(--color-primary-700)/10 text-(--color-primary-700) dark:bg-(--color-primary-950)/40 dark:text-white'
-      : 'text-(--text-secondary) hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white'
+      ? 'bg-primary-700/10 text-primary-500 dark:bg-primary-950/40 dark:text-primary-500'
+      : 'text-slate-500 hover:bg-primary-700/5 hover:text-primary-500 dark:text-slate-300 dark:hover:bg-primary-950/20 dark:hover:text-primary-500'
   )
 
   const icon = <IconComponent icon={item.icon} className="h-6 w-6" />
@@ -126,8 +126,8 @@ export const SidebarFlyout = ({
                         'rounded-md text-sm font-medium',
                         'transition-colors',
                         active
-                          ? 'bg-(--color-primary-700)/10 font-semibold text-(--color-primary-700) dark:bg-(--color-primary-950)/30 dark:text-white'
-                          : 'text-(--text-secondary) hover:bg-(--color-primary-700)/5 hover:text-(--color-primary-700) dark:hover:bg-(--color-primary-950)/20 dark:hover:text-white'
+                          ? 'bg-primary-700/10 font-semibold text-primary-500 dark:bg-primary-950/30 dark:text-primary-500'
+                          : 'text-slate-500 hover:bg-primary-700/5 hover:text-primary-500 dark:text-slate-300 dark:hover:bg-primary-950/20 dark:hover:text-primary-500'
                       )}
                     >
                       {child.icon && (

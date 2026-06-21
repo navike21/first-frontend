@@ -102,7 +102,7 @@ export const DataTable = <T,>({
                 'rounded-xl border p-4 shadow-sm',
                 'duration-fast ease-out-expo transition-colors',
                 isSelected
-                  ? 'border-(--color-primary-700) bg-(--surface-subtle)'
+                  ? 'border-primary-700 bg-(--surface-subtle)'
                   : 'border-(--border) bg-(--surface)'
               )}
             >

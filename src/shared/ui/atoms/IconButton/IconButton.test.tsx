@@ -40,9 +40,9 @@ describe('IconButton component', () => {
     // Assert
     expect(button).toHaveClass(
       'bg-(--surface)',
-      'text-(--color-primary-700)',
+      'text-primary-700',
       'ring-1',
-      'ring-(--color-primary-700)',
+      'ring-primary-700',
       'ring-inset'
     )
   })

@@ -40,7 +40,7 @@ export const Tabs = ({
               'duration-fast ease-out-expo transition-colors',
               'cursor-pointer',
               isActive
-                ? 'border-(--color-primary-600) text-(--text-primary)'
+                ? 'border-primary-600 text-(--text-primary)'
                 : 'border-transparent text-(--text-secondary) hover:border-(--border) hover:text-(--text-primary)'
             )}
           >
