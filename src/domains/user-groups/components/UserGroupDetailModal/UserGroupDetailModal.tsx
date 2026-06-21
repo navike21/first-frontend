@@ -30,6 +30,14 @@ function formatDate(iso: string): string {
   })
 }
 
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+function humanize(resource: string): string {
+  return resource.split('-').map(capitalize).join(' ')
+}
+
 export const UserGroupDetailModal = ({
   group,
   onClose,
@@ -41,6 +49,15 @@ export const UserGroupDetailModal = ({
 
   const superadmin = isSuperadmin(group.permissions)
   const grouped = superadmin ? {} : groupPermissions(group.permissions)
+
+  const { resources: resourceLabels, actions: actionLabels, allLabel } =
+    t.permissionCatalog
+  const resourceLabel = (resource: string): string =>
+    resource === '*'
+      ? allLabel
+      : (resourceLabels[resource] ?? humanize(resource))
+  const actionLabel = (action: string): string =>
+    action === '*' ? allLabel : (actionLabels[action] ?? capitalize(action))
 
   return (
     <Modal
@@ -120,7 +137,7 @@ export const UserGroupDetailModal = ({
                   className="flex flex-wrap items-start gap-2"
                 >
                   <span className="w-28 shrink-0 pt-0.5 text-xs font-medium text-(--text-secondary)">
-                    {resource}
+                    {resourceLabel(resource)}
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {actions.map((action) => (
@@ -128,7 +145,7 @@ export const UserGroupDetailModal = ({
                         key={action}
                         className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
                       >
-                        {action === '*' ? t.detail.actionAll : action}
+                        {actionLabel(action)}
                       </span>
                     ))}
                   </div>

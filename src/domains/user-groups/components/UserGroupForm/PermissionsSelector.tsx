@@ -1,4 +1,5 @@
 import { Checkbox } from '@/shared/ui'
+import { useUserGroupsTranslation } from '../../i18n'
 
 interface PermissionsSelectorProps {
   value: string[]
@@ -11,7 +12,7 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-function formatResource(resource: string): string {
+function humanize(resource: string): string {
   return resource.split('-').map(capitalize).join(' ')
 }
 
@@ -21,6 +22,23 @@ export const PermissionsSelector = ({
   catalog,
   disabled = false,
 }: PermissionsSelectorProps) => {
+  const { t } = useUserGroupsTranslation()
+  const { resources: resourceLabels, actions: actionLabels, allLabel } =
+    t.permissionCatalog
+
+  // Localized label for a resource segment; `*` → "all permissions", unknown
+  // resources fall back to the humanized key (so new backend resources still
+  // render with a readable name until translated).
+  const resourceLabel = (resource: string): string =>
+    resource === '*'
+      ? allLabel
+      : (resourceLabels[resource] ?? humanize(resource))
+
+  // Localized label for an action segment; `*` → "all permissions", unknown
+  // actions fall back to capitalizing the key.
+  const actionLabel = (action: string): string =>
+    action === '*' ? allLabel : (actionLabels[action] ?? capitalize(action))
+
   // Group permissions by resource (left part of 'resource:action')
   const grouped = catalog.reduce<Record<string, string[]>>((acc, perm) => {
     const [resource, action] = perm.split(':')
@@ -59,7 +77,7 @@ export const PermissionsSelector = ({
   if (resources.length === 0) {
     return (
       <div className="rounded-lg border border-(--border) bg-(--surface-subtle) p-4 text-sm text-(--text-muted)">
-        No permissions available
+        {t.permissionCatalog.noneAvailable}
       </div>
     )
   }
@@ -83,7 +101,7 @@ export const PermissionsSelector = ({
               <Checkbox
                 label={
                   <span className="text-sm font-semibold text-(--text-primary)">
-                    {formatResource(resource)}
+                    {resourceLabel(resource)}
                   </span>
                 }
                 checked={allSelected}
@@ -101,7 +119,7 @@ export const PermissionsSelector = ({
                     key={action}
                     label={
                       <span className="text-xs text-(--text-secondary)">
-                        {capitalize(action)}
+                        {actionLabel(action)}
                       </span>
                     }
                     checked={value.includes(perm)}
