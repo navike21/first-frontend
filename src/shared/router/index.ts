@@ -1,4 +1,4 @@
-export { requireAuth, requireGuest } from './guards'
+export { requireAuth, requireGuest, requirePermission } from './guards'
 export { NAV } from './navigation.config'
 export type { NavNode, NavModule } from './navigation.config'
 export { ROUTE_SLUGS, SLUG_TO_MODULE, translatePath } from './route-slugs'

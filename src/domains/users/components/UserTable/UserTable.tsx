@@ -1,10 +1,12 @@
 import {
   Avatar,
+  Can,
   DataTable,
   IconButton,
   Tooltip,
   type DataTableColumn,
 } from '@/shared/ui'
+import { CAN } from '@/shared/lib/permissions'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import { PresenceDot } from './PresenceDot'
@@ -82,32 +84,28 @@ export const UserTable = ({
       align: 'right',
       cell: (user) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip
-            heading={t.table.editUser}
-            position="top"
-            size="small"
-          >
-            <IconButton
-              icon="RiPencilLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.editUser}
-              onClick={() => onEdit(user)}
-            />
-          </Tooltip>
-          <Tooltip
-            heading={t.table.deleteUser}
-            position="top"
-            size="small"
-          >
-            <IconButton
-              icon="RiDeleteBinLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.deleteUser}
-              onClick={() => onDelete(user)}
-            />
-          </Tooltip>
+          <Can anyOf={CAN.usersUpdate}>
+            <Tooltip heading={t.table.editUser} position="top" size="small">
+              <IconButton
+                icon="RiPencilLine"
+                variant="text"
+                size="small"
+                aria-label={t.table.editUser}
+                onClick={() => onEdit(user)}
+              />
+            </Tooltip>
+          </Can>
+          <Can anyOf={CAN.usersDelete}>
+            <Tooltip heading={t.table.deleteUser} position="top" size="small">
+              <IconButton
+                icon="RiDeleteBinLine"
+                variant="text"
+                size="small"
+                aria-label={t.table.deleteUser}
+                onClick={() => onDelete(user)}
+              />
+            </Tooltip>
+          </Can>
         </div>
       ),
     },

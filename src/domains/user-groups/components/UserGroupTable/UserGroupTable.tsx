@@ -1,10 +1,12 @@
 import {
+  Can,
   Chip,
   DataTable,
   IconButton,
   Tooltip,
   type DataTableColumn,
 } from '@/shared/ui'
+import { CAN } from '@/shared/lib/permissions'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
 
@@ -83,24 +85,18 @@ export const UserGroupTable = ({
       align: 'right',
       cell: (group) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip
-            heading={t.table.manageUsers}
-            position="top"
-            size="small"
-          >
-            <IconButton
-              icon="RiUserSettingsLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.manageUsers}
-              onClick={() => onManageUsers(group)}
-            />
-          </Tooltip>
-          <Tooltip
-            heading={t.table.viewGroup}
-            position="top"
-            size="small"
-          >
+          <Can anyOf={CAN.groupsUpdate}>
+            <Tooltip heading={t.table.manageUsers} position="top" size="small">
+              <IconButton
+                icon="RiUserSettingsLine"
+                variant="text"
+                size="small"
+                aria-label={t.table.manageUsers}
+                onClick={() => onManageUsers(group)}
+              />
+            </Tooltip>
+          </Can>
+          <Tooltip heading={t.table.viewGroup} position="top" size="small">
             <IconButton
               icon="RiEyeLine"
               variant="text"
@@ -109,34 +105,30 @@ export const UserGroupTable = ({
               onClick={() => onView(group)}
             />
           </Tooltip>
-          <Tooltip
-            heading={t.table.editGroup}
-            position="top"
-            size="small"
-          >
-            <IconButton
-              icon="RiPencilLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.editGroup}
-              disabled={group.isSystem}
-              onClick={() => onEdit(group)}
-            />
-          </Tooltip>
-          <Tooltip
-            heading={t.table.deleteGroup}
-            position="top"
-            size="small"
-          >
-            <IconButton
-              icon="RiDeleteBinLine"
-              variant="text"
-              size="small"
-              aria-label={t.table.deleteGroup}
-              disabled={group.isSystem}
-              onClick={() => onDelete(group)}
-            />
-          </Tooltip>
+          <Can anyOf={CAN.groupsUpdate}>
+            <Tooltip heading={t.table.editGroup} position="top" size="small">
+              <IconButton
+                icon="RiPencilLine"
+                variant="text"
+                size="small"
+                aria-label={t.table.editGroup}
+                disabled={group.isSystem}
+                onClick={() => onEdit(group)}
+              />
+            </Tooltip>
+          </Can>
+          <Can anyOf={CAN.groupsDelete}>
+            <Tooltip heading={t.table.deleteGroup} position="top" size="small">
+              <IconButton
+                icon="RiDeleteBinLine"
+                variant="text"
+                size="small"
+                aria-label={t.table.deleteGroup}
+                disabled={group.isSystem}
+                onClick={() => onDelete(group)}
+              />
+            </Tooltip>
+          </Can>
         </div>
       ),
     },

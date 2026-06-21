@@ -2,6 +2,8 @@ import { createRoute, Outlet } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
+import { requirePermission } from '@/shared/router'
+import { CAN } from '@/shared/lib/permissions'
 import { UsersPage } from '@domains/users/pages/UsersPage'
 import { CreateUserPage } from '@domains/users/pages/CreateUserPage'
 import { EditUserPage } from '@domains/users/pages/EditUserPage'
@@ -9,10 +11,13 @@ import { UsersTrashPage } from '@domains/users/pages/UsersTrashPage'
 import type { Language } from '@/shared/types/languages'
 
 function createUsersRouteTree(lang: Language) {
+  // Viewing the Users section requires read (or manage / *:*); deeper routes
+  // add the specific capability. Blocks direct-URL access, not just the menu.
   const layout = createRoute({
     getParentRoute: () => privateLayout,
     path: ROUTE_SLUGS.users[lang],
     component: Outlet,
+    beforeLoad: requirePermission(...CAN.usersView),
   })
 
   const index = createRoute({
@@ -25,18 +30,21 @@ function createUsersRouteTree(lang: Language) {
     getParentRoute: () => layout,
     path: ROUTE_SLUGS.userCreate[lang],
     component: CreateUserPage,
+    beforeLoad: requirePermission(...CAN.usersCreate),
   })
 
   const edit = createRoute({
     getParentRoute: () => layout,
     path: `$userId/${ROUTE_SLUGS.userEdit[lang]}`,
     component: EditUserPage,
+    beforeLoad: requirePermission(...CAN.usersUpdate),
   })
 
   const trash = createRoute({
     getParentRoute: () => layout,
     path: ROUTE_SLUGS.userTrash[lang],
     component: UsersTrashPage,
+    beforeLoad: requirePermission(...CAN.usersTrash),
   })
 
   return layout.addChildren([index, create, edit, trash])

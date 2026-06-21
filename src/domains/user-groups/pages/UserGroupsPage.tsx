@@ -8,7 +8,7 @@ import {
 } from '@/shared/ui'
 import { UserGroupTable, UserGroupDetailModal } from '..'
 import { navPaths } from '@/shared/router'
-import { useHasPermission } from '@/shared/lib/permissions'
+import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import { useUserGroupsPage } from './UserGroupsPage.hooks'
 
 export const UserGroupsPage = () => {
@@ -40,6 +40,7 @@ export const UserGroupsPage = () => {
     'user-groups:manage',
     '*:*'
   )
+  const canCreate = useHasPermission(...CAN.groupsCreate)
 
   return (
     <div className="animate-page-in space-y-6">
@@ -58,13 +59,17 @@ export const UserGroupsPage = () => {
                 },
               ]
             : []),
-          {
-            type: 'link' as const,
-            label: t.actions.newGroup,
-            variant: 'primary' as const,
-            to: navPaths.userGroupCreate(language),
-            size: 'small' as const,
-          },
+          ...(canCreate
+            ? [
+                {
+                  type: 'link' as const,
+                  label: t.actions.newGroup,
+                  variant: 'primary' as const,
+                  to: navPaths.userGroupCreate(language),
+                  size: 'small' as const,
+                },
+              ]
+            : []),
         ]}
       />
 

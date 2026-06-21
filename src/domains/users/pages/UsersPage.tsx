@@ -8,7 +8,7 @@ import {
 } from '@/shared/ui'
 import { UserTable } from '..'
 import { navPaths } from '@/shared/router'
-import { useHasPermission } from '@/shared/lib/permissions'
+import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import { useUsersPage } from './UsersPage.hooks'
 
 export const UsersPage = () => {
@@ -39,6 +39,7 @@ export const UsersPage = () => {
   } = useUsersPage()
 
   const canSeeTrash = useHasPermission('users:purge', 'users:manage', '*:*')
+  const canCreate = useHasPermission(...CAN.usersCreate)
 
   return (
     <div className="animate-page-in space-y-6">
@@ -57,13 +58,17 @@ export const UsersPage = () => {
                 },
               ]
             : []),
-          {
-            type: 'link' as const,
-            label: t.actions.newUser,
-            variant: 'primary' as const,
-            to: navPaths.userCreate(language),
-            size: 'small' as const,
-          },
+          ...(canCreate
+            ? [
+                {
+                  type: 'link' as const,
+                  label: t.actions.newUser,
+                  variant: 'primary' as const,
+                  to: navPaths.userCreate(language),
+                  size: 'small' as const,
+                },
+              ]
+            : []),
         ]}
       />
 

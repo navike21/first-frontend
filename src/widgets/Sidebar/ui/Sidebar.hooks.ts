@@ -2,14 +2,36 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouterState } from '@tanstack/react-router'
 import { useSidebarStore } from '../model/store'
 import { getMenuConfig } from '../model/menu.config'
-import { useLanguageStore } from '@/shared/model'
+import { useLanguageStore, useSessionStore } from '@/shared/model'
+import { hasPermission } from '@/shared/lib/permissions'
+
+const EMPTY_PERMISSIONS: string[] = []
 
 export function useSidebar() {
   const { isCollapsed, isOpenMobile, closeMobileSidebar } = useSidebarStore()
   const { location } = useRouterState()
   const pathname = location.pathname
   const language = useLanguageStore((s) => s.language)
-  const menuConfig = useMemo(() => getMenuConfig(language), [language])
+  const permissions = useSessionStore(
+    (s) => s.user?.permissions ?? EMPTY_PERMISSIONS
+  )
+
+  // Permission-aware menu: hide items the user can't access and drop parent
+  // groups left with no visible children. Mirrors the route guards so the menu
+  // never offers a destination that would just redirect to /403.
+  const menuConfig = useMemo(() => {
+    const allowed = (perms?: readonly string[]) =>
+      !perms || perms.length === 0 || hasPermission(permissions, ...perms)
+    return getMenuConfig(language)
+      .map((item) =>
+        item.children
+          ? { ...item, children: item.children.filter((c) => allowed(c.permissions)) }
+          : item
+      )
+      .filter((item) =>
+        item.children ? item.children.length > 0 : allowed(item.permissions)
+      )
+  }, [language, permissions])
 
   const activeGroupId = useMemo(() => {
     const matches = (href?: string, exact?: boolean) => {
