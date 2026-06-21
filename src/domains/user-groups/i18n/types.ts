@@ -86,6 +86,21 @@ export interface UserGroupsTranslations {
     saveButton: string
     cancelButton: string
   }
+  /**
+   * Localized labels for the permission catalog (`resource:action` keys from the
+   * backend). Looked up with a fallback to the humanized key, so a new backend
+   * resource/action shows its raw name until translated (never blank).
+   */
+  permissionCatalog: {
+    /** Empty state when the catalog has no permissions. */
+    noneAvailable: string
+    /** Label for the `*` wildcard (resource and action) — full access. */
+    allLabel: string
+    /** Per-resource labels, keyed by the resource segment. */
+    resources: Record<string, string>
+    /** Per-action labels, keyed by the action segment. */
+    actions: Record<string, string>
+  }
   actions: {
     newGroup: string
     deleteTitle: string
