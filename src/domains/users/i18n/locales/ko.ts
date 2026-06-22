@@ -66,6 +66,7 @@ export const ko: UsersTranslations = {
     genderPreferNotToSay: '응답 안 함',
     groupId: '그룹',
     groupIdPlaceholder: '그룹 선택',
+    groupsEmpty: '사용 가능한 사용자 그룹이 없습니다',
     addressSection: '주소',
     addressStreet: '도로명',
     addressCity: '시/군/구',

@@ -156,21 +156,23 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   {...register('confirmPassword')}
                 />
               </div>
-              {groupOptions.length > 0 && (
-                <Select
-                  label={t.form.groupId}
-                  options={groupOptions}
-                  multiple
-                  search
-                  value={groupIdsValue ?? []}
-                  onChange={(e) =>
-                    onGroupsChange(
-                      Array.from(e.target.selectedOptions, (o) => o.value)
-                    )
-                  }
-                  placeholder={t.form.groupIdPlaceholder}
-                />
-              )}
+              <Select
+                label={t.form.groupId}
+                options={groupOptions}
+                multiple
+                search
+                disabled={groupOptions.length === 0}
+                value={groupIdsValue ?? []}
+                onChange={(e) =>
+                  onGroupsChange(
+                    Array.from(e.target.selectedOptions, (o) => o.value)
+                  )
+                }
+                placeholder={t.form.groupIdPlaceholder}
+                helperText={
+                  groupOptions.length === 0 ? t.form.groupsEmpty : undefined
+                }
+              />
             </div>
 
             <div className="flex justify-end gap-3 pt-2">

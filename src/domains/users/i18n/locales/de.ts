@@ -68,6 +68,7 @@ export const de: UsersTranslations = {
     genderPreferNotToSay: 'Keine Angabe',
     groupId: 'Gruppen',
     groupIdPlaceholder: 'Gruppen auswählen',
+    groupsEmpty: 'Keine Benutzergruppen verfügbar',
     addressSection: 'Adresse',
     addressStreet: 'Straße',
     addressCity: 'Stadt',

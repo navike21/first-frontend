@@ -66,6 +66,7 @@ export const ja: UsersTranslations = {
     genderPreferNotToSay: '回答しない',
     groupId: 'グループ',
     groupIdPlaceholder: 'グループを選択',
+    groupsEmpty: '利用可能なユーザーグループがありません',
     addressSection: '住所',
     addressStreet: '番地',
     addressCity: '市区町村',
