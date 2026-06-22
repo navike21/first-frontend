@@ -3,8 +3,11 @@ import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
-import { createCreateUserSchema } from '../../model/user.schema'
-import type { CreateUserFormData } from '../../model/user.schema'
+import { createCreateUserFormSchema } from '../../model/user.schema'
+import type {
+  CreateUserFormData,
+  CreateUserFormValues,
+} from '../../model/user.schema'
 import { useUserConfigStore } from '../../model/userConfig.store'
 import { usePhotoUpload } from './usePhotoUpload'
 
@@ -25,7 +28,7 @@ export function useCreateUserForm({
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
   const schema = useMemo(
-    () => createCreateUserSchema(t.validation),
+    () => createCreateUserFormSchema(t.validation),
     [t.validation]
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
@@ -42,10 +45,10 @@ export function useCreateUserForm({
     control,
     reset,
     formState: { errors },
-  } = useForm<CreateUserFormData>({
+  } = useForm<CreateUserFormValues>({
     // zod `.default()` makes the schema's input type looser than its output;
-    // cast the resolver to the (output) form-data type used by useForm.
-    resolver: zodResolver(schema) as Resolver<CreateUserFormData>,
+    // cast the resolver to the (output) form-values type used by useForm.
+    resolver: zodResolver(schema) as Resolver<CreateUserFormValues>,
     defaultValues: { status: 'active' },
   })
 
@@ -69,7 +72,9 @@ export function useCreateUserForm({
     .map((g) => ({ value: g.id, label: g.name }))
 
   const onSubmit = handleSubmit((data) => {
-    onCreate(data, pendingFile)
+    // `confirmPassword` is UI-only — never send it to the API.
+    const { confirmPassword: _confirm, ...payload } = data
+    onCreate(payload as CreateUserFormData, pendingFile)
   })
 
   const handleCancel = () => {

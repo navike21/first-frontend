@@ -70,6 +70,38 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                 errorMessage={errors.lastName?.message}
                 {...register('lastName')}
               />
+            </div>
+
+            {/* Authentication — email is read-only here; password is optional
+                (blank = keep the current one). */}
+            <p className="text-sm font-medium text-(--text-secondary)">
+              {t.form.authSection}
+            </p>
+            <InputField
+              label={t.form.email}
+              type="email"
+              disabled
+              defaultValue={props.defaultValues.email ?? ''}
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <InputField
+                label={t.form.newPassword}
+                type="password"
+                helperText={t.form.passwordKeepHint}
+                variant={errors.password ? 'error' : undefined}
+                errorMessage={errors.password?.message}
+                {...register('password')}
+              />
+              <InputField
+                label={t.form.confirmPassword}
+                type="password"
+                variant={errors.confirmPassword ? 'error' : undefined}
+                errorMessage={errors.confirmPassword?.message}
+                {...register('confirmPassword')}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
               <InputField
                 label={t.form.phone}
                 variant={errors.phone ? 'error' : undefined}

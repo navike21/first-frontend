@@ -47,8 +47,12 @@ export interface UsersTranslations {
   form: {
     firstName: string
     lastName: string
+    authSection: string
     email: string
     password: string
+    confirmPassword: string
+    newPassword: string
+    passwordKeepHint: string
     phone: string
     dateOfBirth: string
     uploadPhoto: string
@@ -126,6 +130,7 @@ export interface UsersTranslations {
     passwordMin: string
     passwordUppercase: string
     passwordNumber: string
+    passwordMismatch: string
     fieldMin2: string
     dateFormat: string
     urlInvalid: string

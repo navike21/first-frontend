@@ -46,13 +46,20 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.lastName?.message}
                 {...register('lastName')}
               />
-              <InputField
-                label={t.form.email}
-                type="email"
-                variant={errors.email ? 'error' : undefined}
-                errorMessage={errors.email?.message}
-                {...register('email')}
-              />
+            </div>
+
+            {/* Authentication — kept separate from the profile data */}
+            <p className="text-sm font-medium text-(--text-secondary)">
+              {t.form.authSection}
+            </p>
+            <InputField
+              label={t.form.email}
+              type="email"
+              variant={errors.email ? 'error' : undefined}
+              errorMessage={errors.email?.message}
+              {...register('email')}
+            />
+            <div className="grid grid-cols-2 gap-4">
               <InputField
                 label={t.form.password}
                 type="password"
@@ -60,6 +67,16 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.password?.message}
                 {...register('password')}
               />
+              <InputField
+                label={t.form.confirmPassword}
+                type="password"
+                variant={errors.confirmPassword ? 'error' : undefined}
+                errorMessage={errors.confirmPassword?.message}
+                {...register('confirmPassword')}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
               <InputField
                 label={t.form.phone}
                 variant={errors.phone ? 'error' : undefined}
