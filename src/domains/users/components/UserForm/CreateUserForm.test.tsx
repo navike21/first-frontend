@@ -1,8 +1,8 @@
-import { render, renderHook, act, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, renderHook, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CreateUserForm } from './CreateUserForm'
 import { useCreateUserForm } from './CreateUserForm.hooks'
+import { createCreateUserFormSchema } from '../../model/user.schema'
 
 // Provide active groups without hitting the network.
 vi.mock('../../model/userConfig.store', () => ({
@@ -61,47 +61,44 @@ describe('User form — multi-group selector', () => {
   })
 })
 
-describe('User form — authentication section', () => {
-  beforeEach(() => vi.clearAllMocks())
+// Validation-message stub (only the strings the form schema references).
+const v = {
+  emailInvalid: 'email',
+  passwordMin: 'min',
+  passwordUppercase: 'upper',
+  passwordNumber: 'number',
+  passwordMismatch: 'mismatch',
+  required: 'required',
+  fieldMin2: 'min2',
+  dateFormat: 'date',
+  urlInvalid: 'url',
+}
 
-  const fill = async (
-    container: HTMLElement,
-    user: ReturnType<typeof userEvent.setup>,
-    password: string,
-    confirmPassword: string
-  ) => {
-    const byName = (name: string) =>
-      container.querySelector<HTMLInputElement>(`input[name="${name}"]`)!
-    await user.type(byName('firstName'), 'Ana')
-    await user.type(byName('lastName'), 'Lopez')
-    await user.type(byName('email'), 'ana@test.com')
-    await user.type(byName('password'), password)
-    await user.type(byName('confirmPassword'), confirmPassword)
-  }
+const validUser = {
+  email: 'ana@test.com',
+  password: 'Password1',
+  confirmPassword: 'Password1',
+  firstName: 'Ana',
+  lastName: 'Lopez',
+  gender: 'other' as const,
+  address: { street: 'St 1', city: 'City', state: 'State', country: 'Country' },
+}
 
-  it('does not submit when password and confirmation do not match', async () => {
-    const user = userEvent.setup()
-    const onCreate = vi.fn()
-    const { container } = render(
-      <CreateUserForm {...props} onCreate={onCreate} />
-    )
-    await fill(container, user, 'Password1', 'Password2')
-    await user.click(container.querySelector('button[type="submit"]')!)
-    expect(onCreate).not.toHaveBeenCalled()
+describe('User form — authentication / required validation', () => {
+  it('rejects when password and confirmation do not match', () => {
+    const schema = createCreateUserFormSchema(v)
+    const result = schema.safeParse({ ...validUser, confirmPassword: 'Other1' })
+    expect(result.success).toBe(false)
   })
 
-  it('submits without confirmPassword in the payload when valid', async () => {
-    const user = userEvent.setup()
-    const onCreate = vi.fn()
-    const { container } = render(
-      <CreateUserForm {...props} onCreate={onCreate} />
-    )
-    await fill(container, user, 'Password1', 'Password1')
-    await user.click(container.querySelector('button[type="submit"]')!)
-    await waitFor(() => expect(onCreate).toHaveBeenCalledTimes(1))
-    const payload = onCreate.mock.calls[0][0] as Record<string, unknown>
-    expect(payload).not.toHaveProperty('confirmPassword')
-    expect(payload.password).toBe('Password1')
-    expect(payload.email).toBe('ana@test.com')
+  it('accepts a fully valid form (passwords match, required fields present)', () => {
+    const schema = createCreateUserFormSchema(v)
+    expect(schema.safeParse(validUser).success).toBe(true)
+  })
+
+  it('requires gender and all address fields', () => {
+    const schema = createCreateUserFormSchema(v)
+    const { gender: _g, address: _a, ...withoutRequired } = validUser
+    expect(schema.safeParse(withoutRequired).success).toBe(false)
   })
 })

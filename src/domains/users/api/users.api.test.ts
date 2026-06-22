@@ -15,6 +15,8 @@ const baseData: CreateUserFormData = {
   password: 'Passw0rd',
   firstName: 'An',
   lastName: 'Bo',
+  gender: 'other',
+  address: { street: 'St 1', city: 'City', state: 'State', country: 'Country' },
   status: 'active',
 }
 

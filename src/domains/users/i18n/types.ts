@@ -45,6 +45,8 @@ export interface UsersTranslations {
     offline: string
   }
   form: {
+    tabPersonal: string
+    tabAccount: string
     firstName: string
     lastName: string
     authSection: string
@@ -71,7 +73,6 @@ export interface UsersTranslations {
     addressCity: string
     addressState: string
     addressCountry: string
-    addressPostalCode: string
     statusLabel: string
     statusDescription: string
     statusActive: string
@@ -131,6 +132,7 @@ export interface UsersTranslations {
     passwordUppercase: string
     passwordNumber: string
     passwordMismatch: string
+    required: string
     fieldMin2: string
     dateFormat: string
     urlInvalid: string

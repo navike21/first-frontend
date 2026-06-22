@@ -5,10 +5,12 @@ import {
   Select,
   PhotoPicker,
   Switch,
+  Tabs,
 } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'
+import type { UserFormTab } from './userFormTabs'
 
 export const EditUserForm = (props: UseEditUserFormProps) => {
   const {
@@ -28,6 +30,8 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
+    activeTab,
+    setActiveTab,
   } = useEditUserForm(props)
 
   return (
@@ -57,75 +61,124 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
         }
         right={
           <>
-            <div className="grid grid-cols-2 gap-4">
-              <InputField
-                label={t.form.firstName}
-                variant={errors.firstName ? 'error' : undefined}
-                errorMessage={errors.firstName?.message}
-                {...register('firstName')}
-              />
-              <InputField
-                label={t.form.lastName}
-                variant={errors.lastName ? 'error' : undefined}
-                errorMessage={errors.lastName?.message}
-                {...register('lastName')}
-              />
-            </div>
-
-            {/* Authentication — email is read-only here; password is optional
-                (blank = keep the current one). */}
-            <p className="text-sm font-medium text-(--text-secondary)">
-              {t.form.authSection}
-            </p>
-            <InputField
-              label={t.form.email}
-              type="email"
-              disabled
-              defaultValue={props.defaultValues.email ?? ''}
+            <Tabs
+              tabs={[
+                { id: 'personal', label: t.form.tabPersonal },
+                { id: 'account', label: t.form.tabAccount },
+              ]}
+              activeId={activeTab}
+              onChange={(id) => setActiveTab(id as UserFormTab)}
+              ariaLabel={t.form.tabPersonal}
             />
-            <div className="grid grid-cols-2 gap-4">
+
+            {/* ── Personal details ─────────────────────────────────────────── */}
+            <div
+              hidden={activeTab !== 'personal'}
+              className="flex flex-col gap-4"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <InputField
+                  label={t.form.firstName}
+                  variant={errors.firstName ? 'error' : undefined}
+                  errorMessage={errors.firstName?.message}
+                  {...register('firstName')}
+                />
+                <InputField
+                  label={t.form.lastName}
+                  variant={errors.lastName ? 'error' : undefined}
+                  errorMessage={errors.lastName?.message}
+                  {...register('lastName')}
+                />
+              </div>
+              {/* Email is immutable on edit (read-only). */}
               <InputField
-                label={t.form.newPassword}
-                type="password"
-                helperText={t.form.passwordKeepHint}
-                variant={errors.password ? 'error' : undefined}
-                errorMessage={errors.password?.message}
-                {...register('password')}
+                label={t.form.email}
+                type="email"
+                disabled
+                defaultValue={props.defaultValues.email ?? ''}
               />
+              <div className="grid grid-cols-2 gap-4">
+                <Select
+                  label={t.form.gender}
+                  options={genderOptions}
+                  value={genderValue ?? ''}
+                  onChange={(e) => onGenderChange(e.target.value)}
+                  placeholder={t.form.genderPlaceholder}
+                  variant={errors.gender ? 'error' : 'default'}
+                  errorMessage={errors.gender?.message}
+                />
+                <InputDate
+                  label={t.form.dateOfBirth}
+                  mode="date"
+                  variant={errors.dateOfBirth ? 'error' : 'default'}
+                  errorMessage={errors.dateOfBirth?.message}
+                  defaultValue={
+                    props.defaultValues.dateOfBirth?.slice(0, 10) ?? ''
+                  }
+                  {...register('dateOfBirth')}
+                />
+                <InputField
+                  label={t.form.phone}
+                  variant={errors.phone ? 'error' : undefined}
+                  errorMessage={errors.phone?.message}
+                  {...register('phone')}
+                />
+              </div>
+
+              <p className="text-sm font-medium text-(--text-secondary)">
+                {t.form.addressSection}
+              </p>
               <InputField
-                label={t.form.confirmPassword}
-                type="password"
-                variant={errors.confirmPassword ? 'error' : undefined}
-                errorMessage={errors.confirmPassword?.message}
-                {...register('confirmPassword')}
+                label={t.form.addressStreet}
+                variant={errors.address?.street ? 'error' : undefined}
+                errorMessage={errors.address?.street?.message}
+                {...register('address.street')}
               />
+              <div className="grid grid-cols-2 gap-4">
+                <InputField
+                  label={t.form.addressCity}
+                  variant={errors.address?.city ? 'error' : undefined}
+                  errorMessage={errors.address?.city?.message}
+                  {...register('address.city')}
+                />
+                <InputField
+                  label={t.form.addressState}
+                  variant={errors.address?.state ? 'error' : undefined}
+                  errorMessage={errors.address?.state?.message}
+                  {...register('address.state')}
+                />
+                <InputField
+                  label={t.form.addressCountry}
+                  variant={errors.address?.country ? 'error' : undefined}
+                  errorMessage={errors.address?.country?.message}
+                  {...register('address.country')}
+                />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <InputField
-                label={t.form.phone}
-                variant={errors.phone ? 'error' : undefined}
-                errorMessage={errors.phone?.message}
-                {...register('phone')}
-              />
-              <InputDate
-                label={t.form.dateOfBirth}
-                mode="date"
-                variant={errors.dateOfBirth ? 'error' : 'default'}
-                errorMessage={errors.dateOfBirth?.message}
-                defaultValue={
-                  props.defaultValues.dateOfBirth?.slice(0, 10) ?? ''
-                }
-                {...register('dateOfBirth')}
-              />
-              <Select
-                label={t.form.gender}
-                options={genderOptions}
-                value={genderValue ?? ''}
-                onChange={(e) => onGenderChange(e.target.value)}
-                placeholder={t.form.genderPlaceholder}
-              />
-              {groupOptions.length > 0 ? (
+            {/* ── Account & access ─────────────────────────────────────────── */}
+            <div hidden={activeTab !== 'account'} className="flex flex-col gap-4">
+              <p className="text-sm font-medium text-(--text-secondary)">
+                {t.form.authSection}
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <InputField
+                  label={t.form.newPassword}
+                  type="password"
+                  helperText={t.form.passwordKeepHint}
+                  variant={errors.password ? 'error' : undefined}
+                  errorMessage={errors.password?.message}
+                  {...register('password')}
+                />
+                <InputField
+                  label={t.form.confirmPassword}
+                  type="password"
+                  variant={errors.confirmPassword ? 'error' : undefined}
+                  errorMessage={errors.confirmPassword?.message}
+                  {...register('confirmPassword')}
+                />
+              </div>
+              {groupOptions.length > 0 && (
                 <Select
                   label={t.form.groupId}
                   options={groupOptions}
@@ -139,35 +192,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                   }
                   placeholder={t.form.groupIdPlaceholder}
                 />
-              ) : (
-                <div />
               )}
-            </div>
-
-            <p className="text-sm font-medium text-(--text-secondary)">
-              {t.form.addressSection}
-            </p>
-            <InputField
-              label={t.form.addressStreet}
-              {...register('address.street')}
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <InputField
-                label={t.form.addressCity}
-                {...register('address.city')}
-              />
-              <InputField
-                label={t.form.addressState}
-                {...register('address.state')}
-              />
-              <InputField
-                label={t.form.addressCountry}
-                {...register('address.country')}
-              />
-              <InputField
-                label={t.form.addressPostalCode}
-                {...register('address.postalCode')}
-              />
             </div>
 
             <div className="flex justify-end gap-3 pt-2">
