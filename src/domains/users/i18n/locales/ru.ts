@@ -66,6 +66,7 @@ export const ru: UsersTranslations = {
     genderPreferNotToSay: 'Не хочу указывать',
     groupId: 'Группы',
     groupIdPlaceholder: 'Выберите группы',
+    groupsEmpty: 'Нет доступных групп пользователей',
     addressSection: 'Адрес',
     addressStreet: 'Улица',
     addressCity: 'Город',

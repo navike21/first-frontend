@@ -60,6 +60,7 @@ export const zh: UsersTranslations = {
     genderPreferNotToSay: '不愿透露',
     groupId: '群组',
     groupIdPlaceholder: '选择群组',
+    groupsEmpty: '没有可用的用户组',
     addressSection: '地址',
     addressStreet: '街道',
     addressCity: '城市',

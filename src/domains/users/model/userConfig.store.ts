@@ -46,7 +46,9 @@ export const useUserConfigStore = create<UserConfigStore>((set, get) => ({
         })
       })
       .catch(() => {
-        set({ isLoaded: true })
+        // Leave `isLoaded` false so a failed load (e.g. a transient error or a
+        // race before the token is ready) retries on the next form mount,
+        // instead of caching an empty groups list for the whole session.
       })
       .finally(() => {
         inflightPromise = null

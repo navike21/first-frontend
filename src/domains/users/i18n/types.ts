@@ -68,6 +68,7 @@ export interface UsersTranslations {
     genderPreferNotToSay: string
     groupId: string
     groupIdPlaceholder: string
+    groupsEmpty: string
     addressSection: string
     addressStreet: string
     addressCity: string
