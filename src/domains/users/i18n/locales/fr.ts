@@ -46,8 +46,13 @@ export const fr: UsersTranslations = {
   form: {
     firstName: 'Prénom',
     lastName: 'Nom',
+    authSection: 'Authentification',
     email: 'E-mail',
     password: 'Mot de passe',
+    confirmPassword: 'Confirmer le mot de passe',
+    newPassword: 'Nouveau mot de passe',
+    passwordKeepHint:
+      'Laissez vide pour conserver le mot de passe actuel',
     phone: 'Téléphone',
     dateOfBirth: 'Date de naissance',
     uploadPhoto: 'Télécharger une photo',
@@ -130,6 +135,7 @@ export const fr: UsersTranslations = {
     passwordMin: '8 caractères minimum',
     passwordUppercase: 'Doit contenir au moins une majuscule',
     passwordNumber: 'Doit contenir au moins un chiffre',
+    passwordMismatch: 'Les mots de passe ne correspondent pas',
     fieldMin2: '2 caractères minimum',
     dateFormat: 'Format AAAA-MM-JJ',
     urlInvalid: 'URL invalide',

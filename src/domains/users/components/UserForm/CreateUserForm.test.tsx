@@ -1,4 +1,5 @@
-import { render, renderHook, act } from '@testing-library/react'
+import { render, renderHook, act, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CreateUserForm } from './CreateUserForm'
 import { useCreateUserForm } from './CreateUserForm.hooks'
@@ -57,5 +58,50 @@ describe('User form — multi-group selector', () => {
     const { result } = renderHook(() => useCreateUserForm(props))
     act(() => result.current.onGroupsChange(['g1', 'g2']))
     expect(result.current.groupIdsValue).toEqual(['g1', 'g2'])
+  })
+})
+
+describe('User form — authentication section', () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  const fill = async (
+    container: HTMLElement,
+    user: ReturnType<typeof userEvent.setup>,
+    password: string,
+    confirmPassword: string
+  ) => {
+    const byName = (name: string) =>
+      container.querySelector<HTMLInputElement>(`input[name="${name}"]`)!
+    await user.type(byName('firstName'), 'Ana')
+    await user.type(byName('lastName'), 'Lopez')
+    await user.type(byName('email'), 'ana@test.com')
+    await user.type(byName('password'), password)
+    await user.type(byName('confirmPassword'), confirmPassword)
+  }
+
+  it('does not submit when password and confirmation do not match', async () => {
+    const user = userEvent.setup()
+    const onCreate = vi.fn()
+    const { container } = render(
+      <CreateUserForm {...props} onCreate={onCreate} />
+    )
+    await fill(container, user, 'Password1', 'Password2')
+    await user.click(container.querySelector('button[type="submit"]')!)
+    expect(onCreate).not.toHaveBeenCalled()
+  })
+
+  it('submits without confirmPassword in the payload when valid', async () => {
+    const user = userEvent.setup()
+    const onCreate = vi.fn()
+    const { container } = render(
+      <CreateUserForm {...props} onCreate={onCreate} />
+    )
+    await fill(container, user, 'Password1', 'Password1')
+    await user.click(container.querySelector('button[type="submit"]')!)
+    await waitFor(() => expect(onCreate).toHaveBeenCalledTimes(1))
+    const payload = onCreate.mock.calls[0][0] as Record<string, unknown>
+    expect(payload).not.toHaveProperty('confirmPassword')
+    expect(payload.password).toBe('Password1')
+    expect(payload.email).toBe('ana@test.com')
   })
 })

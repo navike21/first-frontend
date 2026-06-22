@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
-import { createUpdateUserSchema } from '../../model/user.schema'
-import type { UpdateUserFormData } from '../../model/user.schema'
+import { createUpdateUserFormSchema } from '../../model/user.schema'
+import type {
+  UpdateUserFormData,
+  UpdateUserFormValues,
+} from '../../model/user.schema'
 import type { User } from '../../model/user.types'
 import { useUserConfigStore } from '../../model/userConfig.store'
 import { usePhotoUpload } from './usePhotoUpload'
@@ -32,7 +35,7 @@ export function useEditUserForm({
   const { t } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
   const schema = useMemo(
-    () => createUpdateUserSchema(t.validation),
+    () => createUpdateUserFormSchema(t.validation),
     [t.validation]
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
@@ -61,8 +64,8 @@ export function useEditUserForm({
     control,
     reset,
     formState: { errors },
-  } = useForm<UpdateUserFormData>({
-    resolver: zodResolver(schema),
+  } = useForm<UpdateUserFormValues>({
+    resolver: zodResolver(schema) as Resolver<UpdateUserFormValues>,
     defaultValues: {
       firstName: defaultValues.firstName ?? '',
       lastName: defaultValues.lastName ?? '',
@@ -98,7 +101,13 @@ export function useEditUserForm({
     .map((g) => ({ value: g.id, label: g.name }))
 
   const onSubmit = handleSubmit((data) => {
-    onUpdate(data, pendingFile, removeAvatar)
+    // `confirmPassword` is UI-only; an empty `password` means "keep current" →
+    // omit it so the backend (which validates min length) doesn't reject it.
+    const { confirmPassword: _confirm, password, ...rest } = data
+    const payload = (
+      password ? { ...rest, password } : rest
+    ) as UpdateUserFormData
+    onUpdate(payload, pendingFile, removeAvatar)
   })
 
   const handleCancel = () => {
