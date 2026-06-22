@@ -1,6 +1,7 @@
 import {
   Button,
   InputField,
+  InputNumber,
   InputDate,
   Select,
   PhotoPicker,
@@ -117,8 +118,9 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
                   }
                   {...register('dateOfBirth')}
                 />
-                <InputField
+                <InputNumber
                   label={t.form.phone}
+                  mask="+## ### ### ###"
                   variant={errors.phone ? 'error' : undefined}
                   errorMessage={errors.phone?.message}
                   {...register('phone')}

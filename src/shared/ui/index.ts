@@ -42,6 +42,10 @@ export {
   type TypeInput,
   type variantInput,
 } from './molecules/InputField'
+export {
+  InputNumber,
+  type InputNumberProps,
+} from './molecules/InputNumber'
 export { RadioOption, type RadioOptionProps } from './molecules/RadioOption'
 export {
   Tooltip,
