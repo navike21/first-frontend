@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
+import { tabForErrors, type UserFormTab } from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
@@ -32,6 +33,7 @@ export function useCreateUserForm({
     [t.validation]
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
+  const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
 
   useEffect(() => {
     load().catch(() => {})
@@ -71,11 +73,15 @@ export function useCreateUserForm({
     .filter((g) => g.status === 'active')
     .map((g) => ({ value: g.id, label: g.name }))
 
-  const onSubmit = handleSubmit((data) => {
-    // `confirmPassword` is UI-only — never send it to the API.
-    const { confirmPassword: _confirm, ...payload } = data
-    onCreate(payload as CreateUserFormData, pendingFile)
-  })
+  const onSubmit = handleSubmit(
+    (data) => {
+      // `confirmPassword` is UI-only — never send it to the API.
+      const { confirmPassword: _confirm, ...payload } = data
+      onCreate(payload as CreateUserFormData, pendingFile)
+    },
+    // On invalid submit, reveal the tab that holds the first error.
+    (formErrors) => setActiveTab(tabForErrors(formErrors))
+  )
 
   const handleCancel = () => {
     reset()
@@ -100,5 +106,7 @@ export function useCreateUserForm({
     setPendingFile,
     onGenderChange,
     onGroupsChange,
+    activeTab,
+    setActiveTab,
   }
 }

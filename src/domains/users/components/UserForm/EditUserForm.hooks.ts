@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
+import { tabForErrors, type UserFormTab } from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
@@ -40,6 +41,7 @@ export function useEditUserForm({
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
   const [removeAvatar, setRemoveAvatar] = useState(false)
+  const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
 
   // Picking a new photo cancels a pending removal; the remove button clears any
   // pending file and flags the avatar for deletion on submit.
@@ -100,15 +102,19 @@ export function useEditUserForm({
     .filter((g) => g.status === 'active')
     .map((g) => ({ value: g.id, label: g.name }))
 
-  const onSubmit = handleSubmit((data) => {
-    // `confirmPassword` is UI-only; an empty `password` means "keep current" →
-    // omit it so the backend (which validates min length) doesn't reject it.
-    const { confirmPassword: _confirm, password, ...rest } = data
-    const payload = (
-      password ? { ...rest, password } : rest
-    ) as UpdateUserFormData
-    onUpdate(payload, pendingFile, removeAvatar)
-  })
+  const onSubmit = handleSubmit(
+    (data) => {
+      // `confirmPassword` is UI-only; an empty `password` means "keep current" →
+      // omit it so the backend (which validates min length) doesn't reject it.
+      const { confirmPassword: _confirm, password, ...rest } = data
+      const payload = (
+        password ? { ...rest, password } : rest
+      ) as UpdateUserFormData
+      onUpdate(payload, pendingFile, removeAvatar)
+    },
+    // On invalid submit, reveal the tab that holds the first error.
+    (formErrors) => setActiveTab(tabForErrors(formErrors))
+  )
 
   const handleCancel = () => {
     reset()
@@ -116,7 +122,7 @@ export function useEditUserForm({
   }
 
   const onGenderChange = (v: string) =>
-    setValue('gender', v as UpdateUserFormData['gender'])
+    setValue('gender', v as UpdateUserFormValues['gender'])
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
   const onStatusToggle = () =>
     setValue('status', statusValue === 'active' ? 'inactive' : 'active')
@@ -138,5 +144,7 @@ export function useEditUserForm({
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
+    activeTab,
+    setActiveTab,
   }
 }
