@@ -84,8 +84,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           >
             <motion.path
               d="M20 6L9 17L4 12"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: isChecked && !isIndeterminate ? 1 : 0 }}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{
+                pathLength: isChecked && !isIndeterminate ? 1 : 0,
+                opacity: isChecked && !isIndeterminate ? 1 : 0,
+              }}
               transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             />
           </svg>
@@ -102,8 +105,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           >
             <motion.path
               d="M5 12H19"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: isIndeterminate ? 1 : 0 }}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{
+                pathLength: isIndeterminate ? 1 : 0,
+                opacity: isIndeterminate ? 1 : 0,
+              }}
               transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             />
           </svg>
