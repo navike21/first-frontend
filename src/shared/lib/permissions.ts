@@ -53,4 +53,12 @@ export const CAN = {
   groupsDelete: ['user-groups:delete', 'user-groups:manage'],
   groupsPurge: ['user-groups:purge'],
   groupsTrash: ['user-groups:purge', 'user-groups:manage'],
+  clientsView: ['clients:read', 'clients:manage'],
+  servicesView: ['services:read', 'services:manage'],
+  portfolioView: ['portfolio:read', 'portfolio:manage'],
+  pagesView: ['pages:read', 'pages:manage'],
+  collaboratorsView: ['collaborators:read', 'collaborators:manage'],
+  subscribersView: ['subscribers:read', 'subscribers:manage'],
+  auditLogsView: ['audit-logs:read', 'audit-logs:manage'],
+  appSettingsView: ['app-settings:read', 'app-settings:manage'],
 } as const

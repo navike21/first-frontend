@@ -9,6 +9,14 @@ import { loginRouteTree } from './routes/login.route'
 import { dashboardRoute } from './routes/dashboard.route'
 import { allUsersRouteTrees } from './routes/users.route'
 import { allUserGroupsRouteTrees } from './routes/userGroups.route'
+import { allClientsRouteTrees } from './routes/clients.route'
+import { allServicesRouteTrees } from './routes/services.route'
+import { allPortfolioRouteTrees } from './routes/portfolio.route'
+import { allPagesRouteTrees } from './routes/pages.route'
+import { allCollaboratorsRouteTrees } from './routes/collaborators.route'
+import { allSubscribersRouteTrees } from './routes/subscribers.route'
+import { allAuditLogsRouteTrees } from './routes/auditLogs.route'
+import { allAppSettingsRouteTrees } from './routes/appSettings.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
 import { setLastValidPath } from './navigationHistory'
@@ -41,6 +49,14 @@ const routeTree = rootRoute.addChildren([
       dashboardRoute,
       ...allUsersRouteTrees,
       ...allUserGroupsRouteTrees,
+      ...allClientsRouteTrees,
+      ...allServicesRouteTrees,
+      ...allPortfolioRouteTrees,
+      ...allPagesRouteTrees,
+      ...allCollaboratorsRouteTrees,
+      ...allSubscribersRouteTrees,
+      ...allAuditLogsRouteTrees,
+      ...allAppSettingsRouteTrees,
     ]),
     ...allForbiddenRouteTrees,
     ...allNotFoundRouteTrees,
