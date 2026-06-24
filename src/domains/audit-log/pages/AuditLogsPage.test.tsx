@@ -51,7 +51,13 @@ vi.mock('../i18n', () => ({
         colMetadata: 'Action Data',
         closeButton: 'Close',
       },
+      filters: {
+        dateFrom: 'Date from',
+        dateTo: 'Date to',
+        clear: 'Clear filters',
+      },
     },
+    language: 'en',
   }),
 }))
 
@@ -98,6 +104,23 @@ vi.mock('@/shared/ui', async () => {
       <div data-testid="tooltip" title={heading}>
         {children}
       </div>
+    ),
+    InputDate: ({ label, value, onChange }: any) => (
+      <div data-testid={`input-date-container-${label}`}>
+        <label htmlFor={`input-date-${label}`}>{label}</label>
+        <input
+          id={`input-date-${label}`}
+          type="text"
+          value={value}
+          onChange={onChange}
+          data-testid={`input-date-${label}`}
+        />
+      </div>
+    ),
+    Button: ({ children, onClick, ...rest }: any) => (
+      <button onClick={onClick} {...rest}>
+        {children}
+      </button>
     ),
   }
 })
@@ -210,4 +233,55 @@ describe('AuditLogsPage component', () => {
     expect(screen.getByText('Action Data')).toBeInTheDocument()
     expect(screen.getByText(/"details": "Created John"/)).toBeInTheDocument()
   })
+
+  it('should render date inputs and trigger query with date values when changed', () => {
+    // Arrange
+    mockedUseHasPermission.mockReturnValue(true)
+    mockedUseAuditLogs.mockReturnValue({
+      data: {
+        success: true,
+        data: [],
+        meta: { page: 1, limit: 10, total: 0, totalPages: 1 },
+      },
+      isLoading: false,
+    } as any)
+
+    render(<AuditLogsPage />)
+
+    // Act & Assert: Date fields should render
+    const dateFromInput = screen.getByTestId('input-date-Date from')
+    const dateToInput = screen.getByTestId('input-date-Date to')
+
+    expect(dateFromInput).toBeInTheDocument()
+    expect(dateToInput).toBeInTheDocument()
+
+    // Clear button should not be visible initially
+    expect(screen.queryByTestId('clear-filters-button')).not.toBeInTheDocument()
+
+    // Set date from
+    fireEvent.change(dateFromInput, { target: { value: '2026-06-01' } })
+
+    // Verify hook called with the parameter
+    expect(mockedUseAuditLogs).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        dateFrom: '2026-06-01',
+      })
+    )
+
+    // Clear button should be visible now
+    const clearBtn = screen.getByTestId('clear-filters-button')
+    expect(clearBtn).toBeInTheDocument()
+
+    // Click clear button
+    fireEvent.click(clearBtn)
+
+    // Verify hook called with undefined
+    expect(mockedUseAuditLogs).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        dateFrom: undefined,
+        dateTo: undefined,
+      })
+    )
+  })
 })
+

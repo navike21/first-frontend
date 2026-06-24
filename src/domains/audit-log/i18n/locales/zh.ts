@@ -24,4 +24,9 @@ export const zh: AuditLogsTranslations = {
     colMetadata: '操作数据 (元数据)',
     closeButton: '关闭',
   },
+  filters: {
+    dateFrom: '开始日期',
+    dateTo: '结束日期',
+    clear: '清除筛选',
+  },
 }

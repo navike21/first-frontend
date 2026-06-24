@@ -24,4 +24,9 @@ export const en: AuditLogsTranslations = {
     colMetadata: 'Action Data (Metadata)',
     closeButton: 'Close',
   },
+  filters: {
+    dateFrom: 'Date from',
+    dateTo: 'Date to',
+    clear: 'Clear filters',
+  },
 }

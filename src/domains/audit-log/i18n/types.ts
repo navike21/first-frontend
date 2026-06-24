@@ -22,4 +22,9 @@ export interface AuditLogsTranslations {
     colMetadata: string
     closeButton: string
   }
+  filters: {
+    dateFrom: string
+    dateTo: string
+    clear: string
+  }
 }

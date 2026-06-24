@@ -24,4 +24,9 @@ export const ko: AuditLogsTranslations = {
     colMetadata: '작업 데이터 (메타데이터)',
     closeButton: '닫기',
   },
+  filters: {
+    dateFrom: '시작일',
+    dateTo: '종료일',
+    clear: '필터 초기화',
+  },
 }

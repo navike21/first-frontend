@@ -24,4 +24,9 @@ export const ja: AuditLogsTranslations = {
     colMetadata: 'アクションデータ (メタデータ)',
     closeButton: '閉じる',
   },
+  filters: {
+    dateFrom: '開始日',
+    dateTo: '終了日',
+    clear: 'フィルターをクリア',
+  },
 }

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { PageHeader, DataTable, Can, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
+import { PageHeader, DataTable, Can, IconButton, Tooltip, InputDate, Button, type DataTableColumn } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { ForbiddenPage } from '@domains/errors'
@@ -29,12 +29,19 @@ const formatDateTime = (value?: string | Date | null): string => {
 }
 
 export const AuditLogsPage = () => {
-  const { t } = useAuditLogsTranslation()
+  const { t, language } = useAuditLogsTranslation()
   const [page, setPage] = useState(1)
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
   const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null)
   const limit = 10
 
-  const { data, isLoading } = useAuditLogs({ page, limit })
+  const { data, isLoading } = useAuditLogs({
+    page,
+    limit,
+    dateFrom: dateFrom || undefined,
+    dateTo: dateTo || undefined,
+  })
   const { data: usersData } = useUsers({ limit: 1000 })
 
   const userMap = useMemo(() => {
@@ -90,15 +97,6 @@ export const AuditLogsPage = () => {
       ),
     },
     {
-      id: 'ipAddress',
-      header: t.table.colIp,
-      cell: (row) => (
-        <span className="text-sm font-mono text-(--text-muted)">
-          {row.ipAddress ?? '—'}
-        </span>
-      ),
-    },
-    {
       id: 'actions',
       header: t.table.colActions,
       align: 'right',
@@ -122,6 +120,47 @@ export const AuditLogsPage = () => {
     <Can anyOf={CAN.auditLogsView} fallback={<ForbiddenPage />}>
       <div className="animate-page-in space-y-6">
         <PageHeader title={t.page.title} description={t.page.desc} />
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <div className="w-full sm:w-52">
+            <InputDate
+              label={t.filters.dateFrom}
+              mode="date"
+              lang={language}
+              value={dateFrom}
+              onChange={(e) => {
+                setDateFrom(e.target.value)
+                setPage(1)
+              }}
+            />
+          </div>
+          <div className="w-full sm:w-52">
+            <InputDate
+              label={t.filters.dateTo}
+              mode="date"
+              lang={language}
+              value={dateTo}
+              onChange={(e) => {
+                setDateTo(e.target.value)
+                setPage(1)
+              }}
+            />
+          </div>
+          {(dateFrom || dateTo) && (
+            <Button
+              variant="secondary"
+              size="small"
+              data-testid="clear-filters-button"
+              onClick={() => {
+                setDateFrom('')
+                setDateTo('')
+                setPage(1)
+              }}
+            >
+              {t.filters.clear}
+            </Button>
+          )}
+        </div>
         
         <DataTable
           columns={columns}
