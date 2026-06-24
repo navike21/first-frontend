@@ -267,13 +267,6 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           icon: 'RiHistoryLine',
           permissions: CAN.auditLogsView,
         },
-        {
-          id: 'appSettings',
-          label: MENU_LABELS.appSettings[lang],
-          href: navPaths.appSettings(lang),
-          icon: 'RiSettings4Line',
-          permissions: CAN.appSettingsView,
-        },
       ],
     },
   ]
