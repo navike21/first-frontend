@@ -59,7 +59,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               hidden={activeTab !== 'personal'}
               className="flex flex-col gap-4 animate-tab-fade"
             >
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -80,7 +80,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.email?.message}
                 {...register('email')}
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -115,7 +115,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.address?.street?.message}
                 {...register('address.street')}
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label={t.form.addressCity}
                   variant={errors.address?.city ? 'error' : undefined}
@@ -142,7 +142,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <p className="text-sm font-medium text-(--text-secondary)">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label={t.form.password}
                   type="password"
@@ -177,7 +177,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 w-full">
               <Button
                 variant="secondary"
                 type="button"
