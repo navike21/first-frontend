@@ -75,7 +75,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             {/* ── Personal details ─────────────────────────────────────────── */}
             <div
               hidden={activeTab !== 'personal'}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 animate-tab-fade"
             >
               <div className="grid grid-cols-2 gap-4">
                 <InputField
@@ -159,7 +159,7 @@ export const EditUserForm = (props: UseEditUserFormProps) => {
             </div>
 
             {/* ── Account & access ─────────────────────────────────────────── */}
-            <div hidden={activeTab !== 'account'} className="flex flex-col gap-4">
+            <div hidden={activeTab !== 'account'} className="flex flex-col gap-4 animate-tab-fade">
               <p className="text-sm font-medium text-(--text-secondary)">
                 {t.form.authSection}
               </p>
