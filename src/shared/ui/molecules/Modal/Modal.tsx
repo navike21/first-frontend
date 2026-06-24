@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '@/shared/ui'
+import { modalSpringVariants, modalSlideUpVariants, modalBlurFadeVariants } from '@/shared/lib'
 import type { ModalProps } from './Modal.types'
 
 const sizeClasses: Record<NonNullable<ModalProps['size']>, string> = {
@@ -44,7 +46,10 @@ export const Modal = ({
   return createPortal(
     <>
       {/* Backdrop */}
-      <div
+      <motion.div
+        animate={isOpen ? { opacity: 1 } : { opacity: 0 }}
+        initial={false}
+        transition={{ duration: 0.2 }}
         className={clsx(
           'fixed inset-0 z-50',
           'bg-slate-950/70 backdrop-blur-xs',
@@ -66,7 +71,16 @@ export const Modal = ({
         aria-labelledby={title ? 'modal-title' : undefined}
       >
         {/* Panel */}
-        <div
+        <motion.div
+          animate={isOpen ? 'animate' : 'exit'}
+          initial={false}
+          variants={
+            animationType === 'spring'
+              ? modalSpringVariants
+              : animationType === 'slide'
+                ? modalSlideUpVariants
+                : modalBlurFadeVariants
+          }
           className={clsx(
             'relative flex flex-col',
             'rounded-2xl bg-(--surface) shadow-2xl',
@@ -133,7 +147,7 @@ export const Modal = ({
               {footer}
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
     </>,
     document.body

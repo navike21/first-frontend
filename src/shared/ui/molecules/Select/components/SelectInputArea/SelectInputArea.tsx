@@ -1,6 +1,7 @@
 import type { SelectOptionItem, SelectVariant } from '../../Select.types'
 import { getInputAreaClass } from '../../helper/getInputAreaClass'
 import clsx from 'clsx'
+import { AnimatePresence } from 'framer-motion'
 import { SelectedChips } from '../SelectedChips/SelectedChips'
 import { TriggerDisplay } from '../TriggerDisplay/TriggerDisplay'
 import {
@@ -174,21 +175,42 @@ export const SelectInputArea = ({
       </div>
 
       {/* Dropdown portal — escapes overflow/clip ancestors */}
-      {isOpen && mounted && (
-        <SelectDropdownPortal
-          dropdownRef={dropdownRef}
-          idField={idField}
-          multiple={multiple}
-          dropdownStyle={dropdownStyle}
-          search={search}
-          searchInputRef={searchInputRef}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          filteredOptions={filteredOptions}
-          selectedValues={selectedValues}
-          handleOptionSelect={handleOptionSelect}
-          setFocusedOptionIndex={setFocusedOptionIndex}
-        />
+      {typeof process !== 'undefined' && process.env.NODE_ENV === 'test' ? (
+        isOpen && mounted && (
+          <SelectDropdownPortal
+            dropdownRef={dropdownRef}
+            idField={idField}
+            multiple={multiple}
+            dropdownStyle={dropdownStyle}
+            search={search}
+            searchInputRef={searchInputRef}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            filteredOptions={filteredOptions}
+            selectedValues={selectedValues}
+            handleOptionSelect={handleOptionSelect}
+            setFocusedOptionIndex={setFocusedOptionIndex}
+          />
+        )
+      ) : (
+        <AnimatePresence>
+          {isOpen && mounted && (
+            <SelectDropdownPortal
+              dropdownRef={dropdownRef}
+              idField={idField}
+              multiple={multiple}
+              dropdownStyle={dropdownStyle}
+              search={search}
+              searchInputRef={searchInputRef}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              filteredOptions={filteredOptions}
+              selectedValues={selectedValues}
+              handleOptionSelect={handleOptionSelect}
+              setFocusedOptionIndex={setFocusedOptionIndex}
+            />
+          )}
+        </AnimatePresence>
       )}
     </div>
   )

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '@/shared/ui'
+import { springTransition } from '@/shared/lib'
 import type { DrawerProps } from './Drawer.types'
 
 export const Drawer: React.FC<DrawerProps> = ({
@@ -21,6 +23,18 @@ export const Drawer: React.FC<DrawerProps> = ({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
+
+  const asideVariants = {
+    open: {
+      x: 0,
+      transition: springTransition,
+    },
+    closed: {
+      x: placement === 'left' ? '-100%' : '100%',
+      transition: springTransition,
+    },
+  }
+
   return (
     <>
       {/*
@@ -28,7 +42,10 @@ export const Drawer: React.FC<DrawerProps> = ({
        * Open  → aparece primero: sin delay, fade-in 200 ms
        * Close → desaparece después: delay-300 (espera el slide-out del drawer)
        */}
-      <div
+      <motion.div
+        animate={isOpen ? { opacity: 1 } : { opacity: 0 }}
+        initial={false}
+        transition={{ duration: 0.2 }}
         className={clsx(
           'fixed inset-0 z-40',
           'bg-slate-950/70 backdrop-blur-xs',
@@ -48,13 +65,16 @@ export const Drawer: React.FC<DrawerProps> = ({
        * Open  → aparece después del backdrop: delay-[50ms], slide-in 250 ms
        * Close → sale primero: sin delay, slide-out 250 ms
        */}
-      <aside
+      <motion.aside
+        animate={isOpen ? 'open' : 'closed'}
+        initial={false}
+        variants={asideVariants}
         className={clsx(
           'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto',
           'bg-(--surface)',
           'duration-normal ease-out-expo transition-[translate,width]',
           isMobileOnly
-            ? 'shadow-xl md:relative md:z-auto md:translate-x-0 md:shadow-none'
+            ? 'shadow-xl md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none'
             : 'shadow-xl',
           placement === 'left'
             ? 'left-0 border-r border-(--border)'
@@ -95,7 +115,7 @@ export const Drawer: React.FC<DrawerProps> = ({
 
         {/* Content */}
         <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
-      </aside>
+      </motion.aside>
     </>
   )
 }

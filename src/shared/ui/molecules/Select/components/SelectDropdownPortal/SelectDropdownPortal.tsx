@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import type { SelectOptionItem } from '../../Select.types'
 import { OptionsList } from '../OptionsList/OptionsList'
 import type { RefObject } from 'react'
@@ -43,13 +44,18 @@ export const SelectDropdownPortal = ({
   const { searchPlaceholder, searchAriaLabel } = useSelectTexts()
 
   return createPortal(
-    <div // NOSONAR — WAI-ARIA custom combobox: role=listbox required on dropdown container
+    <motion.div // NOSONAR — WAI-ARIA custom combobox: role=listbox required on dropdown container
       ref={dropdownRef}
       id={`${idField}-listbox`}
       role="listbox"
       aria-multiselectable={multiple}
       data-position={dropdownStyle.openAbove ? 'top' : 'bottom'}
+      initial={{ opacity: 0, scaleY: 0.95, y: dropdownStyle.openAbove ? 4 : -4 }}
+      animate={{ opacity: 1, scaleY: 1, y: 0 }}
+      exit={{ opacity: 0, scaleY: 0.95, y: dropdownStyle.openAbove ? 4 : -4 }}
+      transition={{ duration: 0.15, ease: 'easeOut' }}
       style={{
+        transformOrigin: dropdownStyle.openAbove ? 'bottom' : 'top',
         position: 'fixed',
         ...(dropdownStyle.openAbove
           ? { bottom: dropdownStyle.bottom }
@@ -58,9 +64,8 @@ export const SelectDropdownPortal = ({
         width: dropdownStyle.width,
       }}
       className={clsx(
-        'z-[9999] max-h-60 origin-top overflow-y-auto',
-        'rounded-sm bg-(--surface) shadow-lg ring-1 ring-(--border)',
-        'animate-dropdown-in'
+        'z-[9999] max-h-60 overflow-y-auto',
+        'rounded-sm bg-(--surface) shadow-lg ring-1 ring-(--border)'
       )}
     >
       {search && (
@@ -88,7 +93,7 @@ export const SelectDropdownPortal = ({
         onSelect={handleOptionSelect}
         onFocusIndex={setFocusedOptionIndex}
       />
-    </div>,
+    </motion.div>,
     document.body
   )
 }

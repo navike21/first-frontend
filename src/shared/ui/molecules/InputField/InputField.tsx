@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { forwardRef } from 'react'
+import { motion } from 'framer-motion'
 import type { InputFieldProps } from './InputField.types'
 import { useInputField } from './InputField.hooks'
 import { InputLayout } from '../../layouts/InputLayout/InputLayout'
@@ -89,8 +90,9 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           aria-describedby={helperText ? `${idField}-helper-text` : undefined}
         />
         {type === 'password' && (
-          <button
+          <motion.button
             type="button"
+            whileTap={!disabled ? { scale: 0.9 } : undefined}
             className={clsx(
               'flex h-10 min-w-10 items-center justify-center outline-none',
               'duration-fast ease-out-expo transition-all',
@@ -107,7 +109,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               icon={showPassword ? 'RiEyeOffFill' : 'RiEyeFill'}
               className="size-4 text-(--text-secondary)"
             />
-          </button>
+          </motion.button>
         )}
         {rightSlot && type !== 'password' && (
           <div className={handleClassSlot(type, 'right')}>{rightSlot}</div>
