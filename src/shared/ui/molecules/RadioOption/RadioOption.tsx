@@ -1,8 +1,10 @@
 import clsx from 'clsx'
-import { forwardRef } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import type { RadioOptionProps } from './RadioOption.types'
 import { useRadioOption } from './RadioOption.hooks'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'
+import { bounceTransition } from '@/shared/lib'
 
 export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   (
@@ -18,6 +20,34 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   ) => {
     const { idField, resolvedRef } = useRadioOption(props, ref)
 
+    const [isChecked, setIsChecked] = useState(props.checked ?? props.defaultChecked ?? false)
+
+    useEffect(() => {
+      if (props.checked !== undefined) {
+        setIsChecked(props.checked)
+      }
+    }, [props.checked])
+
+    // Local input change handler
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsChecked(e.target.checked)
+      props.onChange?.(e)
+    }
+
+    // Document listener to handle unchecking uncontrolled radios in the same group
+    useEffect(() => {
+      if (props.checked !== undefined) return
+
+      const handleGlobalChange = () => {
+        if (resolvedRef.current) {
+          setIsChecked(resolvedRef.current.checked)
+        }
+      }
+
+      document.addEventListener('change', handleGlobalChange)
+      return () => document.removeEventListener('change', handleGlobalChange)
+    }, [props.checked, resolvedRef])
+
     return (
       <ToggleLayout
         label={label}
@@ -27,7 +57,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         errorMessage={errorMessage}
         id={idField}
       >
-        <button
+        <motion.button
           className={clsx(
             'group relative flex h-5 w-5 items-center justify-center border-none outline-none',
             'duration-fast ease-out-expo transition-all',
@@ -41,15 +71,17 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               'ring-red-500 has-[input:checked]:ring-red-500': error,
             }
           )}
+          whileTap={!disabled ? { scale: 0.9 } : undefined}
+          transition={{ type: 'spring', stiffness: 500, damping: 20 }}
           disabled={disabled}
           type="button"
         >
-          <div
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={isChecked ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+            transition={bounceTransition}
             className={clsx(
               'h-2.5 w-2.5 rounded-full',
-              'duration-fast ease-out-expo transition-all',
-              'opacity-0',
-              'group-has-[input:checked]:opacity-100',
               {
                 'bg-slate-700 dark:bg-slate-400': !disabled && !error,
                 'bg-slate-300 dark:bg-slate-600': disabled,
@@ -66,9 +98,10 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               'cursor-not-allowed': disabled,
               'cursor-pointer': !disabled,
             })}
+            onChange={handleInputChange}
             {...props}
           />
-        </button>
+        </motion.button>
       </ToggleLayout>
     )
   }
