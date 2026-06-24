@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AuditLogsPage } from './AuditLogsPage'
 import { useHasPermission } from '@/shared/lib/permissions'
 import { useAuditLogs } from '../api/auditLog.queries'
+import { useUsers } from '@domains/users'
 
 // Mock dependencies
 vi.mock('@/shared/lib/permissions', () => ({
@@ -20,6 +21,10 @@ vi.mock('../api/auditLog.queries', () => ({
   useAuditLogs: vi.fn(),
 }))
 
+vi.mock('@domains/users', () => ({
+  useUsers: vi.fn(),
+}))
+
 vi.mock('../i18n', () => ({
   useAuditLogsTranslation: () => ({
     t: {
@@ -29,14 +34,22 @@ vi.mock('../i18n', () => ({
       },
       table: {
         colDate: 'Date & Time',
-        colUser: 'User ID',
+        colUser: 'User',
         colAction: 'Action',
         colResource: 'Resource',
         colIp: 'IP Address',
+        colActions: 'Actions',
         noResults: 'No audit logs found',
         prevPage: 'Previous',
         nextPage: 'Next',
         totalCount: (n: number) => `Total: ${n}`,
+        viewDetail: 'View details',
+      },
+      detail: {
+        title: 'Log Entry Details',
+        colUserAgent: 'Device / User Agent',
+        colMetadata: 'Action Data',
+        closeButton: 'Close',
       },
     },
   }),
@@ -61,13 +74,29 @@ vi.mock('@/shared/ui', async () => {
       <div data-testid="data-table">
         <span data-testid="total-label">{totalLabel}</span>
         <span data-testid="empty-label">{emptyLabel}</span>
-        <ul>
-          {rows.map((row: any) => (
-            <li key={row.id} data-testid="row-item">
-              {row.action} - {row.resource}
-            </li>
-          ))}
-        </ul>
+        <table>
+          <tbody>
+            {rows.map((row: any) => (
+              <tr key={row.id} data-testid="row-item">
+                <td>{columns.find((c: any) => c.id === 'userId')?.cell(row)}</td>
+                <td>{columns.find((c: any) => c.id === 'action')?.cell(row)}</td>
+                <td>
+                  {columns.find((c: any) => c.id === 'actions')?.cell(row)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ),
+    IconButton: ({ onClick, 'aria-label': ariaLabel }: any) => (
+      <button onClick={onClick} data-testid="icon-button">
+        {ariaLabel}
+      </button>
+    ),
+    Tooltip: ({ children, heading }: any) => (
+      <div data-testid="tooltip" title={heading}>
+        {children}
       </div>
     ),
   }
@@ -76,9 +105,18 @@ vi.mock('@/shared/ui', async () => {
 describe('AuditLogsPage component', () => {
   const mockedUseHasPermission = vi.mocked(useHasPermission)
   const mockedUseAuditLogs = vi.mocked(useAuditLogs)
+  const mockedUseUsers = vi.mocked(useUsers)
 
   beforeEach(() => {
     vi.resetAllMocks()
+    mockedUseUsers.mockReturnValue({
+      data: {
+        items: [
+          { id: 'user-123', firstName: 'John', lastName: 'Doe' },
+        ],
+      },
+      isLoading: false,
+    } as any)
   })
 
   it('should render ForbiddenPage if user lacks permission', () => {
@@ -97,7 +135,7 @@ describe('AuditLogsPage component', () => {
     expect(screen.getByTestId('forbidden-page')).toBeInTheDocument()
   })
 
-  it('should render the page content when authorized', () => {
+  it('should render the page content when authorized and map UUIDs to names', () => {
     // Arrange: Mock useHasPermission to return true
     mockedUseHasPermission.mockReturnValue(true)
     mockedUseAuditLogs.mockReturnValue({
@@ -133,7 +171,43 @@ describe('AuditLogsPage component', () => {
     expect(screen.getByTestId('page-header')).toBeInTheDocument()
     expect(screen.getByText('Audit Logs')).toBeInTheDocument()
     expect(screen.getByTestId('data-table')).toBeInTheDocument()
-    expect(screen.getByText('create - users')).toBeInTheDocument()
+    expect(screen.getByText('John Doe')).toBeInTheDocument()
+    expect(screen.getByText('create')).toBeInTheDocument()
     expect(screen.getByTestId('total-label')).toHaveTextContent('Total: 1')
+  })
+
+  it('should open the detail modal when clicking view details', () => {
+    // Arrange
+    mockedUseHasPermission.mockReturnValue(true)
+    mockedUseAuditLogs.mockReturnValue({
+      data: {
+        success: true,
+        data: [
+          {
+            id: 'log-1',
+            action: 'create',
+            resource: 'users',
+            occurredAt: '2026-06-24T15:18:37Z',
+            userId: 'user-123',
+            ipAddress: '127.0.0.1',
+            metadata: { details: 'Created John' },
+          },
+        ],
+        meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
+      },
+      isLoading: false,
+    } as any)
+
+    render(<AuditLogsPage />)
+
+    // Act: Click on the details button
+    const viewButton = screen.getByTestId('icon-button')
+    fireEvent.click(viewButton)
+
+    // Assert: Modal fields should be visible
+    expect(screen.getByText('Log Entry Details')).toBeInTheDocument()
+    expect(screen.getAllByText('create').length).toBeGreaterThan(0)
+    expect(screen.getByText('Action Data')).toBeInTheDocument()
+    expect(screen.getByText(/"details": "Created John"/)).toBeInTheDocument()
   })
 })

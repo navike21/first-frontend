@@ -7,13 +7,21 @@ export const ru: AuditLogsTranslations = {
   },
   table: {
     colDate: 'Дата и время',
-    colUser: 'ID пользователя',
+    colUser: 'Пользователь',
     colAction: 'Действие',
     colResource: 'Ресурс',
     colIp: 'IP-адрес',
+    colActions: 'Действия',
     noResults: 'Журналы аудита не найдены',
     prevPage: 'Предыдущая страница',
     nextPage: 'Следующая страница',
     totalCount: (n) => `Всего записей: ${n}`,
+    viewDetail: 'Показать детали',
+  },
+  detail: {
+    title: 'Детали записи журнала',
+    colUserAgent: 'Устройство / User Agent',
+    colMetadata: 'Данные действия (Метаданные)',
+    closeButton: 'Закрыть',
   },
 }
