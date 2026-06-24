@@ -21,7 +21,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       useCheckbox(props, ref)
 
     const [isChecked, setIsChecked] = useState(props.checked ?? props.defaultChecked ?? false)
-    const isIndeterminate = props.indeterminate ?? false
+    const [isIndeterminate, setIsIndeterminate] = useState(props.indeterminate ?? false)
 
     useEffect(() => {
       if (props.checked !== undefined) {
@@ -29,8 +29,15 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       }
     }, [props.checked])
 
+    useEffect(() => {
+      if (props.indeterminate !== undefined) {
+        setIsIndeterminate(props.indeterminate)
+      }
+    }, [props.indeterminate])
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsChecked(e.target.checked)
+      setIsIndeterminate(e.target.indeterminate)
       props.onChange?.(e)
     }
 
