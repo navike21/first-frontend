@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { type ButtonProps } from '@/shared/types/buttonProps'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
@@ -39,8 +40,10 @@ export const Button = ({
   fullWidth = false,
   ...props
 }: Readonly<ButtonProps>) => {
+  const canInteract = !disabled && !loading
+
   return (
-    <button
+    <motion.button
       className={clsx(
         className,
         'relative w-full',
@@ -80,6 +83,7 @@ export const Button = ({
           'inline-flex align-middle': variant === 'text' && loading,
         }
       )}
+      whileTap={canInteract ? { scale: 0.96 } : undefined}
       {...props}
       disabled={loading || disabled}
     >
@@ -102,6 +106,6 @@ export const Button = ({
       {icon && !loading && (
         <IconComponent icon={icon} className={iconSizeClasses[size]} />
       )}
-    </button>
+    </motion.button>
   )
 }

@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '../IconComponent/IconComponent'
 import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
 import {
@@ -49,8 +50,10 @@ export const IconButton = ({
   className = '',
   ...props
 }: Readonly<IconButtonProps>) => {
+  const canInteract = !disabled && !loading
+
   return (
-    <button
+    <motion.button
       className={clsx(
         className,
         'inline-flex items-center justify-center',
@@ -75,6 +78,7 @@ export const IconButton = ({
           'cursor-not-allowed opacity-50 shadow-none': disabled,
         }
       )}
+      whileTap={canInteract ? { scale: 0.95 } : undefined}
       {...props}
       disabled={loading || disabled}
       aria-label={props['aria-label']}
@@ -84,6 +88,6 @@ export const IconButton = ({
       ) : (
         <IconComponent icon={icon} className={iconSizeClasses[size]} />
       )}
-    </button>
+    </motion.button>
   )
 }

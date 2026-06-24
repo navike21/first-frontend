@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '../IconComponent/IconComponent'
 import type { ChipProps } from './Chip.types'
 
@@ -13,8 +14,10 @@ export const Chip = ({
   deleteButtonProps,
 }: Readonly<ChipProps>) => {
   return (
-    <span
+    <motion.span
       data-testid="chip"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       className={clsx(
         className,
         'inline-flex items-center rounded-full font-medium ring-1',
@@ -61,8 +64,10 @@ export const Chip = ({
       )}
       {children}
       {deleteable && (
-        <button
+        <motion.button
           type="button"
+          whileHover={!deleteButtonProps?.disabled ? { scale: 1.15 } : undefined}
+          whileTap={!deleteButtonProps?.disabled ? { scale: 0.85 } : undefined}
           className={clsx(
             'inline-flex items-center justify-center rounded-full',
             '-mr-1 ml-0.5',
@@ -88,8 +93,8 @@ export const Chip = ({
               'h-4 w-4': size === 'medium' || size === 'large',
             })}
           />
-        </button>
+        </motion.button>
       )}
-    </span>
+    </motion.span>
   )
 }

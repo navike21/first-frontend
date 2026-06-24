@@ -1,6 +1,8 @@
 import { type ReactNode } from 'react'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
+import { springTransition } from '@/shared/lib'
 
 export interface AccordionProps {
   children: ReactNode
@@ -57,27 +59,25 @@ export const Accordion = ({
         />
       </button>
 
-      <div
-        className={clsx(
-          'grid',
-          'duration-normal ease-out-expo transition-[grid-template-rows,opacity]',
-          {
-            'grid-rows-[1fr] opacity-100': isOpen,
-            'grid-rows-[0fr] opacity-0': !isOpen,
-          }
-        )}
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? 'auto' : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={springTransition}
+        className="overflow-hidden"
       >
         <div
           className={clsx(
-            'overflow-hidden pt-1 pb-2',
-            'duration-normal ease-out-expo transition-transform',
+            'pt-1 pb-2 duration-normal ease-out-expo transition-transform',
             isOpen ? 'translate-y-0' : '-translate-y-2',
             contentClassName
           )}
         >
           {children}
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
