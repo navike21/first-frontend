@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PageHeader, DataTable, Can, IconButton, Tooltip, InputDate, Button, type DataTableColumn } from '@/shared/ui'
+import { PageHeader, DataTable, Can, IconButton, Tooltip, InputDate, Button, Chip, type DataTableColumn } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { ForbiddenPage } from '@domains/errors'
@@ -25,6 +25,15 @@ const formatDateTime = (value?: string | Date | null): string => {
   } catch {
     return dateStr
   }
+}
+
+const getActionChipVariant = (action: string) => {
+  const lower = action.toLowerCase()
+  if (lower.includes('delete') || lower.includes('purge') || lower.includes('remove')) return 'error'
+  if (lower.includes('create') || lower.includes('restore')) return 'success'
+  if (lower.includes('update') || lower.includes('patch') || lower.includes('edit')) return 'warning'
+  if (lower.includes('login') || lower.includes('logout') || lower.includes('auth')) return 'informative'
+  return 'default'
 }
 
 export const AuditLogsPage = () => {
@@ -72,9 +81,9 @@ export const AuditLogsPage = () => {
       id: 'action',
       header: t.table.colAction,
       cell: (row) => (
-        <span className="inline-flex items-center rounded-md bg-(--surface-subtle) px-2 py-1 text-xs font-semibold text-(--text-primary) ring-1 ring-inset ring-(--border)">
+        <Chip size="small" variant={getActionChipVariant(row.action)}>
           {row.action}
-        </span>
+        </Chip>
       ),
     },
     {

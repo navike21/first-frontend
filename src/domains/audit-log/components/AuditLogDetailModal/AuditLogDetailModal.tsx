@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Modal, Button } from '@/shared/ui'
+import { Modal, Button, Chip } from '@/shared/ui'
 import { useAuditLogsTranslation } from '../../i18n'
 import type { AuditLog } from '../../api/auditLog.api'
 
@@ -16,6 +16,15 @@ const Row = ({ label, value }: { label: string; value: ReactNode }) => (
     <span className="text-sm font-medium text-(--text-primary) break-all text-left sm:text-right">{value}</span>
   </div>
 )
+
+const getActionChipVariant = (action: string) => {
+  const lower = action.toLowerCase()
+  if (lower.includes('delete') || lower.includes('purge') || lower.includes('remove')) return 'error'
+  if (lower.includes('create') || lower.includes('restore')) return 'success'
+  if (lower.includes('update') || lower.includes('patch') || lower.includes('edit')) return 'warning'
+  if (lower.includes('login') || lower.includes('logout') || lower.includes('auth')) return 'informative'
+  return 'default'
+}
 
 export const AuditLogDetailModal = ({
   log,
@@ -45,9 +54,9 @@ export const AuditLogDetailModal = ({
             <Row
               label={t.table.colAction}
               value={
-                <span className="inline-flex items-center rounded-md bg-(--surface-subtle) px-2 py-0.5 text-xs font-semibold text-(--text-primary) ring-1 ring-inset ring-(--border)">
+                <Chip size="small" variant={getActionChipVariant(log.action)}>
                   {log.action}
-                </span>
+                </Chip>
               }
             />
             <Row label={t.table.colResource} value={log.resource} />
