@@ -55,14 +55,18 @@ export const InputLayout = ({
           'flex h-10 w-full items-center',
           'rounded-sm',
           'duration-fast ease-out-expo transition-all',
-          'focus-within:ring-2',
+          'focus-within:ring-2 focus-within:shadow-sm',
           {
             'bg-slate-400/50 dark:bg-slate-600/50': disabled,
             'bg-(--surface) ring-1 ring-inset': !disabled,
-            'ring-(--border)': variant === 'default' && !disabled,
-            'ring-emerald-500': variant === 'success' && !disabled,
-            'ring-red-500': variant === 'error' && !disabled,
-            'ring-yellow-500': variant === 'warning' && !disabled,
+            'ring-(--border) focus-within:ring-primary-600 dark:focus-within:ring-primary-400':
+              variant === 'default' && !disabled,
+            'ring-emerald-500 focus-within:ring-emerald-600':
+              variant === 'success' && !disabled,
+            'ring-red-500 focus-within:ring-red-600':
+              variant === 'error' && !disabled,
+            'ring-yellow-500 focus-within:ring-yellow-600':
+              variant === 'warning' && !disabled,
           },
           classInput
         )}

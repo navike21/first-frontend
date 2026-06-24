@@ -43,7 +43,7 @@ export const HelperText = ({
       data-variant={variant}
       className={clsx(
         className,
-        'flex items-center gap-2',
+        'flex items-center gap-2 animate-helper-in',
         {
           'text-(--text-secondary)':
             variant === 'default' && !HAS_TEXT_CLASS_COLOR,

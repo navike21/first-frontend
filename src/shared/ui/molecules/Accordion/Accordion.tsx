@@ -48,7 +48,7 @@ export const Accordion = ({
           icon="RiArrowDownSLine"
           className={clsx(
             'h-4 w-4',
-            'duration-fast ease-out-expo transition-transform',
+            'duration-fast ease-spring transition-transform',
             {
               'text-primary-600 dark:text-primary-400 rotate-180': isOpen,
               'text-(--text-muted)': !isOpen,
@@ -67,7 +67,14 @@ export const Accordion = ({
           }
         )}
       >
-        <div className={clsx('overflow-hidden pt-1 pb-2', contentClassName)}>
+        <div
+          className={clsx(
+            'overflow-hidden pt-1 pb-2',
+            'duration-normal ease-out-expo transition-transform',
+            isOpen ? 'translate-y-0' : '-translate-y-2',
+            contentClassName
+          )}
+        >
           {children}
         </div>
       </div>

@@ -78,7 +78,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
               'duration-fast ease-spring transition-all',
               THUMB_CLS[size],
               THUMB_OFFSET_CLS[size],
-              THUMB_TRANSLATE_CLS[size]
+              THUMB_TRANSLATE_CLS[size],
+              {
+                'group-active:w-5': size === 'small',
+                'group-active:w-6': size === 'medium',
+                'group-active:w-8': size === 'large',
+              }
             )}
           />
           <input

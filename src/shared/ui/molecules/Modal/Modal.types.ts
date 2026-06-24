@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl'
+export type ModalAnimationType = 'spring' | 'slide' | 'fade'
 
 export interface ModalProps {
   isOpen: boolean
@@ -12,4 +13,5 @@ export interface ModalProps {
   size?: ModalSize
   showCloseButton?: boolean
   closeOnBackdrop?: boolean
+  animationType?: ModalAnimationType
 }

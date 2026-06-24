@@ -21,6 +21,7 @@ export const Modal = ({
   size = 'md',
   showCloseButton = true,
   closeOnBackdrop = true,
+  animationType = 'spring',
 }: ModalProps) => {
   useEffect(() => {
     if (!isOpen) return
@@ -69,11 +70,22 @@ export const Modal = ({
           className={clsx(
             'relative flex flex-col',
             'rounded-2xl bg-(--surface) shadow-2xl',
-            'duration-normal ease-out-expo transition-[transform,opacity]',
+            sizeClasses[size],
+            // Entry and exit animations based on type
             isOpen
-              ? 'scale-100 opacity-100 delay-50'
-              : 'scale-95 opacity-0 delay-0',
-            sizeClasses[size]
+              ? {
+                  'scale-100 opacity-100': true,
+                  'animate-modal-spring-pop': animationType === 'spring',
+                  'animate-modal-slide-up': animationType === 'slide',
+                  'animate-modal-blur-fade': animationType === 'fade',
+                }
+              : {
+                  'pointer-events-none': true,
+                  // Smooth exit transitions
+                  'scale-95 opacity-0 transition-all duration-200 ease-out-expo': animationType === 'spring',
+                  'translate-y-4 opacity-0 transition-all duration-200 ease-out-expo': animationType === 'slide',
+                  'opacity-0 filter blur-sm scale-[0.98] transition-all duration-200 ease-out-expo': animationType === 'fade',
+                }
           )}
         >
           {/* Header */}
