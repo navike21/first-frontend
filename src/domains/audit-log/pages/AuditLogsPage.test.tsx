@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AuditLogsPage } from './AuditLogsPage'
 import { useHasPermission } from '@/shared/lib/permissions'
 import { useAuditLogs } from '../api/auditLog.queries'
-import { useUsers } from '@domains/users'
 
 // Mock dependencies
 vi.mock('@/shared/lib/permissions', () => ({
@@ -19,10 +18,6 @@ vi.mock('@/shared/lib/formatDate', () => ({
 
 vi.mock('../api/auditLog.queries', () => ({
   useAuditLogs: vi.fn(),
-}))
-
-vi.mock('@domains/users', () => ({
-  useUsers: vi.fn(),
 }))
 
 vi.mock('../i18n', () => ({
@@ -128,18 +123,9 @@ vi.mock('@/shared/ui', async () => {
 describe('AuditLogsPage component', () => {
   const mockedUseHasPermission = vi.mocked(useHasPermission)
   const mockedUseAuditLogs = vi.mocked(useAuditLogs)
-  const mockedUseUsers = vi.mocked(useUsers)
 
   beforeEach(() => {
     vi.resetAllMocks()
-    mockedUseUsers.mockReturnValue({
-      data: {
-        items: [
-          { id: 'user-123', firstName: 'John', lastName: 'Doe' },
-        ],
-      },
-      isLoading: false,
-    } as any)
   })
 
   it('should render ForbiddenPage if user lacks permission', () => {
@@ -175,6 +161,11 @@ describe('AuditLogsPage component', () => {
             occurredAt: '2026-06-24T15:18:37Z',
             userId: 'user-123',
             ipAddress: '127.0.0.1',
+            user: {
+              firstName: 'John',
+              lastName: 'Doe',
+              email: 'john.doe@example.com',
+            },
           },
         ],
         meta: {
@@ -214,6 +205,11 @@ describe('AuditLogsPage component', () => {
             userId: 'user-123',
             ipAddress: '127.0.0.1',
             metadata: { details: 'Created John' },
+            user: {
+              firstName: 'John',
+              lastName: 'Doe',
+              email: 'john.doe@example.com',
+            },
           },
         ],
         meta: { page: 1, limit: 10, total: 1, totalPages: 1 },

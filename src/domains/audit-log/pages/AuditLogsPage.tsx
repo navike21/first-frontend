@@ -1,9 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { PageHeader, DataTable, Can, IconButton, Tooltip, InputDate, Button, type DataTableColumn } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { ForbiddenPage } from '@domains/errors'
-import { useUsers } from '@domains/users'
 import { useAuditLogs } from '../api/auditLog.queries'
 import { useAuditLogsTranslation } from '../i18n'
 import { AuditLogDetailModal } from '../components/AuditLogDetailModal/AuditLogDetailModal'
@@ -42,15 +41,6 @@ export const AuditLogsPage = () => {
     dateFrom: dateFrom || undefined,
     dateTo: dateTo || undefined,
   })
-  const { data: usersData } = useUsers({ limit: 1000 })
-
-  const userMap = useMemo(() => {
-    const map = new Map<string, string>()
-    usersData?.items.forEach((u) => {
-      map.set(u.id, `${u.firstName} ${u.lastName}`)
-    })
-    return map
-  }, [usersData])
 
   const meta = data?.meta as AuditLogPaginationMeta | undefined
   const total = meta?.total ?? 0
@@ -70,7 +60,7 @@ export const AuditLogsPage = () => {
       id: 'userId',
       header: t.table.colUser,
       cell: (row) => {
-        const name = row.userId ? userMap.get(row.userId) : undefined
+        const name = row.user ? `${row.user.firstName} ${row.user.lastName}` : undefined
         return (
           <span className="text-sm font-medium text-(--text-secondary)">
             {name ?? row.userId ?? '—'}
@@ -181,7 +171,7 @@ export const AuditLogsPage = () => {
 
         <AuditLogDetailModal
           log={selectedLog}
-          userName={selectedLog?.userId ? userMap.get(selectedLog.userId) : undefined}
+          userName={selectedLog?.user ? `${selectedLog.user.firstName} ${selectedLog.user.lastName}` : undefined}
           formattedDate={selectedLog ? formatDateTime(selectedLog.occurredAt) : ''}
           onClose={() => setSelectedLog(null)}
         />

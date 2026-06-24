@@ -11,6 +11,11 @@ export interface AuditLog {
   ipAddress?: string
   userAgent?: string
   occurredAt: string
+  user?: {
+    firstName: string
+    lastName: string
+    email: string
+  }
 }
 
 export interface AuditLogsListParams {
