@@ -16,4 +16,9 @@ function createPagesRouteTree(lang: Language) {
   })
 }
 
-export const allPagesRouteTrees = SUPPORTED_LANGUAGES.map(createPagesRouteTree)
+const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.pages[l])))
+
+export const allPagesRouteTrees = uniqueSlugs.map((slug) => {
+  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.pages[l] === slug)!
+  return createPagesRouteTree(lang)
+})

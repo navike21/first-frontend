@@ -16,4 +16,9 @@ function createServicesRouteTree(lang: Language) {
   })
 }
 
-export const allServicesRouteTrees = SUPPORTED_LANGUAGES.map(createServicesRouteTree)
+const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.services[l])))
+
+export const allServicesRouteTrees = uniqueSlugs.map((slug) => {
+  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.services[l] === slug)!
+  return createServicesRouteTree(lang)
+})

@@ -16,4 +16,9 @@ function createAppSettingsRouteTree(lang: Language) {
   })
 }
 
-export const allAppSettingsRouteTrees = SUPPORTED_LANGUAGES.map(createAppSettingsRouteTree)
+const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.appSettings[l])))
+
+export const allAppSettingsRouteTrees = uniqueSlugs.map((slug) => {
+  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.appSettings[l] === slug)!
+  return createAppSettingsRouteTree(lang)
+})

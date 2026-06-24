@@ -16,4 +16,9 @@ function createAuditLogsRouteTree(lang: Language) {
   })
 }
 
-export const allAuditLogsRouteTrees = SUPPORTED_LANGUAGES.map(createAuditLogsRouteTree)
+const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.auditLogs[l])))
+
+export const allAuditLogsRouteTrees = uniqueSlugs.map((slug) => {
+  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.auditLogs[l] === slug)!
+  return createAuditLogsRouteTree(lang)
+})

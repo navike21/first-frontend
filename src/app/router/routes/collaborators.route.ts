@@ -16,4 +16,9 @@ function createCollaboratorsRouteTree(lang: Language) {
   })
 }
 
-export const allCollaboratorsRouteTrees = SUPPORTED_LANGUAGES.map(createCollaboratorsRouteTree)
+const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.collaborators[l])))
+
+export const allCollaboratorsRouteTrees = uniqueSlugs.map((slug) => {
+  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.collaborators[l] === slug)!
+  return createCollaboratorsRouteTree(lang)
+})
