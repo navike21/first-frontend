@@ -7,13 +7,21 @@ export const it: AuditLogsTranslations = {
   },
   table: {
     colDate: 'Data e ora',
-    colUser: 'ID Utente',
+    colUser: 'Utente',
     colAction: 'Azione',
     colResource: 'Risorsa',
     colIp: 'Indirizzo IP',
+    colActions: 'Azioni',
     noResults: 'Nessun registro di audit trovato',
     prevPage: 'Pagina precedente',
     nextPage: 'Pagina successiva',
     totalCount: (n) => `${n} registr${n !== 1 ? 'i' : 'o'} di audit in totale`,
+    viewDetail: 'Visualizza dettagli',
+  },
+  detail: {
+    title: 'Dettagli voce di registro',
+    colUserAgent: 'Dispositivo / User Agent',
+    colMetadata: 'Dati azione (Metadati)',
+    closeButton: 'Chiudi',
   },
 }

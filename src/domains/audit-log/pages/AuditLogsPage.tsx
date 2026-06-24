@@ -1,10 +1,12 @@
-import { useState } from 'react'
-import { PageHeader, DataTable, Can, type DataTableColumn } from '@/shared/ui'
+import { useState, useMemo } from 'react'
+import { PageHeader, DataTable, Can, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { ForbiddenPage } from '@domains/errors'
+import { useUsers } from '@domains/users'
 import { useAuditLogs } from '../api/auditLog.queries'
 import { useAuditLogsTranslation } from '../i18n'
+import { AuditLogDetailModal } from '../components/AuditLogDetailModal/AuditLogDetailModal'
 import type { AuditLog, AuditLogPaginationMeta } from '../api/auditLog.api'
 
 const formatDateTime = (value?: string | Date | null): string => {
@@ -29,9 +31,19 @@ const formatDateTime = (value?: string | Date | null): string => {
 export const AuditLogsPage = () => {
   const { t } = useAuditLogsTranslation()
   const [page, setPage] = useState(1)
+  const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null)
   const limit = 10
 
   const { data, isLoading } = useAuditLogs({ page, limit })
+  const { data: usersData } = useUsers({ limit: 1000 })
+
+  const userMap = useMemo(() => {
+    const map = new Map<string, string>()
+    usersData?.items.forEach((u) => {
+      map.set(u.id, `${u.firstName} ${u.lastName}`)
+    })
+    return map
+  }, [usersData])
 
   const meta = data?.meta as AuditLogPaginationMeta | undefined
   const total = meta?.total ?? 0
@@ -50,11 +62,14 @@ export const AuditLogsPage = () => {
     {
       id: 'userId',
       header: t.table.colUser,
-      cell: (row) => (
-        <span className="text-sm font-mono text-(--text-secondary)">
-          {row.userId ?? '—'}
-        </span>
-      ),
+      cell: (row) => {
+        const name = row.userId ? userMap.get(row.userId) : undefined
+        return (
+          <span className="text-sm font-medium text-(--text-secondary)">
+            {name ?? row.userId ?? '—'}
+          </span>
+        )
+      },
     },
     {
       id: 'action',
@@ -83,6 +98,24 @@ export const AuditLogsPage = () => {
         </span>
       ),
     },
+    {
+      id: 'actions',
+      header: t.table.colActions,
+      align: 'right',
+      cell: (row) => (
+        <div className="flex items-center justify-end">
+          <Tooltip heading={t.table.viewDetail} position="top" size="small">
+            <IconButton
+              icon="RiEyeLine"
+              variant="text"
+              size="small"
+              aria-label={t.table.viewDetail}
+              onClick={() => setSelectedLog(row)}
+            />
+          </Tooltip>
+        </div>
+      ),
+    },
   ]
 
   return (
@@ -105,6 +138,13 @@ export const AuditLogsPage = () => {
             prevLabel: t.table.prevPage,
             nextLabel: t.table.nextPage,
           }}
+        />
+
+        <AuditLogDetailModal
+          log={selectedLog}
+          userName={selectedLog?.userId ? userMap.get(selectedLog.userId) : undefined}
+          formattedDate={selectedLog ? formatDateTime(selectedLog.occurredAt) : ''}
+          onClose={() => setSelectedLog(null)}
         />
       </div>
     </Can>
