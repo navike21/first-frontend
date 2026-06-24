@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { forwardRef } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import type { CheckboxProps } from './Checkbox.types'
 import { useCheckbox } from './Checkbox.hooks'
-import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -20,6 +20,20 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const { idField, resolvedRef, inputPropsWithoutIndeterminate } =
       useCheckbox(props, ref)
 
+    const [isChecked, setIsChecked] = useState(props.checked ?? props.defaultChecked ?? false)
+    const isIndeterminate = props.indeterminate ?? false
+
+    useEffect(() => {
+      if (props.checked !== undefined) {
+        setIsChecked(props.checked)
+      }
+    }, [props.checked])
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsChecked(e.target.checked)
+      props.onChange?.(e)
+    }
+
     return (
       <ToggleLayout
         label={label}
@@ -29,7 +43,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         errorMessage={errorMessage}
         id={idField}
       >
-        <button
+        <motion.button
           className={clsx(
             'group relative flex h-5 w-5 items-center justify-center border-none p-px outline-none',
             'duration-fast ease-spring transition-all',
@@ -44,35 +58,48 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':
                 error,
-              'active:scale-90': !disabled,
             }
           )}
+          whileTap={!disabled ? { scale: 0.9 } : undefined}
+          transition={{ type: 'spring', stiffness: 500, damping: 20 }}
           disabled={disabled}
           type="button"
         >
-          <IconComponent
-            icon="RiCheckFill"
-            className={clsx(
-              'absolute inset-0 m-auto h-full w-full',
-              'text-white',
-              'duration-fast ease-spring transition-all',
-              'scale-50 opacity-0',
-              'group-has-[input:checked]:scale-100 group-has-[input:checked]:opacity-100',
-              'group-has-[input:indeterminate]:scale-50 group-has-[input:indeterminate]:opacity-0'
-            )}
-          />
+          {/* Checkmark SVG with path drawing */}
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute inset-0 m-auto h-3.5 w-3.5 text-white pointer-events-none"
+          >
+            <motion.path
+              d="M20 6L9 17L4 12"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: isChecked && !isIndeterminate ? 1 : 0 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            />
+          </svg>
 
-          <IconComponent
-            icon="RiSubtractFill"
-            className={clsx(
-              'absolute inset-0 m-auto h-full w-full',
-              'text-white',
-              'duration-fast ease-spring transition-all',
-              'scale-50 opacity-0',
-              'group-has-[input:indeterminate]:scale-100 group-has-[input:indeterminate]:opacity-100',
-              'group-has-[input:checked]:scale-50 group-has-[input:checked]:opacity-0'
-            )}
-          />
+          {/* Indeterminate (Subtract) SVG with path drawing */}
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute inset-0 m-auto h-3.5 w-3.5 text-white pointer-events-none"
+          >
+            <motion.path
+              d="M5 12H19"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: isIndeterminate ? 1 : 0 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            />
+          </svg>
 
           <input
             ref={resolvedRef}
@@ -83,9 +110,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               'cursor-not-allowed': disabled,
               'cursor-pointer': !disabled,
             })}
+            onChange={handleInputChange}
             {...inputPropsWithoutIndeterminate}
           />
-        </button>
+        </motion.button>
       </ToggleLayout>
     )
   }
