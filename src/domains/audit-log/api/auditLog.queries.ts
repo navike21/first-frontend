@@ -13,4 +13,5 @@ export const useAuditLogs = (params: AuditLogsListParams = {}) =>
     queryKey: auditLogKeys.list(params),
     queryFn: () => auditLogApi.list(params),
     placeholderData: (prev) => prev,
+    staleTime: 0, // Always fetch fresh logs when navigating to the page
   })
