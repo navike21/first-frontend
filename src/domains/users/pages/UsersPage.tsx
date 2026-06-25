@@ -98,38 +98,40 @@ export const UsersPage = () => {
         </div>
       </div>
 
-      <FadeCollapse show={selectedIds.length > 0}>
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-          <span className="text-sm font-medium text-(--text-primary)">
-            {t.actions.selectedCount(selectedIds.length)}
-          </span>
-          <div className="flex items-center gap-2">
-            <Button variant="secondary" size="small" onClick={clearSelection}>
-              {t.actions.clearSelection}
-            </Button>
-            <Button
-              variant="primary"
-              size="small"
-              onClick={() => setBulkConfirmOpen(true)}
-            >
-              {t.actions.bulkDeactivate}
-            </Button>
+      <div>
+        <FadeCollapse show={selectedIds.length > 0}>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+            <span className="text-sm font-medium text-(--text-primary)">
+              {t.actions.selectedCount(selectedIds.length)}
+            </span>
+            <div className="flex items-center gap-2">
+              <Button variant="secondary" size="small" onClick={clearSelection}>
+                {t.actions.clearSelection}
+              </Button>
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setBulkConfirmOpen(true)}
+              >
+                {t.actions.bulkDeactivate}
+              </Button>
+            </div>
           </div>
-        </div>
-      </FadeCollapse>
+        </FadeCollapse>
 
-      <UserTable
-        users={data?.items ?? []}
-        isLoading={isLoading}
-        total={data?.total ?? 0}
-        page={data?.page ?? 1}
-        pages={data?.pages ?? 1}
-        onPageChange={handlePageChange}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-      />
+        <UserTable
+          users={data?.items ?? []}
+          isLoading={isLoading}
+          total={data?.total ?? 0}
+          page={data?.page ?? 1}
+          pages={data?.pages ?? 1}
+          onPageChange={handlePageChange}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+        />
+      </div>
 
       <Modal
         isOpen={!!deletingUser}

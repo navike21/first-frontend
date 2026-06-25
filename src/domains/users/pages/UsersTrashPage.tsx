@@ -152,62 +152,64 @@ export const UsersTrashPage = () => {
         ]}
       />
 
-      <FadeCollapse show={selectedIds.length > 0 && (canRestore || canPurge)}>
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-          <span className="text-sm font-medium text-(--text-primary)">
-            {t.actions.selectedCount(selectedIds.length)}
-          </span>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => setSelectedIds([])}
-            >
-              {t.actions.clearSelection}
-            </Button>
-            {canRestore && (
+      <div>
+        <FadeCollapse show={selectedIds.length > 0 && (canRestore || canPurge)}>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+            <span className="text-sm font-medium text-(--text-primary)">
+              {t.actions.selectedCount(selectedIds.length)}
+            </span>
+            <div className="flex items-center gap-2">
               <Button
-                variant="primary"
+                variant="secondary"
                 size="small"
-                onClick={() => setBulkRestoreOpen(true)}
+                onClick={() => setSelectedIds([])}
               >
-                {t.actions.bulkRestore}
+                {t.actions.clearSelection}
               </Button>
-            )}
-            {canPurge && (
-              <Button
-                variant="primary"
-                size="small"
-                onClick={() => setBulkPurgeOpen(true)}
-              >
-                {t.actions.bulkPurge}
-              </Button>
-            )}
+              {canRestore && (
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkRestoreOpen(true)}
+                >
+                  {t.actions.bulkRestore}
+                </Button>
+              )}
+              {canPurge && (
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkPurgeOpen(true)}
+                >
+                  {t.actions.bulkPurge}
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      </FadeCollapse>
+        </FadeCollapse>
 
-      <DataTable
-        columns={columns}
-        rows={users}
-        getRowKey={(user) => user.id}
-        isLoading={isLoading}
-        emptyIcon="RiDeleteBinLine"
-        emptyLabel={t.page.trashEmpty}
-        totalLabel={t.table.totalCount(total)}
-        pagination={{
-          page,
-          pages,
-          onPageChange: handlePageChange,
-          prevLabel: t.table.prevPage,
-          nextLabel: t.table.nextPage,
-        }}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        selectAllLabel={t.table.selectAll}
-        selectRowLabel={t.table.selectRow}
-      />
+        <DataTable
+          columns={columns}
+          rows={users}
+          getRowKey={(user) => user.id}
+          isLoading={isLoading}
+          emptyIcon="RiDeleteBinLine"
+          emptyLabel={t.page.trashEmpty}
+          totalLabel={t.table.totalCount(total)}
+          pagination={{
+            page,
+            pages,
+            onPageChange: handlePageChange,
+            prevLabel: t.table.prevPage,
+            nextLabel: t.table.nextPage,
+          }}
+          selectable
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+          selectAllLabel={t.table.selectAll}
+          selectRowLabel={t.table.selectRow}
+        />
+      </div>
 
       <UserDetailModal
         user={viewingUser}

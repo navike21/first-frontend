@@ -184,52 +184,54 @@ export const GroupUsersPage = () => {
       </div>
 
       {/* Bulk toolbar */}
-      <FadeCollapse show={selectedIds.length > 0}>
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-          <span className="text-sm font-medium text-(--text-primary)">
-            {t.members.selectedCount(selectedIds.length)}
-          </span>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => setSelectedIds([])}
-            >
-              {t.members.clearSelection}
-            </Button>
-            <Button
-              variant="primary"
-              size="small"
-              onClick={() => setBulkRemoveOpen(true)}
-            >
-              {t.members.bulkRemove}
-            </Button>
+      <div>
+        <FadeCollapse show={selectedIds.length > 0}>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
+            <span className="text-sm font-medium text-(--text-primary)">
+              {t.members.selectedCount(selectedIds.length)}
+            </span>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                size="small"
+                onClick={() => setSelectedIds([])}
+              >
+                {t.members.clearSelection}
+              </Button>
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setBulkRemoveOpen(true)}
+              >
+                {t.members.bulkRemove}
+              </Button>
+            </div>
           </div>
-        </div>
-      </FadeCollapse>
+        </FadeCollapse>
 
-      {/* Members table */}
-      <DataTable
-        columns={columns}
-        rows={data?.items ?? []}
-        getRowKey={(member) => member.id}
-        isLoading={isLoading}
-        emptyIcon="RiGroupLine"
-        emptyLabel={t.members.empty}
-        totalLabel={t.members.totalCount(data?.total ?? 0)}
-        pagination={{
-          page,
-          pages: data?.pages ?? 1,
-          onPageChange: handlePageChange,
-          prevLabel: t.table.prevPage,
-          nextLabel: t.table.nextPage,
-        }}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        selectAllLabel={t.table.selectAll}
-        selectRowLabel={t.table.selectRow}
-      />
+        {/* Members table */}
+        <DataTable
+          columns={columns}
+          rows={data?.items ?? []}
+          getRowKey={(member) => member.id}
+          isLoading={isLoading}
+          emptyIcon="RiGroupLine"
+          emptyLabel={t.members.empty}
+          totalLabel={t.members.totalCount(data?.total ?? 0)}
+          pagination={{
+            page,
+            pages: data?.pages ?? 1,
+            onPageChange: handlePageChange,
+            prevLabel: t.table.prevPage,
+            nextLabel: t.table.nextPage,
+          }}
+          selectable
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+          selectAllLabel={t.table.selectAll}
+          selectRowLabel={t.table.selectRow}
+        />
+      </div>
 
       {/* Single remove confirmation */}
       <Modal
