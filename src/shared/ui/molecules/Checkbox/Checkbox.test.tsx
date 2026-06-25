@@ -146,7 +146,7 @@ describe('Checkbox', () => {
     render(<Checkbox checked onChange={vi.fn()} />)
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
-      'has-[input:checked]:ring-slate-700'
+      'has-[input:checked]:ring-primary-700'
     )
   })
 

@@ -61,7 +61,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
                 disabled,
               'ring-slate-30 bg-(--surface)': !disabled,
-              'has-[input:checked]:ring-slate-700 has-[input:indeterminate]:ring-slate-700 dark:has-[input:checked]:ring-slate-400 dark:has-[input:indeterminate]:ring-slate-400':
+              'has-[input:checked]:ring-primary-700 has-[input:indeterminate]:ring-primary-700 dark:has-[input:checked]:ring-primary-600 dark:has-[input:indeterminate]:ring-primary-600':
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':
                 error,
