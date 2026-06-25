@@ -34,6 +34,13 @@ export const useUser = (id: string) =>
     enabled: !!id,
   })
 
+export const useMyProfile = () =>
+  useQuery({
+    queryKey: [...userKeys.all, 'me'] as const,
+    queryFn: () => usersApi.me(),
+    select: (res) => res.data,
+  })
+
 export interface CreateUserVars {
   data: CreateUserFormData
   avatar?: File | null
@@ -62,6 +69,48 @@ export const useUpdateUser = (id: string) => {
       usersApi.update(id, data, avatar, removeAvatar),
     onSuccess: (res) => {
       const updated = res.data
+
+      qc.setQueriesData<ApiResponse<PaginatedData<User>>>(
+        { queryKey: userKeys.lists() },
+        (old) => {
+          if (!old) return old
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              items: old.data.items.map((u) =>
+                u.id === id ? { ...u, ...updated } : u
+              ),
+            },
+          }
+        }
+      )
+
+      qc.invalidateQueries({ queryKey: userKeys.lists() })
+      qc.invalidateQueries({ queryKey: userKeys.detail(id) })
+
+      const { user, token, setSession } = useSessionStore.getState()
+      if (user && token && user.id === id) {
+        setSession(token, {
+          ...user,
+          firstName: updated.firstName,
+          lastName: updated.lastName,
+          email: updated.email,
+          profilePictureUrl: updated.profilePictureUrl,
+        })
+      }
+    },
+  })
+}
+
+export const useUpdateProfile = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ data, avatar, removeAvatar }: UpdateUserVars) =>
+      usersApi.updateProfile(data, avatar, removeAvatar),
+    onSuccess: (res) => {
+      const updated = res.data
+      const id = updated.id
 
       qc.setQueriesData<ApiResponse<PaginatedData<User>>>(
         { queryKey: userKeys.lists() },

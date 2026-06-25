@@ -18,6 +18,7 @@ interface UserFormProps {
     removeAvatar?: boolean
   ) => void
   submitError?: unknown
+  isProfile?: boolean
 }
 
 export const UserForm = ({
@@ -28,6 +29,7 @@ export const UserForm = ({
   onCreate,
   onUpdate,
   submitError,
+  isProfile,
 }: UserFormProps) => {
   if (mode === 'create') {
     return (
@@ -46,6 +48,7 @@ export const UserForm = ({
       onCancel={onCancel}
       onUpdate={onUpdate}
       submitError={submitError}
+      isProfile={isProfile}
     />
   )
 }

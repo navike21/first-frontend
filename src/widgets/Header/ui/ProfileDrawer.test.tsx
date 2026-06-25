@@ -172,9 +172,10 @@ describe('ProfileDrawer component', () => {
         user={mockUser}
       />
     )
-    expect(screen.getByText('Inicio')).toBeInTheDocument()
-    expect(screen.getByText('Usuarios')).toBeInTheDocument()
-    expect(screen.getByText('Grupos de usuarios')).toBeInTheDocument()
+    expect(screen.getByText('Mi perfil')).toBeInTheDocument()
+    expect(screen.queryByText('Inicio')).not.toBeInTheDocument()
+    expect(screen.queryByText('Usuarios')).not.toBeInTheDocument()
+    expect(screen.queryByText('Grupos de usuarios')).not.toBeInTheDocument()
   })
 
   it('should call onClose when a nav link is clicked', async () => {
@@ -188,7 +189,7 @@ describe('ProfileDrawer component', () => {
         user={mockUser}
       />
     )
-    await user.click(screen.getByText('Inicio'))
+    await user.click(screen.getByText('Mi perfil'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 

@@ -1,11 +1,14 @@
 export { UserTable } from './components/UserTable/UserTable'
 export { UserForm } from './components/UserForm/UserForm'
 export { UserStatusBadge } from './components/UserStatusBadge/UserStatusBadge'
+export { ProfilePage } from './pages/ProfilePage'
 export {
   useUsers,
   useUser,
+  useMyProfile,
   useCreateUser,
   useUpdateUser,
+  useUpdateProfile,
   useSoftDeleteUser,
   useUsersTrash,
   useRestoreUser,

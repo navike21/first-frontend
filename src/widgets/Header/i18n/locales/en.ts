@@ -12,6 +12,7 @@ export const en: HeaderTranslations = {
     home: 'Home',
     users: 'Users',
     userGroups: 'User groups',
+    profile: 'My profile',
     logout: 'Sign out',
   },
   settingsDrawer: {

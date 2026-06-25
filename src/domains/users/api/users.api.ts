@@ -15,6 +15,12 @@ export const usersApi = {
       method: 'GET',
     }),
 
+  me: () =>
+    request<ApiResponse<User>>({
+      api: `${BASE}/me`,
+      method: 'GET',
+    }),
+
   list: (params: UserListParams = {}) => {
     const query = new URLSearchParams()
     if (params.page) query.set('page', String(params.page))
@@ -33,7 +39,9 @@ export const usersApi = {
     request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
   create: (body: CreateUserFormData, avatar?: File | null) => {
-    type Created = ApiResponse<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>
+    type Created = ApiResponse<
+      Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>
+    >
     // Multipart can't be serialised into the offline queue, so offline we send
     // JSON without the avatar (it gets queued); the page warns the photo was
     // skipped. Online with a photo still uses multipart.
@@ -135,4 +143,27 @@ export const usersApi = {
       method: 'DELETE',
       body: { ids },
     }),
+
+  updateProfile: (
+    body: UpdateUserFormData,
+    avatar?: File | null,
+    removeAvatar?: boolean
+  ) => {
+    if (avatar && navigator.onLine) {
+      const fd = new FormData()
+      fd.append('data', JSON.stringify(body))
+      fd.append('avatar', avatar)
+      return request<ApiResponse<User>, FormData>({
+        api: `${BASE}/me`,
+        method: 'PATCH',
+        body: fd,
+      })
+    }
+    const payload = removeAvatar ? { ...body, profilePictureUrl: '' } : body
+    return request<ApiResponse<User>, typeof payload>({
+      api: `${BASE}/me`,
+      method: 'PATCH',
+      body: payload,
+    })
+  },
 }

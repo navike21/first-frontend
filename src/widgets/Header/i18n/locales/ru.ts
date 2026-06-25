@@ -12,6 +12,7 @@ export const ru: HeaderTranslations = {
     home: 'Главная',
     users: 'Пользователи',
     userGroups: 'Группы пользователей',
+    profile: 'Мой профиль',
     logout: 'Выйти',
   },
   settingsDrawer: {

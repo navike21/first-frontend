@@ -10,6 +10,7 @@ export interface HeaderTranslations {
     home: string
     users: string
     userGroups: string
+    profile: string
     logout: string
   }
   settingsDrawer: {

@@ -17,6 +17,7 @@ import { allCollaboratorsRouteTrees } from './routes/collaborators.route'
 import { allSubscribersRouteTrees } from './routes/subscribers.route'
 import { allAuditLogsRouteTrees } from './routes/auditLogs.route'
 import { allAppSettingsRouteTrees } from './routes/appSettings.route'
+import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
 import { setLastValidPath } from './navigationHistory'
@@ -57,6 +58,7 @@ const routeTree = rootRoute.addChildren([
       ...allSubscribersRouteTrees,
       ...allAuditLogsRouteTrees,
       ...allAppSettingsRouteTrees,
+      ...allProfileRouteTrees,
     ]),
     ...allForbiddenRouteTrees,
     ...allNotFoundRouteTrees,

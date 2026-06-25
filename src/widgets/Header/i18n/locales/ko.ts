@@ -12,6 +12,7 @@ export const ko: HeaderTranslations = {
     home: '홈',
     users: '사용자',
     userGroups: '사용자 그룹',
+    profile: '내 프로필',
     logout: '로그아웃',
   },
   settingsDrawer: {

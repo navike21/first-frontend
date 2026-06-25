@@ -229,6 +229,18 @@ export const ROUTE_SLUGS = {
     zh: 'shezhi',
     ru: 'nastroyki',
   },
+  profile: {
+    es: 'perfil',
+    en: 'profile',
+    de: 'profil',
+    fr: 'profil',
+    pt: 'perfil',
+    it: 'profilo',
+    ja: 'purofiiru',
+    ko: 'peoropil',
+    zh: 'gerenziliao',
+    ru: 'profil',
+  },
 } as const satisfies Record<string, Record<Language, string>>
 
 export type RouteModule = keyof typeof ROUTE_SLUGS

@@ -12,6 +12,7 @@ export const ja: HeaderTranslations = {
     home: 'ホーム',
     users: 'ユーザー',
     userGroups: 'ユーザーグループ',
+    profile: 'プロフィール',
     logout: 'ログアウト',
   },
   settingsDrawer: {

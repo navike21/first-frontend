@@ -103,11 +103,8 @@ export const Header = () => {
           aria-label={t.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">
-            <span className="mb-1 text-sm leading-none font-medium text-(--text-primary)">
-              {user?.firstName || t.guestName}
-            </span>
-            <span className="text-xs leading-none text-(--text-secondary)">
-              {user?.email || t.guestEmail}
+            <span className="text-sm leading-none font-medium text-(--text-primary)">
+              {user ? `${user.firstName} ${user.lastName}`.trim() : t.guestName}
             </span>
           </div>
           <Avatar

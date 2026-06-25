@@ -12,6 +12,7 @@ export const es: HeaderTranslations = {
     home: 'Inicio',
     users: 'Usuarios',
     userGroups: 'Grupos de usuarios',
+    profile: 'Mi perfil',
     logout: 'Cerrar sesión',
   },
   settingsDrawer: {

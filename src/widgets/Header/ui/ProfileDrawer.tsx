@@ -28,12 +28,10 @@ export const ProfileDrawer = ({
   const { t } = useHeaderTranslation()
 
   const navLinks: NavLinkItem[] = [
-    { icon: 'RiHomeLine', label: t.profileDrawer.home, to: navPaths.home() },
-    { icon: 'RiUserLine', label: t.profileDrawer.users, to: navPaths.users() },
     {
-      icon: 'RiGroupLine',
-      label: t.profileDrawer.userGroups,
-      to: navPaths.userGroups(),
+      icon: 'RiUserLine',
+      label: t.profileDrawer.profile,
+      to: navPaths.profile(),
     },
   ]
 

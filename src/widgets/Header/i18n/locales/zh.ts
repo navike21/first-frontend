@@ -12,7 +12,8 @@ export const zh: HeaderTranslations = {
     home: '首页',
     users: '用户',
     userGroups: '用户组',
-    logout: '退出登录',
+    profile: '我的个人资料',
+    logout: '登出',
   },
   settingsDrawer: {
     title: '设置',

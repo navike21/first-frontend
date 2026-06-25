@@ -97,4 +97,8 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.appSettings[l_]}`
   },
+  profile: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.profile[l_]}`
+  },
 } as const

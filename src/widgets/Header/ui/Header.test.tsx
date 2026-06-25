@@ -110,12 +110,12 @@ describe('Header component', () => {
 
   it('should render the user name', () => {
     render(<Header />)
-    expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('Test User')).toBeInTheDocument()
   })
 
-  it('should render the user email', () => {
+  it('should not render the user email', () => {
     render(<Header />)
-    expect(screen.getByText('test@navike21.com')).toBeInTheDocument()
+    expect(screen.queryByText('test@navike21.com')).not.toBeInTheDocument()
   })
 
   it('should call toggleMobileSidebar when mobile menu button is clicked', async () => {
@@ -176,10 +176,10 @@ describe('Header component', () => {
     expect(spans.length).toBeGreaterThanOrEqual(1)
   })
 
-  it('should show guest email when user is null', () => {
+  it('should not show guest email when user is null', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ user: null }))
     render(<Header />)
-    expect(screen.getByText('Sin iniciar sesión')).toBeInTheDocument()
+    expect(screen.queryByText('Sin iniciar sesión')).not.toBeInTheDocument()
   })
 
   it('should render ProfileDrawer when isProfileOpen is true', () => {

@@ -231,6 +231,18 @@ const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
     zh: '应用设置',
     ru: 'Настройки',
   },
+  profile: {
+    es: 'Perfil',
+    en: 'Profile',
+    de: 'Profil',
+    fr: 'Profil',
+    pt: 'Perfil',
+    it: 'Profilo',
+    ja: 'プロフィール',
+    ko: '프로필',
+    zh: '个人资料',
+    ru: 'Профиль',
+  },
 }
 
 const HOME_LABELS: Record<Language, string> = {
