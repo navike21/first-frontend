@@ -6,6 +6,7 @@ import {
   Tooltip,
   Avatar,
   DataTable,
+  FadeCollapse,
   type DataTableColumn,
 } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
@@ -151,7 +152,7 @@ export const UsersTrashPage = () => {
         ]}
       />
 
-      {selectedIds.length > 0 && (canRestore || canPurge) && (
+      <FadeCollapse show={selectedIds.length > 0 && (canRestore || canPurge)}>
         <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
           <span className="text-sm font-medium text-(--text-primary)">
             {t.actions.selectedCount(selectedIds.length)}
@@ -184,7 +185,7 @@ export const UsersTrashPage = () => {
             )}
           </div>
         </div>
-      )}
+      </FadeCollapse>
 
       <DataTable
         columns={columns}

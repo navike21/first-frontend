@@ -9,6 +9,7 @@ import {
   IconButton,
   Tooltip,
   Modal,
+  FadeCollapse,
   type DataTableColumn,
 } from '@/shared/ui'
 import { useGroupUsersPage } from './GroupUsersPage.hooks'
@@ -20,12 +21,14 @@ const StatusBadge = ({
 }: {
   status: 'active' | 'inactive'
   label: string
-}) => (
-  <Chip variant={status === 'active' ? 'success' : 'default'} size="small">
-    {label}
-  </Chip>
-)
-
+}) => {
+  const variant = status === 'active' ? 'success' : 'default'
+  return (
+    <Chip size="small" variant={variant}>
+      {label}
+    </Chip>
+  )
+}
 export const GroupUsersPage = () => {
   const {
     t,
@@ -181,7 +184,7 @@ export const GroupUsersPage = () => {
       </div>
 
       {/* Bulk toolbar */}
-      {selectedIds.length > 0 && (
+      <FadeCollapse show={selectedIds.length > 0}>
         <div className="flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
           <span className="text-sm font-medium text-(--text-primary)">
             {t.members.selectedCount(selectedIds.length)}
@@ -203,7 +206,7 @@ export const GroupUsersPage = () => {
             </Button>
           </div>
         </div>
-      )}
+      </FadeCollapse>
 
       {/* Members table */}
       <DataTable

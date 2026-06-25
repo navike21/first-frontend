@@ -30,6 +30,7 @@ export { Spinner, type SpinnerProps } from './atoms/Spinner'
 export { Skeleton, type SkeletonProps } from './atoms/Skeleton'
 export { ThemeToggle } from './atoms/ThemeToggle'
 export { ColorPicker } from './atoms/ColorPicker'
+export { FadeCollapse, type FadeCollapseProps } from './atoms/FadeCollapse'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'
