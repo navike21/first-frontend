@@ -57,9 +57,9 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             {/* ── Personal details ─────────────────────────────────────────── */}
             <div
               hidden={activeTab !== 'personal'}
-              className="flex flex-col gap-4 animate-tab-fade"
+              className="animate-tab-fade flex flex-col gap-4"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -80,7 +80,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.email?.message}
                 {...register('email')}
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -115,7 +115,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.address?.street?.message}
                 {...register('address.street')}
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.addressCity}
                   variant={errors.address?.city ? 'error' : undefined}
@@ -138,11 +138,14 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             </div>
 
             {/* ── Account & access ─────────────────────────────────────────── */}
-            <div hidden={activeTab !== 'account'} className="flex flex-col gap-4 animate-tab-fade">
+            <div
+              hidden={activeTab !== 'account'}
+              className="animate-tab-fade flex flex-col gap-4"
+            >
               <p className="text-sm font-medium text-(--text-secondary)">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.password}
                   type="password"
@@ -177,7 +180,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               />
             </div>
 
-            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 w-full">
+            <div className="flex w-full flex-col-reverse justify-end gap-3 pt-2 sm:flex-row">
               <Button
                 variant="secondary"
                 type="button"

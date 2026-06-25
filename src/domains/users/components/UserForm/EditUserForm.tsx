@@ -81,7 +81,7 @@ export const EditUserForm = (
               hidden={activeTab !== 'personal'}
               className="animate-tab-fade flex flex-col gap-4"
             >
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -102,7 +102,7 @@ export const EditUserForm = (
                 disabled
                 defaultValue={props.defaultValues.email ?? ''}
               />
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -140,7 +140,7 @@ export const EditUserForm = (
                 errorMessage={errors.address?.street?.message}
                 {...register('address.street')}
               />
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.addressCity}
                   variant={errors.address?.city ? 'error' : undefined}
@@ -170,7 +170,7 @@ export const EditUserForm = (
               <p className="text-sm font-medium text-(--text-secondary)">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 <InputField
                   label={t.form.newPassword}
                   type="password"
