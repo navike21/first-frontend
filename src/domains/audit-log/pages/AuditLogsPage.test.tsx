@@ -1,8 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { ReactNode, ChangeEvent, ButtonHTMLAttributes } from 'react'
 import { AuditLogsPage } from './AuditLogsPage'
 import { useHasPermission } from '@/shared/lib/permissions'
 import { useAuditLogs } from '../api/auditLog.queries'
+import type { DataTableColumn } from '@/shared/ui'
+import type { AuditLog } from '../api/auditLog.api'
 
 // Mock dependencies
 vi.mock('@/shared/lib/permissions', () => ({
@@ -62,50 +65,84 @@ vi.mock('@domains/errors', () => ({
 
 // We need to render actual Can component to test conditional rendering
 vi.mock('@/shared/ui', async () => {
-  const actual = await vi.importActual<any>('@/shared/ui')
+  const actual = await vi.importActual<typeof import('@/shared/ui')>(
+    '@/shared/ui'
+  )
   return {
     ...actual,
-    PageContent: ({ title, description, children }: any) => (
+    PageContent: ({
+      title,
+      description,
+      children,
+    }: {
+      title: string
+      description?: string
+      children: ReactNode
+    }) => (
       <div data-testid="page-header">
         <h1>{title}</h1>
         <p>{description}</p>
         {children}
       </div>
     ),
-    DataTable: ({ rows, columns, emptyLabel, totalLabel }: any) => (
+    DataTable: ({
+      rows,
+      columns,
+      emptyLabel,
+      totalLabel,
+    }: {
+      rows: AuditLog[]
+      columns: DataTableColumn<AuditLog>[]
+      emptyLabel: ReactNode
+      totalLabel: ReactNode
+    }) => (
       <div data-testid="data-table">
         <span data-testid="total-label">{totalLabel}</span>
         <span data-testid="empty-label">{emptyLabel}</span>
         <table>
           <tbody>
-            {rows.map((row: any) => (
+            {rows.map((row) => (
               <tr key={row.id} data-testid="row-item">
-                <td>
-                  {columns.find((c: any) => c.id === 'userId')?.cell(row)}
-                </td>
-                <td>
-                  {columns.find((c: any) => c.id === 'action')?.cell(row)}
-                </td>
-                <td>
-                  {columns.find((c: any) => c.id === 'actions')?.cell(row)}
-                </td>
+                <td>{columns.find((c) => c.id === 'userId')?.cell(row)}</td>
+                <td>{columns.find((c) => c.id === 'action')?.cell(row)}</td>
+                <td>{columns.find((c) => c.id === 'actions')?.cell(row)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     ),
-    IconButton: ({ onClick, 'aria-label': ariaLabel }: any) => (
+    IconButton: ({
+      onClick,
+      'aria-label': ariaLabel,
+    }: {
+      onClick?: () => void
+      'aria-label'?: string
+    }) => (
       <button onClick={onClick} data-testid="icon-button">
         {ariaLabel}
       </button>
     ),
-    Tooltip: ({ children, heading }: any) => (
+    Tooltip: ({
+      children,
+      heading,
+    }: {
+      children: ReactNode
+      heading?: string
+    }) => (
       <div data-testid="tooltip" title={heading}>
         {children}
       </div>
     ),
-    InputDate: ({ label, value, onChange }: any) => (
+    InputDate: ({
+      label,
+      value,
+      onChange,
+    }: {
+      label: string
+      value?: string
+      onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+    }) => (
       <div data-testid={`input-date-container-${label}`}>
         <label htmlFor={`input-date-${label}`}>{label}</label>
         <input
@@ -117,7 +154,11 @@ vi.mock('@/shared/ui', async () => {
         />
       </div>
     ),
-    Button: ({ children, onClick, ...rest }: any) => (
+    Button: ({
+      children,
+      onClick,
+      ...rest
+    }: ButtonHTMLAttributes<HTMLButtonElement>) => (
       <button onClick={onClick} {...rest}>
         {children}
       </button>
@@ -139,7 +180,7 @@ describe('AuditLogsPage component', () => {
     mockedUseAuditLogs.mockReturnValue({
       data: undefined,
       isLoading: false,
-    } as any)
+    } as unknown as ReturnType<typeof useAuditLogs>)
 
     // Act
     render(<AuditLogsPage />)
@@ -181,7 +222,7 @@ describe('AuditLogsPage component', () => {
         },
       },
       isLoading: false,
-    } as any)
+    } as unknown as ReturnType<typeof useAuditLogs>)
 
     // Act
     render(<AuditLogsPage />)
@@ -220,7 +261,7 @@ describe('AuditLogsPage component', () => {
         meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
       },
       isLoading: false,
-    } as any)
+    } as unknown as ReturnType<typeof useAuditLogs>)
 
     render(<AuditLogsPage />)
 
@@ -245,7 +286,7 @@ describe('AuditLogsPage component', () => {
         meta: { page: 1, limit: 10, total: 0, totalPages: 1 },
       },
       isLoading: false,
-    } as any)
+    } as unknown as ReturnType<typeof useAuditLogs>)
 
     render(<AuditLogsPage />)
 

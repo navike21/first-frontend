@@ -170,8 +170,7 @@ describe('api.services', () => {
     })
 
     it('uses empty string when VITE_API_BASE_URL is undefined (line 75 ?? right branch)', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      vi.stubEnv('VITE_API_BASE_URL', undefined as any)
+      vi.stubEnv('VITE_API_BASE_URL', undefined as unknown as string)
       mockFetch.mockResolvedValueOnce({
         ok: true,
         status: 200,

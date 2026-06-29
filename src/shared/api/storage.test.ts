@@ -123,8 +123,7 @@ describe('uploadFile', () => {
   })
 
   it('uses empty string when VITE_API_BASE_URL is undefined (line 27 ?? right branch)', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.stubEnv('VITE_API_BASE_URL', undefined as any)
+    vi.stubEnv('VITE_API_BASE_URL', undefined as unknown as string)
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ data: makeStorageFile() }),

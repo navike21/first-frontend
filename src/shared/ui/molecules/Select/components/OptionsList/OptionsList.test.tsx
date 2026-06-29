@@ -313,8 +313,13 @@ describe('OptionsList', () => {
       const fiberKey = Object.keys(disabledOption).find((k) =>
         k.startsWith('__reactFiber')
       )
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const fiber = fiberKey ? (disabledOption as any)[fiberKey] : null
+      type ReactFiber = {
+        pendingProps?: { onClick?: (e: unknown) => void }
+        memoizedProps?: { onClick?: (e: unknown) => void }
+      }
+      const fiber = fiberKey
+        ? (disabledOption as unknown as Record<string, ReactFiber>)[fiberKey]
+        : null
       const onClickProp =
         fiber?.pendingProps?.onClick ?? fiber?.memoizedProps?.onClick
       if (onClickProp) {
