@@ -1,12 +1,5 @@
 import { HelperText } from '@/shared/ui'
-import type { SelectVariant } from '../../Select.types'
-
-interface SelectFooterProps {
-  idField: string
-  errorMessage?: React.ReactNode
-  helperText?: React.ReactNode
-  variant: SelectVariant
-}
+import type { SelectFooterProps } from './SelectFooter.types'
 
 export const SelectFooter = ({
   idField,

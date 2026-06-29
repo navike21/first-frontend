@@ -1,15 +1,9 @@
 import clsx from 'clsx'
-import type { SelectOptionItem } from '../../Select.types'
 import {
   resolveOptionLeftSlot,
   resolveOptionRightSlot,
 } from '../../helper/optionSlots'
-
-interface TriggerDisplayProps {
-  singleOption?: SelectOptionItem
-  singleLabel: string
-  placeholder?: string
-}
+import type { TriggerDisplayProps } from './TriggerDisplay.types'
 
 export const TriggerDisplay = ({
   singleOption,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { IconComponent } from '@/shared/ui'
 import { springTransition } from '@/shared/lib'
 import type { DrawerProps } from './Drawer.types'

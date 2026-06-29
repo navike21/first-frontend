@@ -1,24 +1,11 @@
-import { useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import clsx from 'clsx'
 import { PageHeader, type PageHeaderAction } from '@/shared/ui/molecules/PageHeader'
 import { Button } from '@/shared/ui/atoms/Button'
 import { LinkButton } from '@/shared/ui/atoms/LinkButton'
-
-
-export interface PageContentProps {
-  /** Page title rendered in the header and floating bar */
-  title: string
-  /** Optional description below the title */
-  description?: string
-  /** Action buttons rendered in the header and floating bar */
-  actions?: PageHeaderAction[]
-  /** Page content */
-  children: ReactNode
-  /** Additional className for the content wrapper */
-  className?: string
-}
+import type { PageContentProps } from './PageContent.types'
 
 /* ── Floating title bar (appears when original title scrolls out) ── */
 

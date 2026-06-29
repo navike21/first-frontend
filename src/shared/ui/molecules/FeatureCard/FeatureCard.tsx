@@ -1,16 +1,8 @@
 import clsx from 'clsx'
 import { Card } from '../../atoms/Card/Card'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
-import { type IconProps } from '@/shared/types/icons'
 import { Link } from '@tanstack/react-router'
-
-export interface FeatureCardProps {
-  title: string
-  description: string
-  icon: IconProps['icon']
-  href: string
-  className?: string
-}
+import type { FeatureCardProps } from './FeatureCard.types'
 
 export const FeatureCard = ({
   title,

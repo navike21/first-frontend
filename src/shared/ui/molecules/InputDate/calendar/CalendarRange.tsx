@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 import { format, addMonths, subMonths } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
-import type { MonthCaptionProps, DateRange, Matcher } from 'react-day-picker'
-import type { Locale } from 'date-fns'
+import type { MonthCaptionProps } from 'react-day-picker'
 import clsx from 'clsx'
 import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
 import {
@@ -10,17 +9,7 @@ import {
   CAPTION_BTN_CLS,
   NAV_BTN_CLS,
 } from './CalendarSingle.constants'
-
-interface CalendarRangeProps {
-  selected?: DateRange
-  onSelect: (range: DateRange | undefined) => void
-  displayMonth?: Date
-  onMonthChange?: (month: Date) => void
-  disabled?: Matcher | Matcher[]
-  locale?: Locale
-  onMonthLabelClick?: () => void
-  onYearLabelClick?: (year: number) => void
-}
+import type { CalendarRangeProps } from './CalendarRange.types'
 
 export const CalendarRange = ({
   selected,

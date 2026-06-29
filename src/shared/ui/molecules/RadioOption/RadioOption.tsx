@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { forwardRef, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { RadioOptionProps } from './RadioOption.types'
 import { useRadioOption } from './RadioOption.hooks'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'

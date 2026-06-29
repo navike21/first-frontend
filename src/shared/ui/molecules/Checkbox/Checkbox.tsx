@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { forwardRef, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { CheckboxProps } from './Checkbox.types'
 import { useCheckbox } from './Checkbox.hooks'
 import { ToggleLayout } from '../../layouts/ToggleLayout/ToggleLayout'

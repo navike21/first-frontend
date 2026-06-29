@@ -1,13 +1,6 @@
 import { memo } from 'react'
-import type { SelectOptionItem } from '../../Select.types'
 import { Chip } from '@/shared/ui'
-
-interface SelectedChipsProps {
-  values: string[]
-  options: SelectOptionItem[]
-  disabled: boolean
-  onDeselect: (val: string) => void
-}
+import type { SelectedChipsProps } from './SelectedChips.types'
 
 export const SelectedChips = memo(
   ({ values, options, disabled, onDeselect }: SelectedChipsProps) => {

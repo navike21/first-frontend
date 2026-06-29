@@ -1,1 +1,2 @@
-export { InputLayout, type InputLayoutProps } from './InputLayout'
+export { InputLayout } from './InputLayout'
+export type { InputLayoutProps } from './InputLayout.types'

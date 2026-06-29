@@ -9,15 +9,9 @@ import KR from 'country-flag-icons/react/3x2/KR'
 import CN from 'country-flag-icons/react/3x2/CN'
 import RU from 'country-flag-icons/react/3x2/RU'
 import type { Language } from '@/shared/types/languages'
+import type { LanguageFlagProps } from './LanguageSwitcher.types'
 
-/**
- * Maps each supported language to a representative country flag. Note that
- * languages are not countries — these are conventional choices (Spanish → ES,
- * English → US, Portuguese → BR, Chinese → CN). Adjust here if a region is
- * preferred.
- *
- * Typed via `typeof ES` to reuse the package's own flag-component type.
- */
+// Conventional language → country-flag mapping (languages aren't countries).
 const LANGUAGE_FLAG: Record<Language, typeof ES> = {
   es: ES,
   en: US,
@@ -29,11 +23,6 @@ const LANGUAGE_FLAG: Record<Language, typeof ES> = {
   ko: KR,
   zh: CN,
   ru: RU,
-}
-
-export interface LanguageFlagProps {
-  lang: Language
-  className?: string
 }
 
 /** Renders the flag SVG associated with a language. */

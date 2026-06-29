@@ -4,6 +4,7 @@ import { NATIVE_LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/types/languages'
 import { useLanguageSwitcher } from './LanguageSwitcher.hooks'
 import { LanguageFlag } from './languageFlags'
+import type { LanguageSwitcherProps } from './LanguageSwitcher.types'
 
 const OPTIONS = SUPPORTED_LANGUAGES.map((lang) => ({
   value: lang,
@@ -12,10 +13,6 @@ const OPTIONS = SUPPORTED_LANGUAGES.map((lang) => ({
     <LanguageFlag lang={lang} className="h-4 w-6 shrink-0 rounded-xs" />
   ),
 }))
-
-export interface LanguageSwitcherProps {
-  label?: string
-}
 
 export const LanguageSwitcher = ({ label }: LanguageSwitcherProps) => {
   const { language, handleChange } = useLanguageSwitcher()

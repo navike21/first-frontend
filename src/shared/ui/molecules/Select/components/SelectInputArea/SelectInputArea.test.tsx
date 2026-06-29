@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createRef } from 'react'
 
 import { SelectInputArea } from './SelectInputArea'
-import type { SelectDropdownPortalProps } from '../SelectDropdownPortal/SelectDropdownPortal'
+import type { SelectDropdownPortalProps } from '../SelectDropdownPortal/SelectDropdownPortal.types'
 import type { SelectOptionItem } from '../../Select.types'
 import type { IconName } from '@/shared/types/icons'
 

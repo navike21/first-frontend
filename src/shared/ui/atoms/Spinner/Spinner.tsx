@@ -1,32 +1,20 @@
 import clsx from 'clsx'
-import { useId, useMemo } from 'react'
+import { useId } from 'react'
+import type { SpinnerProps } from './Spinner.types'
 
-export interface SpinnerProps {
-  size?: 'small' | 'medium' | 'large'
-  variant?: 'default' | 'white' | 'gradient'
+const COLOR_SPINNER: Record<
+  NonNullable<SpinnerProps['variant']>,
+  { colorFrom: string; colorTo: string }
+> = {
+  default: { colorFrom: '#62748e', colorTo: '#62748e' },
+  white: { colorFrom: '#f9f3f4', colorTo: '#f9f3f4' },
+  gradient: { colorFrom: '#17CADD', colorTo: '#332eb9ff' },
 }
 
 export const Spinner = ({
   size = 'medium',
   variant = 'default',
 }: SpinnerProps) => {
-  const COLOR_SPINNER = useMemo(
-    () => ({
-      default: {
-        colorFrom: '#62748e',
-        colorTo: '#62748e',
-      },
-      white: {
-        colorFrom: '#f9f3f4',
-        colorTo: '#f9f3f4',
-      },
-      gradient: {
-        colorFrom: '#17CADD',
-        colorTo: '#332eb9ff',
-      },
-    }),
-    []
-  )
   const id_spinner = useId()
   return (
     <div

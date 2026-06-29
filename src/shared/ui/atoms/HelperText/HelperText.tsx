@@ -1,21 +1,11 @@
 import clsx from 'clsx'
-import type { HTMLAttributes, ReactNode } from 'react'
 import { useId } from 'react'
 import { IconComponent } from '../IconComponent/IconComponent'
 import type { IconName } from '@/shared/types/icons'
 import { hasTextClassColor } from '@/shared/lib/hasTextClassColor'
+import type { HelperTextProps, HelperTextVariant } from './HelperText.types'
 
-type Variant = 'default' | 'error' | 'success' | 'warning' | 'info'
-
-export interface HelperTextProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode
-  idField?: string
-  size?: 'small' | 'medium' | 'large'
-  showIcon?: boolean
-  variant?: Variant
-}
-
-const ICON_BY_VARIANT: Record<Variant, IconName> = {
+const ICON_BY_VARIANT: Record<HelperTextVariant, IconName> = {
   default: 'RiInformationFill',
   error: 'RiCloseCircleFill',
   info: 'RiInformationFill',
@@ -43,7 +33,9 @@ export const HelperText = ({
       data-variant={variant}
       className={clsx(
         className,
+        // Layout
         'animate-helper-in flex items-center gap-2',
+        // Variant color (light + dark)
         {
           'text-(--text-secondary)':
             variant === 'default' && !HAS_TEXT_CLASS_COLOR,
@@ -56,6 +48,7 @@ export const HelperText = ({
           'text-blue-500 dark:text-blue-400':
             variant === 'info' && !HAS_TEXT_CLASS_COLOR,
         },
+        // Size
         {
           'text-xs': size === 'small',
           'text-sm': size === 'medium',

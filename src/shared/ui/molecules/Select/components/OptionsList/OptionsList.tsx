@@ -1,19 +1,11 @@
 import { memo } from 'react'
-import type { SelectOptionItem } from '../../Select.types'
 import { useSelectTexts } from '../../Select.texts'
 import { Option } from '../Option/Option'
 import {
   resolveOptionLeftSlot,
   resolveOptionRightSlot,
 } from '../../helper/optionSlots'
-
-interface OptionsListProps {
-  options: SelectOptionItem[]
-  selectedValues: string[]
-  multiple: boolean
-  onSelect: (val: string) => void
-  onFocusIndex: (idx: number) => void
-}
+import type { OptionsListProps } from './OptionsList.types'
 
 export const OptionsList = memo(
   ({

@@ -7,9 +7,9 @@ import { type IconName } from './icons'
 import type { LinkProps } from '@tanstack/react-router'
 
 /**
- * Event handlers that framer-motion redefines on its `motion.*` components.
- * Omit them when spreading native button attributes onto a motion element,
- * otherwise React's DOM handler types clash with framer's pan/animation types.
+ * Event handlers that Motion redefines on its `motion.*` components. Omit them
+ * when spreading native button attributes onto a motion element, otherwise
+ * React's DOM handler types clash with Motion's pan/animation types.
  */
 export type MotionConflictingHandlers =
   | 'onDrag'

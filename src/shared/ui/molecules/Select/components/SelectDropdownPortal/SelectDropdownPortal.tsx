@@ -1,31 +1,9 @@
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
-import type { SelectOptionItem } from '../../Select.types'
+import { motion } from 'motion/react'
 import { OptionsList } from '../OptionsList/OptionsList'
-import type { RefObject } from 'react'
 import { useSelectTexts } from '../../Select.texts'
-
-export interface SelectDropdownPortalProps {
-  dropdownRef: RefObject<HTMLDivElement | null>
-  idField: string
-  multiple: boolean
-  dropdownStyle: {
-    top: number
-    bottom: number
-    left: number
-    width: number
-    openAbove: boolean
-  }
-  search: boolean
-  searchInputRef: RefObject<HTMLInputElement | null>
-  searchQuery: string
-  filteredOptions: SelectOptionItem[]
-  selectedValues: string[]
-  handleOptionSelect: (v: string) => void
-  setSearchQuery: (q: string) => void
-  setFocusedOptionIndex: (i: number) => void
-}
+import type { SelectDropdownPortalProps } from './SelectDropdownPortal.types'
 
 export const SelectDropdownPortal = ({
   dropdownRef,

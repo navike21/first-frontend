@@ -1,16 +1,7 @@
-import { useId, type ReactNode } from 'react'
+import { useId } from 'react'
 import { Label } from '../../atoms/Label/Label'
 import { HelperText } from '../../atoms/HelperText/HelperText'
-
-export interface ToggleLayoutProps {
-  children: ReactNode
-  disabled?: boolean
-  errorMessage?: ReactNode
-  error?: boolean
-  helperText?: ReactNode
-  id?: string
-  label?: ReactNode
-}
+import type { ToggleLayoutProps } from './ToggleLayout.types'
 
 export const ToggleLayout = ({
   children,

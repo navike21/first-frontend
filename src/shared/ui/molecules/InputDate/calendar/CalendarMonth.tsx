@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns'
 import type { Locale } from 'date-fns'
 import { CalendarNav } from './CalendarNav'
 import { isMonthDisabled, parseToDate } from '../InputDate.utils'
+import type { CalendarMonthProps } from './CalendarMonth.types'
 
 // Abbreviated + capitalized month names via date-fns (respects locale)
 const getMonthLabels = (year: number, locale: Locale): string[] =>
@@ -12,17 +13,6 @@ const getMonthLabels = (year: number, locale: Locale): string[] =>
     const label = format(parseISO(iso), 'MMM', { locale })
     return label.charAt(0).toUpperCase() + label.slice(1)
   })
-
-interface CalendarMonthProps {
-  selected?: Date
-  onSelect: (year: number, month: number) => void
-  minDate?: string
-  maxDate?: string
-  locale: Locale
-  onYearLabelClick?: () => void
-  /** Overrides the initial year shown — used in drill-down to preserve the year selected from the year grid */
-  displayYear?: number
-}
 
 export const CalendarMonth = ({
   selected,

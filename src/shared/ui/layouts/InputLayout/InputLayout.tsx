@@ -1,22 +1,10 @@
 import clsx from 'clsx'
-import { useId, type ReactNode } from 'react'
+import { useId } from 'react'
 import { Label } from '../../atoms/Label/Label'
 import { Spinner } from '../../atoms/Spinner/Spinner'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { HelperText } from '../../atoms/HelperText/HelperText'
-
-export interface InputLayoutProps {
-  className?: string
-  classInput?: string
-  children?: ReactNode
-  disabled?: boolean
-  errorMessage?: ReactNode
-  helperText?: ReactNode
-  id?: string
-  label?: ReactNode
-  loading?: boolean
-  variant?: 'default' | 'success' | 'error' | 'warning'
-}
+import type { InputLayoutProps } from './InputLayout.types'
 
 export const InputLayout = ({
   className,

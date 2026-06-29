@@ -1,14 +1,6 @@
 import clsx from 'clsx'
 import { IconComponent } from '../../../atoms/IconComponent/IconComponent'
-
-interface CalendarNavProps {
-  onPrev: () => void
-  onNext: () => void
-  isPrevDisabled?: boolean
-  isNextDisabled?: boolean
-  label: string
-  onLabelClick?: () => void
-}
+import type { CalendarNavProps } from './CalendarNav.types'
 
 export const CalendarNav = ({
   onPrev,

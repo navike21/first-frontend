@@ -1,17 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { IconComponent } from '../IconComponent'
-import type { IconName } from '@/shared/types/icons'
-
-export interface NavItemProps {
-  icon: IconName
-  label: string
-  /** If provided, renders as a router Link; otherwise renders as a button */
-  to?: string
-  isActive?: boolean
-  onClick?: () => void
-  className?: string
-}
+import type { NavItemProps } from './NavItem.types'
 
 export const NavItem = ({
   icon,

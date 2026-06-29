@@ -1,14 +1,5 @@
 import clsx from 'clsx'
-
-export interface SkeletonProps {
-  className?: string
-  /**
-   * circle  → rounded-full (avatar, icon placeholders)
-   * rect    → rounded-md   (buttons, chips)
-   * text    → rounded      (single line of text, ~75% width)
-   */
-  variant?: 'circle' | 'rect' | 'text'
-}
+import type { SkeletonProps } from './Skeleton.types'
 
 const variantClass: Record<NonNullable<SkeletonProps['variant']>, string> = {
   circle: 'rounded-full',

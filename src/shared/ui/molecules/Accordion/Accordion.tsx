@@ -1,19 +1,8 @@
-import { type ReactNode } from 'react'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { springTransition } from '@/shared/lib'
-
-export interface AccordionProps {
-  children: ReactNode
-  className?: string
-  contentClassName?: string
-  icon?: ReactNode
-  isOpen: boolean
-  title: ReactNode
-
-  onToggle: () => void
-}
+import type { AccordionProps } from './Accordion.types'
 
 export const Accordion = ({
   children,
@@ -22,7 +11,6 @@ export const Accordion = ({
   icon,
   isOpen,
   title,
-
   onToggle,
 }: AccordionProps) => {
   return (

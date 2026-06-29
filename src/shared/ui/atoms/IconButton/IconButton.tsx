@@ -1,7 +1,8 @@
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { IconComponent } from '../IconComponent/IconComponent'
-import { Spinner, type SpinnerProps } from '../Spinner/Spinner'
+import { Spinner } from '../Spinner/Spinner'
+import type { SpinnerProps } from '../Spinner/Spinner.types'
 import {
   variantColorClasses,
   variantHoverClasses,

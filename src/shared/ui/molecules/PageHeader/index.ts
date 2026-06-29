@@ -4,4 +4,4 @@ export type {
   PageHeaderAction,
   PageHeaderButtonAction,
   PageHeaderLinkAction,
-} from './PageHeader'
+} from './PageHeader.types'

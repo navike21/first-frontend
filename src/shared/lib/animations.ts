@@ -1,4 +1,4 @@
-import { type Transition, type Variants } from 'framer-motion'
+import { type Transition, type Variants } from 'motion/react'
 
 /**
  * Standard organic spring transition for modals, cards, and page entries.

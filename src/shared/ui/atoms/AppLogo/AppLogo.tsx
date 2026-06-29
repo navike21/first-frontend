@@ -1,12 +1,5 @@
 import clsx from 'clsx'
-
-type AppLogoColor = 'white' | 'default'
-type AppLogoSize = 'x-small' | 'small' | 'medium' | 'large'
-
-interface AppLogoProps extends React.SVGProps<SVGSVGElement> {
-  color?: AppLogoColor
-  size?: AppLogoSize
-}
+import type { AppLogoProps, AppLogoSize } from './AppLogo.types'
 
 const sizeClass: Record<AppLogoSize, string> = {
   'x-small': 'w-8',

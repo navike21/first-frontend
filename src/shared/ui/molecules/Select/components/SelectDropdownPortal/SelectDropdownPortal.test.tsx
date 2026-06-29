@@ -3,10 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createRef } from 'react'
 
-import {
-  SelectDropdownPortal,
-  type SelectDropdownPortalProps,
-} from './SelectDropdownPortal'
+import { SelectDropdownPortal } from './SelectDropdownPortal'
+import type { SelectDropdownPortalProps } from './SelectDropdownPortal.types'
 import { SelectTextsProvider, DEFAULT_SELECT_TEXTS } from '../../Select.texts'
 import type { SelectOptionItem } from '../../Select.types'
 

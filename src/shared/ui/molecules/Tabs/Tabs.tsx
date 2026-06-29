@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { LayoutGroup, motion } from 'framer-motion'
+import { LayoutGroup, motion } from 'motion/react'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
 import { snappySpringTransition } from '@/shared/lib'
 import type { TabsProps } from './Tabs.types'

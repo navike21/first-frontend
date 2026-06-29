@@ -1,1 +1,2 @@
-export { Can, type CanProps } from './Can'
+export { Can } from './Can'
+export type { CanProps } from './Can.types'

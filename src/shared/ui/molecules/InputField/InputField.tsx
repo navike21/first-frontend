@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { forwardRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { InputFieldProps } from './InputField.types'
 import { useInputField } from './InputField.hooks'
 import { InputLayout } from '../../layouts/InputLayout/InputLayout'

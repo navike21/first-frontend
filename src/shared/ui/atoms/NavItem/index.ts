@@ -1,1 +1,2 @@
-export { NavItem, type NavItemProps } from './NavItem'
+export { NavItem } from './NavItem'
+export type { NavItemProps } from './NavItem.types'

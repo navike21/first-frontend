@@ -1,50 +1,12 @@
-import type { SelectOptionItem, SelectVariant } from '../../Select.types'
 import { getInputAreaClass } from '../../helper/getInputAreaClass'
 import clsx from 'clsx'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'motion/react'
 import { SelectedChips } from '../SelectedChips/SelectedChips'
 import { TriggerDisplay } from '../TriggerDisplay/TriggerDisplay'
-import {
-  SelectDropdownPortal,
-  type SelectDropdownPortalProps,
-} from '../SelectDropdownPortal/SelectDropdownPortal'
+import { SelectDropdownPortal } from '../SelectDropdownPortal/SelectDropdownPortal'
 import { useSelectTexts } from '../../Select.texts'
-import type { IconName } from '@/shared/types/icons'
 import { IconComponent, Spinner } from '@/shared/ui'
-
-interface SelectInputAreaProps {
-  triggerRef: React.RefObject<HTMLDivElement | null>
-  disabled: boolean
-  loading: boolean
-  isOpen: boolean
-  variant: SelectVariant
-  isMultipleWithChips: boolean
-  classInput?: string
-  leftSlot?: React.ReactNode
-  rightSlot?: React.ReactNode
-  triggerTabIndex: number
-  onTriggerClick: (() => void) | undefined
-  handleInnerKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void
-  selectedValues: string[]
-  options: SelectOptionItem[]
-  handleOptionDeselect: (val: string) => void
-  singleLabel: string
-  singleOption?: SelectOptionItem
-  placeholder?: string
-  multiple: boolean
-  variantIconDef?: { icon: IconName; className: string }
-  idField: string
-  dropdownRef: React.RefObject<HTMLDivElement | null>
-  dropdownStyle: SelectDropdownPortalProps['dropdownStyle']
-  search: boolean
-  searchInputRef: React.RefObject<HTMLInputElement | null>
-  searchQuery: string
-  setSearchQuery: (q: string) => void
-  filteredOptions: SelectOptionItem[]
-  handleOptionSelect: (val: string) => void
-  setFocusedOptionIndex: (i: number) => void
-  mounted: boolean
-}
+import type { SelectInputAreaProps } from './SelectInputArea.types'
 
 export const SelectInputArea = ({
   triggerRef,

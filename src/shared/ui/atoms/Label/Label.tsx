@@ -1,12 +1,6 @@
 import { hasTextClassColor } from '@/shared/lib/hasTextClassColor'
 import clsx from 'clsx'
-import type { HTMLAttributes } from 'react'
-
-export interface LabelProps extends HTMLAttributes<HTMLLabelElement> {
-  className?: string
-  disabled?: boolean
-  htmlFor?: string
-}
+import type { LabelProps } from './Label.types'
 
 export const Label = ({
   children,

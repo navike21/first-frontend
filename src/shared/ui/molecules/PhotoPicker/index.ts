@@ -1,1 +1,2 @@
-export { PhotoPicker, type PhotoPickerProps } from './PhotoPicker'
+export { PhotoPicker } from './PhotoPicker'
+export type { PhotoPickerProps } from './PhotoPicker.types'

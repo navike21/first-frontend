@@ -1,15 +1,7 @@
 import clsx from 'clsx'
 import { CalendarNav } from './CalendarNav'
 import { isYearDisabled, getYearPage, todayDate } from '../InputDate.utils'
-
-interface CalendarYearProps {
-  selected?: Date
-  yearPage: number[]
-  onPageChange: (newCenter: number) => void
-  onSelect: (year: number) => void
-  minDate?: string
-  maxDate?: string
-}
+import type { CalendarYearProps } from './CalendarYear.types'
 
 export const CalendarYear = ({
   selected,
