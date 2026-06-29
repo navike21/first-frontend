@@ -2,7 +2,10 @@ import type { ReactNode } from 'react'
 import { IconComponent } from '@/shared/ui'
 import type { SelectOptionItem } from '../Select.types'
 
-type SlotSource = Pick<SelectOptionItem, 'leftSlot' | 'rightSlot' | 'content' | 'icon'>
+type SlotSource = Pick<
+  SelectOptionItem,
+  'leftSlot' | 'rightSlot' | 'content' | 'icon'
+>
 
 /**
  * Resolves the leading visual of an option. Honors the new `leftSlot` first,

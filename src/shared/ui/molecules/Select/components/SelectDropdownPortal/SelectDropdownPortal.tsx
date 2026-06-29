@@ -50,7 +50,11 @@ export const SelectDropdownPortal = ({
       role="listbox"
       aria-multiselectable={multiple}
       data-position={dropdownStyle.openAbove ? 'top' : 'bottom'}
-      initial={{ opacity: 0, scaleY: 0.95, y: dropdownStyle.openAbove ? 4 : -4 }}
+      initial={{
+        opacity: 0,
+        scaleY: 0.95,
+        y: dropdownStyle.openAbove ? 4 : -4,
+      }}
       animate={{ opacity: 1, scaleY: 1, y: 0 }}
       exit={{ opacity: 0, scaleY: 0.95, y: dropdownStyle.openAbove ? 4 : -4 }}
       transition={{ duration: 0.15, ease: 'easeOut' }}

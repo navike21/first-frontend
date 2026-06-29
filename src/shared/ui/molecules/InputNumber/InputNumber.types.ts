@@ -1,7 +1,9 @@
 import type { InputFieldProps } from '../InputField/InputField.types'
 
-export interface InputNumberProps
-  extends Omit<InputFieldProps, 'type' | 'value' | 'defaultValue'> {
+export interface InputNumberProps extends Omit<
+  InputFieldProps,
+  'type' | 'value' | 'defaultValue'
+> {
   /** Max decimal places. `0` (default) ⇒ integer only. Ignored when `mask` is set. */
   decimals?: number
   /** Allow a leading minus sign. Default `false`. Ignored when `mask` is set. */

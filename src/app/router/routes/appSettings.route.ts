@@ -16,9 +16,13 @@ function createAppSettingsRouteTree(lang: Language) {
   })
 }
 
-const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.appSettings[l])))
+const uniqueSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.appSettings[l]))
+)
 
 export const allAppSettingsRouteTrees = uniqueSlugs.map((slug) => {
-  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.appSettings[l] === slug)!
+  const lang = SUPPORTED_LANGUAGES.find(
+    (l) => ROUTE_SLUGS.appSettings[l] === slug
+  )!
   return createAppSettingsRouteTree(lang)
 })

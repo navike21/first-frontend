@@ -79,7 +79,9 @@ export const useInputDate = (
   )
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(() =>
-    parseToDate((value as string | undefined) ?? (defaultValue as string | undefined))
+    parseToDate(
+      (value as string | undefined) ?? (defaultValue as string | undefined)
+    )
   )
   const [selectedRange, setSelectedRange] = useState<DateRange>({
     from: undefined,
@@ -87,12 +89,16 @@ export const useInputDate = (
 
   const [displayMonth, setDisplayMonth] = useState<Date>(() => {
     return (
-      parseToDate((value as string | undefined) ?? (defaultValue as string | undefined)) ?? todayDate()
+      parseToDate(
+        (value as string | undefined) ?? (defaultValue as string | undefined)
+      ) ?? todayDate()
     )
   })
 
   const [yearPageCenter, setYearPageCenter] = useState<number>(() => {
-    const d = parseToDate((value as string | undefined) ?? (defaultValue as string | undefined))
+    const d = parseToDate(
+      (value as string | undefined) ?? (defaultValue as string | undefined)
+    )
     return d ? d.getFullYear() : todayDate().getFullYear()
   })
 

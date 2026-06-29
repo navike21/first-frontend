@@ -85,7 +85,11 @@ export function createUpdateUserFormSchema(v: V) {
       ]
       for (const i of issues) {
         if (i.test) {
-          ctx.addIssue({ code: 'custom', message: i.message, path: ['password'] })
+          ctx.addIssue({
+            code: 'custom',
+            message: i.message,
+            path: ['password'],
+          })
         }
       }
       if (d.password !== d.confirmPassword) {

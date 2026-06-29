@@ -117,7 +117,9 @@ export const DataTable = <T,>({
                   </span>
                 )}
                 {primaryColumn && (
-                  <div className="min-w-0 flex-1">{primaryColumn.cell(row)}</div>
+                  <div className="min-w-0 flex-1">
+                    {primaryColumn.cell(row)}
+                  </div>
                 )}
               </div>
 

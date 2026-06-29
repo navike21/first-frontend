@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { PageHeader, DataTable, Can, IconButton, Tooltip, InputDate, Button, Chip, type DataTableColumn } from '@/shared/ui'
+import {
+  PageContent,
+  DataTable,
+  Can,
+  IconButton,
+  Tooltip,
+  InputDate,
+  Button,
+  Chip,
+  type DataTableColumn,
+} from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { ForbiddenPage } from '@domains/errors'
@@ -29,10 +39,25 @@ const formatDateTime = (value?: string | Date | null): string => {
 
 const getActionChipVariant = (action: string) => {
   const lower = action.toLowerCase()
-  if (lower.includes('delete') || lower.includes('purge') || lower.includes('remove')) return 'error'
+  if (
+    lower.includes('delete') ||
+    lower.includes('purge') ||
+    lower.includes('remove')
+  )
+    return 'error'
   if (lower.includes('create') || lower.includes('restore')) return 'success'
-  if (lower.includes('update') || lower.includes('patch') || lower.includes('edit')) return 'warning'
-  if (lower.includes('login') || lower.includes('logout') || lower.includes('auth')) return 'informative'
+  if (
+    lower.includes('update') ||
+    lower.includes('patch') ||
+    lower.includes('edit')
+  )
+    return 'warning'
+  if (
+    lower.includes('login') ||
+    lower.includes('logout') ||
+    lower.includes('auth')
+  )
+    return 'informative'
   return 'default'
 }
 
@@ -69,7 +94,9 @@ export const AuditLogsPage = () => {
       id: 'userId',
       header: t.table.colUser,
       cell: (row) => {
-        const name = row.user ? `${row.user.firstName} ${row.user.lastName}` : undefined
+        const name = row.user
+          ? `${row.user.firstName} ${row.user.lastName}`
+          : undefined
         return (
           <span className="text-sm font-medium text-(--text-secondary)">
             {name ?? row.userId ?? '—'}
@@ -90,9 +117,7 @@ export const AuditLogsPage = () => {
       id: 'resource',
       header: t.table.colResource,
       cell: (row) => (
-        <span className="text-sm text-(--text-secondary)">
-          {row.resource}
-        </span>
+        <span className="text-sm text-(--text-secondary)">{row.resource}</span>
       ),
     },
     {
@@ -117,8 +142,7 @@ export const AuditLogsPage = () => {
 
   return (
     <Can anyOf={CAN.auditLogsView} fallback={<ForbiddenPage />}>
-      <div className="animate-page-in space-y-6">
-        <PageHeader title={t.page.title} description={t.page.desc} />
+      <PageContent title={t.page.title} description={t.page.desc}>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="w-full sm:w-52">
@@ -160,7 +184,7 @@ export const AuditLogsPage = () => {
             </Button>
           )}
         </div>
-        
+
         <DataTable
           columns={columns}
           rows={data?.data ?? []}
@@ -180,11 +204,17 @@ export const AuditLogsPage = () => {
 
         <AuditLogDetailModal
           log={selectedLog}
-          userName={selectedLog?.user ? `${selectedLog.user.firstName} ${selectedLog.user.lastName}` : undefined}
-          formattedDate={selectedLog ? formatDateTime(selectedLog.occurredAt) : ''}
+          userName={
+            selectedLog?.user
+              ? `${selectedLog.user.firstName} ${selectedLog.user.lastName}`
+              : undefined
+          }
+          formattedDate={
+            selectedLog ? formatDateTime(selectedLog.occurredAt) : ''
+          }
           onClose={() => setSelectedLog(null)}
         />
-      </div>
+      </PageContent>
     </Can>
   )
 }

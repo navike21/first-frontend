@@ -20,8 +20,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const { idField, resolvedRef, inputPropsWithoutIndeterminate } =
       useCheckbox(props, ref)
 
-    const [isChecked, setIsChecked] = useState(props.checked ?? props.defaultChecked ?? false)
-    const [isIndeterminate, setIsIndeterminate] = useState(props.indeterminate ?? false)
+    const [isChecked, setIsChecked] = useState(
+      props.checked ?? props.defaultChecked ?? false
+    )
+    const [isIndeterminate, setIsIndeterminate] = useState(
+      props.indeterminate ?? false
+    )
 
     useEffect(() => {
       if (props.checked !== undefined) {
@@ -80,7 +84,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute inset-0 m-auto h-3.5 w-3.5 text-white pointer-events-none"
+            className="pointer-events-none absolute inset-0 m-auto h-3.5 w-3.5 text-white"
           >
             <motion.path
               d="M20 6L9 17L4 12"
@@ -101,7 +105,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute inset-0 m-auto h-3.5 w-3.5 text-white pointer-events-none"
+            className="pointer-events-none absolute inset-0 m-auto h-3.5 w-3.5 text-white"
           >
             <motion.path
               d="M5 12H19"

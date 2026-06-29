@@ -1,5 +1,5 @@
 import {
-  PageHeader,
+  PageContent,
   Modal,
   Button,
   IconButton,
@@ -87,11 +87,7 @@ export const UsersTrashPage = () => {
       align: 'right',
       cell: (user) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip
-            heading={t.actions.viewDetail}
-            position="top"
-            size="small"
-          >
+          <Tooltip heading={t.actions.viewDetail} position="top" size="small">
             <IconButton
               icon="RiEyeLine"
               variant="text"
@@ -137,20 +133,19 @@ export const UsersTrashPage = () => {
   ]
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.trashTitle}
-        description={t.page.trashDescription}
-        actions={[
-          {
-            type: 'link',
-            label: t.actions.cancel,
-            variant: 'secondary',
-            to: navPaths.users(language),
-            size: 'small',
-          },
-        ]}
-      />
+    <PageContent
+      title={t.page.trashTitle}
+      description={t.page.trashDescription}
+      actions={[
+        {
+          type: 'link',
+          label: t.actions.cancel,
+          variant: 'secondary',
+          to: navPaths.users(language),
+          size: 'small',
+        },
+      ]}
+    >
 
       <div>
         <FadeCollapse show={selectedIds.length > 0 && (canRestore || canPurge)}>
@@ -345,6 +340,6 @@ export const UsersTrashPage = () => {
           </>
         }
       />
-    </div>
+    </PageContent>
   )
 }

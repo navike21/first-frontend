@@ -5,7 +5,8 @@ import type { AuditLogsListParams } from './auditLog.api'
 export const auditLogKeys = {
   all: ['auditLogs'] as const,
   lists: () => [...auditLogKeys.all, 'list'] as const,
-  list: (params: AuditLogsListParams) => [...auditLogKeys.lists(), params] as const,
+  list: (params: AuditLogsListParams) =>
+    [...auditLogKeys.lists(), params] as const,
 }
 
 export const useAuditLogs = (params: AuditLogsListParams = {}) =>

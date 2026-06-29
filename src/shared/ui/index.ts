@@ -43,10 +43,7 @@ export {
   type TypeInput,
   type variantInput,
 } from './molecules/InputField'
-export {
-  InputNumber,
-  type InputNumberProps,
-} from './molecules/InputNumber'
+export { InputNumber, type InputNumberProps } from './molecules/InputNumber'
 export { RadioOption, type RadioOptionProps } from './molecules/RadioOption'
 export {
   Tooltip,
@@ -102,3 +99,4 @@ export {
 // Layouts
 export { InputLayout, type InputLayoutProps } from './layouts/InputLayout'
 export { ToggleLayout, type ToggleLayoutProps } from './layouts/ToggleLayout'
+export { PageContent, type PageContentProps } from './layouts/PageContent'

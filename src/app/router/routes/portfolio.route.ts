@@ -16,9 +16,13 @@ function createPortfolioRouteTree(lang: Language) {
   })
 }
 
-const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.portfolio[l])))
+const uniqueSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.portfolio[l]))
+)
 
 export const allPortfolioRouteTrees = uniqueSlugs.map((slug) => {
-  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.portfolio[l] === slug)!
+  const lang = SUPPORTED_LANGUAGES.find(
+    (l) => ROUTE_SLUGS.portfolio[l] === slug
+  )!
   return createPortfolioRouteTree(lang)
 })

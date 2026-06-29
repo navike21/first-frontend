@@ -10,7 +10,10 @@ function Harness({
   onValue,
   defaultValue = '',
   ...props
-}: InputNumberProps & { onValue: (v: unknown) => void; defaultValue?: string }) {
+}: InputNumberProps & {
+  onValue: (v: unknown) => void
+  defaultValue?: string
+}) {
   const { register, handleSubmit } = useForm({
     defaultValues: { field: defaultValue },
   })
@@ -63,7 +66,13 @@ describe('InputNumber', () => {
   })
 
   it('formats an injected default value on mount', () => {
-    render(<Harness onValue={vi.fn()} mask="+## ### ### ###" defaultValue="51989505027" />)
+    render(
+      <Harness
+        onValue={vi.fn()}
+        mask="+## ### ### ###"
+        defaultValue="51989505027"
+      />
+    )
     expect(input().value).toBe('+51 989 505 027')
   })
 

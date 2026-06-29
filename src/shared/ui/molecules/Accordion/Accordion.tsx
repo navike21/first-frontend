@@ -70,7 +70,7 @@ export const Accordion = ({
       >
         <div
           className={clsx(
-            'pt-1 pb-2 duration-normal ease-out-expo transition-transform',
+            'duration-normal ease-out-expo pt-1 pb-2 transition-transform',
             isOpen ? 'translate-y-0' : '-translate-y-2',
             contentClassName
           )}

@@ -21,7 +21,9 @@ export const TriggerDisplay = ({
 
   return (
     <span className="flex items-center gap-1.5">
-      {leftSlot && <span className="flex shrink-0 items-center">{leftSlot}</span>}
+      {leftSlot && (
+        <span className="flex shrink-0 items-center">{leftSlot}</span>
+      )}
       <span
         data-select-trigger-label
         className={clsx('text-sm', {

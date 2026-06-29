@@ -102,8 +102,7 @@ export async function request<TResponse, TBody = unknown>({
   body,
   ...init
 }: RequestConfig<TBody>): Promise<TResponse> {
-  const isFormData =
-    typeof FormData !== 'undefined' && body instanceof FormData
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData
 
   // Multipart uploads can't be JSON-serialised into the offline queue, so they
   // require a live connection; only JSON mutations are queued offline.

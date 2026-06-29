@@ -46,7 +46,9 @@ let buffer: Partial<UserPreferences> = {}
  * preferences locally never triggers a save back. A failed sync is silent — the
  * local change already took effect.
  */
-export const queuePreferenceSave = (partial: Partial<UserPreferences>): void => {
+export const queuePreferenceSave = (
+  partial: Partial<UserPreferences>
+): void => {
   if (!useSessionStore.getState().token) return
   buffer = { ...buffer, ...partial }
   if (timer) clearTimeout(timer)

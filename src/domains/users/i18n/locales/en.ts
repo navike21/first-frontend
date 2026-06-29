@@ -124,7 +124,8 @@ export const en: UsersTranslations = {
     bulkDeactivated: 'Users deleted',
     bulkRestored: 'Users restored',
     bulkPurged: 'Users permanently deleted',
-    offlinePhotoSkipped: 'Images are not saved offline; add it when you reconnect.',
+    offlinePhotoSkipped:
+      'Images are not saved offline; add it when you reconnect.',
     created: 'User created successfully',
     updated: 'User updated successfully',
     deactivated: 'User deleted successfully',

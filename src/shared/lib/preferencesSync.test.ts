@@ -4,7 +4,9 @@ vi.mock('@/shared/api/preferences', () => ({
   preferencesApi: { update: vi.fn().mockResolvedValue({ data: {} }) },
 }))
 vi.mock('@/shared/model/session.store', () => ({
-  useSessionStore: { getState: vi.fn(() => ({ token: null as string | null })) },
+  useSessionStore: {
+    getState: vi.fn(() => ({ token: null as string | null })),
+  },
 }))
 
 import { preferencesApi } from '@/shared/api/preferences'

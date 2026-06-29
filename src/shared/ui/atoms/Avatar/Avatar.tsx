@@ -27,7 +27,7 @@ export const Avatar = memo(
     return (
       <figure
         className={clsx(
-          'relative inline-flex shrink-0 aspect-square rounded-full shadow-sm',
+          'relative inline-flex aspect-square shrink-0 rounded-full shadow-sm',
           sizeMap[size],
           className
         )}

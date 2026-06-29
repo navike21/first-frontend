@@ -147,7 +147,8 @@ const OFFLINE_MESSAGES: Record<Language, OfflineMessages> = {
     connectionLost: 'Sin conexión — los cambios se guardarán automáticamente.',
     queued: 'Guardado sin conexión. Se sincronizará al reconectar.',
     syncOk: (n) => `Conexión restaurada — ${n} cambio(s) sincronizado(s).`,
-    syncPartial: (s, f) => `${s} sincronizado(s), ${f} no se pudieron sincronizar.`,
+    syncPartial: (s, f) =>
+      `${s} sincronizado(s), ${f} no se pudieron sincronizar.`,
   },
   en: {
     connectionLost: 'No connection — your changes will be saved automatically.',
@@ -156,28 +157,39 @@ const OFFLINE_MESSAGES: Record<Language, OfflineMessages> = {
     syncPartial: (s, f) => `${s} synced, ${f} could not be synced.`,
   },
   de: {
-    connectionLost: 'Keine Verbindung — Ihre Änderungen werden automatisch gespeichert.',
+    connectionLost:
+      'Keine Verbindung — Ihre Änderungen werden automatisch gespeichert.',
     queued: 'Offline gespeichert. Wird bei erneuter Verbindung synchronisiert.',
-    syncOk: (n) => `Verbindung wiederhergestellt — ${n} Änderung(en) synchronisiert.`,
-    syncPartial: (s, f) => `${s} synchronisiert, ${f} konnten nicht synchronisiert werden.`,
+    syncOk: (n) =>
+      `Verbindung wiederhergestellt — ${n} Änderung(en) synchronisiert.`,
+    syncPartial: (s, f) =>
+      `${s} synchronisiert, ${f} konnten nicht synchronisiert werden.`,
   },
   fr: {
-    connectionLost: 'Pas de connexion — vos modifications seront enregistrées automatiquement.',
-    queued: 'Enregistré hors ligne. La synchronisation se fera à la reconnexion.',
+    connectionLost:
+      'Pas de connexion — vos modifications seront enregistrées automatiquement.',
+    queued:
+      'Enregistré hors ligne. La synchronisation se fera à la reconnexion.',
     syncOk: (n) => `Connexion rétablie — ${n} modification(s) synchronisée(s).`,
-    syncPartial: (s, f) => `${s} synchronisée(s), ${f} n'ont pas pu être synchronisées.`,
+    syncPartial: (s, f) =>
+      `${s} synchronisée(s), ${f} n'ont pas pu être synchronisées.`,
   },
   pt: {
-    connectionLost: 'Sem ligação — as suas alterações serão guardadas automaticamente.',
+    connectionLost:
+      'Sem ligação — as suas alterações serão guardadas automaticamente.',
     queued: 'Guardado sem ligação. Será sincronizado ao reconectar.',
     syncOk: (n) => `Ligação restaurada — ${n} alteração(ões) sincronizada(s).`,
-    syncPartial: (s, f) => `${s} sincronizada(s), ${f} não puderam ser sincronizadas.`,
+    syncPartial: (s, f) =>
+      `${s} sincronizada(s), ${f} não puderam ser sincronizadas.`,
   },
   it: {
-    connectionLost: 'Nessuna connessione — le modifiche verranno salvate automaticamente.',
+    connectionLost:
+      'Nessuna connessione — le modifiche verranno salvate automaticamente.',
     queued: 'Salvato offline. Verrà sincronizzato alla riconnessione.',
-    syncOk: (n) => `Connessione ripristinata — ${n} modifica(che) sincronizzata(e).`,
-    syncPartial: (s, f) => `${s} sincronizzate, ${f} non è stato possibile sincronizzarle.`,
+    syncOk: (n) =>
+      `Connessione ripristinata — ${n} modifica(che) sincronizzata(e).`,
+    syncPartial: (s, f) =>
+      `${s} sincronizzate, ${f} non è stato possibile sincronizzarle.`,
   },
   ja: {
     connectionLost: '接続がありません — 変更は自動的に保存されます。',
@@ -188,7 +200,8 @@ const OFFLINE_MESSAGES: Record<Language, OfflineMessages> = {
   ko: {
     connectionLost: '연결 없음 — 변경사항이 자동으로 저장됩니다.',
     queued: '오프라인으로 저장되었습니다. 다시 연결되면 동기화됩니다.',
-    syncOk: (n) => `연결이 복구되었습니다 — ${n}개의 변경사항을 동기화했습니다.`,
+    syncOk: (n) =>
+      `연결이 복구되었습니다 — ${n}개의 변경사항을 동기화했습니다.`,
     syncPartial: (s, f) => `${s}개 동기화됨, ${f}개는 동기화할 수 없습니다.`,
   },
   zh: {
@@ -198,10 +211,13 @@ const OFFLINE_MESSAGES: Record<Language, OfflineMessages> = {
     syncPartial: (s, f) => `已同步 ${s} 项，${f} 项无法同步。`,
   },
   ru: {
-    connectionLost: 'Нет соединения — ваши изменения будут сохранены автоматически.',
+    connectionLost:
+      'Нет соединения — ваши изменения будут сохранены автоматически.',
     queued: 'Сохранено офлайн. Синхронизируется при восстановлении связи.',
-    syncOk: (n) => `Соединение восстановлено — синхронизировано изменений: ${n}.`,
-    syncPartial: (s, f) => `Синхронизировано: ${s}, не удалось синхронизировать: ${f}.`,
+    syncOk: (n) =>
+      `Соединение восстановлено — синхронизировано изменений: ${n}.`,
+    syncPartial: (s, f) =>
+      `Синхронизировано: ${s}, не удалось синхронизировать: ${f}.`,
   },
 }
 
@@ -230,7 +246,8 @@ export const notify = {
   },
 
   /** Persistent warning when the connection drops. */
-  connectionLost: () => toast.warning(OFFLINE_MESSAGES[getLang()].connectionLost),
+  connectionLost: () =>
+    toast.warning(OFFLINE_MESSAGES[getLang()].connectionLost),
 
   /** Info toast shown when a mutation is saved to the offline queue. */
   offlineQueued: () => toast.info(OFFLINE_MESSAGES[getLang()].queued),

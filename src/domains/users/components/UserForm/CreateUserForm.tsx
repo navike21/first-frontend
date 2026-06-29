@@ -57,9 +57,9 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             {/* ── Personal details ─────────────────────────────────────────── */}
             <div
               hidden={activeTab !== 'personal'}
-              className="animate-tab-fade flex flex-col gap-4"
+              className="animate-tab-fade flex flex-col gap-y-6"
             >
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -80,7 +80,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.email?.message}
                 {...register('email')}
               />
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -115,7 +115,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.address?.street?.message}
                 {...register('address.street')}
               />
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <InputField
                   label={t.form.addressCity}
                   variant={errors.address?.city ? 'error' : undefined}
@@ -140,12 +140,12 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             {/* ── Account & access ─────────────────────────────────────────── */}
             <div
               hidden={activeTab !== 'account'}
-              className="animate-tab-fade flex flex-col gap-4"
+              className="animate-tab-fade flex flex-col gap-y-6"
             >
               <p className="text-sm font-medium text-(--text-secondary)">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <InputField
                   label={t.form.password}
                   type="password"

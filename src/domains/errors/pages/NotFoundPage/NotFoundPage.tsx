@@ -33,10 +33,7 @@ export const NotFoundPage = () => {
 
       <div className="flex flex-wrap items-center justify-center gap-3">
         {canGoBack && (
-          <Button
-            variant="secondary"
-            onClick={handleBack}
-          >
+          <Button variant="secondary" onClick={handleBack}>
             {t.notFound.backButton}
           </Button>
         )}

@@ -65,10 +65,11 @@ vi.mock('@/shared/ui', async () => {
   const actual = await vi.importActual<any>('@/shared/ui')
   return {
     ...actual,
-    PageHeader: ({ title, description }: any) => (
+    PageContent: ({ title, description, children }: any) => (
       <div data-testid="page-header">
         <h1>{title}</h1>
         <p>{description}</p>
+        {children}
       </div>
     ),
     DataTable: ({ rows, columns, emptyLabel, totalLabel }: any) => (
@@ -79,8 +80,12 @@ vi.mock('@/shared/ui', async () => {
           <tbody>
             {rows.map((row: any) => (
               <tr key={row.id} data-testid="row-item">
-                <td>{columns.find((c: any) => c.id === 'userId')?.cell(row)}</td>
-                <td>{columns.find((c: any) => c.id === 'action')?.cell(row)}</td>
+                <td>
+                  {columns.find((c: any) => c.id === 'userId')?.cell(row)}
+                </td>
+                <td>
+                  {columns.find((c: any) => c.id === 'action')?.cell(row)}
+                </td>
                 <td>
                   {columns.find((c: any) => c.id === 'actions')?.cell(row)}
                 </td>
@@ -280,4 +285,3 @@ describe('AuditLogsPage component', () => {
     )
   })
 })
-

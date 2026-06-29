@@ -46,10 +46,14 @@ export const UserGroupDetailModal = ({
   const { t } = useUserGroupsTranslation()
 
   const superadmin = group ? isSuperadmin(group.permissions) : false
-  const grouped = group && !superadmin ? groupPermissions(group.permissions) : {}
+  const grouped =
+    group && !superadmin ? groupPermissions(group.permissions) : {}
 
-  const { resources: resourceLabels, actions: actionLabels, allLabel } =
-    t.permissionCatalog
+  const {
+    resources: resourceLabels,
+    actions: actionLabels,
+    allLabel,
+  } = t.permissionCatalog
   const resourceLabel = (resource: string): string =>
     resource === '*'
       ? allLabel
@@ -108,7 +112,9 @@ export const UserGroupDetailModal = ({
               <p className="mb-1 text-xs font-semibold tracking-wide text-(--text-muted) uppercase">
                 {t.detail.descriptionLabel}
               </p>
-              <p className="text-sm text-(--text-primary)">{group.description}</p>
+              <p className="text-sm text-(--text-primary)">
+                {group.description}
+              </p>
             </div>
           )}
 

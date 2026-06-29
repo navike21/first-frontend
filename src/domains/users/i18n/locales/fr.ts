@@ -53,8 +53,7 @@ export const fr: UsersTranslations = {
     password: 'Mot de passe',
     confirmPassword: 'Confirmer le mot de passe',
     newPassword: 'Nouveau mot de passe',
-    passwordKeepHint:
-      'Laissez vide pour conserver le mot de passe actuel',
+    passwordKeepHint: 'Laissez vide pour conserver le mot de passe actuel',
     phone: 'Téléphone',
     dateOfBirth: 'Date de naissance',
     uploadPhoto: 'Télécharger une photo',
@@ -125,7 +124,8 @@ export const fr: UsersTranslations = {
     bulkDeactivated: 'Utilisateurs supprimés',
     bulkRestored: 'Utilisateurs restaurés',
     bulkPurged: 'Utilisateurs supprimés définitivement',
-    offlinePhotoSkipped: "Les images ne sont pas enregistrées hors ligne ; ajoutez-la à la reconnexion.",
+    offlinePhotoSkipped:
+      'Les images ne sont pas enregistrées hors ligne ; ajoutez-la à la reconnexion.',
     created: 'Utilisateur créé avec succès',
     updated: 'Utilisateur mis à jour avec succès',
     deactivated: 'Utilisateur supprimé avec succès',

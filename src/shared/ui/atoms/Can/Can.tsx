@@ -29,7 +29,12 @@ export interface CanProps {
  * <Can anyOf={CAN.usersCreate}><LinkButton .../></Can>
  * <Can when={selected.length > 0}><BulkBar /></Can>
  */
-export const Can = ({ anyOf, when = true, fallback = null, children }: CanProps) => {
+export const Can = ({
+  anyOf,
+  when = true,
+  fallback = null,
+  children,
+}: CanProps) => {
   const required =
     anyOf === undefined ? [] : Array.isArray(anyOf) ? anyOf : [anyOf as string]
   const hasAny = useHasPermission(...(required as string[]))

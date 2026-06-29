@@ -1,5 +1,5 @@
 import {
-  PageHeader,
+  PageContent,
   InputField,
   Select,
   Modal,
@@ -43,35 +43,34 @@ export const UserGroupsPage = () => {
   const canCreate = useHasPermission(...CAN.groupsCreate)
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.listTitle}
-        description={t.page.listDescription}
-        actions={[
-          ...(canSeeTrash
-            ? [
-                {
-                  type: 'link' as const,
-                  label: t.actions.viewTrash,
-                  variant: 'outline' as const,
-                  to: navPaths.userGroupTrash(language),
-                  size: 'small' as const,
-                },
-              ]
-            : []),
-          ...(canCreate
-            ? [
-                {
-                  type: 'link' as const,
-                  label: t.actions.newGroup,
-                  variant: 'primary' as const,
-                  to: navPaths.userGroupCreate(language),
-                  size: 'small' as const,
-                },
-              ]
-            : []),
-        ]}
-      />
+    <PageContent
+      title={t.page.listTitle}
+      description={t.page.listDescription}
+      actions={[
+        ...(canSeeTrash
+          ? [
+              {
+                type: 'link' as const,
+                label: t.actions.viewTrash,
+                variant: 'outline' as const,
+                to: navPaths.userGroupTrash(language),
+                size: 'small' as const,
+              },
+            ]
+          : []),
+        ...(canCreate
+          ? [
+              {
+                type: 'link' as const,
+                label: t.actions.newGroup,
+                variant: 'primary' as const,
+                to: navPaths.userGroupCreate(language),
+                size: 'small' as const,
+              },
+            ]
+          : []),
+      ]}
+    >
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
@@ -149,6 +148,6 @@ export const UserGroupsPage = () => {
           </>
         }
       />
-    </div>
+    </PageContent>
   )
 }

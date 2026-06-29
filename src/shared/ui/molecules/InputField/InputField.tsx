@@ -92,7 +92,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         {type === 'password' && (
           <motion.button
             type="button"
-            whileTap={!disabled ? { scale: 0.9 } : undefined}
+            whileTap={disabled ? undefined : { scale: 0.9 }}
             className={clsx(
               'flex h-10 min-w-10 items-center justify-center outline-none',
               'duration-fast ease-out-expo transition-all',

@@ -25,7 +25,10 @@ export function useSidebar() {
     return getMenuConfig(language)
       .map((item) =>
         item.children
-          ? { ...item, children: item.children.filter((c) => allowed(c.permissions)) }
+          ? {
+              ...item,
+              children: item.children.filter((c) => allowed(c.permissions)),
+            }
           : item
       )
       .filter((item) =>

@@ -1,3 +1,4 @@
+import type { RefObject } from 'react'
 import { Button } from '@/shared/ui/atoms/Button'
 import { LinkButton } from '@/shared/ui/atoms/LinkButton'
 import type { IconName } from '@/shared/types/icons'
@@ -29,19 +30,22 @@ export interface PageHeaderProps {
   title: string
   description?: string
   actions?: PageHeaderAction[]
+  /** Optional ref forwarded to the <h1> for external observers */
+  titleRef?: RefObject<HTMLHeadingElement | null>
 }
 
 export const PageHeader = ({
   title,
   description,
   actions,
+  titleRef,
 }: PageHeaderProps) => {
   const hasActions = actions && actions.length > 0
 
   return (
     <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
-        <h1 className="text-2xl font-extrabold tracking-tight text-(--text-primary) sm:text-3xl">
+        <h1 ref={titleRef} className="text-2xl font-extrabold tracking-tight text-(--text-primary) sm:text-3xl">
           {title}
         </h1>
         {description && (

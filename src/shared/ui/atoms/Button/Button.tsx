@@ -66,8 +66,7 @@ export const Button = ({
         variant !== 'text' && buttonShapeClass,
         {
           'shadow-md shadow-black/30': variantHasShadow[variant],
-          'hover:shadow-lg':
-            variantHasShadow[variant] && !disabled && !loading,
+          'hover:shadow-lg': variantHasShadow[variant] && !disabled && !loading,
           'active:scale-95': variant !== 'text' && !disabled && !loading,
         },
         variantColorClasses[variant],

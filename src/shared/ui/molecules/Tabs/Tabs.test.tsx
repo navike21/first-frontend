@@ -23,9 +23,7 @@ describe('Tabs component', () => {
   it('renders a tab per item', () => {
     render(<Tabs tabs={tabs} activeId="settings" onChange={vi.fn()} />)
     expect(screen.getByRole('tab', { name: 'Settings' })).toBeInTheDocument()
-    expect(
-      screen.getByRole('tab', { name: /Members/ })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: /Members/ })).toBeInTheDocument()
   })
 
   it('marks the active tab with aria-selected', () => {

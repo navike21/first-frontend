@@ -45,8 +45,6 @@ export const LinkButton = ({
     {...props}
   >
     {children}
-    {icon && (
-      <IconComponent icon={icon} className={iconSizeClasses[size]} />
-    )}
+    {icon && <IconComponent icon={icon} className={iconSizeClasses[size]} />}
   </Link>
 )

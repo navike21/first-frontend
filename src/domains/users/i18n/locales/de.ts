@@ -53,8 +53,7 @@ export const de: UsersTranslations = {
     password: 'Passwort',
     confirmPassword: 'Passwort wiederholen',
     newPassword: 'Neues Passwort',
-    passwordKeepHint:
-      'Leer lassen, um das aktuelle Passwort beizubehalten',
+    passwordKeepHint: 'Leer lassen, um das aktuelle Passwort beizubehalten',
     phone: 'Telefon',
     dateOfBirth: 'Geburtsdatum',
     uploadPhoto: 'Foto hochladen',
@@ -126,7 +125,8 @@ export const de: UsersTranslations = {
     bulkDeactivated: 'Benutzer gelöscht',
     bulkRestored: 'Benutzer wiederhergestellt',
     bulkPurged: 'Benutzer dauerhaft gelöscht',
-    offlinePhotoSkipped: 'Bilder werden offline nicht gespeichert; fügen Sie es bei erneuter Verbindung hinzu.',
+    offlinePhotoSkipped:
+      'Bilder werden offline nicht gespeichert; fügen Sie es bei erneuter Verbindung hinzu.',
     created: 'Benutzer erfolgreich erstellt',
     updated: 'Benutzer erfolgreich aktualisiert',
     deactivated: 'Benutzer erfolgreich gelöscht',

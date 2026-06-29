@@ -176,7 +176,8 @@ export const SelectInputArea = ({
 
       {/* Dropdown portal — escapes overflow/clip ancestors */}
       {typeof process !== 'undefined' && process.env.NODE_ENV === 'test' ? (
-        isOpen && mounted && (
+        isOpen &&
+        mounted && (
           <SelectDropdownPortal
             dropdownRef={dropdownRef}
             idField={idField}

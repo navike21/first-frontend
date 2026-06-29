@@ -15,7 +15,8 @@ export const pt: AuditLogsTranslations = {
     noResults: 'Nenhum registro de auditoria encontrado',
     prevPage: 'Página anterior',
     nextPage: 'Próxima página',
-    totalCount: (n) => `${n} registro${n !== 1 ? 's' : ''} de auditoria no total`,
+    totalCount: (n) =>
+      `${n} registro${n !== 1 ? 's' : ''} de auditoria no total`,
     viewDetail: 'Ver detalhes',
   },
   detail: {

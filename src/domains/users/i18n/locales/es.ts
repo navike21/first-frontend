@@ -125,7 +125,8 @@ export const es: UsersTranslations = {
     bulkDeactivated: 'Usuarios eliminados',
     bulkRestored: 'Usuarios restaurados',
     bulkPurged: 'Usuarios eliminados permanentemente',
-    offlinePhotoSkipped: 'La imagen no se guarda sin conexión; añádela al reconectar.',
+    offlinePhotoSkipped:
+      'La imagen no se guarda sin conexión; añádela al reconectar.',
     created: 'Usuario creado correctamente',
     updated: 'Usuario actualizado correctamente',
     deactivated: 'Usuario eliminado correctamente',

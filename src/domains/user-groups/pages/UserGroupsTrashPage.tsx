@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import {
-  PageHeader,
+  PageContent,
   Modal,
   Button,
   IconButton,
@@ -35,20 +35,19 @@ export const UserGroupsTrashPage = () => {
   const pages = data?.pages ?? 1
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.trashTitle}
-        description={t.page.trashDescription}
-        actions={[
-          {
-            type: 'link',
-            label: t.actions.cancel,
-            variant: 'secondary',
-            to: navPaths.userGroups(language),
-            size: 'small',
-          },
-        ]}
-      />
+    <PageContent
+      title={t.page.trashTitle}
+      description={t.page.trashDescription}
+      actions={[
+        {
+          type: 'link',
+          label: t.actions.cancel,
+          variant: 'secondary',
+          to: navPaths.userGroups(language),
+          size: 'small',
+        },
+      ]}
+    >
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
@@ -252,6 +251,6 @@ export const UserGroupsTrashPage = () => {
           </>
         }
       />
-    </div>
+    </PageContent>
   )
 }

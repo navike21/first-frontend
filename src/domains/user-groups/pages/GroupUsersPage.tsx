@@ -1,5 +1,5 @@
 import {
-  PageHeader,
+  PageContent,
   InputField,
   Button,
   Avatar,
@@ -93,11 +93,7 @@ export const GroupUsersPage = () => {
       header: t.members.colActions,
       align: 'right',
       cell: (member) => (
-        <Tooltip
-          heading={t.members.removeMember}
-          position="top"
-          size="small"
-        >
+        <Tooltip heading={t.members.removeMember} position="top" size="small">
           <IconButton
             icon="RiCloseLine"
             variant="text"
@@ -111,20 +107,19 @@ export const GroupUsersPage = () => {
   ]
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.usersTitle(group?.name ?? '')}
-        description={t.page.usersDescription}
-        actions={[
-          {
-            type: 'button',
-            label: t.members.backLabel,
-            variant: 'secondary',
-            onClick: goBack,
-            size: 'small',
-          },
-        ]}
-      />
+    <PageContent
+      title={t.page.usersTitle(group?.name ?? '')}
+      description={t.page.usersDescription}
+      actions={[
+        {
+          type: 'button',
+          label: t.members.backLabel,
+          variant: 'secondary',
+          onClick: goBack,
+          size: 'small',
+        },
+      ]}
+    >
 
       {/* Add members */}
       <div className="flex flex-col gap-2 rounded-xl border border-(--border) bg-(--surface) p-4">
@@ -286,6 +281,6 @@ export const GroupUsersPage = () => {
           </>
         }
       />
-    </div>
+    </PageContent>
   )
 }

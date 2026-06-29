@@ -16,9 +16,13 @@ function createCollaboratorsRouteTree(lang: Language) {
   })
 }
 
-const uniqueSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.collaborators[l])))
+const uniqueSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.collaborators[l]))
+)
 
 export const allCollaboratorsRouteTrees = uniqueSlugs.map((slug) => {
-  const lang = SUPPORTED_LANGUAGES.find((l) => ROUTE_SLUGS.collaborators[l] === slug)!
+  const lang = SUPPORTED_LANGUAGES.find(
+    (l) => ROUTE_SLUGS.collaborators[l] === slug
+  )!
   return createCollaboratorsRouteTree(lang)
 })

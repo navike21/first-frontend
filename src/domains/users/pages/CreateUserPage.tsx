@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { PageHeader } from '@/shared/ui'
+import { PageContent } from '@/shared/ui'
 import { UserForm, useCreateUser } from '..'
 import { useUsersTranslation } from '../i18n'
 import type { CreateUserFormData } from '..'
@@ -35,11 +35,10 @@ export const CreateUserPage = () => {
   }
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.createTitle}
-        description={t.page.createDescription}
-      />
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <div>
         <UserForm
           mode="create"
@@ -50,6 +49,6 @@ export const CreateUserPage = () => {
           submitError={createUser.error}
         />
       </div>
-    </div>
+    </PageContent>
   )
 }

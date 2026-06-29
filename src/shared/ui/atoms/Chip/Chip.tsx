@@ -66,7 +66,9 @@ export const Chip = ({
       {deleteable && (
         <motion.button
           type="button"
-          whileHover={!deleteButtonProps?.disabled ? { scale: 1.15 } : undefined}
+          whileHover={
+            !deleteButtonProps?.disabled ? { scale: 1.15 } : undefined
+          }
           whileTap={!deleteButtonProps?.disabled ? { scale: 0.85 } : undefined}
           className={clsx(
             'inline-flex items-center justify-center rounded-full',

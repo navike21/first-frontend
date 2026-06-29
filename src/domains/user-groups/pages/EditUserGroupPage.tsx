@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { PageHeader, Spinner } from '@/shared/ui'
+import { PageContent, Spinner } from '@/shared/ui'
 import { UserGroupForm, useUserGroup, useUpdateUserGroup } from '..'
 import { useUserGroupsTranslation } from '../i18n'
 import type { UpdateUserGroupFormData } from '..'
@@ -43,11 +43,10 @@ export const EditUserGroupPage = () => {
   }
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.editTitle}
-        description={t.page.editDescription(group.name)}
-      />
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(group.name)}
+    >
       <div>
         <UserGroupForm
           mode="edit"
@@ -61,6 +60,6 @@ export const EditUserGroupPage = () => {
           submitError={updateUserGroup.error}
         />
       </div>
-    </div>
+    </PageContent>
   )
 }

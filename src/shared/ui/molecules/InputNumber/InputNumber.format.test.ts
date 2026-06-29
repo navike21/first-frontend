@@ -39,10 +39,12 @@ describe('sanitizeNumeric', () => {
 
 describe('formatNumeric', () => {
   it('groups thousands when enabled', () => {
-    expect(formatNumeric('1250.9', opts({ decimals: 2, thousandSeparator: true }))).toBe(
-      '1,250.9'
+    expect(
+      formatNumeric('1250.9', opts({ decimals: 2, thousandSeparator: true }))
+    ).toBe('1,250.9')
+    expect(formatNumeric('1200', opts({ thousandSeparator: true }))).toBe(
+      '1,200'
     )
-    expect(formatNumeric('1200', opts({ thousandSeparator: true }))).toBe('1,200')
   })
 
   it('does not group when disabled', () => {
@@ -55,7 +57,10 @@ describe('formatNumeric', () => {
 
   it('keeps the negative sign', () => {
     expect(
-      formatNumeric('-1200', opts({ allowNegative: true, thousandSeparator: true }))
+      formatNumeric(
+        '-1200',
+        opts({ allowNegative: true, thousandSeparator: true })
+      )
     ).toBe('-1,200')
   })
 })

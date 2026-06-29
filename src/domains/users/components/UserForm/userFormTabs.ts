@@ -17,7 +17,5 @@ export const USER_FORM_PERSONAL_FIELDS = [
 ] as const
 
 /** Picks the tab that contains the first validation error. */
-export const tabForErrors = (
-  errors: Record<string, unknown>
-): UserFormTab =>
+export const tabForErrors = (errors: Record<string, unknown>): UserFormTab =>
   USER_FORM_PERSONAL_FIELDS.some((f) => f in errors) ? 'personal' : 'account'

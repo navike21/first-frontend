@@ -10,7 +10,9 @@ describe('Option', () => {
   })
 
   it('renders the label inside a role=option button', () => {
-    render(<Option value="1" label="Spanish" selected={false} onSelect={vi.fn()} />)
+    render(
+      <Option value="1" label="Spanish" selected={false} onSelect={vi.fn()} />
+    )
     expect(screen.getByRole('option', { name: 'Spanish' })).toBeInTheDocument()
   })
 
@@ -48,7 +50,9 @@ describe('Option', () => {
   it('calls onSelect with the value when clicked', async () => {
     const user = userEvent.setup()
     const onSelect = vi.fn()
-    render(<Option value="es" label="Spanish" selected={false} onSelect={onSelect} />)
+    render(
+      <Option value="es" label="Spanish" selected={false} onSelect={onSelect} />
+    )
     await user.click(screen.getByRole('option'))
     expect(onSelect).toHaveBeenCalledWith('es')
   })

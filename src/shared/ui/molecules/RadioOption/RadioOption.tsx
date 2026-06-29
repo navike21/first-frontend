@@ -20,7 +20,9 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   ) => {
     const { idField, resolvedRef } = useRadioOption(props, ref)
 
-    const [isChecked, setIsChecked] = useState(props.checked ?? props.defaultChecked ?? false)
+    const [isChecked, setIsChecked] = useState(
+      props.checked ?? props.defaultChecked ?? false
+    )
 
     useEffect(() => {
       if (props.checked !== undefined) {
@@ -78,16 +80,15 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         >
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
-            animate={isChecked ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+            animate={
+              isChecked ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }
+            }
             transition={bounceTransition}
-            className={clsx(
-              'h-2.5 w-2.5 rounded-full',
-              {
-                'bg-primary-700 dark:bg-primary-600': !disabled && !error,
-                'bg-slate-300 dark:bg-slate-600': disabled,
-                'bg-red-500': error,
-              }
-            )}
+            className={clsx('h-2.5 w-2.5 rounded-full', {
+              'bg-primary-700 dark:bg-primary-600': !disabled && !error,
+              'bg-slate-300 dark:bg-slate-600': disabled,
+              'bg-red-500': error,
+            })}
           />
           <input
             ref={resolvedRef}

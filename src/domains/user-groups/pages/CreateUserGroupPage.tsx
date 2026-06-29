@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { PageHeader } from '@/shared/ui'
+import { PageContent } from '@/shared/ui'
 import { UserGroupForm, useCreateUserGroup } from '..'
 import { useUserGroupsTranslation } from '../i18n'
 import type { CreateUserGroupFormData } from '..'
@@ -25,11 +25,10 @@ export const CreateUserGroupPage = () => {
   }
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.createTitle}
-        description={t.page.createDescription}
-      />
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <div>
         <UserGroupForm
           mode="create"
@@ -42,6 +41,6 @@ export const CreateUserGroupPage = () => {
           submitError={createUserGroup.error}
         />
       </div>
-    </div>
+    </PageContent>
   )
 }

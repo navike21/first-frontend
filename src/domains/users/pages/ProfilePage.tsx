@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { PageHeader, Spinner } from '@/shared/ui'
+import { PageContent, Spinner } from '@/shared/ui'
 import { UserForm, useMyProfile, useUpdateProfile } from '..'
 import { useUsersTranslation } from '../i18n'
 import type { UpdateUserFormData } from '..'
@@ -72,11 +72,10 @@ export const ProfilePage = () => {
   }
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={titleByLang[language] ?? 'Profile'}
-        description={descByLang[language] ?? 'Modify your profile details'}
-      />
+    <PageContent
+      title={titleByLang[language] ?? 'Profile'}
+      description={descByLang[language] ?? 'Modify your profile details'}
+    >
       <div>
         <UserForm
           mode="edit"
@@ -89,6 +88,6 @@ export const ProfilePage = () => {
           isProfile={true}
         />
       </div>
-    </div>
+    </PageContent>
   )
 }

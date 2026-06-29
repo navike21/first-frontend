@@ -4,21 +4,23 @@ import type { QueuedRequest } from './queue.types'
 // Lightweight stand-in for the real HttpError — replayQueue only reads `.status`
 // and checks `instanceof HttpError`, so a class with the same shape suffices.
 // Declared inside vi.hoisted so the (hoisted) mock factory can reference it.
-const { getAllMock, removeMock, requestMock, FakeHttpError } = vi.hoisted(() => {
-  class FakeHttpError extends Error {
-    status: number
-    constructor(status: number) {
-      super(`HTTP ${status}`)
-      this.status = status
+const { getAllMock, removeMock, requestMock, FakeHttpError } = vi.hoisted(
+  () => {
+    class FakeHttpError extends Error {
+      status: number
+      constructor(status: number) {
+        super(`HTTP ${status}`)
+        this.status = status
+      }
+    }
+    return {
+      getAllMock: vi.fn<() => Promise<QueuedRequest[]>>(),
+      removeMock: vi.fn<(id: string) => Promise<void>>(),
+      requestMock: vi.fn<() => Promise<unknown>>(),
+      FakeHttpError,
     }
   }
-  return {
-    getAllMock: vi.fn<() => Promise<QueuedRequest[]>>(),
-    removeMock: vi.fn<(id: string) => Promise<void>>(),
-    requestMock: vi.fn<() => Promise<unknown>>(),
-    FakeHttpError,
-  }
-})
+)
 
 vi.mock('./queue', () => ({
   getAll: getAllMock,

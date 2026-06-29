@@ -126,8 +126,8 @@ export const SidebarFlyout = ({
                         'rounded-md text-sm font-medium',
                         'transition-colors',
                         active
-                          ? 'bg-primary-700/10 font-semibold text-primary-500 dark:bg-primary-950/30 dark:text-primary-500'
-                          : 'text-slate-500 hover:bg-primary-700/5 hover:text-primary-500 dark:text-slate-300 dark:hover:bg-primary-950/20 dark:hover:text-primary-500'
+                          ? 'bg-primary-700/10 text-primary-500 dark:bg-primary-950/30 dark:text-primary-500 font-semibold'
+                          : 'hover:bg-primary-700/5 hover:text-primary-500 dark:hover:bg-primary-950/20 dark:hover:text-primary-500 text-slate-500 dark:text-slate-300'
                       )}
                     >
                       {child.icon && (

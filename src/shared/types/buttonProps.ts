@@ -6,6 +6,18 @@ import type {
 import { type IconName } from './icons'
 import type { LinkProps } from '@tanstack/react-router'
 
+/**
+ * Event handlers that framer-motion redefines on its `motion.*` components.
+ * Omit them when spreading native button attributes onto a motion element,
+ * otherwise React's DOM handler types clash with framer's pan/animation types.
+ */
+export type MotionConflictingHandlers =
+  | 'onDrag'
+  | 'onDragStart'
+  | 'onDragEnd'
+  | 'onAnimationStart'
+  | 'onAnimationEnd'
+
 export interface ButtonBaseProps {
   variant?:
     | 'primary'
@@ -22,7 +34,8 @@ export interface ButtonBaseProps {
 }
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>, ButtonBaseProps {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, MotionConflictingHandlers>,
+    ButtonBaseProps {
   children: ReactNode
 }
 

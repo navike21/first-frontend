@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { PageHeader, Spinner } from '@/shared/ui'
+import { PageContent, Spinner } from '@/shared/ui'
 import { UserForm, useUser, useUpdateUser } from '..'
 import { useUsersTranslation } from '../i18n'
 import type { UpdateUserFormData } from '..'
@@ -59,11 +59,10 @@ export const EditUserPage = () => {
   const userName = `${user.firstName} ${user.lastName}`
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader
-        title={t.page.editTitle}
-        description={t.page.editDescription(userName)}
-      />
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(userName)}
+    >
       <div>
         <UserForm
           mode="edit"
@@ -75,6 +74,6 @@ export const EditUserPage = () => {
           submitError={updateUser.error}
         />
       </div>
-    </div>
+    </PageContent>
   )
 }

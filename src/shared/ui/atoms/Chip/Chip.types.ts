@@ -1,4 +1,5 @@
 import type { IconName } from '@/shared/types/icons'
+import type { MotionConflictingHandlers } from '@/shared/types/buttonProps'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
 export interface ChipProps {
@@ -11,6 +12,6 @@ export interface ChipProps {
   deleteable?: boolean
   deleteButtonProps?: Omit<
     ButtonHTMLAttributes<HTMLButtonElement>,
-    'type' | 'className'
+    'type' | 'className' | MotionConflictingHandlers
   >
 }

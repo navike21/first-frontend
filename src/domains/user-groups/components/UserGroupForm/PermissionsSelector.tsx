@@ -23,8 +23,11 @@ export const PermissionsSelector = ({
   disabled = false,
 }: PermissionsSelectorProps) => {
   const { t } = useUserGroupsTranslation()
-  const { resources: resourceLabels, actions: actionLabels, allLabel } =
-    t.permissionCatalog
+  const {
+    resources: resourceLabels,
+    actions: actionLabels,
+    allLabel,
+  } = t.permissionCatalog
 
   // Localized label for a resource segment; `*` → "all permissions", unknown
   // resources fall back to the humanized key (so new backend resources still

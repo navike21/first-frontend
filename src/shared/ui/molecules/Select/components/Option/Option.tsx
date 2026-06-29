@@ -60,9 +60,7 @@ export const Option = ({
       !disabled && 'hover:bg-(--surface-subtle)'
     )}
   >
-    {leftSlot && (
-      <span className="flex shrink-0 items-center">{leftSlot}</span>
-    )}
+    {leftSlot && <span className="flex shrink-0 items-center">{leftSlot}</span>}
     <span className="flex-1">{label}</span>
     {rightSlot && (
       <span className="flex shrink-0 items-center">{rightSlot}</span>

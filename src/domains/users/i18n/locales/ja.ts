@@ -123,7 +123,8 @@ export const ja: UsersTranslations = {
     bulkDeactivated: 'ユーザーを削除しました',
     bulkRestored: 'ユーザーを復元しました',
     bulkPurged: 'ユーザーを完全に削除しました',
-    offlinePhotoSkipped: '画像はオフラインでは保存されません。再接続時に追加してください。',
+    offlinePhotoSkipped:
+      '画像はオフラインでは保存されません。再接続時に追加してください。',
     created: 'ユーザーを作成しました',
     updated: 'ユーザーを更新しました',
     deactivated: 'ユーザーを削除しました',

@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react'
 import type { IconName } from '@/shared/types/icons'
+import type { MotionConflictingHandlers } from '@/shared/types/buttonProps'
 
 export type IconButtonShape = 'circle' | 'square'
 
@@ -15,7 +16,7 @@ export type IconButtonSize = 'small' | 'medium' | 'large'
 
 export interface IconButtonProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  'children'
+  'children' | MotionConflictingHandlers
 > {
   icon: IconName
   shape?: IconButtonShape

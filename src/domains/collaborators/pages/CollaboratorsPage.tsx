@@ -1,4 +1,4 @@
-import { PageHeader } from '@/shared/ui'
+import { PageContent } from '@/shared/ui'
 import { useLanguageStore } from '@/shared/model'
 import type { Language } from '@/shared/types/languages'
 
@@ -22,12 +22,11 @@ export const CollaboratorsPage = () => {
   const t = translations[language] ?? translations.en
 
   return (
-    <div className="animate-page-in space-y-6">
-      <PageHeader title={t.title} description={t.desc} />
+    <PageContent title={t.title} description={t.desc}>
       <div className="rounded-xl border border-(--border) bg-(--surface) p-8 text-center text-(--text-secondary)">
         <p className="text-lg font-medium">{t.construction}</p>
         <p className="mt-2 text-sm text-(--text-muted)">{t.sub}</p>
       </div>
-    </div>
+    </PageContent>
   )
 }

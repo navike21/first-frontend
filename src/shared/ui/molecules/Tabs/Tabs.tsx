@@ -38,7 +38,7 @@ export const Tabs = ({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onChange(tab.id)}
               className={clsx(
-                'group relative flex items-center gap-2 px-4 py-2.5 -mb-px',
+                'group relative -mb-px flex items-center gap-2 px-4 py-2.5',
                 'border-b-2 border-transparent text-sm font-medium',
                 'duration-fast ease-out-expo transition-colors',
                 'cursor-pointer rounded-t-md',
@@ -60,7 +60,7 @@ export const Tabs = ({
               {isActive && (
                 <motion.div
                   layoutId="active-tab-bar"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
+                  className="bg-primary-600 absolute right-0 bottom-0 left-0 h-0.5"
                   transition={snappySpringTransition}
                 />
               )}

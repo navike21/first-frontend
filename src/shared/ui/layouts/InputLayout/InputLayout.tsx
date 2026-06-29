@@ -55,11 +55,11 @@ export const InputLayout = ({
           'flex h-10 w-full items-center',
           'rounded-sm',
           'duration-fast ease-out-expo transition-all',
-          'focus-within:ring-2 focus-within:shadow-sm',
+          'focus-within:shadow-sm focus-within:ring-2',
           {
             'bg-slate-400/50 dark:bg-slate-600/50': disabled,
             'bg-(--surface) ring-1 ring-inset': !disabled,
-            'ring-(--border) focus-within:ring-primary-600 dark:focus-within:ring-primary-400':
+            'focus-within:ring-primary-600 dark:focus-within:ring-primary-400 ring-(--border)':
               variant === 'default' && !disabled,
             'ring-emerald-500 focus-within:ring-emerald-600':
               variant === 'success' && !disabled,

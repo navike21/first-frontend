@@ -124,7 +124,8 @@ export const ko: UsersTranslations = {
     bulkDeactivated: '사용자가 삭제되었습니다',
     bulkRestored: '사용자가 복원되었습니다',
     bulkPurged: '사용자가 영구 삭제되었습니다',
-    offlinePhotoSkipped: '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
+    offlinePhotoSkipped:
+      '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
     created: '사용자가 생성되었습니다',
     updated: '사용자가 업데이트되었습니다',
     deactivated: '사용자가 삭제되었습니다',

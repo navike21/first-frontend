@@ -3,7 +3,11 @@ import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IconComponent } from '@/shared/ui'
-import { modalSpringVariants, modalSlideUpVariants, modalBlurFadeVariants } from '@/shared/lib'
+import {
+  modalSpringVariants,
+  modalSlideUpVariants,
+  modalBlurFadeVariants,
+} from '@/shared/lib'
 import type { ModalProps } from './Modal.types'
 
 const sizeClasses: Record<NonNullable<ModalProps['size']>, string> = {
@@ -43,7 +47,8 @@ export const Modal = ({
 
   const hasHeader = title || showCloseButton
 
-  const isTest = typeof process !== 'undefined' && process.env.NODE_ENV === 'test'
+  const isTest =
+    typeof process !== 'undefined' && process.env.NODE_ENV === 'test'
 
   // Helper function to render header, body and footer contents to avoid code repetition
   const renderPanelContents = () => (
@@ -137,9 +142,12 @@ export const Modal = ({
                   }
                 : {
                     'pointer-events-none': true,
-                    'scale-95 opacity-0 transition-all duration-200 ease-out-expo': animationType === 'spring',
-                    'translate-y-4 opacity-0 transition-all duration-200 ease-out-expo': animationType === 'slide',
-                    'opacity-0 filter blur-sm scale-[0.98] transition-all duration-200 ease-out-expo': animationType === 'fade',
+                    'ease-out-expo scale-95 opacity-0 transition-all duration-200':
+                      animationType === 'spring',
+                    'ease-out-expo translate-y-4 opacity-0 transition-all duration-200':
+                      animationType === 'slide',
+                    'ease-out-expo scale-[0.98] opacity-0 blur-sm filter transition-all duration-200':
+                      animationType === 'fade',
                   }
             )}
           >
