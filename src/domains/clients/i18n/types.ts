@@ -81,8 +81,9 @@ export interface ClientsTranslations {
     documentNumber: string
     country: string
     countryHint: string
-    state: string
-    city: string
+    region: string
+    province: string
+    district: string
     address: string
     postalCode: string
     logo: string

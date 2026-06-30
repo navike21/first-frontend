@@ -13,6 +13,7 @@ import {
   PhotoPicker,
   TextArea,
   Tabs,
+  LocationSelect,
 } from '@/shared/ui'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useClientsTranslation } from '../../i18n'
@@ -118,6 +119,11 @@ export const ClientForm = ({
   const clientType = useWatch({ control, name: 'clientType' })
   const documentType = useWatch({ control, name: 'documentType' })
   const status = useWatch({ control, name: 'status' })
+  const country = useWatch({ control, name: 'country' })
+  const ubigeoCode = useWatch({ control, name: 'ubigeoCode' })
+  const region = useWatch({ control, name: 'region' })
+  const province = useWatch({ control, name: 'province' })
+  const district = useWatch({ control, name: 'district' })
 
   const clientTypeOptions = [
     { value: 'company', label: t.clientType.company },
@@ -238,21 +244,29 @@ export const ClientForm = ({
             className="animate-tab-fade flex flex-col gap-6"
           >
             <Grid>
-              <InputField
-                label={t.form.country}
-                helperText={t.form.countryHint}
-                variant={errors.country ? 'error' : undefined}
-                errorMessage={errors.country?.message}
-                {...register('country')}
+              <LocationSelect
+                value={{ countryCode: country, ubigeoCode, region, province, district }}
+                onChange={(v) => {
+                  setValue('country', v.countryCode ?? '')
+                  setValue('ubigeoCode', v.ubigeoCode)
+                  setValue('region', v.region)
+                  setValue('province', v.province)
+                  setValue('district', v.district)
+                }}
+                countryLabel={t.form.country}
+                regionLabel={t.form.region}
+                cityLabel={t.form.province}
+                lang={language}
               />
-              <InputField label={t.form.state} {...register('state')} />
-              <InputField label={t.form.city} {...register('city')} />
               <InputField
                 label={t.form.postalCode}
                 {...register('postalCode')}
               />
               <InputField label={t.form.address} {...register('address')} />
             </Grid>
+            {errors.country && (
+              <p className="text-sm text-red-500">{errors.country.message}</p>
+            )}
           </div>
 
           <div

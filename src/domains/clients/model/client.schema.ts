@@ -27,8 +27,10 @@ export function createClientSchema(v: V) {
         .trim()
         .length(2, v.countryLength)
         .transform((c) => c.toUpperCase()),
-      state: optional,
-      city: optional,
+      ubigeoCode: optional,
+      region: optional,
+      province: optional,
+      district: optional,
       address: optional,
       postalCode: optional,
       website: z.url(v.urlInvalid).optional().or(z.literal('')),

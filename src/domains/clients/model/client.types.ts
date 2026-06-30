@@ -33,8 +33,10 @@ export interface Client {
   documentType?: DocumentType
   documentNumber?: string
   country: string
-  state?: string
-  city?: string
+  ubigeoCode?: string
+  region?: string
+  province?: string
+  district?: string
   address?: string
   postalCode?: string
   logoUrl?: string

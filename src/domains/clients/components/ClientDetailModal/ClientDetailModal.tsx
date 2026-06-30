@@ -67,8 +67,9 @@ export const ClientDetailModal = ({
               value={client.documentNumber}
             />
             <Field label={t.form.country} value={client.country} />
-            <Field label={t.form.state} value={client.state} />
-            <Field label={t.form.city} value={client.city} />
+            <Field label={t.form.region} value={client.region} />
+            <Field label={t.form.province} value={client.province} />
+            <Field label={t.form.district} value={client.district} />
             <Field label={t.form.postalCode} value={client.postalCode} />
             <Field label={t.form.address} value={client.address} />
             <Field label={t.form.industry} value={client.industry} />
