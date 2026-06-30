@@ -85,7 +85,6 @@ export interface ClientsTranslations {
     province: string
     district: string
     address: string
-    postalCode: string
     logo: string
     uploadLogo: string
     logoHint: string

@@ -87,7 +87,6 @@ export const de: ClientsTranslations = {
     province: 'Provinz',
     district: 'Bezirk',
     address: 'Adresse',
-    postalCode: 'Postleitzahl',
     logo: 'Logo',
     uploadLogo: 'Logo hochladen',
     logoHint: 'JPG, PNG oder WebP',

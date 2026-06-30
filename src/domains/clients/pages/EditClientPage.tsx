@@ -21,7 +21,6 @@ function toFormValues(client: Client): Partial<CreateClientFormData> {
     province: client.province,
     district: client.district,
     address: client.address,
-    postalCode: client.postalCode,
     website: client.website,
     email: client.email,
     phone: client.phone,

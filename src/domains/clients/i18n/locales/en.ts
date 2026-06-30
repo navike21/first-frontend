@@ -87,7 +87,6 @@ export const en: ClientsTranslations = {
     province: 'Province',
     district: 'District',
     address: 'Address',
-    postalCode: 'Postal code',
     logo: 'Logo',
     uploadLogo: 'Upload logo',
     logoHint: 'JPG, PNG or WebP',

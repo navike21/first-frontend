@@ -89,7 +89,7 @@ export const LocationSelect = ({
     { value: '', label: '—' },
     ...(countries ?? []).map((c) => ({
       value: c.code,
-      label: `${c.flag} ${c.name}`,
+      label: c.name,
     })),
   ]
 

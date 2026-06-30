@@ -38,7 +38,6 @@ export interface Client {
   province?: string
   district?: string
   address?: string
-  postalCode?: string
   logoUrl?: string
   website?: string
   email?: string

@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
   InputField,
+  InputNumber,
   Select,
   PhotoPicker,
   TextArea,
@@ -46,7 +47,7 @@ const TAB_FIELDS: Record<ClientFormTab, string[]> = {
     'industry',
     'status',
   ],
-  location: ['country', 'state', 'city', 'address', 'postalCode'],
+  location: ['country', 'ubigeoCode', 'region', 'province', 'district', 'address'],
   contact: [
     'website',
     'email',
@@ -258,10 +259,6 @@ export const ClientForm = ({
                 cityLabel={t.form.province}
                 lang={language}
               />
-              <InputField
-                label={t.form.postalCode}
-                {...register('postalCode')}
-              />
               <InputField label={t.form.address} {...register('address')} />
             </Grid>
             {errors.country && (
@@ -287,7 +284,11 @@ export const ClientForm = ({
                 errorMessage={errors.email?.message}
                 {...register('email')}
               />
-              <InputField label={t.form.phone} {...register('phone')} />
+              <InputNumber
+                label={t.form.phone}
+                mask="### ### ###"
+                {...register('phone')}
+              />
               <InputField label={t.form.language} {...register('language')} />
               <InputField
                 label={t.form.currency}
@@ -318,8 +319,9 @@ export const ClientForm = ({
                 errorMessage={errors.primaryContact?.email?.message}
                 {...register('primaryContact.email')}
               />
-              <InputField
+              <InputNumber
                 label={t.form.contactPhone}
+                mask="### ### ###"
                 {...register('primaryContact.phone')}
               />
               <InputField
