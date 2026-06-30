@@ -49,6 +49,11 @@ export {
   type TextAreaProps,
   type TextAreaVariant,
 } from './molecules/TextArea'
+export {
+  LocationSelect,
+  type LocationSelectProps,
+  type LocationValue,
+} from './molecules/LocationSelect'
 export { RadioOption, type RadioOptionProps } from './molecules/RadioOption'
 export {
   Tooltip,
