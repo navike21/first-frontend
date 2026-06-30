@@ -15,9 +15,9 @@ interface UserDetailModalProps {
 }
 
 const Row = ({ label, value }: { label: string; value: ReactNode }) => (
-  <div className="flex justify-between gap-4 border-b border-(--border-subtle) py-2 last:border-0">
-    <span className="text-sm text-(--text-secondary)">{label}</span>
-    <span className="text-sm font-medium text-(--text-primary)">{value}</span>
+  <div className="flex justify-between gap-4 border-b border-border-subtle py-2 last:border-0">
+    <span className="text-sm text-secondary">{label}</span>
+    <span className="text-sm font-medium text-foreground">{value}</span>
   </div>
 )
 
@@ -68,10 +68,10 @@ export const UserDetailModal = ({
               size="md"
             />
             <div>
-              <p className="font-semibold text-(--text-primary)">
+              <p className="font-semibold text-foreground">
                 {user.firstName} {user.lastName}
               </p>
-              <p className="text-sm text-(--text-secondary)">{user.email}</p>
+              <p className="text-sm text-secondary">{user.email}</p>
             </div>
           </div>
           <div>

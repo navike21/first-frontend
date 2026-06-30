@@ -55,7 +55,7 @@ describe('LinkButton component', () => {
     )
     const link = screen.getByRole('link')
     expect(link).toHaveClass(
-      'bg-(--surface)',
+      'bg-surface',
       'text-primary-700',
       'ring-1',
       'ring-primary-700',

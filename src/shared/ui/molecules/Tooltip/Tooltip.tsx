@@ -13,7 +13,7 @@ import { useTooltipPosition } from './Tooltip.hooks'
 const variantClasses: Record<TooltipVariant, string> = {
   dark: 'bg-gray-950 text-white shadow-lg shadow-black/40 ring-1 ring-white/10',
   light:
-    'bg-white dark:bg-slate-700 text-(--text-primary) shadow-lg ring-1 ring-black/10 dark:ring-white/10',
+    'bg-white dark:bg-slate-700 text-foreground shadow-lg ring-1 ring-black/10 dark:ring-white/10',
 }
 
 const arrowVariantClasses: Record<TooltipVariant, string> = {
@@ -118,11 +118,10 @@ export const Tooltip = ({
                   {subtitle && (
                     <span
                       className={clsx(
-                        'leading-snug font-normal',
+                        'leading-snug text-xs font-normal',
                         variant === 'dark'
                           ? 'text-slate-400'
-                          : 'text-slate-500 dark:text-slate-400',
-                        size === 'small' ? 'text-xs' : 'text-xs'
+                          : 'text-slate-500 dark:text-slate-400'
                       )}
                     >
                       {subtitle}

@@ -12,16 +12,16 @@ export const DashboardPage = () => {
   return (
     <div className="w-full space-y-10">
       <header>
-        <h1 className="text-3xl font-extrabold tracking-tight text-(--text-primary)">
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
           {t.welcome(firstName)}
         </h1>
-        <p className="mt-1 text-sm text-(--text-muted)">{today}</p>
+        <p className="mt-1 text-sm text-muted">{today}</p>
       </header>
 
       <section aria-labelledby="kpi-heading">
         <h2
           id="kpi-heading"
-          className="mb-4 text-sm font-semibold tracking-widest text-(--text-muted) uppercase"
+          className="mb-4 text-sm font-semibold tracking-widest text-muted uppercase"
         >
           {t.summary}
         </h2>
@@ -29,13 +29,13 @@ export const DashboardPage = () => {
           {KPI_CARDS.map((kpi) => (
             <div
               key={kpi.key}
-              className="flex items-center gap-4 rounded-xl border border-(--border-subtle) bg-(--surface) p-5 shadow-sm"
+              className="flex items-center gap-4 rounded-xl border border-border-subtle bg-surface p-5 shadow-sm"
             >
               <div>
-                <p className="text-2xl font-bold text-(--text-primary)">
+                <p className="text-2xl font-bold text-foreground">
                   {kpi.value}
                 </p>
-                <p className="text-xs text-(--text-secondary)">
+                <p className="text-xs text-secondary">
                   {t.kpi[kpi.key]}
                 </p>
               </div>
@@ -47,20 +47,20 @@ export const DashboardPage = () => {
       <section aria-labelledby="activity-heading">
         <h2
           id="activity-heading"
-          className="mb-4 text-sm font-semibold tracking-widest text-(--text-muted) uppercase"
+          className="mb-4 text-sm font-semibold tracking-widest text-muted uppercase"
         >
           {t.recentActivity}
         </h2>
         {RECENT_ACTIVITY.length === 0 ? (
-          <p className="text-sm text-(--text-muted)">{t.noRecentActivity}</p>
+          <p className="text-sm text-muted">{t.noRecentActivity}</p>
         ) : (
           <ul className="space-y-2">
             {RECENT_ACTIVITY.map((item) => (
               <li
                 key={item.timestamp}
-                className="text-sm text-(--text-secondary)"
+                className="text-sm text-secondary"
               >
-                <span className="mr-2 text-(--text-muted)">
+                <span className="mr-2 text-muted">
                   {item.timestamp}
                 </span>
                 {item.text}

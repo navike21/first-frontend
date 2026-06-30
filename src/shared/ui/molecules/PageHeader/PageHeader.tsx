@@ -13,11 +13,11 @@ export const PageHeader = ({
   return (
     <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
-        <h1 ref={titleRef} className="text-2xl font-extrabold tracking-tight text-(--text-primary) sm:text-3xl">
+        <h1 ref={titleRef} className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
           {title}
         </h1>
         {description && (
-          <p className="text-md mt-2 text-(--text-secondary)">{description}</p>
+          <p className="text-md mt-2 text-secondary">{description}</p>
         )}
       </div>
 

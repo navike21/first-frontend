@@ -73,7 +73,7 @@ export const Button = ({
         variantColorClasses[variant],
         !disabled && !loading && variantHoverClasses[variant],
         {
-          'before:duration-fast before:ease-out-expo before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-(--text-muted) before:opacity-0 before:transition-all before:content-[""]':
+          'before:duration-fast before:ease-out-expo before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-muted before:opacity-0 before:transition-all before:content-[""]':
             variant === 'text',
           'hover:before:w-full hover:before:opacity-100':
             variant === 'text' && !loading,

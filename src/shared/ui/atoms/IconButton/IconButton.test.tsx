@@ -39,7 +39,7 @@ describe('IconButton component', () => {
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass(
-      'bg-(--surface)',
+      'bg-surface',
       'text-primary-700',
       'ring-1',
       'ring-primary-700',
@@ -90,7 +90,7 @@ describe('IconButton component', () => {
     render(<IconButton icon="RiHomeLine" variant="text" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-transparent', 'text-(--text-primary)')
+    expect(button).toHaveClass('bg-transparent', 'text-foreground')
   })
 
   it('should apply circle shape (rounded-full) by default', () => {

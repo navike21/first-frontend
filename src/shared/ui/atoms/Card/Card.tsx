@@ -12,7 +12,7 @@ export const Card = ({
     <div
       className={clsx(
         // Visual base
-        'rounded-xl border border-(--border) bg-(--surface) shadow-sm',
+        'rounded-xl border border-border bg-surface shadow-sm',
         // Transitions
         'duration-fast ease-out-expo transition-all',
         // Sizing

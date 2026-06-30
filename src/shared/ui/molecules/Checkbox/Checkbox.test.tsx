@@ -137,7 +137,7 @@ describe('Checkbox', () => {
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
       'ring-slate-30',
-      'bg-(--surface)'
+      'bg-surface'
     )
   })
 

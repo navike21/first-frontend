@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { forwardRef, useState, useEffect } from 'react'
+import { forwardRef, useState } from 'react'
 import { motion } from 'motion/react'
 import type { CheckboxProps } from './Checkbox.types'
 import { useCheckbox } from './Checkbox.hooks'
@@ -20,28 +20,19 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const { idField, resolvedRef, inputPropsWithoutIndeterminate } =
       useCheckbox(props, ref)
 
-    const [isChecked, setIsChecked] = useState(
-      props.checked ?? props.defaultChecked ?? false
+    const [internalChecked, setInternalChecked] = useState(
+      props.defaultChecked ?? false
     )
-    const [isIndeterminate, setIsIndeterminate] = useState(
-      props.indeterminate ?? false
-    )
+    const [internalIndeterminate, setInternalIndeterminate] = useState(false)
 
-    useEffect(() => {
-      if (props.checked !== undefined) {
-        setIsChecked(props.checked)
-      }
-    }, [props.checked])
-
-    useEffect(() => {
-      if (props.indeterminate !== undefined) {
-        setIsIndeterminate(props.indeterminate)
-      }
-    }, [props.indeterminate])
+    // Controlled props win over local state; derive during render instead of
+    // syncing them in an effect.
+    const isChecked = props.checked ?? internalChecked
+    const isIndeterminate = props.indeterminate ?? internalIndeterminate
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setIsChecked(e.target.checked)
-      setIsIndeterminate(e.target.indeterminate)
+      setInternalChecked(e.target.checked)
+      setInternalIndeterminate(e.target.indeterminate)
       props.onChange?.(e)
     }
 
@@ -64,7 +55,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             {
               'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
                 disabled,
-              'ring-slate-30 bg-(--surface)': !disabled,
+              'ring-slate-30 bg-surface': !disabled,
               'has-[input:checked]:ring-primary-700 has-[input:indeterminate]:ring-primary-700 dark:has-[input:checked]:ring-primary-600 dark:has-[input:indeterminate]:ring-primary-600':
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':

@@ -21,8 +21,8 @@ export const TriggerDisplay = ({
       <span
         data-select-trigger-label
         className={clsx('text-sm', {
-          'text-(--text-primary)': singleLabel,
-          'text-(--text-muted)': !singleLabel,
+          'text-foreground': singleLabel,
+          'text-muted': !singleLabel,
         })}
       >
         {singleLabel || placeholder || ''}

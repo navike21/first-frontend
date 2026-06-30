@@ -57,7 +57,7 @@ describe('ToggleLayout', () => {
       </ToggleLayout>
     )
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
+    expect(label).toHaveClass('text-secondary', 'cursor-not-allowed')
   })
 
   it('should generate unique id when id is not provided', () => {
@@ -127,7 +127,7 @@ describe('ToggleLayout', () => {
     )
     const helperText = screen.getByText('Help text')
     expect(helperText).toBeInTheDocument()
-    expect(helperText).toHaveClass('text-(--text-secondary)') // Default HelperText variant
+    expect(helperText).toHaveClass('text-secondary') // Default HelperText variant
   })
 
   it('should not render helper text when errorMessage is provided', () => {

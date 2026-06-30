@@ -29,6 +29,9 @@ const FloatingTitleBar = ({
   }, [mainEl])
 
   useEffect(() => {
+    // Synchronous initial measure is required to position the fixed bar
+    // correctly on first paint; subsequent updates come from the observers.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     measure()
     const ro = new ResizeObserver(() => measure())
     ro.observe(mainEl)
@@ -57,14 +60,14 @@ const FloatingTitleBar = ({
         className={clsx(
           'pointer-events-auto',
           'flex h-full items-center justify-between gap-4',
-          'border-b border-(--border)',
-          'bg-(--surface)/95 backdrop-blur-md',
+          'border-b border-border',
+          'bg-surface/95 backdrop-blur-md',
           'px-4 md:px-8'
         )}
       >
         {/* Inner max-width wrapper to align with main content */}
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
-          <h2 className="truncate text-base font-bold tracking-tight text-(--text-primary)">
+          <h2 className="truncate text-base font-bold tracking-tight text-foreground">
             {title}
           </h2>
 

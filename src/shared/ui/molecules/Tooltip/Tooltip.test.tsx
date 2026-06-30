@@ -133,7 +133,7 @@ describe('Tooltip component', () => {
     // Assert
     expect(screen.getByRole('tooltip')).toHaveClass(
       'bg-white',
-      'text-(--text-primary)'
+      'text-foreground'
     )
   })
 

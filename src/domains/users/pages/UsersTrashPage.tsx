@@ -62,7 +62,7 @@ export const UsersTrashPage = () => {
             name={`${user.firstName} ${user.lastName}`}
             size="sm"
           />
-          <span className="font-medium text-(--text-primary)">
+          <span className="font-medium text-foreground">
             {user.firstName} {user.lastName}
           </span>
         </div>
@@ -71,13 +71,13 @@ export const UsersTrashPage = () => {
     {
       id: 'email',
       header: t.table.colEmail,
-      cellClassName: 'text-(--text-secondary)',
+      cellClassName: 'text-secondary',
       cell: (user) => user.email,
     },
     {
       id: 'deletedAt',
       header: t.table.deletedAt,
-      cellClassName: 'text-(--text-secondary)',
+      cellClassName: 'text-secondary',
       cell: (user) =>
         user.deletedAt ? new Date(user.deletedAt).toLocaleDateString() : '—',
     },
@@ -149,8 +149,8 @@ export const UsersTrashPage = () => {
 
       <div>
         <FadeCollapse show={selectedIds.length > 0 && (canRestore || canPurge)}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-            <span className="text-sm font-medium text-(--text-primary)">
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
+            <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <div className="flex items-center gap-2">

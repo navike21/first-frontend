@@ -28,8 +28,8 @@ describe('Label', () => {
     render(<Label disabled>Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
-    expect(label).not.toHaveClass('text-(--text-primary)')
+    expect(label).toHaveClass('text-secondary', 'cursor-not-allowed')
+    expect(label).not.toHaveClass('text-foreground')
   })
 
   it('should apply default text color when disabled is false and no text color in className', () => {
@@ -37,9 +37,9 @@ describe('Label', () => {
     render(<Label>Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-(--text-primary)')
+    expect(label).toHaveClass('text-foreground')
     expect(label).not.toHaveClass(
-      'text-(--text-secondary)',
+      'text-secondary',
       'cursor-not-allowed'
     )
   })
@@ -50,7 +50,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-blue-500')
-    expect(label).not.toHaveClass('text-(--text-primary)')
+    expect(label).not.toHaveClass('text-foreground')
   })
 
   it('should apply custom className', () => {
@@ -97,7 +97,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-red-500', 'bg-white')
-    expect(label).not.toHaveClass('text-(--text-primary)')
+    expect(label).not.toHaveClass('text-foreground')
   })
 
   it('should apply default text color when className has non-text classes', () => {
@@ -105,7 +105,7 @@ describe('Label', () => {
     render(<Label className="bg-white font-bold">Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('bg-white', 'font-bold', 'text-(--text-primary)')
+    expect(label).toHaveClass('bg-white', 'font-bold', 'text-foreground')
   })
 
   it('should not apply default text color when className has classes starting with text- but not text colors', () => {
@@ -113,7 +113,7 @@ describe('Label', () => {
     render(<Label className="texture-bg">Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('texture-bg', 'text-(--text-primary)')
+    expect(label).toHaveClass('texture-bg', 'text-foreground')
   })
 
   it('should handle empty className string', () => {
@@ -121,7 +121,7 @@ describe('Label', () => {
     render(<Label className="">Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-(--text-primary)')
+    expect(label).toHaveClass('text-foreground')
   })
 
   it('should handle className with multiple spaces', () => {
@@ -130,7 +130,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-blue-500', 'bg-white')
-    expect(label).not.toHaveClass('text-(--text-primary)')
+    expect(label).not.toHaveClass('text-foreground')
   })
 
   it('should apply disabled styles overriding text color classes', () => {
@@ -143,7 +143,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass(
-      'text-(--text-secondary)',
+      'text-secondary',
       'cursor-not-allowed',
       'text-blue-500'
     )

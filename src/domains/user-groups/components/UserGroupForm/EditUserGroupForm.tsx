@@ -24,7 +24,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col gap-4 rounded-xl border border-(--border) bg-(--surface) p-6">
+      <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-6">
         {isSystem && (
           <div
             className={clsx(
@@ -52,7 +52,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
             {...register('description')}
           />
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-(--text-primary)">
+            <label className="text-sm font-medium text-foreground">
               {t.form.color}
             </label>
             <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
                 disabled={busy || isSystem}
                 className={clsx(
                   'h-9 w-14 cursor-pointer p-0.5',
-                  'rounded border border-(--border)',
+                  'rounded border border-border',
                   'disabled:cursor-not-allowed'
                 )}
               />
@@ -75,9 +75,9 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
                 maxLength={7}
                 className={clsx(
                   'h-9 w-28 px-3',
-                  'rounded-lg border border-(--border) bg-(--surface) text-sm text-(--text-primary)',
+                  'rounded-lg border border-border bg-surface text-sm text-foreground',
                   'focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none',
-                  'disabled:cursor-not-allowed disabled:bg-(--surface-subtle)'
+                  'disabled:cursor-not-allowed disabled:bg-surface-subtle'
                 )}
               />
             </div>
@@ -98,10 +98,10 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-(--text-primary)">
+          <label className="text-sm font-medium text-foreground">
             {t.form.permissions}
           </label>
-          <p className="text-xs text-(--text-muted)">
+          <p className="text-xs text-muted">
             {t.form.permissionsHint}
           </p>
           <PermissionsSelector

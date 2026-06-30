@@ -101,7 +101,7 @@ describe('Accordion component', () => {
       </Accordion>
     )
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('text-(--text-secondary)')
+    expect(screen.getByRole('button')).toHaveClass('text-secondary')
   })
 
   it('should apply the arrow icon with rotate class when open', () => {

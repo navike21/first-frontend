@@ -8,7 +8,7 @@ interface SettingsDrawerProps {
 }
 
 const SectionLabel = ({ children }: { children: string }) => (
-  <p className="mb-3 text-xs font-semibold tracking-widest text-(--text-muted) uppercase">
+  <p className="mb-3 text-xs font-semibold tracking-widest text-muted uppercase">
     {children}
   </p>
 )
@@ -22,7 +22,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
       onClose={onClose}
       placement="right"
       title={
-        <span className="text-sm font-semibold text-(--text-primary)">
+        <span className="text-sm font-semibold text-foreground">
           {t.settingsDrawer.title}
         </span>
       }
@@ -35,11 +35,11 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
           <div
             className={clsx(
               'flex items-center justify-between',
-              'rounded-xl border border-(--border) bg-(--surface-raised)',
+              'rounded-xl border border-border bg-surface-raised',
               'px-4 py-3'
             )}
           >
-            <span className="text-sm font-medium text-(--text-primary)">
+            <span className="text-sm font-medium text-foreground">
               {t.settingsDrawer.mode}
             </span>
             <ThemeToggle />
@@ -51,7 +51,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
           <SectionLabel>{t.settingsDrawer.color}</SectionLabel>
           <div
             className={clsx(
-              'rounded-xl border border-(--border) bg-(--surface-raised)',
+              'rounded-xl border border-border bg-surface-raised',
               'px-4 py-4'
             )}
           >

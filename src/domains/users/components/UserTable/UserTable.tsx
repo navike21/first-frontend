@@ -51,7 +51,7 @@ export const UserTable = ({
             name={`${user.firstName} ${user.lastName}`}
             size="sm"
           />
-          <span className="font-medium text-(--text-primary)">
+          <span className="font-medium text-foreground">
             {user.firstName} {user.lastName}
           </span>
         </div>
@@ -60,7 +60,7 @@ export const UserTable = ({
     {
       id: 'email',
       header: t.table.colEmail,
-      cellClassName: 'text-(--text-secondary)',
+      cellClassName: 'text-secondary',
       cell: (user) => user.email,
     },
     {

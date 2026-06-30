@@ -34,7 +34,7 @@ export const PhotoPicker = ({
               // Layout
               'absolute top-0 right-0 z-10 flex h-7 w-7 items-center justify-center',
               // Visual base
-              'rounded-full bg-red-600 text-white ring-2 ring-(--surface)',
+              'rounded-full bg-red-600 text-white ring-2 ring-surface',
               // Transitions
               'transition-colors',
               // Hover
@@ -85,7 +85,7 @@ export const PhotoPicker = ({
             )}
           </div>
           {preview && (
-            <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-(--surface)">
+            <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white ring-2 ring-surface">
               <IconComponent icon="RiCameraLine" className="h-3.5 w-3.5" />
             </span>
           )}
@@ -99,7 +99,7 @@ export const PhotoPicker = ({
         onChange={handleChange}
         disabled={disabled}
       />
-      <p className="text-center text-xs leading-snug text-(--text-secondary)">
+      <p className="text-center text-xs leading-snug text-secondary">
         {formatsHint}
       </p>
       {error && <p className="text-center text-xs text-red-500">{error}</p>}

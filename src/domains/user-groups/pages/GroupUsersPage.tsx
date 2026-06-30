@@ -69,7 +69,7 @@ export const GroupUsersPage = () => {
             name={`${member.firstName} ${member.lastName}`}
             size="sm"
           />
-          <span className="font-medium text-(--text-primary)">
+          <span className="font-medium text-foreground">
             {member.firstName} {member.lastName}
           </span>
         </div>
@@ -78,7 +78,7 @@ export const GroupUsersPage = () => {
     {
       id: 'email',
       header: t.members.colEmail,
-      cellClassName: 'text-(--text-secondary)',
+      cellClassName: 'text-secondary',
       cell: (member) => member.email,
     },
     {
@@ -122,24 +122,26 @@ export const GroupUsersPage = () => {
     >
 
       {/* Add members */}
-      <div className="flex flex-col gap-2 rounded-xl border border-(--border) bg-(--surface) p-4">
+      <div className="flex flex-col gap-2 rounded-xl border border-border bg-surface p-4">
         <InputField
           label={t.members.searchLabel}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {hasSearchTerm && (
-          <div className="rounded-lg border border-(--border) bg-(--surface-subtle)">
-            {isSearching ? (
+          <div className="rounded-lg border border-border bg-surface-subtle">
+            {isSearching && (
               <div className="flex items-center justify-center py-6">
                 <Spinner size="small" />
               </div>
-            ) : searchResults.length === 0 ? (
-              <p className="px-4 py-4 text-sm text-(--text-muted)">
+            )}
+            {!isSearching && searchResults.length === 0 && (
+              <p className="px-4 py-4 text-sm text-muted">
                 {t.members.noSearchResults}
               </p>
-            ) : (
-              <ul className="divide-y divide-(--border-subtle)">
+            )}
+            {!isSearching && searchResults.length > 0 && (
+              <ul className="divide-y divide-border-subtle">
                 {searchResults.map((user) => (
                   <li
                     key={user.id}
@@ -153,10 +155,10 @@ export const GroupUsersPage = () => {
                         size="sm"
                       />
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-(--text-primary)">
+                        <span className="text-sm font-medium text-foreground">
                           {user.firstName} {user.lastName}
                         </span>
-                        <span className="text-xs text-(--text-secondary)">
+                        <span className="text-xs text-secondary">
                           {user.email}
                         </span>
                       </div>
@@ -181,8 +183,8 @@ export const GroupUsersPage = () => {
       {/* Bulk toolbar */}
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-            <span className="text-sm font-medium text-(--text-primary)">
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
+            <span className="text-sm font-medium text-foreground">
               {t.members.selectedCount(selectedIds.length)}
             </span>
             <div className="flex items-center gap-2">

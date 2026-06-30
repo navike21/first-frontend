@@ -5,14 +5,14 @@ export const Footer = () => {
     <footer
       className={clsx(
         'mt-auto w-full px-4 py-4 md:px-6',
-        'border-t border-(--border) bg-(--surface)'
+        'border-t border-border bg-surface'
       )}
     >
       <div
         className={clsx(
           'mx-auto flex w-full max-w-7xl flex-col gap-2 text-center',
           'sm:flex-row sm:items-center sm:justify-between sm:text-left',
-          'text-xs text-(--text-muted)'
+          'text-xs text-muted'
         )}
       >
         <p>
@@ -24,7 +24,7 @@ export const Footer = () => {
             href="#"
             className={clsx(
               'transition-colors',
-              'hover:text-(--text-secondary)'
+              'hover:text-secondary'
             )}
           >
             Términos de uso
@@ -33,7 +33,7 @@ export const Footer = () => {
             href="#"
             className={clsx(
               'transition-colors',
-              'hover:text-(--text-secondary)'
+              'hover:text-secondary'
             )}
           >
             Privacidad

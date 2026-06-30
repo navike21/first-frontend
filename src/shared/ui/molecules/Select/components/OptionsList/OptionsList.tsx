@@ -19,7 +19,7 @@ export const OptionsList = memo(
 
     if (options.length === 0) {
       return (
-        <div className="px-3 py-2 text-sm text-(--text-muted)">
+        <div className="px-3 py-2 text-sm text-muted">
           {noOptionsFound}
         </div>
       )

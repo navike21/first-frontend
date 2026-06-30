@@ -37,7 +37,7 @@ export const HelperText = ({
         'animate-helper-in flex items-center gap-2',
         // Variant color (light + dark)
         {
-          'text-(--text-secondary)':
+          'text-secondary':
             variant === 'default' && !HAS_TEXT_CLASS_COLOR,
           'text-red-500 dark:text-red-400':
             variant === 'error' && !HAS_TEXT_CLASS_COLOR,

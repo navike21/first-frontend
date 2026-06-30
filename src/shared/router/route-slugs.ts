@@ -268,5 +268,6 @@ export function translatePath(path: string, newLang: Language): string {
     return segment // IDs and unknown segments pass through unchanged
   })
 
-  return `/${newLang}${translatedRest.length ? `/${translatedRest.join('/')}` : ''}`
+  const tail = translatedRest.length ? `/${translatedRest.join('/')}` : ''
+  return `/${newLang}${tail}`
 }

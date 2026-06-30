@@ -17,6 +17,12 @@ const sizeClasses: Record<NonNullable<ModalProps['size']>, string> = {
   xl: 'w-full max-w-2xl',
 }
 
+const animationVariants = {
+  spring: modalSpringVariants,
+  slide: modalSlideUpVariants,
+  fade: modalBlurFadeVariants,
+}
+
 export const Modal = ({
   isOpen,
   onClose,
@@ -55,18 +61,18 @@ export const Modal = ({
     <>
       {/* Header */}
       {hasHeader && (
-        <div className="flex items-start justify-between gap-4 border-b border-(--border-subtle) px-6 py-4">
+        <div className="flex items-start justify-between gap-4 border-b border-border-subtle px-6 py-4">
           <div>
             {title && (
               <h2
                 id="modal-title"
-                className="text-base font-semibold text-(--text-primary)"
+                className="text-base font-semibold text-foreground"
               >
                 {title}
               </h2>
             )}
             {description && (
-              <p className="mt-1 text-sm text-(--text-secondary)">
+              <p className="mt-1 text-sm text-secondary">
                 {description}
               </p>
             )}
@@ -76,9 +82,9 @@ export const Modal = ({
               onClick={onClose}
               className={clsx(
                 'shrink-0 cursor-pointer p-1.5',
-                'rounded-md text-(--text-muted)',
+                'rounded-md text-muted',
                 'duration-fast ease-out-expo transition-colors',
-                'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+                'hover:bg-surface-subtle hover:text-foreground',
                 'focus:outline-none'
               )}
               aria-label="Cerrar"
@@ -94,7 +100,7 @@ export const Modal = ({
 
       {/* Footer */}
       {footer && (
-        <div className="flex items-center justify-end gap-3 border-t border-(--border-subtle) px-6 py-4">
+        <div className="flex items-center justify-end gap-3 border-t border-border-subtle px-6 py-4">
           {footer}
         </div>
       )}
@@ -131,7 +137,7 @@ export const Modal = ({
           <div
             className={clsx(
               'relative flex flex-col',
-              'rounded-2xl bg-(--surface) shadow-2xl',
+              'rounded-2xl bg-surface shadow-2xl',
               sizeClasses[size],
               isOpen
                 ? {
@@ -187,19 +193,13 @@ export const Modal = ({
           >
             {/* Panel */}
             <motion.div
-              variants={
-                animationType === 'spring'
-                  ? modalSpringVariants
-                  : animationType === 'slide'
-                    ? modalSlideUpVariants
-                    : modalBlurFadeVariants
-              }
+              variants={animationVariants[animationType]}
               initial="initial"
               animate="animate"
               exit="exit"
               className={clsx(
                 'relative flex flex-col',
-                'rounded-2xl bg-(--surface) shadow-2xl',
+                'rounded-2xl bg-surface shadow-2xl',
                 sizeClasses[size]
               )}
             >

@@ -23,9 +23,9 @@ export const ServicesPage = () => {
 
   return (
     <PageContent title={t.title} description={t.desc}>
-      <div className="rounded-xl border border-(--border) bg-(--surface) p-8 text-center text-(--text-secondary)">
+      <div className="rounded-xl border border-border bg-surface p-8 text-center text-secondary">
         <p className="text-lg font-medium">{t.construction}</p>
-        <p className="mt-2 text-sm text-(--text-muted)">{t.sub}</p>
+        <p className="mt-2 text-sm text-muted">{t.sub}</p>
       </div>
     </PageContent>
   )

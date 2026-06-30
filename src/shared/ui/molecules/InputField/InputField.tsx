@@ -48,7 +48,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           <div className={clsx('flex min-w-10 items-center justify-center')}>
             <IconComponent
               icon="RiLockPasswordFill"
-              className="size-5 text-(--text-primary)"
+              className="size-5 text-foreground"
             />
           </div>
         )}
@@ -56,7 +56,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           <div className={clsx('flex min-w-10 items-center justify-center')}>
             <IconComponent
               icon="RiMailFill"
-              className="size-5 text-(--text-primary)"
+              className="size-5 text-foreground"
             />
           </div>
         )}
@@ -71,7 +71,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             'h-10 w-full',
             'border-0 border-none bg-transparent text-sm font-normal',
             'duration-fast ease-out-expo transition-all',
-            'placeholder:text-(--text-muted)',
+            'placeholder:text-muted',
             'focus:border-transparent focus:ring-0 focus:outline-none',
             {
               'px-4 py-2': !leftSlot && !rightSlot && type === 'text',
@@ -80,8 +80,8 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               'pr-4': leftSlot && !rightSlot && type !== 'password',
               'pr-1': leftSlot && !rightSlot && type === 'password',
               'pl-4': rightSlot && !leftSlot,
-              'cursor-not-allowed text-(--text-secondary)': disabled,
-              'text-(--text-primary)': !disabled,
+              'cursor-not-allowed text-secondary': disabled,
+              'text-foreground': !disabled,
               'pointer-events-none': loading,
             }
           )}
@@ -98,7 +98,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               'duration-fast ease-out-expo transition-all',
               'active:scale-90',
               {
-                'cursor-pointer hover:bg-(--surface-subtle)': !disabled,
+                'cursor-pointer hover:bg-surface-subtle': !disabled,
                 'cursor-not-allowed': disabled,
               }
             )}
@@ -107,7 +107,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           >
             <IconComponent
               icon={showPassword ? 'RiEyeOffFill' : 'RiEyeFill'}
-              className="size-4 text-(--text-secondary)"
+              className="size-4 text-secondary"
             />
           </motion.button>
         )}

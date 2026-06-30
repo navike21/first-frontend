@@ -47,11 +47,11 @@ export const SelectDropdownPortal = ({
       }}
       className={clsx(
         'z-[9999] max-h-60 overflow-y-auto',
-        'rounded-sm bg-(--surface) shadow-lg ring-1 ring-(--border)'
+        'rounded-sm bg-surface shadow-lg ring-1 ring-border'
       )}
     >
       {search && (
-        <div className="border-b border-(--border-subtle) p-2">
+        <div className="border-b border-border-subtle p-2">
           <input
             ref={searchInputRef}
             type="text"
@@ -61,9 +61,9 @@ export const SelectDropdownPortal = ({
             aria-label={searchAriaLabel}
             className={clsx(
               'h-8 w-full px-3',
-              'rounded-sm border border-(--border) bg-(--surface-subtle) text-sm outline-none',
-              'focus:ring-1 focus:ring-(--border)',
-              'placeholder:text-(--text-muted)'
+              'rounded-sm border border-border bg-surface-subtle text-sm outline-none',
+              'focus:ring-1 focus:ring-border',
+              'placeholder:text-muted'
             )}
           />
         </div>

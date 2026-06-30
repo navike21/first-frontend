@@ -52,7 +52,7 @@ export const EditUserForm = (
               disabled={busy}
             />
             {!props.isProfile && (
-              <div className="w-full border-t border-(--border) pt-4">
+              <div className="w-full border-t border-border pt-4">
                 <Switch
                   label={t.form.statusLabel}
                   helperText={t.form.statusDescription}
@@ -131,7 +131,7 @@ export const EditUserForm = (
                 />
               </div>
 
-              <p className="text-sm font-medium text-(--text-secondary)">
+              <p className="text-sm font-medium text-secondary">
                 {t.form.addressSection}
               </p>
               <InputField
@@ -167,7 +167,7 @@ export const EditUserForm = (
               hidden={activeTab !== 'account'}
               className="animate-tab-fade flex flex-col gap-y-6"
             >
-              <p className="text-sm font-medium text-(--text-secondary)">
+              <p className="text-sm font-medium text-secondary">
                 {t.form.authSection}
               </p>
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">

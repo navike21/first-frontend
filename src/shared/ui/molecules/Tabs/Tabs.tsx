@@ -21,7 +21,7 @@ export const Tabs = ({
         role="tablist"
         aria-label={ariaLabel}
         className={clsx(
-          'relative flex items-center gap-1 border-b border-(--border)',
+          'relative flex items-center gap-1 border-b border-border',
           className
         )}
       >
@@ -44,8 +44,8 @@ export const Tabs = ({
                 'cursor-pointer rounded-t-md',
                 'hover:bg-slate-50/60 dark:hover:bg-slate-800/20',
                 isActive
-                  ? 'text-(--text-primary)'
-                  : 'text-(--text-secondary) hover:text-(--text-primary)'
+                  ? 'text-foreground'
+                  : 'text-secondary hover:text-foreground'
               )}
             >
               {tab.icon && (

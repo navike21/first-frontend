@@ -19,7 +19,7 @@ export const FeatureCard = ({
       <Card
         className={clsx(
           'flex h-full flex-col',
-          'border-(--border-subtle)',
+          'border-border-subtle',
           'duration-fast ease-out-expo transition-all',
           'hover:-translate-y-0.5 hover:shadow-md',
           className
@@ -39,14 +39,14 @@ export const FeatureCard = ({
             <h3
               className={clsx(
                 'mb-1',
-                'text-base leading-snug font-bold text-(--text-primary)',
+                'text-base leading-snug font-bold text-foreground',
                 'transition-colors',
                 'group-hover:text-primary-600 dark:group-hover:text-primary-400'
               )}
             >
               {title}
             </h3>
-            <p className="text-xs leading-relaxed text-(--text-secondary)">
+            <p className="text-xs leading-relaxed text-secondary">
               {description}
             </p>
           </div>

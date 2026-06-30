@@ -33,9 +33,9 @@ export const Option = ({
       {
         'cursor-pointer': !disabled,
         'cursor-not-allowed opacity-50': disabled,
-        'bg-(--surface-subtle)': selected && !disabled,
+        'bg-surface-subtle': selected && !disabled,
       },
-      !disabled && 'hover:bg-(--surface-subtle)'
+      !disabled && 'hover:bg-surface-subtle'
     )}
   >
     {leftSlot && <span className="flex shrink-0 items-center">{leftSlot}</span>}
@@ -46,7 +46,7 @@ export const Option = ({
     {showCheck && (
       <IconComponent
         icon="RiCheckLine"
-        className="h-4 w-4 shrink-0 text-(--text-primary)"
+        className="h-4 w-4 shrink-0 text-foreground"
       />
     )}
   </button>

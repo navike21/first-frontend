@@ -63,13 +63,11 @@ export const useInputDate = (
     ...texts,
   }
 
-  const effectiveDisplayFormat =
-    displayFormat ??
-    (mode === 'month'
-      ? MONTH_DISPLAY_FORMATS[activeLang]
-      : mode === 'year'
-        ? 'yyyy'
-        : DATE_DISPLAY_FORMATS[activeLang])
+  let baseDisplayFormat: string
+  if (mode === 'month') baseDisplayFormat = MONTH_DISPLAY_FORMATS[activeLang]
+  else if (mode === 'year') baseDisplayFormat = 'yyyy'
+  else baseDisplayFormat = DATE_DISPLAY_FORMATS[activeLang]
+  const effectiveDisplayFormat = displayFormat ?? baseDisplayFormat
 
   // ── State ────────────────────────────────────────────────────────────────────
   const [isOpen, setIsOpen] = useState(false)

@@ -20,19 +20,17 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   ) => {
     const { idField, resolvedRef } = useRadioOption(props, ref)
 
-    const [isChecked, setIsChecked] = useState(
-      props.checked ?? props.defaultChecked ?? false
+    const [internalChecked, setInternalChecked] = useState(
+      props.defaultChecked ?? false
     )
 
-    useEffect(() => {
-      if (props.checked !== undefined) {
-        setIsChecked(props.checked)
-      }
-    }, [props.checked])
+    // Controlled prop wins over local state; derive during render instead of
+    // syncing it in an effect.
+    const isChecked = props.checked ?? internalChecked
 
     // Local input change handler
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setIsChecked(e.target.checked)
+      setInternalChecked(e.target.checked)
       props.onChange?.(e)
     }
 
@@ -42,7 +40,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
 
       const handleGlobalChange = () => {
         if (resolvedRef.current) {
-          setIsChecked(resolvedRef.current.checked)
+          setInternalChecked(resolvedRef.current.checked)
         }
       }
 
@@ -67,7 +65,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             {
               'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
                 disabled,
-              'bg-(--surface) ring-(--border)': !disabled,
+              'bg-surface ring-border': !disabled,
               'has-[input:checked]:ring-primary-700 dark:has-[input:checked]:ring-primary-600':
                 !disabled && !error,
               'ring-red-500 has-[input:checked]:ring-red-500': error,

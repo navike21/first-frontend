@@ -28,7 +28,7 @@ describe('Button component', () => {
     render(<Button variant="secondary">Secondary Button</Button>)
     const button = screen.getByRole('button')
     expect(button).toHaveClass(
-      'bg-(--surface)',
+      'bg-surface',
       'text-primary-700',
       'ring-1',
       'ring-primary-700',

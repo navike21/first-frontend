@@ -1,6 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react'
 import type { FadeCollapseProps } from './FadeCollapse.types'
 
+const Y_OFFSET: Record<NonNullable<FadeCollapseProps['direction']>, number> = {
+  up: 10,
+  down: -10,
+  none: 0,
+}
+
 export const FadeCollapse = ({
   show,
   children,
@@ -8,7 +14,7 @@ export const FadeCollapse = ({
   animateHeight = true,
   direction = 'up',
 }: Readonly<FadeCollapseProps>) => {
-  const yOffset = direction === 'up' ? 10 : direction === 'down' ? -10 : 0
+  const yOffset = Y_OFFSET[direction]
 
   return (
     <AnimatePresence initial={false}>

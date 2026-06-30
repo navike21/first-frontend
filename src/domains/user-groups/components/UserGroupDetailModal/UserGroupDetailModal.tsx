@@ -17,7 +17,8 @@ function groupPermissions(permissions: string[]): Record<string, string[]> {
     const colonIdx = perm.indexOf(':')
     const resource = colonIdx !== -1 ? perm.slice(0, colonIdx) : perm
     const action = colonIdx !== -1 ? perm.slice(colonIdx + 1) : '*'
-    ;(result[resource] ??= []).push(action)
+    result[resource] ??= []
+    result[resource].push(action)
   }
   return result
 }
@@ -87,10 +88,10 @@ export const UserGroupDetailModal = ({
           {/* Identity */}
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className="h-3.5 w-3.5 shrink-0 rounded-full border border-(--border)"
+              className="h-3.5 w-3.5 shrink-0 rounded-full border border-border"
               style={{ backgroundColor: group.color }}
             />
-            <span className="font-semibold text-(--text-primary)">
+            <span className="font-semibold text-foreground">
               {group.name}
             </span>
             {group.isSystem && (
@@ -109,10 +110,10 @@ export const UserGroupDetailModal = ({
           {/* Description */}
           {group.description && (
             <div>
-              <p className="mb-1 text-xs font-semibold tracking-wide text-(--text-muted) uppercase">
+              <p className="mb-1 text-xs font-semibold tracking-wide text-muted uppercase">
                 {t.detail.descriptionLabel}
               </p>
-              <p className="text-sm text-(--text-primary)">
+              <p className="text-sm text-foreground">
                 {group.description}
               </p>
             </div>
@@ -120,11 +121,11 @@ export const UserGroupDetailModal = ({
 
           {/* Permissions */}
           <div>
-            <p className="mb-2 text-xs font-semibold tracking-wide text-(--text-muted) uppercase">
+            <p className="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">
               {t.detail.permissionsLabel}
             </p>
 
-            {superadmin ? (
+            {superadmin && (
               <div className="flex items-start gap-2 rounded-lg bg-blue-50 px-3 py-2.5 text-sm text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
                 <IconComponent
                   icon="RiInformationLine"
@@ -132,18 +133,20 @@ export const UserGroupDetailModal = ({
                 />
                 <span>{t.detail.superadminNotice}</span>
               </div>
-            ) : group.permissions.length === 0 ? (
-              <p className="text-sm text-(--text-muted)">
+            )}
+            {!superadmin && group.permissions.length === 0 && (
+              <p className="text-sm text-muted">
                 {t.detail.noPermissions}
               </p>
-            ) : (
+            )}
+            {!superadmin && group.permissions.length > 0 && (
               <div className="space-y-2">
                 {Object.entries(grouped).map(([resource, actions]) => (
                   <div
                     key={resource}
                     className="flex flex-wrap items-start gap-2"
                   >
-                    <span className="w-28 shrink-0 pt-0.5 text-xs font-medium text-(--text-secondary)">
+                    <span className="w-28 shrink-0 pt-0.5 text-xs font-medium text-secondary">
                       {resourceLabel(resource)}
                     </span>
                     <div className="flex flex-wrap gap-1">
@@ -163,7 +166,7 @@ export const UserGroupDetailModal = ({
           </div>
 
           {/* Metadata */}
-          <div className="flex gap-6 border-t border-(--border-subtle) pt-3 text-xs text-(--text-muted)">
+          <div className="flex gap-6 border-t border-border-subtle pt-3 text-xs text-muted">
             <span>
               {t.detail.createdAt}: {formatDate(group.createdAt)}
             </span>

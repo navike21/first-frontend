@@ -14,7 +14,7 @@ import { CalendarMonth } from './calendar/CalendarMonth'
 import { CalendarYear } from './calendar/CalendarYear'
 
 const VARIANT_RING: Record<InputDateVariant, string> = {
-  default: 'ring-(--border)',
+  default: 'ring-border',
   success: 'ring-emerald-500',
   error: 'ring-red-500',
   warning: 'ring-yellow-500',
@@ -32,6 +32,23 @@ const VARIANT_ICON_COLOR: Record<InputDateVariant, string> = {
   success: 'text-emerald-500',
   error: 'text-red-500',
   warning: 'text-yellow-500',
+}
+
+/** Resolves the label shown in the trigger for both single and range modes. */
+function computeTriggerText(args: {
+  isRange: boolean
+  displayValue: string | undefined
+  rangeDisplayFrom: string | undefined
+  rangeDisplayTo: string | undefined
+  fallback: string
+}): string {
+  const { isRange, displayValue, rangeDisplayFrom, rangeDisplayTo, fallback } =
+    args
+  if (!isRange) return displayValue || fallback
+  if (rangeDisplayFrom || rangeDisplayTo) {
+    return `${rangeDisplayFrom || '—'} → ${rangeDisplayTo || '—'}`
+  }
+  return fallback
 }
 
 export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
@@ -124,11 +141,13 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
 
     const variantIcon = loading ? null : VARIANT_ICON[variant]
 
-    const triggerText = isRange
-      ? rangeDisplayFrom || rangeDisplayTo
-        ? `${rangeDisplayFrom || '—'} → ${rangeDisplayTo || '—'}`
-        : (placeholder ?? mergedTexts.placeholder)
-      : displayValue || (placeholder ?? mergedTexts.placeholder)
+    const triggerText = computeTriggerText({
+      isRange,
+      displayValue,
+      rangeDisplayFrom,
+      rangeDisplayTo,
+      fallback: placeholder ?? mergedTexts.placeholder,
+    })
 
     const isPlaceholder = !hasValue
 
@@ -167,7 +186,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             'focus-within:ring-2',
             {
               'bg-slate-400/50 dark:bg-slate-600/50': disabled,
-              'bg-(--surface) ring-1 ring-inset': !disabled,
+              'bg-surface ring-1 ring-inset': !disabled,
               'pointer-events-none': loading,
             },
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -179,7 +198,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
         >
           {/* Left slot */}
           {leftSlot && (
-            <div className="flex h-10 min-w-10 items-center justify-center px-3 text-(--text-primary)">
+            <div className="flex h-10 min-w-10 items-center justify-center px-3 text-foreground">
               {leftSlot}
             </div>
           )}
@@ -189,7 +208,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             <div className="flex h-10 min-w-10 items-center justify-center">
               <IconComponent
                 icon="RiCalendarLine"
-                className="size-5 text-(--text-secondary)"
+                className="size-5 text-secondary"
               />
             </div>
           )}
@@ -197,9 +216,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           {/* Display text */}
           <span
             className={clsx('flex-1 truncate text-sm', {
-              'text-(--text-muted)': isPlaceholder,
-              'text-(--text-primary)': !isPlaceholder && !disabled,
-              'text-(--text-secondary)': !isPlaceholder && disabled,
+              'text-muted': isPlaceholder,
+              'text-foreground': !isPlaceholder && !disabled,
+              'text-secondary': !isPlaceholder && disabled,
               'pl-4': leftSlot,
             })}
           >
@@ -217,9 +236,9 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
               }}
               className={clsx(
                 'flex h-10 min-w-8 items-center justify-center',
-                'text-(--text-muted)',
+                'text-muted',
                 'duration-fast ease-out-expo transition-all',
-                'hover:text-(--text-secondary)'
+                'hover:text-secondary'
               )}
             >
               <IconComponent icon="RiCloseLine" className="size-4" />
@@ -346,8 +365,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     }
               }
               className={clsx(
-                'overflow-hidden rounded-md bg-(--surface) shadow-lg',
-                'ring-1 ring-(--border)',
+                'overflow-hidden rounded-md bg-surface shadow-lg',
+                'ring-1 ring-border',
                 'animate-dropdown-in'
               )}
             >
@@ -457,14 +476,14 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
 
               {/* Footer */}
               {(mode === 'date' || mode === 'month') && (
-                <div className="flex items-center justify-between border-t border-(--border-subtle) px-3 py-2">
+                <div className="flex items-center justify-between border-t border-border-subtle px-3 py-2">
                   <button
                     type="button"
                     onClick={handleClear}
                     className={clsx(
-                      'rounded-sm px-2 py-1 text-xs text-(--text-secondary)',
+                      'rounded-sm px-2 py-1 text-xs text-secondary',
                       'duration-fast ease-out-expo transition-all',
-                      'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+                      'hover:bg-surface-subtle hover:text-foreground',
                       'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none'
                     )}
                   >

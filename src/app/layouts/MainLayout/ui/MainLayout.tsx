@@ -15,7 +15,7 @@ export const MainLayout = () => {
     <div
       className={clsx(
         'flex h-screen w-full flex-col',
-        'bg-(--surface-subtle) text-(--text-primary)'
+        'bg-surface-subtle text-foreground'
       )}
     >
       <Header />

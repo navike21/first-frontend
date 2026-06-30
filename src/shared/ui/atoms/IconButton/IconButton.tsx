@@ -69,7 +69,7 @@ export const IconButton = ({
         {
           'hover:shadow-lg': variantHasShadow[variant] && !disabled && !loading,
           'active:scale-95': !disabled && !loading,
-          'hover:bg-(--surface-subtle)':
+          'hover:bg-surface-subtle':
             variant === 'text' && !disabled && !loading,
         },
         !disabled && !loading && variantHoverClasses[variant],

@@ -6,7 +6,7 @@ import { SidebarFlyout } from './SidebarFlyout'
 
 const TitleNode = (
   <div className="flex items-center gap-2">
-    <span className="font-bold text-(--text-primary)">Menú</span>
+    <span className="font-bold text-foreground">Menú</span>
   </div>
 )
 

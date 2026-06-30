@@ -106,7 +106,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 />
               </div>
 
-              <p className="text-sm font-medium text-(--text-secondary)">
+              <p className="text-sm font-medium text-secondary">
                 {t.form.addressSection}
               </p>
               <InputField
@@ -142,7 +142,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               hidden={activeTab !== 'account'}
               className="animate-tab-fade flex flex-col gap-y-6"
             >
-              <p className="text-sm font-medium text-(--text-secondary)">
+              <p className="text-sm font-medium text-secondary">
                 {t.form.authSection}
               </p>
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">

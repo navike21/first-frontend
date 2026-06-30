@@ -41,7 +41,7 @@ export const ProfileDrawer = ({
       onClose={onClose}
       placement="right"
       title={
-        <span className="text-sm font-semibold text-(--text-primary)">
+        <span className="text-sm font-semibold text-foreground">
           {t.profileDrawer.title}
         </span>
       }
@@ -51,7 +51,7 @@ export const ProfileDrawer = ({
       <div
         className={clsx(
           'flex flex-col items-center gap-3',
-          'border-b border-(--border-subtle) px-6 py-8'
+          'border-b border-border-subtle px-6 py-8'
         )}
       >
         <Avatar
@@ -63,11 +63,11 @@ export const ProfileDrawer = ({
           size="lg"
         />
         <div className="text-center">
-          <p className="text-base font-bold text-(--text-primary)">
+          <p className="text-base font-bold text-foreground">
             {`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() ||
               t.guestName}
           </p>
-          <p className="mt-0.5 text-sm text-(--text-secondary)">
+          <p className="mt-0.5 text-sm text-secondary">
             {user?.email || t.guestEmail}
           </p>
         </div>
@@ -83,14 +83,14 @@ export const ProfileDrawer = ({
                 onClick={onClose}
                 className={clsx(
                   'group flex items-center gap-3 rounded-lg px-3 py-2.5',
-                  'text-sm font-medium text-(--text-secondary)',
+                  'text-sm font-medium text-secondary',
                   'duration-fast ease-out-expo transition-colors',
                   'hover:bg-primary-950/20 hover:text-white'
                 )}
               >
                 <IconComponent
                   icon={icon}
-                  className="h-5 w-5 shrink-0 text-(--text-muted) transition-colors group-hover:text-white"
+                  className="h-5 w-5 shrink-0 text-muted transition-colors group-hover:text-white"
                 />
                 {label}
               </Link>
@@ -100,7 +100,7 @@ export const ProfileDrawer = ({
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-(--border-subtle) p-4">
+      <div className="border-t border-border-subtle p-4">
         <Button
           fullWidth
           variant="primary"

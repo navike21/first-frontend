@@ -70,14 +70,14 @@ export const CalendarMonth = ({
                 'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none',
                 {
                   'bg-primary-500 text-white': isSelected,
-                  'text-(--text-primary)': !isSelected && !disabled,
+                  'text-foreground': !isSelected && !disabled,
                   'cursor-not-allowed text-slate-300 dark:text-slate-600':
                     disabled,
                   'ring-primary-400 font-bold ring-1': isToday && !isSelected,
                 },
                 {
                   'hover:bg-primary-600': isSelected,
-                  'hover:bg-(--surface-subtle)': !isSelected && !disabled,
+                  'hover:bg-surface-subtle': !isSelected && !disabled,
                 }
               )}
             >

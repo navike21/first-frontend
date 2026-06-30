@@ -142,11 +142,25 @@
   --color-primary-800: #006483;
   --color-primary-900: #005a79;
   --color-primary-950: #004254;
+
+  /* ── Semantic color tokens — registered so they emit real utilities
+     (bg-surface, text-foreground, text-secondary, border-border, …).
+     Values live in @layer base (:root / .dark) and flip with the theme. */
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-foreground: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-disabled: var(--text-disabled);
 }
 
 /* ── Semantic color tokens ──────────────────────────────────────────────────
-   Components use: bg-(--surface), text-(--text-primary), border-(--border)
-   Single source of truth — change once here to update all components.      */
+   Single source of truth for theming. Components use the utilities registered
+   in @theme above: bg-surface, text-foreground, text-secondary, border-border…
+   Change a value here (light) or in .dark to update every component.        */
 @layer base {
   :root {
     /* Surfaces */

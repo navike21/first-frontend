@@ -17,8 +17,8 @@ export const Label = ({
       'text-sm font-semibold',
       'duration-fast ease-out-expo transition-all',
       {
-        'cursor-not-allowed text-(--text-secondary)': disabled,
-        'text-(--text-primary)': !disabled && !hasTextClassColor(className),
+        'text-secondary cursor-not-allowed': disabled,
+        'text-foreground': !disabled && !hasTextClassColor(className),
       }
     )}
   >

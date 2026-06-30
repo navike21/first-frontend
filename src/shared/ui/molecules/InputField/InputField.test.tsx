@@ -36,7 +36,7 @@ vi.mock('@Components/atoms/Label/Label', () => ({
   }) => (
     <label
       htmlFor={htmlFor}
-      className={`duration-fast ease-out-expo text-sm font-semibold transition-all ${disabled ? 'cursor-not-allowed text-(--text-secondary)' : 'text-(--text-primary)'} ${className || ''}`}
+      className={`duration-fast ease-out-expo text-sm font-semibold transition-all ${disabled ? 'cursor-not-allowed text-secondary' : 'text-foreground'} ${className || ''}`}
     >
       {children}
     </label>
@@ -258,7 +258,7 @@ describe('InputField', () => {
     )
     // Assert
     const label = screen.getByText('Disabled Label')
-    expect(label).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
+    expect(label).toHaveClass('text-secondary', 'cursor-not-allowed')
   })
 
   it('should apply correct classes for enabled label', () => {
@@ -266,7 +266,7 @@ describe('InputField', () => {
     render(<InputField label="Enabled Label" placeholder="Enter text" />)
     // Assert
     const label = screen.getByText('Enabled Label')
-    expect(label).toHaveClass('text-(--text-primary)')
+    expect(label).toHaveClass('text-foreground')
   })
 
   it('should handle class slot for different types and positions', () => {
@@ -331,7 +331,7 @@ describe('InputField', () => {
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).not.toBeDisabled()
     expect(toggleButton).toHaveClass(
-      'hover:bg-(--surface-subtle)',
+      'hover:bg-surface-subtle',
       'cursor-pointer'
     )
   })
@@ -405,7 +405,7 @@ describe('InputField', () => {
     render(<InputField disabled placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('text-(--text-secondary)', 'cursor-not-allowed')
+    expect(input).toHaveClass('text-secondary', 'cursor-not-allowed')
   })
 
   it('should apply loading classes to input', () => {

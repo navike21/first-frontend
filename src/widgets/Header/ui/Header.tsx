@@ -30,7 +30,7 @@ export const Header = () => {
       className={clsx(
         'z-10 flex w-full items-center justify-between gap-2',
         'px-4 py-3 md:px-6 md:py-4',
-        'border-b border-(--border) bg-(--surface) shadow-sm'
+        'border-b border-border bg-surface shadow-sm'
       )}
     >
       <div className="flex items-center gap-4">
@@ -39,9 +39,9 @@ export const Header = () => {
           onClick={toggleMobileSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-(--text-secondary)',
+            'rounded-md text-secondary',
             'duration-fast ease-out-expo transition-colors',
-            'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+            'hover:bg-surface-subtle hover:text-foreground',
             'focus:outline-none',
             'md:hidden'
           )}
@@ -54,9 +54,9 @@ export const Header = () => {
           onClick={toggleSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-(--text-secondary)',
+            'rounded-md text-secondary',
             'duration-fast ease-out-expo transition-colors',
-            'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+            'hover:bg-surface-subtle hover:text-foreground',
             'focus:outline-none',
             'hidden md:block'
           )}
@@ -69,7 +69,7 @@ export const Header = () => {
         </button>
 
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold tracking-tight text-(--text-primary)">
+          <h1 className="text-xl font-bold tracking-tight text-foreground">
             First
           </h1>
         </div>
@@ -96,14 +96,14 @@ export const Header = () => {
           onClick={toggleProfile}
           className={clsx(
             'ml-2 flex cursor-pointer items-center gap-3 pl-4',
-            'appearance-none border-l border-(--border) outline-none',
+            'appearance-none border-l border-border outline-none',
             'transition-opacity',
             'hover:opacity-80'
           )}
           aria-label={t.userMenu}
         >
           <div className="hidden flex-col items-end md:flex">
-            <span className="text-sm leading-none font-medium text-(--text-primary)">
+            <span className="text-sm leading-none font-medium text-foreground">
               {user ? `${user.firstName} ${user.lastName}`.trim() : t.guestName}
             </span>
           </div>

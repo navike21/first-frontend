@@ -8,9 +8,9 @@ const BreadcrumbLink = ({ item }: { readonly item: BreadcrumbItem }) => (
     to={item.href ?? '/'}
     className={clsx(
       'flex items-center gap-1',
-      'text-(--text-secondary)',
+      'text-secondary',
       'transition-colors',
-      'hover:text-(--text-primary)'
+      'hover:text-foreground'
     )}
   >
     {item.icon && <IconComponent icon={item.icon} className="h-4 w-4" />}
@@ -19,7 +19,7 @@ const BreadcrumbLink = ({ item }: { readonly item: BreadcrumbItem }) => (
 )
 
 const BreadcrumbCurrent = ({ item }: { readonly item: BreadcrumbItem }) => (
-  <span className="flex items-center gap-1 font-medium text-(--text-primary)">
+  <span className="flex items-center gap-1 font-medium text-foreground">
     {item.icon && <IconComponent icon={item.icon} className="h-4 w-4" />}
     {item.label}
   </span>
@@ -41,7 +41,7 @@ export const Breadcrumbs = ({ items }: Readonly<BreadcrumbsProps>) => {
               {index > 0 && (
                 <IconComponent
                   icon="RiArrowRightSLine"
-                  className="h-4 w-4 text-(--text-muted)"
+                  className="h-4 w-4 text-muted"
                 />
               )}
               {isLast ? (

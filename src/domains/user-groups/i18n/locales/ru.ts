@@ -1,5 +1,12 @@
 import type { UserGroupsTranslations } from '../types'
 
+/** Russian plural suffix: `one` for 1, `few` for 2–4, `many` otherwise. */
+const ruPlural = (n: number, one: string, few: string, many: string): string => {
+  if (n === 1) return one
+  if (n < 5) return few
+  return many
+}
+
 export const ru: UserGroupsTranslations = {
   page: {
     usersTitle: (name) => `Пользователи группы ${name}`,
@@ -30,9 +37,8 @@ export const ru: UserGroupsTranslations = {
     deleteGroup: 'Удалить группу',
     prevPage: 'Предыдущая страница',
     nextPage: 'Следующая страница',
-    totalCount: (n) => `Всего ${n} групп${n === 1 ? 'а' : n < 5 ? 'ы' : ''}`,
-    permissionsCount: (n) =>
-      `${n} разрешени${n === 1 ? 'е' : n < 5 ? 'я' : 'й'}`,
+    totalCount: (n) => `Всего ${n} групп${ruPlural(n, 'а', 'ы', '')}`,
+    permissionsCount: (n) => `${n} разрешени${ruPlural(n, 'е', 'я', 'й')}`,
     systemBadge: 'Система',
     deletedAt: 'Удалена',
   },

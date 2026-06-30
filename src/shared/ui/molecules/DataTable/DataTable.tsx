@@ -38,7 +38,7 @@ export const DataTable = <T,>({
 
   if (rows.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-(--text-muted)">
+      <div className="flex flex-col items-center justify-center gap-2 py-20 text-muted">
         <IconComponent icon={emptyIcon} className="h-10 w-10" />
         <p className="text-sm">{emptyLabel}</p>
       </div>
@@ -102,8 +102,8 @@ export const DataTable = <T,>({
                 'rounded-xl border p-4 shadow-sm',
                 'duration-fast ease-out-expo transition-colors',
                 isSelected
-                  ? 'border-primary-700 bg-(--surface-subtle)'
-                  : 'border-(--border) bg-(--surface)'
+                  ? 'border-primary-700 bg-surface-subtle'
+                  : 'border-border bg-surface'
               )}
             >
               <div className="flex items-start gap-3">
@@ -124,16 +124,16 @@ export const DataTable = <T,>({
               </div>
 
               {bodyColumns.length > 0 && (
-                <dl className="mt-3 flex flex-col gap-2 border-t border-(--border-subtle) pt-3">
+                <dl className="mt-3 flex flex-col gap-2 border-t border-border-subtle pt-3">
                   {bodyColumns.map((col) => (
                     <div
                       key={col.id}
                       className="flex items-center justify-between gap-3"
                     >
-                      <dt className="text-xs font-semibold tracking-wide text-(--text-secondary) uppercase">
+                      <dt className="text-xs font-semibold tracking-wide text-secondary uppercase">
                         {col.header}
                       </dt>
-                      <dd className="min-w-0 text-right text-sm text-(--text-primary)">
+                      <dd className="min-w-0 text-right text-sm text-foreground">
                         {col.cell(row)}
                       </dd>
                     </div>
@@ -142,7 +142,7 @@ export const DataTable = <T,>({
               )}
 
               {footerColumns.length > 0 && (
-                <div className="mt-3 flex items-center justify-end gap-1 border-t border-(--border-subtle) pt-2">
+                <div className="mt-3 flex items-center justify-end gap-1 border-t border-border-subtle pt-2">
                   {footerColumns.map((col) => (
                     <div key={col.id}>{col.cell(row)}</div>
                   ))}
@@ -154,13 +154,13 @@ export const DataTable = <T,>({
       </ul>
 
       {/* Desktop: classic table with horizontal scroll fallback. */}
-      <div className="hidden overflow-x-auto rounded-xl border border-(--border) bg-(--surface) shadow-sm md:block">
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-surface shadow-sm md:block">
         <table className="w-full text-sm">
           <thead>
             <tr
               className={clsx(
                 'text-left',
-                'border-b border-(--border-subtle) bg-(--surface-subtle) text-xs font-semibold tracking-wide text-(--text-secondary) uppercase'
+                'border-b border-border-subtle bg-surface-subtle text-xs font-semibold tracking-wide text-secondary uppercase'
               )}
             >
               {selectable && (
@@ -197,8 +197,8 @@ export const DataTable = <T,>({
                   className={clsx(
                     'duration-fast ease-out-expo transition-colors',
                     isSelected
-                      ? 'bg-(--surface-subtle)'
-                      : 'hover:bg-(--surface-subtle)'
+                      ? 'bg-surface-subtle'
+                      : 'hover:bg-surface-subtle'
                   )}
                 >
                   {selectable && (
@@ -230,7 +230,7 @@ export const DataTable = <T,>({
       </div>
 
       {showFooter && (
-        <div className="flex items-center justify-between text-sm text-(--text-secondary)">
+        <div className="flex items-center justify-between text-sm text-secondary">
           <span>{totalLabel}</span>
           {pagination && pagination.pages > 1 && (
             <div className="flex items-center gap-1">
@@ -242,7 +242,7 @@ export const DataTable = <T,>({
                 disabled={pagination.page <= 1}
                 onClick={() => pagination.onPageChange(pagination.page - 1)}
               />
-              <span className="px-2 font-medium text-(--text-primary)">
+              <span className="px-2 font-medium text-foreground">
                 {pagination.page} / {pagination.pages}
               </span>
               <IconButton

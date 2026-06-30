@@ -114,20 +114,20 @@ describe('NavItem component', () => {
       render(<NavItem icon="RiHomeLine" label="Home" to="/home" isActive />)
       const link = screen.getByRole('link')
       expect(link).toHaveClass('bg-primary-700/10', 'font-semibold')
-      expect(link).not.toHaveClass('text-(--text-secondary)')
+      expect(link).not.toHaveClass('text-secondary')
     })
 
     it('should apply active icon class when isActive is true', () => {
       render(<NavItem icon="RiHomeLine" label="Home" isActive />)
       const icon = screen.getByTestId('icon-RiHomeLine')
       expect(icon).toHaveClass('text-primary-700')
-      expect(icon).not.toHaveClass('text-(--text-secondary)')
+      expect(icon).not.toHaveClass('text-secondary')
     })
 
     it('should not apply hover classes when isActive is true', () => {
       render(<NavItem icon="RiHomeLine" label="Home" to="/home" isActive />)
       const link = screen.getByRole('link')
-      expect(link).not.toHaveClass('hover:bg-(--surface-subtle)')
+      expect(link).not.toHaveClass('hover:bg-surface-subtle')
     })
   })
 })

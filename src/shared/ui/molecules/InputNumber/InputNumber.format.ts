@@ -34,15 +34,23 @@ export function sanitizeNumeric(input: string, opts: NumericOptions): string {
   return (negative ? '-' : '') + s
 }
 
+/** Inserts a thousands separator every 3 digits (linear; no regex backtracking). */
+function groupThousands(digits: string): string {
+  let out = ''
+  for (let i = 0; i < digits.length; i += 1) {
+    if (i > 0 && (digits.length - i) % 3 === 0) out += ','
+    out += digits[i]
+  }
+  return out
+}
+
 /** Formats a canonical numeric string for display (adds thousands grouping). */
 export function formatNumeric(raw: string, opts: NumericOptions): string {
   if (raw === '' || raw === '-') return raw
   const negative = raw.startsWith('-')
   const body = negative ? raw.slice(1) : raw
   const [intPart, decPart] = body.split('.')
-  const groupedInt = opts.thousandSeparator
-    ? intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    : intPart
+  const groupedInt = opts.thousandSeparator ? groupThousands(intPart) : intPart
   const out = body.includes('.') ? `${groupedInt}.${decPart ?? ''}` : groupedInt
   return (negative ? '-' : '') + out
 }

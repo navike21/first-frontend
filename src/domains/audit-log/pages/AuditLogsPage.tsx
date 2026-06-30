@@ -85,7 +85,7 @@ export const AuditLogsPage = () => {
       id: 'occurredAt',
       header: t.table.colDate,
       cell: (row) => (
-        <span className="font-medium text-(--text-primary)">
+        <span className="font-medium text-foreground">
           {formatDateTime(row.occurredAt)}
         </span>
       ),
@@ -98,7 +98,7 @@ export const AuditLogsPage = () => {
           ? `${row.user.firstName} ${row.user.lastName}`
           : undefined
         return (
-          <span className="text-sm font-medium text-(--text-secondary)">
+          <span className="text-sm font-medium text-secondary">
             {name ?? row.userId ?? '—'}
           </span>
         )
@@ -117,7 +117,7 @@ export const AuditLogsPage = () => {
       id: 'resource',
       header: t.table.colResource,
       cell: (row) => (
-        <span className="text-sm text-(--text-secondary)">{row.resource}</span>
+        <span className="text-sm text-secondary">{row.resource}</span>
       ),
     },
     {

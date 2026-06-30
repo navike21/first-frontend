@@ -71,14 +71,14 @@ export const Drawer: React.FC<DrawerProps> = ({
         variants={asideVariants}
         className={clsx(
           'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto',
-          'bg-(--surface)',
+          'bg-surface',
           'duration-normal ease-out-expo transition-[translate,width]',
           isMobileOnly
             ? 'shadow-xl md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none'
             : 'shadow-xl',
           placement === 'left'
-            ? 'left-0 border-r border-(--border)'
-            : 'right-0 border-l border-(--border)',
+            ? 'left-0 border-r border-border'
+            : 'right-0 border-l border-border',
           isOpen
             ? 'translate-x-0 delay-[50ms]'
             : clsx('delay-0', {
@@ -92,7 +92,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         {title && (
           <div
             className={clsx(
-              'flex items-center justify-between border-b border-(--border-subtle) p-4',
+              'flex items-center justify-between border-b border-border-subtle p-4',
               isMobileOnly && 'md:hidden'
             )}
           >
@@ -101,9 +101,9 @@ export const Drawer: React.FC<DrawerProps> = ({
               onClick={onClose}
               className={clsx(
                 'cursor-pointer p-1.5',
-                'rounded-md text-(--text-secondary)',
+                'rounded-md text-secondary',
                 'duration-fast ease-out-expo transition-colors',
-                'hover:bg-(--surface-subtle) hover:text-(--text-primary)',
+                'hover:bg-surface-subtle hover:text-foreground',
                 'focus:outline-none'
               )}
               aria-label="Cerrar menú"

@@ -49,7 +49,7 @@ export const UserGroupsTrashPage = () => {
       ]}
     >
 
-      {isLoading ? (
+      {isLoading && (
         <div className="flex items-center justify-center py-20">
           <div
             className={clsx(
@@ -59,29 +59,31 @@ export const UserGroupsTrashPage = () => {
             )}
           />
         </div>
-      ) : groups.length === 0 ? (
+      )}
+      {!isLoading && groups.length === 0 && (
         <div
           className={clsx(
             'flex flex-col items-center justify-center py-20',
-            'rounded-xl border border-dashed border-(--border) bg-(--surface-subtle)',
+            'rounded-xl border border-dashed border-border bg-surface-subtle',
             'text-center'
           )}
         >
           <IconComponent
             icon="RiDeleteBinLine"
-            className="mb-3 h-10 w-10 text-(--text-disabled)"
+            className="mb-3 h-10 w-10 text-disabled"
           />
-          <p className="text-lg font-semibold text-(--text-primary)">
+          <p className="text-lg font-semibold text-foreground">
             {t.page.trashEmpty}
           </p>
-          <p className="mt-1 text-sm text-(--text-muted)">
+          <p className="mt-1 text-sm text-muted">
             {t.page.trashEmptyDescription}
           </p>
         </div>
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-(--border) bg-(--surface) shadow-sm">
+      )}
+      {!isLoading && groups.length > 0 && (
+        <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
           <table className="w-full text-sm">
-            <thead className="bg-(--surface-subtle) text-xs font-semibold tracking-wider text-(--text-secondary) uppercase">
+            <thead className="bg-surface-subtle text-xs font-semibold tracking-wider text-secondary uppercase">
               <tr>
                 <th className="px-4 py-3 text-left">{t.table.colName}</th>
                 <th className="px-4 py-3 text-left">
@@ -97,7 +99,7 @@ export const UserGroupsTrashPage = () => {
                   key={group.id}
                   className={clsx(
                     'transition-colors',
-                    'hover:bg-(--surface-subtle)'
+                    'hover:bg-surface-subtle'
                   )}
                 >
                   <td className="px-4 py-3">
@@ -106,15 +108,15 @@ export const UserGroupsTrashPage = () => {
                         className="inline-block h-3 w-3 flex-shrink-0 rounded-full"
                         style={{ backgroundColor: group.color }}
                       />
-                      <span className="font-medium text-(--text-primary)">
+                      <span className="font-medium text-foreground">
                         {group.name}
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-(--text-secondary)">
+                  <td className="px-4 py-3 text-secondary">
                     {t.table.permissionsCount(group.permissions.length)}
                   </td>
-                  <td className="px-4 py-3 text-(--text-secondary)">
+                  <td className="px-4 py-3 text-secondary">
                     {group.deletedAt
                       ? new Date(group.deletedAt).toLocaleDateString()
                       : '—'}
@@ -160,8 +162,8 @@ export const UserGroupsTrashPage = () => {
           </table>
 
           {pages > 1 && (
-            <div className="flex items-center justify-between border-t border-(--border-subtle) px-4 py-3">
-              <span className="text-sm text-(--text-secondary)">
+            <div className="flex items-center justify-between border-t border-border-subtle px-4 py-3">
+              <span className="text-sm text-secondary">
                 {t.table.totalCount(total)}
               </span>
               <div className="flex items-center gap-1">
@@ -173,7 +175,7 @@ export const UserGroupsTrashPage = () => {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 />
-                <span className="text-sm text-(--text-secondary)">
+                <span className="text-sm text-secondary">
                   {page} / {pages}
                 </span>
                 <IconButton

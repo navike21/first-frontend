@@ -37,7 +37,7 @@ describe('getInputAreaClass', () => {
   describe('background', () => {
     it('should apply bg-white when not disabled', () => {
       const result = getInputAreaClass({ ...base, disabled: false })
-      expect(result).toContain('bg-(--surface)')
+      expect(result).toContain('bg-surface')
       expect(result).not.toContain('bg-slate-400/50')
     })
 
@@ -51,7 +51,7 @@ describe('getInputAreaClass', () => {
   describe('variant ring colors', () => {
     it('should apply ring-slate-300 for default variant', () => {
       const result = getInputAreaClass({ ...base, variant: 'default' })
-      expect(result).toContain('ring-(--border)')
+      expect(result).toContain('ring-border')
     })
 
     it('should apply ring-emerald-500 for success variant', () => {

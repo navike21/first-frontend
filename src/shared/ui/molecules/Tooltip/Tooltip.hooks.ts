@@ -25,12 +25,10 @@ function computePositionState(
 ): TooltipPositionState {
   const rect = el.getBoundingClientRect()
 
+  const autoPosition: ResolvedTooltipPosition =
+    rect.top + rect.height / 2 < window.innerHeight / 2 ? 'bottom' : 'top'
   const resolvedPosition: ResolvedTooltipPosition =
-    position === 'auto'
-      ? rect.top + rect.height / 2 < window.innerHeight / 2
-        ? 'bottom'
-        : 'top'
-      : position
+    position === 'auto' ? autoPosition : position
 
   let style: CSSProperties
   switch (resolvedPosition) {

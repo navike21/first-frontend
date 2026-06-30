@@ -80,7 +80,7 @@ export const UsersPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-(--text-muted)">
+              <span className="px-3 text-muted">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }
@@ -99,8 +99,8 @@ export const UsersPage = () => {
 
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-(--border) bg-(--surface-subtle) px-4 py-2">
-            <span className="text-sm font-medium text-(--text-primary)">
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
+            <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <div className="flex items-center gap-2">

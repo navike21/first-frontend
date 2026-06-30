@@ -44,10 +44,10 @@ export const UserGroupTable = ({
       cell: (group) => (
         <div className="flex items-center gap-3">
           <span
-            className="h-4 w-4 shrink-0 rounded-full border border-(--border)"
+            className="h-4 w-4 shrink-0 rounded-full border border-border"
             style={{ backgroundColor: group.color }}
           />
-          <span className="font-medium text-(--text-primary)">
+          <span className="font-medium text-foreground">
             {group.name}
           </span>
           {group.isSystem && (

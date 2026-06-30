@@ -61,9 +61,9 @@ export const ColorPicker = () => {
             className={clsx(
               'relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full',
               'duration-fast ease-out-expo transition-all',
-              'focus-visible:ring-2 focus-visible:ring-(--border) focus-visible:ring-offset-1 focus-visible:outline-none',
+              'focus-visible:ring-2 focus-visible:ring-border focus-visible:ring-offset-1 focus-visible:outline-none',
               bg,
-              selected && [ring, 'ring-2 ring-offset-2 ring-offset-(--surface)']
+              selected && [ring, 'ring-2 ring-offset-2 ring-offset-surface']
             )}
           >
             {selected && (

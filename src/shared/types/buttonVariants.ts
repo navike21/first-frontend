@@ -8,11 +8,11 @@ export const variantColorClasses: Record<ButtonVariant, string> = {
   // Brand-colored outline (uses primary-* so it follows the active color
   // theme) over the surface — for "cancel" / dismiss actions.
   secondary:
-    'text-primary-700 bg-(--surface) ring-1 ring-primary-700 ring-inset dark:text-primary-300 dark:ring-primary-300',
+    'text-primary-700 bg-surface ring-1 ring-primary-700 ring-inset dark:text-primary-300 dark:ring-primary-300',
   // Same brand outline on a transparent background — tertiary / infrequent.
   outline:
     'text-primary-700 bg-transparent ring-1 ring-primary-700 ring-inset dark:text-primary-300 dark:ring-primary-300',
-  text: 'text-(--text-primary) bg-transparent',
+  text: 'text-foreground bg-transparent',
   warning: 'bg-amber-500 text-white',
   error: 'bg-red-600 text-white',
   information: 'bg-blue-600 text-white',

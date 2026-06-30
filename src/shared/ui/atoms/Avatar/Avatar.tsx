@@ -55,7 +55,7 @@ export const Avatar = memo(
           <span
             className={clsx(
               'absolute right-0 bottom-0',
-              'rounded-full ring-2 ring-(--surface)',
+              'rounded-full ring-2 ring-surface',
               statusColorMap[status],
               statusEffectMap[status],
               statusSizeMap[size]
