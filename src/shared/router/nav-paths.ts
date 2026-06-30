@@ -69,6 +69,18 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.clients[l_]}`
   },
+  clientCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.clients[l_]}/${ROUTE_SLUGS.clientCreate[l_]}`
+  },
+  clientEdit: (clientId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.clients[l_]}/${clientId}/${ROUTE_SLUGS.clientEdit[l_]}`
+  },
+  clientTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.clients[l_]}/${ROUTE_SLUGS.clientTrash[l_]}`
+  },
   services: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.services[l_]}`
