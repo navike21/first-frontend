@@ -20,12 +20,44 @@ const passwordRules = (v: V) =>
     .regex(/[A-Z]/, v.passwordUppercase)
     .regex(/\d/, v.passwordNumber)
 
+/**
+ * All-or-nothing password validation shared by the create/edit form schemas: an
+ * empty password is allowed (create = passwordless invite, edit = keep current)
+ * but once typed it must meet the strength rules and match the confirmation.
+ */
+function refinePasswordPair(v: V) {
+  return (
+    d: { password?: string; confirmPassword?: string },
+    ctx: z.RefinementCtx
+  ) => {
+    if (!d.password) return
+    const issues: { test: boolean; message: string }[] = [
+      { test: d.password.length < 8, message: v.passwordMin },
+      { test: !/[A-Z]/.test(d.password), message: v.passwordUppercase },
+      { test: !/\d/.test(d.password), message: v.passwordNumber },
+    ]
+    for (const i of issues) {
+      if (i.test) {
+        ctx.addIssue({ code: 'custom', message: i.message, path: ['password'] })
+      }
+    }
+    if (d.password !== d.confirmPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        message: v.passwordMismatch,
+        path: ['confirmPassword'],
+      })
+    }
+  }
+}
+
 // ── API payload schemas (what is sent to the backend) ──────────────────────────
 
 export function createCreateUserSchema(v: V) {
   return z.object({
     email: z.email(v.emailInvalid).toLowerCase(),
-    password: passwordRules(v),
+    // Optional: a passwordless user (invite flow) sets it later via reset.
+    password: passwordRules(v).optional(),
     firstName: z.string().min(2, v.fieldMin2).max(50).trim(),
     lastName: z.string().min(2, v.fieldMin2).max(100).trim(),
     dateOfBirth: z
@@ -58,12 +90,13 @@ export function createUpdateUserSchema(v: V) {
 // ── Form schemas (add the UI-only `confirmPassword` + match validation) ────────
 
 export function createCreateUserFormSchema(v: V) {
+  // Password is optional (passwordless invite); all-or-nothing when typed.
   return createCreateUserSchema(v)
-    .extend({ confirmPassword: z.string() })
-    .refine((d) => d.password === d.confirmPassword, {
-      message: v.passwordMismatch,
-      path: ['confirmPassword'],
+    .extend({
+      password: z.string().optional(),
+      confirmPassword: z.string().optional(),
     })
+    .superRefine(refinePasswordPair(v))
 }
 
 export function createUpdateUserFormSchema(v: V) {
@@ -76,30 +109,7 @@ export function createUpdateUserFormSchema(v: V) {
       password: z.string().optional(),
       confirmPassword: z.string().optional(),
     })
-    .superRefine((d, ctx) => {
-      if (!d.password) return
-      const issues: { test: boolean; message: string }[] = [
-        { test: d.password.length < 8, message: v.passwordMin },
-        { test: !/[A-Z]/.test(d.password), message: v.passwordUppercase },
-        { test: !/\d/.test(d.password), message: v.passwordNumber },
-      ]
-      for (const i of issues) {
-        if (i.test) {
-          ctx.addIssue({
-            code: 'custom',
-            message: i.message,
-            path: ['password'],
-          })
-        }
-      }
-      if (d.password !== d.confirmPassword) {
-        ctx.addIssue({
-          code: 'custom',
-          message: v.passwordMismatch,
-          path: ['confirmPassword'],
-        })
-      }
-    })
+    .superRefine(refinePasswordPair(v))
 }
 
 export const userListSchema = z.object({

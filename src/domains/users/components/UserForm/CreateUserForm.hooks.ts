@@ -81,9 +81,13 @@ export function useCreateUserForm({
 
   const onSubmit = handleSubmit(
     (data) => {
-      // `confirmPassword` is UI-only — never send it to the API.
-      const { confirmPassword: _confirm, ...payload } = data
-      onCreate(payload as CreateUserFormData, pendingFile)
+      // `confirmPassword` is UI-only; an empty `password` means "invite" (create
+      // the user without a password) → omit it so the backend stores none.
+      const { confirmPassword: _confirm, password, ...rest } = data
+      const payload = (
+        password ? { ...rest, password } : rest
+      ) as CreateUserFormData
+      onCreate(payload, pendingFile)
     },
     // On invalid submit, reveal the tab that holds the first error.
     (formErrors) => setActiveTab(tabForErrors(formErrors))
@@ -105,6 +109,8 @@ export function useCreateUserForm({
     {
       id: 'account',
       label: t.form.tabAccount,
+      // Optional: leaving password empty creates a passwordless user (invite).
+      optional: true,
       error: errorKeys.some((k) => !personalFields.includes(k)),
     },
   ]
