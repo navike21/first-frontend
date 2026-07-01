@@ -94,9 +94,19 @@ export function useCreateUserForm({
     onCancel()
   }
 
+  const errorKeys = Object.keys(errors)
+  const personalFields = USER_FORM_PERSONAL_FIELDS as readonly string[]
   const steps: WizardStep[] = [
-    { id: 'personal', label: t.form.tabPersonal },
-    { id: 'account', label: t.form.tabAccount },
+    {
+      id: 'personal',
+      label: t.form.tabPersonal,
+      error: errorKeys.some((k) => personalFields.includes(k)),
+    },
+    {
+      id: 'account',
+      label: t.form.tabAccount,
+      error: errorKeys.some((k) => !personalFields.includes(k)),
+    },
   ]
   const goToStep = (id: string) => setActiveTab(id as UserFormTab)
   const handleNext = async () => {

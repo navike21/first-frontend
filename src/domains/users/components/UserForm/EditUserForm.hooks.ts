@@ -129,9 +129,20 @@ export function useEditUserForm({
 
   // On edit the password can be left blank ("keep current"), so the account
   // step is optional.
+  const errorKeys = Object.keys(errors)
+  const personalFields = USER_FORM_PERSONAL_FIELDS as readonly string[]
   const steps: WizardStep[] = [
-    { id: 'personal', label: t.form.tabPersonal },
-    { id: 'account', label: t.form.tabAccount, optional: true },
+    {
+      id: 'personal',
+      label: t.form.tabPersonal,
+      error: errorKeys.some((k) => personalFields.includes(k)),
+    },
+    {
+      id: 'account',
+      label: t.form.tabAccount,
+      optional: true,
+      error: errorKeys.some((k) => !personalFields.includes(k)),
+    },
   ]
   const goToStep = (id: string) => setActiveTab(id as UserFormTab)
   const handleNext = async () => {

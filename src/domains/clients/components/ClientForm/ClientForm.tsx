@@ -156,10 +156,26 @@ export const ClientForm = ({
     (formErrors) => setActiveTab(tabForErrors(formErrors))
   )
 
+  const errorKeys = Object.keys(errors)
+  const stepHasError = (tab: ClientFormTab) =>
+    TAB_FIELDS[tab].some((f) => errorKeys.includes(f))
   const steps: WizardStep[] = [
-    { id: 'general', label: t.form.sectionGeneral },
-    { id: 'location', label: t.form.sectionLocation },
-    { id: 'contact', label: t.form.sectionContact, optional: true },
+    {
+      id: 'general',
+      label: t.form.sectionGeneral,
+      error: stepHasError('general'),
+    },
+    {
+      id: 'location',
+      label: t.form.sectionLocation,
+      error: stepHasError('location'),
+    },
+    {
+      id: 'contact',
+      label: t.form.sectionContact,
+      optional: true,
+      error: stepHasError('contact'),
+    },
   ]
 
   const goToStep = (id: string) => setActiveTab(id as ClientFormTab)
