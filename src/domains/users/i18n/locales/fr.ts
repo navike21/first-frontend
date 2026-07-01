@@ -80,6 +80,9 @@ export const fr: UsersTranslations = {
     createButton: "Créer l'utilisateur",
     saveButton: 'Enregistrer',
     cancelButton: 'Annuler',
+    back: 'Retour',
+    next: 'Suivant',
+    optional: '(optionnel)',
   },
   actions: {
     selectedCount: (n) => `${n} sélectionné${n !== 1 ? 's' : ''}`,

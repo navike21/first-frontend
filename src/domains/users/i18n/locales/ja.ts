@@ -79,6 +79,9 @@ export const ja: UsersTranslations = {
     createButton: 'ユーザーを作成',
     saveButton: '変更を保存',
     cancelButton: 'キャンセル',
+    back: '戻る',
+    next: '次へ',
+    optional: '(任意)',
   },
   actions: {
     selectedCount: (n) => `${n} 件選択中`,

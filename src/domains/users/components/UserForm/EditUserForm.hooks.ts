@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
-import { tabForErrors, type UserFormTab } from './userFormTabs'
+import type { WizardStep } from '@/shared/ui'
+import {
+  tabForErrors,
+  USER_FORM_PERSONAL_FIELDS,
+  type UserFormTab,
+} from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
@@ -63,6 +68,7 @@ export function useEditUserForm({
     handleSubmit,
     setValue,
     setError,
+    trigger,
     control,
     reset,
     formState: { errors },
@@ -121,6 +127,21 @@ export function useEditUserForm({
     onCancel()
   }
 
+  // On edit the password can be left blank ("keep current"), so the account
+  // step is optional.
+  const steps: WizardStep[] = [
+    { id: 'personal', label: t.form.tabPersonal },
+    { id: 'account', label: t.form.tabAccount, optional: true },
+  ]
+  const goToStep = (id: string) => setActiveTab(id as UserFormTab)
+  const handleNext = async () => {
+    const ok = await trigger(
+      USER_FORM_PERSONAL_FIELDS as unknown as (keyof UpdateUserFormValues)[]
+    )
+    if (ok) setActiveTab('account')
+  }
+  const handleBack = () => setActiveTab('personal')
+
   const onGenderChange = (v: string) =>
     setValue('gender', v as UpdateUserFormValues['gender'])
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
@@ -145,6 +166,9 @@ export function useEditUserForm({
     onGroupsChange,
     onStatusToggle,
     activeTab,
-    setActiveTab,
+    steps,
+    goToStep,
+    handleNext,
+    handleBack,
   }
 }

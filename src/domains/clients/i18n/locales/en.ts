@@ -108,6 +108,9 @@ export const en: ClientsTranslations = {
     save: 'Save changes',
     create: 'Create client',
     cancel: 'Cancel',
+    back: 'Back',
+    next: 'Next',
+    optional: '(optional)',
   },
   toasts: {
     created: 'Client created',

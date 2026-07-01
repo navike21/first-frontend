@@ -79,6 +79,9 @@ export const ko: UsersTranslations = {
     createButton: '사용자 생성',
     saveButton: '변경 저장',
     cancelButton: '취소',
+    back: '뒤로',
+    next: '다음',
+    optional: '(선택)',
   },
   actions: {
     selectedCount: (n) => `${n}개 선택됨`,

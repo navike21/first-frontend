@@ -1,17 +1,15 @@
 import {
-  Button,
   InputField,
   InputNumber,
   InputDate,
   Select,
   PhotoPicker,
   Switch,
-  Tabs,
+  Wizard,
 } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'
-import type { UserFormTab } from './userFormTabs'
 
 export const EditUserForm = (
   props: UseEditUserFormProps & { isProfile?: boolean }
@@ -34,7 +32,10 @@ export const EditUserForm = (
     onGroupsChange,
     onStatusToggle,
     activeTab,
-    setActiveTab,
+    steps,
+    goToStep,
+    handleNext,
+    handleBack,
   } = useEditUserForm(props)
 
   return (
@@ -66,15 +67,20 @@ export const EditUserForm = (
         }
         right={
           <>
-            <Tabs
-              tabs={[
-                { id: 'personal', label: t.form.tabPersonal },
-                { id: 'account', label: t.form.tabAccount },
-              ]}
-              activeId={activeTab}
-              onChange={(id) => setActiveTab(id as UserFormTab)}
-              ariaLabel={t.form.tabPersonal}
-            />
+            <Wizard
+              steps={steps}
+              current={activeTab}
+              onStepChange={goToStep}
+              onNext={handleNext}
+              onBack={handleBack}
+              onCancel={handleCancel}
+              isSubmitting={busy}
+              backLabel={t.form.back}
+              nextLabel={t.form.next}
+              submitLabel={t.form.saveButton}
+              cancelLabel={t.form.cancelButton}
+              optionalLabel={t.form.optional}
+            >
 
             {/* ── Personal details ─────────────────────────────────────────── */}
             <div
@@ -208,19 +214,7 @@ export const EditUserForm = (
               )}
             </div>
 
-            <div className="flex w-full flex-col-reverse justify-end gap-3 pt-2 sm:flex-row">
-              <Button
-                variant="secondary"
-                type="button"
-                disabled={busy}
-                onClick={handleCancel}
-              >
-                {t.form.cancelButton}
-              </Button>
-              <Button variant="primary" type="submit" loading={busy}>
-                {t.form.saveButton}
-              </Button>
-            </div>
+            </Wizard>
           </>
         }
       />

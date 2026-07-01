@@ -106,6 +106,9 @@ export interface ClientsTranslations {
     save: string
     create: string
     cancel: string
+    back: string
+    next: string
+    optional: string
   }
   toasts: {
     created: string

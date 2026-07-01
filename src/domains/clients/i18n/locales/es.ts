@@ -108,6 +108,9 @@ export const es: ClientsTranslations = {
     save: 'Guardar cambios',
     create: 'Crear cliente',
     cancel: 'Cancelar',
+    back: 'Atrás',
+    next: 'Siguiente',
+    optional: '(opcional)',
   },
   toasts: {
     created: 'Cliente creado',

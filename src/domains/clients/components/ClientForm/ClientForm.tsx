@@ -7,14 +7,14 @@ import {
 } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Button,
   InputField,
   InputNumber,
   Select,
   PhotoPicker,
   TextArea,
-  Tabs,
+  Wizard,
   LocationSelect,
+  type WizardStep,
 } from '@/shared/ui'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useClientsTranslation } from '../../i18n'
@@ -101,6 +101,7 @@ export const ClientForm = ({
     handleSubmit,
     setValue,
     setError,
+    trigger,
     control,
     formState: { errors },
   } = useForm<CreateClientFormData>({
@@ -155,11 +156,27 @@ export const ClientForm = ({
     (formErrors) => setActiveTab(tabForErrors(formErrors))
   )
 
-  const tabs = [
+  const steps: WizardStep[] = [
     { id: 'general', label: t.form.sectionGeneral },
     { id: 'location', label: t.form.sectionLocation },
-    { id: 'contact', label: t.form.sectionContact },
+    { id: 'contact', label: t.form.sectionContact, optional: true },
   ]
+
+  const goToStep = (id: string) => setActiveTab(id as ClientFormTab)
+
+  const handleNext = async () => {
+    const ok = await trigger(
+      TAB_FIELDS[activeTab] as (keyof CreateClientFormData)[]
+    )
+    if (!ok) return
+    const i = steps.findIndex((s) => s.id === activeTab)
+    if (i < steps.length - 1) goToStep(steps[i + 1].id)
+  }
+
+  const handleBack = () => {
+    const i = steps.findIndex((s) => s.id === activeTab)
+    if (i > 0) goToStep(steps[i - 1].id)
+  }
 
   return (
     <form onSubmit={submit}>
@@ -182,12 +199,20 @@ export const ClientForm = ({
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col gap-6 rounded-xl border border-border bg-surface p-6">
-          <Tabs
-            tabs={tabs}
-            activeId={activeTab}
-            onChange={(id) => setActiveTab(id as ClientFormTab)}
-            ariaLabel={t.form.sectionGeneral}
-          />
+          <Wizard
+            steps={steps}
+            current={activeTab}
+            onStepChange={goToStep}
+            onNext={handleNext}
+            onBack={handleBack}
+            onCancel={onCancel}
+            isSubmitting={isSubmitting}
+            backLabel={t.form.back}
+            nextLabel={t.form.next}
+            submitLabel={mode === 'create' ? t.form.create : t.form.save}
+            cancelLabel={t.form.cancel}
+            optionalLabel={t.form.optional}
+          >
 
           <div
             hidden={activeTab !== 'general'}
@@ -340,21 +365,8 @@ export const ClientForm = ({
               {...register('notes')}
             />
           </div>
+          </Wizard>
         </div>
-      </div>
-
-      <div className="mt-6 flex items-center justify-end gap-2">
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={onCancel}
-          disabled={isSubmitting}
-        >
-          {t.form.cancel}
-        </Button>
-        <Button type="submit" variant="primary" loading={isSubmitting}>
-          {mode === 'create' ? t.form.create : t.form.save}
-        </Button>
       </div>
     </form>
   )

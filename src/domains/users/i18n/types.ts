@@ -81,6 +81,9 @@ export interface UsersTranslations {
     createButton: string
     saveButton: string
     cancelButton: string
+    back: string
+    next: string
+    optional: string
   }
   actions: {
     newUser: string

@@ -54,6 +54,11 @@ export {
   type LocationSelectProps,
   type LocationValue,
 } from './molecules/LocationSelect'
+export {
+  Wizard,
+  type WizardProps,
+  type WizardStep,
+} from './molecules/Wizard'
 export { RadioOption, type RadioOptionProps } from './molecules/RadioOption'
 export {
   Tooltip,

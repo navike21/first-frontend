@@ -1,16 +1,14 @@
 import {
-  Button,
   InputField,
   InputNumber,
   InputDate,
   Select,
   PhotoPicker,
-  Tabs,
+  Wizard,
 } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useCreateUserForm } from './CreateUserForm.hooks'
 import type { UseCreateUserFormProps } from './CreateUserForm.hooks'
-import type { UserFormTab } from './userFormTabs'
 
 export const CreateUserForm = (props: UseCreateUserFormProps) => {
   const {
@@ -28,7 +26,10 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     onGenderChange,
     onGroupsChange,
     activeTab,
-    setActiveTab,
+    steps,
+    goToStep,
+    handleNext,
+    handleBack,
   } = useCreateUserForm(props)
 
   return (
@@ -44,15 +45,20 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
         }
         right={
           <>
-            <Tabs
-              tabs={[
-                { id: 'personal', label: t.form.tabPersonal },
-                { id: 'account', label: t.form.tabAccount },
-              ]}
-              activeId={activeTab}
-              onChange={(id) => setActiveTab(id as UserFormTab)}
-              ariaLabel={t.form.tabPersonal}
-            />
+            <Wizard
+              steps={steps}
+              current={activeTab}
+              onStepChange={goToStep}
+              onNext={handleNext}
+              onBack={handleBack}
+              onCancel={handleCancel}
+              isSubmitting={busy}
+              backLabel={t.form.back}
+              nextLabel={t.form.next}
+              submitLabel={t.form.createButton}
+              cancelLabel={t.form.cancelButton}
+              optionalLabel={t.form.optional}
+            >
 
             {/* ── Personal details ─────────────────────────────────────────── */}
             <div
@@ -180,19 +186,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               />
             </div>
 
-            <div className="flex w-full flex-col-reverse justify-end gap-3 pt-2 sm:flex-row">
-              <Button
-                variant="secondary"
-                type="button"
-                disabled={busy}
-                onClick={handleCancel}
-              >
-                {t.form.cancelButton}
-              </Button>
-              <Button variant="primary" type="submit" loading={busy}>
-                {t.form.createButton}
-              </Button>
-            </div>
+            </Wizard>
           </>
         }
       />

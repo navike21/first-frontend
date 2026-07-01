@@ -73,6 +73,9 @@ export const zh: UsersTranslations = {
     createButton: '创建用户',
     saveButton: '保存更改',
     cancelButton: '取消',
+    back: '上一步',
+    next: '下一步',
+    optional: '(可选)',
   },
   actions: {
     selectedCount: (n) => `已选择 ${n} 项`,

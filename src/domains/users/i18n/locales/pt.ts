@@ -81,6 +81,9 @@ export const pt: UsersTranslations = {
     createButton: 'Criar usuário',
     saveButton: 'Salvar alterações',
     cancelButton: 'Cancelar',
+    back: 'Voltar',
+    next: 'Próximo',
+    optional: '(opcional)',
   },
   actions: {
     selectedCount: (n) => `${n} selecionado${n !== 1 ? 's' : ''}`,

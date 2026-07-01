@@ -79,6 +79,9 @@ export const ru: UsersTranslations = {
     createButton: 'Создать пользователя',
     saveButton: 'Сохранить изменения',
     cancelButton: 'Отмена',
+    back: 'Назад',
+    next: 'Далее',
+    optional: '(необязательно)',
   },
   actions: {
     selectedCount: (n) => `Выбрано: ${n}`,

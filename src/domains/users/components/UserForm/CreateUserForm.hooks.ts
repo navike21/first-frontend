@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
-import { tabForErrors, type UserFormTab } from './userFormTabs'
+import type { WizardStep } from '@/shared/ui'
+import {
+  tabForErrors,
+  USER_FORM_PERSONAL_FIELDS,
+  type UserFormTab,
+} from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useUsersTranslation } from '../../i18n'
@@ -44,6 +49,7 @@ export function useCreateUserForm({
     handleSubmit,
     setValue,
     setError,
+    trigger,
     control,
     reset,
     formState: { errors },
@@ -88,6 +94,19 @@ export function useCreateUserForm({
     onCancel()
   }
 
+  const steps: WizardStep[] = [
+    { id: 'personal', label: t.form.tabPersonal },
+    { id: 'account', label: t.form.tabAccount },
+  ]
+  const goToStep = (id: string) => setActiveTab(id as UserFormTab)
+  const handleNext = async () => {
+    const ok = await trigger(
+      USER_FORM_PERSONAL_FIELDS as unknown as (keyof CreateUserFormValues)[]
+    )
+    if (ok) setActiveTab('account')
+  }
+  const handleBack = () => setActiveTab('personal')
+
   const onGenderChange = (v: string) =>
     setValue('gender', v as CreateUserFormData['gender'])
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
@@ -108,5 +127,9 @@ export function useCreateUserForm({
     onGroupsChange,
     activeTab,
     setActiveTab,
+    steps,
+    goToStep,
+    handleNext,
+    handleBack,
   }
 }
