@@ -39,6 +39,7 @@ export function useCreateUserForm({
   )
   const { pendingFile, setPendingFile } = usePhotoUpload()
   const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
+  const [maxStep, setMaxStep] = useState(0)
 
   useEffect(() => {
     load().catch(() => {})
@@ -114,12 +115,15 @@ export function useCreateUserForm({
       error: errorKeys.some((k) => !personalFields.includes(k)),
     },
   ]
+  const reachedIndex = maxStep
   const goToStep = (id: string) => setActiveTab(id as UserFormTab)
   const handleNext = async () => {
     const ok = await trigger(
       USER_FORM_PERSONAL_FIELDS as unknown as (keyof CreateUserFormValues)[]
     )
-    if (ok) setActiveTab('account')
+    if (!ok) return
+    setActiveTab('account')
+    setMaxStep((m) => Math.max(m, 1))
   }
   const handleBack = () => setActiveTab('personal')
 
@@ -144,6 +148,7 @@ export function useCreateUserForm({
     activeTab,
     setActiveTab,
     steps,
+    reachedIndex,
     goToStep,
     handleNext,
     handleBack,

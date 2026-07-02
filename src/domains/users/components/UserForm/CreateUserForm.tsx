@@ -27,6 +27,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     onGroupsChange,
     activeTab,
     steps,
+    reachedIndex,
     goToStep,
     handleNext,
     handleBack,
@@ -48,6 +49,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
             <Wizard
               steps={steps}
               current={activeTab}
+              reachedIndex={reachedIndex}
               onStepChange={goToStep}
               onNext={handleNext}
               onBack={handleBack}

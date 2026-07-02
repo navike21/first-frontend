@@ -11,8 +11,6 @@ interface PathItem {
   hasChildren: boolean
 }
 
-const capitalize = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
-
 /**
  * Reconstructs the cascade path from a stored ubigeo code. Peru's codes are
  * hierarchical prefixes (departamento=2, provincia=4, distrito=6 digits), so
@@ -31,25 +29,28 @@ function buildInitialPath(value: LocationValue): PathItem[] {
   return items
 }
 
+/**
+ * One cascading division select. Stays disabled (and does not fetch) until its
+ * parent level is chosen; shows a loading spinner while its options load.
+ */
 const DivisionLevel = ({
   country,
   parentCode,
-  level,
+  label,
   selectedCode,
+  locked,
   lang,
-  disabled,
   onSelect,
 }: {
   country: string
   parentCode?: string
-  level: number
+  label: string
   selectedCode?: string
+  locked: boolean
   lang: Language
-  disabled?: boolean
   onSelect: (code: string, name: string, hasChildren: boolean) => void
 }) => {
-  const { data, isLoading } = useDivisions(country, parentCode)
-  const label = capitalize(data?.levels?.[level] ?? '')
+  const { data, isFetching } = useDivisions(locked ? undefined : country, parentCode)
   const options = [
     { value: '', label: '—' },
     ...(data?.items ?? []).map((item) => ({ value: item.code, label: item.name })),
@@ -61,7 +62,8 @@ const DivisionLevel = ({
       options={options}
       value={selectedCode ?? ''}
       lang={lang}
-      disabled={disabled || isLoading}
+      disabled={locked || isFetching}
+      loading={isFetching}
       onChange={(e) => {
         const code = e.target.value
         const item = data?.items.find((i) => i.code === code)
@@ -84,13 +86,11 @@ export const LocationSelect = ({
   const [path, setPath] = useState<PathItem[]>(() => buildInitialPath(value))
 
   const country = countries?.find((c) => c.code === value.countryCode)
+  const levels = country?.divisionLevels ?? []
 
   const countryOptions = [
     { value: '', label: '—' },
-    ...(countries ?? []).map((c) => ({
-      value: c.code,
-      label: c.name,
-    })),
+    ...(countries ?? []).map((c) => ({ value: c.code, label: c.name })),
   ]
 
   const handleCountry = (code: string) => {
@@ -127,42 +127,21 @@ export const LocationSelect = ({
         onChange={(e) => handleCountry(e.target.value)}
       />
 
-      {country?.hasDivisions && value.countryCode && (
-        <>
+      {country?.hasDivisions &&
+        levels.map((label, i) => (
           <DivisionLevel
-            country={value.countryCode}
-            level={0}
-            selectedCode={path[0]?.code}
+            key={label}
+            country={value.countryCode as string}
+            parentCode={i === 0 ? undefined : path[i - 1]?.code}
+            label={label}
+            selectedCode={path[i]?.code}
+            locked={!!disabled || (i > 0 && !path[i - 1])}
             lang={lang}
-            disabled={disabled}
-            onSelect={(c, n, h) => handleLevelSelect(0, c, n, h)}
+            onSelect={(c, n, h) => handleLevelSelect(i, c, n, h)}
           />
-          {path[0]?.hasChildren && (
-            <DivisionLevel
-              country={value.countryCode}
-              parentCode={path[0].code}
-              level={1}
-              selectedCode={path[1]?.code}
-              lang={lang}
-              disabled={disabled}
-              onSelect={(c, n, h) => handleLevelSelect(1, c, n, h)}
-            />
-          )}
-          {path[1]?.hasChildren && (
-            <DivisionLevel
-              country={value.countryCode}
-              parentCode={path[1].code}
-              level={2}
-              selectedCode={path[2]?.code}
-              lang={lang}
-              disabled={disabled}
-              onSelect={(c, n, h) => handleLevelSelect(2, c, n, h)}
-            />
-          )}
-        </>
-      )}
+        ))}
 
-      {!country?.hasDivisions && value.countryCode && (
+      {country && !country.hasDivisions && (
         <>
           <InputField
             label={regionLabel}

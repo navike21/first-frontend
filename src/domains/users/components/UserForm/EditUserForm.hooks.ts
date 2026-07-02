@@ -144,6 +144,9 @@ export function useEditUserForm({
       error: errorKeys.some((k) => !personalFields.includes(k)),
     },
   ]
+  // Editing an existing user: all steps are already filled, so every step is
+  // freely reachable.
+  const reachedIndex = steps.length - 1
   const goToStep = (id: string) => setActiveTab(id as UserFormTab)
   const handleNext = async () => {
     const ok = await trigger(
@@ -178,6 +181,7 @@ export function useEditUserForm({
     onStatusToggle,
     activeTab,
     steps,
+    reachedIndex,
     goToStep,
     handleNext,
     handleBack,

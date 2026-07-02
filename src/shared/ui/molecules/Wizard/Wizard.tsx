@@ -21,11 +21,12 @@ const TITLE_BY_STATE: Record<StepState, string> = {
 function stepStateAt(
   step: WizardStep,
   index: number,
-  current: number
+  current: number,
+  reached: number
 ): StepState {
   if (step.error) return 'error'
-  if (index < current) return 'completed'
   if (index === current) return 'active'
+  if (index <= reached) return 'completed'
   return 'upcoming'
 }
 
@@ -67,6 +68,7 @@ const WarnIcon = () => (
 export const Wizard = ({
   steps,
   current,
+  reachedIndex,
   onStepChange,
   onNext,
   onBack,
@@ -87,8 +89,8 @@ export const Wizard = ({
     <div className="flex flex-col gap-6">
       <ol className="flex items-start">
         {steps.map((step, i) => {
-          const state = stepStateAt(step, i, index)
-          const clickable = i < index
+          const state = stepStateAt(step, i, index, reachedIndex)
+          const clickable = i <= reachedIndex && i !== index
           return (
             <li
               key={step.id}
@@ -99,7 +101,7 @@ export const Wizard = ({
                   className={clsx(
                     'h-0.5 flex-1',
                     i === 0 && 'invisible',
-                    i <= index ? 'bg-primary-600' : 'bg-border'
+                    i <= reachedIndex ? 'bg-primary-600' : 'bg-border'
                   )}
                 />
                 <button
@@ -124,7 +126,7 @@ export const Wizard = ({
                   className={clsx(
                     'h-0.5 flex-1',
                     i === steps.length - 1 && 'invisible',
-                    i < index ? 'bg-primary-600' : 'bg-border'
+                    i < reachedIndex ? 'bg-primary-600' : 'bg-border'
                   )}
                 />
               </div>

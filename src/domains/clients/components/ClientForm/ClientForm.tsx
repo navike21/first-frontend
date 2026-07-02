@@ -46,17 +46,24 @@ const TAB_FIELDS: Record<ClientFormTab, string[]> = {
     'documentNumber',
     'industry',
     'status',
-  ],
-  location: ['country', 'ubigeoCode', 'region', 'province', 'district', 'address'],
-  contact: [
     'website',
     'email',
     'phone',
     'language',
     'currency',
-    'primaryContact',
     'notes',
   ],
+  location: [
+    'country',
+    'ubigeoCode',
+    'region',
+    'province',
+    'district',
+    'address',
+    'addressNumber',
+    'addressInterior',
+  ],
+  contact: ['primaryContact'],
 }
 
 /** Returns the tab that holds the first invalid field (for tab switching). */
@@ -67,6 +74,14 @@ function tabForErrors(errors: FieldErrors<CreateClientFormData>): ClientFormTab 
     if (TAB_FIELDS[tab].some((f) => keys.includes(f))) return tab
   }
   return 'general'
+}
+
+/** Drops empty-string / undefined values so optional fields are omitted (the
+ * backend rejects `""` for typed optionals like url/email/enum). */
+function stripEmpty<T extends Record<string, unknown>>(obj: T): T {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v !== '' && v !== undefined)
+  ) as T
 }
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
@@ -95,6 +110,7 @@ export const ClientForm = ({
   const [pendingLogo, setPendingLogo] = useState<File | null>(null)
   const [removeLogo, setRemoveLogo] = useState(false)
   const [activeTab, setActiveTab] = useState<ClientFormTab>('general')
+  const [maxStep, setMaxStep] = useState(0)
 
   const {
     register,
@@ -142,23 +158,28 @@ export const ClientForm = ({
 
   const submit = handleSubmit(
     (data) => {
-      const contact = data.primaryContact
+      const { primaryContact, ...rest } = data
       const hasContact = !!(
-        contact &&
-        (contact.firstName || contact.lastName || contact.email)
+        primaryContact &&
+        (primaryContact.firstName ||
+          primaryContact.lastName ||
+          primaryContact.email)
       )
-      const payload: CreateClientFormData = {
-        ...data,
-        ...(hasContact ? {} : { primaryContact: undefined }),
-      }
+      const payload = {
+        ...stripEmpty({ ...rest, status: rest.status ?? 'active' }),
+        ...(hasContact && primaryContact
+          ? { primaryContact: stripEmpty(primaryContact) }
+          : {}),
+      } as CreateClientFormData
       onSubmit(payload, pendingLogo, removeLogo)
     },
     (formErrors) => setActiveTab(tabForErrors(formErrors))
   )
 
-  const errorKeys = Object.keys(errors)
-  const stepHasError = (tab: ClientFormTab) =>
-    TAB_FIELDS[tab].some((f) => errorKeys.includes(f))
+  const stepHasError = (tab: ClientFormTab) => {
+    const keys = Object.keys(errors)
+    return TAB_FIELDS[tab].some((f) => keys.includes(f))
+  }
   const steps: WizardStep[] = [
     {
       id: 'general',
@@ -178,20 +199,23 @@ export const ClientForm = ({
     },
   ]
 
+  const reachedIndex = mode === 'edit' ? steps.length - 1 : maxStep
   const goToStep = (id: string) => setActiveTab(id as ClientFormTab)
-
   const handleNext = async () => {
     const ok = await trigger(
       TAB_FIELDS[activeTab] as (keyof CreateClientFormData)[]
     )
     if (!ok) return
     const i = steps.findIndex((s) => s.id === activeTab)
-    if (i < steps.length - 1) goToStep(steps[i + 1].id)
+    if (i < steps.length - 1) {
+      const nextIndex = i + 1
+      setActiveTab(steps[nextIndex].id as ClientFormTab)
+      setMaxStep((m) => Math.max(m, nextIndex))
+    }
   }
-
   const handleBack = () => {
     const i = steps.findIndex((s) => s.id === activeTab)
-    if (i > 0) goToStep(steps[i - 1].id)
+    if (i > 0) setActiveTab(steps[i - 1].id as ClientFormTab)
   }
 
   return (
@@ -218,6 +242,7 @@ export const ClientForm = ({
           <Wizard
             steps={steps}
             current={activeTab}
+            reachedIndex={reachedIndex}
             onStepChange={goToStep}
             onNext={handleNext}
             onBack={handleBack}
@@ -229,158 +254,166 @@ export const ClientForm = ({
             cancelLabel={t.form.cancel}
             optionalLabel={t.form.optional}
           >
+            <div
+              hidden={activeTab !== 'general'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
+              <Grid>
+                <InputField
+                  label={t.form.businessName}
+                  variant={errors.businessName ? 'error' : undefined}
+                  errorMessage={errors.businessName?.message}
+                  {...register('businessName')}
+                />
+                <Select
+                  label={t.form.clientType}
+                  options={clientTypeOptions}
+                  value={clientType ?? 'company'}
+                  lang={language}
+                  onChange={(e) =>
+                    setValue('clientType', e.target.value as 'person' | 'company')
+                  }
+                />
+                <Select
+                  label={t.form.documentType}
+                  options={documentTypeOptions}
+                  value={documentType ?? ''}
+                  lang={language}
+                  onChange={(e) =>
+                    setValue(
+                      'documentType',
+                      e.target.value as CreateClientFormData['documentType']
+                    )
+                  }
+                />
+                <InputField
+                  label={t.form.documentNumber}
+                  variant={errors.documentNumber ? 'error' : undefined}
+                  errorMessage={errors.documentNumber?.message}
+                  {...register('documentNumber')}
+                />
+                <InputField label={t.form.industry} {...register('industry')} />
+                {mode === 'edit' && (
+                  <Select
+                    label={t.form.status}
+                    options={statusOptions}
+                    value={status ?? 'active'}
+                    lang={language}
+                    onChange={(e) =>
+                      setValue('status', e.target.value as 'active' | 'inactive')
+                    }
+                  />
+                )}
+              </Grid>
 
-          <div
-            hidden={activeTab !== 'general'}
-            className="animate-tab-fade flex flex-col gap-6"
-          >
-            <Grid>
-              <InputField
-                label={t.form.businessName}
-                variant={errors.businessName ? 'error' : undefined}
-                errorMessage={errors.businessName?.message}
-                {...register('businessName')}
-              />
-              <Select
-                label={t.form.clientType}
-                options={clientTypeOptions}
-                value={clientType ?? 'company'}
-                lang={language}
-                onChange={(e) =>
-                  setValue('clientType', e.target.value as 'person' | 'company')
-                }
-              />
-              <Select
-                label={t.form.documentType}
-                options={documentTypeOptions}
-                value={documentType ?? ''}
-                lang={language}
-                onChange={(e) =>
-                  setValue(
-                    'documentType',
-                    e.target.value as CreateClientFormData['documentType']
-                  )
-                }
-              />
-              <InputField
-                label={t.form.documentNumber}
-                variant={errors.documentNumber ? 'error' : undefined}
-                errorMessage={errors.documentNumber?.message}
-                {...register('documentNumber')}
-              />
-              <InputField label={t.form.industry} {...register('industry')} />
-              <Select
-                label={t.form.status}
-                options={statusOptions}
-                value={status ?? 'active'}
-                lang={language}
-                onChange={(e) =>
-                  setValue('status', e.target.value as 'active' | 'inactive')
-                }
-              />
-            </Grid>
-          </div>
+              <SubHeading>{t.form.sectionOther}</SubHeading>
+              <Grid>
+                <InputField
+                  label={t.form.website}
+                  variant={errors.website ? 'error' : undefined}
+                  errorMessage={errors.website?.message}
+                  {...register('website')}
+                />
+                <InputField
+                  label={t.form.email}
+                  variant={errors.email ? 'error' : undefined}
+                  errorMessage={errors.email?.message}
+                  {...register('email')}
+                />
+                <InputNumber
+                  label={t.form.phone}
+                  mask="### ### ###"
+                  {...register('phone')}
+                />
+                <InputField label={t.form.language} {...register('language')} />
+                <InputField
+                  label={t.form.currency}
+                  helperText={t.form.currencyHint}
+                  variant={errors.currency ? 'error' : undefined}
+                  errorMessage={errors.currency?.message}
+                  {...register('currency')}
+                />
+              </Grid>
 
-          <div
-            hidden={activeTab !== 'location'}
-            className="animate-tab-fade flex flex-col gap-6"
-          >
-            <Grid>
-              <LocationSelect
-                value={{ countryCode: country, ubigeoCode, region, province, district }}
-                onChange={(v) => {
-                  setValue('country', v.countryCode ?? '')
-                  setValue('ubigeoCode', v.ubigeoCode)
-                  setValue('region', v.region)
-                  setValue('province', v.province)
-                  setValue('district', v.district)
-                }}
-                countryLabel={t.form.country}
-                regionLabel={t.form.region}
-                cityLabel={t.form.province}
-                lang={language}
+              <TextArea
+                label={t.form.notes}
+                rows={4}
+                maxLength={2000}
+                showCount
+                variant={errors.notes ? 'error' : 'default'}
+                errorMessage={errors.notes?.message}
+                {...register('notes')}
               />
-              <InputField label={t.form.address} {...register('address')} />
-            </Grid>
-            {errors.country && (
-              <p className="text-sm text-red-500">{errors.country.message}</p>
-            )}
-          </div>
+            </div>
 
-          <div
-            hidden={activeTab !== 'contact'}
-            className="animate-tab-fade flex flex-col gap-6"
-          >
-            <SubHeading>{t.form.sectionOther}</SubHeading>
-            <Grid>
-              <InputField
-                label={t.form.website}
-                variant={errors.website ? 'error' : undefined}
-                errorMessage={errors.website?.message}
-                {...register('website')}
-              />
-              <InputField
-                label={t.form.email}
-                variant={errors.email ? 'error' : undefined}
-                errorMessage={errors.email?.message}
-                {...register('email')}
-              />
-              <InputNumber
-                label={t.form.phone}
-                mask="### ### ###"
-                {...register('phone')}
-              />
-              <InputField label={t.form.language} {...register('language')} />
-              <InputField
-                label={t.form.currency}
-                helperText={t.form.currencyHint}
-                variant={errors.currency ? 'error' : undefined}
-                errorMessage={errors.currency?.message}
-                {...register('currency')}
-              />
-            </Grid>
+            <div
+              hidden={activeTab !== 'location'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
+              <Grid>
+                <LocationSelect
+                  value={{ countryCode: country, ubigeoCode, region, province, district }}
+                  onChange={(v) => {
+                    setValue('country', v.countryCode ?? '')
+                    setValue('ubigeoCode', v.ubigeoCode)
+                    setValue('region', v.region)
+                    setValue('province', v.province)
+                    setValue('district', v.district)
+                  }}
+                  countryLabel={t.form.country}
+                  regionLabel={t.form.region}
+                  cityLabel={t.form.province}
+                  lang={language}
+                />
+                <InputField label={t.form.address} {...register('address')} />
+                <InputField
+                  label={t.form.addressNumber}
+                  {...register('addressNumber')}
+                />
+                <InputField
+                  label={t.form.addressInterior}
+                  {...register('addressInterior')}
+                />
+              </Grid>
+              {errors.country && (
+                <p className="text-sm text-red-500">{errors.country.message}</p>
+              )}
+            </div>
 
-            <SubHeading>{t.form.sectionContact}</SubHeading>
-            <Grid>
-              <InputField
-                label={t.form.contactFirstName}
-                variant={errors.primaryContact?.firstName ? 'error' : undefined}
-                errorMessage={errors.primaryContact?.firstName?.message}
-                {...register('primaryContact.firstName')}
-              />
-              <InputField
-                label={t.form.contactLastName}
-                variant={errors.primaryContact?.lastName ? 'error' : undefined}
-                errorMessage={errors.primaryContact?.lastName?.message}
-                {...register('primaryContact.lastName')}
-              />
-              <InputField
-                label={t.form.contactEmail}
-                variant={errors.primaryContact?.email ? 'error' : undefined}
-                errorMessage={errors.primaryContact?.email?.message}
-                {...register('primaryContact.email')}
-              />
-              <InputNumber
-                label={t.form.contactPhone}
-                mask="### ### ###"
-                {...register('primaryContact.phone')}
-              />
-              <InputField
-                label={t.form.contactPosition}
-                {...register('primaryContact.position')}
-              />
-            </Grid>
-
-            <TextArea
-              label={t.form.notes}
-              rows={4}
-              maxLength={2000}
-              showCount
-              variant={errors.notes ? 'error' : 'default'}
-              errorMessage={errors.notes?.message}
-              {...register('notes')}
-            />
-          </div>
+            <div
+              hidden={activeTab !== 'contact'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
+              <Grid>
+                <InputField
+                  label={t.form.contactFirstName}
+                  variant={errors.primaryContact?.firstName ? 'error' : undefined}
+                  errorMessage={errors.primaryContact?.firstName?.message}
+                  {...register('primaryContact.firstName')}
+                />
+                <InputField
+                  label={t.form.contactLastName}
+                  variant={errors.primaryContact?.lastName ? 'error' : undefined}
+                  errorMessage={errors.primaryContact?.lastName?.message}
+                  {...register('primaryContact.lastName')}
+                />
+                <InputField
+                  label={t.form.contactEmail}
+                  variant={errors.primaryContact?.email ? 'error' : undefined}
+                  errorMessage={errors.primaryContact?.email?.message}
+                  {...register('primaryContact.email')}
+                />
+                <InputNumber
+                  label={t.form.contactPhone}
+                  mask="### ### ###"
+                  {...register('primaryContact.phone')}
+                />
+                <InputField
+                  label={t.form.contactPosition}
+                  {...register('primaryContact.position')}
+                />
+              </Grid>
+            </div>
           </Wizard>
         </div>
       </div>

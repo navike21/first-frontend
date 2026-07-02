@@ -10,6 +10,7 @@ export interface GeoCountry {
   flag: string
   dialCode: string
   hasDivisions: boolean
+  divisionLevels?: string[]
 }
 
 export interface GeoDivision {

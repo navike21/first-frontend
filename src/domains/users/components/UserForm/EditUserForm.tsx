@@ -33,6 +33,7 @@ export const EditUserForm = (
     onStatusToggle,
     activeTab,
     steps,
+    reachedIndex,
     goToStep,
     handleNext,
     handleBack,
@@ -70,6 +71,7 @@ export const EditUserForm = (
             <Wizard
               steps={steps}
               current={activeTab}
+              reachedIndex={reachedIndex}
               onStepChange={goToStep}
               onNext={handleNext}
               onBack={handleBack}

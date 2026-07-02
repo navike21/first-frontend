@@ -32,6 +32,8 @@ export function createClientSchema(v: V) {
       province: optional,
       district: optional,
       address: optional,
+      addressNumber: optional,
+      addressInterior: optional,
       website: z.url(v.urlInvalid).optional().or(z.literal('')),
       email: z.email(v.emailInvalid).optional().or(z.literal('')),
       phone: optional,

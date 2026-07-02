@@ -17,10 +17,12 @@ export interface WizardProps {
   /** Controlled current step id. */
   current: string
   /**
-   * Go back to an already-completed step. Forward navigation is restricted:
-   * the header only invokes this for previous steps — advancing must go through
-   * `onNext` (which validates the current step).
+   * Index of the furthest step the user has reached (via validated Next). Steps
+   * up to it are freely clickable (jump between completed steps); steps beyond
+   * it are locked — reaching a new step must go through `onNext`.
    */
+  reachedIndex: number
+  /** Jump to an already-reached step (the header only invokes this for those). */
   onStepChange: (id: string) => void
   /** Advance request — the parent validates the current step, then advances. */
   onNext: () => void

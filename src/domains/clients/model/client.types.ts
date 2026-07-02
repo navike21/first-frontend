@@ -38,6 +38,8 @@ export interface Client {
   province?: string
   district?: string
   address?: string
+  addressNumber?: string
+  addressInterior?: string
   logoUrl?: string
   website?: string
   email?: string
