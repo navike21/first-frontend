@@ -104,8 +104,11 @@ export const useSelectHook = (
   )
 
   const filteredOptions = useMemo(() => {
-    if (!search || !searchQuery.trim()) return options
-    return options.filter((o) =>
+    // Never render the empty/placeholder option as a clickable list item —
+    // the trigger's placeholder text already communicates the no-selection state.
+    const visible = options.filter((o) => o.value !== '')
+    if (!search || !searchQuery.trim()) return visible
+    return visible.filter((o) =>
       o.label.toLowerCase().includes(searchQuery.toLowerCase())
     )
   }, [options, search, searchQuery])
