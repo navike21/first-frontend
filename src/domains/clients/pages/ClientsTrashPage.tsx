@@ -3,6 +3,7 @@ import {
   DataTable,
   Avatar,
   Button,
+  CountryLabel,
   IconButton,
   Tooltip,
   Modal,
@@ -14,6 +15,7 @@ import { CAN } from '@/shared/lib/permissions'
 import { formatDate } from '@/shared/lib/formatDate'
 import { navPaths } from '@/shared/router'
 import { useClientsTrashPage } from './ClientsTrashPage.hooks'
+import { ClientDetailModal } from '../components/ClientDetailModal/ClientDetailModal'
 import type { Client } from '../model/client.types'
 
 export const ClientsTrashPage = () => {
@@ -25,6 +27,7 @@ export const ClientsTrashPage = () => {
     pages,
     page,
     isLoading,
+    viewing,
     restoring,
     purging,
     selectedIds,
@@ -33,6 +36,7 @@ export const ClientsTrashPage = () => {
     purge,
     bulkRestore,
     bulkPurge,
+    setViewing,
     setRestoring,
     setPurging,
     setSelectedIds,
@@ -63,10 +67,22 @@ export const ClientsTrashPage = () => {
       ),
     },
     {
+      id: 'type',
+      header: t.table.colType,
+      cellClassName: 'text-secondary',
+      cell: (client) => t.clientType[client.clientType],
+    },
+    {
       id: 'country',
       header: t.table.colCountry,
       cellClassName: 'text-secondary',
-      cell: (client) => client.country,
+      cell: (client) => <CountryLabel code={client.country} />,
+    },
+    {
+      id: 'industry',
+      header: t.table.colIndustry,
+      cellClassName: 'text-secondary',
+      cell: (client) => client.industry || '—',
     },
     {
       id: 'deletedAt',
@@ -80,10 +96,19 @@ export const ClientsTrashPage = () => {
       align: 'right',
       cell: (client) => (
         <div className="flex items-center justify-end gap-1">
+          <Tooltip heading={t.table.viewClient} position="top" size="small">
+            <IconButton
+              icon="RiEyeLine"
+              variant="text"
+              size="small"
+              aria-label={t.table.viewClient}
+              onClick={() => setViewing(client)}
+            />
+          </Tooltip>
           <Can anyOf={CAN.clientsUpdate}>
             <Tooltip heading={t.table.restoreClient} position="top" size="small">
               <IconButton
-                icon="RiRefreshLine"
+                icon="RiArrowGoBackLine"
                 variant="text"
                 size="small"
                 aria-label={t.table.restoreClient}
@@ -175,6 +200,8 @@ export const ClientsTrashPage = () => {
           selectRowLabel={t.table.selectRow}
         />
       </div>
+
+      <ClientDetailModal client={viewing} onClose={() => setViewing(null)} />
 
       <Modal
         isOpen={!!restoring}

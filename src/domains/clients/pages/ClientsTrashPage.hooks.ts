@@ -14,6 +14,7 @@ import type { Client, ClientPaginationMeta } from '../model/client.types'
 export function useClientsTrashPage() {
   const { t, language } = useClientsTranslation()
   const [page, setPage] = useState(1)
+  const [viewing, setViewing] = useState<Client | null>(null)
   const [restoring, setRestoring] = useState<Client | null>(null)
   const [purging, setPurging] = useState<Client | null>(null)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -84,6 +85,7 @@ export function useClientsTrashPage() {
     pages,
     page,
     isLoading,
+    viewing,
     restoring,
     purging,
     selectedIds,
@@ -92,6 +94,7 @@ export function useClientsTrashPage() {
     purge,
     bulkRestore,
     bulkPurge,
+    setViewing,
     setRestoring,
     setPurging,
     setSelectedIds,
