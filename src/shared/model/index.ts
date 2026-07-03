@@ -1,3 +1,4 @@
+export { useConfigCacheStore } from './configCache.store'
 export { useNetworkStore } from './network.store'
 export {
   useSessionStore,

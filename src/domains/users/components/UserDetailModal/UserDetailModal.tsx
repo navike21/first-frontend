@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Modal, Button, Avatar, Chip, CountryLabel } from '@/shared/ui'
 import { formatDate } from '@/shared/lib'
-import { useConfig, labelFor } from '@/shared/api/config'
+import { useConfigData, labelFor } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import type { User } from '../../model/user.types'
@@ -42,7 +42,7 @@ export const UserDetailModal = ({
   canPurge = false,
 }: UserDetailModalProps) => {
   const { t, language } = useUsersTranslation()
-  const { data: config } = useConfig(['genders'], language)
+  const { data: config } = useConfigData(['genders'], language)
   const dash = '—'
 
   const showRestore = canRestore && !!onRestore

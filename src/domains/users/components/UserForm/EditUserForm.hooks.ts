@@ -8,7 +8,7 @@ import {
 } from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
-import { useConfig } from '@/shared/api/config'
+import { useConfigData } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
 import { createUpdateUserFormSchema } from '../../model/user.schema'
 import type {
@@ -41,7 +41,7 @@ export function useEditUserForm({
 }: UseEditUserFormProps) {
   const { t, language } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
-  const { data: config } = useConfig(['genders'], language)
+  const { data: config } = useConfigData(['genders'], language)
   const schema = useMemo(
     () => createUpdateUserFormSchema(t.validation),
     [t.validation]
