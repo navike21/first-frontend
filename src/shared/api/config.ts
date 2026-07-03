@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { useConfigCacheStore, CONFIG_CACHE_TTL_MS } from '@/shared/model/configCache.store'
@@ -29,18 +28,6 @@ export interface ConfigData {
 
 export type ConfigGroup = keyof ConfigData
 
-const fetchConfig = (groups: ConfigGroup[], lang: string) =>
-  request<ApiResponse<ConfigData>>({
-    api: `/config?groups=${groups.join(',')}&lang=${lang}`,
-    method: 'GET',
-  })
-
-export const configKeys = {
-  all: ['config'] as const,
-  groups: (groups: ConfigGroup[], lang: string) =>
-    [...configKeys.all, lang, ...[...groups].sort()] as const,
-}
-
 /**
  * Resolves a stored config value to its localized label.
  * Returns the raw value as fallback if not found (never crashes).
@@ -52,18 +39,6 @@ export function labelFor(
   if (!value) return undefined
   return options?.find((o) => o.value === value)?.label ?? value
 }
-
-/**
- * Fetches several reference-data groups in a single request via TanStack Query.
- * Used by clients module. For a Zustand-persisted version use `useConfigData`.
- */
-export const useConfig = (groups: ConfigGroup[], lang: string) =>
-  useQuery({
-    queryKey: configKeys.groups(groups, lang),
-    queryFn: () => fetchConfig(groups, lang),
-    select: (res) => res.data,
-    staleTime: Infinity,
-  })
 
 const fetchGroups = (lang: string, groups: ConfigGroup[]): Promise<Partial<ConfigData>> =>
   request<ApiResponse<ConfigData>>({
