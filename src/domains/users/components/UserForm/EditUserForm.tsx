@@ -40,7 +40,7 @@ export const EditUserForm = (
   } = useEditUserForm(props)
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={(e) => e.preventDefault()}>
       <PanelLayout
         left={
           <>
@@ -75,6 +75,7 @@ export const EditUserForm = (
               onStepChange={goToStep}
               onNext={handleNext}
               onBack={handleBack}
+              onSubmit={onSubmit}
               onCancel={handleCancel}
               isSubmitting={busy}
               backLabel={t.form.back}

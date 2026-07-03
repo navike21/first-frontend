@@ -45,7 +45,6 @@ const TAB_FIELDS: Record<ClientFormTab, string[]> = {
     'documentType',
     'documentNumber',
     'industry',
-    'status',
     'website',
     'email',
     'phone',
@@ -136,7 +135,6 @@ export const ClientForm = ({
 
   const clientType = useWatch({ control, name: 'clientType' })
   const documentType = useWatch({ control, name: 'documentType' })
-  const status = useWatch({ control, name: 'status' })
   const country = useWatch({ control, name: 'country' })
   const ubigeoCode = useWatch({ control, name: 'ubigeoCode' })
   const region = useWatch({ control, name: 'region' })
@@ -151,14 +149,11 @@ export const ClientForm = ({
     { value: '', label: t.form.documentTypeNone },
     ...DOCUMENT_TYPES.map((d) => ({ value: d, label: d })),
   ]
-  const statusOptions = [
-    { value: 'active', label: t.status.active },
-    { value: 'inactive', label: t.status.inactive },
-  ]
 
   const submit = handleSubmit(
     (data) => {
-      const { primaryContact, ...rest } = data
+      // `status` is backend-managed (not part of the form).
+      const { primaryContact, status: _status, ...rest } = data
       const hasContact = !!(
         primaryContact &&
         (primaryContact.firstName ||
@@ -166,7 +161,7 @@ export const ClientForm = ({
           primaryContact.email)
       )
       const payload = {
-        ...stripEmpty({ ...rest, status: rest.status ?? 'active' }),
+        ...stripEmpty(rest),
         ...(hasContact && primaryContact
           ? { primaryContact: stripEmpty(primaryContact) }
           : {}),
@@ -219,7 +214,7 @@ export const ClientForm = ({
   }
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={(e) => e.preventDefault()}>
       <div className="flex flex-col items-stretch gap-5 md:flex-row md:items-start">
         <div className="flex w-full shrink-0 flex-col items-center gap-4 rounded-xl border border-border bg-surface p-6 md:w-60">
           <PhotoPicker
@@ -246,6 +241,7 @@ export const ClientForm = ({
             onStepChange={goToStep}
             onNext={handleNext}
             onBack={handleBack}
+            onSubmit={submit}
             onCancel={onCancel}
             isSubmitting={isSubmitting}
             backLabel={t.form.back}
@@ -293,17 +289,6 @@ export const ClientForm = ({
                   {...register('documentNumber')}
                 />
                 <InputField label={t.form.industry} {...register('industry')} />
-                {mode === 'edit' && (
-                  <Select
-                    label={t.form.status}
-                    options={statusOptions}
-                    value={status ?? 'active'}
-                    lang={language}
-                    onChange={(e) =>
-                      setValue('status', e.target.value as 'active' | 'inactive')
-                    }
-                  />
-                )}
               </Grid>
 
               <SubHeading>{t.form.sectionOther}</SubHeading>

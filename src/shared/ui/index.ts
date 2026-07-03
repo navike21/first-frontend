@@ -59,6 +59,10 @@ export {
   type WizardProps,
   type WizardStep,
 } from './molecules/Wizard'
+export {
+  CountryLabel,
+  type CountryLabelProps,
+} from './molecules/CountryLabel'
 export { RadioOption, type RadioOptionProps } from './molecules/RadioOption'
 export {
   Tooltip,

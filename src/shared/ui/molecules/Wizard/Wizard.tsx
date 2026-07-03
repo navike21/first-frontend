@@ -72,6 +72,7 @@ export const Wizard = ({
   onStepChange,
   onNext,
   onBack,
+  onSubmit,
   onCancel,
   isSubmitting,
   backLabel,
@@ -180,7 +181,12 @@ export const Wizard = ({
             </Button>
           )}
           {isLast ? (
-            <Button type="submit" variant="primary" loading={isSubmitting}>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={onSubmit}
+              loading={isSubmitting}
+            >
               {submitLabel}
             </Button>
           ) : (

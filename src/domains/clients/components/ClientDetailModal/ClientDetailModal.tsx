@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Modal, Avatar, Chip } from '@/shared/ui'
+import { Modal, Avatar, Chip, CountryLabel } from '@/shared/ui'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
 
@@ -66,7 +66,10 @@ export const ClientDetailModal = ({
               label={t.form.documentNumber}
               value={client.documentNumber}
             />
-            <Field label={t.form.country} value={client.country} />
+            <Field
+              label={t.form.country}
+              value={<CountryLabel code={client.country} />}
+            />
             <Field label={t.form.region} value={client.region} />
             <Field label={t.form.province} value={client.province} />
             <Field label={t.form.district} value={client.district} />

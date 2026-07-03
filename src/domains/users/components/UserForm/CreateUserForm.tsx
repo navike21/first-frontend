@@ -34,7 +34,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
   } = useCreateUserForm(props)
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={(e) => e.preventDefault()}>
       <PanelLayout
         left={
           <PhotoPicker
@@ -53,6 +53,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               onStepChange={goToStep}
               onNext={handleNext}
               onBack={handleBack}
+              onSubmit={onSubmit}
               onCancel={handleCancel}
               isSubmitting={busy}
               backLabel={t.form.back}

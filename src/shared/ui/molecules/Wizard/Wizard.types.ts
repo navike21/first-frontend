@@ -27,6 +27,9 @@ export interface WizardProps {
   /** Advance request — the parent validates the current step, then advances. */
   onNext: () => void
   onBack: () => void
+  /** Final submit (last step). Invoked via onClick so no button type can submit
+   * the form by accident. */
+  onSubmit: () => void
   /** Optional cancel action shown on the far left of the footer. */
   onCancel?: () => void
   isSubmitting?: boolean

@@ -2,6 +2,7 @@ import {
   Avatar,
   Can,
   Chip,
+  CountryLabel,
   DataTable,
   IconButton,
   Tooltip,
@@ -68,7 +69,7 @@ export const ClientTable = ({
       id: 'country',
       header: t.table.colCountry,
       cellClassName: 'text-secondary',
-      cell: (client) => client.country,
+      cell: (client) => <CountryLabel code={client.country} />,
     },
     {
       id: 'industry',

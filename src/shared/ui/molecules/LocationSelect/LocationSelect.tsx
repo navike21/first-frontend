@@ -66,7 +66,7 @@ const DivisionLevel = ({
       options={options}
       value={selectedCode ?? ''}
       lang={lang}
-      disabled={locked || isFetching}
+      disabled={locked}
       loading={isFetching}
       onChange={(e) => {
         const code = e.target.value
