@@ -46,12 +46,12 @@ export const SelectDropdownPortal = ({
         width: dropdownStyle.width,
       }}
       className={clsx(
-        'z-[9999] max-h-60 overflow-y-auto',
+        'z-[9999] flex max-h-60 flex-col',
         'rounded-sm bg-surface shadow-lg ring-1 ring-border'
       )}
     >
       {search && (
-        <div className="border-b border-border-subtle p-2">
+        <div className="shrink-0 border-b border-border-subtle p-2">
           <input
             ref={searchInputRef}
             type="text"
@@ -68,13 +68,15 @@ export const SelectDropdownPortal = ({
           />
         </div>
       )}
-      <OptionsList
-        options={filteredOptions}
-        selectedValues={selectedValues}
-        multiple={multiple}
-        onSelect={handleOptionSelect}
-        onFocusIndex={setFocusedOptionIndex}
-      />
+      <div className="overflow-y-auto">
+        <OptionsList
+          options={filteredOptions}
+          selectedValues={selectedValues}
+          multiple={multiple}
+          onSelect={handleOptionSelect}
+          onFocusIndex={setFocusedOptionIndex}
+        />
+      </div>
     </motion.div>,
     document.body
   )
