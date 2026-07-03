@@ -17,10 +17,10 @@ import {
   type WizardStep,
 } from '@/shared/ui'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
+import { useConfig } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import { createClientSchema } from '../../model/client.schema'
 import type { CreateClientFormData } from '../../model/client.schema'
-import { DOCUMENT_TYPES } from '../../model/client.types'
 
 export interface ClientFormProps {
   mode: 'create' | 'edit'
@@ -105,7 +105,15 @@ export const ClientForm = ({
   onSubmit,
 }: ClientFormProps) => {
   const { t, language } = useClientsTranslation()
-  const schema = useMemo(() => createClientSchema(t.validation), [t.validation])
+  const { data: config } = useConfig(
+    ['currencies', 'documentTypes', 'industries', 'languages'],
+    language
+  )
+  const documentTypes = config?.documentTypes
+  const schema = useMemo(
+    () => createClientSchema(t.validation, documentTypes ?? []),
+    [t.validation, documentTypes]
+  )
   const [pendingLogo, setPendingLogo] = useState<File | null>(null)
   const [removeLogo, setRemoveLogo] = useState(false)
   const [activeTab, setActiveTab] = useState<ClientFormTab>('general')
@@ -135,20 +143,47 @@ export const ClientForm = ({
 
   const clientType = useWatch({ control, name: 'clientType' })
   const documentType = useWatch({ control, name: 'documentType' })
+  const industry = useWatch({ control, name: 'industry' })
+  const currency = useWatch({ control, name: 'currency' })
+  const clientLanguage = useWatch({ control, name: 'language' })
   const country = useWatch({ control, name: 'country' })
   const ubigeoCode = useWatch({ control, name: 'ubigeoCode' })
   const region = useWatch({ control, name: 'region' })
   const province = useWatch({ control, name: 'province' })
   const district = useWatch({ control, name: 'district' })
 
+  const none = { value: '', label: t.form.select }
   const clientTypeOptions = [
     { value: 'company', label: t.clientType.company },
     { value: 'person', label: t.clientType.person },
   ]
   const documentTypeOptions = [
     { value: '', label: t.form.documentTypeNone },
-    ...DOCUMENT_TYPES.map((d) => ({ value: d, label: d })),
+    ...(documentTypes ?? []).map((d) => ({ value: d.value, label: d.label })),
   ]
+  const currencyOptions = [
+    none,
+    ...(config?.currencies ?? []).map((c) => ({
+      value: c.value,
+      label: `${c.symbol} · ${c.label}`,
+    })),
+  ]
+  const industryOptions = [
+    none,
+    ...(config?.industries ?? []).map((i) => ({ value: i.value, label: i.label })),
+  ]
+  const languageOptions = [
+    none,
+    ...(config?.languages ?? []).map((l) => ({ value: l.value, label: l.label })),
+  ]
+  const selectedDocType = documentTypes?.find((d) => d.value === documentType)
+
+  // Required fields are marked with an asterisk; everything else is optional.
+  const req = (label: string) => (
+    <>
+      {label} <span className="text-red-500">*</span>
+    </>
+  )
 
   const submit = handleSubmit(
     (data) => {
@@ -256,7 +291,7 @@ export const ClientForm = ({
             >
               <Grid>
                 <InputField
-                  label={t.form.businessName}
+                  label={req(t.form.businessName)}
                   variant={errors.businessName ? 'error' : undefined}
                   errorMessage={errors.businessName?.message}
                   {...register('businessName')}
@@ -286,9 +321,19 @@ export const ClientForm = ({
                   label={t.form.documentNumber}
                   variant={errors.documentNumber ? 'error' : undefined}
                   errorMessage={errors.documentNumber?.message}
+                  {...(selectedDocType?.maxLength
+                    ? { maxLength: selectedDocType.maxLength }
+                    : {})}
                   {...register('documentNumber')}
                 />
-                <InputField label={t.form.industry} {...register('industry')} />
+                <Select
+                  label={t.form.industry}
+                  options={industryOptions}
+                  value={industry ?? ''}
+                  lang={language}
+                  search
+                  onChange={(e) => setValue('industry', e.target.value)}
+                />
               </Grid>
 
               <SubHeading>{t.form.sectionOther}</SubHeading>
@@ -310,13 +355,20 @@ export const ClientForm = ({
                   mask="### ### ###"
                   {...register('phone')}
                 />
-                <InputField label={t.form.language} {...register('language')} />
-                <InputField
+                <Select
+                  label={t.form.language}
+                  options={languageOptions}
+                  value={clientLanguage ?? ''}
+                  lang={language}
+                  onChange={(e) => setValue('language', e.target.value)}
+                />
+                <Select
                   label={t.form.currency}
-                  helperText={t.form.currencyHint}
-                  variant={errors.currency ? 'error' : undefined}
-                  errorMessage={errors.currency?.message}
-                  {...register('currency')}
+                  options={currencyOptions}
+                  value={currency ?? ''}
+                  lang={language}
+                  search
+                  onChange={(e) => setValue('currency', e.target.value)}
                 />
               </Grid>
 
@@ -345,7 +397,7 @@ export const ClientForm = ({
                     setValue('province', v.province)
                     setValue('district', v.district)
                   }}
-                  countryLabel={t.form.country}
+                  countryLabel={req(t.form.country)}
                   regionLabel={t.form.region}
                   cityLabel={t.form.province}
                   lang={language}

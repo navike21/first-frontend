@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Language } from '@/shared/types/languages'
 
 /** Persisted location: country (ISO-2) + deepest division code + denormalized names. */
@@ -12,7 +13,7 @@ export interface LocationValue {
 export interface LocationSelectProps {
   value: LocationValue
   onChange: (value: LocationValue) => void
-  countryLabel: string
+  countryLabel: ReactNode
   /** Label for the free-text region/city shown when a country has no divisions. */
   regionLabel: string
   cityLabel: string

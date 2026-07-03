@@ -105,6 +105,7 @@ export interface ClientsTranslations {
     contactPosition: string
     notes: string
     documentTypeNone: string
+    select: string
     save: string
     create: string
     cancel: string
@@ -129,6 +130,7 @@ export interface ClientsTranslations {
     countryLength: string
     currencyLength: string
     documentNumberMax: string
+    documentNumberInvalid: string
     notesMax: string
     emailInvalid: string
     urlInvalid: string

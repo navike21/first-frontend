@@ -1,12 +1,16 @@
 import { z } from 'zod'
 import type { ClientsTranslations } from '../i18n/types'
+import type { DocumentTypeOption } from '@/shared/api/config'
 import { DOCUMENT_TYPES } from './client.types'
 
 type V = ClientsTranslations['validation']
 
 const optional = z.string().trim().optional().or(z.literal(''))
 
-export function createClientSchema(v: V) {
+export function createClientSchema(
+  v: V,
+  documentTypes: DocumentTypeOption[] = []
+) {
   return z
     .object({
       businessName: z
@@ -59,6 +63,19 @@ export function createClientSchema(v: V) {
       status: z.enum(['active', 'inactive']).default('active'),
     })
     .superRefine((d, ctx) => {
+      // Document number must match the selected type's pattern (DNI = 8 digits,
+      // RUC = 11, …) — same rules as the backend.
+      if (d.documentType && d.documentNumber) {
+        const def = documentTypes.find((t) => t.value === d.documentType)
+        if (def?.pattern && !new RegExp(def.pattern).test(d.documentNumber)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: v.documentNumberInvalid,
+            path: ['documentNumber'],
+          })
+        }
+      }
+
       // Contact is optional as a whole, but once the user starts filling it the
       // core identity fields (name + email) become required.
       const c = d.primaryContact
@@ -86,8 +103,11 @@ export function createClientSchema(v: V) {
     })
 }
 
-export function createUpdateClientSchema(v: V) {
-  return createClientSchema(v)
+export function createUpdateClientSchema(
+  v: V,
+  documentTypes: DocumentTypeOption[] = []
+) {
+  return createClientSchema(v, documentTypes)
 }
 
 export type CreateClientFormData = z.infer<ReturnType<typeof createClientSchema>>
