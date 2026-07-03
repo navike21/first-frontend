@@ -12,7 +12,7 @@ import {
   type DataTableColumn,
 } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
-import { useConfig, labelFor } from '@/shared/api/config'
+import { useConfigData, labelFor } from '@/shared/api/config'
 import { formatDate } from '@/shared/lib/formatDate'
 import { navPaths } from '@/shared/router'
 import { useClientsTrashPage } from './ClientsTrashPage.hooks'
@@ -49,7 +49,7 @@ export const ClientsTrashPage = () => {
     handlePageChange,
   } = useClientsTrashPage()
 
-  const { data: config } = useConfig(['industries', 'clientTypes'], language)
+  const { data: config } = useConfigData(['industries', 'clientTypes'], language)
 
   const columns: DataTableColumn<Client>[] = [
     {

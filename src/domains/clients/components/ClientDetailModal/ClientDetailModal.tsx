@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Modal, Avatar, Chip, CountryLabel } from '@/shared/ui'
-import { useConfig, labelFor } from '@/shared/api/config'
+import { useConfigData, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
 
@@ -26,7 +26,7 @@ export const ClientDetailModal = ({
   onClose,
 }: ClientDetailModalProps) => {
   const { t, language } = useClientsTranslation()
-  const { data: config } = useConfig(
+  const { data: config } = useConfigData(
     ['industries', 'currencies', 'languages', 'documentTypes', 'clientTypes'],
     language
   )

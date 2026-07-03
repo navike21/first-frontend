@@ -17,7 +17,7 @@ import {
   type WizardStep,
 } from '@/shared/ui'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
-import { useConfig } from '@/shared/api/config'
+import { useConfigData } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import { createClientSchema } from '../../model/client.schema'
 import type { CreateClientFormData } from '../../model/client.schema'
@@ -105,7 +105,7 @@ export const ClientForm = ({
   onSubmit,
 }: ClientFormProps) => {
   const { t, language } = useClientsTranslation()
-  const { data: config } = useConfig(
+  const { data: config } = useConfigData(
     ['currencies', 'documentTypes', 'industries', 'languages', 'clientTypes'],
     language
   )

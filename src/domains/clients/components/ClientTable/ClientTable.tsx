@@ -9,7 +9,7 @@ import {
   type DataTableColumn,
 } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
-import { useConfig, labelFor } from '@/shared/api/config'
+import { useConfigData, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
 
@@ -41,7 +41,7 @@ export const ClientTable = ({
   onSelectionChange,
 }: ClientTableProps) => {
   const { t, language } = useClientsTranslation()
-  const { data: config } = useConfig(['industries', 'clientTypes'], language)
+  const { data: config } = useConfigData(['industries', 'clientTypes'], language)
 
   const columns: DataTableColumn<Client>[] = [
     {
