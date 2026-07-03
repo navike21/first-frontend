@@ -32,6 +32,11 @@ export interface UsersTranslations {
     closeButton: string
     /** Short label for the permanent-delete button inside the detail modal. */
     purgeButton: string
+    emailVerified: string
+    emailVerifiedYes: string
+    emailVerifiedNo: string
+    lastSeen: string
+    groups: string
   }
   status: {
     active: string

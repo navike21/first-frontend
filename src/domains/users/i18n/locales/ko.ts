@@ -18,6 +18,11 @@ export const ko: UsersTranslations = {
     title: '사용자 상세 정보',
     closeButton: '닫기',
     purgeButton: '삭제',
+    emailVerified: '이메일 인증',
+    emailVerifiedYes: '인증됨',
+    emailVerifiedNo: '미인증',
+    lastSeen: '마지막 접속',
+    groups: '그룹',
   },
   table: {
     selectAll: '전체 선택',

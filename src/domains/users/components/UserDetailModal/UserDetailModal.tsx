@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Modal, Button, Avatar } from '@/shared/ui'
+import { Modal, Button, Avatar, Chip, CountryLabel } from '@/shared/ui'
 import { formatDate } from '@/shared/lib'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
@@ -14,11 +14,22 @@ interface UserDetailModalProps {
   canPurge?: boolean
 }
 
-const Row = ({ label, value }: { label: string; value: ReactNode }) => (
-  <div className="flex justify-between gap-4 border-b border-border-subtle py-2 last:border-0">
-    <span className="text-sm text-secondary">{label}</span>
-    <span className="text-sm font-medium text-foreground">{value}</span>
-  </div>
+const Field = ({ label, value }: { label: string; value?: ReactNode }) => {
+  if (value === undefined || value === null || value === '') return null
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-xs font-medium tracking-wide text-muted uppercase">
+        {label}
+      </span>
+      <span className="text-sm text-foreground">{value}</span>
+    </div>
+  )
+}
+
+const SectionTitle = ({ children }: { children: ReactNode }) => (
+  <p className="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">
+    {children}
+  </p>
 )
 
 export const UserDetailModal = ({
@@ -35,6 +46,17 @@ export const UserDetailModal = ({
   const showRestore = canRestore && !!onRestore
   const showPurge = canPurge && !!onPurge
 
+  const genderLabel = (g: User['gender']) => {
+    if (!g) return undefined
+    const map: Record<NonNullable<User['gender']>, string> = {
+      female: t.form.genderFemale,
+      male: t.form.genderMale,
+      other: t.form.genderOther,
+      prefer_not_to_say: t.form.genderPreferNotToSay,
+    }
+    return map[g]
+  }
+
   return (
     <Modal
       isOpen={!!user}
@@ -50,7 +72,7 @@ export const UserDetailModal = ({
               </Button>
             )}
             {showPurge && (
-              <Button variant="primary" onClick={onPurge}>
+              <Button variant="error" onClick={onPurge}>
                 {t.detail.purgeButton}
               </Button>
             )}
@@ -59,7 +81,7 @@ export const UserDetailModal = ({
       }
     >
       {user && (
-        <div className="flex flex-col gap-4">
+        <div className="space-y-5">
           <div className="flex items-center gap-3">
             <Avatar
               alt={`${user.firstName} ${user.lastName}`}
@@ -67,25 +89,94 @@ export const UserDetailModal = ({
               name={`${user.firstName} ${user.lastName}`}
               size="md"
             />
-            <div>
-              <p className="font-semibold text-foreground">
+            <div className="flex flex-col gap-1">
+              <span className="text-base font-bold text-foreground">
                 {user.firstName} {user.lastName}
-              </p>
-              <p className="text-sm text-secondary">{user.email}</p>
+              </span>
+              <span className="text-sm text-secondary">{user.email}</span>
+              <div className="flex items-center gap-2">
+                <UserStatusBadge status={user.status} />
+                <Chip
+                  size="x-small"
+                  variant={user.isEmailVerified ? 'success' : 'default'}
+                >
+                  {user.isEmailVerified
+                    ? t.detail.emailVerifiedYes
+                    : t.detail.emailVerifiedNo}
+                </Chip>
+              </div>
             </div>
           </div>
-          <div>
-            <Row label={t.form.phone} value={user.phone || dash} />
-            <Row
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label={t.form.phone} value={user.phone || dash} />
+            <Field
               label={t.form.dateOfBirth}
-              value={formatDate(user.dateOfBirth)}
+              value={formatDate(user.dateOfBirth) || dash}
             />
-            <Row
-              label={t.form.statusLabel}
-              value={<UserStatusBadge status={user.status} />}
+            <Field label={t.form.gender} value={genderLabel(user.gender) || dash} />
+            <Field
+              label={t.detail.emailVerified}
+              value={
+                user.isEmailVerified
+                  ? t.detail.emailVerifiedYes
+                  : t.detail.emailVerifiedNo
+              }
             />
-            <Row label={t.table.deletedAt} value={formatDate(user.deletedAt)} />
+            <Field
+              label={t.detail.lastSeen}
+              value={formatDate(user.lastSeenAt) || dash}
+            />
+            {user.deletedAt && (
+              <Field
+                label={t.table.deletedAt}
+                value={formatDate(user.deletedAt)}
+              />
+            )}
           </div>
+
+          {user.address && Object.values(user.address).some(Boolean) && (
+            <div>
+              <SectionTitle>{t.form.addressSection}</SectionTitle>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {user.address.country && (
+                  <Field
+                    label={t.form.addressCountry}
+                    value={<CountryLabel code={user.address.country} />}
+                  />
+                )}
+                <Field label={t.form.addressRegion} value={user.address.region} />
+                <Field
+                  label={t.form.addressProvince}
+                  value={user.address.province}
+                />
+                <Field label={t.form.address} value={user.address.address} />
+                <Field
+                  label={t.form.addressNumber}
+                  value={user.address.addressNumber}
+                />
+                <Field
+                  label={t.form.addressInterior}
+                  value={user.address.addressInterior}
+                />
+              </div>
+            </div>
+          )}
+
+          {user.groupIds && user.groupIds.length > 0 && (
+            <Field
+              label={t.detail.groups}
+              value={
+                <div className="flex flex-wrap gap-1">
+                  {user.groupIds.map((id) => (
+                    <Chip key={id} size="x-small">
+                      {id}
+                    </Chip>
+                  ))}
+                </div>
+              }
+            />
+          )}
         </div>
       )}
     </Modal>

@@ -86,7 +86,7 @@ export const LocationSelect = ({
   lang,
   disabled,
 }: LocationSelectProps) => {
-  const { data: countries } = useCountries()
+  const { data: countries } = useCountries(lang)
   const [path, setPath] = useState<PathItem[]>(() => buildInitialPath(value))
 
   const country = countries?.find((c) => c.code === value.countryCode)

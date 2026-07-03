@@ -5,8 +5,8 @@ import type { ApiResponse } from '@/shared/api/types'
 export interface GeoCountry {
   code: string
   code3: string
+  /** Country name resolved to the requested language. */
   name: string
-  nameEn: string
   flag: string
   dialCode: string
   hasDivisions: boolean
@@ -25,9 +25,9 @@ export interface GeoDivisions {
 }
 
 const geoApi = {
-  countries: () =>
+  countries: (lang: string) =>
     request<ApiResponse<GeoCountry[]>>({
-      api: '/geo/countries',
+      api: `/geo/countries?lang=${lang}`,
       method: 'GET',
     }),
   divisions: (country: string, parentCode?: string) =>
@@ -41,17 +41,17 @@ const geoApi = {
 
 export const geoKeys = {
   all: ['geo'] as const,
-  countries: () => [...geoKeys.all, 'countries'] as const,
+  countries: (lang: string) => [...geoKeys.all, 'countries', lang] as const,
   divisions: (country: string, parentCode?: string) =>
     [...geoKeys.all, 'divisions', country, parentCode ?? 'root'] as const,
 }
 
-export const useCountries = () =>
+export const useCountries = (lang: string) =>
   useQuery({
-    queryKey: geoKeys.countries(),
-    queryFn: () => geoApi.countries(),
+    queryKey: geoKeys.countries(lang),
+    queryFn: () => geoApi.countries(lang),
     select: (res) => res.data,
-    staleTime: Infinity, // reference data — does not change during a session
+    staleTime: Infinity,
   })
 
 export const useDivisions = (country?: string, parentCode?: string) =>

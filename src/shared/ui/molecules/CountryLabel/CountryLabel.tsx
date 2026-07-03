@@ -1,3 +1,4 @@
+import { useLanguage } from '@/shared/model'
 import { useCountries } from '@/shared/api/geo'
 import { COUNTRY_FLAGS, type FlagIcon } from './countryFlags'
 
@@ -10,7 +11,8 @@ export interface CountryLabelProps {
 
 /** Renders a country as its flag + localized name (falls back to the code). */
 export const CountryLabel = ({ code, flagOnly }: CountryLabelProps) => {
-  const { data: countries } = useCountries()
+  const language = useLanguage()
+  const { data: countries } = useCountries(language)
   if (!code) return null
 
   const upper = code.toUpperCase()

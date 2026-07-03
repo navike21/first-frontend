@@ -18,6 +18,11 @@ export const ru: UsersTranslations = {
     title: 'Сведения о пользователе',
     closeButton: 'Закрыть',
     purgeButton: 'Удалить',
+    emailVerified: 'Подтверждение email',
+    emailVerifiedYes: 'Подтверждён',
+    emailVerifiedNo: 'Не подтверждён',
+    lastSeen: 'Последняя активность',
+    groups: 'Группы',
   },
   table: {
     selectAll: 'Выбрать все',

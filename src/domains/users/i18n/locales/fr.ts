@@ -19,6 +19,11 @@ export const fr: UsersTranslations = {
     title: "Détail de l'utilisateur",
     closeButton: 'Fermer',
     purgeButton: 'Supprimer',
+    emailVerified: 'Vérification email',
+    emailVerifiedYes: 'Vérifié',
+    emailVerifiedNo: 'Non vérifié',
+    lastSeen: 'Dernière activité',
+    groups: 'Groupes',
   },
   table: {
     selectAll: 'Tout sélectionner',

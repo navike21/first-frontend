@@ -18,6 +18,11 @@ export const ja: UsersTranslations = {
     title: 'ユーザー詳細',
     closeButton: '閉じる',
     purgeButton: '削除',
+    emailVerified: 'メール確認',
+    emailVerifiedYes: '確認済み',
+    emailVerifiedNo: '未確認',
+    lastSeen: '最終ログイン',
+    groups: 'グループ',
   },
   table: {
     selectAll: 'すべて選択',

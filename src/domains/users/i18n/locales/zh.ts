@@ -17,6 +17,11 @@ export const zh: UsersTranslations = {
     title: '用户详情',
     closeButton: '关闭',
     purgeButton: '删除',
+    emailVerified: '邮箱验证',
+    emailVerifiedYes: '已验证',
+    emailVerifiedNo: '未验证',
+    lastSeen: '最近活跃',
+    groups: '用户组',
   },
   table: {
     selectAll: '全选',
