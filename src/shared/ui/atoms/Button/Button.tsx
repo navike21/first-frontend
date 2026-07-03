@@ -39,6 +39,9 @@ export const Button = ({
   icon,
   loading = false,
   fullWidth = false,
+  // Default to a non-submitting button so a Button inside a <form> never
+  // submits by accident; submit buttons opt in with type="submit".
+  type = 'button',
   ...props
 }: Readonly<ButtonProps>) => {
   const canInteract = !disabled && !loading
@@ -84,6 +87,7 @@ export const Button = ({
         }
       )}
       whileTap={canInteract ? { scale: 0.96 } : undefined}
+      type={type}
       {...props}
       disabled={loading || disabled}
     >

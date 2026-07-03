@@ -11,6 +11,10 @@ interface PathItem {
   hasChildren: boolean
 }
 
+// Shown locked before a country is chosen (the app is Peru-first); once a
+// division-based country is selected its own `divisionLevels` take over.
+const DEFAULT_DIVISION_LEVELS = ['Departamento', 'Provincia', 'Distrito']
+
 /**
  * Reconstructs the cascade path from a stored ubigeo code. Peru's codes are
  * hierarchical prefixes (departamento=2, provincia=4, distrito=6 digits), so
@@ -86,7 +90,11 @@ export const LocationSelect = ({
   const [path, setPath] = useState<PathItem[]>(() => buildInitialPath(value))
 
   const country = countries?.find((c) => c.code === value.countryCode)
-  const levels = country?.divisionLevels ?? []
+  const isDivisionsCountry = country?.hasDivisions
+  // Show the cascade up front (locked) even before a country is chosen; a
+  // selected country without divisions falls back to free-text region/city.
+  const showDivisions = !value.countryCode || !!isDivisionsCountry
+  const levels = country?.divisionLevels ?? DEFAULT_DIVISION_LEVELS
 
   const countryOptions = [
     { value: '', label: '—' },
@@ -127,21 +135,21 @@ export const LocationSelect = ({
         onChange={(e) => handleCountry(e.target.value)}
       />
 
-      {country?.hasDivisions &&
+      {showDivisions &&
         levels.map((label, i) => (
           <DivisionLevel
             key={label}
-            country={value.countryCode as string}
+            country={value.countryCode ?? ''}
             parentCode={i === 0 ? undefined : path[i - 1]?.code}
             label={label}
             selectedCode={path[i]?.code}
-            locked={!!disabled || (i > 0 && !path[i - 1])}
+            locked={!!disabled || !isDivisionsCountry || (i > 0 && !path[i - 1])}
             lang={lang}
             onSelect={(c, n, h) => handleLevelSelect(i, c, n, h)}
           />
         ))}
 
-      {country && !country.hasDivisions && (
+      {value.countryCode && !isDivisionsCountry && (
         <>
           <InputField
             label={regionLabel}
