@@ -5,6 +5,7 @@ import {
   Select,
   PhotoPicker,
   Wizard,
+  LocationSelect,
 } from '@/shared/ui'
 import { PanelLayout } from './PanelLayout'
 import { useCreateUserForm } from './CreateUserForm.hooks'
@@ -13,10 +14,16 @@ import type { UseCreateUserFormProps } from './CreateUserForm.hooks'
 export const CreateUserForm = (props: UseCreateUserFormProps) => {
   const {
     t,
+    language,
     register,
     errors,
     genderValue,
     groupIdsValue,
+    addressCountry,
+    addressUbigeoCode,
+    addressRegion,
+    addressProvince,
+    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -25,6 +32,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     setPendingFile,
     onGenderChange,
     onGroupsChange,
+    onAddressChange,
     activeTab,
     steps,
     reachedIndex,
@@ -118,30 +126,38 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <p className="text-sm font-medium text-secondary">
                 {t.form.addressSection}
               </p>
-              <InputField
-                label={t.form.addressStreet}
-                variant={errors.address?.street ? 'error' : undefined}
-                errorMessage={errors.address?.street?.message}
-                {...register('address.street')}
+              <LocationSelect
+                value={{
+                  countryCode: addressCountry,
+                  ubigeoCode: addressUbigeoCode,
+                  region: addressRegion,
+                  province: addressProvince,
+                  district: addressDistrict,
+                }}
+                onChange={onAddressChange}
+                countryLabel={t.form.addressCountry}
+                regionLabel={t.form.addressRegion}
+                cityLabel={t.form.addressProvince}
+                lang={language}
               />
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <InputField
-                  label={t.form.addressCity}
-                  variant={errors.address?.city ? 'error' : undefined}
-                  errorMessage={errors.address?.city?.message}
-                  {...register('address.city')}
+                  label={t.form.address}
+                  variant={errors.address?.address ? 'error' : undefined}
+                  errorMessage={errors.address?.address?.message}
+                  {...register('address.address')}
                 />
                 <InputField
-                  label={t.form.addressState}
-                  variant={errors.address?.state ? 'error' : undefined}
-                  errorMessage={errors.address?.state?.message}
-                  {...register('address.state')}
+                  label={t.form.addressNumber}
+                  variant={errors.address?.addressNumber ? 'error' : undefined}
+                  errorMessage={errors.address?.addressNumber?.message}
+                  {...register('address.addressNumber')}
                 />
                 <InputField
-                  label={t.form.addressCountry}
-                  variant={errors.address?.country ? 'error' : undefined}
-                  errorMessage={errors.address?.country?.message}
-                  {...register('address.country')}
+                  label={t.form.addressInterior}
+                  variant={errors.address?.addressInterior ? 'error' : undefined}
+                  errorMessage={errors.address?.addressInterior?.message}
+                  {...register('address.addressInterior')}
                 />
               </div>
             </div>

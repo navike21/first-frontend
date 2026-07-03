@@ -3,14 +3,16 @@ import type { UsersTranslations } from '../i18n/types'
 
 type V = UsersTranslations['validation']
 
-// Address: all fields required (no postal code). The form always submits these,
-// so `.min(1)` catches empty inputs.
-const createAddressSchema = (v: V) =>
+const createAddressSchema = (_v: V) =>
   z.object({
-    street: z.string().trim().min(1, v.required).max(255),
-    city: z.string().trim().min(1, v.required).max(100),
-    state: z.string().trim().min(1, v.required).max(100),
-    country: z.string().trim().min(1, v.required).max(100),
+    country: z.string().max(10).optional(),
+    ubigeoCode: z.string().max(10).optional(),
+    region: z.string().max(100).optional(),
+    province: z.string().max(100).optional(),
+    district: z.string().max(100).optional(),
+    address: z.string().max(255).optional(),
+    addressNumber: z.string().max(50).optional(),
+    addressInterior: z.string().max(100).optional(),
   })
 
 const passwordRules = (v: V) =>
@@ -71,7 +73,7 @@ export function createCreateUserSchema(v: V) {
     phone: z.string().max(30).optional().or(z.literal('')),
     // The avatar is sent as a multipart `avatar` File (handled outside the
     // schema); the backend owns the upload. No URL input in the form.
-    address: createAddressSchema(v),
+    address: createAddressSchema(v).optional(),
     groupIds: z.array(z.string()).optional(),
     status: z.enum(['active', 'inactive']).default('active'),
   })

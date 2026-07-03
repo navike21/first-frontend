@@ -16,7 +16,7 @@ const baseData: CreateUserFormData = {
   firstName: 'An',
   lastName: 'Bo',
   gender: 'other',
-  address: { street: 'St 1', city: 'City', state: 'State', country: 'Country' },
+  address: { country: 'PE', region: 'Lima', address: 'St 1' },
   status: 'active',
 }
 

@@ -38,7 +38,7 @@ export function useEditUserForm({
   onUpdate,
   submitError,
 }: UseEditUserFormProps) {
-  const { t } = useUsersTranslation()
+  const { t, language } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
   const schema = useMemo(
     () => createUpdateUserFormSchema(t.validation),
@@ -83,7 +83,16 @@ export function useEditUserForm({
       // schema regex) expects YYYY-MM-DD, so slice off the time part on load.
       dateOfBirth: defaultValues.dateOfBirth?.slice(0, 10) ?? '',
       groupIds: defaultValues.groupIds ?? [],
-      address: defaultValues.address ?? {},
+      address: {
+        country: defaultValues.address?.country ?? '',
+        ubigeoCode: defaultValues.address?.ubigeoCode ?? '',
+        region: defaultValues.address?.region ?? '',
+        province: defaultValues.address?.province ?? '',
+        district: defaultValues.address?.district ?? '',
+        address: defaultValues.address?.address ?? '',
+        addressNumber: defaultValues.address?.addressNumber ?? '',
+        addressInterior: defaultValues.address?.addressInterior ?? '',
+      },
       status: defaultValues.status ?? 'active',
     },
   })
@@ -95,6 +104,11 @@ export function useEditUserForm({
   const genderValue = useWatch({ control, name: 'gender' })
   const groupIdsValue = useWatch({ control, name: 'groupIds' })
   const statusValue = useWatch({ control, name: 'status' })
+  const addressCountry = useWatch({ control, name: 'address.country' })
+  const addressUbigeoCode = useWatch({ control, name: 'address.ubigeoCode' })
+  const addressRegion = useWatch({ control, name: 'address.region' })
+  const addressProvince = useWatch({ control, name: 'address.province' })
+  const addressDistrict = useWatch({ control, name: 'address.district' })
   const busy = isSubmitting
 
   const genderOptions = [
@@ -161,14 +175,33 @@ export function useEditUserForm({
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
   const onStatusToggle = () =>
     setValue('status', statusValue === 'active' ? 'inactive' : 'active')
+  const onAddressChange = (v: {
+    countryCode?: string
+    ubigeoCode?: string
+    region?: string
+    province?: string
+    district?: string
+  }) => {
+    setValue('address.country', v.countryCode ?? '')
+    setValue('address.ubigeoCode', v.ubigeoCode)
+    setValue('address.region', v.region)
+    setValue('address.province', v.province)
+    setValue('address.district', v.district)
+  }
 
   return {
     t,
+    language,
     register,
     errors,
     genderValue,
     groupIdsValue,
     statusValue,
+    addressCountry,
+    addressUbigeoCode,
+    addressRegion,
+    addressProvince,
+    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -179,6 +212,7 @@ export function useEditUserForm({
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
+    onAddressChange,
     activeTab,
     steps,
     reachedIndex,

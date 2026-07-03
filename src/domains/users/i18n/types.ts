@@ -70,10 +70,12 @@ export interface UsersTranslations {
     groupIdPlaceholder: string
     groupsEmpty: string
     addressSection: string
-    addressStreet: string
-    addressCity: string
-    addressState: string
     addressCountry: string
+    addressRegion: string
+    addressProvince: string
+    address: string
+    addressNumber: string
+    addressInterior: string
     statusLabel: string
     statusDescription: string
     statusActive: string

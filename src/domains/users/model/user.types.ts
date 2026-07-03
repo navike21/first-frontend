@@ -17,11 +17,14 @@ export interface UserGroup {
 }
 
 export interface UserAddress {
-  street?: string
-  city?: string
-  state?: string
   country?: string
-  postalCode?: string
+  ubigeoCode?: string
+  region?: string
+  province?: string
+  district?: string
+  address?: string
+  addressNumber?: string
+  addressInterior?: string
 }
 
 export interface User {

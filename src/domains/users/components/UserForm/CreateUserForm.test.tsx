@@ -24,6 +24,11 @@ vi.mock('./usePhotoUpload', () => ({
   usePhotoUpload: () => ({ pendingFile: null, setPendingFile: vi.fn() }),
 }))
 
+vi.mock('@/shared/api/geo', () => ({
+  useCountries: () => ({ data: [], isLoading: false }),
+  useDivisions: () => ({ data: null, isFetching: false }),
+}))
+
 const props = {
   isSubmitting: false,
   onCancel: vi.fn(),
@@ -81,7 +86,7 @@ const validUser = {
   firstName: 'Ana',
   lastName: 'Lopez',
   gender: 'other' as const,
-  address: { street: 'St 1', city: 'City', state: 'State', country: 'Country' },
+  address: { country: 'PE', region: 'Lima', address: 'Av. Principal' },
 }
 
 describe('User form — authentication / required validation', () => {
@@ -96,9 +101,12 @@ describe('User form — authentication / required validation', () => {
     expect(schema.safeParse(validUser).success).toBe(true)
   })
 
-  it('requires gender and all address fields', () => {
+  it('requires gender (address is optional)', () => {
     const schema = createCreateUserFormSchema(v)
-    const { gender: _g, address: _a, ...withoutRequired } = validUser
-    expect(schema.safeParse(withoutRequired).success).toBe(false)
+    const { gender: _g, ...withoutGender } = validUser
+    expect(schema.safeParse(withoutGender).success).toBe(false)
+    // Address is optional: omitting it does not cause validation failure.
+    const { address: _a, ...withoutAddress } = validUser
+    expect(schema.safeParse(withoutAddress).success).toBe(true)
   })
 })
