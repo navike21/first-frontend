@@ -8,6 +8,7 @@ import {
 } from './userFormTabs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
+import { useConfig } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
 import { createCreateUserFormSchema } from '../../model/user.schema'
 import type {
@@ -33,6 +34,7 @@ export function useCreateUserForm({
 }: UseCreateUserFormProps) {
   const { t, language } = useUsersTranslation()
   const { userGroups, load } = useUserConfigStore()
+  const { data: config } = useConfig(['genders'], language)
   const schema = useMemo(
     () => createCreateUserFormSchema(t.validation),
     [t.validation]
@@ -74,12 +76,7 @@ export function useCreateUserForm({
   const addressDistrict = useWatch({ control, name: 'address.district' })
   const busy = isSubmitting
 
-  const genderOptions = [
-    { value: 'female', label: t.form.genderFemale },
-    { value: 'male', label: t.form.genderMale },
-    { value: 'other', label: t.form.genderOther },
-    { value: 'prefer_not_to_say', label: t.form.genderPreferNotToSay },
-  ]
+  const genderOptions = config?.genders ?? []
 
   const groupOptions = userGroups
     .filter((g) => g.status === 'active')

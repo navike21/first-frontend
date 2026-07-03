@@ -41,7 +41,7 @@ export const ClientTable = ({
   onSelectionChange,
 }: ClientTableProps) => {
   const { t, language } = useClientsTranslation()
-  const { data: config } = useConfig(['industries'], language)
+  const { data: config } = useConfig(['industries', 'clientTypes'], language)
 
   const columns: DataTableColumn<Client>[] = [
     {
@@ -65,7 +65,7 @@ export const ClientTable = ({
       id: 'type',
       header: t.table.colType,
       cellClassName: 'text-secondary',
-      cell: (client) => t.clientType[client.clientType],
+      cell: (client) => labelFor(config?.clientTypes, client.clientType),
     },
     {
       id: 'country',

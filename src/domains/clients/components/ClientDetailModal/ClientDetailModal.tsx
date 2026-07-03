@@ -27,7 +27,7 @@ export const ClientDetailModal = ({
 }: ClientDetailModalProps) => {
   const { t, language } = useClientsTranslation()
   const { data: config } = useConfig(
-    ['industries', 'currencies', 'languages', 'documentTypes'],
+    ['industries', 'currencies', 'languages', 'documentTypes', 'clientTypes'],
     language
   )
 
@@ -53,7 +53,7 @@ export const ClientDetailModal = ({
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-secondary">
-                  {t.clientType[client.clientType]}
+                  {labelFor(config?.clientTypes, client.clientType)}
                 </span>
                 <Chip
                   size="x-small"

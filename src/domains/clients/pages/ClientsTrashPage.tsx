@@ -49,7 +49,7 @@ export const ClientsTrashPage = () => {
     handlePageChange,
   } = useClientsTrashPage()
 
-  const { data: config } = useConfig(['industries'], language)
+  const { data: config } = useConfig(['industries', 'clientTypes'], language)
 
   const columns: DataTableColumn<Client>[] = [
     {
@@ -73,7 +73,7 @@ export const ClientsTrashPage = () => {
       id: 'type',
       header: t.table.colType,
       cellClassName: 'text-secondary',
-      cell: (client) => t.clientType[client.clientType],
+      cell: (client) => labelFor(config?.clientTypes, client.clientType),
     },
     {
       id: 'country',

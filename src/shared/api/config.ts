@@ -21,6 +21,8 @@ export interface ConfigData {
   documentTypes?: DocumentTypeOption[]
   languages?: ConfigOption[]
   industries?: ConfigOption[]
+  clientTypes?: ConfigOption[]
+  genders?: ConfigOption[]
 }
 
 export type ConfigGroup = keyof ConfigData

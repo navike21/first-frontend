@@ -106,7 +106,7 @@ export const ClientForm = ({
 }: ClientFormProps) => {
   const { t, language } = useClientsTranslation()
   const { data: config } = useConfig(
-    ['currencies', 'documentTypes', 'industries', 'languages'],
+    ['currencies', 'documentTypes', 'industries', 'languages', 'clientTypes'],
     language
   )
   const documentTypes = config?.documentTypes
@@ -153,10 +153,7 @@ export const ClientForm = ({
   const district = useWatch({ control, name: 'district' })
 
   const none = { value: '', label: t.form.select }
-  const clientTypeOptions = [
-    { value: 'company', label: t.clientType.company },
-    { value: 'person', label: t.clientType.person },
-  ]
+  const clientTypeOptions = config?.clientTypes ?? []
   const documentTypeOptions = [
     { value: '', label: t.form.documentTypeNone },
     ...(documentTypes ?? []).map((d) => ({ value: d.value, label: d.label })),

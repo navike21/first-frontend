@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Modal, Button, Avatar, Chip, CountryLabel } from '@/shared/ui'
 import { formatDate } from '@/shared/lib'
+import { useConfig, labelFor } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
 import { UserStatusBadge } from '../UserStatusBadge/UserStatusBadge'
 import type { User } from '../../model/user.types'
@@ -40,22 +41,12 @@ export const UserDetailModal = ({
   canRestore = false,
   canPurge = false,
 }: UserDetailModalProps) => {
-  const { t } = useUsersTranslation()
+  const { t, language } = useUsersTranslation()
+  const { data: config } = useConfig(['genders'], language)
   const dash = '—'
 
   const showRestore = canRestore && !!onRestore
   const showPurge = canPurge && !!onPurge
-
-  const genderLabel = (g: User['gender']) => {
-    if (!g) return undefined
-    const map: Record<NonNullable<User['gender']>, string> = {
-      female: t.form.genderFemale,
-      male: t.form.genderMale,
-      other: t.form.genderOther,
-      prefer_not_to_say: t.form.genderPreferNotToSay,
-    }
-    return map[g]
-  }
 
   return (
     <Modal
@@ -114,7 +105,7 @@ export const UserDetailModal = ({
               label={t.form.dateOfBirth}
               value={formatDate(user.dateOfBirth) || dash}
             />
-            <Field label={t.form.gender} value={genderLabel(user.gender) || dash} />
+            <Field label={t.form.gender} value={labelFor(config?.genders, user.gender) || dash} />
             <Field
               label={t.detail.emailVerified}
               value={
