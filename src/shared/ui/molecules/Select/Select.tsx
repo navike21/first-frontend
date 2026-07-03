@@ -39,6 +39,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref
   ) => {
+    const effectiveSearch = search || options.length > 10
+
     const {
       idField,
       isOpen,
@@ -66,7 +68,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       {
         options,
         multiple,
-        search,
+        search: effectiveSearch,
         disabled,
         ...(id !== undefined && { id }),
         ...(defaultValue !== undefined && { defaultValue }),
@@ -133,7 +135,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             idField={idField}
             dropdownRef={dropdownRef}
             dropdownStyle={dropdownStyle}
-            search={search}
+            search={effectiveSearch}
             searchInputRef={searchInputRef}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
