@@ -3,7 +3,7 @@ import { IconComponent } from '@/shared/ui/atoms/IconComponent'
 import { usePhotoPicker } from './PhotoPicker.hooks'
 import type { PhotoPickerProps } from './PhotoPicker.types'
 
-const ACCEPTED = 'image/jpeg,image/png,image/webp'
+const ACCEPTED = 'image/jpeg,image/png,image/webp,image/svg+xml'
 
 export const PhotoPicker = ({
   currentUrl,

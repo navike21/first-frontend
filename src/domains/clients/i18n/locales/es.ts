@@ -91,7 +91,7 @@ export const es: ClientsTranslations = {
     addressInterior: 'Interior / Piso / Dpto.',
     logo: 'Logo',
     uploadLogo: 'Subir logo',
-    logoHint: 'JPG, PNG o WebP',
+    logoHint: 'JPG, PNG, WebP o SVG',
     website: 'Sitio web',
     email: 'Correo de la empresa',
     phone: 'Teléfono de la empresa',
