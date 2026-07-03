@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
-import { useConfigCacheStore } from '@/shared/model/configCache.store'
+import { useConfigCacheStore, CONFIG_CACHE_TTL_MS } from '@/shared/model/configCache.store'
 
 export interface ConfigOption {
   value: string
@@ -65,43 +65,46 @@ export const useConfig = (groups: ConfigGroup[], lang: string) =>
     staleTime: Infinity,
   })
 
-const ALL_GROUPS: ConfigGroup[] = [
-  'currencies',
-  'documentTypes',
-  'languages',
-  'industries',
-  'clientTypes',
-  'genders',
-]
-
-const fetchAllConfig = (lang: string): Promise<ConfigData> =>
+const fetchGroups = (lang: string, groups: ConfigGroup[]): Promise<Partial<ConfigData>> =>
   request<ApiResponse<ConfigData>>({
-    api: `/config?groups=${ALL_GROUPS.join(',')}&lang=${lang}`,
+    api: `/config?groups=${groups.join(',')}&lang=${lang}`,
     method: 'GET',
   }).then((res) => res.data)
 
 /**
- * Zustand-persisted version of useConfig. Fetches ALL groups at once per lang
- * and stores the result in localStorage (TTL 24h). Subsequent calls with the
- * same lang hit the store instantly — no re-fetch between form navigations.
- * Language change automatically triggers a fresh fetch for the new lang.
+ * Zustand-persisted config hook. Fetches ONLY the requested groups, merges
+ * them into the per-lang cache entry (localStorage, TTL 24h). Navigating
+ * between records never re-fetches; language change fetches only for the new
+ * lang; each module only pays for the groups it actually uses.
  */
 export const useConfigData = (groups: ConfigGroup[], lang: string) => {
   const cache = useConfigCacheStore((s) => s.cache)
-  const set = useConfigCacheStore((s) => s.set)
-  const isValid = useConfigCacheStore((s) => s.isValid)
+  // Stable key so the effect doesn't re-run on every render (groups is a literal array)
+  const groupsKey = [...groups].sort().join(',')
 
   useEffect(() => {
-    if (isValid(lang)) return
-    fetchAllConfig(lang).then((data) => set(lang, data)).catch(() => {})
-  }, [lang, isValid, set])
+    const { cache: current, merge } = useConfigCacheStore.getState()
+    const entry = current[lang]
+    const isExpired = !!entry && Date.now() - entry.fetchedAt >= CONFIG_CACHE_TTL_MS
+
+    // Groups that need fetching: expired ones are re-fetched, missing ones fetched for the first time
+    const toFetch = isExpired
+      ? groups
+      : groups.filter((g) => !entry?.data[g])
+
+    if (toFetch.length === 0) return
+    fetchGroups(lang, toFetch).then((data) => merge(lang, data)).catch(() => {})
+    // groupsKey is a serialized dep for `groups` — exhaustive-deps false positive
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang, groupsKey])
 
   const entry = cache[lang]
-  if (!entry) return { data: undefined, isLoading: true }
+  const hasAll = !!entry && groups.every((g) => !!entry.data[g])
+
+  if (!hasAll) return { data: undefined, isLoading: true }
 
   const data = groups.reduce<Partial<ConfigData>>((acc, g) => {
-    const val = entry.data[g]
-    if (val !== undefined) (acc as Record<string, unknown>)[g] = val
+    ;(acc as Record<string, unknown>)[g] = entry.data[g]
     return acc
   }, {})
 
