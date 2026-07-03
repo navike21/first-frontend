@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Modal, Avatar, Chip, CountryLabel } from '@/shared/ui'
+import { useConfig, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
 
@@ -24,7 +25,11 @@ export const ClientDetailModal = ({
   client,
   onClose,
 }: ClientDetailModalProps) => {
-  const { t } = useClientsTranslation()
+  const { t, language } = useClientsTranslation()
+  const { data: config } = useConfig(
+    ['industries', 'currencies', 'languages', 'documentTypes'],
+    language
+  )
 
   return (
     <Modal
@@ -61,7 +66,10 @@ export const ClientDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label={t.form.documentType} value={client.documentType} />
+            <Field
+              label={t.form.documentType}
+              value={labelFor(config?.documentTypes, client.documentType)}
+            />
             <Field
               label={t.form.documentNumber}
               value={client.documentNumber}
@@ -79,7 +87,10 @@ export const ClientDetailModal = ({
               label={t.form.addressInterior}
               value={client.addressInterior}
             />
-            <Field label={t.form.industry} value={client.industry} />
+            <Field
+              label={t.form.industry}
+              value={labelFor(config?.industries, client.industry)}
+            />
             <Field
               label={t.form.website}
               value={
@@ -97,8 +108,14 @@ export const ClientDetailModal = ({
             />
             <Field label={t.form.email} value={client.email} />
             <Field label={t.form.phone} value={client.phone} />
-            <Field label={t.form.language} value={client.language} />
-            <Field label={t.form.currency} value={client.currency} />
+            <Field
+              label={t.form.language}
+              value={labelFor(config?.languages, client.language)}
+            />
+            <Field
+              label={t.form.currency}
+              value={labelFor(config?.currencies, client.currency)}
+            />
           </div>
 
           {client.primaryContact && (

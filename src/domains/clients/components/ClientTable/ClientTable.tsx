@@ -9,6 +9,7 @@ import {
   type DataTableColumn,
 } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
+import { useConfig, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
 
@@ -39,7 +40,8 @@ export const ClientTable = ({
   selectedIds,
   onSelectionChange,
 }: ClientTableProps) => {
-  const { t } = useClientsTranslation()
+  const { t, language } = useClientsTranslation()
+  const { data: config } = useConfig(['industries'], language)
 
   const columns: DataTableColumn<Client>[] = [
     {
@@ -75,7 +77,7 @@ export const ClientTable = ({
       id: 'industry',
       header: t.table.colIndustry,
       cellClassName: 'text-secondary',
-      cell: (client) => client.industry || '—',
+      cell: (client) => labelFor(config?.industries, client.industry) || '—',
     },
     {
       id: 'status',

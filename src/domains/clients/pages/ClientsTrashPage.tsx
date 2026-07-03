@@ -12,6 +12,7 @@ import {
   type DataTableColumn,
 } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
+import { useConfig, labelFor } from '@/shared/api/config'
 import { formatDate } from '@/shared/lib/formatDate'
 import { navPaths } from '@/shared/router'
 import { useClientsTrashPage } from './ClientsTrashPage.hooks'
@@ -48,6 +49,8 @@ export const ClientsTrashPage = () => {
     handlePageChange,
   } = useClientsTrashPage()
 
+  const { data: config } = useConfig(['industries'], language)
+
   const columns: DataTableColumn<Client>[] = [
     {
       id: 'businessName',
@@ -82,7 +85,7 @@ export const ClientsTrashPage = () => {
       id: 'industry',
       header: t.table.colIndustry,
       cellClassName: 'text-secondary',
-      cell: (client) => client.industry || '—',
+      cell: (client) => labelFor(config?.industries, client.industry) || '—',
     },
     {
       id: 'deletedAt',

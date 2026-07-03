@@ -38,6 +38,18 @@ export const configKeys = {
 }
 
 /**
+ * Resolves a stored config value to its localized label.
+ * Returns the raw value as fallback if not found (never crashes).
+ */
+export function labelFor(
+  options: ConfigOption[] | undefined,
+  value: string | undefined
+): string | undefined {
+  if (!value) return undefined
+  return options?.find((o) => o.value === value)?.label ?? value
+}
+
+/**
  * Fetches several reference-data groups (currencies, document types, languages,
  * industries) in a single request. Cached for the session.
  */
