@@ -89,13 +89,72 @@ export interface RequestConfig<TBody = unknown> extends Omit<
   body?: TBody
 }
 
-/**
- * Generic HTTP client utility.
- *
- * @example
- * const user = await request<User>({ api: '/users/1', method: 'GET' })
- * const created = await request<User, NewUser>({ api: '/users', method: 'POST', body: { name: 'Ana' } })
- */
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+interface ErrorPayload {
+  message?: string
+  code?: string
+  details?: ApiErrorDetails
+}
+
+async function parseErrorBody(res: Response): Promise<ErrorPayload> {
+  try {
+    return (await res.json()) as ErrorPayload
+  } catch {
+    return {}
+  }
+}
+
+function clearAndRedirect(message?: string): void {
+  notify.error(message ?? 'Sesión expirada o inválida')
+  useSessionStore.getState().clearSession()
+  handleUnauthorized()
+}
+
+async function retryWithToken<TResponse>(
+  url: string,
+  method: HttpMethod,
+  requestBody: BodyInit | undefined,
+  headers: HeadersInit,
+  init: RequestInit,
+): Promise<TResponse> {
+  const res = await fetch(url, { ...init, method, headers, body: requestBody })
+  if (res.ok) {
+    if (res.status === 204) return undefined as unknown as TResponse
+    return (await res.json()) as TResponse
+  }
+  const err = await parseErrorBody(res)
+  if (res.status === 401) clearAndRedirect(err.message)
+  throw new HttpError(res.status, res.statusText, err.message, err.code, err.details)
+}
+
+async function handle401<TResponse>(
+  url: string,
+  method: HttpMethod,
+  requestBody: BodyInit | undefined,
+  defaultHeaders: HeadersInit,
+  init: RequestInit,
+  apiError: ErrorPayload,
+): Promise<TResponse> {
+  const newToken = await attemptRefresh()
+
+  if (newToken !== null) {
+    const { user } = useSessionStore.getState()
+    if (user) useSessionStore.getState().setSession(newToken, user)
+    const headers: HeadersInit = {
+      ...defaultHeaders,
+      Authorization: `Bearer ${newToken}`,
+      ...init.headers,
+    }
+    return retryWithToken<TResponse>(url, method, requestBody, headers, init)
+  }
+
+  clearAndRedirect(apiError.message)
+  throw new HttpError(401, 'Unauthorized', apiError.message, apiError.code, apiError.details)
+}
+
+// ─── Refresh promise ───────────────────────────────────────────────────────────
+
 // Shared refresh promise — all concurrent 401s wait on the same attempt
 let _refreshPromise: Promise<string | null> | null = null
 
@@ -120,6 +179,15 @@ async function attemptRefresh(): Promise<string | null> {
   return _refreshPromise
 }
 
+// ─── Main request ──────────────────────────────────────────────────────────────
+
+/**
+ * Generic HTTP client utility.
+ *
+ * @example
+ * const user = await request<User>({ api: '/users/1', method: 'GET' })
+ * const created = await request<User, NewUser>({ api: '/users', method: 'POST', body: { name: 'Ana' } })
+ */
 export async function request<TResponse, TBody = unknown>({
   api,
   method,
@@ -141,9 +209,7 @@ export async function request<TResponse, TBody = unknown>({
   }
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
-
   const token = useSessionStore.getState().token
-
   const lang = _languageProvider?.()
 
   // For FormData the browser sets `Content-Type` (with the multipart boundary)
@@ -162,7 +228,8 @@ export async function request<TResponse, TBody = unknown>({
     requestBody = JSON.stringify(body)
   }
 
-  const response = await fetch(`${baseUrl}${api}`, {
+  const url = `${baseUrl}${api}`
+  const response = await fetch(url, {
     ...init,
     method,
     headers: { ...defaultHeaders, ...init.headers },
@@ -170,89 +237,14 @@ export async function request<TResponse, TBody = unknown>({
   })
 
   if (!response.ok) {
-    let apiMessage: string | undefined
-    let apiCode: string | undefined
-    let apiDetails: ApiErrorDetails | undefined
-    try {
-      const errBody = (await response.json()) as {
-        message?: string
-        code?: string
-        details?: ApiErrorDetails
-      }
-      apiMessage = errBody.message
-      apiCode = errBody.code
-      apiDetails = errBody.details
-    } catch {
-      // body not parseable — use HTTP defaults
-    }
-
+    const apiError = await parseErrorBody(response)
     if (response.status === 401) {
-      const newToken = await attemptRefresh()
-
-      if (newToken !== null) {
-        const { user } = useSessionStore.getState()
-        if (user) useSessionStore.getState().setSession(newToken, user)
-
-        // Retry the original request with the fresh access token
-        const retryHeaders: HeadersInit = {
-          ...defaultHeaders,
-          Authorization: `Bearer ${newToken}`,
-          ...init.headers,
-        }
-        const retryRes = await fetch(`${baseUrl}${api}`, {
-          ...init,
-          method,
-          headers: retryHeaders,
-          body: requestBody,
-        })
-
-        if (retryRes.ok) {
-          if (retryRes.status === 204) return undefined as unknown as TResponse
-          return (await retryRes.json()) as TResponse
-        }
-
-        // Retry failed — extract error from retry response
-        let retryMsg: string | undefined
-        let retryCode: string | undefined
-        let retryDetails: ApiErrorDetails | undefined
-        try {
-          const eb = (await retryRes.json()) as {
-            message?: string
-            code?: string
-            details?: ApiErrorDetails
-          }
-          retryMsg = eb.message
-          retryCode = eb.code
-          retryDetails = eb.details
-        } catch { /* unparseable body */ }
-
-        if (retryRes.status === 401) {
-          notify.error(retryMsg ?? 'Sesión expirada o inválida')
-          useSessionStore.getState().clearSession()
-          handleUnauthorized()
-        }
-        throw new HttpError(retryRes.status, retryRes.statusText, retryMsg, retryCode, retryDetails)
-      }
-
-      // Refresh failed — clear session (original behaviour)
-      notify.error(apiMessage ?? 'Sesión expirada o inválida')
-      useSessionStore.getState().clearSession()
-      handleUnauthorized()
+      return handle401<TResponse>(url, method, requestBody, defaultHeaders, init, apiError)
     }
-
-    throw new HttpError(
-      response.status,
-      response.statusText,
-      apiMessage,
-      apiCode,
-      apiDetails
-    )
+    throw new HttpError(response.status, response.statusText, apiError.message, apiError.code, apiError.details)
   }
 
   // 204 No Content — no body to parse; caller should type TResponse as void
-  if (response.status === 204) {
-    return undefined as unknown as TResponse
-  }
-
+  if (response.status === 204) return undefined as unknown as TResponse
   return (await response.json()) as TResponse
 }
