@@ -6,6 +6,7 @@ import {
   Select,
   TextArea,
   Wizard,
+  FormGrid,
   type WizardStep,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
@@ -164,10 +165,7 @@ export const SubscriberForm = ({
           optionalLabel={t.form.optional}
         >
           {/* Step 1 — Personal */}
-          <div
-            hidden={activeTab !== 'personal'}
-            className="animate-tab-fade grid grid-cols-1 gap-6 xl:grid-cols-2"
-          >
+          <FormGrid hidden={activeTab !== 'personal'} className="animate-tab-fade">
             <InputField
               label={requiredLabel(t.form.firstName)}
               variant={errors.firstName ? 'error' : undefined}
@@ -192,13 +190,10 @@ export const SubscriberForm = ({
                 )
               }
             />
-          </div>
+          </FormGrid>
 
           {/* Step 2 — Contact */}
-          <div
-            hidden={activeTab !== 'contact'}
-            className="animate-tab-fade grid grid-cols-1 gap-6 xl:grid-cols-2"
-          >
+          <FormGrid hidden={activeTab !== 'contact'} className="animate-tab-fade">
             <InputField
               label={requiredLabel(t.form.email)}
               type="email"
@@ -223,15 +218,13 @@ export const SubscriberForm = ({
                 {...register('contactInformation.address')}
               />
             </div>
-          </div>
+          </FormGrid>
 
           {/* Step 3 — Optional */}
-          <div
-            hidden={activeTab !== 'optional'}
-            className="animate-tab-fade grid grid-cols-1 gap-6 xl:grid-cols-2"
-          >
+          <FormGrid hidden={activeTab !== 'optional'} className="animate-tab-fade">
             <InputField
               label={t.form.dateOfBirth}
+              type="date"
               {...register('personalInformation.dateOfBirth')}
             />
             <InputField
@@ -251,7 +244,7 @@ export const SubscriberForm = ({
                 setValue('status', e.target.value as 'active' | 'inactive')
               }
             />
-          </div>
+          </FormGrid>
         </Wizard>
       </div>
     </form>

@@ -16,12 +16,16 @@ function toFormValues(sub: Subscriber): Partial<SubscriberFormData> {
     lastName: sub.lastName,
     contactInformation: {
       email: sub.contactInformation.email,
-      phoneNumber: sub.contactInformation.phoneNumber ?? '',
+      phoneNumber: sub.contactInformation.phoneNumber != null
+        ? String(sub.contactInformation.phoneNumber)
+        : '',
       address: sub.contactInformation.address ?? '',
     },
     personalInformation: {
       gender: sub.personalInformation.gender,
-      dateOfBirth: sub.personalInformation.dateOfBirth ?? '',
+      dateOfBirth: sub.personalInformation.dateOfBirth
+        ? sub.personalInformation.dateOfBirth.slice(0, 10)
+        : '',
       profilePictureUrl: sub.personalInformation.profilePictureUrl ?? '',
     },
     status: sub.status,
