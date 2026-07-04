@@ -85,6 +85,18 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.services[l_]}`
   },
+  serviceCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.services[l_]}/${ROUTE_SLUGS.serviceCreate[l_]}`
+  },
+  serviceEdit: (serviceSlug: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.services[l_]}/${serviceSlug}/${ROUTE_SLUGS.serviceEdit[l_]}`
+  },
+  serviceTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.services[l_]}/${ROUTE_SLUGS.serviceTrash[l_]}`
+  },
   portfolio: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.portfolio[l_]}`
@@ -100,6 +112,18 @@ export const navPaths = {
   subscribers: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}`
+  },
+  subscriberCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${ROUTE_SLUGS.subscriberCreate[l_]}`
+  },
+  subscriberEdit: (subscriberId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${subscriberId}/${ROUTE_SLUGS.subscriberEdit[l_]}`
+  },
+  subscriberTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${ROUTE_SLUGS.subscriberTrash[l_]}`
   },
   auditLogs: (l?: Language) => {
     const l_ = lang(l)
