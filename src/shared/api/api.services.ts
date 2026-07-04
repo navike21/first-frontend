@@ -96,6 +96,30 @@ export interface RequestConfig<TBody = unknown> extends Omit<
  * const user = await request<User>({ api: '/users/1', method: 'GET' })
  * const created = await request<User, NewUser>({ api: '/users', method: 'POST', body: { name: 'Ana' } })
  */
+// Shared refresh promise — all concurrent 401s wait on the same attempt
+let _refreshPromise: Promise<string | null> | null = null
+
+async function attemptRefresh(): Promise<string | null> {
+  if (_refreshPromise) return _refreshPromise
+  _refreshPromise = (async () => {
+    try {
+      const baseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
+      const res = await fetch(`${baseUrl}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+      if (!res.ok) return null
+      const body = (await res.json()) as { data?: { accessToken?: string } }
+      return body.data?.accessToken ?? null
+    } catch {
+      return null
+    } finally {
+      _refreshPromise = null
+    }
+  })()
+  return _refreshPromise
+}
+
 export async function request<TResponse, TBody = unknown>({
   api,
   method,
@@ -163,6 +187,54 @@ export async function request<TResponse, TBody = unknown>({
     }
 
     if (response.status === 401) {
+      const newToken = await attemptRefresh()
+
+      if (newToken !== null) {
+        const { user } = useSessionStore.getState()
+        if (user) useSessionStore.getState().setSession(newToken, user)
+
+        // Retry the original request with the fresh access token
+        const retryHeaders: HeadersInit = {
+          ...defaultHeaders,
+          Authorization: `Bearer ${newToken}`,
+          ...init.headers,
+        }
+        const retryRes = await fetch(`${baseUrl}${api}`, {
+          ...init,
+          method,
+          headers: retryHeaders,
+          body: requestBody,
+        })
+
+        if (retryRes.ok) {
+          if (retryRes.status === 204) return undefined as unknown as TResponse
+          return (await retryRes.json()) as TResponse
+        }
+
+        // Retry failed — extract error from retry response
+        let retryMsg: string | undefined
+        let retryCode: string | undefined
+        let retryDetails: ApiErrorDetails | undefined
+        try {
+          const eb = (await retryRes.json()) as {
+            message?: string
+            code?: string
+            details?: ApiErrorDetails
+          }
+          retryMsg = eb.message
+          retryCode = eb.code
+          retryDetails = eb.details
+        } catch { /* unparseable body */ }
+
+        if (retryRes.status === 401) {
+          notify.error(retryMsg ?? 'Sesión expirada o inválida')
+          useSessionStore.getState().clearSession()
+          handleUnauthorized()
+        }
+        throw new HttpError(retryRes.status, retryRes.statusText, retryMsg, retryCode, retryDetails)
+      }
+
+      // Refresh failed — clear session (original behaviour)
       notify.error(apiMessage ?? 'Sesión expirada o inválida')
       useSessionStore.getState().clearSession()
       handleUnauthorized()
