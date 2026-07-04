@@ -4,7 +4,6 @@ import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
 import { ProfileDrawer } from './ProfileDrawer'
 import { SettingsDrawer } from './SettingsDrawer'
-import { LanguageSwitcher } from '@/shared/ui'
 import { useUserAvatarStatus } from '@/shared/model/presence.store'
 
 export const Header = () => {
@@ -28,7 +27,7 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        'z-10 flex w-full items-center justify-between gap-2',
+        'z-40 flex w-full items-center justify-between gap-2',
         'px-4 py-3 md:px-6 md:py-4',
         'border-b border-border bg-surface shadow-sm'
       )}
@@ -76,8 +75,6 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-1">
-        <LanguageSwitcher />
-
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
 

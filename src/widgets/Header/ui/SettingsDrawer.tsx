@@ -1,4 +1,4 @@
-import { Drawer, ThemeToggle, ColorPicker } from '@/shared/ui'
+import { Drawer, ThemeToggle, ColorPicker, LanguageSwitcher } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeaderTranslation } from '../i18n'
 
@@ -29,6 +29,18 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
       className="w-80"
     >
       <div className="flex flex-col gap-6 px-5 py-6">
+        {/* Language */}
+        <div>
+          <SectionLabel>{t.language.label}</SectionLabel>
+          <LanguageSwitcher
+            className={clsx(
+              'w-full',
+              '[&_[data-select-trigger-label]]:inline',
+              'sm:[&_[data-select-trigger-label]]:inline'
+            )}
+          />
+        </div>
+
         {/* Mode */}
         <div>
           <SectionLabel>{t.settingsDrawer.mode}</SectionLabel>

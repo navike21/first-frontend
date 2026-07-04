@@ -1,0 +1,94 @@
+import { useRef, useState, useEffect, useCallback } from 'react'
+
+const DEFAULT_MAX = 5 * 1024 * 1024
+
+interface UseCoverPickerProps {
+  currentUrl?: string
+  onChange: (file: File | null) => void
+  onRemove?: () => void
+  maxBytes?: number
+  accept?: string
+}
+
+export function useCoverPicker({
+  currentUrl,
+  onChange,
+  onRemove,
+  maxBytes = DEFAULT_MAX,
+}: UseCoverPickerProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [preview, setPreview] = useState<string | undefined>(currentUrl)
+  const [error, setError] = useState<string | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  useEffect(() => {
+    setPreview(currentUrl)
+  }, [currentUrl])
+
+  const processFile = useCallback(
+    (file: File) => {
+      setError(null)
+      if (file.size > maxBytes) {
+        setError(`Max ${Math.round(maxBytes / 1024 / 1024)} MB`)
+        return
+      }
+      setPreview((prev) => {
+        if (prev?.startsWith('blob:')) URL.revokeObjectURL(prev)
+        return URL.createObjectURL(file)
+      })
+      onChange(file)
+    },
+    [maxBytes, onChange]
+  )
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    processFile(file)
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    const file = e.dataTransfer.files?.[0]
+    if (!file) return
+    processFile(file)
+  }
+
+  const openPicker = () => inputRef.current?.click()
+
+  const handleRemove = () => {
+    setError(null)
+    setPreview((prev) => {
+      if (prev?.startsWith('blob:')) URL.revokeObjectURL(prev)
+      return undefined
+    })
+    onChange(null)
+    onRemove?.()
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
+  return {
+    inputRef,
+    preview,
+    error,
+    isDragging,
+    handleChange,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    openPicker,
+    handleRemove,
+  }
+}

@@ -14,7 +14,7 @@ const OPTIONS = SUPPORTED_LANGUAGES.map((lang) => ({
   ),
 }))
 
-export const LanguageSwitcher = ({ label }: LanguageSwitcherProps) => {
+export const LanguageSwitcher = ({ label, className }: LanguageSwitcherProps) => {
   const { language, handleChange } = useLanguageSwitcher()
 
   return (
@@ -24,13 +24,13 @@ export const LanguageSwitcher = ({ label }: LanguageSwitcherProps) => {
       value={language}
       onChange={(e) => handleChange(e.target.value as Language)}
       lang={language}
-      // Mobile: trigger shows the flag only (native name hidden). From `sm` up
-      // the language name is shown again. `[&_[data-select-trigger-label]]`
-      // targets the trigger's label span exposed by TriggerDisplay.
+      // Default: compact trigger (flag only on mobile, name from sm up).
+      // Pass className to override — e.g. w-full + always-visible label in drawers.
       className={clsx(
         'w-auto',
         '[&_[data-select-trigger-label]]:hidden',
-        'sm:min-w-32 sm:[&_[data-select-trigger-label]]:inline'
+        'sm:min-w-32 sm:[&_[data-select-trigger-label]]:inline',
+        className
       )}
     />
   )

@@ -86,8 +86,11 @@ export const Wizard = ({
   const isFirst = index <= 0
   const isLast = index === steps.length - 1
 
+  const activeStep = steps[index]
+  const activeState = stepStateAt(activeStep, index, index, reachedIndex)
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <ol className="flex items-start">
         {steps.map((step, i) => {
           const state = stepStateAt(step, i, index, reachedIndex)
@@ -131,9 +134,11 @@ export const Wizard = ({
                   )}
                 />
               </div>
+
+              {/* Desktop: label below each dot */}
               <span
                 className={clsx(
-                  'mt-2 px-1 text-sm font-medium',
+                  'mt-2 hidden px-1 text-sm font-medium sm:block',
                   TITLE_BY_STATE[state]
                 )}
               >
@@ -145,7 +150,7 @@ export const Wizard = ({
                 )}
               </span>
               {step.description && (
-                <span className="px-1 text-xs text-muted">
+                <span className="hidden px-1 text-xs text-muted sm:block">
                   {step.description}
                 </span>
               )}
@@ -154,28 +159,46 @@ export const Wizard = ({
         })}
       </ol>
 
+      {/* Mobile: active step label + counter below the dots row */}
+      <div className="flex items-center justify-between sm:hidden">
+        <span className={clsx('text-sm font-medium', TITLE_BY_STATE[activeState])}>
+          {activeStep.label}
+          {activeStep.optional && optionalLabel && (
+            <span className="ml-1 text-xs font-normal text-muted">({optionalLabel})</span>
+          )}
+        </span>
+        <span className="text-xs text-muted">
+          {index + 1} / {steps.length}
+        </span>
+      </div>
+
       {children}
 
-      <div className="flex items-center justify-between gap-2">
-        <div>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+        {/* Cancel — bottom on mobile, left on desktop */}
+        <div className="order-last sm:order-first">
           {onCancel && (
             <Button
               type="button"
               variant="secondary"
               onClick={onCancel}
               disabled={isSubmitting}
+              className="w-full sm:w-auto"
             >
               {cancelLabel}
             </Button>
           )}
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Back + Primary — col-reverse on mobile (primary on top), row on desktop */}
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center">
           {!isFirst && (
             <Button
               type="button"
               variant="outline"
               onClick={onBack}
               disabled={isSubmitting}
+              className="w-full sm:w-auto"
             >
               {backLabel}
             </Button>
@@ -186,11 +209,17 @@ export const Wizard = ({
               variant="primary"
               onClick={onSubmit}
               loading={isSubmitting}
+              className="w-full sm:w-auto"
             >
               {submitLabel}
             </Button>
           ) : (
-            <Button type="button" variant="primary" onClick={onNext}>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={onNext}
+              className="w-full sm:w-auto"
+            >
               {nextLabel}
             </Button>
           )}

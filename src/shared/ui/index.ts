@@ -94,6 +94,7 @@ export {
 } from './molecules/DataTable'
 export { Tabs, type TabsProps, type TabItem } from './molecules/Tabs'
 export { PhotoPicker, type PhotoPickerProps } from './molecules/PhotoPicker'
+export { CoverPicker, type CoverPickerProps } from './molecules/CoverPicker'
 export {
   LanguageSwitcher,
   type LanguageSwitcherProps,

@@ -22,15 +22,12 @@ const FloatingTitleBar = ({
 
   // Measure <main>'s position to place the bar with position: fixed
   const [rect, setRect] = useState({ top: 0, left: 0, width: 0 })
-
   const measure = useCallback(() => {
     const r = mainEl.getBoundingClientRect()
     setRect({ top: r.top, left: r.left, width: r.width })
   }, [mainEl])
 
   useEffect(() => {
-    // Synchronous initial measure is required to position the fixed bar
-    // correctly on first paint; subsequent updates come from the observers.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     measure()
     const ro = new ResizeObserver(() => measure())
@@ -42,37 +39,54 @@ const FloatingTitleBar = ({
     }
   }, [mainEl, measure])
 
+  // Measure the inner bar height so the clipping wrapper matches it
+  // (mobile is taller: title + buttons row; desktop is single row)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [barHeight, setBarHeight] = useState(56)
+  useEffect(() => {
+    const update = () => {
+      if (innerRef.current) setBarHeight(innerRef.current.offsetHeight)
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    if (innerRef.current) ro.observe(innerRef.current)
+    return () => ro.disconnect()
+  }, [])
+
   return createPortal(
     <div
       className="pointer-events-none fixed z-30 overflow-hidden"
-      style={{
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: 56,
-      }}
+      style={{ top: rect.top, left: rect.left, width: rect.width, height: barHeight }}
     >
       <motion.div
+        ref={innerRef}
         initial={{ y: '-100%' }}
         animate={{ y: 0 }}
         exit={{ y: '-100%' }}
         transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.8 }}
         className={clsx(
-          'pointer-events-auto',
-          'flex h-full items-center justify-between gap-4',
+          'pointer-events-auto w-full',
           'border-b border-border',
           'bg-surface/95 backdrop-blur-md',
-          'px-4 md:px-8'
+          'px-4 py-2 md:px-8'
         )}
       >
-        {/* Inner max-width wrapper to align with main content */}
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
+        {/* Inner max-width wrapper */}
+        <div className="mx-auto w-full max-w-7xl">
+          {/* Title — always visible */}
           <h2 className="truncate text-base font-bold tracking-tight text-foreground">
             {title}
           </h2>
 
+          {/* Actions:
+              mobile  → full row below title, each button flex-1 (50/50)
+              desktop → inline right of title via absolute/flex trick handled
+                        by swapping to a row layout from sm up              */}
           {hasActions && (
-            <div className="flex shrink-0 items-center gap-2">
+            <div className={clsx(
+              'mt-1.5 flex items-center gap-2',
+              'sm:absolute sm:inset-y-0 sm:right-4 sm:mt-0 sm:flex sm:items-center sm:gap-2 md:right-8'
+            )}>
               {actions.map((action) =>
                 action.type === 'button' ? (
                   <Button
@@ -83,6 +97,7 @@ const FloatingTitleBar = ({
                     loading={action.loading}
                     disabled={action.disabled}
                     onClick={action.onClick}
+                    className="flex-1 whitespace-nowrap sm:flex-none"
                   >
                     {action.label}
                   </Button>
@@ -93,6 +108,7 @@ const FloatingTitleBar = ({
                     variant={action.variant ?? 'primary'}
                     size="small"
                     icon={action.icon}
+                    className="flex-1 whitespace-nowrap sm:flex-none"
                   >
                     {action.label}
                   </LinkButton>
@@ -100,7 +116,6 @@ const FloatingTitleBar = ({
               )}
             </div>
           )}
-
         </div>
       </motion.div>
     </div>,
@@ -121,10 +136,8 @@ export const PageContent = ({
   const [isTitleHidden, setIsTitleHidden] = useState(false)
   const [mainEl, setMainEl] = useState<HTMLElement | null>(null)
 
-  // Observe when the <h1> title leaves the scroll viewport of <main>
   useEffect(() => {
     if (!titleRef.current) return
-
     const main = titleRef.current.closest('main')
     if (!main) return
     setMainEl(main)
@@ -133,11 +146,7 @@ export const PageContent = ({
       ([entry]) => {
         setIsTitleHidden(!entry.isIntersecting)
       },
-      {
-        root: main,
-        threshold: 0,
-        rootMargin: '0px',
-      }
+      { root: main, threshold: 0, rootMargin: '0px' }
     )
 
     observer.observe(titleRef.current)
@@ -155,7 +164,6 @@ export const PageContent = ({
 
       {children}
 
-      {/* Floating title bar — slides in when title scrolls out of view */}
       {mainEl && (
         <AnimatePresence>
           {isTitleHidden && (

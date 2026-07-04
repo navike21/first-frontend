@@ -2,6 +2,7 @@ import type { Language } from '@/shared/types/languages'
 
 export interface LanguageSwitcherProps {
   label?: string
+  className?: string
 }
 
 export interface LanguageFlagProps {

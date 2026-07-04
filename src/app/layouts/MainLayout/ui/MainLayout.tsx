@@ -26,18 +26,15 @@ export const MainLayout = () => {
         <div className="flex flex-1 flex-col overflow-hidden">
           <main
             className={clsx(
-              'w-full flex-1 overflow-x-hidden overflow-y-auto',
-              'p-4',
-              'md:p-8'
+              'flex w-full flex-1 flex-col overflow-x-hidden overflow-y-auto',
             )}
           >
-            <div className={clsx('mx-auto w-full max-w-7xl space-y-6')}>
+            <div className={clsx('mx-auto w-full max-w-7xl flex-1 space-y-6', 'p-4 md:p-8')}>
               {showBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
               <Outlet />
             </div>
+            <Footer />
           </main>
-
-          <Footer />
         </div>
       </div>
     </div>

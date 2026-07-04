@@ -14,4 +14,6 @@ export interface TabsProps {
   className?: string
   /** Accessible label for the tablist. */
   ariaLabel?: string
+  /** Unique prefix for Framer Motion layoutId — avoids animation conflicts when multiple Tabs are mounted simultaneously. */
+  instanceId?: string
 }
