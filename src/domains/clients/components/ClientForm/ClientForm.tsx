@@ -129,6 +129,7 @@ export const ClientForm = ({
     formState: { errors },
   } = useForm<CreateClientFormData>({
     resolver: zodResolver(schema) as Resolver<CreateClientFormData>,
+    mode: 'onTouched',
     defaultValues: {
       clientType: 'company',
       status: 'active',
