@@ -14,8 +14,12 @@ import {
   TextArea,
   Wizard,
   LocationSelect,
+  FormGrid,
+  PanelLayout,
+  SectionLabel,
   type WizardStep,
 } from '@/shared/ui'
+import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useConfigData } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
@@ -82,18 +86,6 @@ function stripEmpty<T extends Record<string, unknown>>(obj: T): T {
     Object.entries(obj).filter(([, v]) => v !== '' && v !== undefined)
   ) as T
 }
-
-const Grid = ({ children }: { children: React.ReactNode }) => (
-  <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
-    {children}
-  </div>
-)
-
-const SubHeading = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs font-semibold tracking-wide text-muted uppercase">
-    {children}
-  </p>
-)
 
 export const ClientForm = ({
   mode,
@@ -176,13 +168,6 @@ export const ClientForm = ({
   ]
   const selectedDocType = documentTypes?.find((d) => d.value === documentType)
 
-  // Required fields are marked with an asterisk; everything else is optional.
-  const req = (label: string) => (
-    <>
-      {label} <span className="text-red-500">*</span>
-    </>
-  )
-
   const submit = handleSubmit(
     (data) => {
       // `status` is backend-managed (not part of the form).
@@ -248,8 +233,8 @@ export const ClientForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col items-stretch gap-5 md:flex-row md:items-start">
-        <div className="flex w-full shrink-0 flex-col items-center gap-4 rounded-xl border border-border bg-surface p-6 md:w-60">
+      <PanelLayout
+        left={
           <PhotoPicker
             uploadLabel={t.form.uploadLogo}
             formatsHint={t.form.logoHint}
@@ -264,9 +249,8 @@ export const ClientForm = ({
               setRemoveLogo(true)
             }}
           />
-        </div>
-
-        <div className="flex min-w-0 flex-1 flex-col gap-6 rounded-xl border border-border bg-surface p-6">
+        }
+        right={
           <Wizard
             steps={steps}
             current={activeTab}
@@ -287,9 +271,9 @@ export const ClientForm = ({
               hidden={activeTab !== 'general'}
               className="animate-tab-fade flex flex-col gap-6"
             >
-              <Grid>
+              <FormGrid>
                 <InputField
-                  label={req(t.form.businessName)}
+                  label={requiredLabel(t.form.businessName)}
                   variant={errors.businessName ? 'error' : undefined}
                   errorMessage={errors.businessName?.message}
                   {...register('businessName')}
@@ -332,10 +316,10 @@ export const ClientForm = ({
                   search
                   onChange={(e) => setValue('industry', e.target.value)}
                 />
-              </Grid>
+              </FormGrid>
 
-              <SubHeading>{t.form.sectionOther}</SubHeading>
-              <Grid>
+              <SectionLabel>{t.form.sectionOther}</SectionLabel>
+              <FormGrid>
                 <InputField
                   label={t.form.website}
                   variant={errors.website ? 'error' : undefined}
@@ -368,7 +352,7 @@ export const ClientForm = ({
                   search
                   onChange={(e) => setValue('currency', e.target.value)}
                 />
-              </Grid>
+              </FormGrid>
 
               <TextArea
                 label={t.form.notes}
@@ -385,7 +369,7 @@ export const ClientForm = ({
               hidden={activeTab !== 'location'}
               className="animate-tab-fade flex flex-col gap-6"
             >
-              <Grid>
+              <FormGrid>
                 <LocationSelect
                   value={{ countryCode: country, ubigeoCode, region, province, district }}
                   onChange={(v) => {
@@ -395,7 +379,7 @@ export const ClientForm = ({
                     setValue('province', v.province)
                     setValue('district', v.district)
                   }}
-                  countryLabel={req(t.form.country)}
+                  countryLabel={requiredLabel(t.form.country)}
                   regionLabel={t.form.region}
                   cityLabel={t.form.province}
                   lang={language}
@@ -409,7 +393,7 @@ export const ClientForm = ({
                   label={t.form.addressInterior}
                   {...register('addressInterior')}
                 />
-              </Grid>
+              </FormGrid>
               {errors.country && (
                 <p className="text-sm text-red-500">{errors.country.message}</p>
               )}
@@ -419,7 +403,7 @@ export const ClientForm = ({
               hidden={activeTab !== 'contact'}
               className="animate-tab-fade flex flex-col gap-6"
             >
-              <Grid>
+              <FormGrid>
                 <InputField
                   label={t.form.contactFirstName}
                   variant={errors.primaryContact?.firstName ? 'error' : undefined}
@@ -447,11 +431,11 @@ export const ClientForm = ({
                   label={t.form.contactPosition}
                   {...register('primaryContact.position')}
                 />
-              </Grid>
+              </FormGrid>
             </div>
           </Wizard>
-        </div>
-      </div>
+        }
+      />
     </form>
   )
 }

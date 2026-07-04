@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useForm, type Resolver } from 'react-hook-form'
+import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   InputField,
@@ -8,6 +8,7 @@ import {
   Wizard,
   type WizardStep,
 } from '@/shared/ui'
+import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useSubscribersTranslation } from '../../i18n'
 import { createSubscriberSchema } from '../../model/subscriber.schema'
@@ -50,7 +51,7 @@ export const SubscriberForm = ({
     setValue,
     setError,
     trigger,
-    watch,
+    control,
     formState: { errors },
   } = useForm<SubscriberFormData>({
     resolver: zodResolver(schema) as Resolver<SubscriberFormData>,
@@ -73,8 +74,8 @@ export const SubscriberForm = ({
     if (submitError) applyServerFieldErrors(submitError, setError)
   }, [submitError, setError])
 
-  const genderValue = watch('personalInformation.gender')
-  const statusValue = watch('status')
+  const genderValue = useWatch({ control, name: 'personalInformation.gender' })
+  const statusValue = useWatch({ control, name: 'status' })
 
   const genderOptions = [
     { value: 'male', label: t.genders.male },
@@ -87,12 +88,6 @@ export const SubscriberForm = ({
     { value: 'active', label: t.status.active },
     { value: 'inactive', label: t.status.inactive },
   ]
-
-  const req = (label: string) => (
-    <>
-      {label} <span className="text-red-500">*</span>
-    </>
-  )
 
   const steps: WizardStep[] = [
     {
@@ -174,19 +169,19 @@ export const SubscriberForm = ({
             className="animate-tab-fade grid grid-cols-1 gap-6 xl:grid-cols-2"
           >
             <InputField
-              label={req(t.form.firstName)}
+              label={requiredLabel(t.form.firstName)}
               variant={errors.firstName ? 'error' : undefined}
               errorMessage={errors.firstName?.message}
               {...register('firstName')}
             />
             <InputField
-              label={req(t.form.lastName)}
+              label={requiredLabel(t.form.lastName)}
               variant={errors.lastName ? 'error' : undefined}
               errorMessage={errors.lastName?.message}
               {...register('lastName')}
             />
             <Select
-              label={req(t.form.gender)}
+              label={requiredLabel(t.form.gender)}
               options={genderOptions}
               value={genderValue}
               lang={language}
@@ -205,7 +200,7 @@ export const SubscriberForm = ({
             className="animate-tab-fade grid grid-cols-1 gap-6 xl:grid-cols-2"
           >
             <InputField
-              label={req(t.form.email)}
+              label={requiredLabel(t.form.email)}
               type="email"
               variant={errors.contactInformation?.email ? 'error' : undefined}
               errorMessage={errors.contactInformation?.email?.message}

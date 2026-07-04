@@ -1,5 +1,4 @@
-import type { ReactNode } from 'react'
-import { Modal, Avatar, Chip } from '@/shared/ui'
+import { Modal, Avatar, Chip, DetailField } from '@/shared/ui'
 import { formatDate } from '@/shared/lib/formatDate'
 import { useSubscribersTranslation } from '../../i18n'
 import type { Subscriber } from '../../model/subscriber.types'
@@ -7,18 +6,6 @@ import type { Subscriber } from '../../model/subscriber.types'
 interface SubscriberDetailModalProps {
   subscriber: Subscriber | null
   onClose: () => void
-}
-
-const Field = ({ label, value }: { label: string; value?: ReactNode }) => {
-  if (value === undefined || value === null || value === '') return null
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-xs font-medium tracking-wide text-muted uppercase">
-        {label}
-      </span>
-      <span className="text-sm text-foreground">{value}</span>
-    </div>
-  )
 }
 
 export const SubscriberDetailModal = ({
@@ -62,11 +49,11 @@ export const SubscriberDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field
+            <DetailField
               label={t.form.gender}
               value={t.genders[subscriber.personalInformation.gender]}
             />
-            <Field
+            <DetailField
               label={t.form.dateOfBirth}
               value={
                 subscriber.personalInformation.dateOfBirth
@@ -74,11 +61,11 @@ export const SubscriberDetailModal = ({
                   : undefined
               }
             />
-            <Field
+            <DetailField
               label={t.form.phoneNumber}
               value={subscriber.contactInformation.phoneNumber}
             />
-            <Field
+            <DetailField
               label={t.form.address}
               value={subscriber.contactInformation.address}
             />

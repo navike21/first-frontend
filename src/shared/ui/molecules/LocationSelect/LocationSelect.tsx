@@ -25,11 +25,23 @@ function buildInitialPath(value: LocationValue): PathItem[] {
   const code = value.ubigeoCode
   const items: PathItem[] = []
   if (code.length >= 2)
-    items.push({ code: code.slice(0, 2), name: value.region ?? '', hasChildren: true })
+    items.push({
+      code: code.slice(0, 2),
+      name: value.region ?? '',
+      hasChildren: true,
+    })
   if (code.length >= 4)
-    items.push({ code: code.slice(0, 4), name: value.province ?? '', hasChildren: true })
+    items.push({
+      code: code.slice(0, 4),
+      name: value.province ?? '',
+      hasChildren: true,
+    })
   if (code.length >= 6)
-    items.push({ code: code.slice(0, 6), name: value.district ?? '', hasChildren: false })
+    items.push({
+      code: code.slice(0, 6),
+      name: value.district ?? '',
+      hasChildren: false,
+    })
   return items
 }
 
@@ -54,10 +66,16 @@ const DivisionLevel = ({
   lang: Language
   onSelect: (code: string, name: string, hasChildren: boolean) => void
 }) => {
-  const { data, isFetching } = useDivisions(locked ? undefined : country, parentCode)
+  const { data, isFetching } = useDivisions(
+    locked ? undefined : country,
+    parentCode
+  )
   const options = [
     { value: '', label: '—' },
-    ...(data?.items ?? []).map((item) => ({ value: item.code, label: item.name })),
+    ...(data?.items ?? []).map((item) => ({
+      value: item.code,
+      label: item.name,
+    })),
   ]
 
   return (
@@ -143,7 +161,9 @@ export const LocationSelect = ({
             parentCode={i === 0 ? undefined : path[i - 1]?.code}
             label={label}
             selectedCode={path[i]?.code}
-            locked={!!disabled || !isDivisionsCountry || (i > 0 && !path[i - 1])}
+            locked={
+              !!disabled || !isDivisionsCountry || (i > 0 && !path[i - 1])
+            }
             lang={lang}
             onSelect={(c, n, h) => handleLevelSelect(i, c, n, h)}
           />

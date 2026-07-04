@@ -7,8 +7,9 @@ import {
   Switch,
   Wizard,
   LocationSelect,
+  FormGrid,
+  PanelLayout,
 } from '@/shared/ui'
-import { PanelLayout } from './PanelLayout'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'
 
@@ -98,7 +99,7 @@ export const EditUserForm = (
               hidden={activeTab !== 'personal'}
               className="animate-tab-fade flex flex-col gap-y-6"
             >
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -111,7 +112,7 @@ export const EditUserForm = (
                   errorMessage={errors.lastName?.message}
                   {...register('lastName')}
                 />
-              </div>
+              </FormGrid>
               {/* Email is immutable on edit (read-only). */}
               <InputField
                 label={t.form.email}
@@ -119,7 +120,7 @@ export const EditUserForm = (
                 disabled
                 defaultValue={props.defaultValues.email ?? ''}
               />
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -146,7 +147,7 @@ export const EditUserForm = (
                   errorMessage={errors.phone?.message}
                   {...register('phone')}
                 />
-              </div>
+              </FormGrid>
 
               <p className="text-sm font-medium text-secondary">
                 {t.form.addressSection}
@@ -165,7 +166,7 @@ export const EditUserForm = (
                 cityLabel={t.form.addressProvince}
                 lang={language}
               />
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.address}
                   variant={errors.address?.address ? 'error' : undefined}
@@ -184,7 +185,7 @@ export const EditUserForm = (
                   errorMessage={errors.address?.addressInterior?.message}
                   {...register('address.addressInterior')}
                 />
-              </div>
+              </FormGrid>
             </div>
 
             {/* ── Account & access ─────────────────────────────────────────── */}
@@ -195,7 +196,7 @@ export const EditUserForm = (
               <p className="text-sm font-medium text-secondary">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.newPassword}
                   type="password"
@@ -211,7 +212,7 @@ export const EditUserForm = (
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}
                 />
-              </div>
+              </FormGrid>
               {!props.isProfile && (
                 <Select
                   label={t.form.groupId}

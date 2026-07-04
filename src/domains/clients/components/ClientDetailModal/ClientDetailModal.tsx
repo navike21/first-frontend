@@ -1,5 +1,4 @@
-import type { ReactNode } from 'react'
-import { Modal, Avatar, Chip, CountryLabel } from '@/shared/ui'
+import { Modal, Avatar, Chip, CountryLabel, DetailField, SectionLabel } from '@/shared/ui'
 import { useConfigData, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
@@ -7,18 +6,6 @@ import type { Client } from '../../model/client.types'
 interface ClientDetailModalProps {
   client: Client | null
   onClose: () => void
-}
-
-const Field = ({ label, value }: { label: string; value?: ReactNode }) => {
-  if (value === undefined || value === null || value === '') return null
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-xs font-medium tracking-wide text-muted uppercase">
-        {label}
-      </span>
-      <span className="text-sm text-foreground">{value}</span>
-    </div>
-  )
 }
 
 export const ClientDetailModal = ({
@@ -66,32 +53,32 @@ export const ClientDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field
+            <DetailField
               label={t.form.documentType}
               value={labelFor(config?.documentTypes, client.documentType)}
             />
-            <Field
+            <DetailField
               label={t.form.documentNumber}
               value={client.documentNumber}
             />
-            <Field
+            <DetailField
               label={t.form.country}
               value={<CountryLabel code={client.country} />}
             />
-            <Field label={t.form.region} value={client.region} />
-            <Field label={t.form.province} value={client.province} />
-            <Field label={t.form.district} value={client.district} />
-            <Field label={t.form.address} value={client.address} />
-            <Field label={t.form.addressNumber} value={client.addressNumber} />
-            <Field
+            <DetailField label={t.form.region} value={client.region} />
+            <DetailField label={t.form.province} value={client.province} />
+            <DetailField label={t.form.district} value={client.district} />
+            <DetailField label={t.form.address} value={client.address} />
+            <DetailField label={t.form.addressNumber} value={client.addressNumber} />
+            <DetailField
               label={t.form.addressInterior}
               value={client.addressInterior}
             />
-            <Field
+            <DetailField
               label={t.form.industry}
               value={labelFor(config?.industries, client.industry)}
             />
-            <Field
+            <DetailField
               label={t.form.website}
               value={
                 client.website ? (
@@ -106,13 +93,13 @@ export const ClientDetailModal = ({
                 ) : undefined
               }
             />
-            <Field label={t.form.email} value={client.email} />
-            <Field label={t.form.phone} value={client.phone} />
-            <Field
+            <DetailField label={t.form.email} value={client.email} />
+            <DetailField label={t.form.phone} value={client.phone} />
+            <DetailField
               label={t.form.language}
               value={labelFor(config?.languages, client.language)}
             />
-            <Field
+            <DetailField
               label={t.form.currency}
               value={labelFor(config?.currencies, client.currency)}
             />
@@ -120,27 +107,25 @@ export const ClientDetailModal = ({
 
           {client.primaryContact && (
             <div>
-              <p className="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">
-                {t.form.sectionContact}
-              </p>
+              <SectionLabel className="mb-2">{t.form.sectionContact}</SectionLabel>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field
+                <DetailField
                   label={t.form.contactFirstName}
                   value={client.primaryContact.firstName}
                 />
-                <Field
+                <DetailField
                   label={t.form.contactLastName}
                   value={client.primaryContact.lastName}
                 />
-                <Field
+                <DetailField
                   label={t.form.contactEmail}
                   value={client.primaryContact.email}
                 />
-                <Field
+                <DetailField
                   label={t.form.contactPhone}
                   value={client.primaryContact.phone}
                 />
-                <Field
+                <DetailField
                   label={t.form.contactPosition}
                   value={client.primaryContact.position}
                 />
@@ -149,7 +134,7 @@ export const ClientDetailModal = ({
           )}
 
           {client.notes && (
-            <Field label={t.form.notes} value={client.notes} />
+            <DetailField label={t.form.notes} value={client.notes} />
           )}
         </div>
       )}

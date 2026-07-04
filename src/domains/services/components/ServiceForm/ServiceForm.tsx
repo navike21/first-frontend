@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useForm, type Resolver } from 'react-hook-form'
+import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import {
@@ -11,6 +11,7 @@ import {
   CoverPicker,
   Tabs,
   Wizard,
+  SectionLabel,
   type WizardStep,
   type TabItem,
 } from '@/shared/ui'
@@ -47,10 +48,6 @@ const STEP_FIELDS: Record<StepId, (keyof ServiceFormData)[]> = {
   content: ['description', 'pillars', 'tags'],
   media: ['order', 'isActive'],
 }
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs font-semibold tracking-wide text-muted uppercase">{children}</p>
-)
 
 const LangBadge = ({ lang }: { lang: Language }) => (
   <span className="inline-flex h-5 items-center rounded bg-primary-700/10 px-1.5 text-[10px] font-semibold tracking-widest text-primary-600 uppercase">
@@ -107,7 +104,7 @@ export const ServiceForm = ({
     setValue,
     setError,
     trigger,
-    watch,
+    control,
     formState: { errors },
   } = useForm<ServiceFormData>({
     resolver: zodResolver(schema) as Resolver<ServiceFormData>,
@@ -128,8 +125,8 @@ export const ServiceForm = ({
     if (submitError) applyServerFieldErrors(submitError, setError)
   }, [submitError, setError])
 
-  const pillarsValue = watch('pillars')
-  const isActiveValue = watch('isActive')
+  const pillarsValue = useWatch({ control, name: 'pillars' })
+  const isActiveValue = useWatch({ control, name: 'isActive' })
 
   const pillarOptions = PILLAR_VALUES.map((p) => ({
     value: p,

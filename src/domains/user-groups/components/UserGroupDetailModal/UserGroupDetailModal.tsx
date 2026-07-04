@@ -1,4 +1,5 @@
-import { Modal, Button, Chip, IconComponent } from '@/shared/ui'
+import { Modal, Button, Chip, IconComponent, SectionLabel } from '@/shared/ui'
+import { formatDate } from '@/shared/lib'
 import { useUserGroupsTranslation } from '../../i18n'
 import type { UserGroup } from '../../model/userGroup.types'
 
@@ -21,14 +22,6 @@ function groupPermissions(permissions: string[]): Record<string, string[]> {
     result[resource].push(action)
   }
   return result
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
 }
 
 function capitalize(s: string): string {
@@ -110,9 +103,7 @@ export const UserGroupDetailModal = ({
           {/* Description */}
           {group.description && (
             <div>
-              <p className="mb-1 text-xs font-semibold tracking-wide text-muted uppercase">
-                {t.detail.descriptionLabel}
-              </p>
+              <SectionLabel className="mb-1">{t.detail.descriptionLabel}</SectionLabel>
               <p className="text-sm text-foreground">
                 {group.description}
               </p>
@@ -121,9 +112,7 @@ export const UserGroupDetailModal = ({
 
           {/* Permissions */}
           <div>
-            <p className="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">
-              {t.detail.permissionsLabel}
-            </p>
+            <SectionLabel className="mb-2">{t.detail.permissionsLabel}</SectionLabel>
 
             {superadmin && (
               <div className="flex items-start gap-2 rounded-lg bg-blue-50 px-3 py-2.5 text-sm text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">

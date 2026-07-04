@@ -1,23 +1,10 @@
-import type { ReactNode } from 'react'
-import { Modal, Avatar, Chip } from '@/shared/ui'
+import { Modal, Avatar, Chip, DetailField } from '@/shared/ui'
 import { useServicesTranslation } from '../../i18n'
 import type { Service } from '../../model/service.types'
 
 interface ServiceDetailModalProps {
   service: Service | null
   onClose: () => void
-}
-
-const Field = ({ label, value }: { label: string; value?: ReactNode }) => {
-  if (value === undefined || value === null || value === '') return null
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-xs font-medium tracking-wide text-muted uppercase">
-        {label}
-      </span>
-      <span className="text-sm text-foreground">{value}</span>
-    </div>
-  )
 }
 
 export const ServiceDetailModal = ({
@@ -61,14 +48,14 @@ export const ServiceDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label={t.form.slug} value={service.slug} />
-            <Field label={t.form.order} value={service.order} />
-            <Field label={t.form.icon} value={service.icon} />
-            <Field
+            <DetailField label={t.form.slug} value={service.slug} />
+            <DetailField label={t.form.order} value={service.order} />
+            <DetailField label={t.form.icon} value={service.icon} />
+            <DetailField
               label={t.form.tags}
               value={service.tags.length ? service.tags.join(', ') : undefined}
             />
-            <Field
+            <DetailField
               label={t.form.pillars}
               value={
                 service.pillars.length

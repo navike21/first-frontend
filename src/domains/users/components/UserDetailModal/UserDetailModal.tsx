@@ -1,5 +1,4 @@
-import type { ReactNode } from 'react'
-import { Modal, Button, Avatar, Chip, CountryLabel } from '@/shared/ui'
+import { Modal, Button, Avatar, Chip, CountryLabel, DetailField, SectionLabel } from '@/shared/ui'
 import { formatDate } from '@/shared/lib'
 import { useConfigData, labelFor } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
@@ -14,24 +13,6 @@ interface UserDetailModalProps {
   canRestore?: boolean
   canPurge?: boolean
 }
-
-const Field = ({ label, value }: { label: string; value?: ReactNode }) => {
-  if (value === undefined || value === null || value === '') return null
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-xs font-medium tracking-wide text-muted uppercase">
-        {label}
-      </span>
-      <span className="text-sm text-foreground">{value}</span>
-    </div>
-  )
-}
-
-const SectionTitle = ({ children }: { children: ReactNode }) => (
-  <p className="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">
-    {children}
-  </p>
-)
 
 export const UserDetailModal = ({
   user,
@@ -100,13 +81,13 @@ export const UserDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label={t.form.phone} value={user.phone || dash} />
-            <Field
+            <DetailField label={t.form.phone} value={user.phone || dash} />
+            <DetailField
               label={t.form.dateOfBirth}
               value={formatDate(user.dateOfBirth) || dash}
             />
-            <Field label={t.form.gender} value={labelFor(config?.genders, user.gender) || dash} />
-            <Field
+            <DetailField label={t.form.gender} value={labelFor(config?.genders, user.gender) || dash} />
+            <DetailField
               label={t.detail.emailVerified}
               value={
                 user.isEmailVerified
@@ -114,12 +95,12 @@ export const UserDetailModal = ({
                   : t.detail.emailVerifiedNo
               }
             />
-            <Field
+            <DetailField
               label={t.detail.lastSeen}
               value={formatDate(user.lastSeenAt) || dash}
             />
             {user.deletedAt && (
-              <Field
+              <DetailField
                 label={t.table.deletedAt}
                 value={formatDate(user.deletedAt)}
               />
@@ -128,25 +109,25 @@ export const UserDetailModal = ({
 
           {user.address && Object.values(user.address).some(Boolean) && (
             <div>
-              <SectionTitle>{t.form.addressSection}</SectionTitle>
+              <SectionLabel className="mb-2">{t.form.addressSection}</SectionLabel>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {user.address.country && (
-                  <Field
+                  <DetailField
                     label={t.form.addressCountry}
                     value={<CountryLabel code={user.address.country} />}
                   />
                 )}
-                <Field label={t.form.addressRegion} value={user.address.region} />
-                <Field
+                <DetailField label={t.form.addressRegion} value={user.address.region} />
+                <DetailField
                   label={t.form.addressProvince}
                   value={user.address.province}
                 />
-                <Field label={t.form.address} value={user.address.address} />
-                <Field
+                <DetailField label={t.form.address} value={user.address.address} />
+                <DetailField
                   label={t.form.addressNumber}
                   value={user.address.addressNumber}
                 />
-                <Field
+                <DetailField
                   label={t.form.addressInterior}
                   value={user.address.addressInterior}
                 />
@@ -155,7 +136,7 @@ export const UserDetailModal = ({
           )}
 
           {user.groupIds && user.groupIds.length > 0 && (
-            <Field
+            <DetailField
               label={t.detail.groups}
               value={
                 <div className="flex flex-wrap gap-1">

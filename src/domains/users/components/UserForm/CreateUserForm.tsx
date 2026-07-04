@@ -6,8 +6,9 @@ import {
   PhotoPicker,
   Wizard,
   LocationSelect,
+  FormGrid,
+  PanelLayout,
 } from '@/shared/ui'
-import { PanelLayout } from './PanelLayout'
 import { useCreateUserForm } from './CreateUserForm.hooks'
 import type { UseCreateUserFormProps } from './CreateUserForm.hooks'
 
@@ -76,7 +77,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               hidden={activeTab !== 'personal'}
               className="animate-tab-fade flex flex-col gap-y-6"
             >
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.firstName}
                   variant={errors.firstName ? 'error' : undefined}
@@ -89,7 +90,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   errorMessage={errors.lastName?.message}
                   {...register('lastName')}
                 />
-              </div>
+              </FormGrid>
               <InputField
                 label={t.form.email}
                 type="email"
@@ -97,7 +98,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 errorMessage={errors.email?.message}
                 {...register('email')}
               />
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <Select
                   label={t.form.gender}
                   options={genderOptions}
@@ -121,7 +122,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   errorMessage={errors.phone?.message}
                   {...register('phone')}
                 />
-              </div>
+              </FormGrid>
 
               <p className="text-sm font-medium text-secondary">
                 {t.form.addressSection}
@@ -140,7 +141,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 cityLabel={t.form.addressProvince}
                 lang={language}
               />
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.address}
                   variant={errors.address?.address ? 'error' : undefined}
@@ -159,7 +160,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   errorMessage={errors.address?.addressInterior?.message}
                   {...register('address.addressInterior')}
                 />
-              </div>
+              </FormGrid>
             </div>
 
             {/* ── Account & access ─────────────────────────────────────────── */}
@@ -170,7 +171,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <p className="text-sm font-medium text-secondary">
                 {t.form.authSection}
               </p>
-              <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
+              <FormGrid>
                 <InputField
                   label={t.form.password}
                   type="password"
@@ -185,7 +186,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}
                 />
-              </div>
+              </FormGrid>
               <Select
                 label={t.form.groupId}
                 options={groupOptions}
