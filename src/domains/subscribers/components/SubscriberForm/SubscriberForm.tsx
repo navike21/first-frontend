@@ -7,10 +7,8 @@ import {
   Select,
   TextArea,
   PhotoPicker,
-  Wizard,
+  Button,
   FormGrid,
-  PanelLayout,
-  type WizardStep,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -48,7 +46,6 @@ export const SubscriberForm = ({
     handleSubmit,
     setValue,
     setError,
-    trigger,
     control,
     formState: { errors },
   } = useForm<SubscriberFormData>({
@@ -82,19 +79,6 @@ export const SubscriberForm = ({
     { value: 'prefer_not_to_say', label: t.genders.prefer_not_to_say },
   ]
 
-  const steps: WizardStep[] = [
-    {
-      id: 'data',
-      label: mode === 'create' ? t.form.create : t.form.save,
-    },
-  ]
-
-  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
-
-  const handleNext = async () => {
-    await trigger()
-  }
-
   const currentDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
 
   const handlePhotoChange = (file: File | null) => {
@@ -107,10 +91,14 @@ export const SubscriberForm = ({
     setRemovePhoto(true)
   }
 
+  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <PanelLayout
-        left={
+      <div className="rounded-xl border border-border bg-surface p-6 flex flex-col gap-6">
+
+        {/* Photo picker — top, centered */}
+        <div className="flex justify-center">
           <PhotoPicker
             currentUrl={currentDisplayUrl}
             uploadLabel={t.form.uploadPhoto}
@@ -120,84 +108,87 @@ export const SubscriberForm = ({
             removeLabel={t.form.removePhoto}
             disabled={isSubmitting}
           />
-        }
-        right={
-          <Wizard
-            steps={steps}
-            current="data"
-            reachedIndex={0}
-            onStepChange={() => {}}
-            onNext={handleNext}
-            onBack={() => {}}
-            onSubmit={submit}
-            onCancel={onCancel}
-            isSubmitting={isSubmitting}
-            backLabel={t.form.back}
-            nextLabel={t.form.next}
-            submitLabel={mode === 'create' ? t.form.create : t.form.save}
-            cancelLabel={t.form.cancel}
-            optionalLabel={t.form.optional}
+        </div>
+
+        {/* All fields */}
+        <FormGrid>
+          <InputField
+            label={requiredLabel(t.form.firstName)}
+            variant={errors.firstName ? 'error' : undefined}
+            errorMessage={errors.firstName?.message}
+            {...register('firstName')}
+          />
+          <InputField
+            label={requiredLabel(t.form.lastName)}
+            variant={errors.lastName ? 'error' : undefined}
+            errorMessage={errors.lastName?.message}
+            {...register('lastName')}
+          />
+          <Select
+            label={requiredLabel(t.form.gender)}
+            options={genderOptions}
+            value={genderValue}
+            lang={language}
+            onChange={(e) =>
+              setValue(
+                'personalInformation.gender',
+                e.target.value as SubscriberFormData['personalInformation']['gender']
+              )
+            }
+          />
+          <InputDate
+            label={t.form.dateOfBirth}
+            mode="date"
+            lang={language}
+            value={dateOfBirthValue ?? ''}
+            variant={errors.personalInformation?.dateOfBirth ? 'error' : 'default'}
+            errorMessage={errors.personalInformation?.dateOfBirth?.message}
+            {...register('personalInformation.dateOfBirth')}
+          />
+          <InputField
+            label={requiredLabel(t.form.email)}
+            type="email"
+            variant={errors.contactInformation?.email ? 'error' : undefined}
+            errorMessage={errors.contactInformation?.email?.message}
+            {...register('contactInformation.email')}
+          />
+          <InputField
+            label={t.form.phoneNumber}
+            variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
+            errorMessage={errors.contactInformation?.phoneNumber?.message}
+            {...register('contactInformation.phoneNumber')}
+          />
+          <div className="xl:col-span-2">
+            <TextArea
+              label={t.form.address}
+              rows={3}
+              variant={errors.contactInformation?.address ? 'error' : 'default'}
+              errorMessage={errors.contactInformation?.address?.message}
+              {...register('contactInformation.address')}
+            />
+          </div>
+        </FormGrid>
+
+        {/* Footer buttons */}
+        <div className="flex justify-end gap-3 border-t border-border pt-4">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onCancel}
+            disabled={isSubmitting}
           >
-            <FormGrid>
-              <InputField
-                label={requiredLabel(t.form.firstName)}
-                variant={errors.firstName ? 'error' : undefined}
-                errorMessage={errors.firstName?.message}
-                {...register('firstName')}
-              />
-              <InputField
-                label={requiredLabel(t.form.lastName)}
-                variant={errors.lastName ? 'error' : undefined}
-                errorMessage={errors.lastName?.message}
-                {...register('lastName')}
-              />
-              <Select
-                label={requiredLabel(t.form.gender)}
-                options={genderOptions}
-                value={genderValue}
-                lang={language}
-                onChange={(e) =>
-                  setValue(
-                    'personalInformation.gender',
-                    e.target.value as SubscriberFormData['personalInformation']['gender']
-                  )
-                }
-              />
-              <InputDate
-                label={t.form.dateOfBirth}
-                mode="date"
-                lang={language}
-                value={dateOfBirthValue ?? ''}
-                variant={errors.personalInformation?.dateOfBirth ? 'error' : 'default'}
-                errorMessage={errors.personalInformation?.dateOfBirth?.message}
-                {...register('personalInformation.dateOfBirth')}
-              />
-              <InputField
-                label={requiredLabel(t.form.email)}
-                type="email"
-                variant={errors.contactInformation?.email ? 'error' : undefined}
-                errorMessage={errors.contactInformation?.email?.message}
-                {...register('contactInformation.email')}
-              />
-              <InputField
-                label={t.form.phoneNumber}
-                variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
-                errorMessage={errors.contactInformation?.phoneNumber?.message}
-                {...register('contactInformation.phoneNumber')}
-              />
-              <div className="xl:col-span-2">
-                <TextArea
-                  label={t.form.address}
-                  rows={3}
-                  variant={errors.contactInformation?.address ? 'error' : 'default'}
-                  errorMessage={errors.contactInformation?.address?.message}
-                  {...register('contactInformation.address')}
-                />
-              </div>
-            </FormGrid>
-          </Wizard>
-        }
-      />
+            {t.form.cancel}
+          </Button>
+          <Button
+            type="button"
+            variant="primary"
+            loading={isSubmitting}
+            onClick={() => { void submit() }}
+          >
+            {mode === 'create' ? t.form.create : t.form.save}
+          </Button>
+        </div>
+      </div>
     </form>
   )
 }
