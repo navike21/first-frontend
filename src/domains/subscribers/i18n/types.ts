@@ -81,7 +81,9 @@ export interface SubscribersTranslations {
     phoneNumber: string
     address: string
     dateOfBirth: string
-    profilePictureUrl: string
+    uploadPhoto: string
+    uploadFormats: string
+    removePhoto: string
     status: string
     select: string
     save: string

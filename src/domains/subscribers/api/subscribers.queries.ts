@@ -31,7 +31,8 @@ export const useSubscriber = (id: string) =>
 export const useRegisterSubscriber = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: CreateSubscriberPayload) => subscribersApi.register(data),
+    mutationFn: ({ data, photo }: { data: CreateSubscriberPayload; photo?: File | null }) =>
+      subscribersApi.register(data, photo),
     onSuccess: () => qc.invalidateQueries({ queryKey: subscriberKeys.lists() }),
   })
 }
@@ -39,8 +40,8 @@ export const useRegisterSubscriber = () => {
 export const useUpdateSubscriber = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: Partial<CreateSubscriberPayload>) =>
-      subscribersApi.update(id, data),
+    mutationFn: ({ data, photo }: { data: Partial<CreateSubscriberPayload>; photo?: File | null }) =>
+      subscribersApi.update(id, data, photo),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: subscriberKeys.lists() })
       qc.invalidateQueries({ queryKey: subscriberKeys.detail(id) })

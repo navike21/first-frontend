@@ -27,19 +27,41 @@ export const subscribersApi = {
       method: 'GET',
     }),
 
-  register: (body: CreateSubscriberPayload) =>
-    request<ApiResponse<Subscriber>, CreateSubscriberPayload>({
+  register: (body: CreateSubscriberPayload, photo?: File | null) => {
+    if (photo && navigator.onLine) {
+      const fd = new FormData()
+      fd.append('data', JSON.stringify(body))
+      fd.append('photo', photo)
+      return request<ApiResponse<Subscriber>, FormData>({
+        api: `${BASE}/register`,
+        method: 'POST',
+        body: fd,
+      })
+    }
+    return request<ApiResponse<Subscriber>, CreateSubscriberPayload>({
       api: `${BASE}/register`,
       method: 'POST',
       body,
-    }),
+    })
+  },
 
-  update: (id: string, body: Partial<CreateSubscriberPayload>) =>
-    request<ApiResponse<Subscriber>, Partial<CreateSubscriberPayload>>({
+  update: (id: string, body: Partial<CreateSubscriberPayload>, photo?: File | null) => {
+    if (photo && navigator.onLine) {
+      const fd = new FormData()
+      fd.append('data', JSON.stringify(body))
+      fd.append('photo', photo)
+      return request<ApiResponse<Subscriber>, FormData>({
+        api: `${BASE}/update/${id}`,
+        method: 'PATCH',
+        body: fd,
+      })
+    }
+    return request<ApiResponse<Subscriber>, Partial<CreateSubscriberPayload>>({
       api: `${BASE}/update/${id}`,
       method: 'PATCH',
       body,
-    }),
+    })
+  },
 
   softDelete: (id: string) =>
     request<ApiResponse<Subscriber>>({

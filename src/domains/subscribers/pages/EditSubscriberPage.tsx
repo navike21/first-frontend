@@ -26,7 +26,7 @@ function toFormValues(sub: Subscriber): Partial<SubscriberFormData> {
       dateOfBirth: sub.personalInformation.dateOfBirth
         ? sub.personalInformation.dateOfBirth.slice(0, 10)
         : '',
-      profilePictureUrl: sub.personalInformation.profilePictureUrl ?? '',
+      profilePictureUrl: '',
     },
     status: sub.status,
   }
@@ -39,16 +39,33 @@ export const EditSubscriberPage = () => {
   const { data: subscriber, isLoading } = useSubscriber(subscriberId)
   const updateSubscriber = useUpdateSubscriber(subscriberId)
 
-  const handleUpdate = (data: SubscriberFormData) => {
-    updateSubscriber.mutate(toSubscriberPayload(data), {
-      onSuccess: () => {
-        notify.success(t.toasts.updated)
-        navigate({ to: navPaths.subscribers(language) as never })
-      },
-      onError: onQueuedOr(() =>
-        navigate({ to: navPaths.subscribers(language) as never })
-      ),
-    })
+  const handleUpdate = (
+    data: SubscriberFormData,
+    photo?: File | null,
+    removePhoto?: boolean
+  ) => {
+    const payload = removePhoto
+      ? {
+          ...toSubscriberPayload(data),
+          personalInformation: {
+            ...toSubscriberPayload(data).personalInformation,
+            profilePictureUrl: '',
+          },
+        }
+      : toSubscriberPayload(data)
+
+    updateSubscriber.mutate(
+      { data: payload, photo },
+      {
+        onSuccess: () => {
+          notify.success(t.toasts.updated)
+          navigate({ to: navPaths.subscribers(language) as never })
+        },
+        onError: onQueuedOr(() =>
+          navigate({ to: navPaths.subscribers(language) as never })
+        ),
+      }
+    )
   }
 
   if (isLoading || !subscriber) {
@@ -69,6 +86,7 @@ export const EditSubscriberPage = () => {
       <SubscriberForm
         mode="edit"
         initialValues={toFormValues(subscriber)}
+        currentPhotoUrl={subscriber.personalInformation.profilePictureUrl}
         isSubmitting={updateSubscriber.isPending}
         submitError={updateSubscriber.error}
         onCancel={() => navigate({ to: navPaths.subscribers(language) as never })}

@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   InputField,
+  InputDate,
   Select,
   TextArea,
+  PhotoPicker,
   Wizard,
   FormGrid,
+  PanelLayout,
   type WizardStep,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
@@ -18,23 +21,17 @@ import type { SubscriberFormData } from '../../model/subscriber.schema'
 export interface SubscriberFormProps {
   mode: 'create' | 'edit'
   initialValues?: Partial<SubscriberFormData>
+  currentPhotoUrl?: string
   isSubmitting: boolean
   submitError?: unknown
   onCancel: () => void
-  onSubmit: (data: SubscriberFormData) => void
-}
-
-type SubscriberFormTab = 'personal' | 'contact' | 'optional'
-
-const TAB_FIELDS: Record<SubscriberFormTab, string[]> = {
-  personal: ['firstName', 'lastName', 'personalInformation'],
-  contact: ['contactInformation'],
-  optional: ['status'],
+  onSubmit: (data: SubscriberFormData, photo?: File | null, removePhoto?: boolean) => void
 }
 
 export const SubscriberForm = ({
   mode,
   initialValues,
+  currentPhotoUrl,
   isSubmitting,
   submitError,
   onCancel,
@@ -43,8 +40,8 @@ export const SubscriberForm = ({
   const { t, language } = useSubscribersTranslation()
   const schema = useMemo(() => createSubscriberSchema(t.validation), [t.validation])
 
-  const [activeTab, setActiveTab] = useState<SubscriberFormTab>('personal')
-  const [maxStep, setMaxStep] = useState(0)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [removePhoto, setRemovePhoto] = useState(false)
 
   const {
     register,
@@ -76,7 +73,7 @@ export const SubscriberForm = ({
   }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'personalInformation.gender' })
-  const statusValue = useWatch({ control, name: 'status' })
+  const dateOfBirthValue = useWatch({ control, name: 'personalInformation.dateOfBirth' })
 
   const genderOptions = [
     { value: 'male', label: t.genders.male },
@@ -85,168 +82,122 @@ export const SubscriberForm = ({
     { value: 'prefer_not_to_say', label: t.genders.prefer_not_to_say },
   ]
 
-  const statusOptions = [
-    { value: 'active', label: t.status.active },
-    { value: 'inactive', label: t.status.inactive },
-  ]
-
   const steps: WizardStep[] = [
     {
-      id: 'personal',
-      label: t.form.sectionPersonal,
-      error: Object.keys(errors).some((k) =>
-        TAB_FIELDS.personal.some((f) => k === f || k.startsWith(f))
-      ),
-    },
-    {
-      id: 'contact',
-      label: t.form.sectionContact,
-      error: Object.keys(errors).some((k) =>
-        TAB_FIELDS.contact.some((f) => k === f || k.startsWith(f))
-      ),
-    },
-    {
-      id: 'optional',
-      label: t.form.sectionOptional,
-      optional: true,
+      id: 'data',
+      label: mode === 'create' ? t.form.create : t.form.save,
     },
   ]
 
-  const reachedIndex = mode === 'edit' ? steps.length - 1 : maxStep
+  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
 
   const handleNext = async () => {
-    const fields = TAB_FIELDS[activeTab] as (keyof SubscriberFormData)[]
-    const ok = await trigger(fields)
-    if (!ok) return
-    const i = steps.findIndex((s) => s.id === activeTab)
-    if (i < steps.length - 1) {
-      const nextIndex = i + 1
-      setActiveTab(steps[nextIndex].id as SubscriberFormTab)
-      setMaxStep((m) => Math.max(m, nextIndex))
-    }
+    await trigger()
   }
 
-  const handleBack = () => {
-    const i = steps.findIndex((s) => s.id === activeTab)
-    if (i > 0) setActiveTab(steps[i - 1].id as SubscriberFormTab)
+  const currentDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
+
+  const handlePhotoChange = (file: File | null) => {
+    setPendingFile(file)
+    setRemovePhoto(false)
   }
 
-  const submit = handleSubmit(
-    (data) => onSubmit(data),
-    (formErrors) => {
-      const keys = Object.keys(formErrors)
-      const tabs: SubscriberFormTab[] = ['personal', 'contact', 'optional']
-      for (const tab of tabs) {
-        if (TAB_FIELDS[tab].some((f) => keys.some((k) => k === f || k.startsWith(f)))) {
-          setActiveTab(tab)
-          break
-        }
-      }
-    }
-  )
+  const handleRemovePhoto = () => {
+    setPendingFile(null)
+    setRemovePhoto(true)
+  }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="rounded-xl border border-border bg-surface p-6">
-        <Wizard
-          steps={steps}
-          current={activeTab}
-          reachedIndex={reachedIndex}
-          onStepChange={(id) => setActiveTab(id as SubscriberFormTab)}
-          onNext={handleNext}
-          onBack={handleBack}
-          onSubmit={submit}
-          onCancel={onCancel}
-          isSubmitting={isSubmitting}
-          backLabel={t.form.back}
-          nextLabel={t.form.next}
-          submitLabel={mode === 'create' ? t.form.create : t.form.save}
-          cancelLabel={t.form.cancel}
-          optionalLabel={t.form.optional}
-        >
-          {/* Step 1 — Personal */}
-          <FormGrid hidden={activeTab !== 'personal'} className="animate-tab-fade">
-            <InputField
-              label={requiredLabel(t.form.firstName)}
-              variant={errors.firstName ? 'error' : undefined}
-              errorMessage={errors.firstName?.message}
-              {...register('firstName')}
-            />
-            <InputField
-              label={requiredLabel(t.form.lastName)}
-              variant={errors.lastName ? 'error' : undefined}
-              errorMessage={errors.lastName?.message}
-              {...register('lastName')}
-            />
-            <Select
-              label={requiredLabel(t.form.gender)}
-              options={genderOptions}
-              value={genderValue}
-              lang={language}
-              onChange={(e) =>
-                setValue(
-                  'personalInformation.gender',
-                  e.target.value as SubscriberFormData['personalInformation']['gender']
-                )
-              }
-            />
-          </FormGrid>
-
-          {/* Step 2 — Contact */}
-          <FormGrid hidden={activeTab !== 'contact'} className="animate-tab-fade">
-            <InputField
-              label={requiredLabel(t.form.email)}
-              type="email"
-              variant={errors.contactInformation?.email ? 'error' : undefined}
-              errorMessage={errors.contactInformation?.email?.message}
-              {...register('contactInformation.email')}
-            />
-            <InputField
-              label={t.form.phoneNumber}
-              variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
-              errorMessage={errors.contactInformation?.phoneNumber?.message}
-              {...register('contactInformation.phoneNumber')}
-            />
-            <div className="xl:col-span-2">
-              <TextArea
-                label={t.form.address}
-                rows={3}
-                variant={
-                  errors.contactInformation?.address ? 'error' : 'default'
-                }
-                errorMessage={errors.contactInformation?.address?.message}
-                {...register('contactInformation.address')}
+      <PanelLayout
+        left={
+          <PhotoPicker
+            currentUrl={currentDisplayUrl}
+            uploadLabel={t.form.uploadPhoto}
+            formatsHint={t.form.uploadFormats}
+            onChange={handlePhotoChange}
+            onRemove={currentPhotoUrl || pendingFile ? handleRemovePhoto : undefined}
+            removeLabel={t.form.removePhoto}
+            disabled={isSubmitting}
+          />
+        }
+        right={
+          <Wizard
+            steps={steps}
+            current="data"
+            reachedIndex={0}
+            onStepChange={() => {}}
+            onNext={handleNext}
+            onBack={() => {}}
+            onSubmit={submit}
+            onCancel={onCancel}
+            isSubmitting={isSubmitting}
+            backLabel={t.form.back}
+            nextLabel={t.form.next}
+            submitLabel={mode === 'create' ? t.form.create : t.form.save}
+            cancelLabel={t.form.cancel}
+            optionalLabel={t.form.optional}
+          >
+            <FormGrid>
+              <InputField
+                label={requiredLabel(t.form.firstName)}
+                variant={errors.firstName ? 'error' : undefined}
+                errorMessage={errors.firstName?.message}
+                {...register('firstName')}
               />
-            </div>
-          </FormGrid>
-
-          {/* Step 3 — Optional */}
-          <FormGrid hidden={activeTab !== 'optional'} className="animate-tab-fade">
-            <InputField
-              label={t.form.dateOfBirth}
-              type="date"
-              {...register('personalInformation.dateOfBirth')}
-            />
-            <InputField
-              label={t.form.profilePictureUrl}
-              variant={
-                errors.personalInformation?.profilePictureUrl ? 'error' : undefined
-              }
-              errorMessage={errors.personalInformation?.profilePictureUrl?.message}
-              {...register('personalInformation.profilePictureUrl')}
-            />
-            <Select
-              label={t.form.status}
-              options={statusOptions}
-              value={statusValue}
-              lang={language}
-              onChange={(e) =>
-                setValue('status', e.target.value as 'active' | 'inactive')
-              }
-            />
-          </FormGrid>
-        </Wizard>
-      </div>
+              <InputField
+                label={requiredLabel(t.form.lastName)}
+                variant={errors.lastName ? 'error' : undefined}
+                errorMessage={errors.lastName?.message}
+                {...register('lastName')}
+              />
+              <Select
+                label={requiredLabel(t.form.gender)}
+                options={genderOptions}
+                value={genderValue}
+                lang={language}
+                onChange={(e) =>
+                  setValue(
+                    'personalInformation.gender',
+                    e.target.value as SubscriberFormData['personalInformation']['gender']
+                  )
+                }
+              />
+              <InputDate
+                label={t.form.dateOfBirth}
+                mode="date"
+                lang={language}
+                value={dateOfBirthValue ?? ''}
+                variant={errors.personalInformation?.dateOfBirth ? 'error' : 'default'}
+                errorMessage={errors.personalInformation?.dateOfBirth?.message}
+                {...register('personalInformation.dateOfBirth')}
+              />
+              <InputField
+                label={requiredLabel(t.form.email)}
+                type="email"
+                variant={errors.contactInformation?.email ? 'error' : undefined}
+                errorMessage={errors.contactInformation?.email?.message}
+                {...register('contactInformation.email')}
+              />
+              <InputField
+                label={t.form.phoneNumber}
+                variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
+                errorMessage={errors.contactInformation?.phoneNumber?.message}
+                {...register('contactInformation.phoneNumber')}
+              />
+              <div className="xl:col-span-2">
+                <TextArea
+                  label={t.form.address}
+                  rows={3}
+                  variant={errors.contactInformation?.address ? 'error' : 'default'}
+                  errorMessage={errors.contactInformation?.address?.message}
+                  {...register('contactInformation.address')}
+                />
+              </div>
+            </FormGrid>
+          </Wizard>
+        }
+      />
     </form>
   )
 }
