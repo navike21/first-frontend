@@ -89,9 +89,9 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.services[l_]}/${ROUTE_SLUGS.serviceCreate[l_]}`
   },
-  serviceEdit: (serviceSlug: string, l?: Language) => {
+  serviceEdit: (serviceId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.services[l_]}/${serviceSlug}/${ROUTE_SLUGS.serviceEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.services[l_]}/${ROUTE_SLUGS.serviceEdit[l_]}/${serviceId}`
   },
   serviceTrash: (l?: Language) => {
     const l_ = lang(l)

@@ -28,6 +28,14 @@ export const useService = (slug: string) =>
     enabled: !!slug,
   })
 
+export const useServiceById = (id: string) =>
+  useQuery({
+    queryKey: [...serviceKeys.details(), 'id', id] as const,
+    queryFn: () => servicesApi.getById(id),
+    select: (res) => res.data,
+    enabled: !!id,
+  })
+
 export interface CreateServiceVars {
   data: CreateServicePayload
   cover?: File | null

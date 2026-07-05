@@ -24,6 +24,9 @@ export const servicesApi = {
   getBySlug: (slug: string) =>
     request<ApiResponse<Service>>({ api: `${BASE}/${slug}`, method: 'GET' }),
 
+  getById: (id: string) =>
+    request<ApiResponse<Service>>({ api: `${BASE}/id/${id}`, method: 'GET' }),
+
   create: (body: CreateServicePayload, cover?: File | null, iconFile?: File | null) => {
     if ((cover || iconFile) && navigator.onLine) {
       const fd = new FormData()

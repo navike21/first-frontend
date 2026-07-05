@@ -35,7 +35,7 @@ export function useServicesPage() {
 
   const handleView = (service: Service) => setViewingService(service)
   const handleEdit = (service: Service) =>
-    navigate({ to: navPaths.serviceEdit(service.slug, language) as never })
+    navigate({ to: navPaths.serviceEdit(service.id, language) as never })
   const handleDelete = (service: Service) => setDeletingService(service)
 
   const handleConfirmDelete = () => {

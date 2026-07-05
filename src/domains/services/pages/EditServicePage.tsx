@@ -4,7 +4,7 @@ import { onQueuedOr } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { ServiceForm } from '../components/ServiceForm/ServiceForm'
-import { useService, useUpdateService } from '../api/services.queries'
+import { useServiceById, useUpdateService } from '../api/services.queries'
 import { useServicesTranslation } from '../i18n'
 import { toServicePayload } from '../model/service.schema'
 import type { ServiceFormData } from '../model/service.schema'
@@ -26,8 +26,8 @@ function toFormValues(svc: Service): Partial<ServiceFormData> {
 export const EditServicePage = () => {
   const navigate = useNavigate()
   const { t, language } = useServicesTranslation()
-  const { serviceSlug } = useParams({ strict: false }) as { serviceSlug: string }
-  const { data: service, isLoading } = useService(serviceSlug)
+  const { serviceId } = useParams({ strict: false }) as { serviceId: string }
+  const { data: service, isLoading } = useServiceById(serviceId)
   const updateService = useUpdateService(service?.id ?? '')
 
   const handleUpdate = (
