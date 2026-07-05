@@ -1,4 +1,8 @@
-import { Modal, Avatar, Chip, DetailField } from '@/shared/ui'
+import { useState } from 'react'
+import clsx from 'clsx'
+import { Modal, Chip, DetailField } from '@/shared/ui'
+import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
+import type { Language } from '@/shared/i18n'
 import { useServicesTranslation } from '../../i18n'
 import type { Service } from '../../model/service.types'
 
@@ -7,96 +11,140 @@ interface ServiceDetailModalProps {
   onClose: () => void
 }
 
-const IconPreview = ({ src, alt }: { src: string; alt: string }) => {
-  if (src.startsWith('http')) {
-    return (
-      <img
-        src={src}
-        alt={alt}
-        className="h-10 w-10 rounded-md border border-border bg-surface-subtle object-contain p-1"
-      />
-    )
-  }
-  return <span className="text-sm text-foreground">{src}</span>
+const langDotClass = (filled: boolean, active: boolean): string => {
+  if (active) return 'bg-primary-600'
+  if (filled) return 'bg-emerald-500'
+  return 'bg-border'
 }
+
+const CoverPlaceholder = () => (
+  <div className="h-full w-full bg-gradient-to-br from-primary-700/20 via-primary-600/10 to-surface-subtle" />
+)
 
 export const ServiceDetailModal = ({
   service,
   onClose,
 }: ServiceDetailModalProps) => {
   const { t, language } = useServicesTranslation()
+  const [viewLang, setViewLang] = useState<Language>(language)
+
+  if (!service) return null
+
+  const name = service.name[viewLang] || service.name.en
+  const shortDesc = service.shortDescription[viewLang] || service.shortDescription.en
+  const desc = service.description[viewLang] || service.description.en
+
+  const hasContent = (lang: Language) =>
+    !!(service.name[lang]?.trim() || service.shortDescription[lang]?.trim())
 
   return (
     <Modal
       isOpen={!!service}
       onClose={onClose}
-      size="lg"
+      size="xl"
       title={t.table.viewService}
     >
-      {service && (
-        <div className="space-y-5">
-          <div className="flex items-center gap-3">
-            <Avatar
-              alt={service.name[language] || service.name.en}
-              src={service.coverImageUrl}
-              name={service.name[language] || service.name.en}
-              size="md"
-            />
-            <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">
-                {service.name[language] || service.name.en}
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-secondary">
-                  {service.shortDescription[language] || service.shortDescription.en}
-                </span>
-                <Chip
-                  size="x-small"
-                  variant={service.status === 'active' ? 'success' : 'default'}
-                >
-                  {t.status[service.status]}
-                </Chip>
-              </div>
-            </div>
+      {/* ── Cover image — full-width bleed ── */}
+      <div className="-mx-6 -mt-5 mb-5 overflow-hidden">
+        {service.coverImageUrl ? (
+          <img
+            src={service.coverImageUrl}
+            alt={name}
+            className="aspect-[16/7] w-full object-cover"
+          />
+        ) : (
+          <div className="aspect-[16/7] w-full">
+            <CoverPlaceholder />
           </div>
+        )}
+      </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailField label={t.form.slug} value={service.slug} />
-            <DetailField label={t.form.order} value={service.order} />
+      <div className="space-y-5">
+        {/* ── Name + status + icon ── */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-lg font-bold text-foreground">{name}</h3>
+            <p className="mt-0.5 text-sm text-secondary line-clamp-2">{shortDesc}</p>
+          </div>
+          <div className="flex shrink-0 flex-col items-end gap-2">
+            <Chip
+              size="x-small"
+              variant={service.status === 'active' ? 'success' : 'default'}
+            >
+              {t.status[service.status]}
+            </Chip>
             {service.icon && (
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-medium tracking-wide text-muted uppercase">
-                  {t.form.icon}
-                </span>
-                <IconPreview src={service.icon} alt={service.name[language] || service.name.en} />
-              </div>
+              <img
+                src={service.icon}
+                alt={name}
+                className="h-9 w-9 rounded-md border border-border bg-surface-subtle object-contain p-1"
+              />
             )}
-            <DetailField
-              label={t.form.tags}
-              value={service.tags.length ? service.tags.join(', ') : undefined}
-            />
-            <DetailField
-              label={t.form.pillars}
-              value={
-                service.pillars.length
-                  ? service.pillars.map((p) => t.pillars[p]).join(', ')
-                  : undefined
-              }
-            />
           </div>
-
-          {service.description && (
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-medium tracking-wide text-muted uppercase">
-                {t.form.description}
-              </span>
-              <p className="text-sm text-foreground">
-                {service.description[language] || service.description.en}
-              </p>
-            </div>
-          )}
         </div>
-      )}
+
+        {/* ── Language switcher ── */}
+        <div className="flex flex-col gap-2">
+          <span className="text-xs font-medium tracking-wide text-muted uppercase">
+            {t.form.tabTranslations}
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {SUPPORTED_LANGUAGES.map((lang) => {
+              const active = lang === viewLang
+              const filled = hasContent(lang)
+              return (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => setViewLang(lang)}
+                  className={clsx(
+                    'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wider transition-colors',
+                    active
+                      ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
+                      : 'bg-surface-subtle text-muted hover:text-foreground',
+                  )}
+                >
+                  {lang}
+                  <span
+                    className={clsx(
+                      'h-1.5 w-1.5 rounded-full',
+                      langDotClass(filled, active),
+                    )}
+                  />
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* ── Data grid ── */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <DetailField label={t.form.slug} value={service.slug} />
+          <DetailField label={t.form.order} value={service.order} />
+          <DetailField
+            label={t.form.tags}
+            value={service.tags.length ? service.tags.join(', ') : undefined}
+          />
+          <DetailField
+            label={t.form.pillars}
+            value={
+              service.pillars.length
+                ? service.pillars.map((p) => t.pillars[p]).join(', ')
+                : undefined
+            }
+          />
+        </div>
+
+        {/* ── Description ── */}
+        {desc && (
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium tracking-wide text-muted uppercase">
+              {t.form.description}
+            </span>
+            <p className="text-sm leading-relaxed text-foreground">{desc}</p>
+          </div>
+        )}
+      </div>
     </Modal>
   )
 }
