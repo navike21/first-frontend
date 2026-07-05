@@ -90,7 +90,7 @@ export const Wizard = ({
   const activeState = stepStateAt(activeStep, index, index, reachedIndex)
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <ol className="flex items-start">
         {steps.map((step, i) => {
           const state = stepStateAt(step, i, index, reachedIndex)
@@ -174,7 +174,7 @@ export const Wizard = ({
 
       {children}
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+      <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-end">
         {/* Cancel — bottom on mobile, left on desktop */}
         <div className="order-last sm:order-first">
           {onCancel && (

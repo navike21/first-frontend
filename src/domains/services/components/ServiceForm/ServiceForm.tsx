@@ -252,7 +252,7 @@ export const ServiceForm = ({
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
 
         {/* ── Main form (Wizard) ─────────────────────────────────── */}
-        <div className="min-w-0 flex-1 rounded-xl border border-border bg-surface p-6">
+        <div className="min-w-0 flex-1 rounded-xl border border-border bg-surface p-8">
           <Wizard
             steps={steps}
             current={activeStep}
