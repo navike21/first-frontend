@@ -39,7 +39,7 @@ export const EditServicePage = () => {
   ) => {
     updateService.mutate(
       {
-        data: toServicePayload(data, language),
+        data: toServicePayload(data),
         cover,
         iconFile,
         removeCover,

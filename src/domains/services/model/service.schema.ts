@@ -76,22 +76,17 @@ export interface CreateServicePayload {
 
 export function fillLocalized(
   input: Partial<Record<Language, string>>,
-  primaryLang: Language = 'en'
 ): ServiceLocalizedString {
-  const fallback = input[primaryLang] || input.en || input.es || ''
   return Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, input[l] || fallback])
+    SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as ServiceLocalizedString
 }
 
-export function toServicePayload(
-  data: ServiceFormData,
-  primaryLang: Language = 'en'
-): CreateServicePayload {
+export function toServicePayload(data: ServiceFormData): CreateServicePayload {
   return {
-    name: fillLocalized(data.name, primaryLang),
-    shortDescription: fillLocalized(data.shortDescription, primaryLang),
-    description: fillLocalized(data.description, primaryLang),
+    name: fillLocalized(data.name),
+    shortDescription: fillLocalized(data.shortDescription),
+    description: fillLocalized(data.description),
     slug: data.slug || undefined,
     pillars: data.pillars,
     tags: data.tags

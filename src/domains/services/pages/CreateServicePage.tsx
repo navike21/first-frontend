@@ -20,7 +20,7 @@ export const CreateServicePage = () => {
     iconFile?: File | null
   ) => {
     createService.mutate(
-      { data: toServicePayload(data, language), cover, iconFile },
+      { data: toServicePayload(data), cover, iconFile },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)
