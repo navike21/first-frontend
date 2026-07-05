@@ -19,7 +19,16 @@ function toFormValues(sub: Subscriber): Partial<SubscriberFormData> {
       phoneNumber: sub.contactInformation.phoneNumber != null
         ? String(sub.contactInformation.phoneNumber)
         : '',
-      address: sub.contactInformation.address ?? '',
+    },
+    location: {
+      countryCode: sub.location?.countryCode ?? '',
+      ubigeoCode: sub.location?.ubigeoCode ?? '',
+      region: sub.location?.region ?? '',
+      province: sub.location?.province ?? '',
+      district: sub.location?.district ?? '',
+      address: sub.location?.address ?? '',
+      addressNumber: sub.location?.addressNumber ?? '',
+      addressInterior: sub.location?.addressInterior ?? '',
     },
     personalInformation: {
       gender: sub.personalInformation.gender,

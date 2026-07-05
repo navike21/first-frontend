@@ -4,7 +4,17 @@ export type SubscriberGender = 'male' | 'female' | 'other' | 'prefer_not_to_say'
 export interface SubscriberContactInfo {
   email: string
   phoneNumber?: string
+}
+
+export interface SubscriberLocation {
+  countryCode?: string
+  ubigeoCode?: string
+  region?: string
+  province?: string
+  district?: string
   address?: string
+  addressNumber?: string
+  addressInterior?: string
 }
 
 export interface SubscriberPersonalInfo {
@@ -18,6 +28,7 @@ export interface Subscriber {
   firstName: string
   lastName: string
   contactInformation: SubscriberContactInfo
+  location?: SubscriberLocation
   personalInformation: SubscriberPersonalInfo
   status: SubscriberStatus
   createdAt?: string

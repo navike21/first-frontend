@@ -79,7 +79,13 @@ export interface SubscribersTranslations {
     gender: string
     email: string
     phoneNumber: string
-    address: string
+    country: string
+    region: string
+    province: string
+    district: string
+    addressStreet: string
+    addressNumber: string
+    addressInterior: string
     dateOfBirth: string
     uploadPhoto: string
     uploadFormats: string
@@ -110,7 +116,6 @@ export interface SubscribersTranslations {
     emailInvalid: string
     phoneMin: string
     phoneMax: string
-    addressMin: string
     addressMax: string
     urlInvalid: string
   }

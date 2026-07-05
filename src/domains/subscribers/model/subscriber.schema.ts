@@ -3,27 +3,26 @@ import type { SubscribersTranslations } from '../i18n/types'
 
 type V = SubscribersTranslations['validation']
 
+const optional = z.string().trim().optional().or(z.literal(''))
+
 export function createSubscriberSchema(v: V) {
   return z.object({
     firstName: z.string().trim().min(2, v.nameMin).max(50, v.nameMax),
     lastName: z.string().trim().min(2, v.nameMin).max(100, v.nameMax),
     contactInformation: z.object({
       email: z.email(v.emailInvalid),
-      phoneNumber: z
-        .string()
-        .trim()
-        .min(9, v.phoneMin)
-        .max(15, v.phoneMax)
-        .optional()
-        .or(z.literal('')),
-      address: z
-        .string()
-        .trim()
-        .min(10, v.addressMin)
-        .max(300, v.addressMax)
-        .optional()
-        .or(z.literal('')),
+      phoneNumber: optional,
     }),
+    location: z.object({
+      countryCode: z.string().trim().length(2).transform((c) => c.toUpperCase()).optional().or(z.literal('')),
+      ubigeoCode: optional,
+      region: optional,
+      province: optional,
+      district: optional,
+      address: z.string().trim().max(300, v.addressMax).optional().or(z.literal('')),
+      addressNumber: optional,
+      addressInterior: optional,
+    }).optional(),
     personalInformation: z.object({
       gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say'], {
         message: v.required,
@@ -46,7 +45,16 @@ export interface CreateSubscriberPayload {
   contactInformation: {
     email: string
     phoneNumber?: string
+  }
+  location?: {
+    countryCode?: string
+    ubigeoCode?: string
+    region?: string
+    province?: string
+    district?: string
     address?: string
+    addressNumber?: string
+    addressInterior?: string
   }
   personalInformation: {
     gender: string
@@ -56,27 +64,36 @@ export interface CreateSubscriberPayload {
   status?: 'active' | 'inactive'
 }
 
+function buildLocation(
+  loc: SubscriberFormData['location'],
+): CreateSubscriberPayload['location'] | undefined {
+  if (!loc || !Object.values(loc).some(Boolean)) return undefined
+  return {
+    countryCode: loc.countryCode || undefined,
+    ubigeoCode: loc.ubigeoCode || undefined,
+    region: loc.region || undefined,
+    province: loc.province || undefined,
+    district: loc.district || undefined,
+    address: loc.address || undefined,
+    addressNumber: loc.addressNumber || undefined,
+    addressInterior: loc.addressInterior || undefined,
+  }
+}
+
 export function toSubscriberPayload(data: SubscriberFormData): CreateSubscriberPayload {
+  const pi = data.personalInformation
   return {
     firstName: data.firstName,
     lastName: data.lastName,
     contactInformation: {
       email: data.contactInformation.email,
-      ...(data.contactInformation.phoneNumber
-        ? { phoneNumber: data.contactInformation.phoneNumber }
-        : {}),
-      ...(data.contactInformation.address
-        ? { address: data.contactInformation.address }
-        : {}),
+      phoneNumber: data.contactInformation.phoneNumber || undefined,
     },
+    location: buildLocation(data.location),
     personalInformation: {
-      gender: data.personalInformation.gender,
-      ...(data.personalInformation.dateOfBirth
-        ? { dateOfBirth: data.personalInformation.dateOfBirth }
-        : {}),
-      ...(data.personalInformation.profilePictureUrl
-        ? { profilePictureUrl: data.personalInformation.profilePictureUrl }
-        : {}),
+      gender: pi.gender,
+      dateOfBirth: pi.dateOfBirth || undefined,
+      profilePictureUrl: pi.profilePictureUrl || undefined,
     },
     status: data.status,
   }

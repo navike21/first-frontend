@@ -65,10 +65,21 @@ export const SubscriberDetailModal = ({
               label={t.form.phoneNumber}
               value={subscriber.contactInformation.phoneNumber}
             />
-            <DetailField
-              label={t.form.address}
-              value={subscriber.contactInformation.address}
-            />
+            {subscriber.location?.countryCode && (
+              <DetailField label={t.form.country} value={subscriber.location.countryCode} />
+            )}
+            {(subscriber.location?.region || subscriber.location?.province) && (
+              <DetailField
+                label={t.form.region}
+                value={[subscriber.location.region, subscriber.location.province].filter(Boolean).join(' — ')}
+              />
+            )}
+            {subscriber.location?.address && (
+              <DetailField
+                label={t.form.addressStreet}
+                value={[subscriber.location.address, subscriber.location.addressNumber, subscriber.location.addressInterior].filter(Boolean).join(', ')}
+              />
+            )}
           </div>
         </div>
       )}

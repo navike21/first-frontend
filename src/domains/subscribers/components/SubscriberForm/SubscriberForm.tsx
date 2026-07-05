@@ -3,18 +3,21 @@ import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   InputField,
+  InputNumber,
   InputDate,
   Select,
-  TextArea,
   PhotoPicker,
   Button,
   FormGrid,
+  LocationSelect,
+  SectionLabel,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useSubscribersTranslation } from '../../i18n'
 import { createSubscriberSchema } from '../../model/subscriber.schema'
 import type { SubscriberFormData } from '../../model/subscriber.schema'
+import type { LocationValue } from '@/shared/ui'
 
 export interface SubscriberFormProps {
   mode: 'create' | 'edit'
@@ -54,7 +57,17 @@ export const SubscriberForm = ({
     defaultValues: {
       firstName: '',
       lastName: '',
-      contactInformation: { email: '', phoneNumber: '', address: '' },
+      contactInformation: { email: '', phoneNumber: '' },
+      location: {
+        countryCode: '',
+        ubigeoCode: '',
+        region: '',
+        province: '',
+        district: '',
+        address: '',
+        addressNumber: '',
+        addressInterior: '',
+      },
       personalInformation: {
         dateOfBirth: '',
         profilePictureUrl: '',
@@ -70,6 +83,7 @@ export const SubscriberForm = ({
 
   const genderValue = useWatch({ control, name: 'personalInformation.gender' })
   const dateOfBirthValue = useWatch({ control, name: 'personalInformation.dateOfBirth' })
+  const locationValue = useWatch({ control, name: 'location' })
 
   const genderOptions = [
     { value: 'male', label: t.genders.male },
@@ -90,13 +104,21 @@ export const SubscriberForm = ({
     setRemovePhoto(true)
   }
 
+  const handleLocationChange = (v: LocationValue) => {
+    setValue('location.countryCode', v.countryCode ?? '')
+    setValue('location.ubigeoCode', v.ubigeoCode ?? '')
+    setValue('location.region', v.region ?? '')
+    setValue('location.province', v.province ?? '')
+    setValue('location.district', v.district ?? '')
+  }
+
   const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="rounded-xl border border-border bg-surface p-6 flex flex-col gap-6">
 
-        {/* Photo picker — top, centered */}
+        {/* Photo — top, centered */}
         <div className="flex justify-center">
           <PhotoPicker
             currentUrl={currentDisplayUrl}
@@ -109,7 +131,7 @@ export const SubscriberForm = ({
           />
         </div>
 
-        {/* All fields */}
+        {/* Personal */}
         <FormGrid>
           <InputField
             label={requiredLabel(t.form.firstName)}
@@ -132,7 +154,7 @@ export const SubscriberForm = ({
             onChange={(e) =>
               setValue(
                 'personalInformation.gender',
-                e.target.value as SubscriberFormData['personalInformation']['gender']
+                e.target.value as SubscriberFormData['personalInformation']['gender'],
               )
             }
           />
@@ -145,6 +167,10 @@ export const SubscriberForm = ({
             errorMessage={errors.personalInformation?.dateOfBirth?.message}
             {...register('personalInformation.dateOfBirth')}
           />
+        </FormGrid>
+
+        {/* Contact */}
+        <FormGrid>
           <InputField
             label={requiredLabel(t.form.email)}
             type="email"
@@ -152,24 +178,52 @@ export const SubscriberForm = ({
             errorMessage={errors.contactInformation?.email?.message}
             {...register('contactInformation.email')}
           />
-          <InputField
+          <InputNumber
             label={t.form.phoneNumber}
+            mask="+## ### ### ###"
             variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
             errorMessage={errors.contactInformation?.phoneNumber?.message}
             {...register('contactInformation.phoneNumber')}
           />
-          <div className="xl:col-span-2">
-            <TextArea
-              label={t.form.address}
-              rows={3}
-              variant={errors.contactInformation?.address ? 'error' : 'default'}
-              errorMessage={errors.contactInformation?.address?.message}
-              {...register('contactInformation.address')}
-            />
-          </div>
         </FormGrid>
 
-        {/* Footer buttons */}
+        {/* Location */}
+        <div className="flex flex-col gap-3">
+          <SectionLabel>{t.form.country}</SectionLabel>
+          <FormGrid>
+            <LocationSelect
+              value={{
+                countryCode: locationValue?.countryCode ?? '',
+                ubigeoCode: locationValue?.ubigeoCode ?? '',
+                region: locationValue?.region ?? '',
+                province: locationValue?.province ?? '',
+                district: locationValue?.district ?? '',
+              }}
+              onChange={handleLocationChange}
+              countryLabel={t.form.country}
+              regionLabel={t.form.region}
+              cityLabel={t.form.province}
+              lang={language}
+              disabled={isSubmitting}
+            />
+            <InputField
+              label={t.form.addressStreet}
+              variant={errors.location?.address ? 'error' : undefined}
+              errorMessage={errors.location?.address?.message}
+              {...register('location.address')}
+            />
+            <InputField
+              label={t.form.addressNumber}
+              {...register('location.addressNumber')}
+            />
+            <InputField
+              label={t.form.addressInterior}
+              {...register('location.addressInterior')}
+            />
+          </FormGrid>
+        </div>
+
+        {/* Footer */}
         <div className="flex justify-end gap-3 border-t border-border pt-4">
           <Button
             type="button"
