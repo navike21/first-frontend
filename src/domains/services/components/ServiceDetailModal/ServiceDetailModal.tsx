@@ -7,6 +7,19 @@ interface ServiceDetailModalProps {
   onClose: () => void
 }
 
+const IconPreview = ({ src, alt }: { src: string; alt: string }) => {
+  if (src.startsWith('http')) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className="h-10 w-10 rounded-md border border-border bg-surface-subtle object-contain p-1"
+      />
+    )
+  }
+  return <span className="text-sm text-foreground">{src}</span>
+}
+
 export const ServiceDetailModal = ({
   service,
   onClose,
@@ -50,7 +63,14 @@ export const ServiceDetailModal = ({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <DetailField label={t.form.slug} value={service.slug} />
             <DetailField label={t.form.order} value={service.order} />
-            <DetailField label={t.form.icon} value={service.icon} />
+            {service.icon && (
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-medium tracking-wide text-muted uppercase">
+                  {t.form.icon}
+                </span>
+                <IconPreview src={service.icon} alt={service.name[language] || service.name.en} />
+              </div>
+            )}
             <DetailField
               label={t.form.tags}
               value={service.tags.length ? service.tags.join(', ') : undefined}
