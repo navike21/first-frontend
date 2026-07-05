@@ -56,7 +56,6 @@ export const SubscriberForm = ({
       lastName: '',
       contactInformation: { email: '', phoneNumber: '', address: '' },
       personalInformation: {
-        gender: 'prefer_not_to_say',
         dateOfBirth: '',
         profilePictureUrl: '',
       },
@@ -127,8 +126,9 @@ export const SubscriberForm = ({
           <Select
             label={requiredLabel(t.form.gender)}
             options={genderOptions}
-            value={genderValue}
+            value={genderValue ?? ''}
             lang={language}
+            placeholder={t.form.select}
             onChange={(e) =>
               setValue(
                 'personalInformation.gender',
