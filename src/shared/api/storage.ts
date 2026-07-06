@@ -59,10 +59,45 @@ export async function uploadFile(
   return body.data
 }
 
+/**
+ * Scans HTML produced by the rich-text editor, uploads any base64 `data:image/`
+ * src attributes via `uploader`, and replaces them with the returned URLs.
+ * Images that fail to upload are left as-is (non-blocking).
+ */
+export async function resolveRichTextImages(
+  html: string,
+  uploader: (file: File) => Promise<string>,
+): Promise<string> {
+  if (!html || !html.includes('data:image/')) return html
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  const images = Array.from(doc.querySelectorAll('img')).filter((img) =>
+    img.src.startsWith('data:image/'),
+  )
+  if (images.length === 0) return html
+  await Promise.all(
+    images.map(async (img) => {
+      try {
+        const res = await fetch(img.src)
+        const blob = await res.blob()
+        const ext = blob.type.split('/')[1] ?? 'jpg'
+        const file = new File([blob], `image.${ext}`, { type: blob.type })
+        img.setAttribute('src', await uploader(file))
+      } catch {
+        // leave the base64 intact if the upload fails
+      }
+    }),
+  )
+  return doc.body.innerHTML
+}
+
 export async function uploadEditorImage(file: File): Promise<string> {
   const form = new FormData()
   form.append('image', file)
-  const res = await request<{ url: string }>({ api: '/storage/editor-image', method: 'POST', body: form })
-  if (!res.url) throw new Error('Upload did not return a URL')
-  return res.url
+  const res = await request<ApiResponse<{ url: string | null }>>({
+    api: '/storage/editor-image',
+    method: 'POST',
+    body: form,
+  })
+  if (!res.data.url) throw new Error('Upload did not return a URL')
+  return res.data.url
 }

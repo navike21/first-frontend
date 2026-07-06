@@ -1,32 +1,140 @@
-import { PageContent } from '@/shared/ui'
-import { useLanguageStore } from '@/shared/model'
-import type { Language } from '@/shared/types/languages'
-
-const translations: Record<string, Record<string, string>> = {
-  es: {
-    title: 'Portafolio',
-    desc: 'Módulo de gestión de portafolio',
-    construction: 'Este módulo se encuentra en construcción.',
-    sub: 'Próximamente podrás gestionar tus proyectos y trabajos aquí.',
-  },
-  en: {
-    title: 'Portfolio',
-    desc: 'Portfolio management module',
-    construction: 'This module is currently under construction.',
-    sub: 'Soon you will be able to manage your projects and works here.',
-  },
-}
+import { PageContent, Select, Modal, Button, FadeCollapse } from '@/shared/ui'
+import { navPaths } from '@/shared/router'
+import { useHasPermission, CAN } from '@/shared/lib/permissions'
+import { PortfolioTable } from '../components/PortfolioTable/PortfolioTable'
+import { PortfolioDetailModal } from '../components/PortfolioDetailModal/PortfolioDetailModal'
+import { usePortfolioPage } from './PortfolioPage.hooks'
 
 export const PortfolioPage = () => {
-  const language = useLanguageStore((s) => s.language) as Language
-  const t = translations[language] ?? translations.en
+  const {
+    t,
+    language,
+    params,
+    items,
+    total,
+    page,
+    pages,
+    isLoading,
+    deletingItem,
+    viewingItem,
+    selectedIds,
+    bulkConfirmOpen,
+    softDelete,
+    bulkSoftDelete,
+    statusOptions,
+    handleView,
+    handleEdit,
+    handleDelete,
+    handleConfirmDelete,
+    handleConfirmBulkDelete,
+    handleStatusChange,
+    handlePageChange,
+    setDeletingItem,
+    setViewingItem,
+    setSelectedIds,
+    setBulkConfirmOpen,
+    clearSelection,
+  } = usePortfolioPage()
+
+  const canSeeTrash = useHasPermission(...CAN.portfolioTrash)
+  const canCreate = useHasPermission(...CAN.portfolioCreate)
 
   return (
-    <PageContent title={t.title} description={t.desc}>
-      <div className="rounded-xl border border-border bg-surface p-8 text-center text-secondary">
-        <p className="text-lg font-medium">{t.construction}</p>
-        <p className="mt-2 text-sm text-muted">{t.sub}</p>
+    <PageContent
+      title={t.page.listTitle}
+      description={t.page.listDescription}
+      actions={[
+        ...(canSeeTrash
+          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'outline' as const, to: navPaths.portfolioTrash(language), size: 'small' as const }]
+          : []),
+        ...(canCreate
+          ? [{ type: 'link' as const, label: t.actions.newItem, variant: 'primary' as const, to: navPaths.portfolioCreate(language), size: 'small' as const }]
+          : []),
+      ]}
+    >
+      <div className="w-full sm:w-52">
+        <Select
+          label={t.filters.statusLabel}
+          options={statusOptions}
+          value={params.status ?? 'all'}
+          lang={language}
+          onChange={(e) => handleStatusChange(e.target.value)}
+        />
       </div>
+
+      <div>
+        <FadeCollapse show={selectedIds.length > 0}>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
+            <span className="text-sm font-medium text-foreground">
+              {t.actions.selectedCount(selectedIds.length)}
+            </span>
+            <div className="flex items-center gap-2">
+              <Button variant="secondary" size="small" onClick={clearSelection}>
+                {t.actions.clearSelection}
+              </Button>
+              <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
+                {t.actions.bulkDelete}
+              </Button>
+            </div>
+          </div>
+        </FadeCollapse>
+
+        <PortfolioTable
+          items={items}
+          isLoading={isLoading}
+          total={total}
+          page={page}
+          pages={pages}
+          onPageChange={handlePageChange}
+          onView={handleView}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+        />
+      </div>
+
+      <PortfolioDetailModal item={viewingItem} onClose={() => setViewingItem(null)} />
+
+      <Modal
+        isOpen={!!deletingItem}
+        onClose={() => setDeletingItem(null)}
+        size="sm"
+        title={t.actions.deleteTitle}
+        description={
+          deletingItem
+            ? t.actions.deleteDescription(deletingItem.name[language] || deletingItem.name.en)
+            : undefined
+        }
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setDeletingItem(null)} disabled={softDelete.isPending}>
+              {t.actions.cancel}
+            </Button>
+            <Button variant="primary" loading={softDelete.isPending} onClick={handleConfirmDelete}>
+              {t.actions.confirmDelete}
+            </Button>
+          </>
+        }
+      />
+
+      <Modal
+        isOpen={bulkConfirmOpen}
+        onClose={() => setBulkConfirmOpen(false)}
+        size="sm"
+        title={t.actions.deleteTitle}
+        description={t.actions.bulkDeleteDescription(selectedIds.length)}
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setBulkConfirmOpen(false)} disabled={bulkSoftDelete.isPending}>
+              {t.actions.cancel}
+            </Button>
+            <Button variant="primary" loading={bulkSoftDelete.isPending} onClick={handleConfirmBulkDelete}>
+              {t.actions.confirmDelete}
+            </Button>
+          </>
+        }
+      />
     </PageContent>
   )
 }

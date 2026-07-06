@@ -101,6 +101,18 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.portfolio[l_]}`
   },
+  portfolioCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.portfolio[l_]}/${ROUTE_SLUGS.portfolioCreate[l_]}`
+  },
+  portfolioEdit: (portfolioSlug: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.portfolio[l_]}/${ROUTE_SLUGS.portfolioEdit[l_]}/${portfolioSlug}`
+  },
+  portfolioTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.portfolio[l_]}/${ROUTE_SLUGS.portfolioTrash[l_]}`
+  },
   pages: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.pages[l_]}`

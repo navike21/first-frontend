@@ -1,0 +1,41 @@
+import { useNavigate } from '@tanstack/react-router'
+import { notify } from '@/shared/lib/notify'
+import { onQueuedOr } from '@/shared/lib'
+import { PageContent } from '@/shared/ui'
+import { navPaths } from '@/shared/router'
+import { PortfolioForm } from '../components/PortfolioForm'
+import { useCreatePortfolio } from '../api/portfolio.queries'
+import { usePortfolioTranslation } from '../i18n'
+import { toPortfolioPayload } from '../model/portfolio.schema'
+import type { PortfolioFormData } from '../model/portfolio.schema'
+
+export const CreatePortfolioPage = () => {
+  const navigate = useNavigate()
+  const { t, language } = usePortfolioTranslation()
+  const createPortfolio = useCreatePortfolio()
+
+  const handleCreate = (data: PortfolioFormData, cover?: File | null) => {
+    createPortfolio.mutate(
+      { data: toPortfolioPayload(data), cover },
+      {
+        onSuccess: () => {
+          notify.success(t.toasts.created)
+          navigate({ to: navPaths.portfolio(language) as never })
+        },
+        onError: onQueuedOr(() => navigate({ to: navPaths.portfolio(language) as never })),
+      },
+    )
+  }
+
+  return (
+    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+      <PortfolioForm
+        mode="create"
+        isSubmitting={createPortfolio.isPending}
+        submitError={createPortfolio.error}
+        onCancel={() => navigate({ to: navPaths.portfolio(language) as never })}
+        onSubmit={handleCreate}
+      />
+    </PageContent>
+  )
+}
