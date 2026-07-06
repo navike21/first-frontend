@@ -7,13 +7,14 @@ import {
   InputNumber,
   Select,
   Switch,
-  TextArea,
+  RichTextArea,
   CoverPicker,
   Wizard,
   SectionLabel,
   SectionDivider,
   type WizardStep,
 } from '@/shared/ui'
+import { uploadEditorImage } from '@/shared/api/storage'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -194,6 +195,7 @@ export const ServiceForm = ({
   const nameValues = useWatch({ control, name: 'name' })
   const sdValues = useWatch({ control, name: 'shortDescription' })
   const slugValues = useWatch({ control, name: 'slug' })
+  const descValues = useWatch({ control, name: 'description' })
 
   // Tracks which languages the user has manually edited the slug for.
   // Once detached, name changes no longer auto-fill the slug for that language.
@@ -364,21 +366,30 @@ export const ServiceForm = ({
 
             {/* ── Step 2: Content ───────────────────────── */}
             <div hidden={activeStep !== 'content'} className="animate-tab-fade flex flex-col gap-6">
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <SectionLabel>
+              <RichTextArea
+                label={
+                  <span className="flex items-center gap-2">
                     {t.form.description} <span className="text-red-500">*</span>
-                  </SectionLabel>
-                  <LangBadge lang={editingLanguage} />
-                  <span className="text-xs text-muted">{NATIVE_LANGUAGE_NAMES[editingLanguage]}</span>
-                </div>
-                <TextArea
-                  rows={6}
-                  variant={descError ? 'error' : 'default'}
-                  errorMessage={descError}
-                  {...register(`description.${editingLanguage}`)}
-                />
-              </div>
+                    <LangBadge lang={editingLanguage} />
+                    <span className="text-xs font-normal normal-case tracking-normal text-muted">
+                      {NATIVE_LANGUAGE_NAMES[editingLanguage]}
+                    </span>
+                  </span>
+                }
+                variant={descError ? 'error' : 'default'}
+                errorMessage={descError}
+                value={descValues?.[editingLanguage] ?? ''}
+                onChange={(html) =>
+                  setValue(`description.${editingLanguage}`, html, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                }
+                onImageUpload={uploadEditorImage}
+                disabled={isSubmitting}
+                minRows={8}
+              />
               <SectionDivider label={t.form.sectionGlobal} />
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <Select

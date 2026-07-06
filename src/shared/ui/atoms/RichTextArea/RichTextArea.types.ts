@@ -1,9 +1,11 @@
+import type React from 'react'
+
 export interface RichTextAreaProps {
   value?: string
   onChange?: (html: string) => void
   onImageUpload?: (file: File) => Promise<string>
   placeholder?: string
-  label?: string
+  label?: React.ReactNode
   helperText?: string
   errorMessage?: string
   variant?: 'default' | 'error'

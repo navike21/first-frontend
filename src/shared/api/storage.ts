@@ -1,3 +1,4 @@
+import { request } from '@/shared/api/api.services'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse } from '@/shared/api/types'
 
@@ -56,4 +57,12 @@ export async function uploadFile(
 
   const body = (await res.json()) as ApiResponse<StorageFile>
   return body.data
+}
+
+export async function uploadEditorImage(file: File): Promise<string> {
+  const form = new FormData()
+  form.append('image', file)
+  const res = await request<{ url: string }>({ api: '/storage/editor-image', method: 'POST', body: form })
+  if (!res.url) throw new Error('Upload did not return a URL')
+  return res.url
 }

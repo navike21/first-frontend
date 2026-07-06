@@ -141,7 +141,10 @@ export const ServiceDetailModal = ({
             <span className="text-xs font-medium tracking-wide text-muted uppercase">
               {t.form.description}
             </span>
-            <p className="text-sm leading-relaxed text-foreground">{desc}</p>
+            <div
+              className="prose-sm text-sm leading-relaxed text-foreground [&_a]:text-primary-600 [&_a]:underline [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_li]:ml-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:mb-1 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-4"
+              dangerouslySetInnerHTML={{ __html: desc }}
+            />
           </div>
         )}
       </div>

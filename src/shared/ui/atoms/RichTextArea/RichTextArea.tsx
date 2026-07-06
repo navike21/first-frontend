@@ -176,9 +176,9 @@ export const RichTextArea = ({
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <label className="text-xs font-medium tracking-wide text-secondary uppercase">
+        <div className="text-xs font-medium tracking-wide text-secondary uppercase">
           {label}
-        </label>
+        </div>
       )}
 
       <div className={containerStyle}>
