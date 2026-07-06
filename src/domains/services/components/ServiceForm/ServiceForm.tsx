@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
@@ -20,6 +20,18 @@ import type { Language } from '@/shared/i18n'
 import { useServicesTranslation } from '../../i18n'
 import { createServiceSchema, PILLAR_VALUES } from '../../model/service.schema'
 import type { ServiceFormData } from '../../model/service.schema'
+
+function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/\p{Mn}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
 
 const ICON_ACCEPT = 'image/svg+xml,image/png,image/jpeg,image/webp'
 
@@ -181,6 +193,42 @@ export const ServiceForm = ({
   const isActiveValue = useWatch({ control, name: 'isActive' })
   const nameValues = useWatch({ control, name: 'name' })
   const sdValues = useWatch({ control, name: 'shortDescription' })
+  const slugValues = useWatch({ control, name: 'slug' })
+
+  // Tracks which languages the user has manually edited the slug for.
+  // Once detached, name changes no longer auto-fill the slug for that language.
+  // Clears when the slug is emptied, re-attaching auto-fill.
+  const detachedRef = useRef<Set<Language>>(
+    new Set(SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim()))
+  )
+
+  const currentNameValue = nameValues?.[editingLanguage] ?? ''
+
+  useEffect(() => {
+    if (detachedRef.current.has(editingLanguage)) return
+    setValue(`slug.${editingLanguage}`, slugify(currentNameValue), {
+      shouldValidate: false,
+      shouldDirty: false,
+      shouldTouch: false,
+    })
+  }, [currentNameValue, editingLanguage, setValue])
+
+  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cleaned = e.target.value
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+    setValue(`slug.${editingLanguage}`, cleaned, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
+    if (cleaned) {
+      detachedRef.current.add(editingLanguage)
+    } else {
+      detachedRef.current.delete(editingLanguage)
+    }
+  }
 
   const pillarOptions = PILLAR_VALUES.map((p) => ({
     value: p,
@@ -308,7 +356,8 @@ export const ServiceForm = ({
                   helperText={t.form.slugHint}
                   variant={(errors.slug as LangErrors)?.[editingLanguage] ? 'error' : undefined}
                   errorMessage={(errors.slug as LangErrors)?.[editingLanguage]?.message}
-                  {...register(`slug.${editingLanguage}`)}
+                  value={slugValues?.[editingLanguage] ?? ''}
+                  onChange={handleSlugChange}
                 />
               </div>
             </div>
