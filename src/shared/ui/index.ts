@@ -33,6 +33,7 @@ export { ColorPicker } from './atoms/ColorPicker'
 export { FadeCollapse, type FadeCollapseProps } from './atoms/FadeCollapse'
 export { DetailField, type DetailFieldProps } from './atoms/DetailField'
 export { SectionLabel, type SectionLabelProps } from './atoms/SectionLabel'
+export { SectionDivider } from './atoms/SectionDivider'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'

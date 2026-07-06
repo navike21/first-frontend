@@ -29,16 +29,20 @@ export function createServiceSchema(v: V, primaryLang: Language = 'en') {
     return z.object(langFields)
   }
 
+  const slugLangField = z
+    .string()
+    .trim()
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, v.slugInvalid)
+    .optional()
+    .or(z.literal(''))
+
   return z.object({
     name: localizedField(),
     shortDescription: localizedField(),
     description: localizedField(),
-    slug: z
-      .string()
-      .trim()
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, v.slugInvalid)
-      .optional()
-      .or(z.literal('')),
+    slug: z.object(
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])) as Record<Language, typeof slugLangField>
+    ),
     pillars: z.array(z.enum(PILLAR_VALUES)).default([]),
     tags: z.string().trim().optional().or(z.literal('')),
     order: z.coerce.number().int().min(0).default(0),
@@ -52,7 +56,7 @@ export interface ServiceFormData {
   name: ServiceFormLocalized
   shortDescription: ServiceFormLocalized
   description: ServiceFormLocalized
-  slug?: string
+  slug: ServiceFormLocalized
   pillars: (typeof PILLAR_VALUES)[number][]
   tags?: string
   order: number
@@ -63,7 +67,7 @@ export interface CreateServicePayload {
   name: ServiceLocalizedString
   shortDescription: ServiceLocalizedString
   description: ServiceLocalizedString
-  slug?: string
+  slug: ServiceLocalizedString
   icon?: string
   coverImageUrl?: string
   pillars: string[]
@@ -87,7 +91,7 @@ export function toServicePayload(data: ServiceFormData): CreateServicePayload {
     name: fillLocalized(data.name),
     shortDescription: fillLocalized(data.shortDescription),
     description: fillLocalized(data.description),
-    slug: data.slug || undefined,
+    slug: fillLocalized(data.slug),
     pillars: data.pillars,
     tags: data.tags
       ? data.tags

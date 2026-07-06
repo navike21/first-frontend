@@ -119,7 +119,7 @@ export const ServiceDetailModal = ({
 
         {/* ── Data grid ── */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <DetailField label={t.form.slug} value={service.slug} />
+          <DetailField label={t.form.slug} value={service.slug[viewLang] || service.slug.en || undefined} />
           <DetailField label={t.form.order} value={service.order} />
           <DetailField
             label={t.form.tags}

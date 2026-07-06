@@ -11,6 +11,7 @@ import {
   CoverPicker,
   Wizard,
   SectionLabel,
+  SectionDivider,
   type WizardStep,
 } from '@/shared/ui'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -298,18 +299,18 @@ export const ServiceForm = ({
                   {...register(`shortDescription.${editingLanguage}`)}
                 />
               </div>
-              <div className="flex items-center gap-3 pt-1">
-                <div className="h-px flex-1 bg-border" />
-                <span className="text-[11px] font-medium tracking-wide text-muted uppercase">{t.form.sectionGlobal}</span>
-                <div className="h-px flex-1 bg-border" />
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center gap-2">
+                  <SectionLabel>{t.form.slug}</SectionLabel>
+                  <LangBadge lang={editingLanguage} />
+                </div>
+                <InputField
+                  helperText={t.form.slugHint}
+                  variant={(errors.slug as LangErrors)?.[editingLanguage] ? 'error' : undefined}
+                  errorMessage={(errors.slug as LangErrors)?.[editingLanguage]?.message}
+                  {...register(`slug.${editingLanguage}`)}
+                />
               </div>
-              <InputField
-                label={t.form.slug}
-                helperText={t.form.slugHint}
-                variant={errors.slug ? 'error' : undefined}
-                errorMessage={errors.slug?.message}
-                {...register('slug')}
-              />
             </div>
 
             {/* ── Step 2: Content ───────────────────────── */}
@@ -329,11 +330,7 @@ export const ServiceForm = ({
                   {...register(`description.${editingLanguage}`)}
                 />
               </div>
-              <div className="flex items-center gap-3 pt-1">
-                <div className="h-px flex-1 bg-border" />
-                <span className="text-[11px] font-medium tracking-wide text-muted uppercase">{t.form.sectionGlobal}</span>
-                <div className="h-px flex-1 bg-border" />
-              </div>
+              <SectionDivider label={t.form.sectionGlobal} />
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <Select
                   label={t.form.pillars}

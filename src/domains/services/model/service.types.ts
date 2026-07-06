@@ -26,7 +26,7 @@ export interface ServiceLocalizedString {
 
 export interface Service {
   id: string
-  slug: string
+  slug: ServiceLocalizedString
   name: ServiceLocalizedString
   shortDescription: ServiceLocalizedString
   description: ServiceLocalizedString
