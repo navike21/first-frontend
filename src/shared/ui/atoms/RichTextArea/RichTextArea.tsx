@@ -7,57 +7,41 @@ import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import clsx from 'clsx'
-import {
-  RiBold,
-  RiItalic,
-  RiUnderline,
-  RiStrikethrough,
-  RiListUnordered,
-  RiListOrdered,
-  RiAlignLeft,
-  RiAlignCenter,
-  RiAlignRight,
-  RiAlignJustify,
-  RiLink,
-  RiLinkUnlink,
-  RiImageLine,
-  RiFormatClear,
-  RiFullscreenLine,
-  RiFullscreenExitLine,
-} from '@remixicon/react'
+import { IconComponent } from '../IconComponent/IconComponent'
+import type { IconName } from '@/shared/types/icons'
 import type { RichTextAreaProps } from './RichTextArea.types'
 
 type BlockType = 'paragraph' | 'h1' | 'h2' | 'h3' | 'h4'
 
-// ─── Toolbar button ────────────────────────────────────────────────────────
+// ─── Toolbar primitives ────────────────────────────────────────────────────
 
 interface ToolbarBtnProps {
+  icon: IconName
+  title: string
   onClick: () => void
   active?: boolean
   disabled?: boolean
-  title: string
-  children: React.ReactNode
 }
 
-const ToolbarBtn = ({ onClick, active, disabled, title, children }: ToolbarBtnProps) => (
+const ToolbarBtn = ({ icon, title, onClick, active, disabled }: ToolbarBtnProps) => (
   <button
     type="button"
-    onMouseDown={(e) => { e.preventDefault(); onClick() }}
-    disabled={disabled}
     title={title}
+    disabled={disabled}
+    onMouseDown={(e) => { e.preventDefault(); onClick() }}
     className={clsx(
-      'flex h-7 w-7 items-center justify-center rounded text-sm transition-colors',
+      'flex h-6 w-6 items-center justify-center rounded transition-colors',
       'disabled:cursor-not-allowed disabled:opacity-40',
       active
         ? 'bg-primary-700/10 text-primary-600'
-        : 'text-secondary hover:bg-surface-subtle hover:text-foreground',
+        : 'text-muted hover:bg-surface-subtle hover:text-foreground',
     )}
   >
-    {children}
+    <IconComponent icon={icon} className="h-3.5 w-3.5" />
   </button>
 )
 
-const Divider = () => <div className="mx-0.5 h-4 w-px shrink-0 bg-border" />
+const Divider = () => <div className="mx-1 h-3.5 w-px shrink-0 bg-border" />
 
 // ─── Main component ────────────────────────────────────────────────────────
 
@@ -97,7 +81,6 @@ export const RichTextArea = ({
     },
   })
 
-  // Sync external value without causing an update loop
   useEffect(() => {
     if (!editor) return
     const current = editor.getHTML()
@@ -164,15 +147,6 @@ export const RichTextArea = ({
     [editor, onImageUpload],
   )
 
-  const containerStyle = clsx(
-    'flex flex-col rounded-lg border bg-surface transition-colors',
-    hasError
-      ? 'border-red-400 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-400/30'
-      : 'border-border focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600/20',
-    fullscreen && 'fixed inset-0 z-50 rounded-none',
-    disabled && 'opacity-60',
-  )
-
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
@@ -181,18 +155,31 @@ export const RichTextArea = ({
         </div>
       )}
 
-      <div className={containerStyle}>
+      <div
+        className={clsx(
+          'flex flex-col rounded-lg border bg-surface transition-colors',
+          hasError
+            ? 'border-red-400 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-400/30'
+            : 'border-border focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600/20',
+          fullscreen && 'fixed inset-0 z-50 rounded-none',
+          disabled && 'opacity-60',
+        )}
+      >
         {/* ── Toolbar ─────────────────────────────────────────── */}
         <div className="flex flex-wrap items-center gap-0.5 border-b border-border px-2 py-1.5">
-          {/* Block type */}
+
+          {/* Block type selector — styled with system tokens, same height as toolbar */}
           <select
             value={getBlockType()}
             onChange={(e) => handleBlockChange(e.target.value as BlockType)}
             disabled={disabled || !editor}
+            onMouseDown={(e) => e.stopPropagation()}
             className={clsx(
-              'h-7 rounded border border-border bg-surface-subtle px-2 text-xs font-medium text-foreground',
+              'h-6 cursor-pointer rounded border border-border bg-surface-subtle',
+              'px-1.5 text-[11px] font-medium text-foreground',
               'focus:outline-none focus:ring-1 focus:ring-primary-600/30',
-              'disabled:opacity-40',
+              'hover:border-primary-600/40 hover:bg-surface',
+              'transition-colors disabled:cursor-not-allowed disabled:opacity-40',
             )}
           >
             <option value="paragraph">Paragraph</option>
@@ -204,57 +191,31 @@ export const RichTextArea = ({
 
           <Divider />
 
-          <ToolbarBtn title="Bold" active={editor?.isActive('bold')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBold().run()}>
-            <RiBold />
-          </ToolbarBtn>
-          <ToolbarBtn title="Italic" active={editor?.isActive('italic')} disabled={disabled} onClick={() => editor?.chain().focus().toggleItalic().run()}>
-            <RiItalic />
-          </ToolbarBtn>
-          <ToolbarBtn title="Underline" active={editor?.isActive('underline')} disabled={disabled} onClick={() => editor?.chain().focus().toggleUnderline().run()}>
-            <RiUnderline />
-          </ToolbarBtn>
-          <ToolbarBtn title="Strikethrough" active={editor?.isActive('strike')} disabled={disabled} onClick={() => editor?.chain().focus().toggleStrike().run()}>
-            <RiStrikethrough />
-          </ToolbarBtn>
+          <ToolbarBtn icon="RiBold" title="Bold" active={editor?.isActive('bold')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBold().run()} />
+          <ToolbarBtn icon="RiItalic" title="Italic" active={editor?.isActive('italic')} disabled={disabled} onClick={() => editor?.chain().focus().toggleItalic().run()} />
+          <ToolbarBtn icon="RiUnderline" title="Underline" active={editor?.isActive('underline')} disabled={disabled} onClick={() => editor?.chain().focus().toggleUnderline().run()} />
+          <ToolbarBtn icon="RiStrikethrough" title="Strikethrough" active={editor?.isActive('strike')} disabled={disabled} onClick={() => editor?.chain().focus().toggleStrike().run()} />
 
           <Divider />
 
-          <ToolbarBtn title="Bullet list" active={editor?.isActive('bulletList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBulletList().run()}>
-            <RiListUnordered />
-          </ToolbarBtn>
-          <ToolbarBtn title="Ordered list" active={editor?.isActive('orderedList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleOrderedList().run()}>
-            <RiListOrdered />
-          </ToolbarBtn>
+          <ToolbarBtn icon="RiListUnordered" title="Bullet list" active={editor?.isActive('bulletList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBulletList().run()} />
+          <ToolbarBtn icon="RiListOrdered" title="Ordered list" active={editor?.isActive('orderedList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleOrderedList().run()} />
 
           <Divider />
 
-          <ToolbarBtn title="Align left" active={editor?.isActive({ textAlign: 'left' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('left').run()}>
-            <RiAlignLeft />
-          </ToolbarBtn>
-          <ToolbarBtn title="Align center" active={editor?.isActive({ textAlign: 'center' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('center').run()}>
-            <RiAlignCenter />
-          </ToolbarBtn>
-          <ToolbarBtn title="Align right" active={editor?.isActive({ textAlign: 'right' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('right').run()}>
-            <RiAlignRight />
-          </ToolbarBtn>
-          <ToolbarBtn title="Justify" active={editor?.isActive({ textAlign: 'justify' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('justify').run()}>
-            <RiAlignJustify />
-          </ToolbarBtn>
+          <ToolbarBtn icon="RiAlignLeft" title="Align left" active={editor?.isActive({ textAlign: 'left' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('left').run()} />
+          <ToolbarBtn icon="RiAlignCenter" title="Align center" active={editor?.isActive({ textAlign: 'center' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('center').run()} />
+          <ToolbarBtn icon="RiAlignRight" title="Align right" active={editor?.isActive({ textAlign: 'right' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('right').run()} />
+          <ToolbarBtn icon="RiAlignJustify" title="Justify" active={editor?.isActive({ textAlign: 'justify' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('justify').run()} />
 
           <Divider />
 
-          <ToolbarBtn title="Add link" active={editor?.isActive('link')} disabled={disabled} onClick={handleLink}>
-            <RiLink />
-          </ToolbarBtn>
-          <ToolbarBtn title="Remove link" disabled={disabled || !editor?.isActive('link')} onClick={() => editor?.chain().focus().unsetLink().run()}>
-            <RiLinkUnlink />
-          </ToolbarBtn>
+          <ToolbarBtn icon="RiLink" title="Add link" active={editor?.isActive('link')} disabled={disabled} onClick={handleLink} />
+          <ToolbarBtn icon="RiLinkUnlink" title="Remove link" disabled={disabled || !editor?.isActive('link')} onClick={() => editor?.chain().focus().unsetLink().run()} />
 
           {onImageUpload && (
             <>
-              <ToolbarBtn title="Insert image" disabled={disabled} onClick={() => fileInputRef.current?.click()}>
-                <RiImageLine />
-              </ToolbarBtn>
+              <ToolbarBtn icon="RiImageLine" title="Insert image" disabled={disabled} onClick={() => fileInputRef.current?.click()} />
               <input
                 ref={fileInputRef}
                 type="file"
@@ -271,17 +232,17 @@ export const RichTextArea = ({
 
           <Divider />
 
-          <ToolbarBtn title="Clear formatting" disabled={disabled} onClick={() => editor?.chain().focus().clearNodes().unsetAllMarks().run()}>
-            <RiFormatClear />
-          </ToolbarBtn>
-          <ToolbarBtn title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'} onClick={() => setFullscreen((v) => !v)}>
-            {fullscreen ? <RiFullscreenExitLine /> : <RiFullscreenLine />}
-          </ToolbarBtn>
+          <ToolbarBtn icon="RiFormatClear" title="Clear formatting" disabled={disabled} onClick={() => editor?.chain().focus().clearNodes().unsetAllMarks().run()} />
+          <ToolbarBtn
+            icon={fullscreen ? 'RiFullscreenExitLine' : 'RiFullscreenLine'}
+            title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+            onClick={() => setFullscreen((v) => !v)}
+          />
         </div>
 
         {/* ── Link input ──────────────────────────────────────── */}
         {linkInput !== null && (
-          <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-3 py-2">
+          <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-3 py-1.5">
             <input
               autoFocus
               type="url"
@@ -292,7 +253,7 @@ export const RichTextArea = ({
                 if (e.key === 'Escape') setLinkInput(null)
               }}
               placeholder="https://..."
-              className="min-w-0 flex-1 rounded border border-border bg-surface px-2 py-1 text-sm text-foreground outline-none focus:border-primary-600"
+              className="min-w-0 flex-1 rounded border border-border bg-surface px-2 py-1 text-xs text-foreground outline-none focus:border-primary-600"
             />
             <button type="button" onClick={applyLink} className="rounded bg-primary-700/10 px-2.5 py-1 text-xs font-medium text-primary-600 hover:bg-primary-700/20">
               Apply
@@ -325,10 +286,7 @@ export const RichTextArea = ({
       </div>
 
       {(helperText || errorMessage) && (
-        <p className={clsx(
-          'text-xs',
-          errorMessage ? 'text-red-500' : 'text-muted',
-        )}>
+        <p className={clsx('text-xs', errorMessage ? 'text-red-500' : 'text-muted')}>
           {errorMessage ?? helperText}
         </p>
       )}
