@@ -34,6 +34,7 @@ export { FadeCollapse, type FadeCollapseProps } from './atoms/FadeCollapse'
 export { DetailField, type DetailFieldProps } from './atoms/DetailField'
 export { SectionLabel, type SectionLabelProps } from './atoms/SectionLabel'
 export { SectionDivider } from './atoms/SectionDivider'
+export { RichTextArea, type RichTextAreaProps } from './atoms/RichTextArea'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'
