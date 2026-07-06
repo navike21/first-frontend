@@ -80,6 +80,7 @@ export const ko: ServicesTranslations = {
     sectionContent: '콘텐츠',
     sectionMedia: '설정',
     tabTranslations: '번역',
+    sectionGlobal: '글로벌 필드 — 모든 언어에서 동일',
     name: '이름',
     shortDescription: '짧은 설명',
     description: '설명',

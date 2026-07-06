@@ -80,6 +80,7 @@ export const ja: ServicesTranslations = {
     sectionContent: 'コンテンツ',
     sectionMedia: '設定',
     tabTranslations: '翻訳',
+    sectionGlobal: 'グローバルフィールド — 全言語で共通',
     name: '名前',
     shortDescription: '短い説明',
     description: '説明',

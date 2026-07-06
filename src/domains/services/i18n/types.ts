@@ -77,6 +77,7 @@ export interface ServicesTranslations {
     sectionContent: string
     sectionMedia: string
     tabTranslations: string
+    sectionGlobal: string
     name: string
     shortDescription: string
     description: string

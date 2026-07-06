@@ -83,6 +83,7 @@ export const es: ServicesTranslations = {
     sectionContent: 'Contenido',
     sectionMedia: 'Configuración',
     tabTranslations: 'Traducciones',
+    sectionGlobal: 'Campos globales — igual en todos los idiomas',
     name: 'Nombre',
     shortDescription: 'Descripción corta',
     description: 'Descripción',

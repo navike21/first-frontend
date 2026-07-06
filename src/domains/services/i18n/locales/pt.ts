@@ -80,6 +80,7 @@ export const pt: ServicesTranslations = {
     sectionContent: 'Conteúdo',
     sectionMedia: 'Configuração',
     tabTranslations: 'Traduções',
+    sectionGlobal: 'Campos globais — iguais em todos os idiomas',
     name: 'Nome',
     shortDescription: 'Descrição curta',
     description: 'Descrição',

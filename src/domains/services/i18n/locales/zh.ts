@@ -80,6 +80,7 @@ export const zh: ServicesTranslations = {
     sectionContent: '内容',
     sectionMedia: '配置',
     tabTranslations: '翻译',
+    sectionGlobal: '全局字段 — 所有语言相同',
     name: '名称',
     shortDescription: '简短描述',
     description: '描述',

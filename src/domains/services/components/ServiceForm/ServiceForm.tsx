@@ -298,6 +298,11 @@ export const ServiceForm = ({
                   {...register(`shortDescription.${editingLanguage}`)}
                 />
               </div>
+              <div className="flex items-center gap-3 pt-1">
+                <div className="h-px flex-1 bg-border" />
+                <span className="text-[11px] font-medium tracking-wide text-muted uppercase">{t.form.sectionGlobal}</span>
+                <div className="h-px flex-1 bg-border" />
+              </div>
               <InputField
                 label={t.form.slug}
                 helperText={t.form.slugHint}
@@ -323,6 +328,11 @@ export const ServiceForm = ({
                   errorMessage={descError}
                   {...register(`description.${editingLanguage}`)}
                 />
+              </div>
+              <div className="flex items-center gap-3 pt-1">
+                <div className="h-px flex-1 bg-border" />
+                <span className="text-[11px] font-medium tracking-wide text-muted uppercase">{t.form.sectionGlobal}</span>
+                <div className="h-px flex-1 bg-border" />
               </div>
               <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-2">
                 <Select
