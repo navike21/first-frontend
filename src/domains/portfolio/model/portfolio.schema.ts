@@ -66,6 +66,8 @@ export interface PortfolioFormData {
   status: PortfolioStatus
 }
 
+export type GalleryOrderToken = { type: 'existing'; url: string } | { type: 'new'; index: number }
+
 export interface CreatePortfolioPayload {
   slug?: string
   name: PortfolioLocalizedString
@@ -80,7 +82,6 @@ export interface CreatePortfolioPayload {
   featured: boolean
   order: number
   status: PortfolioStatus
-  gallery: never[]
   metrics: never[]
 }
 
@@ -106,7 +107,6 @@ export function toPortfolioPayload(data: PortfolioFormData, primaryLang: Languag
     featured: data.featured,
     order: data.order,
     status: data.status,
-    gallery: [],
     metrics: [],
   }
 }

@@ -14,9 +14,14 @@ export const CreatePortfolioPage = () => {
   const { t, language } = usePortfolioTranslation()
   const createPortfolio = useCreatePortfolio()
 
-  const handleCreate = (data: PortfolioFormData, cover?: File | null) => {
+  const handleCreate = (
+    data: PortfolioFormData,
+    cover?: File | null,
+    _removeCover?: boolean,
+    galleryFiles?: File[],
+  ) => {
     createPortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover },
+      { data: toPortfolioPayload(data, language), cover, galleryFiles },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

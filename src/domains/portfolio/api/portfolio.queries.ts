@@ -3,7 +3,7 @@ import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { portfolioApi } from './portfolio.api'
 import type { PortfolioListParams } from '../model/portfolio.types'
-import type { CreatePortfolioPayload } from '../model/portfolio.schema'
+import type { CreatePortfolioPayload, GalleryOrderToken } from '../model/portfolio.schema'
 
 export const portfolioKeys = {
   all: ['portfolio'] as const,
@@ -73,18 +73,22 @@ export const useClientsForPortfolioPicker = () =>
 export interface CreatePortfolioVars {
   data: CreatePortfolioPayload
   cover?: File | null
+  galleryFiles?: File[]
 }
 
 export interface UpdatePortfolioVars {
   data: Partial<CreatePortfolioPayload>
   cover?: File | null
   removeCover?: boolean
+  galleryFiles?: File[]
+  galleryOrder?: GalleryOrderToken[]
 }
 
 export const useCreatePortfolio = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover }: CreatePortfolioVars) => portfolioApi.create(data, cover),
+    mutationFn: ({ data, cover, galleryFiles }: CreatePortfolioVars) =>
+      portfolioApi.create(data, cover, galleryFiles),
     onSuccess: () => qc.invalidateQueries({ queryKey: portfolioKeys.lists() }),
   })
 }
@@ -92,8 +96,8 @@ export const useCreatePortfolio = () => {
 export const useUpdatePortfolio = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, removeCover }: UpdatePortfolioVars) =>
-      portfolioApi.update(id, data, cover, removeCover),
+    mutationFn: ({ data, cover, removeCover, galleryFiles, galleryOrder }: UpdatePortfolioVars) =>
+      portfolioApi.update(id, data, cover, removeCover, galleryFiles, galleryOrder),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: portfolioKeys.lists() })
       qc.invalidateQueries({ queryKey: portfolioKeys.details() })

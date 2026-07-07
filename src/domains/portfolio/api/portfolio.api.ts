@@ -1,7 +1,7 @@
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import type { Portfolio, PortfolioListParams } from '../model/portfolio.types'
-import type { CreatePortfolioPayload } from '../model/portfolio.schema'
+import type { CreatePortfolioPayload, GalleryOrderToken } from '../model/portfolio.schema'
 
 const BASE = '/portfolio'
 
@@ -23,11 +23,12 @@ export const portfolioApi = {
   getById: (id: string) =>
     request<ApiResponse<Portfolio>>({ api: `${BASE}/id/${id}`, method: 'GET' }),
 
-  create: (body: CreatePortfolioPayload, cover?: File | null) => {
-    if (cover && navigator.onLine) {
+  create: (body: CreatePortfolioPayload, cover?: File | null, galleryFiles?: File[]) => {
+    if ((cover || galleryFiles?.length) && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(body))
-      fd.append('cover', cover)
+      if (cover) fd.append('cover', cover)
+      galleryFiles?.forEach((file) => fd.append('gallery', file))
       return request<ApiResponse<Portfolio>, FormData>({ api: BASE, method: 'POST', body: fd })
     }
     return request<ApiResponse<Portfolio>, CreatePortfolioPayload>({ api: BASE, method: 'POST', body })
@@ -38,16 +39,26 @@ export const portfolioApi = {
     body: Partial<CreatePortfolioPayload>,
     cover?: File | null,
     removeCover?: boolean,
+    galleryFiles?: File[],
+    galleryOrder?: GalleryOrderToken[],
   ) => {
-    if (cover && navigator.onLine) {
+    const payloadBody = {
+      ...body,
+      ...(removeCover ? { coverImageUrl: '' } : {}),
+      ...(galleryOrder ? { galleryOrder } : {}),
+    }
+    if ((cover || galleryFiles?.length) && navigator.onLine) {
       const fd = new FormData()
-      const payloadBody = removeCover ? { ...body, coverImageUrl: '' } : body
       fd.append('data', JSON.stringify(payloadBody))
-      fd.append('cover', cover)
+      if (cover) fd.append('cover', cover)
+      galleryFiles?.forEach((file) => fd.append('gallery', file))
       return request<ApiResponse<Portfolio>, FormData>({ api: `${BASE}/${id}`, method: 'PATCH', body: fd })
     }
-    const payload = removeCover ? { ...body, coverImageUrl: '' } : body
-    return request<ApiResponse<Portfolio>, typeof payload>({ api: `${BASE}/${id}`, method: 'PATCH', body: payload })
+    return request<ApiResponse<Portfolio>, typeof payloadBody>({
+      api: `${BASE}/${id}`,
+      method: 'PATCH',
+      body: payloadBody,
+    })
   },
 
   softDelete: (id: string) =>

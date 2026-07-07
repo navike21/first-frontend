@@ -10,10 +10,12 @@ import {
   Switch,
   RichTextArea,
   CoverPicker,
+  GalleryPicker,
   Wizard,
   SectionLabel,
   SectionDivider,
   type WizardStep,
+  type GalleryItem,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
 import { useConfigData } from '@/shared/api/config'
@@ -23,7 +25,35 @@ import type { Language } from '@/shared/i18n'
 import { usePortfolioTranslation } from '../../i18n'
 import { useServicesForPortfolioPicker, useClientsForPortfolioPicker } from '../../api/portfolio.queries'
 import { createPortfolioSchema, PORTFOLIO_STATUS_VALUES } from '../../model/portfolio.schema'
-import type { PortfolioFormData } from '../../model/portfolio.schema'
+import type { PortfolioFormData, GalleryOrderToken } from '../../model/portfolio.schema'
+
+function stepHasMediaError(step: StepId, coverMissing: boolean): boolean {
+  return step === 'media' && coverMissing
+}
+
+function coverPickerMessages(
+  coverMissing: boolean,
+  formatsHint: string,
+  requiredMessage: string,
+): { formatsHint?: string; errorMessage?: string } {
+  return coverMissing
+    ? { errorMessage: requiredMessage }
+    : { formatsHint }
+}
+
+function toGalleryItems(urls: string[] | undefined): GalleryItem[] {
+  return (urls ?? []).map((url) => ({ key: url, kind: 'existing' as const, url }))
+}
+
+function deriveGalleryPayload(items: GalleryItem[]): { galleryFiles: File[]; galleryOrder: GalleryOrderToken[] } {
+  const galleryFiles: File[] = []
+  const galleryOrder: GalleryOrderToken[] = items.map((item) => {
+    if (item.kind === 'existing') return { type: 'existing', url: item.url }
+    galleryFiles.push(item.file as File)
+    return { type: 'new', index: galleryFiles.length - 1 }
+  })
+  return { galleryFiles, galleryOrder }
+}
 
 function slugify(text: string): string {
   return text
@@ -41,10 +71,17 @@ export interface PortfolioFormProps {
   mode: 'create' | 'edit'
   initialValues?: Partial<PortfolioFormData>
   initialCoverUrl?: string
+  initialGalleryUrls?: string[]
   isSubmitting: boolean
   submitError?: unknown
   onCancel: () => void
-  onSubmit: (data: PortfolioFormData, cover?: File | null, removeCover?: boolean) => void
+  onSubmit: (
+    data: PortfolioFormData,
+    cover?: File | null,
+    removeCover?: boolean,
+    galleryFiles?: File[],
+    galleryOrder?: GalleryOrderToken[],
+  ) => void
 }
 
 type StepId = 'general' | 'content' | 'relations' | 'media'
@@ -126,6 +163,7 @@ export const PortfolioForm = ({
   mode,
   initialValues,
   initialCoverUrl,
+  initialGalleryUrls,
   isSubmitting,
   submitError,
   onCancel,
@@ -142,12 +180,14 @@ export const PortfolioForm = ({
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
   const [coverTouched, setCoverTouched] = useState(false)
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => toGalleryItems(initialGalleryUrls))
   const [activeStep, setActiveStep] = useState<StepId>('general')
   const [maxStep, setMaxStep] = useState(0)
 
   // Whether a cover will actually be persisted after this submit — accounts
   // for a newly picked file, the existing one, and an explicit removal.
   const willHaveCover = !!pendingCover || (!!initialCoverUrl && !removeCover)
+  const coverMissing = coverTouched && !willHaveCover
 
   const emptyLocalized = useMemo(
     () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
@@ -284,7 +324,7 @@ export const PortfolioForm = ({
   const descError = (errors.description as LangErrors)?.[editingLanguage]?.message
 
   const stepHasError = (step: StepId) =>
-    STEP_FIELDS[step].some((f) => f in errors) || (step === 'media' && coverTouched && !willHaveCover)
+    STEP_FIELDS[step].some((f) => f in errors) || stepHasMediaError(step, coverMissing)
 
   const steps: WizardStep[] = [
     { id: 'general', label: t.form.sectionGeneral, error: stepHasError('general') },
@@ -326,7 +366,8 @@ export const PortfolioForm = ({
           }
         }),
       )
-      onSubmit({ ...data, description: resolvedDesc }, pendingCover, removeCover)
+      const { galleryFiles, galleryOrder } = deriveGalleryPayload(galleryItems)
+      onSubmit({ ...data, description: resolvedDesc }, pendingCover, removeCover, galleryFiles, galleryOrder)
     },
     (formErrors) => {
       setCoverTouched(true)
@@ -547,8 +588,7 @@ export const PortfolioForm = ({
                     dragLabel={t.form.coverDragLabel}
                     dragOrLabel={t.form.coverDragOrLabel}
                     browseLabel={t.form.coverBrowseLabel}
-                    formatsHint={coverTouched && !willHaveCover ? undefined : t.form.coverFormatsHint}
-                    errorMessage={coverTouched && !willHaveCover ? t.form.coverRequired : undefined}
+                    {...coverPickerMessages(coverMissing, t.form.coverFormatsHint, t.form.coverRequired)}
                     removeLabel={t.form.coverRemoveLabel}
                     disabled={isSubmitting}
                     onChange={(file) => {
@@ -577,6 +617,21 @@ export const PortfolioForm = ({
                   />
                   <InputNumber label={t.form.order} min={0} {...register('order')} />
                 </div>
+              </div>
+              <div className="mt-6 flex flex-col gap-3">
+                <SectionLabel>
+                  {t.form.gallery} <span className="text-xs font-normal normal-case tracking-normal text-muted">{t.form.optional}</span>
+                </SectionLabel>
+                <GalleryPicker
+                  items={galleryItems}
+                  onItemsChange={setGalleryItems}
+                  uploadLabel={t.form.galleryUploadLabel}
+                  dragLabel={t.form.galleryDragLabel}
+                  removeLabel={t.form.galleryRemoveLabel}
+                  formatsHint={t.form.galleryFormatsHint}
+                  maxItemsHint={t.form.galleryMaxHint}
+                  disabled={isSubmitting}
+                />
               </div>
             </div>
           </Wizard>

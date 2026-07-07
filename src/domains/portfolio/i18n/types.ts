@@ -98,6 +98,12 @@ export interface PortfolioTranslations {
     coverFormatsHint: string
     coverRemoveLabel: string
     coverRequired: string
+    gallery: string
+    galleryUploadLabel: string
+    galleryDragLabel: string
+    galleryRemoveLabel: string
+    galleryFormatsHint: string
+    galleryMaxHint: string
     select: string
     save: string
     create: string

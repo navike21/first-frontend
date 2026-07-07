@@ -9,7 +9,7 @@ import { PortfolioForm } from '../components/PortfolioForm'
 import { usePortfolioById, useUpdatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
 import { toPortfolioPayload } from '../model/portfolio.schema'
-import type { PortfolioFormData } from '../model/portfolio.schema'
+import type { PortfolioFormData, GalleryOrderToken } from '../model/portfolio.schema'
 import type { Portfolio } from '../model/portfolio.types'
 
 const EMPTY_LANGS = Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>
@@ -43,9 +43,15 @@ export const EditPortfolioPage = () => {
   const { data: item, isLoading } = usePortfolioById(portfolioId)
   const updatePortfolio = useUpdatePortfolio(item?.id ?? '')
 
-  const handleUpdate = (data: PortfolioFormData, cover?: File | null, removeCover?: boolean) => {
+  const handleUpdate = (
+    data: PortfolioFormData,
+    cover?: File | null,
+    removeCover?: boolean,
+    galleryFiles?: File[],
+    galleryOrder?: GalleryOrderToken[],
+  ) => {
     updatePortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover, removeCover },
+      { data: toPortfolioPayload(data, language), cover, removeCover, galleryFiles, galleryOrder },
       {
         onSuccess: () => {
           notify.success(t.toasts.updated)
@@ -75,6 +81,7 @@ export const EditPortfolioPage = () => {
         mode="edit"
         initialValues={toFormValues(item)}
         initialCoverUrl={item.coverImageUrl}
+        initialGalleryUrls={item.gallery}
         isSubmitting={updatePortfolio.isPending}
         submitError={updatePortfolio.error}
         onCancel={() => navigate({ to: navPaths.portfolio(language) as never })}
