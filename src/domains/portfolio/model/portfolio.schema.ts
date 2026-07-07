@@ -10,6 +10,13 @@ export const PORTFOLIO_STATUS_VALUES = ['draft', 'published', 'archived'] as con
 
 const opt = z.string().trim().optional().or(z.literal(''))
 
+const slugLangField = z
+  .string()
+  .trim()
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+  .optional()
+  .or(z.literal(''))
+
 export function createPortfolioSchema(v: V, primaryLang: Language = 'en') {
   const langFields = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [
@@ -23,17 +30,15 @@ export function createPortfolioSchema(v: V, primaryLang: Language = 'en') {
   }
 
   return z.object({
-    slug: z
-      .string()
-      .trim()
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, v.slugInvalid)
-      .min(1, v.required),
+    slug: z.object(
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])) as Record<Language, typeof slugLangField>
+    ),
     name: localizedField(),
     shortDescription: localizedField(),
     description: localizedField(),
     serviceIds: z.array(z.string().uuid()).min(1, v.serviceRequired),
     clientId: z.string().uuid().optional().or(z.literal('')),
-    technologies: z.string().trim().optional().or(z.literal('')),
+    technologies: z.array(z.string()).default([]),
     projectUrl: z.string().url(v.urlInvalid).optional().or(z.literal('')),
     startDate: z.string().min(1, v.required),
     endDate: z.string().optional().or(z.literal('')),
@@ -46,13 +51,13 @@ export function createPortfolioSchema(v: V, primaryLang: Language = 'en') {
 export type PortfolioFormLocalized = Record<Language, string>
 
 export interface PortfolioFormData {
-  slug: string
+  slug: PortfolioFormLocalized
   name: PortfolioFormLocalized
   shortDescription: PortfolioFormLocalized
   description: PortfolioFormLocalized
   serviceIds: string[]
   clientId?: string
-  technologies?: string
+  technologies: string[]
   projectUrl?: string
   startDate: string
   endDate?: string
@@ -85,17 +90,16 @@ function fillLocalized(input: Partial<Record<Language, string>>): PortfolioLocal
   ) as unknown as PortfolioLocalizedString
 }
 
-export function toPortfolioPayload(data: PortfolioFormData): CreatePortfolioPayload {
+export function toPortfolioPayload(data: PortfolioFormData, primaryLang: Language = 'en'): CreatePortfolioPayload {
+  const slug = data.slug[primaryLang]?.trim() || data.slug.en?.trim() || undefined
   return {
-    slug: data.slug || undefined,
+    slug,
     name: fillLocalized(data.name),
     shortDescription: fillLocalized(data.shortDescription),
     description: fillLocalized(data.description),
     serviceIds: data.serviceIds,
     clientId: data.clientId?.trim() || undefined,
-    technologies: data.technologies
-      ? data.technologies.split(',').map((t) => t.trim()).filter(Boolean)
-      : [],
+    technologies: data.technologies,
     projectUrl: data.projectUrl?.trim() || undefined,
     startDate: data.startDate,
     endDate: data.endDate?.trim() || undefined,

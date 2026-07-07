@@ -24,6 +24,7 @@ export interface ConfigData {
   industries?: ConfigOption[]
   clientTypes?: ConfigOption[]
   genders?: ConfigOption[]
+  technologies?: ConfigOption[]
 }
 
 export type ConfigGroup = keyof ConfigData

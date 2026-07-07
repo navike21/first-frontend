@@ -2,8 +2,12 @@ export interface CoverPickerProps {
   currentUrl?: string
   uploadLabel?: string
   dragLabel?: string
+  /** The "or" connector text in "Drag here or {browseLabel}". Pass a translated string. */
+  dragOrLabel?: string
   browseLabel?: string
   formatsHint?: string
+  /** External validation error (e.g. from react-hook-form). Shown inside the drop zone. */
+  errorMessage?: string
   onChange: (file: File | null) => void
   onRemove?: () => void
   removeLabel?: string

@@ -5,20 +5,23 @@ import clsx from 'clsx'
 import {
   InputField,
   InputNumber,
+  InputDate,
   Select,
   Switch,
   RichTextArea,
   CoverPicker,
   Wizard,
   SectionLabel,
+  SectionDivider,
   type WizardStep,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
+import { useConfigData } from '@/shared/api/config'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePortfolioTranslation } from '../../i18n'
-import { useServicesForPortfolioPicker } from '../../api/portfolio.queries'
+import { useServicesForPortfolioPicker, useClientsForPortfolioPicker } from '../../api/portfolio.queries'
 import { createPortfolioSchema, PORTFOLIO_STATUS_VALUES } from '../../model/portfolio.schema'
 import type { PortfolioFormData } from '../../model/portfolio.schema'
 
@@ -48,8 +51,8 @@ type StepId = 'general' | 'content' | 'relations' | 'media'
 
 const STEP_FIELDS: Record<StepId, (keyof PortfolioFormData)[]> = {
   general: ['name', 'shortDescription', 'slug'],
-  content: ['description', 'technologies', 'projectUrl'],
-  relations: ['serviceIds', 'clientId', 'startDate', 'endDate', 'featured'],
+  content: ['description'],
+  relations: ['serviceIds', 'clientId', 'technologies', 'projectUrl', 'startDate', 'endDate', 'featured'],
   media: ['status', 'order'],
 }
 
@@ -130,7 +133,10 @@ export const PortfolioForm = ({
 }: PortfolioFormProps) => {
   const { t, language } = usePortfolioTranslation()
   const schema = useMemo(() => createPortfolioSchema(t.validation, language), [t.validation, language])
+
   const { data: servicesData } = useServicesForPortfolioPicker()
+  const { data: clientsData } = useClientsForPortfolioPicker()
+  const { data: configData } = useConfigData(['technologies'], language)
 
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
@@ -155,13 +161,13 @@ export const PortfolioForm = ({
     resolver: zodResolver(schema) as Resolver<PortfolioFormData>,
     mode: 'onTouched',
     defaultValues: {
-      slug: '',
+      slug: { ...emptyLocalized },
       name: { ...emptyLocalized },
       shortDescription: { ...emptyLocalized },
       description: { ...emptyLocalized },
       serviceIds: [],
       clientId: '',
-      technologies: '',
+      technologies: [],
       projectUrl: '',
       startDate: '',
       endDate: '',
@@ -179,37 +185,77 @@ export const PortfolioForm = ({
   const nameValues = useWatch({ control, name: 'name' })
   const sdValues = useWatch({ control, name: 'shortDescription' })
   const descValues = useWatch({ control, name: 'description' })
-  const slugValue = useWatch({ control, name: 'slug' })
+  const slugValues = useWatch({ control, name: 'slug' })
   const serviceIdsValue = useWatch({ control, name: 'serviceIds' })
+  const clientIdValue = useWatch({ control, name: 'clientId' })
+  const technologiesValue = useWatch({ control, name: 'technologies' })
   const featuredValue = useWatch({ control, name: 'featured' })
   const statusValue = useWatch({ control, name: 'status' })
 
-  // Auto-fill slug from English name when not in edit mode
-  const slugDetached = useRef(!!initialValues?.slug?.trim())
-  const currentEnName = nameValues?.en ?? ''
+  // Per-language slug detach — mirrors services behavior
+  const detachedRef = useRef<Set<Language>>(
+    new Set(SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim()))
+  )
+
+  const currentNameValue = nameValues?.[editingLanguage] ?? ''
 
   useEffect(() => {
-    if (mode === 'edit' || slugDetached.current) return
-    setValue('slug', slugify(currentEnName), {
+    if (detachedRef.current.has(editingLanguage)) return
+    setValue(`slug.${editingLanguage}`, slugify(currentNameValue), {
       shouldValidate: false,
       shouldDirty: false,
       shouldTouch: false,
     })
-  }, [currentEnName, mode, setValue])
+  }, [currentNameValue, editingLanguage, setValue])
 
   const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleaned = e.target.value
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '')
       .replace(/-+/g, '-')
-    setValue('slug', cleaned, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
-    slugDetached.current = !!cleaned
+    setValue(`slug.${editingLanguage}`, cleaned, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
+    if (cleaned) {
+      detachedRef.current.add(editingLanguage)
+    } else {
+      detachedRef.current.delete(editingLanguage)
+    }
   }
 
-  const serviceOptions = (servicesData ?? []).map((svc) => ({
-    value: svc.id,
-    label: (svc.name as Record<string, string>)[language] || (svc.name as Record<string, string>).en || svc.id,
-  }))
+  // Service options — show warning chip/option when no translation in current language
+  const serviceOptions = useMemo(
+    () =>
+      (servicesData ?? []).map((svc) => {
+        const translated = (svc.name as Record<string, string>)[language]
+        const hasTranslation = !!translated?.trim()
+        const label = hasTranslation ? translated : t.form.serviceNoTranslation
+        return {
+          value: svc.id,
+          label,
+          icon: hasTranslation ? undefined : ('RiAlertLine' as const),
+        }
+      }),
+    [servicesData, language, t.form.serviceNoTranslation],
+  )
+
+  // Client options
+  const clientOptions = useMemo(
+    () =>
+      (clientsData ?? []).map((c) => ({
+        value: c.id,
+        label: c.businessName,
+      })),
+    [clientsData],
+  )
+
+  // Technologies options from config API
+  const techOptions = useMemo(
+    () => (configData?.technologies ?? []).map((o) => ({ value: o.value, label: o.label })),
+    [configData],
+  )
 
   const statusOptions = PORTFOLIO_STATUS_VALUES.map((s) => ({
     value: s,
@@ -307,7 +353,7 @@ export const PortfolioForm = ({
             cancelLabel={t.form.cancel}
             optionalLabel={t.form.optional}
           >
-            {/* Step 1 — General */}
+            {/* Step 1 — General (translated fields + per-lang slug) */}
             <div hidden={activeStep !== 'general'} className="animate-tab-fade flex flex-col gap-6">
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
@@ -337,20 +383,21 @@ export const PortfolioForm = ({
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <SectionLabel>
-                  {t.form.slug} <span className="text-red-500">*</span>
-                </SectionLabel>
+                <div className="flex items-center gap-2">
+                  <SectionLabel>{t.form.slug}</SectionLabel>
+                  <LangBadge lang={editingLanguage} />
+                </div>
                 <InputField
                   helperText={t.form.slugHint}
-                  variant={errors.slug ? 'error' : undefined}
-                  errorMessage={errors.slug?.message}
-                  value={slugValue ?? ''}
+                  variant={(errors.slug as LangErrors)?.[editingLanguage] ? 'error' : undefined}
+                  errorMessage={(errors.slug as LangErrors)?.[editingLanguage]?.message}
+                  value={slugValues?.[editingLanguage] ?? ''}
                   onChange={handleSlugChange}
                 />
               </div>
             </div>
 
-            {/* Step 2 — Content */}
+            {/* Step 2 — Content (description, translated) */}
             <div hidden={activeStep !== 'content'} className="animate-tab-fade flex flex-col gap-6">
               <RichTextArea
                 label={
@@ -375,11 +422,64 @@ export const PortfolioForm = ({
                 disabled={isSubmitting}
                 minRows={8}
               />
+            </div>
+
+            {/* Step 3 — Relations (cross-language: services, client, technologies, url, dates) */}
+            <div hidden={activeStep !== 'relations'} className="animate-tab-fade flex flex-col gap-6">
+              <Select
+                label={
+                  <>
+                    {t.form.serviceIds} <span className="text-red-500">*</span>
+                  </>
+                }
+                multiple
+                options={serviceOptions}
+                value={serviceIdsValue ?? []}
+                lang={language}
+                helperText={t.form.serviceIdsHint}
+                variant={errors.serviceIds ? 'error' : undefined}
+                errorMessage={errors.serviceIds?.message}
+                onChange={(e) => {
+                  const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
+                  setValue('serviceIds', selected, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                }}
+              />
+              <Select
+                label={`${t.form.clientId} ${t.form.optional}`}
+                options={[{ value: '', label: t.form.select }, ...clientOptions]}
+                value={clientIdValue ?? ''}
+                lang={language}
+                texts={{ noOptionsFound: t.form.clientNoOptions }}
+                variant={errors.clientId ? 'error' : undefined}
+                errorMessage={errors.clientId?.message}
+                onChange={(e) =>
+                  setValue('clientId', e.target.value || '', {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                }
+              />
+              <SectionDivider label={t.form.sectionGlobal} />
               <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-                <InputField
-                  label={t.form.technologies}
-                  helperText={t.form.technologiesHint}
-                  {...register('technologies')}
+                <Select
+                  label={`${t.form.technologies} ${t.form.optional}`}
+                  multiple
+                  options={techOptions}
+                  value={technologiesValue ?? []}
+                  lang={language}
+                  onChange={(e) => {
+                    const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
+                    setValue('technologies', selected, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
+                  }}
                 />
                 <InputField
                   label={`${t.form.projectUrl} ${t.form.optional}`}
@@ -388,57 +488,22 @@ export const PortfolioForm = ({
                   {...register('projectUrl')}
                 />
               </div>
-            </div>
-
-            {/* Step 3 — Relations */}
-            <div hidden={activeStep !== 'relations'} className="animate-tab-fade flex flex-col gap-6">
-              <div className="flex flex-col gap-1.5">
-                <Select
-                  label={
-                    <>
-                      {t.form.serviceIds} <span className="text-red-500">*</span>
-                    </>
-                  }
-                  multiple
-                  options={serviceOptions}
-                  value={serviceIdsValue ?? []}
-                  lang={language}
-                  helperText={t.form.serviceIdsHint}
-                  variant={errors.serviceIds ? 'error' : undefined}
-                  errorMessage={errors.serviceIds?.message}
-                  onChange={(e) => {
-                    const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
-                    setValue('serviceIds', selected, {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                      shouldTouch: true,
-                    })
-                  }}
-                />
-              </div>
-              <InputField
-                label={`${t.form.clientId} ${t.form.optional}`}
-                helperText={t.form.clientIdHint}
-                variant={errors.clientId ? 'error' : undefined}
-                errorMessage={errors.clientId?.message}
-                {...register('clientId')}
-              />
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <InputField
+                <InputDate
                   label={
                     <>
                       {t.form.startDate} <span className="text-red-500">*</span>
                     </>
                   }
-                  type="date"
-                  variant={errors.startDate ? 'error' : undefined}
+                  lang={language}
+                  variant={errors.startDate ? 'error' : 'default'}
                   errorMessage={errors.startDate?.message}
                   {...register('startDate')}
                 />
-                <InputField
+                <InputDate
                   label={`${t.form.endDate} ${t.form.optional}`}
-                  type="date"
-                  variant={errors.endDate ? 'error' : undefined}
+                  lang={language}
+                  variant={errors.endDate ? 'error' : 'default'}
                   errorMessage={errors.endDate?.message}
                   {...register('endDate')}
                 />
@@ -464,15 +529,14 @@ export const PortfolioForm = ({
                   <SectionLabel>
                     {t.form.cover} <span className="text-red-500">*</span>
                   </SectionLabel>
-                  {!pendingCover && !initialCoverUrl && (
-                    <p className="text-xs text-red-500">{t.form.coverRequired}</p>
-                  )}
                   <CoverPicker
                     currentUrl={initialCoverUrl}
                     uploadLabel={t.form.coverUploadLabel}
                     dragLabel={t.form.coverDragLabel}
+                    dragOrLabel={t.form.coverDragOrLabel}
                     browseLabel={t.form.coverBrowseLabel}
-                    formatsHint={t.form.coverFormatsHint}
+                    formatsHint={!pendingCover && !initialCoverUrl ? undefined : t.form.coverFormatsHint}
+                    errorMessage={!pendingCover && !initialCoverUrl ? t.form.coverRequired : undefined}
                     removeLabel={t.form.coverRemoveLabel}
                     disabled={isSubmitting}
                     onChange={(file) => {

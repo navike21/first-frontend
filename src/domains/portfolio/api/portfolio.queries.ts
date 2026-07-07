@@ -53,6 +53,21 @@ export const useServicesForPortfolioPicker = () =>
     staleTime: 5 * 60 * 1000,
   })
 
+// Clients picker — used in PortfolioForm to select an associated client
+interface ClientPickerItem {
+  id: string
+  businessName: string
+}
+
+export const useClientsForPortfolioPicker = () =>
+  useQuery({
+    queryKey: ['clients', 'picker-for-portfolio'],
+    queryFn: () =>
+      request<ApiResponse<ClientPickerItem[]>>({ api: '/clients?limit=200', method: 'GET' }),
+    select: (res) => res.data ?? [],
+    staleTime: 5 * 60 * 1000,
+  })
+
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
 export interface CreatePortfolioVars {

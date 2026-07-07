@@ -71,6 +71,7 @@ export interface PortfolioTranslations {
     sectionContent: string
     sectionRelations: string
     sectionMedia: string
+    sectionGlobal: string
     tabTranslations: string
     name: string
     shortDescription: string
@@ -78,12 +79,12 @@ export interface PortfolioTranslations {
     slug: string
     slugHint: string
     technologies: string
-    technologiesHint: string
     projectUrl: string
     serviceIds: string
     serviceIdsHint: string
+    serviceNoTranslation: string
     clientId: string
-    clientIdHint: string
+    clientNoOptions: string
     startDate: string
     endDate: string
     featured: string
@@ -92,6 +93,7 @@ export interface PortfolioTranslations {
     cover: string
     coverUploadLabel: string
     coverDragLabel: string
+    coverDragOrLabel: string
     coverBrowseLabel: string
     coverFormatsHint: string
     coverRemoveLabel: string

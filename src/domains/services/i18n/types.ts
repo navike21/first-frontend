@@ -92,12 +92,14 @@ export interface ServicesTranslations {
     cover: string
     coverUploadLabel: string
     coverDragLabel: string
+    coverDragOrLabel: string
     coverBrowseLabel: string
     coverFormatsHint: string
     coverRemoveLabel: string
     icon: string
     iconUploadLabel: string
     iconDragLabel: string
+    iconDragOrLabel: string
     iconBrowseLabel: string
     iconFormatsHint: string
     iconRemoveLabel: string

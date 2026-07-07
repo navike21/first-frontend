@@ -16,7 +16,7 @@ export const CreatePortfolioPage = () => {
 
   const handleCreate = (data: PortfolioFormData, cover?: File | null) => {
     createPortfolio.mutate(
-      { data: toPortfolioPayload(data), cover },
+      { data: toPortfolioPayload(data, language), cover },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

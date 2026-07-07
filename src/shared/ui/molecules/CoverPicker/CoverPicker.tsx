@@ -73,41 +73,57 @@ const PreviewContent = ({
 interface EmptyContentProps {
   isCompact: boolean
   isDragging: boolean
+  hasError: boolean
   uploadLabel: string
   dragLabel: string
+  dragOrLabel: string
   browseLabel: string
+  displayError?: string | null
   openPicker: () => void
 }
 
 const EmptyContent = ({
   isCompact,
   isDragging,
+  hasError,
   uploadLabel,
   dragLabel,
+  dragOrLabel,
   browseLabel,
+  displayError,
   openPicker,
-}: EmptyContentProps) => (
+}: EmptyContentProps) => {
+  let dropIcon: 'RiDownloadLine' | 'RiErrorWarningLine' | 'RiImageAddLine' = 'RiImageAddLine'
+  if (isDragging) dropIcon = 'RiDownloadLine'
+  else if (hasError) dropIcon = 'RiErrorWarningLine'
+  return (
   <>
     <div
       className={clsx(
         'flex items-center justify-center rounded-xl',
         isCompact ? 'h-10 w-10' : 'h-14 w-14',
-        'border border-border bg-surface text-muted transition-colors',
-        isDragging && 'border-primary-600 text-primary-600'
+        'border transition-colors',
+        isDragging && 'border-primary-600 bg-surface text-primary-600',
+        hasError && !isDragging && 'border-red-400 bg-surface text-red-500',
+        !isDragging && !hasError && 'border-border bg-surface text-muted',
       )}
     >
       <IconComponent
-        icon={isDragging ? 'RiDownloadLine' : 'RiImageAddLine'}
+        icon={dropIcon}
         className={isCompact ? 'h-5 w-5' : 'h-7 w-7'}
       />
     </div>
     <div className="text-center">
-      <p className={clsx('font-semibold text-foreground', isCompact ? 'text-xs' : 'text-sm')}>
+      <p className={clsx(
+        'font-semibold',
+        isCompact ? 'text-xs' : 'text-sm',
+        hasError ? 'text-red-500' : 'text-foreground',
+      )}>
         {isDragging ? dragLabel : uploadLabel}
       </p>
       {!isDragging && (
         <p className={clsx('mt-0.5 text-secondary', isCompact ? 'text-xs' : 'mt-1 text-sm')}>
-          Drag here or{' '}
+          {dragOrLabel}{' '}
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); openPicker() }}
@@ -117,9 +133,13 @@ const EmptyContent = ({
           </button>
         </p>
       )}
+      {displayError && (
+        <p className="mt-1.5 text-xs font-medium text-red-500">{displayError}</p>
+      )}
     </div>
   </>
-)
+  )
+}
 
 // Opens picker on Enter/Space — defined at module scope to avoid nesting penalty
 function makeKeyHandler(fn: () => void) {
@@ -137,8 +157,10 @@ export const CoverPicker = ({
   currentUrl,
   uploadLabel = 'Drop or select files',
   dragLabel = 'Drop to upload',
+  dragOrLabel = 'Drag here or',
   browseLabel = 'browse',
   formatsHint,
+  errorMessage,
   onChange,
   onRemove,
   removeLabel = 'Remove image',
@@ -166,6 +188,9 @@ export const CoverPicker = ({
     ? {}
     : { onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop }
 
+  const displayError = errorMessage || error
+  const hasError = !!displayError && !preview
+
   return (
     <div className="flex flex-col gap-2">
       <div
@@ -177,9 +202,12 @@ export const CoverPicker = ({
           // Visual
           'border-2 border-dashed transition-colors',
           // States
-          isDragging ? 'border-primary-600 bg-primary-700/5' : 'border-border bg-surface-subtle',
+          isDragging && 'border-primary-600 bg-primary-700/5',
+          hasError && !isDragging && 'border-red-500 bg-red-50/40 dark:bg-red-900/10',
+          !isDragging && !hasError && 'border-border bg-surface-subtle',
           disabled && 'cursor-not-allowed opacity-50',
-          isInteractive && 'cursor-pointer hover:border-primary-600/60 hover:bg-primary-700/5'
+          isInteractive && !hasError && 'cursor-pointer hover:border-primary-600/60 hover:bg-primary-700/5',
+          isInteractive && hasError && 'cursor-pointer hover:border-red-600/60',
         )}
         onClick={isInteractive ? openPicker : undefined}
         role={isInteractive ? 'button' : undefined}
@@ -202,9 +230,12 @@ export const CoverPicker = ({
           <EmptyContent
             isCompact={isCompact}
             isDragging={isDragging}
+            hasError={hasError}
             uploadLabel={uploadLabel}
             dragLabel={dragLabel}
+            dragOrLabel={dragOrLabel}
             browseLabel={browseLabel}
+            displayError={displayError}
             openPicker={openPicker}
           />
         )}
@@ -219,10 +250,9 @@ export const CoverPicker = ({
         disabled={disabled}
       />
 
-      {formatsHint && !error && (
+      {formatsHint && !displayError && (
         <p className="text-xs text-muted">{formatsHint}</p>
       )}
-      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   )
 }
