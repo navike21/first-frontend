@@ -141,8 +141,13 @@ export const PortfolioForm = ({
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
+  const [coverTouched, setCoverTouched] = useState(false)
   const [activeStep, setActiveStep] = useState<StepId>('general')
   const [maxStep, setMaxStep] = useState(0)
+
+  // Whether a cover will actually be persisted after this submit — accounts
+  // for a newly picked file, the existing one, and an explicit removal.
+  const willHaveCover = !!pendingCover || (!!initialCoverUrl && !removeCover)
 
   const emptyLocalized = useMemo(
     () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
@@ -278,7 +283,8 @@ export const PortfolioForm = ({
   const sdError = (errors.shortDescription as LangErrors)?.[editingLanguage]?.message
   const descError = (errors.description as LangErrors)?.[editingLanguage]?.message
 
-  const stepHasError = (step: StepId) => STEP_FIELDS[step].some((f) => f in errors)
+  const stepHasError = (step: StepId) =>
+    STEP_FIELDS[step].some((f) => f in errors) || (step === 'media' && coverTouched && !willHaveCover)
 
   const steps: WizardStep[] = [
     { id: 'general', label: t.form.sectionGeneral, error: stepHasError('general') },
@@ -307,6 +313,11 @@ export const PortfolioForm = ({
 
   const submit = handleSubmit(
     async (data) => {
+      if (!willHaveCover) {
+        setCoverTouched(true)
+        setActiveStep('media')
+        return
+      }
       const resolvedDesc = { ...data.description }
       await Promise.all(
         SUPPORTED_LANGUAGES.map(async (lang) => {
@@ -318,6 +329,7 @@ export const PortfolioForm = ({
       onSubmit({ ...data, description: resolvedDesc }, pendingCover, removeCover)
     },
     (formErrors) => {
+      setCoverTouched(true)
       for (const step of ['general', 'content', 'relations', 'media'] as StepId[]) {
         if (STEP_FIELDS[step].some((f) => f in formErrors)) {
           setActiveStep(step)
@@ -535,8 +547,8 @@ export const PortfolioForm = ({
                     dragLabel={t.form.coverDragLabel}
                     dragOrLabel={t.form.coverDragOrLabel}
                     browseLabel={t.form.coverBrowseLabel}
-                    formatsHint={!pendingCover && !initialCoverUrl ? undefined : t.form.coverFormatsHint}
-                    errorMessage={!pendingCover && !initialCoverUrl ? t.form.coverRequired : undefined}
+                    formatsHint={coverTouched && !willHaveCover ? undefined : t.form.coverFormatsHint}
+                    errorMessage={coverTouched && !willHaveCover ? t.form.coverRequired : undefined}
                     removeLabel={t.form.coverRemoveLabel}
                     disabled={isSubmitting}
                     onChange={(file) => {

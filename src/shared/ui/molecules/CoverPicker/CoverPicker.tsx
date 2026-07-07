@@ -188,7 +188,7 @@ export const CoverPicker = ({
     ? {}
     : { onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop }
 
-  const displayError = errorMessage || error
+  const displayError = error || errorMessage
   const hasError = !!displayError && !preview
 
   return (
