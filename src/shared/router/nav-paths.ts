@@ -121,6 +121,18 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}`
   },
+  collaboratorCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}/${ROUTE_SLUGS.collaboratorCreate[l_]}`
+  },
+  collaboratorEdit: (collaboratorId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}/${collaboratorId}/${ROUTE_SLUGS.collaboratorEdit[l_]}`
+  },
+  collaboratorTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}/${ROUTE_SLUGS.collaboratorTrash[l_]}`
+  },
   subscribers: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}`

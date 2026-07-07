@@ -25,6 +25,8 @@ export interface ConfigData {
   clientTypes?: ConfigOption[]
   genders?: ConfigOption[]
   technologies?: ConfigOption[]
+  collaboratorRoles?: ConfigOption[]
+  collaboratorLevels?: ConfigOption[]
 }
 
 export type ConfigGroup = keyof ConfigData
