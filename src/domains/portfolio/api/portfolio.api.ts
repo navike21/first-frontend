@@ -20,8 +20,8 @@ export const portfolioApi = {
     })
   },
 
-  getBySlug: (slug: string) =>
-    request<ApiResponse<Portfolio>>({ api: `${BASE}/${slug}`, method: 'GET' }),
+  getById: (id: string) =>
+    request<ApiResponse<Portfolio>>({ api: `${BASE}/id/${id}`, method: 'GET' }),
 
   create: (body: CreatePortfolioPayload, cover?: File | null) => {
     if (cover && navigator.onLine) {

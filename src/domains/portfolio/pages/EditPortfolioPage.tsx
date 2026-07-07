@@ -6,7 +6,7 @@ import { navPaths } from '@/shared/router'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { PortfolioForm } from '../components/PortfolioForm'
-import { usePortfolioBySlug, useUpdatePortfolio } from '../api/portfolio.queries'
+import { usePortfolioById, useUpdatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
 import { toPortfolioPayload } from '../model/portfolio.schema'
 import type { PortfolioFormData } from '../model/portfolio.schema'
@@ -39,8 +39,8 @@ function toFormValues(item: Portfolio): Partial<PortfolioFormData> {
 export const EditPortfolioPage = () => {
   const navigate = useNavigate()
   const { t, language } = usePortfolioTranslation()
-  const { portfolioSlug } = useParams({ strict: false }) as { portfolioSlug: string }
-  const { data: item, isLoading } = usePortfolioBySlug(portfolioSlug)
+  const { portfolioId } = useParams({ strict: false }) as { portfolioId: string }
+  const { data: item, isLoading } = usePortfolioById(portfolioId)
   const updatePortfolio = useUpdatePortfolio(item?.id ?? '')
 
   const handleUpdate = (data: PortfolioFormData, cover?: File | null, removeCover?: boolean) => {

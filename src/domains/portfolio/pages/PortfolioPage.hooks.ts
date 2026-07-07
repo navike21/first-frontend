@@ -34,7 +34,7 @@ export function usePortfolioPage() {
 
   const handleView = (item: Portfolio) => setViewingItem(item)
   const handleEdit = (item: Portfolio) =>
-    navigate({ to: navPaths.portfolioEdit(item.slug, language) as never })
+    navigate({ to: navPaths.portfolioEdit(item.id, language) as never })
   const handleDelete = (item: Portfolio) => setDeletingItem(item)
 
   const handleConfirmDelete = () => {

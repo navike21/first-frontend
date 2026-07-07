@@ -54,7 +54,7 @@ export const allPortfolioRouteTrees = parentSlugs.map((parentSlug) => {
       children.push(
         createRoute({
           getParentRoute: () => layout,
-          path: `${editSlug}/$portfolioSlug`,
+          path: `${editSlug}/$portfolioId`,
           component: EditPortfolioPage,
           beforeLoad: requirePermission(...CAN.portfolioUpdate),
         })

@@ -10,7 +10,7 @@ export const portfolioKeys = {
   lists: () => [...portfolioKeys.all, 'list'] as const,
   list: (params: PortfolioListParams) => [...portfolioKeys.lists(), params] as const,
   details: () => [...portfolioKeys.all, 'detail'] as const,
-  detail: (slug: string) => [...portfolioKeys.details(), slug] as const,
+  detail: (id: string) => [...portfolioKeys.details(), id] as const,
   trash: () => [...portfolioKeys.all, 'trash'] as const,
   trashList: (params: { page?: number; limit?: number }) => [...portfolioKeys.trash(), params] as const,
   picker: () => [...portfolioKeys.all, 'picker'] as const,
@@ -24,12 +24,12 @@ export const usePortfolioList = (params: PortfolioListParams = {}) =>
     queryFn: () => portfolioApi.listAdmin(params),
   })
 
-export const usePortfolioBySlug = (slug: string) =>
+export const usePortfolioById = (id: string) =>
   useQuery({
-    queryKey: portfolioKeys.detail(slug),
-    queryFn: () => portfolioApi.getBySlug(slug),
+    queryKey: portfolioKeys.detail(id),
+    queryFn: () => portfolioApi.getById(id),
     select: (res) => res.data,
-    enabled: !!slug,
+    enabled: !!id,
   })
 
 export const usePortfolioTrash = (params: { page?: number; limit?: number } = {}) =>
