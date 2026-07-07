@@ -63,7 +63,7 @@ export const useClientsForPortfolioPicker = () =>
   useQuery({
     queryKey: ['clients', 'picker-for-portfolio'],
     queryFn: () =>
-      request<ApiResponse<ClientPickerItem[]>>({ api: '/clients?limit=200', method: 'GET' }),
+      request<ApiResponse<ClientPickerItem[]>>({ api: '/clients?limit=100', method: 'GET' }),
     select: (res) => res.data ?? [],
     staleTime: 5 * 60 * 1000,
   })

@@ -15,7 +15,7 @@ export const portfolioApi = {
     if (params.status) query.set('status', params.status)
     const qs = query.toString()
     return request<ApiResponse<Portfolio[]>>({
-      api: qs ? `${BASE}?${qs}` : BASE,
+      api: qs ? `${BASE}/admin?${qs}` : `${BASE}/admin`,
       method: 'GET',
     })
   },
