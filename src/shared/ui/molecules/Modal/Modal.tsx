@@ -61,7 +61,7 @@ export const Modal = ({
     <>
       {/* Header */}
       {hasHeader && (
-        <div className="flex items-start justify-between gap-4 border-b border-border-subtle px-6 py-4">
+        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-border-subtle px-6 py-4">
           <div>
             {title && (
               <h2
@@ -96,11 +96,11 @@ export const Modal = ({
       )}
 
       {/* Content */}
-      {children && <div className="px-6 py-5">{children}</div>}
+      {children && <div className="min-h-0 overflow-y-auto px-6 py-5">{children}</div>}
 
       {/* Footer */}
       {footer && (
-        <div className="flex items-center justify-end gap-3 border-t border-border-subtle px-6 py-4">
+        <div className="flex shrink-0 items-center justify-end gap-3 border-t border-border-subtle px-6 py-4">
           {footer}
         </div>
       )}
@@ -136,7 +136,7 @@ export const Modal = ({
           {/* Panel */}
           <div
             className={clsx(
-              'relative flex flex-col',
+              'relative flex max-h-[calc(100vh-2rem)] flex-col',
               'rounded-2xl bg-surface shadow-2xl',
               sizeClasses[size],
               isOpen
@@ -198,7 +198,7 @@ export const Modal = ({
               animate="animate"
               exit="exit"
               className={clsx(
-                'relative flex flex-col',
+                'relative flex max-h-[calc(100vh-2rem)] flex-col',
                 'rounded-2xl bg-surface shadow-2xl',
                 sizeClasses[size]
               )}
