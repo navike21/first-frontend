@@ -9,9 +9,9 @@ export const zh: SubscribersTranslations = {
     editTitle: '编辑订阅者',
     editDescription: (name) => `更新${name}的信息`,
     trashTitle: '订阅者回收站',
-    trashDescription: '已删除的订阅者 — 还原或永久删除',
-    trashEmpty: '回收站为空',
-    trashEmptyDescription: '没有已删除的订阅者。',
+    trashDescription: '已移至回收站的订阅者。可以还原或永久删除。',
+    trashEmpty: '回收站中没有订阅者',
+    trashEmptyDescription: '删除的订阅者将显示在此处。',
   },
   table: {
     noResults: '未找到订阅者',
@@ -63,15 +63,13 @@ export const zh: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `删除 ${count} 名订阅者？您可以从回收站还原。`,
     restoreTitle: '还原订阅者',
-    restoreDescription: (name) => `还原${name}？`,
+    restoreDescription: (name) => `将 ${name} 还原到活跃列表？`,
     confirmRestore: '还原',
-    bulkRestoreDescription: (count) => `还原 ${count} 名订阅者？`,
+    bulkRestoreDescription: (count) => `将 ${count} 个订阅者恢复到活动列表？`,
     purgeTitle: '永久删除',
-    purgeDescription: (name) =>
-      `永久删除${name}？此操作无法撤销。`,
-    confirmPurge: '永久删除',
-    bulkPurgeDescription: (count) =>
-      `永久删除 ${count} 名订阅者？此操作无法撤销。`,
+    purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
+    confirmPurge: '删除',
+    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个订阅者。此操作不可逆。`,
   },
   form: {
     sectionPersonal: '个人信息',

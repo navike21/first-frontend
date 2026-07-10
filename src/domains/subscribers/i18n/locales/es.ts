@@ -9,9 +9,9 @@ export const es: SubscribersTranslations = {
     editTitle: 'Editar suscriptor',
     editDescription: (name) => `Actualiza la información de ${name}`,
     trashTitle: 'Papelera de suscriptores',
-    trashDescription: 'Suscriptores eliminados — restáuralos o elimínalos definitivamente',
-    trashEmpty: 'La papelera está vacía',
-    trashEmptyDescription: 'No hay suscriptores eliminados.',
+    trashDescription: 'Suscriptores que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashEmpty: 'No hay suscriptores en la papelera',
+    trashEmptyDescription: 'Cuando se eliminen suscriptores, aparecerán aquí.',
   },
   table: {
     noResults: 'No se encontraron suscriptores',
@@ -66,15 +66,13 @@ export const es: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `¿Eliminar ${count} suscriptores? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar suscriptor',
-    restoreDescription: (name) => `¿Restaurar a ${name}?`,
+    restoreDescription: (name) => `¿Restaurar a ${name} en la lista de activos?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} suscriptores?`,
-    purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) =>
-      `¿Eliminar definitivamente a ${name}? Esta acción no se puede deshacer.`,
-    confirmPurge: 'Eliminar definitivamente',
-    bulkPurgeDescription: (count) =>
-      `¿Eliminar definitivamente ${count} suscriptores? Esta acción no se puede deshacer.`,
+    bulkRestoreDescription: (count) => `¿Restaurar ${count} suscriptores en la lista de activos?`,
+    purgeTitle: 'Eliminar permanentemente',
+    purgeDescription: (name) => `Esto eliminará permanentemente a ${name}. Esta acción es IRREVERSIBLE.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} suscriptores. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     sectionPersonal: 'Información personal',

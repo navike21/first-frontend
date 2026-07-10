@@ -54,7 +54,7 @@ export const allCollaboratorsRouteTrees = parentSlugs.map((parentSlug) => {
       children.push(
         createRoute({
           getParentRoute: () => layout,
-          path: `$collaboratorId/${editSlug}`,
+          path: `${editSlug}/$collaboratorId`,
           component: EditCollaboratorPage,
           beforeLoad: requirePermission(...CAN.collaboratorsUpdate),
         })

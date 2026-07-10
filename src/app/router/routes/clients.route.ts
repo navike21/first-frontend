@@ -56,7 +56,7 @@ export const allClientsRouteTrees = parentSlugs.map((parentSlug) => {
       children.push(
         createRoute({
           getParentRoute: () => layout,
-          path: `$clientId/${editSlug}`,
+          path: `${editSlug}/$clientId`,
           component: EditClientPage,
           beforeLoad: requirePermission(...CAN.clientsUpdate),
         })

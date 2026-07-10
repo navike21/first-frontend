@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const ko: SiteConfigTranslations = {
+  page: {
+    title: '웹사이트 설정',
+    description: '공개 사이트의 전체 레이아웃(헤더, 푸터, 콘텐츠 영역)을 정의합니다',
+  },
+  tabs: {
+    header: '헤더',
+    footer: '푸터',
+    content: '콘텐츠',
+  },
+  actions: {
+    save: '변경 사항 저장',
+    saved: '설정이 저장되었습니다',
+    unsavedHint: '저장되지 않은 변경 사항이 있습니다',
+  },
+  header: {
+    variantLabel: '헤더 레이아웃',
+    variants: {
+      'logo-left-menu-right': '로고 왼쪽 · 메뉴 오른쪽',
+      'logo-left-menu-center': '로고 왼쪽 · 메뉴 가운데 · CTA',
+      'logo-center-split': '로고 가운데 · 분할 메뉴',
+      'logo-center-stacked': '로고 위 · 메뉴 아래',
+    },
+    sticky: '스크롤 시 헤더 고정',
+    transparent: '히어로 위에 투명하게',
+    ctaEnabled: 'CTA 버튼',
+    ctaLabel: '버튼 텍스트',
+    ctaUrl: '버튼 URL',
+    mobileTitle: '모바일 동작',
+    mobileLogoPosition: '로고 위치',
+    mobileMenuIcon: '메뉴 아이콘 위치',
+    positionLeft: '왼쪽',
+    positionCenter: '가운데',
+    positionRight: '오른쪽',
+  },
+  footer: {
+    variantLabel: '푸터 레이아웃',
+    variants: {
+      columns: '멀티 컬럼',
+      centered: '가운데 정렬',
+      minimal: '미니멀',
+      'cta-columns': 'CTA + 컬럼',
+    },
+    columns: '컬럼 수',
+    showSocial: '소셜 링크 표시',
+    showNewsletter: '뉴스레터 블록 표시',
+    copyright: '저작권 문구',
+  },
+  content: {
+    widthLabel: '콘텐츠 영역 너비',
+    boxed: '박스형',
+    boxedHint: '최대 너비로 가운데 정렬됩니다 (권장)',
+    full: '전체 너비',
+    fullHint: '화면 전체 너비를 사용합니다',
+  },
+  preview: {
+    title: '미리보기',
+    desktop: '데스크톱',
+    mobile: '모바일',
+    sampleMenu: ['홈', '서비스', '블로그', '문의'],
+    sampleCta: '문의하기',
+    sampleNewsletter: '뉴스레터 구독',
+    sampleCopyright: '© 2026 · 브랜드',
+  },
+}

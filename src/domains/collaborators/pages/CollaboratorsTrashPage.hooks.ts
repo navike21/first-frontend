@@ -26,7 +26,7 @@ export function useCollaboratorsTrashPage() {
   const bulkRestore = useBulkRestoreCollaborators()
   const bulkPurge = useBulkPurgeCollaborators()
 
-  const collaborators = data?.data ?? []
+  const collaborators = Array.isArray(data?.data) ? data.data : []
   const meta = data?.meta as CollaboratorPaginationMeta | undefined
   const total = meta?.total ?? 0
   const pages = meta?.totalPages ?? 1

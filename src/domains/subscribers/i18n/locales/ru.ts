@@ -9,9 +9,9 @@ export const ru: SubscribersTranslations = {
     editTitle: 'Редактировать подписчика',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина подписчиков',
-    trashDescription: 'Удалённые подписчики — восстановить или удалить навсегда',
+    trashDescription: 'Подписчики, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
-    trashEmptyDescription: 'Нет удалённых подписчиков.',
+    trashEmptyDescription: 'Удалённые подписчики будут отображаться здесь.',
   },
   table: {
     noResults: 'Подписчики не найдены',
@@ -63,15 +63,13 @@ export const ru: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `Удалить ${count} подписчиков? Их можно будет восстановить из корзины.`,
     restoreTitle: 'Восстановить подписчика',
-    restoreDescription: (name) => `Восстановить ${name}?`,
+    restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} подписчиков?`,
-    purgeTitle: 'Удалить навсегда',
-    purgeDescription: (name) =>
-      `Удалить ${name} навсегда? Это действие нельзя отменить.`,
-    confirmPurge: 'Удалить навсегда',
-    bulkPurgeDescription: (count) =>
-      `Удалить ${count} подписчиков навсегда? Это действие нельзя отменить.`,
+    bulkRestoreDescription: (count) => `Восстановить ${count} подписчиков в активный список?`,
+    purgeTitle: 'Удаление навсегда',
+    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    confirmPurge: 'Удалить',
+    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} подписчиков. Действие НЕОБРАТИМО.`,
   },
   form: {
     sectionPersonal: 'Личная информация',

@@ -68,10 +68,6 @@ export const CollaboratorDetailModal = ({
                 value={labelFor(configData?.collaboratorLevels, collaborator.level)}
               />
             )}
-            <DetailField
-              label={t.form.bio}
-              value={collaborator.bio[language] || collaborator.bio.en}
-            />
             {collaborator.socialLinks?.linkedin && (
               <DetailField label={t.form.linkedin} value={collaborator.socialLinks.linkedin} />
             )}
@@ -88,6 +84,15 @@ export const CollaboratorDetailModal = ({
               <DetailField label={t.form.instagram} value={collaborator.socialLinks.instagram} />
             )}
             <DetailField label={t.form.sectionAccount} value={linkedUserLabel} />
+          </div>
+
+          {/* Bio is rich text (same rendering pattern as services/portfolio) */}
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wide text-muted">{t.form.bio}</span>
+            <div
+              className="prose-sm text-sm leading-relaxed text-foreground [&_a]:text-primary-600 [&_a]:underline [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_li]:ml-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:mb-1 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-4"
+              dangerouslySetInnerHTML={{ __html: collaborator.bio[language] || collaborator.bio.en }}
+            />
           </div>
         </div>
       )}

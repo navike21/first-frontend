@@ -35,7 +35,7 @@ function createUsersRouteTree(lang: Language) {
 
   const edit = createRoute({
     getParentRoute: () => layout,
-    path: `$userId/${ROUTE_SLUGS.userEdit[lang]}`,
+    path: `${ROUTE_SLUGS.userEdit[lang]}/$userId`,
     component: EditUserPage,
     beforeLoad: requirePermission(...CAN.usersUpdate),
   })

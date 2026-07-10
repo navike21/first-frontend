@@ -9,9 +9,9 @@ export const it: CollaboratorTranslations = {
     editTitle: 'Modifica collaboratore',
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino collaboratori',
-    trashDescription: 'Collaboratori eliminati — ripristinali o eliminali definitivamente',
-    trashEmpty: 'Il cestino è vuoto',
-    trashEmptyDescription: 'Nessun collaboratore eliminato.',
+    trashDescription: 'Collaboratori spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashEmpty: 'Nessun collaboratore nel cestino',
+    trashEmptyDescription: 'I collaboratori eliminati appariranno qui.',
   },
   table: {
     noResults: 'Nessun collaboratore trovato',
@@ -59,15 +59,13 @@ export const it: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `Eliminare ${count} collaboratori? Potrai ripristinarli dal cestino.`,
     restoreTitle: 'Ripristina collaboratore',
-    restoreDescription: (name) => `Ripristinare ${name}?`,
+    restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} collaboratori?`,
-    purgeTitle: 'Elimina definitivamente',
-    purgeDescription: (name) =>
-      `Eliminare definitivamente ${name}? Questa azione non può essere annullata.`,
-    confirmPurge: 'Elimina definitivamente',
-    bulkPurgeDescription: (count) =>
-      `Eliminare definitivamente ${count} collaboratori? Questa azione non può essere annullata.`,
+    bulkRestoreDescription: (count) => `Ripristinare ${count} collaboratori nella lista attiva?`,
+    purgeTitle: 'Eliminazione definitiva',
+    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    confirmPurge: 'Elimina',
+    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} collaboratori. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     tabTranslations: 'Traduzioni',

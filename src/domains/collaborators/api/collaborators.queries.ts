@@ -43,6 +43,7 @@ interface UserPickerItem {
   firstName: string
   lastName: string
   email: string
+  profilePictureUrl?: string
 }
 
 export const useUsersForCollaboratorPicker = () =>
@@ -52,6 +53,16 @@ export const useUsersForCollaboratorPicker = () =>
       request<ApiResponse<PaginatedData<UserPickerItem>>>({ api: '/users?limit=100', method: 'GET' }),
     select: (res) => res.data.items ?? [],
     staleTime: 5 * 60 * 1000,
+  })
+
+// Full collaborators list used to exclude already-linked users from the picker
+// (one collaborator per system user).
+export const useLinkedUserIds = () =>
+  useQuery({
+    queryKey: [...collaboratorKeys.all, 'linked-user-ids'],
+    queryFn: () => collaboratorsApi.listAdmin({ limit: 100 }),
+    select: (res) => (res.data ?? []).map((c) => c.userId).filter((id): id is string => !!id),
+    staleTime: 60 * 1000,
   })
 
 // ─── Mutations ────────────────────────────────────────────────────────────────

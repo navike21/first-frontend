@@ -9,9 +9,9 @@ export const ru: CollaboratorTranslations = {
     editTitle: 'Редактировать сотрудника',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина сотрудников',
-    trashDescription: 'Удалённые сотрудники — восстановите их или удалите навсегда',
+    trashDescription: 'Сотрудники, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
-    trashEmptyDescription: 'Нет удалённых сотрудников.',
+    trashEmptyDescription: 'Удалённые сотрудники будут отображаться здесь.',
   },
   table: {
     noResults: 'Сотрудники не найдены',
@@ -59,15 +59,13 @@ export const ru: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `Удалить сотрудников: ${count}? Вы сможете восстановить их из корзины.`,
     restoreTitle: 'Восстановить сотрудника',
-    restoreDescription: (name) => `Восстановить ${name}?`,
+    restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить сотрудников: ${count}?`,
-    purgeTitle: 'Удалить навсегда',
-    purgeDescription: (name) =>
-      `Удалить ${name} навсегда? Это действие нельзя отменить.`,
-    confirmPurge: 'Удалить навсегда',
-    bulkPurgeDescription: (count) =>
-      `Удалить навсегда сотрудников: ${count}? Это действие нельзя отменить.`,
+    bulkRestoreDescription: (count) => `Восстановить ${count} сотрудников в активный список?`,
+    purgeTitle: 'Удаление навсегда',
+    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    confirmPurge: 'Удалить',
+    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} сотрудников. Действие НЕОБРАТИМО.`,
   },
   form: {
     tabTranslations: 'Переводы',

@@ -9,9 +9,9 @@ export const pt: SubscribersTranslations = {
     editTitle: 'Editar assinante',
     editDescription: (name) => `Atualizar as informações de ${name}`,
     trashTitle: 'Lixeira de assinantes',
-    trashDescription: 'Assinantes eliminados — restaure-os ou elimine-os definitivamente',
-    trashEmpty: 'A lixeira está vazia',
-    trashEmptyDescription: 'Sem assinantes eliminados.',
+    trashDescription: 'Assinantes movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashEmpty: 'Nenhum assinante na lixeira',
+    trashEmptyDescription: 'Quando assinantes forem excluídos, aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhum assinante encontrado',
@@ -63,15 +63,13 @@ export const pt: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `Eliminar ${count} assinantes? Pode restaurá-los a partir da lixeira.`,
     restoreTitle: 'Restaurar assinante',
-    restoreDescription: (name) => `Restaurar ${name}?`,
+    restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} assinantes?`,
-    purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) =>
-      `Eliminar definitivamente ${name}? Esta ação não pode ser desfeita.`,
-    confirmPurge: 'Eliminar definitivamente',
-    bulkPurgeDescription: (count) =>
-      `Eliminar definitivamente ${count} assinantes? Esta ação não pode ser desfeita.`,
+    bulkRestoreDescription: (count) => `Restaurar ${count} assinantes para a lista ativa?`,
+    purgeTitle: 'Exclusão permanente',
+    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} assinantes. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     sectionPersonal: 'Informações pessoais',

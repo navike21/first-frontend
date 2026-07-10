@@ -1,0 +1,1 @@
+export { CategoryDetailModal } from './CategoryDetailModal'

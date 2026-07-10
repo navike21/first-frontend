@@ -9,9 +9,9 @@ export const ja: SubscribersTranslations = {
     editTitle: '購読者を編集',
     editDescription: (name) => `${name}の情報を更新する`,
     trashTitle: '購読者のゴミ箱',
-    trashDescription: '削除された購読者 — 復元または完全削除',
-    trashEmpty: 'ゴミ箱は空です',
-    trashEmptyDescription: '削除された購読者はありません。',
+    trashDescription: 'ゴミ箱に移動された購読者です。復元または完全削除できます。',
+    trashEmpty: 'ゴミ箱に購読者はいません',
+    trashEmptyDescription: '削除された購読者はここに表示されます。',
   },
   table: {
     noResults: '購読者が見つかりません',
@@ -63,15 +63,13 @@ export const ja: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}人の購読者を削除しますか？ゴミ箱から復元できます。`,
     restoreTitle: '購読者を復元',
-    restoreDescription: (name) => `${name}を復元しますか？`,
+    restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count}人の購読者を復元しますか？`,
-    purgeTitle: '完全に削除',
-    purgeDescription: (name) =>
-      `${name}を完全に削除しますか？この操作は元に戻せません。`,
-    confirmPurge: '完全に削除',
-    bulkPurgeDescription: (count) =>
-      `${count}人の購読者を完全に削除しますか？この操作は元に戻せません。`,
+    bulkRestoreDescription: (count) => `${count} 件の購読者を有効リストに復元しますか？`,
+    purgeTitle: '完全削除',
+    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    confirmPurge: '削除',
+    bulkPurgeDescription: (count) => `${count} 件の購読者を完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     sectionPersonal: '個人情報',

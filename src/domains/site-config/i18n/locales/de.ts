@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const de: SiteConfigTranslations = {
+  page: {
+    title: 'Website-Konfiguration',
+    description: 'Definiere das globale Layout der öffentlichen Website: Header, Footer und Inhaltsbereich',
+  },
+  tabs: {
+    header: 'Header',
+    footer: 'Footer',
+    content: 'Inhalt',
+  },
+  actions: {
+    save: 'Änderungen speichern',
+    saved: 'Konfiguration gespeichert',
+    unsavedHint: 'Du hast ungespeicherte Änderungen',
+  },
+  header: {
+    variantLabel: 'Header-Layout',
+    variants: {
+      'logo-left-menu-right': 'Logo links · Menü rechts',
+      'logo-left-menu-center': 'Logo links · Menü zentriert · CTA',
+      'logo-center-split': 'Logo zentriert · geteiltes Menü',
+      'logo-center-stacked': 'Logo oben · Menü darunter',
+    },
+    sticky: 'Header beim Scrollen fixieren',
+    transparent: 'Transparent über dem Hero',
+    ctaEnabled: 'Call-to-Action-Button (CTA)',
+    ctaLabel: 'Button-Text',
+    ctaUrl: 'Button-URL',
+    mobileTitle: 'Mobiles Verhalten',
+    mobileLogoPosition: 'Logo-Position',
+    mobileMenuIcon: 'Seite des Menü-Icons',
+    positionLeft: 'Links',
+    positionCenter: 'Mitte',
+    positionRight: 'Rechts',
+  },
+  footer: {
+    variantLabel: 'Footer-Layout',
+    variants: {
+      columns: 'Mehrspaltig',
+      centered: 'Zentriert',
+      minimal: 'Minimal',
+      'cta-columns': 'CTA + Spalten',
+    },
+    columns: 'Anzahl der Spalten',
+    showSocial: 'Soziale Netzwerke anzeigen',
+    showNewsletter: 'Newsletter-Block anzeigen',
+    copyright: 'Copyright-Text',
+  },
+  content: {
+    widthLabel: 'Breite des Inhaltsbereichs',
+    boxed: 'Boxed',
+    boxedHint: 'Inhalt wird mit maximaler Breite zentriert (empfohlen)',
+    full: 'Volle Breite',
+    fullHint: 'Inhalt nutzt die gesamte Bildschirmbreite',
+  },
+  preview: {
+    title: 'Vorschau',
+    desktop: 'Desktop',
+    mobile: 'Mobil',
+    sampleMenu: ['Start', 'Dienste', 'Blog', 'Kontakt'],
+    sampleCta: 'Kontakt',
+    sampleNewsletter: 'Newsletter abonnieren',
+    sampleCopyright: '© 2026 · Deine Marke',
+  },
+}

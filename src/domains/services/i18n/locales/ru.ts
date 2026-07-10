@@ -9,9 +9,9 @@ export const ru: ServicesTranslations = {
     editTitle: 'Редактировать услугу',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина услуг',
-    trashDescription: 'Удалённые услуги — восстановить или удалить навсегда',
+    trashDescription: 'Услуги, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
-    trashEmptyDescription: 'Нет удалённых услуг.',
+    trashEmptyDescription: 'Удалённые услуги будут отображаться здесь.',
   },
   table: {
     noResults: 'Услуги не найдены',
@@ -65,15 +65,13 @@ export const ru: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `Удалить ${count} услуг? Их можно будет восстановить из корзины.`,
     restoreTitle: 'Восстановить услугу',
-    restoreDescription: (name) => `Восстановить "${name}"?`,
+    restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} услуг?`,
-    purgeTitle: 'Удалить навсегда',
-    purgeDescription: (name) =>
-      `Удалить "${name}" навсегда? Это действие нельзя отменить.`,
-    confirmPurge: 'Удалить навсегда',
-    bulkPurgeDescription: (count) =>
-      `Удалить ${count} услуг навсегда? Это действие нельзя отменить.`,
+    bulkRestoreDescription: (count) => `Восстановить ${count} услуг в активный список?`,
+    purgeTitle: 'Удаление навсегда',
+    purgeDescription: (name) => `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
+    confirmPurge: 'Удалить',
+    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} услуг. Действие НЕОБРАТИМО.`,
   },
   form: {
     sectionGeneral: 'Общая информация',

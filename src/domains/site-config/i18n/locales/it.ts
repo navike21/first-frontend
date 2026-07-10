@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const it: SiteConfigTranslations = {
+  page: {
+    title: 'Configurazione del sito web',
+    description: "Definisci il layout globale del sito pubblico: header, footer e area contenuti",
+  },
+  tabs: {
+    header: 'Header',
+    footer: 'Footer',
+    content: 'Contenuto',
+  },
+  actions: {
+    save: 'Salva le modifiche',
+    saved: 'Configurazione salvata',
+    unsavedHint: 'Hai modifiche non salvate',
+  },
+  header: {
+    variantLabel: 'Layout dell’header',
+    variants: {
+      'logo-left-menu-right': 'Logo a sinistra · menu a destra',
+      'logo-left-menu-center': 'Logo a sinistra · menu centrato · CTA',
+      'logo-center-split': 'Logo centrato · menu diviso',
+      'logo-center-stacked': 'Logo sopra · menu sotto',
+    },
+    sticky: 'Header fisso allo scroll',
+    transparent: 'Trasparente sull’hero',
+    ctaEnabled: 'Pulsante call-to-action (CTA)',
+    ctaLabel: 'Testo del pulsante',
+    ctaUrl: 'URL del pulsante',
+    mobileTitle: 'Comportamento mobile',
+    mobileLogoPosition: 'Posizione del logo',
+    mobileMenuIcon: 'Lato dell’icona menu',
+    positionLeft: 'Sinistra',
+    positionCenter: 'Centro',
+    positionRight: 'Destra',
+  },
+  footer: {
+    variantLabel: 'Layout del footer',
+    variants: {
+      columns: 'Multi-colonna',
+      centered: 'Centrato',
+      minimal: 'Minimal',
+      'cta-columns': 'CTA + colonne',
+    },
+    columns: 'Numero di colonne',
+    showSocial: 'Mostra i social',
+    showNewsletter: 'Mostra il blocco newsletter',
+    copyright: 'Testo di copyright',
+  },
+  content: {
+    widthLabel: 'Larghezza dell’area contenuti',
+    boxed: 'Boxed',
+    boxedHint: 'Il contenuto è centrato con una larghezza massima (consigliato)',
+    full: 'Larghezza piena',
+    fullHint: 'Il contenuto occupa tutta la larghezza dello schermo',
+  },
+  preview: {
+    title: 'Anteprima',
+    desktop: 'Desktop',
+    mobile: 'Mobile',
+    sampleMenu: ['Home', 'Servizi', 'Blog', 'Contatti'],
+    sampleCta: 'Contattaci',
+    sampleNewsletter: 'Iscriviti alla newsletter',
+    sampleCopyright: '© 2026 · Il tuo brand',
+  },
+}

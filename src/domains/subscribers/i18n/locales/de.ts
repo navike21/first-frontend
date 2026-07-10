@@ -9,9 +9,9 @@ export const de: SubscribersTranslations = {
     editTitle: 'Abonnenten bearbeiten',
     editDescription: (name) => `Informationen für ${name} aktualisieren`,
     trashTitle: 'Papierkorb Abonnenten',
-    trashDescription: 'Gelöschte Abonnenten — wiederherstellen oder endgültig löschen',
-    trashEmpty: 'Der Papierkorb ist leer',
-    trashEmptyDescription: 'Keine gelöschten Abonnenten.',
+    trashDescription: 'Abonnenten, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashEmpty: 'Keine Abonnenten im Papierkorb',
+    trashEmptyDescription: 'Gelöschte Abonnenten werden hier angezeigt.',
   },
   table: {
     noResults: 'Keine Abonnenten gefunden',
@@ -62,16 +62,14 @@ export const de: SubscribersTranslations = {
     confirmDelete: 'Löschen',
     bulkDeleteDescription: (count) =>
       `${count} Abonnenten löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
-    restoreTitle: 'Abonnenten wiederherstellen',
-    restoreDescription: (name) => `${name} wiederherstellen?`,
+    restoreTitle: 'Abonnent wiederherstellen',
+    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Abonnenten wiederherstellen?`,
+    bulkRestoreDescription: (count) => `${count} Abonnenten in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) =>
-      `${name} endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
-    confirmPurge: 'Endgültig löschen',
-    bulkPurgeDescription: (count) =>
-      `${count} Abonnenten endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
+    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    confirmPurge: 'Löschen',
+    bulkPurgeDescription: (count) => `Dies löscht ${count} Abonnenten endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     sectionPersonal: 'Persönliche Informationen',

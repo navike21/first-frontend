@@ -1,0 +1,1 @@
+export { TagDetailModal } from './TagDetailModal'

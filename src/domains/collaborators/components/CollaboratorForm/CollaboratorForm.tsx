@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import {
   InputField,
   InputNumber,
-  TextArea,
+  RichTextArea,
   Select,
   Switch,
   PhotoPicker,
@@ -19,7 +19,7 @@ import { useConfigData } from '@/shared/api/config'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { useCollaboratorsTranslation } from '../../i18n'
-import { useUsersForCollaboratorPicker } from '../../api/collaborators.queries'
+import { useUsersForCollaboratorPicker, useLinkedUserIds } from '../../api/collaborators.queries'
 import { createCollaboratorSchema } from '../../model/collaborator.schema'
 import type { CollaboratorFormData } from '../../model/collaborator.schema'
 
@@ -94,6 +94,7 @@ export const CollaboratorForm = ({
   const { t, language } = useCollaboratorsTranslation()
   const schema = useMemo(() => createCollaboratorSchema(t.validation, language), [t.validation, language])
   const { data: usersData } = useUsersForCollaboratorPicker()
+  const { data: linkedUserIds } = useLinkedUserIds()
   const { data: configData } = useConfigData(['collaboratorRoles', 'collaboratorLevels'], language)
 
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
@@ -148,7 +149,14 @@ export const CollaboratorForm = ({
   const roleOptions = (configData?.collaboratorRoles ?? []).map((o) => ({ value: o.value, label: o.label }))
   const levelOptions = (configData?.collaboratorLevels ?? []).map((o) => ({ value: o.value, label: o.label }))
 
-  const currentDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
+  // A linked collaborator mirrors the system user: name and photo come from
+  // the account, so both lock while a user is selected. The link itself is
+  // immutable once the collaborator exists (edit mode).
+  const isLinked = !!userIdValue
+  const linkedUser = (usersData ?? []).find((u) => u.id === userIdValue)
+
+  const unlinkedDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
+  const currentDisplayUrl = isLinked ? linkedUser?.profilePictureUrl || currentPhotoUrl : unlinkedDisplayUrl
 
   const handlePhotoChange = (file: File | null) => {
     setPendingFile(file)
@@ -160,12 +168,14 @@ export const CollaboratorForm = ({
     setRemovePhoto(true)
   }
 
+  // Each system user can back at most one collaborator: users already linked
+  // elsewhere are excluded (the currently linked one stays so its label shows).
+  const availableUsers = (usersData ?? []).filter(
+    (u) => !linkedUserIds?.includes(u.id) || u.id === initialValues?.userId,
+  )
   const userOptions = [
     { value: '', label: t.form.noLinkedUser },
-    ...(usersData ?? []).map((u) => ({
-      value: u.id,
-      label: `${u.firstName} ${u.lastName} (${u.email})`,
-    })),
+    ...availableUsers.map((u) => ({ value: u.id, label: `${u.firstName} ${u.lastName}` })),
   ]
 
   const handleUserChange = (userId: string) => {
@@ -177,9 +187,18 @@ export const CollaboratorForm = ({
       shouldDirty: true,
       shouldTouch: true,
     })
+    setValue('photoUrl', user.profilePictureUrl ?? '', {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
+    setPendingFile(null)
+    setRemovePhoto(false)
   }
 
-  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
+  const submit = handleSubmit((data) =>
+    onSubmit(data, isLinked ? null : pendingFile, isLinked ? false : removePhoto),
+  )
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -193,6 +212,7 @@ export const CollaboratorForm = ({
             options={userOptions}
             value={userIdValue ?? ''}
             lang={language}
+            disabled={mode === 'edit' || isSubmitting}
             onChange={(e) => handleUserChange(e.target.value)}
           />
         </div>
@@ -204,9 +224,9 @@ export const CollaboratorForm = ({
             uploadLabel={t.form.uploadPhoto}
             formatsHint={t.form.uploadFormats}
             onChange={handlePhotoChange}
-            onRemove={currentPhotoUrl || pendingFile ? handleRemovePhoto : undefined}
+            onRemove={!isLinked && (currentPhotoUrl || pendingFile) ? handleRemovePhoto : undefined}
             removeLabel={t.form.removePhoto}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLinked}
           />
         </div>
 
@@ -216,6 +236,7 @@ export const CollaboratorForm = ({
             label={requiredLabel(t.form.name)}
             variant={errors.name ? 'error' : undefined}
             errorMessage={errors.name?.message}
+            disabled={mode === 'edit' || isLinked}
             {...register('name')}
           />
           <InputNumber label={t.form.order} min={0} {...register('order')} />
@@ -279,12 +300,18 @@ export const CollaboratorForm = ({
               onChange={setEditingLanguage}
             />
           </div>
-          <TextArea
+          <RichTextArea
             label={requiredLabel(t.form.bio)}
-            rows={4}
             variant={bioError ? 'error' : 'default'}
             errorMessage={bioError}
-            {...register(`bio.${editingLanguage}`)}
+            value={bioValues?.[editingLanguage] ?? ''}
+            onChange={(html) =>
+              setValue(`bio.${editingLanguage}`, html, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              })
+            }
           />
         </div>
 
@@ -296,7 +323,7 @@ export const CollaboratorForm = ({
               {t.form.optional}
             </span>
           </SectionLabel>
-          <FormGrid>
+          <FormGrid className="lg:grid-cols-2">
             <InputField
               label={t.form.linkedin}
               variant={errors.socialLinks?.linkedin ? 'error' : undefined}

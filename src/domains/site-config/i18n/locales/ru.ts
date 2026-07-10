@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const ru: SiteConfigTranslations = {
+  page: {
+    title: 'Конфигурация сайта',
+    description: 'Определите глобальный макет публичного сайта: шапка, подвал и область контента',
+  },
+  tabs: {
+    header: 'Шапка',
+    footer: 'Подвал',
+    content: 'Контент',
+  },
+  actions: {
+    save: 'Сохранить изменения',
+    saved: 'Конфигурация сохранена',
+    unsavedHint: 'Есть несохранённые изменения',
+  },
+  header: {
+    variantLabel: 'Макет шапки',
+    variants: {
+      'logo-left-menu-right': 'Логотип слева · меню справа',
+      'logo-left-menu-center': 'Логотип слева · меню по центру · CTA',
+      'logo-center-split': 'Логотип по центру · раздельное меню',
+      'logo-center-stacked': 'Логотип сверху · меню снизу',
+    },
+    sticky: 'Фиксировать шапку при прокрутке',
+    transparent: 'Прозрачная поверх обложки',
+    ctaEnabled: 'Кнопка призыва к действию (CTA)',
+    ctaLabel: 'Текст кнопки',
+    ctaUrl: 'URL кнопки',
+    mobileTitle: 'Поведение на мобильных',
+    mobileLogoPosition: 'Положение логотипа',
+    mobileMenuIcon: 'Сторона иконки меню',
+    positionLeft: 'Слева',
+    positionCenter: 'По центру',
+    positionRight: 'Справа',
+  },
+  footer: {
+    variantLabel: 'Макет подвала',
+    variants: {
+      columns: 'Многоколоночный',
+      centered: 'По центру',
+      minimal: 'Минимальный',
+      'cta-columns': 'CTA + колонки',
+    },
+    columns: 'Число колонок',
+    showSocial: 'Показывать соцсети',
+    showNewsletter: 'Показывать блок рассылки',
+    copyright: 'Текст копирайта',
+  },
+  content: {
+    widthLabel: 'Ширина области контента',
+    boxed: 'Ограниченная',
+    boxedHint: 'Контент центрируется с максимальной шириной (рекомендуется)',
+    full: 'Во всю ширину',
+    fullHint: 'Контент занимает всю ширину экрана',
+  },
+  preview: {
+    title: 'Предпросмотр',
+    desktop: 'Десктоп',
+    mobile: 'Мобильный',
+    sampleMenu: ['Главная', 'Услуги', 'Блог', 'Контакты'],
+    sampleCta: 'Связаться',
+    sampleNewsletter: 'Подписаться на рассылку',
+    sampleCopyright: '© 2026 · Ваш бренд',
+  },
+}

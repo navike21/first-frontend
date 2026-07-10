@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const zh: SiteConfigTranslations = {
+  page: {
+    title: '网站配置',
+    description: '定义公开网站的全局布局：页头、页脚和内容区域',
+  },
+  tabs: {
+    header: '页头',
+    footer: '页脚',
+    content: '内容',
+  },
+  actions: {
+    save: '保存更改',
+    saved: '配置已保存',
+    unsavedHint: '有未保存的更改',
+  },
+  header: {
+    variantLabel: '页头布局',
+    variants: {
+      'logo-left-menu-right': '标志居左 · 菜单居右',
+      'logo-left-menu-center': '标志居左 · 菜单居中 · CTA',
+      'logo-center-split': '标志居中 · 分列菜单',
+      'logo-center-stacked': '标志在上 · 菜单在下',
+    },
+    sticky: '滚动时固定页头',
+    transparent: '在主视觉上透明显示',
+    ctaEnabled: '行动号召按钮（CTA）',
+    ctaLabel: '按钮文字',
+    ctaUrl: '按钮链接',
+    mobileTitle: '移动端行为',
+    mobileLogoPosition: '标志位置',
+    mobileMenuIcon: '菜单图标位置',
+    positionLeft: '左',
+    positionCenter: '中',
+    positionRight: '右',
+  },
+  footer: {
+    variantLabel: '页脚布局',
+    variants: {
+      columns: '多栏',
+      centered: '居中',
+      minimal: '极简',
+      'cta-columns': 'CTA + 多栏',
+    },
+    columns: '栏数',
+    showSocial: '显示社交链接',
+    showNewsletter: '显示订阅栏',
+    copyright: '版权文字',
+  },
+  content: {
+    widthLabel: '内容区域宽度',
+    boxed: '盒式',
+    boxedHint: '内容以最大宽度居中显示（推荐）',
+    full: '全宽',
+    fullHint: '内容占据整个屏幕宽度',
+  },
+  preview: {
+    title: '预览',
+    desktop: '桌面',
+    mobile: '移动',
+    sampleMenu: ['首页', '服务', '博客', '联系'],
+    sampleCta: '联系我们',
+    sampleNewsletter: '订阅通讯',
+    sampleCopyright: '© 2026 · 您的品牌',
+  },
+}

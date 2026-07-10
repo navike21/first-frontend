@@ -9,9 +9,9 @@ export const it: SubscribersTranslations = {
     editTitle: "Modifica l'iscritto",
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino iscritti',
-    trashDescription: 'Iscritti eliminati — ripristinali o eliminali definitivamente',
-    trashEmpty: 'Il cestino è vuoto',
-    trashEmptyDescription: 'Nessun iscritto eliminato.',
+    trashDescription: 'Iscritti spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashEmpty: 'Nessun iscritto nel cestino',
+    trashEmptyDescription: 'Gli iscritti eliminati appariranno qui.',
   },
   table: {
     noResults: 'Nessun iscritto trovato',
@@ -62,16 +62,14 @@ export const it: SubscribersTranslations = {
     confirmDelete: 'Elimina',
     bulkDeleteDescription: (count) =>
       `Eliminare ${count} iscritti? Puoi ripristinarli dal cestino.`,
-    restoreTitle: "Ripristina l'iscritto",
-    restoreDescription: (name) => `Ripristinare ${name}?`,
+    restoreTitle: 'Ripristina iscritto',
+    restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} iscritti?`,
-    purgeTitle: 'Elimina definitivamente',
-    purgeDescription: (name) =>
-      `Eliminare definitivamente ${name}? Questa azione non può essere annullata.`,
-    confirmPurge: 'Elimina definitivamente',
-    bulkPurgeDescription: (count) =>
-      `Eliminare definitivamente ${count} iscritti? Questa azione non può essere annullata.`,
+    bulkRestoreDescription: (count) => `Ripristinare ${count} iscritti nella lista attiva?`,
+    purgeTitle: 'Eliminazione definitiva',
+    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    confirmPurge: 'Elimina',
+    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} iscritti. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     sectionPersonal: 'Informazioni personali',

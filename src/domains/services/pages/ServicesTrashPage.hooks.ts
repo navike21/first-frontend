@@ -26,7 +26,7 @@ export function useServicesTrashPage() {
   const bulkRestore = useBulkRestoreServices()
   const bulkPurge = useBulkPurgeServices()
 
-  const services = data?.data ?? []
+  const services = Array.isArray(data?.data) ? data.data : []
   const meta = data?.meta as ServicePaginationMeta | undefined
   const total = meta?.total ?? 0
   const pages = meta?.totalPages ?? 1

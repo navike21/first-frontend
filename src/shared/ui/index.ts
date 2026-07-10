@@ -38,6 +38,7 @@ export { RichTextArea, type RichTextAreaProps } from './atoms/RichTextArea'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'
+export { ActionMenu, type ActionMenuItem, type ActionMenuProps } from './molecules/ActionMenu'
 export { Checkbox, type CheckboxProps } from './molecules/Checkbox'
 export { Drawer, type DrawerProps } from './molecules/Drawer'
 export { FeatureCard, type FeatureCardProps } from './molecules/FeatureCard'

@@ -9,9 +9,9 @@ export const zh: ServicesTranslations = {
     editTitle: '编辑服务',
     editDescription: (name) => `更新${name}的信息`,
     trashTitle: '服务回收站',
-    trashDescription: '已删除的服务 — 还原或永久删除',
-    trashEmpty: '回收站为空',
-    trashEmptyDescription: '没有已删除的服务。',
+    trashDescription: '已移至回收站的服务。可以还原或永久删除。',
+    trashEmpty: '回收站中没有服务',
+    trashEmptyDescription: '删除的服务将显示在此处。',
   },
   table: {
     noResults: '未找到服务',
@@ -65,15 +65,13 @@ export const zh: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `删除 ${count} 个服务？您可以从回收站还原。`,
     restoreTitle: '还原服务',
-    restoreDescription: (name) => `还原"${name}"？`,
+    restoreDescription: (name) => `将 ${name} 还原到活跃列表？`,
     confirmRestore: '还原',
-    bulkRestoreDescription: (count) => `还原 ${count} 个服务？`,
+    bulkRestoreDescription: (count) => `将 ${count} 个服务恢复到活动列表？`,
     purgeTitle: '永久删除',
-    purgeDescription: (name) =>
-      `永久删除"${name}"？此操作无法撤销。`,
-    confirmPurge: '永久删除',
-    bulkPurgeDescription: (count) =>
-      `永久删除 ${count} 个服务？此操作无法撤销。`,
+    purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
+    confirmPurge: '删除',
+    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个服务。此操作不可逆。`,
   },
   form: {
     sectionGeneral: '基本信息',

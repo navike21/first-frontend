@@ -9,9 +9,9 @@ export const en: SubscribersTranslations = {
     editTitle: 'Edit subscriber',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Subscribers trash',
-    trashDescription: 'Deleted subscribers — restore or permanently delete them',
-    trashEmpty: 'The trash is empty',
-    trashEmptyDescription: 'No deleted subscribers.',
+    trashDescription: 'Subscribers that have been moved to trash. Restore or permanently delete them.',
+    trashEmpty: 'No subscribers in trash',
+    trashEmptyDescription: 'When subscribers are deleted, they will appear here.',
   },
   table: {
     noResults: 'No subscribers found',
@@ -66,15 +66,13 @@ export const en: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `Delete ${count} subscribers? You can restore them from the trash.`,
     restoreTitle: 'Restore subscriber',
-    restoreDescription: (name) => `Restore ${name}?`,
+    restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} subscribers?`,
-    purgeTitle: 'Permanently delete',
-    purgeDescription: (name) =>
-      `Permanently delete ${name}? This action cannot be undone.`,
-    confirmPurge: 'Permanently delete',
-    bulkPurgeDescription: (count) =>
-      `Permanently delete ${count} subscribers? This action cannot be undone.`,
+    bulkRestoreDescription: (count) => `Restore ${count} subscribers to the active list?`,
+    purgeTitle: 'Delete permanently',
+    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    confirmPurge: 'Delete',
+    bulkPurgeDescription: (count) => `This will permanently delete ${count} subscribers. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionPersonal: 'Personal information',

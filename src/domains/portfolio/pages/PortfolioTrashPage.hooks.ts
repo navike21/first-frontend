@@ -26,7 +26,7 @@ export function usePortfolioTrashPage() {
   const bulkRestore = useBulkRestorePortfolio()
   const bulkPurge = useBulkPurgePortfolio()
 
-  const items = data?.data ?? []
+  const items = Array.isArray(data?.data) ? data.data : []
   const meta = data?.meta as PortfolioPaginationMeta | undefined
   const total = meta?.total ?? 0
   const pages = meta?.totalPages ?? 1

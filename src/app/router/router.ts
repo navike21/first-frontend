@@ -14,9 +14,12 @@ import { allServicesRouteTrees } from './routes/services.route'
 import { allPortfolioRouteTrees } from './routes/portfolio.route'
 import { allPagesRouteTrees } from './routes/pages.route'
 import { allCollaboratorsRouteTrees } from './routes/collaborators.route'
+import { allCategoriesRouteTrees } from './routes/categories.route'
+import { allTagsRouteTrees } from './routes/tags.route'
 import { allSubscribersRouteTrees } from './routes/subscribers.route'
 import { allAuditLogsRouteTrees } from './routes/auditLogs.route'
 import { allAppSettingsRouteTrees } from './routes/appSettings.route'
+import { allSiteConfigRouteTrees } from './routes/siteConfig.route'
 import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
@@ -55,9 +58,12 @@ const routeTree = rootRoute.addChildren([
       ...allPortfolioRouteTrees,
       ...allPagesRouteTrees,
       ...allCollaboratorsRouteTrees,
+      ...allCategoriesRouteTrees,
+      ...allTagsRouteTrees,
       ...allSubscribersRouteTrees,
       ...allAuditLogsRouteTrees,
       ...allAppSettingsRouteTrees,
+      ...allSiteConfigRouteTrees,
       ...allProfileRouteTrees,
     ]),
     ...allForbiddenRouteTrees,

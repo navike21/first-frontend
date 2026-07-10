@@ -1,0 +1,1 @@
+export { PageRevisionCompareModal } from './PageRevisionCompareModal'

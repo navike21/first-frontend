@@ -1,0 +1,1 @@
+export { PageRevisionsPanel } from './PageRevisionsPanel'

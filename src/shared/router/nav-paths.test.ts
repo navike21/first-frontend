@@ -68,14 +68,14 @@ describe('navPaths', () => {
   })
 
   describe('userEdit', () => {
-    it('returns the es userEdit path with userId', () => {
+    it('returns the es userEdit path with userId at the end', () => {
       expect(navPaths.userEdit('user-123', 'es')).toBe(
-        '/es/usuarios/user-123/editar'
+        '/es/usuarios/editar/user-123'
       )
     })
 
     it('returns the en userEdit path', () => {
-      expect(navPaths.userEdit('u-1', 'en')).toBe('/en/users/u-1/edit')
+      expect(navPaths.userEdit('u-1', 'en')).toBe('/en/users/edit/u-1')
     })
   })
 
@@ -104,7 +104,7 @@ describe('navPaths', () => {
   describe('userGroupEdit', () => {
     it('returns the es userGroupEdit path', () => {
       expect(navPaths.userGroupEdit('grp-1', 'es')).toBe(
-        '/es/grupos/grp-1/editar'
+        '/es/grupos/editar/grp-1'
       )
     })
   })

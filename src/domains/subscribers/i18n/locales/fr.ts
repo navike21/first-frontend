@@ -9,9 +9,9 @@ export const fr: SubscribersTranslations = {
     editTitle: "Modifier l'abonné",
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des abonnés',
-    trashDescription: 'Abonnés supprimés — restaurez-les ou supprimez-les définitivement',
-    trashEmpty: 'La corbeille est vide',
-    trashEmptyDescription: 'Aucun abonné supprimé.',
+    trashDescription: 'Abonnés déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashEmpty: 'Aucun abonné dans la corbeille',
+    trashEmptyDescription: 'Les abonnés supprimés apparaîtront ici.',
   },
   table: {
     noResults: 'Aucun abonné trouvé',
@@ -63,15 +63,13 @@ export const fr: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `Supprimer ${count} abonnés ? Vous pouvez les restaurer depuis la corbeille.`,
     restoreTitle: "Restaurer l'abonné",
-    restoreDescription: (name) => `Restaurer ${name} ?`,
+    restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} abonnés ?`,
-    purgeTitle: 'Supprimer définitivement',
-    purgeDescription: (name) =>
-      `Supprimer définitivement ${name} ? Cette action est irréversible.`,
-    confirmPurge: 'Supprimer définitivement',
-    bulkPurgeDescription: (count) =>
-      `Supprimer définitivement ${count} abonnés ? Cette action est irréversible.`,
+    bulkRestoreDescription: (count) => `Restaurer ${count} abonnés dans la liste active ?`,
+    purgeTitle: 'Suppression définitive',
+    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    confirmPurge: 'Supprimer',
+    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} abonnés. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     sectionPersonal: 'Informations personnelles',

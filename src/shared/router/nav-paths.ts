@@ -33,7 +33,7 @@ export const navPaths = {
 
   userEdit: (userId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.users[l_]}/${userId}/${ROUTE_SLUGS.userEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.users[l_]}/${ROUTE_SLUGS.userEdit[l_]}/${userId}`
   },
 
   userTrash: (l?: Language) => {
@@ -53,12 +53,12 @@ export const navPaths = {
 
   userGroupEdit: (groupId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${groupId}/${ROUTE_SLUGS.userGroupEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${ROUTE_SLUGS.userGroupEdit[l_]}/${groupId}`
   },
 
   userGroupUsers: (groupId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${groupId}/${ROUTE_SLUGS.userGroupUsers[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.userGroups[l_]}/${ROUTE_SLUGS.userGroupUsers[l_]}/${groupId}`
   },
 
   userGroupTrash: (l?: Language) => {
@@ -75,7 +75,7 @@ export const navPaths = {
   },
   clientEdit: (clientId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.clients[l_]}/${clientId}/${ROUTE_SLUGS.clientEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.clients[l_]}/${ROUTE_SLUGS.clientEdit[l_]}/${clientId}`
   },
   clientTrash: (l?: Language) => {
     const l_ = lang(l)
@@ -117,6 +117,58 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.pages[l_]}`
   },
+  pageCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.pages[l_]}/${ROUTE_SLUGS.pageCreate[l_]}`
+  },
+  pageEdit: (pageId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.pages[l_]}/${ROUTE_SLUGS.pageEdit[l_]}/${pageId}`
+  },
+  pageBuilder: (pageId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.pages[l_]}/${ROUTE_SLUGS.pageBuilder[l_]}/${pageId}`
+  },
+  pageTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.pages[l_]}/${ROUTE_SLUGS.pageTrash[l_]}`
+  },
+  categories: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.categories[l_]}`
+  },
+  categoryCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.categories[l_]}/${ROUTE_SLUGS.categoryCreate[l_]}`
+  },
+  categoryEdit: (categoryId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.categories[l_]}/${ROUTE_SLUGS.categoryEdit[l_]}/${categoryId}`
+  },
+  categoryTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.categories[l_]}/${ROUTE_SLUGS.categoryTrash[l_]}`
+  },
+  tags: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.tags[l_]}`
+  },
+  tagCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.tags[l_]}/${ROUTE_SLUGS.tagCreate[l_]}`
+  },
+  tagEdit: (tagId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.tags[l_]}/${ROUTE_SLUGS.tagEdit[l_]}/${tagId}`
+  },
+  tagTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.tags[l_]}/${ROUTE_SLUGS.tagTrash[l_]}`
+  },
+  siteConfig: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.siteConfig[l_]}`
+  },
   collaborators: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}`
@@ -127,7 +179,7 @@ export const navPaths = {
   },
   collaboratorEdit: (collaboratorId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}/${collaboratorId}/${ROUTE_SLUGS.collaboratorEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}/${ROUTE_SLUGS.collaboratorEdit[l_]}/${collaboratorId}`
   },
   collaboratorTrash: (l?: Language) => {
     const l_ = lang(l)
@@ -143,7 +195,7 @@ export const navPaths = {
   },
   subscriberEdit: (subscriberId: string, l?: Language) => {
     const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${subscriberId}/${ROUTE_SLUGS.subscriberEdit[l_]}`
+    return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${ROUTE_SLUGS.subscriberEdit[l_]}/${subscriberId}`
   },
   subscriberTrash: (l?: Language) => {
     const l_ = lang(l)

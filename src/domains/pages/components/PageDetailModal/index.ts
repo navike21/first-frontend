@@ -1,0 +1,1 @@
+export { PageDetailModal } from './PageDetailModal'

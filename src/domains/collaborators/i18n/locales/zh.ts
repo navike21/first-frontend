@@ -9,9 +9,9 @@ export const zh: CollaboratorTranslations = {
     editTitle: '编辑合作者',
     editDescription: (name) => `更新${name}的信息`,
     trashTitle: '合作者回收站',
-    trashDescription: '已删除的合作者 — 可以恢复或永久删除',
-    trashEmpty: '回收站为空',
-    trashEmptyDescription: '没有已删除的合作者。',
+    trashDescription: '已移至回收站的合作者。可以还原或永久删除。',
+    trashEmpty: '回收站中没有合作者',
+    trashEmptyDescription: '删除的合作者将显示在此处。',
   },
   table: {
     noResults: '未找到合作者',
@@ -58,16 +58,14 @@ export const zh: CollaboratorTranslations = {
     confirmDelete: '删除',
     bulkDeleteDescription: (count) =>
       `删除${count}位合作者？可以从回收站恢复。`,
-    restoreTitle: '恢复合作者',
-    restoreDescription: (name) => `恢复${name}？`,
-    confirmRestore: '恢复',
-    bulkRestoreDescription: (count) => `恢复${count}位合作者？`,
+    restoreTitle: '还原合作者',
+    restoreDescription: (name) => `将 ${name} 还原到活跃列表？`,
+    confirmRestore: '还原',
+    bulkRestoreDescription: (count) => `将 ${count} 个合作者恢复到活动列表？`,
     purgeTitle: '永久删除',
-    purgeDescription: (name) =>
-      `永久删除${name}？此操作无法撤销。`,
-    confirmPurge: '永久删除',
-    bulkPurgeDescription: (count) =>
-      `永久删除${count}位合作者？此操作无法撤销。`,
+    purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
+    confirmPurge: '删除',
+    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个合作者。此操作不可逆。`,
   },
   form: {
     tabTranslations: '翻译',

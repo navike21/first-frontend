@@ -9,9 +9,9 @@ export const en: ServicesTranslations = {
     editTitle: 'Edit service',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Services trash',
-    trashDescription: 'Deleted services — restore or permanently delete them',
-    trashEmpty: 'The trash is empty',
-    trashEmptyDescription: 'No deleted services.',
+    trashDescription: 'Services that have been moved to trash. Restore or permanently delete them.',
+    trashEmpty: 'No services in trash',
+    trashEmptyDescription: 'When services are deleted, they will appear here.',
   },
   table: {
     noResults: 'No services found',
@@ -68,15 +68,13 @@ export const en: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `Delete ${count} services? You can restore them from the trash.`,
     restoreTitle: 'Restore service',
-    restoreDescription: (name) => `Restore "${name}"?`,
+    restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} services?`,
-    purgeTitle: 'Permanently delete',
-    purgeDescription: (name) =>
-      `Permanently delete "${name}"? This action cannot be undone.`,
-    confirmPurge: 'Permanently delete',
-    bulkPurgeDescription: (count) =>
-      `Permanently delete ${count} services? This action cannot be undone.`,
+    bulkRestoreDescription: (count) => `Restore ${count} services to the active list?`,
+    purgeTitle: 'Delete permanently',
+    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    confirmPurge: 'Delete',
+    bulkPurgeDescription: (count) => `This will permanently delete ${count} services. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'General',

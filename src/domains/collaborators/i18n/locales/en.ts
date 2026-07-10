@@ -9,9 +9,9 @@ export const en: CollaboratorTranslations = {
     editTitle: 'Edit collaborator',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Collaborators trash',
-    trashDescription: 'Deleted collaborators — restore or permanently delete them',
-    trashEmpty: 'The trash is empty',
-    trashEmptyDescription: 'No deleted collaborators.',
+    trashDescription: 'Collaborators that have been moved to trash. Restore or permanently delete them.',
+    trashEmpty: 'No collaborators in trash',
+    trashEmptyDescription: 'When collaborators are deleted, they will appear here.',
   },
   table: {
     noResults: 'No collaborators found',
@@ -59,15 +59,13 @@ export const en: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `Delete ${count} collaborators? You can restore them from the trash.`,
     restoreTitle: 'Restore collaborator',
-    restoreDescription: (name) => `Restore ${name}?`,
+    restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} collaborators?`,
-    purgeTitle: 'Permanently delete',
-    purgeDescription: (name) =>
-      `Permanently delete ${name}? This action cannot be undone.`,
-    confirmPurge: 'Permanently delete',
-    bulkPurgeDescription: (count) =>
-      `Permanently delete ${count} collaborators? This action cannot be undone.`,
+    bulkRestoreDescription: (count) => `Restore ${count} collaborators to the active list?`,
+    purgeTitle: 'Delete permanently',
+    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    confirmPurge: 'Delete',
+    bulkPurgeDescription: (count) => `This will permanently delete ${count} collaborators. This action is IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Translations',

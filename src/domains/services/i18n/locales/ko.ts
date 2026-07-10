@@ -9,9 +9,9 @@ export const ko: ServicesTranslations = {
     editTitle: '서비스 편집',
     editDescription: (name) => `${name} 정보 업데이트`,
     trashTitle: '서비스 휴지통',
-    trashDescription: '삭제된 서비스 — 복원 또는 영구 삭제',
-    trashEmpty: '휴지통이 비어 있습니다',
-    trashEmptyDescription: '삭제된 서비스가 없습니다.',
+    trashDescription: '휴지통으로 이동된 서비스입니다. 복원하거나 영구 삭제할 수 있습니다.',
+    trashEmpty: '휴지통에 서비스가 없습니다',
+    trashEmptyDescription: '삭제된 서비스가 여기에 표시됩니다.',
   },
   table: {
     noResults: '서비스를 찾을 수 없습니다',
@@ -65,15 +65,13 @@ export const ko: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}개의 서비스를 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     restoreTitle: '서비스 복원',
-    restoreDescription: (name) => `"${name}"을(를) 복원하시겠습니까?`,
+    restoreDescription: (name) => `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `${count}개의 서비스를 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) => `서비스 ${count}개를 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) =>
-      `"${name}"을(를) 영구적으로 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.`,
-    confirmPurge: '영구 삭제',
-    bulkPurgeDescription: (count) =>
-      `${count}개의 서비스를 영구적으로 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.`,
+    purgeDescription: (name) => `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    confirmPurge: '삭제',
+    bulkPurgeDescription: (count) => `서비스 ${count}개를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
   },
   form: {
     sectionGeneral: '일반 정보',

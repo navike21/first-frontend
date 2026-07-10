@@ -9,9 +9,9 @@ export const es: ServicesTranslations = {
     editTitle: 'Editar servicio',
     editDescription: (name) => `Actualiza la información de ${name}`,
     trashTitle: 'Papelera de servicios',
-    trashDescription: 'Servicios eliminados — restáuralos o elimínalos definitivamente',
-    trashEmpty: 'La papelera está vacía',
-    trashEmptyDescription: 'No hay servicios eliminados.',
+    trashDescription: 'Servicios que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashEmpty: 'No hay servicios en la papelera',
+    trashEmptyDescription: 'Cuando se eliminen servicios, aparecerán aquí.',
   },
   table: {
     noResults: 'No se encontraron servicios',
@@ -68,15 +68,13 @@ export const es: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `¿Eliminar ${count} servicios? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar servicio',
-    restoreDescription: (name) => `¿Restaurar "${name}"?`,
+    restoreDescription: (name) => `¿Restaurar ${name} en la lista de activos?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} servicios?`,
-    purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) =>
-      `¿Eliminar definitivamente "${name}"? Esta acción no se puede deshacer.`,
-    confirmPurge: 'Eliminar definitivamente',
-    bulkPurgeDescription: (count) =>
-      `¿Eliminar definitivamente ${count} servicios? Esta acción no se puede deshacer.`,
+    bulkRestoreDescription: (count) => `¿Restaurar ${count} servicios en la lista de activos?`,
+    purgeTitle: 'Eliminar permanentemente',
+    purgeDescription: (name) => `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} servicios. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'Información general',

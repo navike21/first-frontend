@@ -9,9 +9,9 @@ export const es: CollaboratorTranslations = {
     editTitle: 'Editar colaborador',
     editDescription: (name) => `Actualiza la información de ${name}`,
     trashTitle: 'Papelera de colaboradores',
-    trashDescription: 'Colaboradores eliminados — restáuralos o elimínalos definitivamente',
-    trashEmpty: 'La papelera está vacía',
-    trashEmptyDescription: 'No hay colaboradores eliminados.',
+    trashDescription: 'Colaboradores que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashEmpty: 'No hay colaboradores en la papelera',
+    trashEmptyDescription: 'Cuando se eliminen colaboradores, aparecerán aquí.',
   },
   table: {
     noResults: 'No se encontraron colaboradores',
@@ -59,15 +59,13 @@ export const es: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `¿Eliminar ${count} colaboradores? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar colaborador',
-    restoreDescription: (name) => `¿Restaurar a ${name}?`,
+    restoreDescription: (name) => `¿Restaurar a ${name} en la lista de activos?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} colaboradores?`,
-    purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) =>
-      `¿Eliminar definitivamente a ${name}? Esta acción no se puede deshacer.`,
-    confirmPurge: 'Eliminar definitivamente',
-    bulkPurgeDescription: (count) =>
-      `¿Eliminar definitivamente ${count} colaboradores? Esta acción no se puede deshacer.`,
+    bulkRestoreDescription: (count) => `¿Restaurar ${count} colaboradores en la lista de activos?`,
+    purgeTitle: 'Eliminar permanentemente',
+    purgeDescription: (name) => `Esto eliminará permanentemente a ${name}. Esta acción es IRREVERSIBLE.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} colaboradores. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traducciones',

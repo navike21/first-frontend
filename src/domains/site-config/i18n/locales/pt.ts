@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const pt: SiteConfigTranslations = {
+  page: {
+    title: 'Configuração do site',
+    description: 'Defina o layout global do site público: header, footer e área de conteúdo',
+  },
+  tabs: {
+    header: 'Header',
+    footer: 'Footer',
+    content: 'Conteúdo',
+  },
+  actions: {
+    save: 'Salvar alterações',
+    saved: 'Configuração salva',
+    unsavedHint: 'Você tem alterações não salvas',
+  },
+  header: {
+    variantLabel: 'Layout do header',
+    variants: {
+      'logo-left-menu-right': 'Logo à esquerda · menu à direita',
+      'logo-left-menu-center': 'Logo à esquerda · menu centralizado · CTA',
+      'logo-center-split': 'Logo centralizado · menu dividido',
+      'logo-center-stacked': 'Logo acima · menu abaixo',
+    },
+    sticky: 'Header fixo ao rolar',
+    transparent: 'Transparente sobre o hero',
+    ctaEnabled: 'Botão de chamada para ação (CTA)',
+    ctaLabel: 'Texto do botão',
+    ctaUrl: 'URL do botão',
+    mobileTitle: 'Comportamento móvel',
+    mobileLogoPosition: 'Posição do logo',
+    mobileMenuIcon: 'Lado do ícone de menu',
+    positionLeft: 'Esquerda',
+    positionCenter: 'Centro',
+    positionRight: 'Direita',
+  },
+  footer: {
+    variantLabel: 'Layout do footer',
+    variants: {
+      columns: 'Multicoluna',
+      centered: 'Centralizado',
+      minimal: 'Minimal',
+      'cta-columns': 'CTA + colunas',
+    },
+    columns: 'Número de colunas',
+    showSocial: 'Mostrar redes sociais',
+    showNewsletter: 'Mostrar bloco de newsletter',
+    copyright: 'Texto de copyright',
+  },
+  content: {
+    widthLabel: 'Largura da área de conteúdo',
+    boxed: 'Encaixotado',
+    boxedHint: 'O conteúdo é centralizado com largura máxima (recomendado)',
+    full: 'Largura total',
+    fullHint: 'O conteúdo ocupa toda a largura da tela',
+  },
+  preview: {
+    title: 'Pré-visualização',
+    desktop: 'Desktop',
+    mobile: 'Móvel',
+    sampleMenu: ['Início', 'Serviços', 'Blog', 'Contato'],
+    sampleCta: 'Fale conosco',
+    sampleNewsletter: 'Assine a newsletter',
+    sampleCopyright: '© 2026 · Sua marca',
+  },
+}

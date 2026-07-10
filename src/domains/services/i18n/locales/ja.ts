@@ -9,9 +9,9 @@ export const ja: ServicesTranslations = {
     editTitle: 'サービスを編集',
     editDescription: (name) => `${name}の情報を更新する`,
     trashTitle: 'サービスのゴミ箱',
-    trashDescription: '削除されたサービス — 復元または完全削除',
-    trashEmpty: 'ゴミ箱は空です',
-    trashEmptyDescription: '削除されたサービスはありません。',
+    trashDescription: 'ゴミ箱に移動されたサービスです。復元または完全削除できます。',
+    trashEmpty: 'ゴミ箱にサービスはありません',
+    trashEmptyDescription: '削除されたサービスはここに表示されます。',
   },
   table: {
     noResults: 'サービスが見つかりません',
@@ -65,15 +65,13 @@ export const ja: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}件のサービスを削除しますか？ゴミ箱から復元できます。`,
     restoreTitle: 'サービスを復元',
-    restoreDescription: (name) => `"${name}"を復元しますか？`,
+    restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count}件のサービスを復元しますか？`,
-    purgeTitle: '完全に削除',
-    purgeDescription: (name) =>
-      `"${name}"を完全に削除しますか？この操作は元に戻せません。`,
-    confirmPurge: '完全に削除',
-    bulkPurgeDescription: (count) =>
-      `${count}件のサービスを完全に削除しますか？この操作は元に戻せません。`,
+    bulkRestoreDescription: (count) => `${count} 件のサービスを有効リストに復元しますか？`,
+    purgeTitle: '完全削除',
+    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    confirmPurge: '削除',
+    bulkPurgeDescription: (count) => `${count} 件のサービスを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     sectionGeneral: '基本情報',

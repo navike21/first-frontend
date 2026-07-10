@@ -1,0 +1,57 @@
+import type { HeaderVariant, FooterVariant } from '../model/site-config.types'
+
+export interface SiteConfigTranslations {
+  page: {
+    title: string
+    description: string
+  }
+  tabs: {
+    header: string
+    footer: string
+    content: string
+  }
+  actions: {
+    save: string
+    saved: string
+    unsavedHint: string
+  }
+  header: {
+    variantLabel: string
+    variants: Record<HeaderVariant, string>
+    sticky: string
+    transparent: string
+    ctaEnabled: string
+    ctaLabel: string
+    ctaUrl: string
+    mobileTitle: string
+    mobileLogoPosition: string
+    mobileMenuIcon: string
+    positionLeft: string
+    positionCenter: string
+    positionRight: string
+  }
+  footer: {
+    variantLabel: string
+    variants: Record<FooterVariant, string>
+    columns: string
+    showSocial: string
+    showNewsletter: string
+    copyright: string
+  }
+  content: {
+    widthLabel: string
+    boxed: string
+    boxedHint: string
+    full: string
+    fullHint: string
+  }
+  preview: {
+    title: string
+    desktop: string
+    mobile: string
+    sampleMenu: string[]
+    sampleCta: string
+    sampleNewsletter: string
+    sampleCopyright: string
+  }
+}

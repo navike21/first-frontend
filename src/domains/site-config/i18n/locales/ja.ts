@@ -1,0 +1,67 @@
+import type { SiteConfigTranslations } from '../types'
+
+export const ja: SiteConfigTranslations = {
+  page: {
+    title: 'ウェブサイト設定',
+    description: '公開サイトの全体レイアウト（ヘッダー・フッター・コンテンツ領域）を定義します',
+  },
+  tabs: {
+    header: 'ヘッダー',
+    footer: 'フッター',
+    content: 'コンテンツ',
+  },
+  actions: {
+    save: '変更を保存',
+    saved: '設定を保存しました',
+    unsavedHint: '未保存の変更があります',
+  },
+  header: {
+    variantLabel: 'ヘッダーレイアウト',
+    variants: {
+      'logo-left-menu-right': 'ロゴ左・メニュー右',
+      'logo-left-menu-center': 'ロゴ左・メニュー中央・CTA',
+      'logo-center-split': 'ロゴ中央・メニュー分割',
+      'logo-center-stacked': 'ロゴ上・メニュー下',
+    },
+    sticky: 'スクロール時にヘッダーを固定',
+    transparent: 'ヒーロー上で透過',
+    ctaEnabled: 'CTAボタン',
+    ctaLabel: 'ボタンのテキスト',
+    ctaUrl: 'ボタンのURL',
+    mobileTitle: 'モバイルの挙動',
+    mobileLogoPosition: 'ロゴの位置',
+    mobileMenuIcon: 'メニューアイコンの位置',
+    positionLeft: '左',
+    positionCenter: '中央',
+    positionRight: '右',
+  },
+  footer: {
+    variantLabel: 'フッターレイアウト',
+    variants: {
+      columns: 'マルチカラム',
+      centered: '中央寄せ',
+      minimal: 'ミニマル',
+      'cta-columns': 'CTA + カラム',
+    },
+    columns: 'カラム数',
+    showSocial: 'ソーシャルリンクを表示',
+    showNewsletter: 'ニュースレター欄を表示',
+    copyright: 'コピーライト文',
+  },
+  content: {
+    widthLabel: 'コンテンツ領域の幅',
+    boxed: 'ボックス',
+    boxedHint: '最大幅で中央寄せされます（推奨）',
+    full: '全幅',
+    fullHint: '画面全体の幅を使用します',
+  },
+  preview: {
+    title: 'プレビュー',
+    desktop: 'デスクトップ',
+    mobile: 'モバイル',
+    sampleMenu: ['ホーム', 'サービス', 'ブログ', 'お問い合わせ'],
+    sampleCta: 'お問い合わせ',
+    sampleNewsletter: 'ニュースレターを購読',
+    sampleCopyright: '© 2026 · あなたのブランド',
+  },
+}

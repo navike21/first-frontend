@@ -9,9 +9,9 @@ export const pt: ServicesTranslations = {
     editTitle: 'Editar serviço',
     editDescription: (name) => `Atualizar as informações de ${name}`,
     trashTitle: 'Lixeira de serviços',
-    trashDescription: 'Serviços eliminados — restaure-os ou elimine-os definitivamente',
-    trashEmpty: 'A lixeira está vazia',
-    trashEmptyDescription: 'Sem serviços eliminados.',
+    trashDescription: 'Serviços movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashEmpty: 'Nenhum serviço na lixeira',
+    trashEmptyDescription: 'Quando serviços forem excluídos, aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhum serviço encontrado',
@@ -65,15 +65,13 @@ export const pt: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `Eliminar ${count} serviços? Pode restaurá-los a partir da lixeira.`,
     restoreTitle: 'Restaurar serviço',
-    restoreDescription: (name) => `Restaurar "${name}"?`,
+    restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} serviços?`,
-    purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) =>
-      `Eliminar definitivamente "${name}"? Esta ação não pode ser desfeita.`,
-    confirmPurge: 'Eliminar definitivamente',
-    bulkPurgeDescription: (count) =>
-      `Eliminar definitivamente ${count} serviços? Esta ação não pode ser desfeita.`,
+    bulkRestoreDescription: (count) => `Restaurar ${count} serviços para a lista ativa?`,
+    purgeTitle: 'Exclusão permanente',
+    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} serviços. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     sectionGeneral: 'Geral',

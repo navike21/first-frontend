@@ -36,7 +36,7 @@ function createUserGroupsRouteTree(lang: Language) {
 
   const edit = createRoute({
     getParentRoute: () => layout,
-    path: `$groupId/${ROUTE_SLUGS.userGroupEdit[lang]}`,
+    path: `${ROUTE_SLUGS.userGroupEdit[lang]}/$groupId`,
     component: EditUserGroupPage,
     beforeLoad: requirePermission(...CAN.groupsUpdate),
   })
@@ -44,7 +44,7 @@ function createUserGroupsRouteTree(lang: Language) {
   // Managing a group's members is a group update.
   const users = createRoute({
     getParentRoute: () => layout,
-    path: `$groupId/${ROUTE_SLUGS.userGroupUsers[lang]}`,
+    path: `${ROUTE_SLUGS.userGroupUsers[lang]}/$groupId`,
     component: GroupUsersPage,
     beforeLoad: requirePermission(...CAN.groupsUpdate),
   })

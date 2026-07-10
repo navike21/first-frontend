@@ -9,9 +9,9 @@ export const de: ServicesTranslations = {
     editTitle: 'Dienst bearbeiten',
     editDescription: (name) => `Informationen für ${name} aktualisieren`,
     trashTitle: 'Papierkorb Dienste',
-    trashDescription: 'Gelöschte Dienste — wiederherstellen oder endgültig löschen',
-    trashEmpty: 'Der Papierkorb ist leer',
-    trashEmptyDescription: 'Keine gelöschten Dienste.',
+    trashDescription: 'Dienste, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashEmpty: 'Keine Dienste im Papierkorb',
+    trashEmptyDescription: 'Gelöschte Dienste werden hier angezeigt.',
   },
   table: {
     noResults: 'Keine Dienste gefunden',
@@ -65,15 +65,13 @@ export const de: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Dienste löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Dienst wiederherstellen',
-    restoreDescription: (name) => `"${name}" wiederherstellen?`,
+    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Dienste wiederherstellen?`,
+    bulkRestoreDescription: (count) => `${count} Dienste in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) =>
-      `"${name}" endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
-    confirmPurge: 'Endgültig löschen',
-    bulkPurgeDescription: (count) =>
-      `${count} Dienste endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
+    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    confirmPurge: 'Löschen',
+    bulkPurgeDescription: (count) => `Dies löscht ${count} Dienste endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     sectionGeneral: 'Allgemein',

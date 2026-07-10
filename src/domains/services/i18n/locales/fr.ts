@@ -9,9 +9,9 @@ export const fr: ServicesTranslations = {
     editTitle: 'Modifier le service',
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des services',
-    trashDescription: 'Services supprimés — restaurez-les ou supprimez-les définitivement',
-    trashEmpty: 'La corbeille est vide',
-    trashEmptyDescription: 'Aucun service supprimé.',
+    trashDescription: 'Services déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashEmpty: 'Aucun service dans la corbeille',
+    trashEmptyDescription: 'Les services supprimés apparaîtront ici.',
   },
   table: {
     noResults: 'Aucun service trouvé',
@@ -65,15 +65,13 @@ export const fr: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `Supprimer ${count} services ? Vous pouvez les restaurer depuis la corbeille.`,
     restoreTitle: 'Restaurer le service',
-    restoreDescription: (name) => `Restaurer "${name}" ?`,
+    restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} services ?`,
-    purgeTitle: 'Supprimer définitivement',
-    purgeDescription: (name) =>
-      `Supprimer définitivement "${name}" ? Cette action est irréversible.`,
-    confirmPurge: 'Supprimer définitivement',
-    bulkPurgeDescription: (count) =>
-      `Supprimer définitivement ${count} services ? Cette action est irréversible.`,
+    bulkRestoreDescription: (count) => `Restaurer ${count} services dans la liste active ?`,
+    purgeTitle: 'Suppression définitive',
+    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    confirmPurge: 'Supprimer',
+    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} services. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'Général',

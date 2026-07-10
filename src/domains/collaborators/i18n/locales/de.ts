@@ -9,9 +9,9 @@ export const de: CollaboratorTranslations = {
     editTitle: 'Mitarbeiter bearbeiten',
     editDescription: (name) => `Informationen für ${name} aktualisieren`,
     trashTitle: 'Papierkorb Mitarbeiter',
-    trashDescription: 'Gelöschte Mitarbeiter — wiederherstellen oder endgültig löschen',
-    trashEmpty: 'Der Papierkorb ist leer',
-    trashEmptyDescription: 'Keine gelöschten Mitarbeiter.',
+    trashDescription: 'Mitarbeiter, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashEmpty: 'Keine Mitarbeiter im Papierkorb',
+    trashEmptyDescription: 'Gelöschte Mitarbeiter werden hier angezeigt.',
   },
   table: {
     noResults: 'Keine Mitarbeiter gefunden',
@@ -59,15 +59,13 @@ export const de: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Mitarbeiter löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Mitarbeiter wiederherstellen',
-    restoreDescription: (name) => `${name} wiederherstellen?`,
+    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Mitarbeiter wiederherstellen?`,
+    bulkRestoreDescription: (count) => `${count} Mitarbeiter in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) =>
-      `${name} endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
-    confirmPurge: 'Endgültig löschen',
-    bulkPurgeDescription: (count) =>
-      `${count} Mitarbeiter endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.`,
+    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    confirmPurge: 'Löschen',
+    bulkPurgeDescription: (count) => `Dies löscht ${count} Mitarbeiter endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     tabTranslations: 'Übersetzungen',

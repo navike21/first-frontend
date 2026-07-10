@@ -9,9 +9,9 @@ export const ja: CollaboratorTranslations = {
     editTitle: 'コラボレーターを編集',
     editDescription: (name) => `${name}の情報を更新します`,
     trashTitle: 'コラボレーターのごみ箱',
-    trashDescription: '削除されたコラボレーター — 復元するか完全に削除します',
-    trashEmpty: 'ごみ箱は空です',
-    trashEmptyDescription: '削除されたコラボレーターはありません。',
+    trashDescription: 'ゴミ箱に移動されたコラボレーターです。復元または完全削除できます。',
+    trashEmpty: 'ゴミ箱にコラボレーターはいません',
+    trashEmptyDescription: '削除されたコラボレーターはここに表示されます。',
   },
   table: {
     noResults: 'コラボレーターが見つかりません',
@@ -59,15 +59,13 @@ export const ja: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}人のコラボレーターを削除しますか？ごみ箱から復元できます。`,
     restoreTitle: 'コラボレーターを復元',
-    restoreDescription: (name) => `${name}を復元しますか？`,
+    restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count}人のコラボレーターを復元しますか？`,
-    purgeTitle: '完全に削除',
-    purgeDescription: (name) =>
-      `${name}を完全に削除しますか？この操作は取り消せません。`,
-    confirmPurge: '完全に削除',
-    bulkPurgeDescription: (count) =>
-      `${count}人のコラボレーターを完全に削除しますか？この操作は取り消せません。`,
+    bulkRestoreDescription: (count) => `${count} 件のコラボレーターを有効リストに復元しますか？`,
+    purgeTitle: '完全削除',
+    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    confirmPurge: '削除',
+    bulkPurgeDescription: (count) => `${count} 件のコラボレーターを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     tabTranslations: '翻訳',

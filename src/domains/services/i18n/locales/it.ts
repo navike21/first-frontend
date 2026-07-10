@@ -9,9 +9,9 @@ export const it: ServicesTranslations = {
     editTitle: 'Modifica servizio',
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino servizi',
-    trashDescription: 'Servizi eliminati — ripristinali o eliminali definitivamente',
-    trashEmpty: 'Il cestino è vuoto',
-    trashEmptyDescription: 'Nessun servizio eliminato.',
+    trashDescription: 'Servizi spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashEmpty: 'Nessun servizio nel cestino',
+    trashEmptyDescription: 'I servizi eliminati appariranno qui.',
   },
   table: {
     noResults: 'Nessun servizio trovato',
@@ -65,15 +65,13 @@ export const it: ServicesTranslations = {
     bulkDeleteDescription: (count) =>
       `Eliminare ${count} servizi? Puoi ripristinarli dal cestino.`,
     restoreTitle: 'Ripristina servizio',
-    restoreDescription: (name) => `Ripristinare "${name}"?`,
+    restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} servizi?`,
-    purgeTitle: 'Elimina definitivamente',
-    purgeDescription: (name) =>
-      `Eliminare definitivamente "${name}"? Questa azione non può essere annullata.`,
-    confirmPurge: 'Elimina definitivamente',
-    bulkPurgeDescription: (count) =>
-      `Eliminare definitivamente ${count} servizi? Questa azione non può essere annullata.`,
+    bulkRestoreDescription: (count) => `Ripristinare ${count} servizi nella lista attiva?`,
+    purgeTitle: 'Eliminazione definitiva',
+    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    confirmPurge: 'Elimina',
+    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} servizi. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     sectionGeneral: 'Generale',

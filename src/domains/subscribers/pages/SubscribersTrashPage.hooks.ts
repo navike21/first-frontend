@@ -26,7 +26,7 @@ export function useSubscribersTrashPage() {
   const bulkRestore = useBulkRestoreSubscribers()
   const bulkPurge = useBulkPurgeSubscribers()
 
-  const subscribers = data?.data ?? []
+  const subscribers = Array.isArray(data?.data) ? data.data : []
   const meta = data?.meta as SubscriberPaginationMeta | undefined
   const total = meta?.total ?? 0
   const pages = meta?.totalPages ?? 1
