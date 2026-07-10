@@ -54,6 +54,8 @@ export const ru: SiteConfigTranslations = {
     boxedHint: 'Контент центрируется с максимальной шириной (рекомендуется)',
     full: 'Во всю ширину',
     fullHint: 'Контент занимает всю ширину экрана',
+    boxedMaxWidth: 'Максимальная ширина (px)',
+    boxedMaxWidthHint: 'От 640 до 1920 px',
   },
   preview: {
     title: 'Предпросмотр',

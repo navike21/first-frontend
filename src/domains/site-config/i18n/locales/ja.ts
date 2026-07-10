@@ -54,6 +54,8 @@ export const ja: SiteConfigTranslations = {
     boxedHint: '最大幅で中央寄せされます（推奨）',
     full: '全幅',
     fullHint: '画面全体の幅を使用します',
+    boxedMaxWidth: '最大幅（px）',
+    boxedMaxWidthHint: '640〜1920 px の範囲',
   },
   preview: {
     title: 'プレビュー',

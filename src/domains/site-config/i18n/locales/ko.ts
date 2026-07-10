@@ -54,6 +54,8 @@ export const ko: SiteConfigTranslations = {
     boxedHint: '최대 너비로 가운데 정렬됩니다 (권장)',
     full: '전체 너비',
     fullHint: '화면 전체 너비를 사용합니다',
+    boxedMaxWidth: '최대 너비 (px)',
+    boxedMaxWidthHint: '640~1920px 사이',
   },
   preview: {
     title: '미리보기',

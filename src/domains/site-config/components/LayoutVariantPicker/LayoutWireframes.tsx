@@ -8,13 +8,13 @@ const Logo = ({ wide }: { wide?: boolean }) => (
   <span className={clsx('h-2.5 shrink-0 rounded-sm bg-primary-600', wide ? 'w-8' : 'w-6')} />
 )
 
-const MenuItem = () => <span className="h-1.5 w-4 shrink-0 rounded-full bg-foreground/25" />
+const MenuItem = () => <span className="h-1.5 w-4 shrink-0 rounded-full bg-muted" />
 
 const CtaPill = () => <span className="h-2.5 w-5 shrink-0 rounded-full bg-primary-600/70" />
 
-const TextLine = ({ w }: { w: string }) => <span className={clsx('h-1 rounded-full bg-foreground/20', w)} />
+const TextLine = ({ w }: { w: string }) => <span className={clsx('h-1 rounded-full bg-border', w)} />
 
-const Dot = () => <span className="h-1.5 w-1.5 rounded-full bg-foreground/30" />
+const Dot = () => <span className="h-1.5 w-1.5 rounded-full bg-muted" />
 
 const frame = 'w-full rounded-md border border-border bg-surface-subtle'
 
@@ -132,17 +132,29 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   )
 }
 
-export const ContentWireframe = ({ width }: { width: ContentWidth }) => (
-  <div className={clsx(frame, 'flex h-16 justify-center py-2')}>
-    <div
-      className={clsx(
-        'flex flex-col gap-1 rounded-sm bg-primary-700/10 p-1.5',
-        width === 'boxed' ? 'w-2/3' : 'w-[94%]',
-      )}
-    >
-      <TextLine w="w-1/2" />
-      <TextLine w="w-full" />
-      <TextLine w="w-5/6" />
+export interface ContentWireframeProps {
+  width: ContentWidth
+  /** For 'boxed': scales the inner block proportionally (640–1920 px viewport). */
+  boxedMaxWidth?: number
+}
+
+export const ContentWireframe = ({ width, boxedMaxWidth }: ContentWireframeProps) => {
+  const boxed = width === 'boxed'
+  // Map the configured max width onto the mini viewport (1920 px = full).
+  const pct = boxed ? Math.min(92, Math.max(30, ((boxedMaxWidth ?? 1200) / 1920) * 100)) : 100
+  return (
+    <div className={clsx(frame, 'flex h-16 justify-center overflow-hidden', boxed && 'py-2')}>
+      <div
+        className={clsx(
+          'flex flex-col justify-center gap-1 bg-primary-700/10 p-1.5',
+          boxed ? 'rounded-sm border-x border-dashed border-primary-600/50' : 'h-full w-full',
+        )}
+        style={boxed ? { width: `${pct}%` } : undefined}
+      >
+        <TextLine w="w-1/2" />
+        <TextLine w="w-full" />
+        <TextLine w="w-5/6" />
+      </div>
     </div>
-  </div>
-)
+  )
+}

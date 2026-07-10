@@ -54,6 +54,8 @@ export const pt: SiteConfigTranslations = {
     boxedHint: 'O conteúdo é centralizado com largura máxima (recomendado)',
     full: 'Largura total',
     fullHint: 'O conteúdo ocupa toda a largura da tela',
+    boxedMaxWidth: 'Largura máxima (px)',
+    boxedMaxWidthHint: 'Entre 640 e 1920 px',
   },
   preview: {
     title: 'Pré-visualização',

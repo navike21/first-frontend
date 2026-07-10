@@ -41,6 +41,8 @@ export interface FooterConfig {
 
 export interface LayoutConfig {
   contentWidth: ContentWidth
+  /** Ancho máximo del contenido en px; solo aplica cuando contentWidth === 'boxed'. */
+  boxedMaxWidth: number
 }
 
 export interface SiteConfigData {

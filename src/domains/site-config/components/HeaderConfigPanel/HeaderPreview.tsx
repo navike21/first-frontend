@@ -1,40 +1,34 @@
 import { useState } from 'react'
 import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui'
-import type { Language } from '@/shared/i18n'
 import { useSiteConfigTranslation } from '../../i18n'
 import type { HeaderConfig } from '../../model/site-config.types'
 
 interface HeaderPreviewProps {
   config: HeaderConfig
-  language: Language
 }
 
-const LogoBlock = () => (
-  <span className="rounded bg-primary-600 px-1.5 py-0.5 text-[10px] font-bold tracking-widest text-white">LOGO</span>
-)
+// Abstract block-based preview (no sample text): brand blocks = logo/CTA,
+// muted pills = menu items.
 
-const MenuItems = ({ items }: { items: string[] }) => (
+const LogoBlock = () => <span className="h-4 w-12 shrink-0 rounded bg-primary-600" />
+
+const MENU_WIDTHS = ['w-9', 'w-12', 'w-8', 'w-11'] as const
+
+const MenuBlocks = ({ count = 4, offset = 0 }: { count?: number; offset?: number }) => (
   <>
-    {items.map((item) => (
-      <span key={item} className="text-[11px] font-medium text-foreground/80">
-        {item}
-      </span>
+    {Array.from({ length: count }, (_, i) => (
+      <span
+        key={i}
+        className={clsx('h-2 shrink-0 rounded-full bg-muted', MENU_WIDTHS[(i + offset) % MENU_WIDTHS.length])}
+      />
     ))}
   </>
 )
 
-const CtaButton = ({ label }: { label: string }) => (
-  <span className="rounded-full bg-primary-600 px-2.5 py-1 text-[10px] font-semibold text-white">{label}</span>
-)
+const CtaBlock = () => <span className="h-5 w-14 shrink-0 rounded-full bg-primary-600/80" />
 
-interface DesktopBarProps {
-  config: HeaderConfig
-  menu: string[]
-  cta: string
-}
-
-const DesktopBar = ({ config, menu, cta }: DesktopBarProps) => {
+const DesktopBar = ({ config }: { config: HeaderConfig }) => {
   const showCta = config.cta.enabled
 
   if (config.variant === 'logo-left-menu-right') {
@@ -42,8 +36,8 @@ const DesktopBar = ({ config, menu, cta }: DesktopBarProps) => {
       <div className="flex items-center justify-between">
         <LogoBlock />
         <div className="flex items-center gap-3">
-          <MenuItems items={menu} />
-          {showCta && <CtaButton label={cta} />}
+          <MenuBlocks />
+          {showCta && <CtaBlock />}
         </div>
       </div>
     )
@@ -53,43 +47,40 @@ const DesktopBar = ({ config, menu, cta }: DesktopBarProps) => {
       <div className="flex items-center justify-between">
         <LogoBlock />
         <div className="flex items-center gap-3">
-          <MenuItems items={menu} />
+          <MenuBlocks />
         </div>
-        {showCta ? <CtaButton label={cta} /> : <span className="w-8" />}
+        {showCta ? <CtaBlock /> : <span className="w-14" />}
       </div>
     )
   }
   if (config.variant === 'logo-center-split') {
-    const half = Math.ceil(menu.length / 2)
     return (
       <div className="flex items-center justify-center gap-4">
         <div className="flex items-center gap-3">
-          <MenuItems items={menu.slice(0, half)} />
+          <MenuBlocks count={2} />
         </div>
         <LogoBlock />
         <div className="flex items-center gap-3">
-          <MenuItems items={menu.slice(half)} />
-          {showCta && <CtaButton label={cta} />}
+          <MenuBlocks count={2} offset={2} />
+          {showCta && <CtaBlock />}
         </div>
       </div>
     )
   }
   // logo-center-stacked
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2.5">
       <LogoBlock />
       <div className="flex items-center gap-3">
-        <MenuItems items={menu} />
-        {showCta && <CtaButton label={cta} />}
+        <MenuBlocks />
+        {showCta && <CtaBlock />}
       </div>
     </div>
   )
 }
 
 const MobileBar = ({ config }: { config: HeaderConfig }) => {
-  const icon = (
-    <IconComponent icon="RiMenuLine" className="h-4 w-4 text-foreground/70" />
-  )
+  const icon = <IconComponent icon="RiMenuLine" className="h-4 w-4 text-secondary" />
   return (
     <div className="grid grid-cols-3 items-center">
       <div className="flex items-center justify-start gap-2">
@@ -102,12 +93,9 @@ const MobileBar = ({ config }: { config: HeaderConfig }) => {
   )
 }
 
-export const HeaderPreview = ({ config, language }: HeaderPreviewProps) => {
+export const HeaderPreview = ({ config }: HeaderPreviewProps) => {
   const { t } = useSiteConfigTranslation()
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop')
-
-  const menu = t.preview.sampleMenu
-  const cta = config.cta.label?.[language]?.trim() || t.preview.sampleCta
 
   const barClasses = clsx(
     'px-4 py-3',
@@ -143,7 +131,7 @@ export const HeaderPreview = ({ config, language }: HeaderPreviewProps) => {
       <div className={clsx('mx-auto w-full', device === 'mobile' && 'max-w-56')}>
         <div className="relative overflow-hidden rounded-xl border border-border">
           <div className={barClasses}>
-            {device === 'desktop' ? <DesktopBar config={config} menu={menu} cta={cta} /> : <MobileBar config={config} />}
+            {device === 'desktop' ? <DesktopBar config={config} /> : <MobileBar config={config} />}
           </div>
           {/* Hero strip below/behind the header to visualize transparency */}
           <div

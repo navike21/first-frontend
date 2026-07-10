@@ -33,8 +33,6 @@ export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPan
         onChange={(variant: FooterVariant) => onChange({ variant })}
       />
 
-      <FooterPreview config={value} language={language} />
-
       <FormGrid className="lg:grid-cols-2">
         {hasColumns && (
           <Select
@@ -66,6 +64,8 @@ export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPan
         userLanguage={language}
         onChange={(lang, text) => onChange({ copyright: { ...value.copyright, [lang]: text } })}
       />
+
+      <FooterPreview config={value} />
     </div>
   )
 }

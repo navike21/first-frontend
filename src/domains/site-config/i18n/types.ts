@@ -44,6 +44,8 @@ export interface SiteConfigTranslations {
     boxedHint: string
     full: string
     fullHint: string
+    boxedMaxWidth: string
+    boxedMaxWidthHint: string
   }
   preview: {
     title: string

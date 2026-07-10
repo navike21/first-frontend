@@ -39,8 +39,6 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
         onChange={(variant: HeaderVariant) => onChange({ variant })}
       />
 
-      <HeaderPreview config={value} language={language} />
-
       <FormGrid className="lg:grid-cols-2">
         <Switch
           label={t.header.sticky}
@@ -100,6 +98,8 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
           />
         </FormGrid>
       </div>
+
+      <HeaderPreview config={value} />
     </div>
   )
 }

@@ -54,6 +54,8 @@ export const en: SiteConfigTranslations = {
     boxedHint: 'Content is centered with a max width (recommended)',
     full: 'Full width',
     fullHint: 'Content spans the full screen width',
+    boxedMaxWidth: 'Max width (px)',
+    boxedMaxWidthHint: 'Between 640 and 1920 px',
   },
   preview: {
     title: 'Preview',

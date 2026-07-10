@@ -54,6 +54,8 @@ export const zh: SiteConfigTranslations = {
     boxedHint: '内容以最大宽度居中显示（推荐）',
     full: '全宽',
     fullHint: '内容占据整个屏幕宽度',
+    boxedMaxWidth: '最大宽度（px）',
+    boxedMaxWidthHint: '介于 640 与 1920 px 之间',
   },
   preview: {
     title: '预览',

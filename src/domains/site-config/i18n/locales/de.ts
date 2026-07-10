@@ -54,6 +54,8 @@ export const de: SiteConfigTranslations = {
     boxedHint: 'Inhalt wird mit maximaler Breite zentriert (empfohlen)',
     full: 'Volle Breite',
     fullHint: 'Inhalt nutzt die gesamte Bildschirmbreite',
+    boxedMaxWidth: 'Maximale Breite (px)',
+    boxedMaxWidthHint: 'Zwischen 640 und 1920 px',
   },
   preview: {
     title: 'Vorschau',
