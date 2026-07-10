@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import type { CSSProperties } from 'react'
 import { useSiteConfigTranslation } from '../../i18n'
 import type { FooterConfig } from '../../model/site-config.types'
 
@@ -6,35 +7,64 @@ interface FooterPreviewProps {
   config: FooterConfig
 }
 
-// Abstract block-based preview (no sample text): brand blocks = logo/CTA,
-// muted bars = headings/links/copyright.
+// Abstract block-based preview (no sample text). The mock blocks use inline
+// styles over theme CSS variables (always present in :root) so they never
+// depend on Tailwind emitting brand-new utility classes.
 
-const LogoBlock = () => <span className="h-4 w-12 shrink-0 rounded bg-primary-600" />
+const LOGO_STYLE: CSSProperties = {
+  flexShrink: 0,
+  width: 48,
+  height: 16,
+  borderRadius: 4,
+  backgroundColor: 'var(--color-primary-600)',
+}
 
-const Bar = ({ w, strong }: { w: string; strong?: boolean }) => (
-  <span className={clsx('h-2 rounded-full', strong ? 'bg-muted' : 'bg-border', w)} />
-)
+const barStyle = (widthPct: number, strong?: boolean): CSSProperties => ({
+  height: 8,
+  borderRadius: 9999,
+  width: `${widthPct}%`,
+  backgroundColor: strong ? 'var(--text-muted)' : 'var(--border)',
+})
+
+const DOT_STYLE: CSSProperties = {
+  width: 12,
+  height: 12,
+  borderRadius: 9999,
+  backgroundColor: 'var(--text-muted)',
+}
+
+const CTA_STYLE: CSSProperties = {
+  width: 56,
+  height: 20,
+  borderRadius: 9999,
+  backgroundColor: 'var(--color-primary-600)',
+  opacity: 0.85,
+}
+
+const LogoBlock = () => <span style={LOGO_STYLE} />
+
+const Bar = ({ w, strong }: { w: number; strong?: boolean }) => <span style={barStyle(w, strong)} />
 
 const SocialDots = () => (
   <div className="flex items-center gap-1.5">
-    <span className="h-3 w-3 rounded-full bg-muted" />
-    <span className="h-3 w-3 rounded-full bg-muted" />
-    <span className="h-3 w-3 rounded-full bg-muted" />
+    <span style={DOT_STYLE} />
+    <span style={DOT_STYLE} />
+    <span style={DOT_STYLE} />
   </div>
 )
 
 const NewsletterMock = () => (
   <div className="flex items-center gap-1.5">
-    <span className="h-6 w-28 rounded-md border border-border bg-surface" />
-    <span className="h-6 w-8 rounded-md bg-primary-600/80" />
+    <span className="rounded-md border border-border bg-surface" style={{ width: 112, height: 24 }} />
+    <span className="rounded-md" style={{ width: 32, height: 24, backgroundColor: 'var(--color-primary-600)', opacity: 0.85 }} />
   </div>
 )
 
 const ColumnMock = ({ seed }: { seed: number }) => {
-  const widths = ['w-3/4', 'w-1/2', 'w-2/3']
+  const widths = [75, 50, 66]
   return (
     <div className="flex flex-col gap-1.5">
-      <Bar w="w-2/3" strong />
+      <Bar w={66} strong />
       <Bar w={widths[seed % widths.length]} />
       <Bar w={widths[(seed + 1) % widths.length]} />
     </div>
@@ -45,14 +75,14 @@ const ColumnsRow = ({ config }: { config: FooterConfig }) => (
   <div className={clsx('grid gap-4 px-4 py-3', config.columns === 3 ? 'grid-cols-3' : 'grid-cols-4')}>
     <div className="flex flex-col gap-1.5">
       <LogoBlock />
-      <Bar w="w-5/6" />
-      <Bar w="w-2/3" />
+      <Bar w={83} />
+      <Bar w={66} />
     </div>
     <ColumnMock seed={0} />
     <ColumnMock seed={1} />
     {config.columns === 4 && (
       <div className="flex flex-col gap-1.5">
-        <Bar w="w-2/3" strong />
+        <Bar w={66} strong />
         {config.showNewsletter ? <NewsletterMock /> : <SocialDots />}
       </div>
     )}
@@ -61,7 +91,7 @@ const ColumnsRow = ({ config }: { config: FooterConfig }) => (
 
 const BottomBar = ({ config }: { config: FooterConfig }) => (
   <div className="flex items-center justify-between border-t border-border px-4 py-2.5">
-    <Bar w="w-24" />
+    <span style={{ ...barStyle(100), width: 96 }} />
     {config.showSocial && <SocialDots />}
   </div>
 )
@@ -84,29 +114,32 @@ export const FooterPreview = ({ config }: FooterPreviewProps) => {
           <div className="flex flex-col items-center gap-2.5 px-4 py-4">
             <LogoBlock />
             <div className="flex items-center gap-3">
-              <Bar w="w-9" />
-              <Bar w="w-12" />
-              <Bar w="w-8" />
-              <Bar w="w-11" />
+              <span style={pill(36)} />
+              <span style={pill(48)} />
+              <span style={pill(32)} />
+              <span style={pill(44)} />
             </div>
             {config.showNewsletter && <NewsletterMock />}
             {config.showSocial && <SocialDots />}
-            <Bar w="w-24" />
+            <span style={{ ...barStyle(100), width: 96 }} />
           </div>
         )}
 
         {config.variant === 'minimal' && (
           <div className="flex items-center justify-between px-4 py-3">
-            <Bar w="w-24" />
+            <span style={{ ...barStyle(100), width: 96 }} />
             {config.showSocial && <SocialDots />}
           </div>
         )}
 
         {config.variant === 'cta-columns' && (
           <>
-            <div className="flex items-center justify-between border-b border-border bg-primary-700/10 px-4 py-3">
-              <Bar w="w-1/3" strong />
-              <span className="h-5 w-14 rounded-full bg-primary-600/80" />
+            <div
+              className="flex items-center justify-between border-b border-border px-4 py-3"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-600) 10%, transparent)' }}
+            >
+              <span style={{ ...barStyle(33, true) }} />
+              <span style={CTA_STYLE} />
             </div>
             <ColumnsRow config={config} />
             <BottomBar config={config} />
@@ -115,4 +148,8 @@ export const FooterPreview = ({ config }: FooterPreviewProps) => {
       </div>
     </div>
   )
+}
+
+function pill(width: number): CSSProperties {
+  return { flexShrink: 0, width, height: 8, borderRadius: 9999, backgroundColor: 'var(--text-muted)' }
 }

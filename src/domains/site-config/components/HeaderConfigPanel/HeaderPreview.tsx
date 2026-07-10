@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import type { CSSProperties } from 'react'
 import { IconComponent } from '@/shared/ui'
 import { useSiteConfigTranslation } from '../../i18n'
 import type { HeaderConfig } from '../../model/site-config.types'
@@ -8,25 +9,53 @@ interface HeaderPreviewProps {
   config: HeaderConfig
 }
 
-// Abstract block-based preview (no sample text): brand blocks = logo/CTA,
-// muted pills = menu items.
+// Abstract block-based preview (no sample text). The mock blocks use inline
+// styles over theme CSS variables (always present in :root) so they never
+// depend on Tailwind emitting brand-new utility classes.
 
-const LogoBlock = () => <span className="h-4 w-12 shrink-0 rounded bg-primary-600" />
+const LOGO_STYLE: CSSProperties = {
+  flexShrink: 0,
+  width: 48,
+  height: 16,
+  borderRadius: 4,
+  backgroundColor: 'var(--color-primary-600)',
+}
 
-const MENU_WIDTHS = ['w-9', 'w-12', 'w-8', 'w-11'] as const
+const pillStyle = (width: number): CSSProperties => ({
+  flexShrink: 0,
+  width,
+  height: 8,
+  borderRadius: 9999,
+  backgroundColor: 'var(--text-muted)',
+})
+
+const CTA_STYLE: CSSProperties = {
+  flexShrink: 0,
+  width: 56,
+  height: 20,
+  borderRadius: 9999,
+  backgroundColor: 'var(--color-primary-600)',
+  opacity: 0.85,
+}
+
+const HERO_STYLE: CSSProperties = {
+  background:
+    'linear-gradient(135deg, color-mix(in srgb, var(--color-primary-600) 28%, transparent), var(--surface-subtle))',
+}
+
+const LogoBlock = () => <span style={LOGO_STYLE} />
+
+const MENU_WIDTHS = [36, 48, 32, 44] as const
 
 const MenuBlocks = ({ count = 4, offset = 0 }: { count?: number; offset?: number }) => (
   <>
     {Array.from({ length: count }, (_, i) => (
-      <span
-        key={i}
-        className={clsx('h-2 shrink-0 rounded-full bg-muted', MENU_WIDTHS[(i + offset) % MENU_WIDTHS.length])}
-      />
+      <span key={i} style={pillStyle(MENU_WIDTHS[(i + offset) % MENU_WIDTHS.length])} />
     ))}
   </>
 )
 
-const CtaBlock = () => <span className="h-5 w-14 shrink-0 rounded-full bg-primary-600/80" />
+const CtaBlock = () => <span style={CTA_STYLE} />
 
 const DesktopBar = ({ config }: { config: HeaderConfig }) => {
   const showCta = config.cta.enabled
@@ -49,7 +78,7 @@ const DesktopBar = ({ config }: { config: HeaderConfig }) => {
         <div className="flex items-center gap-3">
           <MenuBlocks />
         </div>
-        {showCta ? <CtaBlock /> : <span className="w-14" />}
+        {showCta ? <CtaBlock /> : <span style={{ width: 56 }} />}
       </div>
     )
   }
@@ -128,18 +157,13 @@ export const HeaderPreview = ({ config }: HeaderPreviewProps) => {
         </div>
       </div>
 
-      <div className={clsx('mx-auto w-full', device === 'mobile' && 'max-w-56')}>
+      <div className="mx-auto w-full" style={device === 'mobile' ? { maxWidth: 224 } : undefined}>
         <div className="relative overflow-hidden rounded-xl border border-border">
           <div className={barClasses}>
             {device === 'desktop' ? <DesktopBar config={config} /> : <MobileBar config={config} />}
           </div>
           {/* Hero strip below/behind the header to visualize transparency */}
-          <div
-            className={clsx(
-              'bg-gradient-to-br from-primary-700/30 via-primary-600/15 to-surface-subtle',
-              device === 'desktop' ? 'h-24' : 'h-32',
-            )}
-          />
+          <div style={{ ...HERO_STYLE, height: device === 'desktop' ? 96 : 128 }} />
         </div>
       </div>
     </div>

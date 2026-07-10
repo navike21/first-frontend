@@ -1,20 +1,43 @@
 import clsx from 'clsx'
+import type { CSSProperties } from 'react'
 import type { HeaderVariant, FooterVariant, ContentWidth } from '../../model/site-config.types'
 
-// Tiny abstract diagrams used inside the variant picker cards. Pure CSS
-// blocks: brand color = logo/CTA, muted pills = menu items / text lines.
+// Tiny abstract diagrams used inside the variant picker cards. The mock
+// blocks are painted with inline styles over theme CSS variables (always
+// present in :root) so they never depend on Tailwind emitting brand-new
+// utility classes.
 
-const Logo = ({ wide }: { wide?: boolean }) => (
-  <span className={clsx('h-2.5 shrink-0 rounded-sm bg-primary-600', wide ? 'w-8' : 'w-6')} />
-)
+const block = (extra: CSSProperties): CSSProperties => ({
+  flexShrink: 0,
+  borderRadius: 9999,
+  ...extra,
+})
 
-const MenuItem = () => <span className="h-1.5 w-4 shrink-0 rounded-full bg-muted" />
+const LOGO_STYLE: CSSProperties = block({
+  width: 24,
+  height: 10,
+  borderRadius: 3,
+  backgroundColor: 'var(--color-primary-600)',
+})
 
-const CtaPill = () => <span className="h-2.5 w-5 shrink-0 rounded-full bg-primary-600/70" />
+const MENU_STYLE: CSSProperties = block({ width: 16, height: 6, backgroundColor: 'var(--text-muted)' })
 
-const TextLine = ({ w }: { w: string }) => <span className={clsx('h-1 rounded-full bg-border', w)} />
+const CTA_STYLE: CSSProperties = block({ width: 20, height: 10, backgroundColor: 'var(--color-primary-600)', opacity: 0.7 })
 
-const Dot = () => <span className="h-1.5 w-1.5 rounded-full bg-muted" />
+const DOT_STYLE: CSSProperties = block({ width: 6, height: 6, backgroundColor: 'var(--text-muted)' })
+
+const lineStyle = (widthPct: number): CSSProperties => ({
+  height: 4,
+  borderRadius: 9999,
+  backgroundColor: 'var(--border)',
+  width: `${widthPct}%`,
+})
+
+const Logo = () => <span style={LOGO_STYLE} />
+const MenuItem = () => <span style={MENU_STYLE} />
+const CtaPill = () => <span style={CTA_STYLE} />
+const TextLine = ({ w }: { w: number }) => <span style={lineStyle(w)} />
+const Dot = () => <span style={DOT_STYLE} />
 
 const frame = 'w-full rounded-md border border-border bg-surface-subtle'
 
@@ -72,9 +95,9 @@ const FooterColumns = ({ count }: { count: number }) => (
   <div className="flex w-full items-start justify-between gap-2 px-2">
     {Array.from({ length: count }, (_, i) => (
       <div key={i} className="flex flex-1 flex-col gap-1">
-        <TextLine w="w-3/4" />
-        <TextLine w="w-1/2" />
-        <TextLine w="w-2/3" />
+        <TextLine w={75} />
+        <TextLine w={50} />
+        <TextLine w={66} />
       </div>
     ))}
   </div>
@@ -85,8 +108,8 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
     return (
       <div className={clsx(frame, 'flex h-16 flex-col justify-center gap-2 py-2')}>
         <FooterColumns count={columns} />
-        <div className="mx-2 border-t border-border pt-1">
-          <TextLine w="w-1/3" />
+        <div className="mx-2 flex flex-col border-t border-border pt-1">
+          <TextLine w={33} />
         </div>
       </div>
     )
@@ -111,7 +134,7 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   if (variant === 'minimal') {
     return (
       <div className={clsx(frame, 'flex h-16 items-center justify-between px-2')}>
-        <TextLine w="w-1/3" />
+        <span style={lineStyle(33)} className="max-w-16" />
         <div className="flex items-center gap-1">
           <Dot />
           <Dot />
@@ -124,7 +147,7 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   return (
     <div className={clsx(frame, 'flex h-16 flex-col justify-center gap-1.5 py-2')}>
       <div className="mx-2 flex items-center justify-between border-b border-border pb-1.5">
-        <TextLine w="w-1/3" />
+        <span style={lineStyle(33)} />
         <CtaPill />
       </div>
       <FooterColumns count={columns} />
@@ -142,18 +165,20 @@ export const ContentWireframe = ({ width, boxedMaxWidth }: ContentWireframeProps
   const boxed = width === 'boxed'
   // Map the configured max width onto the mini viewport (1920 px = full).
   const pct = boxed ? Math.min(92, Math.max(30, ((boxedMaxWidth ?? 1200) / 1920) * 100)) : 100
+  const innerStyle: CSSProperties = boxed
+    ? {
+        width: `${pct}%`,
+        borderLeft: '1px dashed var(--color-primary-600)',
+        borderRight: '1px dashed var(--color-primary-600)',
+        borderRadius: 2,
+      }
+    : { width: '100%', height: '100%' }
   return (
     <div className={clsx(frame, 'flex h-16 justify-center overflow-hidden', boxed && 'py-2')}>
-      <div
-        className={clsx(
-          'flex flex-col justify-center gap-1 bg-primary-700/10 p-1.5',
-          boxed ? 'rounded-sm border-x border-dashed border-primary-600/50' : 'h-full w-full',
-        )}
-        style={boxed ? { width: `${pct}%` } : undefined}
-      >
-        <TextLine w="w-1/2" />
-        <TextLine w="w-full" />
-        <TextLine w="w-5/6" />
+      <div className="flex flex-col justify-center gap-1 bg-primary-700/10 p-1.5" style={innerStyle}>
+        <TextLine w={50} />
+        <TextLine w={100} />
+        <TextLine w={83} />
       </div>
     </div>
   )
