@@ -1,4 +1,4 @@
-import { InputField } from '@/shared/ui'
+import { InputField, FadeCollapse } from '@/shared/ui'
 import { useSiteConfigTranslation } from '../../i18n'
 import { CONTENT_WIDTHS } from '../../model/site-config.types'
 import type { LayoutConfig, ContentWidth } from '../../model/site-config.types'
@@ -43,7 +43,7 @@ export const ContentConfigPanel = ({ value, onChange }: ContentConfigPanelProps)
         {value.contentWidth === 'boxed' ? t.content.boxedHint : t.content.fullHint}
       </p>
 
-      {value.contentWidth === 'boxed' && (
+      <FadeCollapse show={value.contentWidth === 'boxed'}>
         <div className="max-w-xs">
           <InputField
             label={t.content.boxedMaxWidth}
@@ -54,7 +54,7 @@ export const ContentConfigPanel = ({ value, onChange }: ContentConfigPanelProps)
             onBlur={clampMaxWidth}
           />
         </div>
-      )}
+      </FadeCollapse>
     </div>
   )
 }

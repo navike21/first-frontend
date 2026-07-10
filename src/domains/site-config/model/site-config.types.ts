@@ -23,6 +23,9 @@ export interface HeaderConfig {
   cta: {
     enabled: boolean
     label: SiteLocalizedString
+    /** 'page' enlaza a una página del CMS por id; 'url' usa el campo url libre. */
+    linkType: 'page' | 'url'
+    pageId: string | null
     url: string
   }
   mobile: {

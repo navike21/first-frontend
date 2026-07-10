@@ -1,6 +1,7 @@
-import { InputField, Select, Switch, FormGrid, SectionLabel } from '@/shared/ui'
+import { InputField, Select, Switch, FormGrid, SectionLabel, FadeCollapse } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { useSiteConfigTranslation } from '../../i18n'
+import { usePagesForCtaPicker } from '../../api/site-config.queries'
 import { HEADER_VARIANTS } from '../../model/site-config.types'
 import type { HeaderConfig, HeaderVariant } from '../../model/site-config.types'
 import { LayoutVariantPicker, HeaderWireframe } from '../LayoutVariantPicker'
@@ -15,6 +16,14 @@ export interface HeaderConfigPanelProps {
 
 export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
+  const { data: pagesData } = usePagesForCtaPicker()
+
+  const patchCta = (patch: Partial<HeaderConfig['cta']>) => onChange({ cta: { ...value.cta, ...patch } })
+
+  const pageOptions = [
+    { value: '', label: t.header.ctaSelectPage },
+    ...(pagesData ?? []).map((p) => ({ value: p.id, label: p.title[language] || p.title.en || p.id })),
+  ]
 
   const variantOptions = HEADER_VARIANTS.map((variant) => ({
     value: variant,
@@ -56,23 +65,45 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
         <Switch
           label={t.header.ctaEnabled}
           checked={value.cta.enabled}
-          onChange={(e) => onChange({ cta: { ...value.cta, enabled: e.target.checked } })}
+          onChange={(e) => patchCta({ enabled: e.target.checked })}
         />
-        {value.cta.enabled && (
-          <FormGrid className="lg:grid-cols-2">
+        <FadeCollapse show={value.cta.enabled}>
+          <div className="flex flex-col gap-4">
             <LocalizedField
               label={t.header.ctaLabel}
               value={value.cta.label}
               userLanguage={language}
-              onChange={(lang, text) => onChange({ cta: { ...value.cta, label: { ...value.cta.label, [lang]: text } } })}
+              onChange={(lang, text) => patchCta({ label: { ...value.cta.label, [lang]: text } })}
             />
-            <InputField
-              label={t.header.ctaUrl}
-              value={value.cta.url}
-              onChange={(e) => onChange({ cta: { ...value.cta, url: e.target.value } })}
-            />
-          </FormGrid>
-        )}
+            <FormGrid className="lg:grid-cols-2">
+              <Select
+                label={t.header.ctaLinkType}
+                options={[
+                  { value: 'page', label: t.header.ctaLinkPage },
+                  { value: 'url', label: t.header.ctaLinkUrl },
+                ]}
+                value={value.cta.linkType}
+                lang={language}
+                onChange={(e) => patchCta({ linkType: e.target.value as 'page' | 'url' })}
+              />
+              {value.cta.linkType === 'page' ? (
+                <Select
+                  label={t.header.ctaLinkPage}
+                  options={pageOptions}
+                  value={value.cta.pageId ?? ''}
+                  lang={language}
+                  onChange={(e) => patchCta({ pageId: e.target.value || null })}
+                />
+              ) : (
+                <InputField
+                  label={t.header.ctaUrl}
+                  value={value.cta.url}
+                  onChange={(e) => patchCta({ url: e.target.value })}
+                />
+              )}
+            </FormGrid>
+          </div>
+        </FadeCollapse>
       </div>
 
       <div className="flex flex-col gap-4">
