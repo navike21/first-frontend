@@ -10,6 +10,40 @@ export interface PageSeo {
   ogImage?: string
 }
 
+// ── Builder (secciones) ─────────────────────────────────────────────────────
+
+export type BuilderColumnsCount = 1 | 2 | 3 | 4
+
+export interface BuilderTextElement {
+  id: string
+  type: 'text'
+  html: PageLocalizedString
+}
+
+export interface BuilderImageElement {
+  id: string
+  type: 'image'
+  url: string
+  alt: PageLocalizedString
+}
+
+export type BuilderElement = BuilderTextElement | BuilderImageElement
+
+export interface BuilderColumn {
+  id: string
+  elements: BuilderElement[]
+}
+
+/** Sección genérica: 'columns' es editable en el builder; otros tipos se
+ * conservan intactos (tarjeta de solo lectura hasta que tengan editor). */
+export interface BuilderSection {
+  sectionId: string
+  type: string
+  order: number
+  settings: { columns?: number; [key: string]: unknown }
+  content: { columns?: BuilderColumn[]; [key: string]: unknown }
+}
+
 export interface Page {
   id: string
   slug: PageLocalizedString
@@ -29,6 +63,7 @@ export interface Page {
   createdAt?: string
   updatedAt?: string
   deletedAt?: string | null
+  sections?: BuilderSection[]
 }
 
 export interface PageListParams {

@@ -1,15 +1,97 @@
+import { useState } from 'react'
 import { useParams } from '@tanstack/react-router'
-import { PageContent, Spinner, LinkButton, IconComponent } from '@/shared/ui'
+import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
+import { notify } from '@/shared/lib/notify'
 import { navPaths } from '@/shared/router'
-import { usePage } from '../api/pages.queries'
+import { uploadEditorImage } from '@/shared/api/storage'
+import { usePage, useReplaceSections } from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
+import {
+  normalizeSections,
+  createColumnsSection,
+  createTextElement,
+  createImageElement,
+  moveSection,
+  removeSection,
+  setSectionColumns,
+  addElement,
+  updateElement,
+  removeElement,
+  moveElement,
+  replaceImageUrl,
+} from '../model/page.builder'
+import type { BuilderSection } from '../model/page.types'
+import { BuilderCanvas } from '../components/builder'
+
+const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
 export const PageBuilderPage = () => {
   const { t, language } = usePagesTranslation()
   const { pageId } = useParams({ strict: false }) as { pageId: string }
   const { data: item, isLoading } = usePage(pageId)
+  const replaceSections = useReplaceSections(pageId)
 
-  if (isLoading || !item) {
+  const [draft, setDraft] = useState<BuilderSection[] | null>(null)
+  const [syncedWith, setSyncedWith] = useState<unknown>(null)
+  const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
+  const [pendingChoiceId, setPendingChoiceId] = useState<string | null>(null)
+  const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+
+  // Adopta datos frescos del servidor durante el render (carga inicial y
+  // refetch post-guardado), normalizados para que caché vieja o secciones de
+  // otros tipos nunca rompan el builder.
+  if (item && item !== syncedWith) {
+    setSyncedWith(item)
+    setDraft(normalizeSections(item.sections))
+    setPendingFiles(new Map())
+    setPendingChoiceId(null)
+  }
+
+  const serverNorm = item ? normalizeSections(item.sections) : null
+  const dirty = !!draft && !!serverNorm && (!sameJson(draft, serverNorm) || pendingFiles.size > 0)
+
+  const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
+    setDraft((d) => (d ? fn(d) : d))
+
+  const handleAddSection = () => {
+    const section = createColumnsSection(2)
+    patch((sections) => [...sections, section])
+    setPendingChoiceId(section.sectionId)
+  }
+
+  const handlePickFile = (elementId: string, file: File) => {
+    const previewUrl = URL.createObjectURL(file)
+    patch((sections) => replaceImageUrl(sections, elementId, previewUrl))
+    setPendingFiles((map) => new Map(map).set(elementId, file))
+  }
+
+  const handleConfirmDeleteSection = () => {
+    if (!deletingSectionId) return
+    patch((sections) => removeSection(sections, deletingSectionId))
+    setDeletingSectionId(null)
+  }
+
+  const handleSave = async () => {
+    if (!draft) return
+    setUploading(true)
+    try {
+      let sections = draft
+      for (const [elementId, file] of pendingFiles) {
+        const url = await uploadEditorImage(file)
+        sections = replaceImageUrl(sections, elementId, url)
+      }
+      setDraft(sections)
+      setPendingFiles(new Map())
+      replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
+    } catch {
+      notify.error(t.builder.uploadError)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  if (isLoading || !item || !draft) {
     return (
       <PageContent title={t.page.builderTitle} description={t.page.builderTitle}>
         <div className="flex justify-center py-20">
@@ -20,17 +102,80 @@ export const PageBuilderPage = () => {
   }
 
   const name = item.title[language] || item.title.en
+  const saving = uploading || replaceSections.isPending
 
   return (
-    <PageContent title={t.page.builderTitle} description={t.page.builderDescription(name)}>
-      <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed border-border bg-surface px-6 py-16 text-center">
-        <IconComponent icon="RiLayout4Line" className="h-10 w-10 text-muted" />
-        <p className="text-base font-semibold text-foreground">{t.page.builderComingSoon}</p>
-        <p className="max-w-md text-sm leading-relaxed text-secondary">{t.page.builderComingSoonHint}</p>
-        <LinkButton to={navPaths.pageEdit(item.id, language)} variant="outline" size="small">
-          {t.table.editItem}
-        </LinkButton>
+    <PageContent
+      title={t.page.builderTitle}
+      description={t.page.builderDescription(name)}
+      actions={[
+        {
+          type: 'link',
+          label: t.table.editItem,
+          variant: 'outline',
+          to: navPaths.pageEdit(item.id, language),
+          size: 'small',
+        },
+      ]}
+    >
+      <div className="mb-4 flex items-center justify-end gap-3">
+        {dirty && <span className="text-xs text-amber-500">{t.builder.unsaved}</span>}
+        <Button
+          variant="primary"
+          size="small"
+          disabled={!dirty}
+          loading={saving}
+          onClick={() => {
+            void handleSave()
+          }}
+        >
+          {t.builder.save}
+        </Button>
       </div>
+
+      <BuilderCanvas
+        sections={draft}
+        language={language}
+        pendingChoiceId={pendingChoiceId}
+        onAddSection={handleAddSection}
+        onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
+        onChooseColumns={(sectionId, count) => {
+          patch((s) => setSectionColumns(s, sectionId, count))
+          setPendingChoiceId(null)
+        }}
+        onColumnsChange={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
+        onDeleteRequest={setDeletingSectionId}
+        onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
+        onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}
+        onElementChange={(sectionId, columnId, elementId, elementPatch) =>
+          patch((s) => updateElement(s, sectionId, columnId, elementId, elementPatch))
+        }
+        onElementDelete={(sectionId, columnId, elementId) =>
+          patch((s) => removeElement(s, sectionId, columnId, elementId))
+        }
+        onElementMove={(sectionId, columnId, activeId, overId) =>
+          patch((s) => moveElement(s, sectionId, columnId, activeId, overId))
+        }
+        onPickFile={handlePickFile}
+      />
+
+      <Modal
+        isOpen={!!deletingSectionId}
+        onClose={() => setDeletingSectionId(null)}
+        size="sm"
+        title={t.builder.deleteSection}
+        description={t.builder.deleteSectionConfirm}
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setDeletingSectionId(null)}>
+              {t.builder.cancel}
+            </Button>
+            <Button variant="primary" onClick={handleConfirmDeleteSection}>
+              {t.builder.confirmDelete}
+            </Button>
+          </>
+        }
+      />
     </PageContent>
   )
 }

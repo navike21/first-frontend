@@ -151,6 +151,33 @@ export interface PageTranslations {
     urlInvalid: string
     scheduledAtRequired: string
   }
+  builder: {
+    palette: string
+    paletteColumns: string
+    paletteHint: string
+    empty: string
+    chooseColumns: string
+    columnsLabel: string
+    addText: string
+    addImage: string
+    textElement: string
+    imageElement: string
+    imageSelect: string
+    imageReplace: string
+    imageAlt: string
+    deleteSection: string
+    deleteSectionConfirm: string
+    deleteElement: string
+    dragSection: string
+    dragElement: string
+    unknownSection: (type: string) => string
+    save: string
+    saved: string
+    unsaved: string
+    uploadError: string
+    cancel: string
+    confirmDelete: string
+  }
   seo: {
     action: string
     colSeo: string

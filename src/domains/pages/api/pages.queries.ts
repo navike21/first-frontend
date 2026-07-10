@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { pagesApi } from './pages.api'
-import type { PageListParams } from '../model/page.types'
+import type { BuilderSection, PageListParams } from '../model/page.types'
 import type { CreatePagePayload } from '../model/page.schema'
 
 export const pageKeys = {
@@ -203,6 +203,18 @@ export const useBulkPurgePages = () => {
   return useMutation({
     mutationFn: (ids: string[]) => pagesApi.bulkPurge(ids),
     onSuccess: () => qc.invalidateQueries({ queryKey: pageKeys.trash() }),
+  })
+}
+
+export const useReplaceSections = (pageId: string) => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (sections: BuilderSection[]) => pagesApi.replaceSections(pageId, sections),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: pageKeys.detail(pageId) })
+      qc.invalidateQueries({ queryKey: pageKeys.revisions(pageId) })
+      qc.invalidateQueries({ queryKey: pageKeys.lists() })
+    },
   })
 }
 

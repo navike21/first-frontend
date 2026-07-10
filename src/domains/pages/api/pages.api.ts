@@ -1,6 +1,6 @@
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
-import type { Page, PageListParams, PageRevision } from '../model/page.types'
+import type { BuilderSection, Page, PageListParams, PageRevision } from '../model/page.types'
 import type { CreatePagePayload } from '../model/page.schema'
 
 const BASE = '/pages'
@@ -81,6 +81,13 @@ export const pagesApi = {
 
   bulkPurge: (ids: string[]) =>
     request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk/permanent`, method: 'DELETE', body: { ids } }),
+
+  replaceSections: (id: string, sections: BuilderSection[]) =>
+    request<ApiResponse<Page>, { sections: BuilderSection[] }>({
+      api: `${BASE}/${id}/sections`,
+      method: 'PUT',
+      body: { sections },
+    }),
 
   listRevisions: (id: string) =>
     request<ApiResponse<PageRevision[]>>({ api: `${BASE}/${id}/revisions`, method: 'GET' }),
