@@ -81,12 +81,6 @@ export const ColumnZone = ({
         )}
       </SortableContext>
 
-      {elementDragActive && column.elements.length === 0 && (
-        <p className="py-3 text-center text-[10px] font-medium uppercase tracking-wide text-primary-600">
-          {t.builder.dropHere}
-        </p>
-      )}
-
       <div className="mt-auto flex items-center justify-center gap-1 pt-1">
         <Tooltip heading={t.builder.addText} position="top" size="small">
           <IconButton icon="RiText" variant="text" size="small" aria-label={t.builder.addText} onClick={onAddText} />

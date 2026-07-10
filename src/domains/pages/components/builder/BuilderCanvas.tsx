@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   DndContext,
   DragOverlay,
@@ -210,15 +211,9 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
                 className={clsx('h-8 w-8', paletteDragging ? 'text-primary-600' : 'text-muted')}
               />
               <p className={clsx('text-sm', paletteDragging ? 'font-medium text-primary-600' : 'text-muted')}>
-                {paletteDragging ? t.builder.dropHere : t.builder.empty}
+                {t.builder.empty}
               </p>
             </div>
-          )}
-
-          {sections.length > 0 && paletteDragging && (
-            <p className="rounded-lg border border-dashed border-primary-600/60 bg-primary-700/10 py-2 text-center text-xs font-medium text-primary-600">
-              {t.builder.dropHere}
-            </p>
           )}
 
           <SortableContext items={sections.map((s) => s.sectionId)} strategy={verticalListSortingStrategy}>
@@ -247,15 +242,21 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
         </div>
       </div>
 
-      <DragOverlay>
-        {paletteDragging && <OverlayChip icon="RiLayoutColumnLine" label={t.builder.paletteColumns} />}
-        {elementDragging && (
-          <OverlayChip
-            icon={activeDrag?.elementType === 'image' ? 'RiImageLine' : 'RiText'}
-            label={activeDrag?.elementType === 'image' ? t.builder.imageElement : t.builder.textElement}
-          />
-        )}
-      </DragOverlay>
+      {/* Portal a <body>: el contenido de la página vive en contenedores con
+          transform (animaciones), que romperían el posicionamiento fijo del
+          overlay — el chip se dibujaría lejos del cursor. */}
+      {createPortal(
+        <DragOverlay>
+          {paletteDragging && <OverlayChip icon="RiLayoutColumnLine" label={t.builder.paletteColumns} />}
+          {elementDragging && (
+            <OverlayChip
+              icon={activeDrag?.elementType === 'image' ? 'RiImageLine' : 'RiText'}
+              label={activeDrag?.elementType === 'image' ? t.builder.imageElement : t.builder.textElement}
+            />
+          )}
+        </DragOverlay>,
+        document.body,
+      )}
     </DndContext>
   )
 }

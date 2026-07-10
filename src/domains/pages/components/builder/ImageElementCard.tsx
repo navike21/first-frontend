@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
-import { Button, InputField, Modal, Select } from '@/shared/ui'
+import { Button, IconButton, InputField, Modal, Select, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderImageElement } from '../../model/page.types'
@@ -94,11 +94,11 @@ export const ImageElementCard = ({
         </button>
       )}
 
-      {/* Editor de imagen: 2 columnas — preview/reemplazo | opciones */}
+      {/* Editor de imagen: 2 columnas — preview con botón flotante de cambio | opciones */}
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
-        size="lg"
+        size="xl"
         title={t.builder.imageElement}
         footer={
           <Button variant="primary" onClick={() => setOpen(false)}>
@@ -106,14 +106,19 @@ export const ImageElementCard = ({
           </Button>
         }
       >
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="relative">
             {element.url ? (
-              <div className={clsx('flex rounded-lg border border-border bg-surface-subtle p-2', ALIGN_CLASS[element.align])}>
+              <div
+                className={clsx(
+                  'flex min-h-48 rounded-lg border border-border bg-surface-subtle p-2',
+                  ALIGN_CLASS[element.align],
+                )}
+              >
                 <img
                   src={element.url}
                   alt={element.alt[editing] || ''}
-                  className="max-h-56 rounded-md object-contain"
+                  className="max-h-72 rounded-md object-contain"
                   style={{
                     ...(element.width && { width: element.width }),
                     ...(element.height && { height: element.height }),
@@ -121,28 +126,50 @@ export const ImageElementCard = ({
                 />
               </div>
             ) : (
-              <div className="flex h-40 items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted">
+              <button
+                type="button"
+                onClick={() => inputRef.current?.click()}
+                className="flex h-48 w-full items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+              >
                 {t.builder.imageSelect}
+              </button>
+            )}
+            {element.url && (
+              <div className="absolute right-4 top-4">
+                <Tooltip heading={t.builder.imageReplace} position="top" size="small">
+                  <span className="inline-flex rounded-full bg-surface shadow-md ring-1 ring-border">
+                    <IconButton
+                      icon="RiImageEditLine"
+                      variant="text"
+                      size="small"
+                      aria-label={t.builder.imageReplace}
+                      onClick={() => inputRef.current?.click()}
+                    />
+                  </span>
+                </Tooltip>
               </div>
             )}
-            <Button type="button" variant="outline" size="small" onClick={() => inputRef.current?.click()}>
-              {element.url ? t.builder.imageReplace : t.builder.imageSelect}
-            </Button>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <InputField
-              label={t.builder.widthLabel}
-              helperText={t.builder.sizeHint}
-              value={element.width}
-              onChange={(e) => onChange({ width: e.target.value.trim() })}
-            />
-            <InputField
-              label={t.builder.heightLabel}
-              helperText={t.builder.sizeHint}
-              value={element.height}
-              onChange={(e) => onChange({ height: e.target.value.trim() })}
-            />
+          <div className="flex flex-col gap-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <InputField
+                  label={t.builder.widthLabel}
+                  value={element.width}
+                  onChange={(e) => onChange({ width: e.target.value.trim() })}
+                />
+                <p className="text-xs text-muted">{t.builder.sizeHint}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <InputField
+                  label={t.builder.heightLabel}
+                  value={element.height}
+                  onChange={(e) => onChange({ height: e.target.value.trim() })}
+                />
+                <p className="text-xs text-muted">{t.builder.sizeHint}</p>
+              </div>
+            </div>
             <Select
               label={t.builder.alignLabel}
               options={alignOptions}
@@ -150,7 +177,7 @@ export const ImageElementCard = ({
               lang={language}
               onChange={(e) => onChange({ align: e.target.value as BuilderImageElement['align'] })}
             />
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <LangChips editing={editing} userLanguage={language} values={element.alt} onChange={setEditing} />
               <InputField
                 label={t.builder.imageAlt}

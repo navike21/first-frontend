@@ -23,7 +23,19 @@ export const TextElementCard = ({ element, sectionId, columnId, language, onChan
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
 
-  const preview = element.html[language]?.trim() || element.html.en?.trim() || ''
+  // TipTap emite '<p></p>' cuando está vacío: sin este chequeo la tarjeta se
+  // veía "sin nada" en lugar del hint de editar.
+  const isEmptyHtml = (html: string | undefined): boolean => {
+    if (!html) return true
+    const text = new DOMParser().parseFromString(html, 'text/html').body.textContent ?? ''
+    return !text.replace(/ /g, ' ').trim()
+  }
+
+  const raw = element.html[language] ?? ''
+  const fallback = element.html.en ?? ''
+  let preview = ''
+  if (!isEmptyHtml(raw)) preview = raw
+  else if (!isEmptyHtml(fallback)) preview = fallback
 
   return (
     <ElementShell
