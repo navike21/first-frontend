@@ -49,11 +49,15 @@ function normalizeElement(raw: unknown): BuilderElement | null {
     return text
   }
   if (el.type === 'image') {
+    const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
     const image: BuilderImageElement = {
       id: typeof el.id === 'string' ? el.id : newId(),
       type: 'image',
       url: typeof el.url === 'string' ? el.url : '',
       alt: normalizeLocalized(el.alt),
+      width: typeof el.width === 'string' ? el.width : '',
+      height: typeof el.height === 'string' ? el.height : '',
+      align,
     }
     return image
   }
@@ -132,7 +136,7 @@ export function createTextElement(): BuilderTextElement {
 }
 
 export function createImageElement(): BuilderImageElement {
-  return { id: newId(), type: 'image', url: '', alt: emptyLocalized() }
+  return { id: newId(), type: 'image', url: '', alt: emptyLocalized(), width: '', height: '', align: 'center' }
 }
 
 // ── Operaciones puras sobre el draft (siempre devuelven un array nuevo) ─────
@@ -226,6 +230,43 @@ export function moveElement(
     const to = c.elements.findIndex((e) => e.id === overId)
     if (from < 0 || to < 0 || from === to) return c
     return { ...c, elements: move(c.elements, from, to) }
+  })
+}
+
+export interface ElementLocation {
+  sectionId: string
+  columnId: string
+}
+
+/**
+ * Mueve un elemento a cualquier columna de cualquier sección: mismo destino
+ * → reorden; destino distinto → se extrae y se inserta antes de
+ * `overElementId` (o al final si la columna destino está vacía).
+ */
+export function moveElementAcross(
+  sections: BuilderSection[],
+  elementId: string,
+  source: ElementLocation,
+  target: ElementLocation,
+  overElementId: string | null,
+): BuilderSection[] {
+  if (source.sectionId === target.sectionId && source.columnId === target.columnId) {
+    return overElementId ? moveElement(sections, source.sectionId, source.columnId, elementId, overElementId) : sections
+  }
+
+  let moved: BuilderElement | undefined
+  const without = mapColumn(sections, source.sectionId, source.columnId, (c) => {
+    moved = c.elements.find((e) => e.id === elementId)
+    return { ...c, elements: c.elements.filter((e) => e.id !== elementId) }
+  })
+  if (!moved) return sections
+
+  return mapColumn(without, target.sectionId, target.columnId, (c) => {
+    const elements = [...c.elements]
+    const index = overElementId ? elements.findIndex((e) => e.id === overElementId) : -1
+    if (index >= 0) elements.splice(index, 0, moved as BuilderElement)
+    else elements.push(moved as BuilderElement)
+    return { ...c, elements }
   })
 }
 

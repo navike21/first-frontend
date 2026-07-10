@@ -18,6 +18,8 @@ export interface SectionCardProps {
   language: Language
   /** Recién soltada desde la paleta: muestra el selector de columnas antes de editar. */
   pendingChoice: boolean
+  /** true mientras se arrastra un elemento en cualquier parte del lienzo. */
+  elementDragActive: boolean
   onChooseColumns: (count: BuilderColumnsCount) => void
   onColumnsChange: (count: BuilderColumnsCount) => void
   onDeleteRequest: () => void
@@ -29,7 +31,6 @@ export interface SectionCardProps {
     patch: Partial<BuilderTextElement> | Partial<BuilderImageElement>,
   ) => void
   onElementDelete: (columnId: string, elementId: string) => void
-  onElementMove: (columnId: string, activeId: string, overId: string) => void
   onPickFile: (elementId: string, file: File) => void
 }
 
@@ -39,6 +40,7 @@ export const SectionCard = ({
   section,
   language,
   pendingChoice,
+  elementDragActive,
   onChooseColumns,
   onColumnsChange,
   onDeleteRequest,
@@ -46,12 +48,12 @@ export const SectionCard = ({
   onAddImage,
   onElementChange,
   onElementDelete,
-  onElementMove,
   onPickFile,
 }: SectionCardProps) => {
   const { t } = usePagesTranslation()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: section.sectionId,
+    data: { kind: 'section' },
   })
 
   const editable = isColumnsSection(section)
@@ -138,13 +140,14 @@ export const SectionCard = ({
           {columns.map((column) => (
             <ColumnZone
               key={column.id}
+              sectionId={section.sectionId}
               column={column}
               language={language}
+              elementDragActive={elementDragActive}
               onAddText={() => onAddText(column.id)}
               onAddImage={() => onAddImage(column.id)}
               onElementChange={(elementId, patch) => onElementChange(column.id, elementId, patch)}
               onElementDelete={(elementId) => onElementDelete(column.id, elementId)}
-              onElementMove={(activeId, overId) => onElementMove(column.id, activeId, overId)}
               onPickFile={onPickFile}
             />
           ))}

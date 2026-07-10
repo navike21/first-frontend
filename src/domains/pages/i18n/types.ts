@@ -171,6 +171,17 @@ export interface PageTranslations {
     dragSection: string
     dragElement: string
     unknownSection: (type: string) => string
+    edit: string
+    done: string
+    textEmpty: string
+    dropHere: string
+    widthLabel: string
+    heightLabel: string
+    sizeHint: string
+    alignLabel: string
+    alignLeft: string
+    alignCenter: string
+    alignRight: string
     save: string
     saved: string
     unsaved: string

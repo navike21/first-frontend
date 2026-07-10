@@ -25,6 +25,10 @@ export interface BuilderImageElement {
   type: 'image'
   url: string
   alt: PageLocalizedString
+  /** CSS size, p. ej. '320px' o '50%'; '' = auto. */
+  width: string
+  height: string
+  align: 'left' | 'center' | 'right'
 }
 
 export type BuilderElement = BuilderTextElement | BuilderImageElement

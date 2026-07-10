@@ -17,7 +17,7 @@ import {
   addElement,
   updateElement,
   removeElement,
-  moveElement,
+  moveElementAcross,
   replaceImageUrl,
 } from '../model/page.builder'
 import type { BuilderSection } from '../model/page.types'
@@ -153,8 +153,8 @@ export const PageBuilderPage = () => {
         onElementDelete={(sectionId, columnId, elementId) =>
           patch((s) => removeElement(s, sectionId, columnId, elementId))
         }
-        onElementMove={(sectionId, columnId, activeId, overId) =>
-          patch((s) => moveElement(s, sectionId, columnId, activeId, overId))
+        onElementMove={(elementId, source, target, overElementId) =>
+          patch((s) => moveElementAcross(s, elementId, source, target, overElementId))
         }
         onPickFile={handlePickFile}
       />
