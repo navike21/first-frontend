@@ -126,10 +126,12 @@ export const HeaderPreview = ({ config }: HeaderPreviewProps) => {
   const { t } = useSiteConfigTranslation()
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop')
 
-  const barClasses = clsx(
-    'px-4 py-3',
-    config.transparent ? 'absolute inset-x-0 top-0 bg-transparent' : 'border-b border-border bg-surface',
-  )
+  // Inline positioning for the transparent overlay: same rationale as the mock
+  // blocks — never depend on utility classes new to the repo.
+  const barClasses = clsx('px-4 py-3', !config.transparent && 'border-b border-border bg-surface')
+  const barStyle: CSSProperties | undefined = config.transparent
+    ? { position: 'absolute', top: 0, left: 0, right: 0 }
+    : undefined
 
   return (
     <div className="flex flex-col gap-2">
@@ -158,8 +160,8 @@ export const HeaderPreview = ({ config }: HeaderPreviewProps) => {
       </div>
 
       <div className="mx-auto w-full" style={device === 'mobile' ? { maxWidth: 224 } : undefined}>
-        <div className="relative overflow-hidden rounded-xl border border-border">
-          <div className={barClasses}>
+        <div className="overflow-hidden rounded-xl border border-border" style={{ position: 'relative' }}>
+          <div className={barClasses} style={barStyle}>
             {device === 'desktop' ? <DesktopBar config={config} /> : <MobileBar config={config} />}
           </div>
           {/* Hero strip below/behind the header to visualize transparency */}
