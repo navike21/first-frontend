@@ -9,6 +9,10 @@ export const fr: SiteConfigTranslations = {
     header: 'Header',
     footer: 'Footer',
     content: 'Contenu',
+    social: 'Réseaux sociaux',
+  },
+  social: {
+    hint: 'Source unique de vérité : ces URLs alimentent toutes les sections du site public. Laissez vides les réseaux inutilisés.',
   },
   actions: {
     save: 'Enregistrer les modifications',

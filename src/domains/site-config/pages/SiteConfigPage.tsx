@@ -10,12 +10,14 @@ import type {
   HeaderConfig,
   FooterConfig,
   LayoutConfig,
+  SocialConfig,
 } from '../model/site-config.types'
 import { HeaderConfigPanel } from '../components/HeaderConfigPanel'
 import { FooterConfigPanel } from '../components/FooterConfigPanel'
 import { ContentConfigPanel } from '../components/ContentConfigPanel'
+import { SocialConfigPanel } from '../components/SocialConfigPanel'
 
-type TabId = 'header' | 'footer' | 'content'
+type TabId = 'header' | 'footer' | 'content' | 'social'
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
@@ -40,11 +42,14 @@ export const SiteConfigPage = () => {
     setDraft((d) => (d ? { ...d, footer: { ...d.footer, ...patch } } : d))
   const patchLayout = (patch: Partial<LayoutConfig>) =>
     setDraft((d) => (d ? { ...d, layout: { ...d.layout, ...patch } } : d))
+  const patchSocial = (patch: Partial<SocialConfig>) =>
+    setDraft((d) => (d ? { ...d, social: { ...d.social, ...patch } } : d))
 
   const dirtyHeader = !!draft && !!serverConfig && !sameJson(draft.header, serverConfig.header)
   const dirtyFooter = !!draft && !!serverConfig && !sameJson(draft.footer, serverConfig.footer)
   const dirtyLayout = !!draft && !!serverConfig && !sameJson(draft.layout, serverConfig.layout)
-  const dirty = dirtyHeader || dirtyFooter || dirtyLayout
+  const dirtySocial = !!draft && !!serverConfig && !sameJson(draft.social, serverConfig.social)
+  const dirty = dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial
 
   const handleSave = () => {
     if (!draft) return
@@ -52,6 +57,7 @@ export const SiteConfigPage = () => {
       ...(dirtyHeader && { header: draft.header }),
       ...(dirtyFooter && { footer: draft.footer }),
       ...(dirtyLayout && { layout: draft.layout }),
+      ...(dirtySocial && { social: draft.social }),
     }
     updateConfig.mutate(payload, {
       onSuccess: () => notify.success(t.actions.saved),
@@ -62,6 +68,7 @@ export const SiteConfigPage = () => {
     { id: 'header', label: t.tabs.header },
     { id: 'footer', label: t.tabs.footer },
     { id: 'content', label: t.tabs.content },
+    { id: 'social', label: t.tabs.social },
   ]
 
   if (isLoading || !draft) {
@@ -92,6 +99,7 @@ export const SiteConfigPage = () => {
           <FooterConfigPanel value={draft.footer} language={language} onChange={patchFooter} />
         )}
         {activeTab === 'content' && <ContentConfigPanel value={draft.layout} onChange={patchLayout} />}
+        {activeTab === 'social' && <SocialConfigPanel value={draft.social} onChange={patchSocial} />}
 
         <Can anyOf={CAN.siteConfigUpdate}>
           <div className="flex items-center justify-end gap-3 border-t border-border pt-4">

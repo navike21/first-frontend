@@ -9,6 +9,10 @@ export const ko: SiteConfigTranslations = {
     header: '헤더',
     footer: '푸터',
     content: '콘텐츠',
+    social: '소셜 네트워크',
+  },
+  social: {
+    hint: '단일 정보 출처: 이 URL들은 공개 사이트의 모든 섹션에서 사용됩니다. 사용하지 않는 네트워크는 비워 두세요.',
   },
   actions: {
     save: '변경 사항 저장',

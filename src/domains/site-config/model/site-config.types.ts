@@ -50,10 +50,28 @@ export interface LayoutConfig {
   boxedMaxWidth: number
 }
 
+export const SOCIAL_NETWORKS = [
+  'facebook',
+  'instagram',
+  'x',
+  'whatsapp',
+  'linkedin',
+  'youtube',
+  'tiktok',
+  'telegram',
+  'pinterest',
+  'github',
+] as const
+export type SocialNetwork = (typeof SOCIAL_NETWORKS)[number]
+
+/** Fuente única de la verdad de las redes sociales del sitio ('' = oculta). */
+export type SocialConfig = Record<SocialNetwork, string>
+
 export interface SiteConfigData {
   header: HeaderConfig
   footer: FooterConfig
   layout: LayoutConfig
+  social: SocialConfig
 }
 
 export type SiteConfigUpdatePayload = Partial<SiteConfigData>

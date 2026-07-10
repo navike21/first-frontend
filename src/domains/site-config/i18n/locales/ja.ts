@@ -9,6 +9,10 @@ export const ja: SiteConfigTranslations = {
     header: 'ヘッダー',
     footer: 'フッター',
     content: 'コンテンツ',
+    social: 'ソーシャルメディア',
+  },
+  social: {
+    hint: '単一の信頼できる情報源：これらのURLは公開サイトのすべてのセクションで使用されます。使用しないものは空欄のままにしてください。',
   },
   actions: {
     save: '変更を保存',

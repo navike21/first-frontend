@@ -9,6 +9,10 @@ export interface SiteConfigTranslations {
     header: string
     footer: string
     content: string
+    social: string
+  }
+  social: {
+    hint: string
   }
   actions: {
     save: string

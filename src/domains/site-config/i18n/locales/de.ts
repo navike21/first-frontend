@@ -9,6 +9,10 @@ export const de: SiteConfigTranslations = {
     header: 'Header',
     footer: 'Footer',
     content: 'Inhalt',
+    social: 'Soziale Netzwerke',
+  },
+  social: {
+    hint: 'Single Source of Truth: Diese URLs speisen alle Bereiche der öffentlichen Website. Nicht genutzte Netzwerke leer lassen.',
   },
   actions: {
     save: 'Änderungen speichern',

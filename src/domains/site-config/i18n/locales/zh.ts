@@ -9,6 +9,10 @@ export const zh: SiteConfigTranslations = {
     header: '页头',
     footer: '页脚',
     content: '内容',
+    social: '社交网络',
+  },
+  social: {
+    hint: '唯一真实来源：这些 URL 将用于公开网站的所有区域。不使用的网络请留空。',
   },
   actions: {
     save: '保存更改',
