@@ -22,6 +22,8 @@ export interface HeaderConfig {
   transparent: boolean
   cta: {
     enabled: boolean
+    /** 'page' = el consumidor usa el título localizado de la página enlazada; 'custom' = usa label. */
+    labelMode: 'page' | 'custom'
     label: SiteLocalizedString
     /** 'page' enlaza a una página del CMS por id; 'url' usa el campo url libre. */
     linkType: 'page' | 'url'

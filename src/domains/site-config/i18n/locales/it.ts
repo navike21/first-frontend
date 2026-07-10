@@ -32,6 +32,7 @@ export const it: SiteConfigTranslations = {
     ctaLinkPage: 'Pagina del sito',
     ctaLinkUrl: 'URL personalizzato',
     ctaSelectPage: 'Seleziona una pagina…',
+    ctaUsePageTitle: 'Usa il titolo della pagina come testo del pulsante',
     mobileTitle: 'Comportamento mobile',
     mobileLogoPosition: 'Posizione del logo',
     mobileMenuIcon: 'Lato dell’icona menu',

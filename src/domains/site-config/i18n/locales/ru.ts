@@ -32,6 +32,7 @@ export const ru: SiteConfigTranslations = {
     ctaLinkPage: 'Страница сайта',
     ctaLinkUrl: 'Произвольный URL',
     ctaSelectPage: 'Выберите страницу…',
+    ctaUsePageTitle: 'Использовать заголовок страницы как текст кнопки',
     mobileTitle: 'Поведение на мобильных',
     mobileLogoPosition: 'Положение логотипа',
     mobileMenuIcon: 'Сторона иконки меню',

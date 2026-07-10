@@ -32,6 +32,7 @@ export const ja: SiteConfigTranslations = {
     ctaLinkPage: 'サイトのページ',
     ctaLinkUrl: 'カスタムURL',
     ctaSelectPage: 'ページを選択…',
+    ctaUsePageTitle: 'ページタイトルをボタンのテキストとして使用',
     mobileTitle: 'モバイルの挙動',
     mobileLogoPosition: 'ロゴの位置',
     mobileMenuIcon: 'メニューアイコンの位置',

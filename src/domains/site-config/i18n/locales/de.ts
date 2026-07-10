@@ -32,6 +32,7 @@ export const de: SiteConfigTranslations = {
     ctaLinkPage: 'Seite der Website',
     ctaLinkUrl: 'Eigene URL',
     ctaSelectPage: 'Seite auswählen…',
+    ctaUsePageTitle: 'Seitentitel als Button-Text verwenden',
     mobileTitle: 'Mobiles Verhalten',
     mobileLogoPosition: 'Logo-Position',
     mobileMenuIcon: 'Seite des Menü-Icons',

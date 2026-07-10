@@ -32,6 +32,7 @@ export const ko: SiteConfigTranslations = {
     ctaLinkPage: '사이트 페이지',
     ctaLinkUrl: '사용자 지정 URL',
     ctaSelectPage: '페이지 선택…',
+    ctaUsePageTitle: '페이지 제목을 버튼 텍스트로 사용',
     mobileTitle: '모바일 동작',
     mobileLogoPosition: '로고 위치',
     mobileMenuIcon: '메뉴 아이콘 위치',

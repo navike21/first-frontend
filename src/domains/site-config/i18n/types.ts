@@ -27,6 +27,7 @@ export interface SiteConfigTranslations {
     ctaLinkPage: string
     ctaLinkUrl: string
     ctaSelectPage: string
+    ctaUsePageTitle: string
     mobileTitle: string
     mobileLogoPosition: string
     mobileMenuIcon: string

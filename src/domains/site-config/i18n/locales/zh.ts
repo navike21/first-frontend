@@ -32,6 +32,7 @@ export const zh: SiteConfigTranslations = {
     ctaLinkPage: '站点页面',
     ctaLinkUrl: '自定义 URL',
     ctaSelectPage: '选择页面…',
+    ctaUsePageTitle: '使用页面标题作为按钮文字',
     mobileTitle: '移动端行为',
     mobileLogoPosition: '标志位置',
     mobileMenuIcon: '菜单图标位置',

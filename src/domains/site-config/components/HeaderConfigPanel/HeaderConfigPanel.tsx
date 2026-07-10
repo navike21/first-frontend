@@ -69,12 +69,6 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
         />
         <FadeCollapse show={value.cta.enabled}>
           <div className="flex flex-col gap-4">
-            <LocalizedField
-              label={t.header.ctaLabel}
-              value={value.cta.label}
-              userLanguage={language}
-              onChange={(lang, text) => patchCta({ label: { ...value.cta.label, [lang]: text } })}
-            />
             <FormGrid className="lg:grid-cols-2">
               <Select
                 label={t.header.ctaLinkType}
@@ -102,6 +96,26 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
                 />
               )}
             </FormGrid>
+
+            {/* Label source: reuse the linked page's localized title, or type a
+                custom label. URL destinations always need a custom label. */}
+            <FadeCollapse show={value.cta.linkType === 'page' && !!value.cta.pageId}>
+              <Switch
+                label={t.header.ctaUsePageTitle}
+                checked={value.cta.labelMode === 'page'}
+                onChange={(e) => patchCta({ labelMode: e.target.checked ? 'page' : 'custom' })}
+              />
+            </FadeCollapse>
+            <FadeCollapse
+              show={value.cta.linkType === 'url' || !value.cta.pageId || value.cta.labelMode === 'custom'}
+            >
+              <LocalizedField
+                label={t.header.ctaLabel}
+                value={value.cta.label}
+                userLanguage={language}
+                onChange={(lang, text) => patchCta({ label: { ...value.cta.label, [lang]: text } })}
+              />
+            </FadeCollapse>
           </div>
         </FadeCollapse>
       </div>
