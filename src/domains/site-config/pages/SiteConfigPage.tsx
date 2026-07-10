@@ -4,6 +4,7 @@ import { notify } from '@/shared/lib/notify'
 import { CAN } from '@/shared/lib/permissions'
 import { useSiteConfigTranslation } from '../i18n'
 import { useSiteConfig, useUpdateSiteConfig } from '../api/site-config.queries'
+import { normalizeSiteConfig } from '../model/site-config.types'
 import type {
   SiteConfigData,
   SiteConfigUpdatePayload,
@@ -31,10 +32,14 @@ export const SiteConfigPage = () => {
   const [syncedWith, setSyncedWith] = useState<SiteConfigData | null>(null)
 
   // Adopt fresh server data during render (initial load and post-save refetch).
+  // Normalized against the client fallback so stale cached responses (older
+  // contract without newer categories/fields) can never break the panels.
   if (serverConfig && serverConfig !== syncedWith) {
     setSyncedWith(serverConfig)
-    setDraft(structuredClone(serverConfig))
+    setDraft(normalizeSiteConfig(serverConfig))
   }
+
+  const serverNorm = serverConfig ? normalizeSiteConfig(serverConfig) : null
 
   const patchHeader = (patch: Partial<HeaderConfig>) =>
     setDraft((d) => (d ? { ...d, header: { ...d.header, ...patch } } : d))
@@ -45,10 +50,10 @@ export const SiteConfigPage = () => {
   const patchSocial = (patch: Partial<SocialConfig>) =>
     setDraft((d) => (d ? { ...d, social: { ...d.social, ...patch } } : d))
 
-  const dirtyHeader = !!draft && !!serverConfig && !sameJson(draft.header, serverConfig.header)
-  const dirtyFooter = !!draft && !!serverConfig && !sameJson(draft.footer, serverConfig.footer)
-  const dirtyLayout = !!draft && !!serverConfig && !sameJson(draft.layout, serverConfig.layout)
-  const dirtySocial = !!draft && !!serverConfig && !sameJson(draft.social, serverConfig.social)
+  const dirtyHeader = !!draft && !!serverNorm && !sameJson(draft.header, serverNorm.header)
+  const dirtyFooter = !!draft && !!serverNorm && !sameJson(draft.footer, serverNorm.footer)
+  const dirtyLayout = !!draft && !!serverNorm && !sameJson(draft.layout, serverNorm.layout)
+  const dirtySocial = !!draft && !!serverNorm && !sameJson(draft.social, serverNorm.social)
   const dirty = dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial
 
   const handleSave = () => {

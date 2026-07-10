@@ -1,3 +1,4 @@
+import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 
 export type SiteLocalizedString = Record<Language, string>
@@ -75,3 +76,54 @@ export interface SiteConfigData {
 }
 
 export type SiteConfigUpdatePayload = Partial<SiteConfigData>
+
+// ── Normalización ───────────────────────────────────────────────────────────
+// El backend puede devolver documentos antiguos (o la caché offline conservar
+// respuestas previas a un deploy) sin categorías/campos nuevos: la UI siempre
+// trabaja sobre la config fusionada con estos defaults.
+
+function emptyLocalized(): SiteLocalizedString {
+  return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as SiteLocalizedString
+}
+
+function emptySocial(): SocialConfig {
+  return Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, ''])) as SocialConfig
+}
+
+export function siteConfigFallback(): SiteConfigData {
+  return {
+    header: {
+      variant: 'logo-left-menu-right',
+      sticky: true,
+      transparent: false,
+      cta: { enabled: false, labelMode: 'page', label: emptyLocalized(), linkType: 'page', pageId: null, url: '' },
+      mobile: { logoPosition: 'left', menuIconPosition: 'right' },
+    },
+    footer: {
+      variant: 'columns',
+      columns: 4,
+      showSocial: true,
+      showNewsletter: false,
+      copyright: emptyLocalized(),
+    },
+    layout: { contentWidth: 'boxed', boxedMaxWidth: 1200 },
+    social: emptySocial(),
+  }
+}
+
+type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] }
+
+export function normalizeSiteConfig(input?: DeepPartial<SiteConfigData> | null): SiteConfigData {
+  const base = siteConfigFallback()
+  return {
+    header: {
+      ...base.header,
+      ...input?.header,
+      cta: { ...base.header.cta, ...input?.header?.cta },
+      mobile: { ...base.header.mobile, ...input?.header?.mobile },
+    } as SiteConfigData['header'],
+    footer: { ...base.footer, ...input?.footer } as SiteConfigData['footer'],
+    layout: { ...base.layout, ...input?.layout } as SiteConfigData['layout'],
+    social: { ...base.social, ...input?.social } as SocialConfig,
+  }
+}
