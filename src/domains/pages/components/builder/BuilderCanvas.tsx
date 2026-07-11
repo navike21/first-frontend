@@ -371,8 +371,8 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
   }
 
   // Reordena en vivo (no solo al soltar): así `useSortable` anima las demás
-  // secciones corriéndose de lugar mientras arrastras, en vez de solo dar un
-  // salto seco al final.
+  // secciones o elementos corriéndose de lugar mientras arrastras, en vez de
+  // solo dar un salto seco al final.
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
@@ -380,7 +380,9 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
     const oData = over.data.current as DragData | undefined
     if (aData?.kind === 'section' && oData?.kind === 'section') {
       onSectionMove(String(active.id), String(over.id))
+      return
     }
+    if (aData?.kind === 'element') handleElementDrop(active, over, aData, onElementMove)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
