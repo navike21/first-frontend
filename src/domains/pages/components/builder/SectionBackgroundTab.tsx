@@ -41,9 +41,9 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
   const config: BackgroundConfig = background[breakpoint] ?? { type: 'none' }
 
   const breakpointOptions = [
-    { value: 'desktop', label: t.builder.background.breakpointDesktop, icon: BREAKPOINT_ICONS.desktop },
-    { value: 'tablet', label: t.builder.background.breakpointTablet, icon: BREAKPOINT_ICONS.tablet },
-    { value: 'mobile', label: t.builder.background.breakpointMobile, icon: BREAKPOINT_ICONS.mobile },
+    { value: 'desktop', label: t.builder.breakpoint.desktop, icon: BREAKPOINT_ICONS.desktop },
+    { value: 'tablet', label: t.builder.breakpoint.tablet, icon: BREAKPOINT_ICONS.tablet },
+    { value: 'mobile', label: t.builder.breakpoint.mobile, icon: BREAKPOINT_ICONS.mobile },
   ]
 
   const typeOptions = [
@@ -62,7 +62,7 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-2 gap-3">
         <Select
-          label={t.builder.background.breakpointLabel}
+          label={t.builder.breakpoint.label}
           options={breakpointOptions}
           value={breakpoint}
           onChange={(e) => setBreakpoint(e.target.value as BackgroundBreakpoint)}

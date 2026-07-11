@@ -168,11 +168,13 @@ export const en: PageTranslations = {
     mobileColumns: 'Mobile columns',
     hideOnTablet: 'Hide on tablet',
     hideOnMobile: 'Hide on mobile',
+    breakpoint: {
+      label: 'Editing',
+      desktop: 'Desktop',
+      tablet: 'Tablet',
+      mobile: 'Mobile',
+    },
     background: {
-      breakpointLabel: 'Editing',
-      breakpointDesktop: 'Desktop',
-      breakpointTablet: 'Tablet',
-      breakpointMobile: 'Mobile',
       typeLabel: 'Background type',
       typeNone: 'None',
       typeImage: 'Image',

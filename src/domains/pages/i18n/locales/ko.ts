@@ -168,11 +168,13 @@ export const ko: PageTranslations = {
     mobileColumns: '모바일 컬럼 수',
     hideOnTablet: '태블릿에서 숨기기',
     hideOnMobile: '모바일에서 숨기기',
+    breakpoint: {
+      label: '편집 대상',
+      desktop: '데스크톱',
+      tablet: '태블릿',
+      mobile: '모바일',
+    },
     background: {
-      breakpointLabel: '편집 대상',
-      breakpointDesktop: '데스크톱',
-      breakpointTablet: '태블릿',
-      breakpointMobile: '모바일',
       typeLabel: '배경 유형',
       typeNone: '없음',
       typeImage: '이미지',

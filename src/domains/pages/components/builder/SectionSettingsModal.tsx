@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { Button, IconComponent, Modal, Switch, Tabs } from '@/shared/ui'
+import { Button, Modal, Select, Switch, Tabs } from '@/shared/ui'
 import type { TabItem } from '@/shared/ui'
-import type { IconName } from '@/shared/types/icons'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
@@ -55,37 +54,7 @@ const ColumnPicker = ({ max, value, onChange }: ColumnPickerProps) => (
   </div>
 )
 
-interface BreakpointFieldsetProps {
-  icon: IconName
-  title: string
-  hideLabel: string
-  hidden: boolean
-  onHiddenChange: (hidden: boolean) => void
-  max: BuilderColumnsCount
-  value: BuilderColumnsCount
-  onColumnsChange: (count: BuilderColumnsCount) => void
-}
-
-const BreakpointFieldset = ({
-  icon,
-  title,
-  hideLabel,
-  hidden,
-  onHiddenChange,
-  max,
-  value,
-  onColumnsChange,
-}: BreakpointFieldsetProps) => (
-  <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-3">
-    <div className="flex items-center gap-2">
-      <IconComponent icon={icon} className="h-4 w-4 text-secondary" />
-      <span className="text-sm font-semibold text-foreground">{title}</span>
-    </div>
-    {!hidden && <ColumnPicker max={max} value={value} onChange={onColumnsChange} />}
-    <Switch label={hideLabel} checked={hidden} onChange={(e) => onHiddenChange(e.target.checked)} />
-  </div>
-)
-
+type ColumnsBreakpoint = 'tablet' | 'mobile'
 type SettingsTab = 'columns' | 'background'
 
 /** Configuración de una sección: columnas responsive (tablet/móvil) y fondo
@@ -103,6 +72,7 @@ export const SectionSettingsModal = ({
 }: SectionSettingsModalProps) => {
   const { t } = usePagesTranslation()
   const [activeTab, setActiveTab] = useState<SettingsTab>('columns')
+  const [columnsBreakpoint, setColumnsBreakpoint] = useState<ColumnsBreakpoint>('tablet')
   const tabletColumns = settings.tabletColumns ?? columns
   const mobileColumns = settings.mobileColumns ?? columns
 
@@ -111,11 +81,19 @@ export const SectionSettingsModal = ({
     { id: 'background', label: t.builder.tabBackground, icon: 'RiImage2Line' },
   ]
 
+  const columnsBreakpointOptions = [
+    { value: 'tablet', label: t.builder.tabletColumns, icon: 'RiTabletLine' as const },
+    { value: 'mobile', label: t.builder.mobileColumns, icon: 'RiSmartphoneLine' as const },
+  ]
+  const columnsHidden = columnsBreakpoint === 'tablet' ? !!settings.hiddenOnTablet : !!settings.hiddenOnMobile
+  const columnsValue = columnsBreakpoint === 'tablet' ? tabletColumns : mobileColumns
+  const columnsHideLabel = columnsBreakpoint === 'tablet' ? t.builder.hideOnTablet : t.builder.hideOnMobile
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size="lg"
+      size="xl"
       title={t.builder.sectionSettings}
       footer={
         <Button variant="primary" onClick={onClose}>
@@ -133,26 +111,32 @@ export const SectionSettingsModal = ({
         />
 
         {activeTab === 'columns' && (
-          <div className="flex flex-col gap-3">
-            <BreakpointFieldset
-              icon="RiTabletLine"
-              title={t.builder.tabletColumns}
-              hideLabel={t.builder.hideOnTablet}
-              hidden={!!settings.hiddenOnTablet}
-              onHiddenChange={(hiddenOnTablet) => onChange({ hiddenOnTablet })}
-              max={columns}
-              value={tabletColumns}
-              onColumnsChange={(tabletColumnsValue) => onChange({ tabletColumns: tabletColumnsValue })}
+          <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-4">
+            <Select
+              label={t.builder.breakpoint.label}
+              options={columnsBreakpointOptions}
+              value={columnsBreakpoint}
+              onChange={(e) => setColumnsBreakpoint(e.target.value as ColumnsBreakpoint)}
             />
-            <BreakpointFieldset
-              icon="RiSmartphoneLine"
-              title={t.builder.mobileColumns}
-              hideLabel={t.builder.hideOnMobile}
-              hidden={!!settings.hiddenOnMobile}
-              onHiddenChange={(hiddenOnMobile) => onChange({ hiddenOnMobile })}
-              max={columns}
-              value={mobileColumns}
-              onColumnsChange={(mobileColumnsValue) => onChange({ mobileColumns: mobileColumnsValue })}
+            {!columnsHidden && (
+              <ColumnPicker
+                max={columns}
+                value={columnsValue}
+                onChange={(count) =>
+                  onChange(columnsBreakpoint === 'tablet' ? { tabletColumns: count } : { mobileColumns: count })
+                }
+              />
+            )}
+            <Switch
+              label={columnsHideLabel}
+              checked={columnsHidden}
+              onChange={(e) =>
+                onChange(
+                  columnsBreakpoint === 'tablet'
+                    ? { hiddenOnTablet: e.target.checked }
+                    : { hiddenOnMobile: e.target.checked },
+                )
+              }
             />
           </div>
         )}

@@ -165,11 +165,13 @@ export interface PageTranslations {
     mobileColumns: string
     hideOnTablet: string
     hideOnMobile: string
+    breakpoint: {
+      label: string
+      desktop: string
+      tablet: string
+      mobile: string
+    }
     background: {
-      breakpointLabel: string
-      breakpointDesktop: string
-      breakpointTablet: string
-      breakpointMobile: string
       typeLabel: string
       typeNone: string
       typeImage: string

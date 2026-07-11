@@ -168,11 +168,13 @@ export const ja: PageTranslations = {
     mobileColumns: 'モバイルの列数',
     hideOnTablet: 'タブレットで非表示',
     hideOnMobile: 'モバイルで非表示',
+    breakpoint: {
+      label: '編集対象',
+      desktop: 'デスクトップ',
+      tablet: 'タブレット',
+      mobile: 'モバイル',
+    },
     background: {
-      breakpointLabel: '編集対象',
-      breakpointDesktop: 'デスクトップ',
-      breakpointTablet: 'タブレット',
-      breakpointMobile: 'モバイル',
       typeLabel: '背景タイプ',
       typeNone: 'なし',
       typeImage: '画像',

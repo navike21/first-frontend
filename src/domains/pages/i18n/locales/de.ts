@@ -168,11 +168,13 @@ export const de: PageTranslations = {
     mobileColumns: 'Spalten auf Mobilgerät',
     hideOnTablet: 'Auf Tablet ausblenden',
     hideOnMobile: 'Auf Mobilgerät ausblenden',
+    breakpoint: {
+      label: 'Bearbeiten',
+      desktop: 'Desktop',
+      tablet: 'Tablet',
+      mobile: 'Mobilgerät',
+    },
     background: {
-      breakpointLabel: 'Bearbeiten',
-      breakpointDesktop: 'Desktop',
-      breakpointTablet: 'Tablet',
-      breakpointMobile: 'Mobilgerät',
       typeLabel: 'Hintergrundtyp',
       typeNone: 'Keiner',
       typeImage: 'Bild',

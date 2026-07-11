@@ -168,11 +168,13 @@ export const ru: PageTranslations = {
     mobileColumns: 'Колонки на мобильном',
     hideOnTablet: 'Скрыть на планшете',
     hideOnMobile: 'Скрыть на мобильном',
+    breakpoint: {
+      label: 'Редактирование',
+      desktop: 'Десктоп',
+      tablet: 'Планшет',
+      mobile: 'Мобильный',
+    },
     background: {
-      breakpointLabel: 'Редактирование',
-      breakpointDesktop: 'Десктоп',
-      breakpointTablet: 'Планшет',
-      breakpointMobile: 'Мобильный',
       typeLabel: 'Тип фона',
       typeNone: 'Нет',
       typeImage: 'Изображение',

@@ -168,11 +168,13 @@ export const zh: PageTranslations = {
     mobileColumns: '移动端栏数',
     hideOnTablet: '在平板上隐藏',
     hideOnMobile: '在移动端隐藏',
+    breakpoint: {
+      label: '正在编辑',
+      desktop: '桌面端',
+      tablet: '平板',
+      mobile: '移动端',
+    },
     background: {
-      breakpointLabel: '正在编辑',
-      breakpointDesktop: '桌面端',
-      breakpointTablet: '平板',
-      breakpointMobile: '移动端',
       typeLabel: '背景类型',
       typeNone: '无',
       typeImage: '图片',
