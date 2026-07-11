@@ -72,10 +72,17 @@ function makeCollisionDetection(): CollisionDetection {
     const kind = (args.active.data.current as DragData | undefined)?.kind
 
     if (kind === 'palette') {
-      return pointerWithin({
-        ...args,
-        droppableContainers: args.droppableContainers.filter((c) => c.id === CANVAS_ID),
-      })
+      // pointerWithin exige que la coordenada exacta del puntero caiga dentro
+      // del rect medido; rectIntersection (superposición de cajas) es más
+      // tolerante ante pequeños desfases de medición y evita falsos negativos
+      // que dejaban la zona sin activarse nunca. Ninguno de los dos "inventa"
+      // una colisión lejana (a diferencia de closestCenter), así que alejarse
+      // de verdad sigue cancelando limpio.
+      const containers = args.droppableContainers.filter((c) => c.id === CANVAS_ID)
+      const scoped = { ...args, droppableContainers: containers }
+      const within = pointerWithin(scoped)
+      if (within.length > 0) return within
+      return rectIntersection(scoped)
     }
 
     if (kind === 'section') {
