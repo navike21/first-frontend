@@ -80,7 +80,7 @@ export const MediaLibraryModal = ({ isOpen, onClose, kind, onSelect, texts }: Me
                 <div className="flex h-24 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
                   {file.isImage ? (
                     <img
-                      src={file.thumb?.url ?? file.original.url}
+                      src={file.thumb?.url ?? file.full?.url ?? file.original.url}
                       alt={file.originalName}
                       className="h-full w-full object-cover"
                     />
