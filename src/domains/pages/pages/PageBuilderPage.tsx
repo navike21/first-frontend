@@ -11,6 +11,7 @@ import {
   createColumnsSection,
   createTextElement,
   createImageElement,
+  insertSection,
   moveSection,
   removeSection,
   setSectionColumns,
@@ -54,9 +55,9 @@ export const PageBuilderPage = () => {
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
 
-  const handleAddSection = () => {
+  const handleAddSection = (atIndex?: number) => {
     const section = createColumnsSection(2)
-    patch((sections) => [...sections, section])
+    patch((sections) => insertSection(sections, section, atIndex))
     setPendingChoiceId(section.sectionId)
   }
 

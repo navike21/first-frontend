@@ -155,6 +155,16 @@ export function moveSection(sections: BuilderSection[], activeId: string, overId
   return move(sections, from, to)
 }
 
+/** Inserta una sección nueva en `index` (clamp a los límites del array); sin
+ * índice, o fuera de rango, se añade al final. Usado tanto por "clic para
+ * añadir" (siempre al final) como por soltar la paleta sobre/entre secciones. */
+export function insertSection(sections: BuilderSection[], section: BuilderSection, index?: number): BuilderSection[] {
+  const at = index === undefined ? sections.length : Math.max(0, Math.min(index, sections.length))
+  const next = [...sections]
+  next.splice(at, 0, section)
+  return next
+}
+
 export function removeSection(sections: BuilderSection[], sectionId: string): BuilderSection[] {
   return sections.filter((s) => s.sectionId !== sectionId)
 }
