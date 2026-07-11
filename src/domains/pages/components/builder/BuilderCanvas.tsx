@@ -19,9 +19,13 @@ import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
 import type { Language } from '@/shared/i18n'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { ElementLocation, ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
+  BackgroundBreakpoint,
+  BackgroundConfig,
+  BackgroundFileSlot,
   BuilderColumnsCount,
   BuilderImageElement,
   BuilderSection,
@@ -49,6 +53,19 @@ export interface BuilderCanvasProps {
   onChooseColumns: (sectionId: string, count: BuilderColumnsCount) => void
   onColumnsChange: (sectionId: string, count: BuilderColumnsCount) => void
   onResponsiveChange: (sectionId: string, patch: ResponsiveSectionSettings) => void
+  onBackgroundChange: (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
+  onPickBackgroundFile: (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: File,
+  ) => void
+  onPickLibraryFile: (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: StorageFile,
+  ) => void
   onDeleteRequest: (sectionId: string) => void
   onAddText: (sectionId: string, columnId: string) => void
   onAddImage: (sectionId: string, columnId: string) => void
@@ -303,6 +320,13 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
                   onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
                   onResponsiveChange={(patch) => props.onResponsiveChange(section.sectionId, patch)}
+                  onBackgroundChange={(breakpoint, config) => props.onBackgroundChange(section.sectionId, breakpoint, config)}
+                  onPickBackgroundFile={(breakpoint, slot, file) =>
+                    props.onPickBackgroundFile(section.sectionId, breakpoint, slot, file)
+                  }
+                  onPickLibraryFile={(breakpoint, slot, file) =>
+                    props.onPickLibraryFile(section.sectionId, breakpoint, slot, file)
+                  }
                   onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
                   onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
                   onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}

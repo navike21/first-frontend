@@ -1,5 +1,9 @@
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type {
+  BackgroundBreakpoint,
+  BackgroundConfig,
+  BackgroundVideo,
+  BackgroundVideoFile,
   BuilderColumn,
   BuilderColumnsCount,
   BuilderElement,
@@ -229,6 +233,79 @@ export function setResponsiveSettings(
   return sections.map((s) =>
     s.sectionId === sectionId ? { ...s, settings: { ...s.settings, ...patch } } : s,
   )
+}
+
+/** Sin config para ese breakpoint, se ve como "ninguno" (no hereda de otro
+ * breakpoint). */
+export function getSectionBackground(section: BuilderSection, breakpoint: BackgroundBreakpoint): BackgroundConfig {
+  return section.settings.background?.[breakpoint] ?? { type: 'none' }
+}
+
+/** Reemplazo completo de la config de un breakpoint (los demás no se tocan). */
+export function setSectionBackground(
+  sections: BuilderSection[],
+  sectionId: string,
+  breakpoint: BackgroundBreakpoint,
+  config: BackgroundConfig,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (s.sectionId !== sectionId) return s
+    return {
+      ...s,
+      settings: {
+        ...s.settings,
+        background: { ...s.settings.background, [breakpoint]: config },
+      },
+    }
+  })
+}
+
+/** Reemplaza solo la URL de un fondo de imagen (preview optimista o subida
+ * real), preservando el resto de su configuración (posición, fullScreen,
+ * parallax). No hace nada si el breakpoint cambió de tipo mientras la
+ * subida estaba en curso. */
+export function setBackgroundImageUrl(
+  sections: BuilderSection[],
+  sectionId: string,
+  breakpoint: BackgroundBreakpoint,
+  url: string,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (s.sectionId !== sectionId) return s
+    const current = s.settings.background?.[breakpoint]
+    if (current?.type !== 'image') return s
+    return {
+      ...s,
+      settings: {
+        ...s.settings,
+        background: { ...s.settings.background, [breakpoint]: { ...current, url } },
+      },
+    }
+  })
+}
+
+/** Aplicado tras subir o elegir de la biblioteca: reemplaza el archivo del
+ * mismo formato (mp4/webm) si ya existía, o lo agrega (máx 2). */
+export function setBackgroundVideoFile(
+  sections: BuilderSection[],
+  sectionId: string,
+  breakpoint: BackgroundBreakpoint,
+  file: BackgroundVideoFile,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (s.sectionId !== sectionId) return s
+    const current = s.settings.background?.[breakpoint]
+    const base: BackgroundVideo =
+      current?.type === 'video' ? current : { type: 'video', sourceKind: 'upload', files: [], parallax: false }
+    const files = [...base.files.filter((f) => f.mimeType !== file.mimeType), file].slice(0, 2)
+    return {
+      ...s,
+      settings: {
+        ...s.settings,
+        background: { ...s.settings.background, [breakpoint]: { ...base, files } },
+      },
+    }
+  })
 }
 
 function mapColumn(

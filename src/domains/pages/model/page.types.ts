@@ -38,6 +38,50 @@ export interface BuilderColumn {
   elements: BuilderElement[]
 }
 
+// ── Fondo de sección (por breakpoint) ───────────────────────────────────────
+
+export type BackgroundBreakpoint = 'desktop' | 'tablet' | 'mobile'
+export type BackgroundPosition = 'top' | 'center' | 'bottom'
+export type BackgroundSourceKind = 'upload' | 'embed'
+/** Qué archivo de fondo se está subiendo/eligiendo: la imagen, o uno de los
+ * dos formatos de video (para <source> múltiples de compatibilidad). */
+export type BackgroundFileSlot = 'image' | 'video-mp4' | 'video-webm'
+
+export interface BackgroundVideoFile {
+  url: string
+  mimeType?: string
+}
+
+export interface BackgroundNone {
+  type: 'none'
+}
+
+export interface BackgroundImage {
+  type: 'image'
+  url?: string
+  position: BackgroundPosition
+  fullScreen: boolean
+  parallax: boolean
+}
+
+export interface BackgroundVideo {
+  type: 'video'
+  sourceKind: BackgroundSourceKind
+  /** Uno por formato (mp4/webm) cuando sourceKind === 'upload'; máx 2. */
+  files: BackgroundVideoFile[]
+  embedUrl?: string
+  parallax: boolean
+}
+
+export type BackgroundConfig = BackgroundNone | BackgroundImage | BackgroundVideo
+
+/** Cada breakpoint es independiente: no hereda del anterior. */
+export interface SectionBackground {
+  desktop?: BackgroundConfig
+  tablet?: BackgroundConfig
+  mobile?: BackgroundConfig
+}
+
 /** Sección genérica: 'columns' es editable en el builder; otros tipos se
  * conservan intactos (tarjeta de solo lectura hasta que tengan editor). */
 export interface BuilderSection {
@@ -50,6 +94,7 @@ export interface BuilderSection {
     mobileColumns?: number
     hiddenOnTablet?: boolean
     hiddenOnMobile?: boolean
+    background?: SectionBackground
     [key: string]: unknown
   }
   content: { columns?: BuilderColumn[]; [key: string]: unknown }

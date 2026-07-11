@@ -159,10 +159,49 @@ export interface PageTranslations {
     chooseColumns: string
     columnsLabel: string
     sectionSettings: string
+    tabColumns: string
+    tabBackground: string
     tabletColumns: string
     mobileColumns: string
     hideOnTablet: string
     hideOnMobile: string
+    background: {
+      breakpointLabel: string
+      breakpointDesktop: string
+      breakpointTablet: string
+      breakpointMobile: string
+      typeLabel: string
+      typeNone: string
+      typeImage: string
+      typeVideo: string
+      positionLabel: string
+      positionTop: string
+      positionCenter: string
+      positionBottom: string
+      fullScreen: string
+      parallax: string
+      sourceKindLabel: string
+      sourceUpload: string
+      sourceEmbed: string
+      embedUrlLabel: string
+      embedUrlHint: string
+      formatMp4: string
+      formatWebm: string
+      formatHint: string
+      uploadLabel: string
+      replaceLabel: string
+      removeLabel: string
+      pickFromLibrary: string
+    }
+    mediaLibrary: {
+      titleImage: string
+      titleVideo: string
+      searchPlaceholder: string
+      empty: string
+      selectLabel: string
+      prevPage: string
+      nextPage: string
+    }
     addText: string
     addImage: string
     textElement: string

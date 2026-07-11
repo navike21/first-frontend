@@ -46,6 +46,7 @@
     "@tiptap/pm": "^3.27.2",
     "@tiptap/react": "^3.27.2",
     "@tiptap/starter-kit": "^3.27.2",
+    "@vercel/blob": "^2.6.1",
     "clsx": "^2.1.1",
     "country-flag-icons": "^1.6.17",
     "date-fns": "^4.1.0",

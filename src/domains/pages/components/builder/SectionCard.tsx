@@ -4,10 +4,14 @@ import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
 import { IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS } from '../../model/page.builder'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
+  BackgroundBreakpoint,
+  BackgroundConfig,
+  BackgroundFileSlot,
   BuilderColumnsCount,
   BuilderImageElement,
   BuilderSection,
@@ -24,6 +28,9 @@ export interface SectionCardProps {
   onChooseColumns: (count: BuilderColumnsCount) => void
   onColumnsChange: (count: BuilderColumnsCount) => void
   onResponsiveChange: (patch: ResponsiveSectionSettings) => void
+  onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
+  onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
+  onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
   onDeleteRequest: () => void
   onAddText: (columnId: string) => void
   onAddImage: (columnId: string) => void
@@ -45,6 +52,9 @@ export const SectionCard = ({
   onChooseColumns,
   onColumnsChange,
   onResponsiveChange,
+  onBackgroundChange,
+  onPickBackgroundFile,
+  onPickLibraryFile,
   onDeleteRequest,
   onAddText,
   onAddImage,
@@ -191,6 +201,10 @@ export const SectionCard = ({
             hiddenOnMobile: section.settings.hiddenOnMobile,
           }}
           onChange={onResponsiveChange}
+          background={section.settings.background ?? {}}
+          onBackgroundChange={onBackgroundChange}
+          onPickBackgroundFile={onPickBackgroundFile}
+          onPickLibraryFile={onPickLibraryFile}
         />
       )}
     </div>

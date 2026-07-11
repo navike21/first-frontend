@@ -1,3 +1,4 @@
+import { upload } from '@vercel/blob/client'
 import { request } from '@/shared/api/api.services'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse } from '@/shared/api/types'
@@ -100,4 +101,54 @@ export async function uploadEditorImage(file: File): Promise<string> {
   })
   if (!res.data.url) throw new Error('Upload did not return a URL')
   return res.data.url
+}
+
+export interface DirectUploadResult {
+  url: string
+  mimeType: string
+}
+
+/**
+ * Uploads directly from the browser to blob storage (bypasses Express
+ * entirely) — needed for video, which can easily exceed the ~4.5MB body
+ * limit of the serverless function that fronts /storage/editor-image. See
+ * first-backend's application/directUpload.ts.
+ */
+export async function directUploadVideo(file: File): Promise<DirectUploadResult> {
+  const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
+  const token = useSessionStore.getState().token
+  const blob = await upload(file.name, file, {
+    access: 'public',
+    handleUploadUrl: `${baseUrl}/storage/direct-upload`,
+    clientPayload: JSON.stringify({ originalName: file.name, size: file.size }),
+    ...(token && { headers: { Authorization: `Bearer ${token}` } }),
+  })
+  return { url: blob.url, mimeType: blob.contentType }
+}
+
+export interface StorageListParams {
+  page?: number
+  limit?: number
+  kind?: 'image' | 'video'
+  search?: string
+}
+
+export interface StorageListResult {
+  items: StorageFile[]
+  meta: { total: number; page: number; limit: number; totalPages: number }
+}
+
+export async function listStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
+  const query = new URLSearchParams()
+  if (params.page) query.set('page', String(params.page))
+  if (params.limit) query.set('limit', String(params.limit))
+  if (params.kind) query.set('kind', params.kind)
+  if (params.search) query.set('search', params.search)
+  const qs = query.toString()
+  const suffix = qs ? `?${qs}` : ''
+  const res = await request<ApiResponse<StorageListResult>>({
+    api: `/storage/files${suffix}`,
+    method: 'GET',
+  })
+  return res.data
 }

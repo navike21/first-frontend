@@ -102,6 +102,11 @@ export { PhotoPicker, type PhotoPickerProps } from './molecules/PhotoPicker'
 export { CoverPicker, type CoverPickerProps } from './molecules/CoverPicker'
 export { GalleryPicker, type GalleryPickerProps, type GalleryItem } from './molecules/GalleryPicker'
 export {
+  MediaLibraryModal,
+  type MediaLibraryModalProps,
+  type MediaLibraryModalTexts,
+} from './molecules/MediaLibraryModal'
+export {
   LanguageSwitcher,
   type LanguageSwitcherProps,
 } from './molecules/LanguageSwitcher'

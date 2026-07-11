@@ -1,9 +1,19 @@
+import { useState } from 'react'
 import clsx from 'clsx'
-import { Button, IconComponent, Modal, Switch } from '@/shared/ui'
+import { Button, IconComponent, Modal, Switch, Tabs } from '@/shared/ui'
+import type { TabItem } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
-import type { BuilderColumnsCount } from '../../model/page.types'
+import type {
+  BackgroundBreakpoint,
+  BackgroundConfig,
+  BackgroundFileSlot,
+  BuilderColumnsCount,
+  SectionBackground,
+} from '../../model/page.types'
+import { SectionBackgroundTab } from './SectionBackgroundTab'
 
 export interface SectionSettingsModalProps {
   isOpen: boolean
@@ -12,6 +22,10 @@ export interface SectionSettingsModalProps {
   columns: BuilderColumnsCount
   settings: ResponsiveSectionSettings
   onChange: (patch: ResponsiveSectionSettings) => void
+  background: SectionBackground
+  onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
+  onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
+  onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
 }
 
 interface ColumnPickerProps {
@@ -72,19 +86,36 @@ const BreakpointFieldset = ({
   </div>
 )
 
-/** Configuración responsive de una sección: cuántas columnas por fila se ven
- * en tablet/móvil (acotado al número de columnas de escritorio de la propia
- * sección) y si se oculta por completo en ese breakpoint. */
-export const SectionSettingsModal = ({ isOpen, onClose, columns, settings, onChange }: SectionSettingsModalProps) => {
+type SettingsTab = 'columns' | 'background'
+
+/** Configuración de una sección: columnas responsive (tablet/móvil) y fondo
+ * (imagen o video, por breakpoint desktop/tablet/móvil). */
+export const SectionSettingsModal = ({
+  isOpen,
+  onClose,
+  columns,
+  settings,
+  onChange,
+  background,
+  onBackgroundChange,
+  onPickBackgroundFile,
+  onPickLibraryFile,
+}: SectionSettingsModalProps) => {
   const { t } = usePagesTranslation()
+  const [activeTab, setActiveTab] = useState<SettingsTab>('columns')
   const tabletColumns = settings.tabletColumns ?? columns
   const mobileColumns = settings.mobileColumns ?? columns
+
+  const tabs: TabItem[] = [
+    { id: 'columns', label: t.builder.tabColumns, icon: 'RiLayoutColumnLine' },
+    { id: 'background', label: t.builder.tabBackground, icon: 'RiImage2Line' },
+  ]
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size="sm"
+      size="lg"
       title={t.builder.sectionSettings}
       footer={
         <Button variant="primary" onClick={onClose}>
@@ -92,27 +123,48 @@ export const SectionSettingsModal = ({ isOpen, onClose, columns, settings, onCha
         </Button>
       }
     >
-      <div className="flex flex-col gap-3">
-        <BreakpointFieldset
-          icon="RiTabletLine"
-          title={t.builder.tabletColumns}
-          hideLabel={t.builder.hideOnTablet}
-          hidden={!!settings.hiddenOnTablet}
-          onHiddenChange={(hiddenOnTablet) => onChange({ hiddenOnTablet })}
-          max={columns}
-          value={tabletColumns}
-          onColumnsChange={(tabletColumnsValue) => onChange({ tabletColumns: tabletColumnsValue })}
+      <div className="flex flex-col gap-4">
+        <Tabs
+          tabs={tabs}
+          activeId={activeTab}
+          onChange={(id) => setActiveTab(id as SettingsTab)}
+          instanceId="section-settings"
+          ariaLabel={t.builder.sectionSettings}
         />
-        <BreakpointFieldset
-          icon="RiSmartphoneLine"
-          title={t.builder.mobileColumns}
-          hideLabel={t.builder.hideOnMobile}
-          hidden={!!settings.hiddenOnMobile}
-          onHiddenChange={(hiddenOnMobile) => onChange({ hiddenOnMobile })}
-          max={columns}
-          value={mobileColumns}
-          onColumnsChange={(mobileColumnsValue) => onChange({ mobileColumns: mobileColumnsValue })}
-        />
+
+        {activeTab === 'columns' && (
+          <div className="flex flex-col gap-3">
+            <BreakpointFieldset
+              icon="RiTabletLine"
+              title={t.builder.tabletColumns}
+              hideLabel={t.builder.hideOnTablet}
+              hidden={!!settings.hiddenOnTablet}
+              onHiddenChange={(hiddenOnTablet) => onChange({ hiddenOnTablet })}
+              max={columns}
+              value={tabletColumns}
+              onColumnsChange={(tabletColumnsValue) => onChange({ tabletColumns: tabletColumnsValue })}
+            />
+            <BreakpointFieldset
+              icon="RiSmartphoneLine"
+              title={t.builder.mobileColumns}
+              hideLabel={t.builder.hideOnMobile}
+              hidden={!!settings.hiddenOnMobile}
+              onHiddenChange={(hiddenOnMobile) => onChange({ hiddenOnMobile })}
+              max={columns}
+              value={mobileColumns}
+              onColumnsChange={(mobileColumnsValue) => onChange({ mobileColumns: mobileColumnsValue })}
+            />
+          </div>
+        )}
+
+        {activeTab === 'background' && (
+          <SectionBackgroundTab
+            background={background}
+            onChange={onBackgroundChange}
+            onPickFile={onPickBackgroundFile}
+            onPickLibraryFile={onPickLibraryFile}
+          />
+        )}
       </div>
     </Modal>
   )

@@ -3,7 +3,8 @@ import { useParams } from '@tanstack/react-router'
 import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
 import { navPaths } from '@/shared/router'
-import { uploadEditorImage } from '@/shared/api/storage'
+import { uploadEditorImage, directUploadVideo } from '@/shared/api/storage'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePage, useReplaceSections } from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
 import {
@@ -16,14 +17,30 @@ import {
   removeSection,
   setSectionColumns,
   setResponsiveSettings,
+  setSectionBackground,
+  setBackgroundImageUrl,
+  setBackgroundVideoFile,
   addElement,
   updateElement,
   removeElement,
   moveElementAcross,
   replaceImageUrl,
 } from '../model/page.builder'
-import type { BuilderSection } from '../model/page.types'
+import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
 import { BuilderCanvas } from '../components/builder'
+
+interface PendingBackgroundFile {
+  sectionId: string
+  breakpoint: BackgroundBreakpoint
+  slot: BackgroundFileSlot
+  file: File
+}
+
+const backgroundFileKey = (sectionId: string, breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot) =>
+  `${sectionId}:${breakpoint}:${slot}`
+
+const mimeTypeForSlot = (slot: BackgroundFileSlot): string =>
+  slot === 'video-webm' ? 'video/webm' : 'video/mp4'
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
@@ -36,6 +53,7 @@ export const PageBuilderPage = () => {
   const [draft, setDraft] = useState<BuilderSection[] | null>(null)
   const [syncedWith, setSyncedWith] = useState<unknown>(null)
   const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
+  const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<Map<string, PendingBackgroundFile>>(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
 
@@ -46,10 +64,14 @@ export const PageBuilderPage = () => {
     setSyncedWith(item)
     setDraft(normalizeSections(item.sections))
     setPendingFiles(new Map())
+    setPendingBackgroundFiles(new Map())
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
-  const dirty = !!draft && !!serverNorm && (!sameJson(draft, serverNorm) || pendingFiles.size > 0)
+  const dirty =
+    !!draft &&
+    !!serverNorm &&
+    (!sameJson(draft, serverNorm) || pendingFiles.size > 0 || pendingBackgroundFiles.size > 0)
 
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
@@ -70,6 +92,46 @@ export const PageBuilderPage = () => {
     setPendingFiles((map) => new Map(map).set(elementId, file))
   }
 
+  const handleBackgroundChange = (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) =>
+    patch((sections) => setSectionBackground(sections, sectionId, breakpoint, config))
+
+  // Preview optimista inmediato (blob local); el archivo real solo se sube
+  // al guardar (mismo patrón diferido que las imágenes de elementos).
+  const handlePickBackgroundFile = (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: File,
+  ) => {
+    const previewUrl = URL.createObjectURL(file)
+    patch((sections) =>
+      slot === 'image'
+        ? setBackgroundImageUrl(sections, sectionId, breakpoint, previewUrl)
+        : setBackgroundVideoFile(sections, sectionId, breakpoint, { url: previewUrl, mimeType: mimeTypeForSlot(slot) }),
+    )
+    setPendingBackgroundFiles((map) => new Map(map).set(backgroundFileKey(sectionId, breakpoint, slot), {
+      sectionId,
+      breakpoint,
+      slot,
+      file,
+    }))
+  }
+
+  // Ya tiene URL real (viene de la biblioteca): se aplica directo, sin pasar
+  // por la subida diferida.
+  const handlePickLibraryFile = (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: StorageFile,
+  ) => {
+    patch((sections) =>
+      slot === 'image'
+        ? setBackgroundImageUrl(sections, sectionId, breakpoint, file.original.url)
+        : setBackgroundVideoFile(sections, sectionId, breakpoint, { url: file.original.url, mimeType: file.mimeType }),
+    )
+  }
+
   const handleConfirmDeleteSection = () => {
     if (!deletingSectionId) return
     patch((sections) => removeSection(sections, deletingSectionId))
@@ -85,8 +147,18 @@ export const PageBuilderPage = () => {
         const url = await uploadEditorImage(file)
         sections = replaceImageUrl(sections, elementId, url)
       }
+      for (const { sectionId, breakpoint, slot, file } of pendingBackgroundFiles.values()) {
+        if (slot === 'image') {
+          const url = await uploadEditorImage(file)
+          sections = setBackgroundImageUrl(sections, sectionId, breakpoint, url)
+        } else {
+          const { url, mimeType } = await directUploadVideo(file)
+          sections = setBackgroundVideoFile(sections, sectionId, breakpoint, { url, mimeType })
+        }
+      }
       setDraft(sections)
       setPendingFiles(new Map())
+      setPendingBackgroundFiles(new Map())
       replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
     } catch {
       notify.error(t.builder.uploadError)
@@ -147,6 +219,9 @@ export const PageBuilderPage = () => {
         onResponsiveChange={(sectionId, responsivePatch) =>
           patch((s) => setResponsiveSettings(s, sectionId, responsivePatch))
         }
+        onBackgroundChange={handleBackgroundChange}
+        onPickBackgroundFile={handlePickBackgroundFile}
+        onPickLibraryFile={handlePickLibraryFile}
         onDeleteRequest={setDeletingSectionId}
         onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
         onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}
