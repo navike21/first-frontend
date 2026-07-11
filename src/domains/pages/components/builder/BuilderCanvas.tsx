@@ -13,7 +13,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import type { ClientRect, CollisionDetection, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core'
+import type { CollisionDetection, DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
@@ -42,9 +42,8 @@ interface DragData {
 export interface BuilderCanvasProps {
   sections: BuilderSection[]
   language: Language
-  /** Sin índice (clic) se añade al final; con índice (soltar sobre/entre
-   * secciones) se inserta ahí. */
-  onAddSection: (atIndex?: number) => void
+  /** Siempre añade al final. */
+  onAddSection: () => void
   onSectionMove: (activeId: string, overId: string) => void
   onChooseColumns: (sectionId: string, count: BuilderColumnsCount) => void
   onColumnsChange: (sectionId: string, count: BuilderColumnsCount) => void
@@ -63,9 +62,9 @@ export interface BuilderCanvasProps {
 }
 
 // Cada tipo de arrastre colisiona solo contra sus destinos válidos:
-// - paleta: solo secciones + el lienzo (así "sobre un elemento anidado"
-//   cuenta como "sobre la sección que lo contiene", ya que su rect envuelve
-//   al del hijo — sin necesitar rastrear sectionId manualmente).
+// - paleta: SOLO el lienzo, y estricto (sin cascada de "lo más cercano de
+//   todos modos"): al alejar el cursor del lienzo, `over` se vuelve null y
+//   soltar ahí cancela limpio, en vez de añadir siempre pase lo que pase.
 // - secciones: entre sí (reordenar).
 // - elementos: contra otros elementos y columnas (de cualquier sección).
 function makeCollisionDetection(): CollisionDetection {
@@ -73,16 +72,10 @@ function makeCollisionDetection(): CollisionDetection {
     const kind = (args.active.data.current as DragData | undefined)?.kind
 
     if (kind === 'palette') {
-      const containers = args.droppableContainers.filter((c) => {
-        const k = (c.data.current as DragData | undefined)?.kind
-        return k === 'section' || c.id === CANVAS_ID
+      return pointerWithin({
+        ...args,
+        droppableContainers: args.droppableContainers.filter((c) => c.id === CANVAS_ID),
       })
-      const scoped = { ...args, droppableContainers: containers }
-      const within = pointerWithin(scoped)
-      if (within.length > 0) return within
-      const intersecting = rectIntersection(scoped)
-      if (intersecting.length > 0) return intersecting
-      return closestCenter(scoped)
     }
 
     if (kind === 'section') {
@@ -127,23 +120,6 @@ function handleElementDrop(
   )
 }
 
-/** ¿En qué índice del array de secciones debería insertarse una sección
- * nueva soltada sobre `overId` (una sección o el lienzo)? Mitad superior del
- * rect destino → antes; mitad inferior → después. */
-function resolveInsertIndex(
-  sections: BuilderSection[],
-  overId: string,
-  activeRect: ClientRect | null,
-  overRect: ClientRect | null,
-): number {
-  const idx = sections.findIndex((s) => s.sectionId === overId)
-  if (idx < 0) return sections.length
-  if (!activeRect || !overRect) return idx
-  const activeCenterY = activeRect.top + activeRect.height / 2
-  const overMidY = overRect.top + overRect.height / 2
-  return activeCenterY < overMidY ? idx : idx + 1
-}
-
 interface PaletteCardProps {
   label: string
   hint: string
@@ -156,7 +132,7 @@ interface PaletteCardProps {
 const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProps) => {
   // Sin `transform`: la tarjeta original se queda quieta en su sitio durante
   // el arrastre (solo se atenúa); lo único que "viaja" es el chip flotante
-  // del DragOverlay. Evita la falsa sensación de "se devolvió" al soltar.
+  // del DragOverlay.
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: PALETTE_COLUMNS_ID,
     data: { kind: 'palette' },
@@ -201,27 +177,13 @@ const OverlayChip = ({ icon, label }: { icon: IconName; label: string }) => (
   </div>
 )
 
-/** Barra que marca "la nueva sección aterrizará aquí" — crece/aparece solo
- * cuando está activa, en vez de un texto ("suéltalo aquí" ya lo dice el
- * cambio de color del lienzo). */
-const InsertLine = ({ active }: { active: boolean }) => (
-  <div
-    aria-hidden="true"
-    className={clsx(
-      'rounded-full bg-primary-600 transition-all duration-150 ease-out',
-      active ? 'h-1.5 opacity-100' : 'h-0 opacity-0',
-    )}
-  />
-)
-
 export const BuilderCanvas = (props: BuilderCanvasProps) => {
   const { sections, language, onAddSection, onSectionMove, onElementMove } = props
   const { t } = usePagesTranslation()
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
-  const { setNodeRef: setCanvasRef } = useDroppable({ id: CANVAS_ID })
+  const { setNodeRef: setCanvasRef, isOver: isOverCanvas } = useDroppable({ id: CANVAS_ID })
   const [collisionDetection] = useState(() => makeCollisionDetection())
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; elementType?: string } | null>(null)
-  const [insertIndex, setInsertIndex] = useState<number | null>(null)
   const suppressPaletteClickRef = useRef(false)
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -239,34 +201,15 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
     setActiveDrag({ kind: data.kind, ...(elementType && { elementType }) })
   }
 
-  const handleDragOver = (event: DragOverEvent) => {
-    const aData = event.active.data.current as DragData | undefined
-    if (aData?.kind !== 'palette') return
-    const { over, active } = event
-    // Sin colisión resuelta (p. ej. el droppable aún no midió su rect) el
-    // destino por defecto es "al final" — nunca deja el indicador en blanco.
-    if (!over) {
-      setInsertIndex(sections.length)
-      return
-    }
-    const activeRect = active.rect.current.translated ?? active.rect.current.initial
-    setInsertIndex(resolveInsertIndex(sections, String(over.id), activeRect, over.rect))
-  }
-
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveDrag(null)
-    setInsertIndex(null)
     const { active, over } = event
     const aData = active.data.current as DragData | undefined
 
     if (aData?.kind === 'palette') {
-      // Incondicional: si el usuario completó el arrastre (esto es
-      // onDragEnd, no onDragCancel), la sección se añade siempre. Sin
-      // colisión resuelta cae al final; nunca se descarta el drop en
-      // silencio por un fallo de la detección de colisión.
-      const activeRect = active.rect.current.translated ?? active.rect.current.initial
-      const index = over ? resolveInsertIndex(sections, String(over.id), activeRect, over.rect) : sections.length
-      onAddSection(index)
+      // Estricto: solo añade si `over` resolvió realmente el lienzo (soltar
+      // fuera cancela limpio, sin excepciones).
+      if (over) onAddSection()
       // Red de seguridad: si el navegador no dispara un click sintético tras
       // este drag, no dejamos el guard bloqueado para el próximo clic real.
       requestAnimationFrame(() => {
@@ -284,17 +227,20 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
 
   const paletteDragging = activeDrag?.kind === 'palette'
   const elementDragging = activeDrag?.kind === 'element'
+  // El resaltado del lienzo refleja el estado REAL de la colisión (solo
+  // activo mientras el puntero está literalmente encima), no solo "hay un
+  // arrastre en curso" — así, alejar el cursor visualmente "arma" la
+  // cancelación antes de soltar.
+  const canvasArmed = paletteDragging && isOverCanvas
 
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={collisionDetection}
       onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       onDragCancel={() => {
         setActiveDrag(null)
-        setInsertIndex(null)
         suppressPaletteClickRef.current = false
       }}
     >
@@ -306,7 +252,7 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
             <PaletteCard
               label={t.builder.paletteColumns}
               hint={t.builder.paletteHint}
-              onClick={() => onAddSection()}
+              onClick={onAddSection}
               suppressClickRef={suppressPaletteClickRef}
             />
           </div>
@@ -316,54 +262,44 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
         <div
           ref={setCanvasRef}
           className={clsx(
-            'flex min-h-64 flex-1 flex-col gap-1 rounded-xl border-2 border-dashed p-3 transition-colors',
-            paletteDragging ? 'border-primary-600 bg-primary-700/10' : 'border-border bg-surface-subtle',
+            'flex min-h-64 flex-1 flex-col gap-3 rounded-xl border-2 border-dashed p-3 transition-colors',
+            canvasArmed ? 'border-primary-600 bg-primary-700/10' : 'border-border bg-surface-subtle',
           )}
         >
           {sections.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center gap-2 py-16 text-center">
               <IconComponent
                 icon="RiDragDropLine"
-                className={clsx('h-8 w-8', paletteDragging ? 'text-primary-600' : 'text-muted')}
+                className={clsx('h-8 w-8', canvasArmed ? 'text-primary-600' : 'text-muted')}
               />
-              <p className={clsx('text-sm', paletteDragging ? 'font-medium text-primary-600' : 'text-muted')}>
+              <p className={clsx('text-sm', canvasArmed ? 'font-medium text-primary-600' : 'text-muted')}>
                 {t.builder.empty}
               </p>
             </div>
           )}
 
-          {sections.length > 0 && <InsertLine active={paletteDragging && insertIndex === 0} />}
-
           <SortableContext items={sections.map((s) => s.sectionId)} strategy={verticalListSortingStrategy}>
-            {sections.map((section, index) => (
-              <div key={section.sectionId} className="flex flex-col gap-1">
-                <SectionCard
-                  section={section}
-                  language={language}
-                  elementDragActive={elementDragging}
-                  onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
-                  onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
-                  onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
-                  onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
-                  onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}
-                  onElementChange={(columnId, elementId, patch) =>
-                    props.onElementChange(section.sectionId, columnId, elementId, patch)
-                  }
-                  onElementDelete={(columnId, elementId) =>
-                    props.onElementDelete(section.sectionId, columnId, elementId)
-                  }
-                  onPickFile={props.onPickFile}
-                />
-                <InsertLine active={paletteDragging && insertIndex === index + 1} />
-              </div>
+            {sections.map((section) => (
+              <SectionCard
+                key={section.sectionId}
+                section={section}
+                language={language}
+                elementDragActive={elementDragging}
+                onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
+                onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
+                onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
+                onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
+                onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}
+                onElementChange={(columnId, elementId, patch) =>
+                  props.onElementChange(section.sectionId, columnId, elementId, patch)
+                }
+                onElementDelete={(columnId, elementId) =>
+                  props.onElementDelete(section.sectionId, columnId, elementId)
+                }
+                onPickFile={props.onPickFile}
+              />
             ))}
           </SortableContext>
-
-          {/* Espacio reservado tras la última sección: sin esto, el lienzo
-              termina justo donde acaba el contenido y "soltar al final" se
-              vuelve un blanco de pocos píxeles. Garantiza una zona cómoda,
-              siempre presente, que resuelve a CANVAS_ID (= al final). */}
-          {sections.length > 0 && <div className="min-h-16 flex-1" />}
         </div>
       </div>
 
