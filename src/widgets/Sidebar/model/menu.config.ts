@@ -133,6 +133,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '网站配置',
     ru: 'Конфигурация',
   },
+  media: {
+    es: 'Multimedia',
+    en: 'Media',
+    de: 'Medien',
+    fr: 'Multimédia',
+    pt: 'Multimídia',
+    it: 'Multimedia',
+    ja: 'メディア',
+    ko: '미디어',
+    zh: '媒体',
+    ru: 'Медиа',
+  },
   categories: {
     es: 'Categorías',
     en: 'Categories',
@@ -279,6 +291,13 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           href: navPaths.portfolio(lang),
           icon: 'RiGalleryLine',
           permissions: CAN.portfolioView,
+        },
+        {
+          id: 'media',
+          label: MENU_LABELS.media[lang],
+          href: navPaths.media(lang),
+          icon: 'RiImage2Line',
+          permissions: CAN.mediaView,
         },
         {
           id: 'pages',

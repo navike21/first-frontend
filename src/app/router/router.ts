@@ -12,6 +12,7 @@ import { allUserGroupsRouteTrees } from './routes/userGroups.route'
 import { allClientsRouteTrees } from './routes/clients.route'
 import { allServicesRouteTrees } from './routes/services.route'
 import { allPortfolioRouteTrees } from './routes/portfolio.route'
+import { allMediaRouteTrees } from './routes/media.route'
 import { allPagesRouteTrees } from './routes/pages.route'
 import { allCollaboratorsRouteTrees } from './routes/collaborators.route'
 import { allCategoriesRouteTrees } from './routes/categories.route'
@@ -56,6 +57,7 @@ const routeTree = rootRoute.addChildren([
       ...allClientsRouteTrees,
       ...allServicesRouteTrees,
       ...allPortfolioRouteTrees,
+      ...allMediaRouteTrees,
       ...allPagesRouteTrees,
       ...allCollaboratorsRouteTrees,
       ...allCategoriesRouteTrees,

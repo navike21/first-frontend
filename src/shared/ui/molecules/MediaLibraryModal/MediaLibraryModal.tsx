@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
-import clsx from 'clsx'
 import { useStorageFiles } from '@/shared/api/storage.queries'
 import type { StorageFile } from '@/shared/api/storage'
 import { IconComponent } from '../../atoms/IconComponent'
-import { IconButton } from '../../atoms/IconButton'
-import { Spinner } from '../../atoms/Spinner'
 import { InputField } from '../InputField'
 import { Modal } from '../Modal'
+import { MediaGrid } from '../MediaGrid'
 import type { MediaLibraryModalProps } from './MediaLibraryModal.types'
 
 const PAGE_SIZE = 12
@@ -57,66 +55,39 @@ export const MediaLibraryModal = ({ isOpen, onClose, kind, onSelect, texts }: Me
           leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
         />
 
-        {isLoading && (
-          <div className="flex justify-center py-12">
-            <Spinner variant="gradient" size="medium" />
-          </div>
-        )}
-
-        {!isLoading && items.length === 0 && (
-          <p className="py-12 text-center text-sm text-muted">{texts.empty}</p>
-        )}
-
-        {!isLoading && items.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {items.map((file) => (
-              <button
-                key={file.id}
-                type="button"
-                onClick={() => handleSelect(file)}
-                aria-label={`${texts.selectLabel}: ${file.originalName}`}
-                className="group flex flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
-              >
-                <div className="flex h-24 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
-                  {file.isImage ? (
-                    <img
-                      src={file.thumb?.url ?? file.full?.url ?? file.original.url}
-                      alt={file.originalName}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <IconComponent icon="RiVideoLine" className="h-8 w-8 text-muted" />
-                  )}
-                </div>
-                <span className="truncate text-[11px] text-muted">{file.originalName}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {meta && meta.totalPages > 1 && (
-          <div className="flex items-center justify-center gap-3">
-            <IconButton
-              icon="RiArrowLeftSLine"
-              variant="text"
-              size="small"
-              aria-label={texts.prevPage}
-              disabled={page <= 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-            />
-            <span className={clsx('text-xs text-muted')}>
-              {meta.page} / {meta.totalPages}
-            </span>
-            <IconButton
-              icon="RiArrowRightSLine"
-              variant="text"
-              size="small"
-              aria-label={texts.nextPage}
-              disabled={page >= meta.totalPages}
-              onClick={() => setPage((p) => Math.min(meta.totalPages, p + 1))}
-            />
-          </div>
-        )}
+        <MediaGrid
+          items={items}
+          getItemKey={(file) => file.id}
+          isLoading={isLoading}
+          emptyIcon={kind === 'video' ? 'RiVideoLine' : 'RiImage2Line'}
+          emptyLabel={texts.empty}
+          pagination={
+            meta && meta.totalPages > 1
+              ? { page, pages: meta.totalPages, onPageChange: setPage, prevLabel: texts.prevPage, nextLabel: texts.nextPage }
+              : undefined
+          }
+          renderItem={(file) => (
+            <button
+              type="button"
+              onClick={() => handleSelect(file)}
+              aria-label={`${texts.selectLabel}: ${file.originalName}`}
+              className="group flex w-full flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
+            >
+              <div className="flex h-24 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+                {file.isImage ? (
+                  <img
+                    src={file.thumb?.url ?? file.full?.url ?? file.original.url}
+                    alt={file.originalName}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <IconComponent icon="RiVideoLine" className="h-8 w-8 text-muted" />
+                )}
+              </div>
+              <span className="truncate text-[11px] text-muted">{file.originalName}</span>
+            </button>
+          )}
+        />
       </div>
     </Modal>
   )

@@ -97,6 +97,11 @@ export {
   type DataTableColumn,
   type DataTablePagination,
 } from './molecules/DataTable'
+export {
+  MediaGrid,
+  type MediaGridProps,
+  type MediaGridPagination,
+} from './molecules/MediaGrid'
 export { Tabs, type TabsProps, type TabItem } from './molecules/Tabs'
 export { PhotoPicker, type PhotoPickerProps } from './molecules/PhotoPicker'
 export { CoverPicker, type CoverPickerProps } from './molecules/CoverPicker'

@@ -138,17 +138,77 @@ export interface StorageListResult {
   meta: { total: number; page: number; limit: number; totalPages: number }
 }
 
-export async function listStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
+function storageListQuerySuffix(params: StorageListParams): string {
   const query = new URLSearchParams()
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
   if (params.kind) query.set('kind', params.kind)
   if (params.search) query.set('search', params.search)
   const qs = query.toString()
-  const suffix = qs ? `?${qs}` : ''
+  return qs ? `?${qs}` : ''
+}
+
+export async function listStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
   const res = await request<ApiResponse<StorageListResult>>({
-    api: `/storage/files${suffix}`,
+    api: `/storage/files${storageListQuerySuffix(params)}`,
     method: 'GET',
   })
   return res.data
+}
+
+export async function listDeletedStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
+  const res = await request<ApiResponse<StorageListResult>>({
+    api: `/storage/trash${storageListQuerySuffix(params)}`,
+    method: 'GET',
+  })
+  return res.data
+}
+
+/**
+ * Uploads images through the entity-agnostic bulk endpoint — used by the
+ * Multimedia library, which isn't scoped to a single business entity like
+ * clients/portfolio/etc. Each call gets its own `entityId` (uuid), same as
+ * any other batch upload; it has no meaning beyond grouping that one upload.
+ * Videos can't go through this (body-size limit) — use {@link directUploadVideo}.
+ */
+export async function uploadStorageImages(files: File[], entityType = 'media'): Promise<StorageFile[]> {
+  const form = new FormData()
+  form.append('entityType', entityType)
+  form.append('entityId', crypto.randomUUID())
+  files.forEach((file) => form.append('files', file))
+  const res = await request<ApiResponse<StorageFile[]>, FormData>({
+    api: '/storage/upload-bulk',
+    method: 'POST',
+    body: form,
+  })
+  return res.data
+}
+
+export async function deleteStorageFiles(ids: string[]): Promise<void> {
+  await request<ApiResponse<null>, { ids: string[] }>({
+    api: '/storage/delete',
+    method: 'DELETE',
+    body: { ids },
+  })
+}
+
+export async function restoreStorageFile(id: string): Promise<StorageFile> {
+  const res = await request<ApiResponse<StorageFile>>({ api: `/storage/${id}/restore`, method: 'PATCH' })
+  return res.data
+}
+
+export async function bulkRestoreStorageFiles(ids: string[]): Promise<void> {
+  await request<ApiResponse<unknown>, { ids: string[] }>({
+    api: '/storage/bulk/restore',
+    method: 'PATCH',
+    body: { ids },
+  })
+}
+
+export async function purgeStorageFiles(ids: string[]): Promise<void> {
+  await request<ApiResponse<null>, { ids: string[] }>({
+    api: '/storage/delete/permanent',
+    method: 'DELETE',
+    body: { ids },
+  })
 }

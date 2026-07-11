@@ -169,6 +169,14 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.siteConfig[l_]}`
   },
+  media: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.media[l_]}`
+  },
+  mediaTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.media[l_]}/${ROUTE_SLUGS.mediaTrash[l_]}`
+  },
   collaborators: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.collaborators[l_]}`
