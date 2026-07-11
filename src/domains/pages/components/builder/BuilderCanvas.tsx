@@ -13,7 +13,6 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import type { ClientRect, CollisionDetection, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core'
 import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui'
@@ -156,7 +155,10 @@ interface PaletteCardProps {
 }
 
 const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProps) => {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  // Sin `transform`: la tarjeta original se queda quieta en su sitio durante
+  // el arrastre (solo se atenúa); lo único que "viaja" es el chip flotante
+  // del DragOverlay. Evita la falsa sensación de "se devolvió" al soltar.
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: PALETTE_COLUMNS_ID,
     data: { kind: 'palette' },
   })
@@ -178,9 +180,8 @@ const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProp
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') handleActivate()
       }}
-      style={{ transform: CSS.Translate.toString(transform) }}
       className={clsx(
-        'flex cursor-grab flex-col gap-2 rounded-xl border border-border bg-surface p-3 text-left active:cursor-grabbing',
+        'flex cursor-grab flex-col gap-2 rounded-xl border border-border bg-surface p-3 text-left transition-opacity active:cursor-grabbing',
         isDragging && 'opacity-40',
       )}
     >
@@ -243,8 +244,10 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
     const aData = event.active.data.current as DragData | undefined
     if (aData?.kind !== 'palette') return
     const { over, active } = event
+    // Sin colisión resuelta (p. ej. el droppable aún no midió su rect) el
+    // destino por defecto es "al final" — nunca deja el indicador en blanco.
     if (!over) {
-      setInsertIndex(null)
+      setInsertIndex(sections.length)
       return
     }
     const activeRect = active.rect.current.translated ?? active.rect.current.initial
@@ -258,10 +261,13 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
     const aData = active.data.current as DragData | undefined
 
     if (aData?.kind === 'palette') {
-      if (over) {
-        const activeRect = active.rect.current.translated ?? active.rect.current.initial
-        onAddSection(resolveInsertIndex(sections, String(over.id), activeRect, over.rect))
-      }
+      // Incondicional: si el usuario completó el arrastre (esto es
+      // onDragEnd, no onDragCancel), la sección se añade siempre. Sin
+      // colisión resuelta cae al final; nunca se descarta el drop en
+      // silencio por un fallo de la detección de colisión.
+      const activeRect = active.rect.current.translated ?? active.rect.current.initial
+      const index = over ? resolveInsertIndex(sections, String(over.id), activeRect, over.rect) : sections.length
+      onAddSection(index)
       // Red de seguridad: si el navegador no dispara un click sintético tras
       // este drag, no dejamos el guard bloqueado para el próximo clic real.
       requestAnimationFrame(() => {
