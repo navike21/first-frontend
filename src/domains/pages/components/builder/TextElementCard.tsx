@@ -28,7 +28,7 @@ export const TextElementCard = ({ element, sectionId, columnId, language, onChan
   const isEmptyHtml = (html: string | undefined): boolean => {
     if (!html) return true
     const text = new DOMParser().parseFromString(html, 'text/html').body.textContent ?? ''
-    return !text.replace(/ /g, ' ').trim()
+    return !text.trim()
   }
 
   const raw = element.html[language] ?? ''
