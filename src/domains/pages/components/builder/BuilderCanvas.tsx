@@ -358,6 +358,12 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
               </div>
             ))}
           </SortableContext>
+
+          {/* Espacio reservado tras la última sección: sin esto, el lienzo
+              termina justo donde acaba el contenido y "soltar al final" se
+              vuelve un blanco de pocos píxeles. Garantiza una zona cómoda,
+              siempre presente, que resuelve a CANVAS_ID (= al final). */}
+          {sections.length > 0 && <div className="min-h-16 flex-1" />}
         </div>
       </div>
 
