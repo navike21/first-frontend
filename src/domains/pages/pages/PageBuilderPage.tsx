@@ -15,6 +15,7 @@ import {
   moveSection,
   removeSection,
   setSectionColumns,
+  setResponsiveSettings,
   addElement,
   updateElement,
   removeElement,
@@ -143,6 +144,9 @@ export const PageBuilderPage = () => {
         onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
         onChooseColumns={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
         onColumnsChange={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
+        onResponsiveChange={(sectionId, responsivePatch) =>
+          patch((s) => setResponsiveSettings(s, sectionId, responsivePatch))
+        }
         onDeleteRequest={setDeletingSectionId}
         onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
         onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}

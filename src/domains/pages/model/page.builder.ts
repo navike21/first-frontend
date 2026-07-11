@@ -37,6 +37,13 @@ export function clampColumns(count: unknown): BuilderColumnsCount {
   return Math.min(MAX_BUILDER_COLUMNS, Math.max(1, n)) as BuilderColumnsCount
 }
 
+/** A diferencia de `clampColumns`, un valor ausente se queda ausente (sin
+ * "sin definir" no hay override responsive: hereda el conteo de escritorio). */
+function clampOptionalColumns(value: unknown, max: BuilderColumnsCount): BuilderColumnsCount | undefined {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return undefined
+  return Math.min(max, Math.max(1, Math.round(value))) as BuilderColumnsCount
+}
+
 function normalizeElement(raw: unknown): BuilderElement | null {
   if (!raw || typeof raw !== 'object') return null
   const el = raw as Record<string, unknown>
@@ -114,7 +121,14 @@ export function normalizeSections(input?: unknown): BuilderSection[] {
       if (section.type === 'columns') {
         const count = clampColumns(settings.columns)
         const columnsRaw = Array.isArray(content.columns) ? content.columns : []
-        section.settings = { ...settings, columns: count }
+        section.settings = {
+          ...settings,
+          columns: count,
+          tabletColumns: clampOptionalColumns(settings.tabletColumns, count),
+          mobileColumns: clampOptionalColumns(settings.mobileColumns, count),
+          hiddenOnTablet: !!settings.hiddenOnTablet,
+          hiddenOnMobile: !!settings.hiddenOnMobile,
+        }
         section.content = { ...content, columns: reconcileColumns(columnsRaw.map(normalizeColumn), count) }
       }
       return section
@@ -187,8 +201,34 @@ export function setSectionColumns(
   return sections.map((s) => {
     if (s.sectionId !== sectionId || !isColumnsSection(s)) return s
     const columns = reconcileColumns(s.content.columns ?? [], count)
-    return { ...s, settings: { ...s.settings, columns: count }, content: { ...s.content, columns } }
+    const settings = {
+      ...s.settings,
+      columns: count,
+      // Si el conteo de escritorio baja, un override responsive por encima
+      // del nuevo máximo dejaría de tener sentido (más columnas en tablet/
+      // móvil que en escritorio).
+      tabletColumns: clampOptionalColumns(s.settings.tabletColumns, count),
+      mobileColumns: clampOptionalColumns(s.settings.mobileColumns, count),
+    }
+    return { ...s, settings, content: { ...s.content, columns } }
   })
+}
+
+export interface ResponsiveSectionSettings {
+  tabletColumns?: BuilderColumnsCount
+  mobileColumns?: BuilderColumnsCount
+  hiddenOnTablet?: boolean
+  hiddenOnMobile?: boolean
+}
+
+export function setResponsiveSettings(
+  sections: BuilderSection[],
+  sectionId: string,
+  patch: ResponsiveSectionSettings,
+): BuilderSection[] {
+  return sections.map((s) =>
+    s.sectionId === sectionId ? { ...s, settings: { ...s.settings, ...patch } } : s,
+  )
 }
 
 function mapColumn(

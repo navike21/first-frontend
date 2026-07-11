@@ -44,7 +44,14 @@ export interface BuilderSection {
   sectionId: string
   type: string
   order: number
-  settings: { columns?: number; [key: string]: unknown }
+  settings: {
+    columns?: number
+    tabletColumns?: number
+    mobileColumns?: number
+    hiddenOnTablet?: boolean
+    hiddenOnMobile?: boolean
+    [key: string]: unknown
+  }
   content: { columns?: BuilderColumn[]; [key: string]: unknown }
 }
 

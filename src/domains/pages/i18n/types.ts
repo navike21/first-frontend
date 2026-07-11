@@ -158,6 +158,11 @@ export interface PageTranslations {
     empty: string
     chooseColumns: string
     columnsLabel: string
+    sectionSettings: string
+    tabletColumns: string
+    mobileColumns: string
+    hideOnTablet: string
+    hideOnMobile: string
     addText: string
     addImage: string
     textElement: string

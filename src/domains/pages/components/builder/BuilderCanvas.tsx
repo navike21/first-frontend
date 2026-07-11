@@ -20,7 +20,7 @@ import { IconComponent } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type { ElementLocation } from '../../model/page.builder'
+import type { ElementLocation, ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
   BuilderColumnsCount,
   BuilderImageElement,
@@ -48,6 +48,7 @@ export interface BuilderCanvasProps {
   onSectionMove: (activeId: string, overId: string) => void
   onChooseColumns: (sectionId: string, count: BuilderColumnsCount) => void
   onColumnsChange: (sectionId: string, count: BuilderColumnsCount) => void
+  onResponsiveChange: (sectionId: string, patch: ResponsiveSectionSettings) => void
   onDeleteRequest: (sectionId: string) => void
   onAddText: (sectionId: string, columnId: string) => void
   onAddImage: (sectionId: string, columnId: string) => void
@@ -301,6 +302,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   elementDragActive={props.elementDragging}
                   onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
                   onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
+                  onResponsiveChange={(patch) => props.onResponsiveChange(section.sectionId, patch)}
                   onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
                   onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
                   onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}

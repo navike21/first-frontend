@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
@@ -5,6 +6,7 @@ import { IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS } from '../../model/page.builder'
+import type { ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
   BuilderColumnsCount,
   BuilderImageElement,
@@ -12,6 +14,7 @@ import type {
   BuilderTextElement,
 } from '../../model/page.types'
 import { ColumnZone } from './ColumnZone'
+import { SectionSettingsModal } from './SectionSettingsModal'
 
 export interface SectionCardProps {
   section: BuilderSection
@@ -20,6 +23,7 @@ export interface SectionCardProps {
   elementDragActive: boolean
   onChooseColumns: (count: BuilderColumnsCount) => void
   onColumnsChange: (count: BuilderColumnsCount) => void
+  onResponsiveChange: (patch: ResponsiveSectionSettings) => void
   onDeleteRequest: () => void
   onAddText: (columnId: string) => void
   onAddImage: (columnId: string) => void
@@ -40,6 +44,7 @@ export const SectionCard = ({
   elementDragActive,
   onChooseColumns,
   onColumnsChange,
+  onResponsiveChange,
   onDeleteRequest,
   onAddText,
   onAddImage,
@@ -52,6 +57,7 @@ export const SectionCard = ({
     id: section.sectionId,
     data: { kind: 'section' },
   })
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const editable = isColumnsSection(section)
   // Cada sección lleva su propio estado "pendiente de elegir columnas"
@@ -107,6 +113,18 @@ export const SectionCard = ({
           </div>
         )}
 
+        {editable && !pendingChoice && (
+          <Tooltip heading={t.builder.sectionSettings} position="top" size="small">
+            <IconButton
+              icon="RiSettings3Line"
+              variant="text"
+              size="small"
+              aria-label={t.builder.sectionSettings}
+              onClick={() => setSettingsOpen(true)}
+            />
+          </Tooltip>
+        )}
+
         <Tooltip heading={t.builder.deleteSection} position="top" size="small">
           <IconButton
             icon="RiDeleteBinLine"
@@ -159,6 +177,21 @@ export const SectionCard = ({
         <p className="rounded-lg border border-dashed border-border bg-surface-subtle px-3 py-4 text-center text-xs text-muted">
           {t.builder.unknownSection(section.type)}
         </p>
+      )}
+
+      {editable && !pendingChoice && (
+        <SectionSettingsModal
+          isOpen={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+          columns={columnsCount}
+          settings={{
+            tabletColumns: section.settings.tabletColumns as BuilderColumnsCount | undefined,
+            mobileColumns: section.settings.mobileColumns as BuilderColumnsCount | undefined,
+            hiddenOnTablet: section.settings.hiddenOnTablet,
+            hiddenOnMobile: section.settings.hiddenOnMobile,
+          }}
+          onChange={onResponsiveChange}
+        />
       )}
     </div>
   )
