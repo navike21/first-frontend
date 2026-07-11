@@ -13,7 +13,7 @@ export interface MediaCardProps {
 /** Card content for a single file — the `renderItem` passed to `MediaGrid` on both the Multimedia list and its trash. */
 export const MediaCard = ({ file, caption, actions }: MediaCardProps) => (
   <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-surface p-2">
-    <div className="flex h-24 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+    <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
       {file.isImage ? (
         <img
           src={file.thumb?.url ?? file.full?.url ?? file.original.url}

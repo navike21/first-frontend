@@ -73,7 +73,7 @@ export const MediaLibraryModal = ({ isOpen, onClose, kind, onSelect, texts }: Me
               aria-label={`${texts.selectLabel}: ${file.originalName}`}
               className="group flex w-full flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
             >
-              <div className="flex h-24 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
                 {file.isImage ? (
                   <img
                     src={file.thumb?.url ?? file.full?.url ?? file.original.url}
