@@ -53,13 +53,14 @@ export const PageBuilderPage = () => {
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
 
-  // Siempre añade al final. Sin columnas definidas: la sección nace
-  // "pendiente de elegir" y así se queda hasta que el usuario elija
-  // explícitamente, aunque mientras tanto se añadan más secciones (cada una
-  // rastrea su propio estado pendiente).
-  const handleAddSection = () => {
+  // Sin índice (clic en la paleta) añade al final; con índice (soltar sobre
+  // el lienzo entre/antes de secciones existentes) se inserta ahí. Sin
+  // columnas definidas: la sección nace "pendiente de elegir" y así se queda
+  // hasta que el usuario elija explícitamente, aunque mientras tanto se
+  // añadan más secciones (cada una rastrea su propio estado pendiente).
+  const handleAddSection = (atIndex?: number) => {
     const section = createColumnsSection()
-    patch((sections) => insertSection(sections, section))
+    patch((sections) => insertSection(sections, section, atIndex))
   }
 
   const handlePickFile = (elementId: string, file: File) => {
