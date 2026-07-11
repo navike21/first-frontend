@@ -212,3 +212,32 @@ export async function purgeStorageFiles(ids: string[]): Promise<void> {
     body: { ids },
   })
 }
+
+export type StorageUsageModule =
+  | 'clients'
+  | 'users'
+  | 'collaborators'
+  | 'portfolio'
+  | 'services'
+  | 'pages'
+  | 'app-settings'
+
+export type StorageUsageContext = 'cover' | 'gallery' | 'ogImage' | 'background' | 'logo' | 'favicon'
+
+export interface StorageFileUsage {
+  module: StorageUsageModule
+  id: string
+  label: string
+  context?: StorageUsageContext
+}
+
+/**
+ * Informational only — no module holds a live reference to a StorageFile, so
+ * this is a best-effort search across the fields known to store its URL
+ * (see first-backend's findStorageFileUsages.ts for the exact list and its
+ * one documented gap: images pasted into rich-text page content).
+ */
+export async function getStorageFileUsages(id: string): Promise<StorageFileUsage[]> {
+  const res = await request<ApiResponse<StorageFileUsage[]>>({ api: `/storage/${id}/usages`, method: 'GET' })
+  return res.data
+}

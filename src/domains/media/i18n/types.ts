@@ -62,6 +62,24 @@ export interface MediaTranslations {
     size: string
     type: string
     unknownUser: string
+    tabDetails: string
+    tabUsage: string
+    usageLoading: string
+    usageEmpty: string
+    usageEditorNote: string
+    moduleClients: string
+    moduleUsers: string
+    moduleCollaborators: string
+    modulePortfolio: string
+    moduleServices: string
+    modulePages: string
+    moduleAppSettings: string
+    contextCover: string
+    contextGallery: string
+    contextOgImage: string
+    contextBackground: string
+    contextLogo: string
+    contextFavicon: string
   }
   toasts: {
     uploaded: string

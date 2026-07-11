@@ -7,6 +7,7 @@ import {
   restoreStorageFile,
   bulkRestoreStorageFiles,
   purgeStorageFiles,
+  getStorageFileUsages,
 } from './storage'
 import type { StorageListParams } from './storage'
 
@@ -15,6 +16,7 @@ export const storageKeys = {
   files: (params: StorageListParams) => [...storageKeys.all, 'files', params] as const,
   trash: () => [...storageKeys.all, 'trash'] as const,
   trashList: (params: StorageListParams) => [...storageKeys.trash(), params] as const,
+  usages: (id: string) => [...storageKeys.all, 'usages', id] as const,
 }
 
 /** Media-library picker: paginated list of previously uploaded files. */
@@ -31,6 +33,14 @@ export const useStorageTrash = (params: StorageListParams) =>
     queryKey: storageKeys.trashList(params),
     queryFn: () => listDeletedStorageFiles(params),
     placeholderData: keepPreviousData,
+  })
+
+/** Multimedia preview modal's "Uso" tab — lazy (only fetched while the tab is visible). */
+export const useStorageFileUsages = (id: string, enabled: boolean) =>
+  useQuery({
+    queryKey: storageKeys.usages(id),
+    queryFn: () => getStorageFileUsages(id),
+    enabled,
   })
 
 export const useUploadStorageImages = () => {
