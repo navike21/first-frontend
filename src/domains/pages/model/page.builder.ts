@@ -121,14 +121,24 @@ export function normalizeSections(input?: unknown): BuilderSection[] {
     })
 }
 
-export function createColumnsSection(columns: BuilderColumnsCount = 2): BuilderSection {
+/** Sin `columns`, la sección nace "pendiente de elegir" (settings.columns
+ * queda undefined): así el estado de "todavía sin confirmar" vive en la
+ * propia sección, no en un id externo que solo puede rastrear una a la vez
+ * (crear una segunda sección pendiente no debe finalizar la primera). */
+export function createColumnsSection(columns?: BuilderColumnsCount): BuilderSection {
   return {
     sectionId: newId(),
     type: 'columns',
     order: 0,
-    settings: { columns },
-    content: { columns: Array.from({ length: columns }, () => ({ id: newId(), elements: [] })) },
+    settings: columns === undefined ? {} : { columns },
+    content: {
+      columns: columns === undefined ? [] : Array.from({ length: columns }, () => ({ id: newId(), elements: [] })),
+    },
   }
+}
+
+export function isPendingColumnsChoice(section: BuilderSection): boolean {
+  return isColumnsSection(section) && section.settings.columns === undefined
 }
 
 export function createTextElement(): BuilderTextElement {

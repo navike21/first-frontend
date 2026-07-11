@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import { isColumnsSection, MAX_BUILDER_COLUMNS } from '../../model/page.builder'
+import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS } from '../../model/page.builder'
 import type {
   BuilderColumnsCount,
   BuilderImageElement,
@@ -16,8 +16,6 @@ import { ColumnZone } from './ColumnZone'
 export interface SectionCardProps {
   section: BuilderSection
   language: Language
-  /** Recién soltada desde la paleta: muestra el selector de columnas antes de editar. */
-  pendingChoice: boolean
   /** true mientras se arrastra un elemento en cualquier parte del lienzo. */
   elementDragActive: boolean
   onChooseColumns: (count: BuilderColumnsCount) => void
@@ -39,7 +37,6 @@ const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i 
 export const SectionCard = ({
   section,
   language,
-  pendingChoice,
   elementDragActive,
   onChooseColumns,
   onColumnsChange,
@@ -57,6 +54,10 @@ export const SectionCard = ({
   })
 
   const editable = isColumnsSection(section)
+  // Cada sección lleva su propio estado "pendiente de elegir columnas"
+  // (settings.columns === undefined), en vez de depender de un id externo
+  // que solo puede rastrear una sección a la vez.
+  const pendingChoice = isPendingColumnsChoice(section)
   const columnsCount = (section.settings.columns as BuilderColumnsCount) ?? 1
   const columns = section.content.columns ?? []
 

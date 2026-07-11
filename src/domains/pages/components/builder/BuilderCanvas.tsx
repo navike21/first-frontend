@@ -42,7 +42,6 @@ interface DragData {
 export interface BuilderCanvasProps {
   sections: BuilderSection[]
   language: Language
-  pendingChoiceId: string | null
   /** Sin índice (clic) se añade al final; con índice (soltar sobre/entre
    * secciones) se inserta ahí. */
   onAddSection: (atIndex?: number) => void
@@ -216,7 +215,7 @@ const InsertLine = ({ active }: { active: boolean }) => (
 )
 
 export const BuilderCanvas = (props: BuilderCanvasProps) => {
-  const { sections, language, pendingChoiceId, onAddSection, onSectionMove, onElementMove } = props
+  const { sections, language, onAddSection, onSectionMove, onElementMove } = props
   const { t } = usePagesTranslation()
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
   const { setNodeRef: setCanvasRef } = useDroppable({ id: CANVAS_ID })
@@ -341,7 +340,6 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
                 <SectionCard
                   section={section}
                   language={language}
-                  pendingChoice={pendingChoiceId === section.sectionId}
                   elementDragActive={elementDragging}
                   onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
                   onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}

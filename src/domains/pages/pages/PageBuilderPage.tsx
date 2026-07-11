@@ -35,7 +35,6 @@ export const PageBuilderPage = () => {
   const [draft, setDraft] = useState<BuilderSection[] | null>(null)
   const [syncedWith, setSyncedWith] = useState<unknown>(null)
   const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
-  const [pendingChoiceId, setPendingChoiceId] = useState<string | null>(null)
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
 
@@ -46,7 +45,6 @@ export const PageBuilderPage = () => {
     setSyncedWith(item)
     setDraft(normalizeSections(item.sections))
     setPendingFiles(new Map())
-    setPendingChoiceId(null)
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
@@ -55,10 +53,12 @@ export const PageBuilderPage = () => {
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
 
+  // Sin columnas definidas: la sección nace "pendiente de elegir" y así se
+  // queda hasta que el usuario elija explícitamente, aunque mientras tanto se
+  // añadan más secciones (cada una rastrea su propio estado pendiente).
   const handleAddSection = (atIndex?: number) => {
-    const section = createColumnsSection(2)
+    const section = createColumnsSection()
     patch((sections) => insertSection(sections, section, atIndex))
-    setPendingChoiceId(section.sectionId)
   }
 
   const handlePickFile = (elementId: string, file: File) => {
@@ -137,13 +137,9 @@ export const PageBuilderPage = () => {
       <BuilderCanvas
         sections={draft}
         language={language}
-        pendingChoiceId={pendingChoiceId}
         onAddSection={handleAddSection}
         onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
-        onChooseColumns={(sectionId, count) => {
-          patch((s) => setSectionColumns(s, sectionId, count))
-          setPendingChoiceId(null)
-        }}
+        onChooseColumns={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
         onColumnsChange={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
         onDeleteRequest={setDeletingSectionId}
         onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
