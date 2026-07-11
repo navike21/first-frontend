@@ -1,12 +1,20 @@
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
+import { useQueryClient } from '@tanstack/react-query'
 import { Modal, Button, IconButton, IconComponent } from '@/shared/ui'
-import { useUploadStorageImages } from '@/shared/api/storage.queries'
+import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.queries'
 import { directUploadVideo } from '@/shared/api/storage'
 import { useMediaTranslation } from '../../i18n'
 import { formatFileSize } from '../../model/formatFileSize'
 
 const ACCEPTED = 'image/jpeg,image/png,image/webp,video/mp4,video/webm'
+
+// A direct-uploaded video's browser-side upload resolves before the backend's
+// storage record actually exists — Vercel calls onUploadCompleted (which
+// creates it) asynchronously, a couple seconds after the upload finishes. An
+// immediate cache invalidation can race that and refetch too early, so a
+// successful video upload schedules one more silent refetch after this delay.
+const VIDEO_REGISTRATION_DELAY_MS = 3000
 
 export interface MediaUploadModalProps {
   isOpen: boolean
@@ -25,6 +33,7 @@ const isImageFile = (file: File) => file.type.startsWith('image/')
 
 export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadModalProps) => {
   const { t } = useMediaTranslation()
+  const qc = useQueryClient()
   const inputRef = useRef<HTMLInputElement>(null)
   const [queue, setQueue] = useState<QueuedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
@@ -66,6 +75,11 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     videos.forEach((q, i) => {
       if (videoResults[i]?.status === 'rejected') failedNames.add(q.file.name)
     })
+
+    const hasUploadedVideo = videoResults.some((r) => r.status === 'fulfilled')
+    if (hasUploadedVideo) {
+      setTimeout(() => qc.invalidateQueries({ queryKey: storageKeys.all }), VIDEO_REGISTRATION_DELAY_MS)
+    }
 
     if (failedNames.size === 0) {
       reset()
