@@ -29,6 +29,7 @@ import type {
   BuilderColumnsCount,
   BuilderImageElement,
   BuilderSection,
+  BuilderSliderElement,
   BuilderTextElement,
 } from '../../model/page.types'
 import { SectionCard } from './SectionCard'
@@ -69,15 +70,18 @@ export interface BuilderCanvasProps {
   onDeleteRequest: (sectionId: string) => void
   onAddText: (sectionId: string, columnId: string) => void
   onAddImage: (sectionId: string, columnId: string) => void
+  onAddSlider: (sectionId: string, columnId: string) => void
   onElementChange: (
     sectionId: string,
     columnId: string,
     elementId: string,
-    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement>,
+    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
   ) => void
   onElementDelete: (sectionId: string, columnId: string, elementId: string) => void
   onElementMove: (elementId: string, source: ElementLocation, target: ElementLocation, overElementId: string | null) => void
   onPickFile: (elementId: string, file: File) => void
+  onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
+  onRemoveSliderFile: (url: string) => void
 }
 
 /**
@@ -234,6 +238,21 @@ const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProp
   )
 }
 
+const ELEMENT_DRAG_ICON: Record<string, IconName> = { image: 'RiImageLine', slider: 'RiCarouselView' }
+
+function elementDragIcon(elementType: string | undefined): IconName {
+  return (elementType && ELEMENT_DRAG_ICON[elementType]) || 'RiText'
+}
+
+function elementDragLabel(
+  elementType: string | undefined,
+  t: ReturnType<typeof usePagesTranslation>['t'],
+): string {
+  if (elementType === 'image') return t.builder.imageElement
+  if (elementType === 'slider') return t.builder.sliderElement
+  return t.builder.textElement
+}
+
 const OverlayChip = ({ icon, label }: { icon: IconName; label: string }) => (
   <div className="flex items-center gap-2 rounded-lg border border-primary-600 bg-surface px-3 py-2 shadow-lg">
     <IconComponent icon={icon} className="h-4 w-4 text-primary-600" />
@@ -330,6 +349,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
                   onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
                   onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}
+                  onAddSlider={(columnId) => props.onAddSlider(section.sectionId, columnId)}
                   onElementChange={(columnId, elementId, patch) =>
                     props.onElementChange(section.sectionId, columnId, elementId, patch)
                   }
@@ -337,6 +357,8 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                     props.onElementDelete(section.sectionId, columnId, elementId)
                   }
                   onPickFile={props.onPickFile}
+                  onPickSliderFile={props.onPickSliderFile}
+                  onRemoveSliderFile={props.onRemoveSliderFile}
                 />
                 {showInsertionLines && props.insertIndex === index + 1 && <InsertionLine />}
               </Fragment>
@@ -352,10 +374,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
         <DragOverlay>
           {props.paletteDragging && <OverlayChip icon="RiLayoutColumnLine" label={t.builder.paletteColumns} />}
           {props.elementDragging && (
-            <OverlayChip
-              icon={props.elementType === 'image' ? 'RiImageLine' : 'RiText'}
-              label={props.elementType === 'image' ? t.builder.imageElement : t.builder.textElement}
-            />
+            <OverlayChip icon={elementDragIcon(props.elementType)} label={elementDragLabel(props.elementType, t)} />
           )}
         </DragOverlay>,
         document.body,

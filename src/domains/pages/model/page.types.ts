@@ -31,7 +31,18 @@ export interface BuilderImageElement {
   align: 'left' | 'center' | 'right'
 }
 
-export type BuilderElement = BuilderTextElement | BuilderImageElement
+export interface BuilderSliderSlide {
+  url: string
+  kind: 'image' | 'video'
+}
+
+export interface BuilderSliderElement {
+  id: string
+  type: 'slider'
+  slides: BuilderSliderSlide[]
+}
+
+export type BuilderElement = BuilderTextElement | BuilderImageElement | BuilderSliderElement
 
 export interface BuilderColumn {
   id: string

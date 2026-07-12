@@ -4,9 +4,15 @@ import clsx from 'clsx'
 import { IconButton, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type { BuilderColumn, BuilderImageElement, BuilderTextElement } from '../../model/page.types'
+import type {
+  BuilderColumn,
+  BuilderImageElement,
+  BuilderSliderElement,
+  BuilderTextElement,
+} from '../../model/page.types'
 import { TextElementCard } from './TextElementCard'
 import { ImageElementCard } from './ImageElementCard'
+import { SliderElementCard } from './SliderElementCard'
 
 export interface ColumnZoneProps {
   sectionId: string
@@ -16,9 +22,15 @@ export interface ColumnZoneProps {
   elementDragActive: boolean
   onAddText: () => void
   onAddImage: () => void
-  onElementChange: (elementId: string, patch: Partial<BuilderTextElement> | Partial<BuilderImageElement>) => void
+  onAddSlider: () => void
+  onElementChange: (
+    elementId: string,
+    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
+  ) => void
   onElementDelete: (elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
+  onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
+  onRemoveSliderFile: (url: string) => void
 }
 
 /**
@@ -33,9 +45,12 @@ export const ColumnZone = ({
   elementDragActive,
   onAddText,
   onAddImage,
+  onAddSlider,
   onElementChange,
   onElementDelete,
   onPickFile,
+  onPickSliderFile,
+  onRemoveSliderFile,
 }: ColumnZoneProps) => {
   const { t } = usePagesTranslation()
   const { setNodeRef, isOver } = useDroppable({
@@ -55,30 +70,47 @@ export const ColumnZone = ({
       )}
     >
       <SortableContext items={column.elements.map((e) => e.id)} strategy={verticalListSortingStrategy}>
-        {column.elements.map((element) =>
-          element.type === 'text' ? (
-            <TextElementCard
+        {column.elements.map((element) => {
+          if (element.type === 'text') {
+            return (
+              <TextElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'image') {
+            return (
+              <ImageElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onPickFile={(file) => onPickFile(element.id, file)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          return (
+            <SliderElementCard
               key={element.id}
               element={element}
               sectionId={sectionId}
               columnId={column.id}
-              language={language}
               onChange={(patch) => onElementChange(element.id, patch)}
+              onPickFile={(url, file, kind) => onPickSliderFile(element.id, url, file, kind)}
+              onRemoveSlide={onRemoveSliderFile}
               onDelete={() => onElementDelete(element.id)}
             />
-          ) : (
-            <ImageElementCard
-              key={element.id}
-              element={element}
-              sectionId={sectionId}
-              columnId={column.id}
-              language={language}
-              onChange={(patch) => onElementChange(element.id, patch)}
-              onPickFile={(file) => onPickFile(element.id, file)}
-              onDelete={() => onElementDelete(element.id)}
-            />
-          ),
-        )}
+          )
+        })}
       </SortableContext>
 
       <div className="mt-auto flex items-center justify-center gap-1 pt-1">
@@ -92,6 +124,15 @@ export const ColumnZone = ({
             size="small"
             aria-label={t.builder.addImage}
             onClick={onAddImage}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addSlider} position="top" size="small">
+          <IconButton
+            icon="RiCarouselView"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addSlider}
+            onClick={onAddSlider}
           />
         </Tooltip>
       </div>

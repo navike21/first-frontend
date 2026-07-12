@@ -9,6 +9,8 @@ import type {
   BuilderElement,
   BuilderImageElement,
   BuilderSection,
+  BuilderSliderElement,
+  BuilderSliderSlide,
   BuilderTextElement,
   PageLocalizedString,
 } from './page.types'
@@ -48,30 +50,49 @@ function clampOptionalColumns(value: unknown, max: BuilderColumnsCount): Builder
   return Math.min(max, Math.max(1, Math.round(value))) as BuilderColumnsCount
 }
 
+function normalizeTextElement(el: Record<string, unknown>): BuilderTextElement {
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'text',
+    html: normalizeLocalized(el.html),
+  }
+}
+
+function normalizeImageElement(el: Record<string, unknown>): BuilderImageElement {
+  const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'image',
+    url: typeof el.url === 'string' ? el.url : '',
+    alt: normalizeLocalized(el.alt),
+    width: typeof el.width === 'string' ? el.width : '',
+    height: typeof el.height === 'string' ? el.height : '',
+    align,
+  }
+}
+
+function normalizeSliderSlide(raw: unknown): BuilderSliderSlide[] {
+  if (!raw || typeof raw !== 'object') return []
+  const slide = raw as Record<string, unknown>
+  if (typeof slide.url !== 'string' || !slide.url) return []
+  return [{ url: slide.url, kind: slide.kind === 'video' ? 'video' : 'image' }]
+}
+
+function normalizeSliderElement(el: Record<string, unknown>): BuilderSliderElement {
+  const rawSlides = Array.isArray(el.slides) ? el.slides : []
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'slider',
+    slides: rawSlides.flatMap(normalizeSliderSlide),
+  }
+}
+
 function normalizeElement(raw: unknown): BuilderElement | null {
   if (!raw || typeof raw !== 'object') return null
   const el = raw as Record<string, unknown>
-  if (el.type === 'text') {
-    const text: BuilderTextElement = {
-      id: typeof el.id === 'string' ? el.id : newId(),
-      type: 'text',
-      html: normalizeLocalized(el.html),
-    }
-    return text
-  }
-  if (el.type === 'image') {
-    const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
-    const image: BuilderImageElement = {
-      id: typeof el.id === 'string' ? el.id : newId(),
-      type: 'image',
-      url: typeof el.url === 'string' ? el.url : '',
-      alt: normalizeLocalized(el.alt),
-      width: typeof el.width === 'string' ? el.width : '',
-      height: typeof el.height === 'string' ? el.height : '',
-      align,
-    }
-    return image
-  }
+  if (el.type === 'text') return normalizeTextElement(el)
+  if (el.type === 'image') return normalizeImageElement(el)
+  if (el.type === 'slider') return normalizeSliderElement(el)
   return null
 }
 
@@ -165,6 +186,10 @@ export function createTextElement(): BuilderTextElement {
 
 export function createImageElement(): BuilderImageElement {
   return { id: newId(), type: 'image', url: '', alt: emptyLocalized(), width: '', height: '', align: 'center' }
+}
+
+export function createSliderElement(): BuilderSliderElement {
+  return { id: newId(), type: 'slider', slides: [] }
 }
 
 // ── Operaciones puras sobre el draft (siempre devuelven un array nuevo) ─────
@@ -335,7 +360,7 @@ export function updateElement(
   sectionId: string,
   columnId: string,
   elementId: string,
-  patch: Partial<BuilderTextElement> | Partial<BuilderImageElement>,
+  patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
 ): BuilderSection[] {
   return mapColumn(sections, sectionId, columnId, (c) => ({
     ...c,
@@ -414,6 +439,31 @@ export function replaceImageUrl(sections: BuilderSection[], elementId: string, u
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
       elements: c.elements.map((e) => (e.id === elementId && e.type === 'image' ? { ...e, url } : e)),
+    }))
+    return { ...s, content: { ...s.content, columns } }
+  })
+}
+
+function replaceSlideInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+  if (e.id !== elementId || e.type !== 'slider') return e
+  const slides = e.slides.map((slide) => (slide.url === oldUrl ? { ...slide, url: newUrl } : slide))
+  return { ...e, slides }
+}
+
+/** Sustituye una diapositiva puntual de un slider (post-subida) por su URL
+ * real, dondequiera que esté el elemento — el resto de las diapositivas no
+ * se tocan. */
+export function replaceSliderSlideUrl(
+  sections: BuilderSection[],
+  elementId: string,
+  oldUrl: string,
+  newUrl: string,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (!isColumnsSection(s)) return s
+    const columns = (s.content.columns ?? []).map((c) => ({
+      ...c,
+      elements: c.elements.map((e) => replaceSlideInElement(e, elementId, oldUrl, newUrl)),
     }))
     return { ...s, content: { ...s.content, columns } }
   })

@@ -206,11 +206,18 @@ export interface PageTranslations {
     }
     addText: string
     addImage: string
+    addSlider: string
     textElement: string
     imageElement: string
+    sliderElement: string
     imageSelect: string
     imageReplace: string
     imageAlt: string
+    sliderEmpty: string
+    sliderAddLabel: string
+    sliderDragLabel: string
+    sliderFormatsHint: string
+    sliderRemoveLabel: string
     deleteSection: string
     deleteSectionConfirm: string
     deleteElement: string

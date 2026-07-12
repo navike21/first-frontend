@@ -12,6 +12,7 @@ import {
   createColumnsSection,
   createTextElement,
   createImageElement,
+  createSliderElement,
   insertSection,
   moveSection,
   removeSection,
@@ -25,6 +26,7 @@ import {
   removeElement,
   moveElementAcross,
   replaceImageUrl,
+  replaceSliderSlideUrl,
 } from '../model/page.builder'
 import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
 import { BuilderCanvas } from '../components/builder'
@@ -34,6 +36,12 @@ interface PendingBackgroundFile {
   breakpoint: BackgroundBreakpoint
   slot: BackgroundFileSlot
   file: File
+}
+
+interface PendingSliderFile {
+  elementId: string
+  file: File
+  kind: 'image' | 'video'
 }
 
 const backgroundFileKey = (sectionId: string, breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot) =>
@@ -54,6 +62,7 @@ export const PageBuilderPage = () => {
   const [syncedWith, setSyncedWith] = useState<unknown>(null)
   const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
   const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<Map<string, PendingBackgroundFile>>(new Map())
+  const [pendingSliderFiles, setPendingSliderFiles] = useState<Map<string, PendingSliderFile>>(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
 
@@ -65,13 +74,17 @@ export const PageBuilderPage = () => {
     setDraft(normalizeSections(item.sections))
     setPendingFiles(new Map())
     setPendingBackgroundFiles(new Map())
+    setPendingSliderFiles(new Map())
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
   const dirty =
     !!draft &&
     !!serverNorm &&
-    (!sameJson(draft, serverNorm) || pendingFiles.size > 0 || pendingBackgroundFiles.size > 0)
+    (!sameJson(draft, serverNorm) ||
+      pendingFiles.size > 0 ||
+      pendingBackgroundFiles.size > 0 ||
+      pendingSliderFiles.size > 0)
 
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
@@ -90,6 +103,49 @@ export const PageBuilderPage = () => {
     const previewUrl = URL.createObjectURL(file)
     patch((sections) => replaceImageUrl(sections, elementId, previewUrl))
     setPendingFiles((map) => new Map(map).set(elementId, file))
+  }
+
+  // A diferencia de handlePickFile, la inserción optimista de la diapositiva
+  // en `slides` ya ocurre dentro de SliderElementCard (necesita controlar el
+  // orden dentro de su propio array); acá solo se registra la subida
+  // pendiente, indexada por esa misma blob url para poder reemplazarla más
+  // tarde sin tocar el resto de las diapositivas.
+  const handlePickSliderFile = (elementId: string, url: string, file: File, kind: 'image' | 'video') => {
+    setPendingSliderFiles((map) => new Map(map).set(url, { elementId, file, kind }))
+  }
+
+  // Si no se quita la pendiente al borrar la diapositiva, handleSave la sigue
+  // subiendo igual en cada guardado (huérfana: ya no está en ningún `slides`).
+  const handleRemoveSliderFile = (url: string) => {
+    setPendingSliderFiles((map) => {
+      if (!map.has(url)) return map
+      const next = new Map(map)
+      next.delete(url)
+      return next
+    })
+  }
+
+  // Borrar el elemento entero también debe limpiar sus subidas pendientes
+  // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider.
+  const handleElementDelete = (sectionId: string, columnId: string, elementId: string) => {
+    patch((s) => removeElement(s, sectionId, columnId, elementId))
+    setPendingFiles((map) => {
+      if (!map.has(elementId)) return map
+      const next = new Map(map)
+      next.delete(elementId)
+      return next
+    })
+    setPendingSliderFiles((map) => {
+      const next = new Map(map)
+      let changed = false
+      for (const [url, entry] of map) {
+        if (entry.elementId === elementId) {
+          next.delete(url)
+          changed = true
+        }
+      }
+      return changed ? next : map
+    })
   }
 
   const handleBackgroundChange = (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) =>
@@ -156,9 +212,14 @@ export const PageBuilderPage = () => {
           sections = setBackgroundVideoFile(sections, sectionId, breakpoint, { url, mimeType })
         }
       }
+      for (const [blobUrl, { elementId, file, kind }] of pendingSliderFiles) {
+        const url = kind === 'image' ? await uploadEditorImage(file) : (await directUploadVideo(file)).url
+        sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url)
+      }
       setDraft(sections)
       setPendingFiles(new Map())
       setPendingBackgroundFiles(new Map())
+      setPendingSliderFiles(new Map())
       replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
     } catch {
       notify.error(t.builder.uploadError)
@@ -225,16 +286,17 @@ export const PageBuilderPage = () => {
         onDeleteRequest={setDeletingSectionId}
         onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
         onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}
+        onAddSlider={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createSliderElement()))}
         onElementChange={(sectionId, columnId, elementId, elementPatch) =>
           patch((s) => updateElement(s, sectionId, columnId, elementId, elementPatch))
         }
-        onElementDelete={(sectionId, columnId, elementId) =>
-          patch((s) => removeElement(s, sectionId, columnId, elementId))
-        }
+        onElementDelete={handleElementDelete}
         onElementMove={(elementId, source, target, overElementId) =>
           patch((s) => moveElementAcross(s, elementId, source, target, overElementId))
         }
         onPickFile={handlePickFile}
+        onPickSliderFile={handlePickSliderFile}
+        onRemoveSliderFile={handleRemoveSliderFile}
       />
 
       <Modal
