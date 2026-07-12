@@ -8,9 +8,14 @@ describe('Skeleton', () => {
     expect(container.firstChild).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('applies animate-pulse class', () => {
+  it('is relative + overflow-hidden to host the shimmer sweep', () => {
     const { container } = render(<Skeleton />)
-    expect(container.firstChild).toHaveClass('animate-pulse')
+    expect(container.firstChild).toHaveClass('relative', 'overflow-hidden')
+  })
+
+  it('renders a shimmer sweep element', () => {
+    const { container } = render(<Skeleton />)
+    expect((container.firstChild as HTMLElement).firstElementChild).toHaveClass('absolute')
   })
 
   it('uses bg-border-subtle for theming', () => {
