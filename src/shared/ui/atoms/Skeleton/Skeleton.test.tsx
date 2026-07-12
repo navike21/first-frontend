@@ -8,12 +8,12 @@ describe('Skeleton', () => {
     expect(container.firstChild).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('is relative + overflow-hidden to host the shimmer sweep', () => {
+  it('is relative + overflow-hidden to host the pulse overlay', () => {
     const { container } = render(<Skeleton />)
     expect(container.firstChild).toHaveClass('relative', 'overflow-hidden')
   })
 
-  it('renders a shimmer sweep element', () => {
+  it('renders a pulse overlay element', () => {
     const { container } = render(<Skeleton />)
     expect((container.firstChild as HTMLElement).firstElementChild).toHaveClass('absolute')
   })

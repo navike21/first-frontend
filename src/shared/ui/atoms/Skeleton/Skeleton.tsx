@@ -14,14 +14,15 @@ function toCss(val: string | number | undefined): string | undefined {
   return typeof val === 'number' ? `${val}px` : val
 }
 
-// A moving highlight band reads as "loading" in both themes — a plain
-// opacity pulse barely shows up against the dark-mode muted background.
-const Shimmer = () => (
+// The whole block breathes between the base tone and a neutral tint — in
+// dark mode that tint lightens it (a soft glow), in light mode it darkens
+// it slightly. A plain opacity pulse on the base color alone barely showed
+// up against the dark-mode background, since the color itself never changed.
+const Pulse = () => (
   <motion.div
-    className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/20"
-    initial={{ x: '-100%' }}
-    animate={{ x: '400%' }}
-    transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
+    className="absolute inset-0 bg-slate-400 dark:bg-slate-300"
+    animate={{ opacity: [0.12, 0.35, 0.12] }}
+    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
   />
 )
 
@@ -32,7 +33,7 @@ interface SkeletonBlockProps {
 
 const SkeletonBlock = ({ className, style }: SkeletonBlockProps) => (
   <div aria-hidden="true" className={clsx('relative overflow-hidden bg-border-subtle', className)} style={style}>
-    <Shimmer />
+    <Pulse />
   </div>
 )
 
