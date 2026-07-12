@@ -120,6 +120,17 @@ export const zh: UsersTranslations = {
     statusActive: '活跃',
     statusInactive: '非活跃',
   },
+  mediaLibrary: {
+    titleImage: '选择图片',
+    titleVideo: '选择视频',
+    searchPlaceholder: '按文件名搜索…',
+    empty: '未找到文件',
+    selectLabel: '选择',
+    prevPage: '上一页',
+    nextPage: '下一页',
+    uploadNewLabel: '上传新文件',
+    uploadNewHint: '找不到？上传新文件',
+  },
   toasts: {
     bulkDeactivated: '用户已删除',
     bulkRestored: '用户已恢复',

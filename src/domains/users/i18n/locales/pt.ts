@@ -131,6 +131,17 @@ export const pt: UsersTranslations = {
     statusActive: 'Ativos',
     statusInactive: 'Inativos',
   },
+  mediaLibrary: {
+    titleImage: 'Escolher imagem',
+    titleVideo: 'Escolher vídeo',
+    searchPlaceholder: 'Buscar por nome do arquivo…',
+    empty: 'Nenhum arquivo encontrado',
+    selectLabel: 'Selecionar',
+    prevPage: 'Anterior',
+    nextPage: 'Próxima',
+    uploadNewLabel: 'Enviar novo',
+    uploadNewHint: 'Não encontrou? Envie um novo arquivo',
+  },
   toasts: {
     bulkDeactivated: 'Usuários eliminados',
     bulkRestored: 'Usuários restaurados',

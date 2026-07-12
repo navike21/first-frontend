@@ -14,6 +14,7 @@ import {
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
+import type { StorageFile } from '@/shared/api/storage'
 import { useSubscribersTranslation } from '../../i18n'
 import { createSubscriberSchema } from '../../model/subscriber.schema'
 import type { SubscriberFormData } from '../../model/subscriber.schema'
@@ -26,7 +27,12 @@ export interface SubscriberFormProps {
   isSubmitting: boolean
   submitError?: unknown
   onCancel: () => void
-  onSubmit: (data: SubscriberFormData, photo?: File | null, removePhoto?: boolean) => void
+  onSubmit: (
+    data: SubscriberFormData,
+    photo?: File | null,
+    removePhoto?: boolean,
+    photoLibraryUrl?: string
+  ) => void
 }
 
 export const SubscriberForm = ({
@@ -43,6 +49,7 @@ export const SubscriberForm = ({
 
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [removePhoto, setRemovePhoto] = useState(false)
+  const [photoLibraryUrl, setPhotoLibraryUrl] = useState<string | null>(null)
 
   const {
     register,
@@ -92,16 +99,24 @@ export const SubscriberForm = ({
     { value: 'prefer_not_to_say', label: t.genders.prefer_not_to_say },
   ]
 
-  const currentDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
+  const currentDisplayUrl = removePhoto || pendingFile ? undefined : (photoLibraryUrl ?? currentPhotoUrl)
 
   const handlePhotoChange = (file: File | null) => {
     setPendingFile(file)
     setRemovePhoto(false)
+    setPhotoLibraryUrl(null)
   }
 
   const handleRemovePhoto = () => {
     setPendingFile(null)
     setRemovePhoto(true)
+    setPhotoLibraryUrl(null)
+  }
+
+  const handleSelectPhotoLibrary = (file: StorageFile) => {
+    setPhotoLibraryUrl(file.original.url)
+    setPendingFile(null)
+    setRemovePhoto(false)
   }
 
   const handleLocationChange = (v: LocationValue) => {
@@ -112,7 +127,7 @@ export const SubscriberForm = ({
     setValue('location.district', v.district ?? '')
   }
 
-  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto))
+  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto, photoLibraryUrl ?? undefined))
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -127,6 +142,8 @@ export const SubscriberForm = ({
             onChange={handlePhotoChange}
             onRemove={currentPhotoUrl || pendingFile ? handleRemovePhoto : undefined}
             removeLabel={t.form.removePhoto}
+            onSelectLibrary={handleSelectPhotoLibrary}
+            libraryTexts={t.mediaLibrary}
             disabled={isSubmitting}
           />
         </div>

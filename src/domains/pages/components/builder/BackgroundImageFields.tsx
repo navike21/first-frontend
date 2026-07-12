@@ -1,4 +1,5 @@
-import { CoverPicker, IconButton, Select, Switch, Tooltip } from '@/shared/ui'
+import { CoverPicker, Select, Switch } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { BackgroundImage, BackgroundPosition } from '../../model/page.types'
 
@@ -6,10 +7,10 @@ export interface BackgroundImageFieldsProps {
   config: BackgroundImage
   onChange: (patch: Partial<BackgroundImage>) => void
   onPickFile: (file: File) => void
-  onOpenLibrary: () => void
+  onSelectLibrary: (file: StorageFile) => void
 }
 
-export const BackgroundImageFields = ({ config, onChange, onPickFile, onOpenLibrary }: BackgroundImageFieldsProps) => {
+export const BackgroundImageFields = ({ config, onChange, onPickFile, onSelectLibrary }: BackgroundImageFieldsProps) => {
   const { t } = usePagesTranslation()
 
   const positionOptions = [
@@ -20,32 +21,21 @@ export const BackgroundImageFields = ({ config, onChange, onPickFile, onOpenLibr
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-3">
-      <div className="flex items-start gap-2">
-        <div className="flex-1">
-          <CoverPicker
-            currentUrl={config.url}
-            uploadLabel={t.builder.background.uploadLabel}
-            dragLabel={t.form.coverDragLabel}
-            dragOrLabel={t.form.coverDragOrLabel}
-            browseLabel={t.form.coverBrowseLabel}
-            removeLabel={t.builder.background.removeLabel}
-            onChange={(file) => {
-              if (file) onPickFile(file)
-            }}
-            onRemove={() => onChange({ url: undefined })}
-            variant="compact"
-          />
-        </div>
-        <Tooltip heading={t.builder.background.pickFromLibrary} position="top" size="small">
-          <IconButton
-            icon="RiFolderImageLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.background.pickFromLibrary}
-            onClick={onOpenLibrary}
-          />
-        </Tooltip>
-      </div>
+      <CoverPicker
+        currentUrl={config.url}
+        uploadLabel={t.builder.background.uploadLabel}
+        dragLabel={t.form.coverDragLabel}
+        dragOrLabel={t.form.coverDragOrLabel}
+        browseLabel={t.form.coverBrowseLabel}
+        removeLabel={t.builder.background.removeLabel}
+        onChange={(file) => {
+          if (file) onPickFile(file)
+        }}
+        onRemove={() => onChange({ url: undefined })}
+        variant="compact"
+        onSelectLibrary={onSelectLibrary}
+        libraryTexts={t.builder.mediaLibrary}
+      />
 
       <Select
         label={t.builder.background.positionLabel}

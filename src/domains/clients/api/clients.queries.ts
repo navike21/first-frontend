@@ -34,6 +34,8 @@ export const useClient = (id: string) =>
 export interface CreateClientVars {
   data: CreateClientFormData
   logo?: File | null
+  /** Already-hosted URL picked from the media library (no upload needed). */
+  logoLibraryUrl?: string
 }
 
 export interface UpdateClientVars {
@@ -41,13 +43,15 @@ export interface UpdateClientVars {
   logo?: File | null
   /** When true (and no new logo), clears the existing logo. */
   removeLogo?: boolean
+  /** Already-hosted URL picked from the media library (no upload needed). */
+  logoLibraryUrl?: string
 }
 
 export const useCreateClient = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, logo }: CreateClientVars) =>
-      clientsApi.create(data, logo),
+    mutationFn: ({ data, logo, logoLibraryUrl }: CreateClientVars) =>
+      clientsApi.create(data, logo, logoLibraryUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: clientKeys.lists() }),
   })
 }
@@ -55,8 +59,8 @@ export const useCreateClient = () => {
 export const useUpdateClient = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, logo, removeLogo }: UpdateClientVars) =>
-      clientsApi.update(id, data, logo, removeLogo),
+    mutationFn: ({ data, logo, removeLogo, logoLibraryUrl }: UpdateClientVars) =>
+      clientsApi.update(id, data, logo, removeLogo, logoLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: clientKeys.lists() })
       qc.invalidateQueries({ queryKey: clientKeys.detail(id) })

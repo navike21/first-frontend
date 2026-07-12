@@ -1,5 +1,7 @@
 import clsx from 'clsx'
+import { useState } from 'react'
 import { IconComponent } from '@/shared/ui/atoms/IconComponent'
+import { MediaLibraryModal } from '../MediaLibraryModal'
 import { usePhotoPicker } from './PhotoPicker.hooks'
 import type { PhotoPickerProps } from './PhotoPicker.types'
 
@@ -13,13 +15,17 @@ export const PhotoPicker = ({
   onRemove,
   removeLabel,
   disabled,
+  onSelectLibrary,
+  libraryTexts,
 }: PhotoPickerProps) => {
-  const { inputRef, preview, error, handleChange, openPicker, handleRemove } =
+  const { inputRef, preview, error, handleChange, handleFile, openPicker, handleRemove } =
     usePhotoPicker({
       currentUrl,
       onChange,
       onRemove,
     })
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
+  const openMain = onSelectLibrary && libraryTexts ? () => setIsLibraryOpen(true) : openPicker
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -49,7 +55,7 @@ export const PhotoPicker = ({
         <button
           type="button"
           disabled={disabled}
-          onClick={openPicker}
+          onClick={openMain}
           className={clsx(
             // Layout
             'group relative cursor-pointer',
@@ -103,6 +109,18 @@ export const PhotoPicker = ({
         {formatsHint}
       </p>
       {error && <p className="text-center text-xs text-red-500">{error}</p>}
+
+      {onSelectLibrary && libraryTexts && (
+        <MediaLibraryModal
+          isOpen={isLibraryOpen}
+          onClose={() => setIsLibraryOpen(false)}
+          kind="image"
+          onSelect={onSelectLibrary}
+          onUploadNew={handleFile}
+          uploadAccept={ACCEPTED}
+          texts={libraryTexts}
+        />
+      )}
     </div>
   )
 }

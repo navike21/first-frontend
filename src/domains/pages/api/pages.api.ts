@@ -30,19 +30,29 @@ export const pagesApi = {
   getById: (id: string) =>
     request<ApiResponse<Page>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
-  create: (body: CreatePagePayload, files?: PageImageFiles) => {
+  create: (body: CreatePagePayload, files?: PageImageFiles, coverLibraryUrl?: string) => {
+    const payloadBody = { ...body, ...(!files?.cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}) }
     if ((files?.cover || files?.ogImage) && navigator.onLine) {
       const fd = new FormData()
-      fd.append('data', JSON.stringify(body))
+      fd.append('data', JSON.stringify(payloadBody))
       if (files.cover) fd.append('cover', files.cover)
       if (files.ogImage) fd.append('ogImage', files.ogImage)
       return request<ApiResponse<Page>, FormData>({ api: BASE, method: 'POST', body: fd })
     }
-    return request<ApiResponse<Page>, CreatePagePayload>({ api: BASE, method: 'POST', body })
+    return request<ApiResponse<Page>, typeof payloadBody>({ api: BASE, method: 'POST', body: payloadBody })
   },
 
-  update: (id: string, body: Partial<CreatePagePayload>, files?: PageImageFiles, removeCover?: boolean) => {
-    const payloadBody = { ...body, ...(removeCover ? { coverImageUrl: '' } : {}) }
+  update: (
+    id: string,
+    body: Partial<CreatePagePayload>,
+    files?: PageImageFiles,
+    removeCover?: boolean,
+    coverLibraryUrl?: string,
+  ) => {
+    let coverOverride: { coverImageUrl: string } | undefined
+    if (removeCover) coverOverride = { coverImageUrl: '' }
+    else if (!files?.cover && coverLibraryUrl) coverOverride = { coverImageUrl: coverLibraryUrl }
+    const payloadBody = { ...body, ...coverOverride }
     if ((files?.cover || files?.ogImage) && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(payloadBody))

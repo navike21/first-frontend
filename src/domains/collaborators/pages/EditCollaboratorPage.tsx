@@ -39,11 +39,12 @@ export const EditCollaboratorPage = () => {
   const handleUpdate = (
     data: CollaboratorFormData,
     photo?: File | null,
-    removePhoto?: boolean
+    removePhoto?: boolean,
+    photoLibraryUrl?: string
   ) => {
-    const payload = removePhoto
-      ? { ...toCollaboratorPayload(data), photoUrl: '' }
-      : toCollaboratorPayload(data)
+    let payload = toCollaboratorPayload(data)
+    if (removePhoto) payload = { ...payload, photoUrl: '' }
+    else if (photoLibraryUrl) payload = { ...payload, photoUrl: photoLibraryUrl }
 
     updateCollaborator.mutate(
       { data: payload, photo },

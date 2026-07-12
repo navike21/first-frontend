@@ -115,6 +115,17 @@ export const zh: ClientsTranslations = {
     next: '下一步',
     optional: '（可选）',
   },
+  mediaLibrary: {
+    titleImage: '选择图片',
+    titleVideo: '选择视频',
+    searchPlaceholder: '按文件名搜索…',
+    empty: '未找到文件',
+    selectLabel: '选择',
+    prevPage: '上一页',
+    nextPage: '下一页',
+    uploadNewLabel: '上传新文件',
+    uploadNewHint: '找不到？上传新文件',
+  },
   toasts: {
     created: '客户已创建',
     updated: '客户已更新',

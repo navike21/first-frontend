@@ -27,7 +27,7 @@ export const clientsApi = {
   getById: (id: string) =>
     request<ApiResponse<Client>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
-  create: (body: CreateClientFormData, logo?: File | null) => {
+  create: (body: CreateClientFormData, logo?: File | null, logoLibraryUrl?: string) => {
     // Multipart can't be serialised into the offline queue, so offline we send
     // JSON without the logo (it gets queued); online with a logo uses multipart.
     if (logo && navigator.onLine) {
@@ -40,10 +40,12 @@ export const clientsApi = {
         body: fd,
       })
     }
-    return request<ApiResponse<Client>, CreateClientFormData>({
+    // A library pick is already a hosted URL — send it as a plain field.
+    const payload = logoLibraryUrl ? { ...body, logoUrl: logoLibraryUrl } : body
+    return request<ApiResponse<Client>, typeof payload>({
       api: BASE,
       method: 'POST',
-      body,
+      body: payload,
     })
   },
 
@@ -51,7 +53,8 @@ export const clientsApi = {
     id: string,
     body: UpdateClientFormData,
     logo?: File | null,
-    removeLogo?: boolean
+    removeLogo?: boolean,
+    logoLibraryUrl?: string
   ) => {
     if (logo && navigator.onLine) {
       const fd = new FormData()
@@ -63,8 +66,10 @@ export const clientsApi = {
         body: fd,
       })
     }
-    // Empty logoUrl tells the backend to clear the existing logo.
-    const payload = removeLogo ? { ...body, logoUrl: '' } : body
+    // Empty logoUrl clears the existing logo; a library pick sets it directly.
+    let payload: typeof body | (typeof body & { logoUrl: string }) = body
+    if (removeLogo) payload = { ...body, logoUrl: '' }
+    else if (logoLibraryUrl) payload = { ...body, logoUrl: logoLibraryUrl }
     return request<ApiResponse<Client>, typeof payload>({
       api: `${BASE}/${id}`,
       method: 'PATCH',

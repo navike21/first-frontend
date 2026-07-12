@@ -23,15 +23,21 @@ export const portfolioApi = {
   getById: (id: string) =>
     request<ApiResponse<Portfolio>>({ api: `${BASE}/id/${id}`, method: 'GET' }),
 
-  create: (body: CreatePortfolioPayload, cover?: File | null, galleryFiles?: File[]) => {
+  create: (
+    body: CreatePortfolioPayload,
+    cover?: File | null,
+    galleryFiles?: File[],
+    coverLibraryUrl?: string,
+  ) => {
+    const payloadBody = { ...body, ...(!cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}) }
     if ((cover || galleryFiles?.length) && navigator.onLine) {
       const fd = new FormData()
-      fd.append('data', JSON.stringify(body))
+      fd.append('data', JSON.stringify(payloadBody))
       if (cover) fd.append('cover', cover)
       galleryFiles?.forEach((file) => fd.append('gallery', file))
       return request<ApiResponse<Portfolio>, FormData>({ api: BASE, method: 'POST', body: fd })
     }
-    return request<ApiResponse<Portfolio>, CreatePortfolioPayload>({ api: BASE, method: 'POST', body })
+    return request<ApiResponse<Portfolio>, typeof payloadBody>({ api: BASE, method: 'POST', body: payloadBody })
   },
 
   update: (
@@ -41,10 +47,12 @@ export const portfolioApi = {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
+    coverLibraryUrl?: string,
   ) => {
     const payloadBody = {
       ...body,
       ...(removeCover ? { coverImageUrl: '' } : {}),
+      ...(!removeCover && !cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}),
       ...(galleryOrder ? { galleryOrder } : {}),
     }
     if ((cover || galleryFiles?.length) && navigator.onLine) {

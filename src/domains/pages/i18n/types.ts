@@ -193,7 +193,6 @@ export interface PageTranslations {
       uploadLabel: string
       replaceLabel: string
       removeLabel: string
-      pickFromLibrary: string
     }
     mediaLibrary: {
       titleImage: string
@@ -203,6 +202,8 @@ export interface PageTranslations {
       selectLabel: string
       prevPage: string
       nextPage: string
+      uploadNewLabel: string
+      uploadNewHint: string
     }
     addText: string
     addImage: string
@@ -218,6 +219,8 @@ export interface PageTranslations {
     sliderDragLabel: string
     sliderFormatsHint: string
     sliderRemoveLabel: string
+    sliderLibraryImage: string
+    sliderLibraryVideo: string
     deleteSection: string
     deleteSectionConfirm: string
     deleteElement: string

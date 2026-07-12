@@ -48,6 +48,10 @@ export function useCoverPicker({
     if (inputRef.current) inputRef.current.value = ''
   }
 
+  // Exposed so a library-first flow (MediaLibraryModal's upload-new fallback)
+  // can hand a picked File straight in, without a synthetic change event.
+  const handleFile = processFile
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(true)
@@ -85,6 +89,7 @@ export function useCoverPicker({
     error,
     isDragging,
     handleChange,
+    handleFile,
     handleDragOver,
     handleDragLeave,
     handleDrop,

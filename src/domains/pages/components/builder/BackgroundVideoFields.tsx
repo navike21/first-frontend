@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 import clsx from 'clsx'
-import { IconButton, IconComponent, InputField, Select, Switch, Tooltip } from '@/shared/ui'
+import { IconButton, IconComponent, InputField, MediaLibraryModal, Select, Switch, Tooltip } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { BackgroundSourceKind, BackgroundVideo, BackgroundVideoFile } from '../../model/page.types'
 
@@ -8,7 +9,7 @@ export interface BackgroundVideoFieldsProps {
   config: BackgroundVideo
   onChange: (patch: Partial<BackgroundVideo>) => void
   onPickFile: (slot: 'video-mp4' | 'video-webm', file: File) => void
-  onOpenLibrary: (slot: 'video-mp4' | 'video-webm') => void
+  onSelectLibrary: (slot: 'video-mp4' | 'video-webm', file: StorageFile) => void
 }
 
 interface VideoFormatSlotProps {
@@ -16,35 +17,26 @@ interface VideoFormatSlotProps {
   mimeType: string
   file?: BackgroundVideoFile
   onPickFile: (file: File) => void
-  onOpenLibrary: () => void
+  onSelectLibrary: (file: StorageFile) => void
   onRemove: () => void
 }
 
-const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onOpenLibrary, onRemove }: VideoFormatSlotProps) => {
+const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onSelectLibrary, onRemove }: VideoFormatSlotProps) => {
   const { t } = usePagesTranslation()
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
 
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface p-2">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-foreground">{label}</span>
         <div className="flex items-center gap-1">
-          <Tooltip heading={t.builder.background.pickFromLibrary} position="top" size="small">
+          <Tooltip heading={file ? t.builder.background.replaceLabel : t.builder.background.uploadLabel} position="top" size="small">
             <IconButton
               icon="RiFolderVideoLine"
               variant="text"
               size="small"
-              aria-label={t.builder.background.pickFromLibrary}
-              onClick={onOpenLibrary}
-            />
-          </Tooltip>
-          <Tooltip heading={file ? t.builder.background.replaceLabel : t.builder.background.uploadLabel} position="top" size="small">
-            <IconButton
-              icon="RiUploadLine"
-              variant="text"
-              size="small"
               aria-label={file ? t.builder.background.replaceLabel : t.builder.background.uploadLabel}
-              onClick={() => inputRef.current?.click()}
+              onClick={() => setIsLibraryOpen(true)}
             />
           </Tooltip>
           {file && (
@@ -69,22 +61,20 @@ const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onOpenLibrary, onR
         </div>
       )}
 
-      <input
-        ref={inputRef}
-        type="file"
-        accept={mimeType}
-        className="hidden"
-        onChange={(e) => {
-          const picked = e.target.files?.[0]
-          if (picked) onPickFile(picked)
-          e.target.value = ''
-        }}
+      <MediaLibraryModal
+        isOpen={isLibraryOpen}
+        onClose={() => setIsLibraryOpen(false)}
+        kind="video"
+        onSelect={onSelectLibrary}
+        onUploadNew={onPickFile}
+        uploadAccept={mimeType}
+        texts={t.builder.mediaLibrary}
       />
     </div>
   )
 }
 
-export const BackgroundVideoFields = ({ config, onChange, onPickFile, onOpenLibrary }: BackgroundVideoFieldsProps) => {
+export const BackgroundVideoFields = ({ config, onChange, onPickFile, onSelectLibrary }: BackgroundVideoFieldsProps) => {
   const { t } = usePagesTranslation()
 
   const sourceOptions = [
@@ -115,7 +105,7 @@ export const BackgroundVideoFields = ({ config, onChange, onPickFile, onOpenLibr
             mimeType="video/mp4"
             file={mp4File}
             onPickFile={(file) => onPickFile('video-mp4', file)}
-            onOpenLibrary={() => onOpenLibrary('video-mp4')}
+            onSelectLibrary={(file) => onSelectLibrary('video-mp4', file)}
             onRemove={() => removeFile('video/mp4')}
           />
           <VideoFormatSlot
@@ -123,7 +113,7 @@ export const BackgroundVideoFields = ({ config, onChange, onPickFile, onOpenLibr
             mimeType="video/webm"
             file={webmFile}
             onPickFile={(file) => onPickFile('video-webm', file)}
-            onOpenLibrary={() => onOpenLibrary('video-webm')}
+            onSelectLibrary={(file) => onSelectLibrary('video-webm', file)}
             onRemove={() => removeFile('video/webm')}
           />
         </div>

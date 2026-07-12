@@ -25,10 +25,11 @@ export const EditUserPage = () => {
   const handleUpdate = (
     data: UpdateUserFormData,
     avatar?: File | null,
-    removeAvatar?: boolean
+    removeAvatar?: boolean,
+    avatarLibraryUrl?: string
   ) => {
     updateUser.mutate(
-      { data, avatar, removeAvatar },
+      { data, avatar, removeAvatar, avatarLibraryUrl },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.updated)

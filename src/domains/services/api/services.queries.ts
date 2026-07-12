@@ -40,6 +40,8 @@ export interface CreateServiceVars {
   data: CreateServicePayload
   cover?: File | null
   iconFile?: File | null
+  coverLibraryUrl?: string
+  iconLibraryUrl?: string
 }
 
 export interface UpdateServiceVars {
@@ -48,13 +50,15 @@ export interface UpdateServiceVars {
   iconFile?: File | null
   removeCover?: boolean
   removeIcon?: boolean
+  coverLibraryUrl?: string
+  iconLibraryUrl?: string
 }
 
 export const useCreateService = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, iconFile }: CreateServiceVars) =>
-      servicesApi.create(data, cover, iconFile),
+    mutationFn: ({ data, cover, iconFile, coverLibraryUrl, iconLibraryUrl }: CreateServiceVars) =>
+      servicesApi.create(data, cover, iconFile, coverLibraryUrl, iconLibraryUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: serviceKeys.lists() }),
   })
 }
@@ -62,8 +66,8 @@ export const useCreateService = () => {
 export const useUpdateService = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, iconFile, removeCover, removeIcon }: UpdateServiceVars) =>
-      servicesApi.update(id, data, cover, iconFile, removeCover, removeIcon),
+    mutationFn: ({ data, cover, iconFile, removeCover, removeIcon, coverLibraryUrl, iconLibraryUrl }: UpdateServiceVars) =>
+      servicesApi.update(id, data, cover, iconFile, removeCover, removeIcon, coverLibraryUrl, iconLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: serviceKeys.lists() })
       qc.invalidateQueries({ queryKey: serviceKeys.details() })

@@ -110,6 +110,7 @@ export interface CreatePageVars {
   data: CreatePagePayload
   cover?: File | null
   ogImage?: File | null
+  coverLibraryUrl?: string
 }
 
 export interface UpdatePageVars {
@@ -117,12 +118,14 @@ export interface UpdatePageVars {
   cover?: File | null
   ogImage?: File | null
   removeCover?: boolean
+  coverLibraryUrl?: string
 }
 
 export const useCreatePage = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, ogImage }: CreatePageVars) => pagesApi.create(data, { cover, ogImage }),
+    mutationFn: ({ data, cover, ogImage, coverLibraryUrl }: CreatePageVars) =>
+      pagesApi.create(data, { cover, ogImage }, coverLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: pageKeys.lists() })
       qc.invalidateQueries({ queryKey: pageKeys.picker() })
@@ -133,8 +136,8 @@ export const useCreatePage = () => {
 export const useUpdatePage = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, ogImage, removeCover }: UpdatePageVars) =>
-      pagesApi.update(id, data, { cover, ogImage }, removeCover),
+    mutationFn: ({ data, cover, ogImage, removeCover, coverLibraryUrl }: UpdatePageVars) =>
+      pagesApi.update(id, data, { cover, ogImage }, removeCover, coverLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: pageKeys.lists() })
       qc.invalidateQueries({ queryKey: pageKeys.detail(id) })

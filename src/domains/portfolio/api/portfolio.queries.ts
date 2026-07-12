@@ -74,6 +74,7 @@ export interface CreatePortfolioVars {
   data: CreatePortfolioPayload
   cover?: File | null
   galleryFiles?: File[]
+  coverLibraryUrl?: string
 }
 
 export interface UpdatePortfolioVars {
@@ -82,13 +83,14 @@ export interface UpdatePortfolioVars {
   removeCover?: boolean
   galleryFiles?: File[]
   galleryOrder?: GalleryOrderToken[]
+  coverLibraryUrl?: string
 }
 
 export const useCreatePortfolio = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, galleryFiles }: CreatePortfolioVars) =>
-      portfolioApi.create(data, cover, galleryFiles),
+    mutationFn: ({ data, cover, galleryFiles, coverLibraryUrl }: CreatePortfolioVars) =>
+      portfolioApi.create(data, cover, galleryFiles, coverLibraryUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: portfolioKeys.lists() }),
   })
 }
@@ -96,8 +98,8 @@ export const useCreatePortfolio = () => {
 export const useUpdatePortfolio = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, removeCover, galleryFiles, galleryOrder }: UpdatePortfolioVars) =>
-      portfolioApi.update(id, data, cover, removeCover, galleryFiles, galleryOrder),
+    mutationFn: ({ data, cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl }: UpdatePortfolioVars) =>
+      portfolioApi.update(id, data, cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: portfolioKeys.lists() })
       qc.invalidateQueries({ queryKey: portfolioKeys.details() })

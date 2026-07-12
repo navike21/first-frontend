@@ -45,10 +45,11 @@ export const EditClientPage = () => {
   const handleUpdate = (
     data: CreateClientFormData,
     logo?: File | null,
-    removeLogo?: boolean
+    removeLogo?: boolean,
+    logoLibraryUrl?: string
   ) => {
     updateClient.mutate(
-      { data, logo, removeLogo },
+      { data, logo, removeLogo, logoLibraryUrl },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.updated)

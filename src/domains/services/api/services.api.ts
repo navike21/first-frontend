@@ -7,6 +7,30 @@ const BASE = '/services'
 
 type BulkResult = { processedIds: string[]; notFoundIds: string[] }
 
+interface UpdateOverrides {
+  removeCover?: boolean
+  removeIcon?: boolean
+  hasCoverFile: boolean
+  hasIconFile: boolean
+  coverLibraryUrl?: string
+  iconLibraryUrl?: string
+}
+
+// Shared by the multipart `data` part and the plain-JSON body: "remove" wins
+// over a library pick, and a library pick only applies when no new file for
+// that same asset is being uploaded in this same request.
+function withCoverIconOverrides<T extends Partial<CreateServicePayload>>(
+  body: T,
+  { removeCover, removeIcon, hasCoverFile, hasIconFile, coverLibraryUrl, iconLibraryUrl }: UpdateOverrides,
+): T {
+  let next = body
+  if (removeCover) next = { ...next, coverImageUrl: '' }
+  else if (!hasCoverFile && coverLibraryUrl) next = { ...next, coverImageUrl: coverLibraryUrl }
+  if (removeIcon) next = { ...next, icon: '' }
+  else if (!hasIconFile && iconLibraryUrl) next = { ...next, icon: iconLibraryUrl }
+  return next
+}
+
 export const servicesApi = {
   list: (params: ServiceListParams = {}) => {
     const query = new URLSearchParams()
@@ -27,10 +51,19 @@ export const servicesApi = {
   getById: (id: string) =>
     request<ApiResponse<Service>>({ api: `${BASE}/id/${id}`, method: 'GET' }),
 
-  create: (body: CreateServicePayload, cover?: File | null, iconFile?: File | null) => {
+  create: (
+    body: CreateServicePayload,
+    cover?: File | null,
+    iconFile?: File | null,
+    coverLibraryUrl?: string,
+    iconLibraryUrl?: string,
+  ) => {
     if ((cover || iconFile) && navigator.onLine) {
       const fd = new FormData()
-      fd.append('data', JSON.stringify(body))
+      let dataBody = body
+      if (!cover && coverLibraryUrl) dataBody = { ...dataBody, coverImageUrl: coverLibraryUrl }
+      if (!iconFile && iconLibraryUrl) dataBody = { ...dataBody, icon: iconLibraryUrl }
+      fd.append('data', JSON.stringify(dataBody))
       if (cover) fd.append('cover', cover)
       if (iconFile) fd.append('icon', iconFile)
       return request<ApiResponse<Service>, FormData>({
@@ -39,10 +72,13 @@ export const servicesApi = {
         body: fd,
       })
     }
-    return request<ApiResponse<Service>, CreateServicePayload>({
+    let payload = body
+    if (coverLibraryUrl) payload = { ...payload, coverImageUrl: coverLibraryUrl }
+    if (iconLibraryUrl) payload = { ...payload, icon: iconLibraryUrl }
+    return request<ApiResponse<Service>, typeof payload>({
       api: BASE,
       method: 'POST',
-      body,
+      body: payload,
     })
   },
 
@@ -52,13 +88,15 @@ export const servicesApi = {
     cover?: File | null,
     iconFile?: File | null,
     removeCover?: boolean,
-    removeIcon?: boolean
+    removeIcon?: boolean,
+    coverLibraryUrl?: string,
+    iconLibraryUrl?: string,
   ) => {
+    const overrides = { removeCover, removeIcon, coverLibraryUrl, iconLibraryUrl }
     if ((cover || iconFile) && navigator.onLine) {
       const fd = new FormData()
-      const payloadBody = removeCover ? { ...body, coverImageUrl: '' } : body
-      const finalBody = removeIcon ? { ...payloadBody, icon: '' } : payloadBody
-      fd.append('data', JSON.stringify(finalBody))
+      const dataBody = withCoverIconOverrides(body, { ...overrides, hasCoverFile: !!cover, hasIconFile: !!iconFile })
+      fd.append('data', JSON.stringify(dataBody))
       if (cover) fd.append('cover', cover)
       if (iconFile) fd.append('icon', iconFile)
       return request<ApiResponse<Service>, FormData>({
@@ -67,9 +105,7 @@ export const servicesApi = {
         body: fd,
       })
     }
-    let payload: Partial<CreateServicePayload> = body
-    if (removeCover) payload = { ...payload, coverImageUrl: '' }
-    if (removeIcon) payload = { ...payload, icon: '' }
+    const payload = withCoverIconOverrides(body, { ...overrides, hasCoverFile: false, hasIconFile: false })
     return request<ApiResponse<Service>, typeof payload>({
       api: `${BASE}/${id}`,
       method: 'PATCH',

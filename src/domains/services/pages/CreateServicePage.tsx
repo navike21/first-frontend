@@ -17,10 +17,14 @@ export const CreateServicePage = () => {
   const handleCreate = (
     data: ServiceFormData,
     cover?: File | null,
-    iconFile?: File | null
+    iconFile?: File | null,
+    _removeCover?: boolean,
+    _removeIcon?: boolean,
+    coverLibraryUrl?: string,
+    iconLibraryUrl?: string
   ) => {
     createService.mutate(
-      { data: toServicePayload(data), cover, iconFile },
+      { data: toServicePayload(data), cover, iconFile, coverLibraryUrl, iconLibraryUrl },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

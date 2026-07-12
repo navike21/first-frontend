@@ -1,3 +1,6 @@
+import type { StorageFile } from '@/shared/api/storage'
+import type { MediaLibraryModalTexts } from '../MediaLibraryModal/MediaLibraryModal.types'
+
 export interface GalleryItem {
   /** Stable id for dnd-kit and React keys: the URL itself for existing photos, a generated id for new ones. */
   key: string
@@ -26,4 +29,10 @@ export interface GalleryPickerProps {
   maxBytes?: number
   /** Additional accepted MIME types beyond the defaults (jpg, png, webp, svg, gif). */
   accept?: string
+  /** Library-first UX: when passed, an extra "add from library" tile opens
+   * the media library, with upload-a-new-file as the fallback inside that
+   * same modal. */
+  onSelectLibrary?: (file: StorageFile) => void
+  /** Required alongside `onSelectLibrary` — texts for the library modal. */
+  libraryTexts?: MediaLibraryModalTexts
 }

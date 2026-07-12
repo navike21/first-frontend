@@ -13,9 +13,14 @@ export const CreateClientPage = () => {
   const { t, language } = useClientsTranslation()
   const createClient = useCreateClient()
 
-  const handleCreate = (data: CreateClientFormData, logo?: File | null) => {
+  const handleCreate = (
+    data: CreateClientFormData,
+    logo?: File | null,
+    _removeLogo?: boolean,
+    logoLibraryUrl?: string
+  ) => {
     createClient.mutate(
-      { data, logo },
+      { data, logo, logoLibraryUrl },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.created)

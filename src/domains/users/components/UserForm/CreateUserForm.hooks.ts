@@ -21,7 +21,11 @@ import { usePhotoUpload } from './usePhotoUpload'
 export interface UseCreateUserFormProps {
   isSubmitting: boolean
   onCancel: () => void
-  onCreate: (data: CreateUserFormData, avatar?: File | null) => void
+  onCreate: (
+    data: CreateUserFormData,
+    avatar?: File | null,
+    avatarLibraryUrl?: string
+  ) => void
   /** Backend error from the submit mutation — mapped to inline field errors. */
   submitError?: unknown
 }
@@ -39,7 +43,7 @@ export function useCreateUserForm({
     () => createCreateUserFormSchema(t.validation),
     [t.validation]
   )
-  const { pendingFile, setPendingFile } = usePhotoUpload()
+  const { pendingFile, libraryUrl, onPickFile, onSelectLibrary } = usePhotoUpload()
   const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
   const [maxStep, setMaxStep] = useState(0)
 
@@ -90,7 +94,7 @@ export function useCreateUserForm({
       const payload = (
         password ? { ...rest, password } : rest
       ) as CreateUserFormData
-      onCreate(payload, pendingFile)
+      onCreate(payload, pendingFile, libraryUrl ?? undefined)
     },
     // On invalid submit, reveal the tab that holds the first error.
     (formErrors) => setActiveTab(tabForErrors(formErrors))
@@ -163,7 +167,9 @@ export function useCreateUserForm({
     busy,
     onSubmit,
     handleCancel,
-    setPendingFile,
+    onPickFile,
+    onSelectLibrary,
+    libraryUrl,
     onGenderChange,
     onGroupsChange,
     onAddressChange,

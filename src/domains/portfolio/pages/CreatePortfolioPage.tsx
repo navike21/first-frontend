@@ -7,7 +7,7 @@ import { PortfolioForm } from '../components/PortfolioForm'
 import { useCreatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
 import { toPortfolioPayload } from '../model/portfolio.schema'
-import type { PortfolioFormData } from '../model/portfolio.schema'
+import type { PortfolioFormData, GalleryOrderToken } from '../model/portfolio.schema'
 
 export const CreatePortfolioPage = () => {
   const navigate = useNavigate()
@@ -19,9 +19,11 @@ export const CreatePortfolioPage = () => {
     cover?: File | null,
     _removeCover?: boolean,
     galleryFiles?: File[],
+    _galleryOrder?: GalleryOrderToken[],
+    coverLibraryUrl?: string,
   ) => {
     createPortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover, galleryFiles },
+      { data: toPortfolioPayload(data, language), cover, galleryFiles, coverLibraryUrl },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

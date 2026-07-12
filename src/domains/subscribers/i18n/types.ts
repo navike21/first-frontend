@@ -99,6 +99,17 @@ export interface SubscribersTranslations {
     next: string
     optional: string
   }
+  mediaLibrary: {
+    titleImage: string
+    titleVideo: string
+    searchPlaceholder: string
+    empty: string
+    selectLabel: string
+    prevPage: string
+    nextPage: string
+    uploadNewLabel: string
+    uploadNewHint: string
+  }
   toasts: {
     created: string
     updated: string

@@ -11,12 +11,17 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Button, IconComponent, Modal } from '@/shared/ui'
+import { Button, IconButton, IconComponent, MediaLibraryModal, Modal, Tooltip } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderSliderElement, BuilderSliderSlide } from '../../model/page.types'
 import { ElementShell } from './ElementShell'
 
 const ACCEPTED = 'image/jpeg,image/png,image/webp,video/mp4,video/webm'
+const LIBRARY_ACCEPT: Record<'image' | 'video', string> = {
+  image: 'image/jpeg,image/png,image/webp',
+  video: 'video/mp4,video/webm',
+}
 
 export interface SliderElementCardProps {
   element: BuilderSliderElement
@@ -88,6 +93,7 @@ export const SliderElementCard = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [libraryKind, setLibraryKind] = useState<'image' | 'video' | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -103,6 +109,14 @@ export const SliderElementCard = ({
       onPickFile(url, file, kind)
     })
     if (newSlides.length > 0) onChange({ slides: [...element.slides, ...newSlides] })
+  }
+
+  // Ya tiene URL real (viene de la biblioteca): se agrega directo, sin pasar
+  // por `pendingSliderFiles` — no hay nada que subir al guardar.
+  const addLibraryFile = (file: StorageFile) => {
+    if (!libraryKind) return
+    onChange({ slides: [...element.slides, { url: file.original.url, kind: libraryKind }] })
+    setLibraryKind(null)
   }
 
   const removeSlide = (url: string) => {
@@ -220,6 +234,27 @@ export const SliderElementCard = ({
             {!isDragging && <span className="text-xs text-muted">{t.builder.sliderFormatsHint}</span>}
           </div>
 
+          <div className="flex items-center gap-1">
+            <Tooltip heading={t.builder.sliderLibraryImage} position="top" size="small">
+              <IconButton
+                icon="RiFolderImageLine"
+                variant="text"
+                size="small"
+                aria-label={t.builder.sliderLibraryImage}
+                onClick={() => setLibraryKind('image')}
+              />
+            </Tooltip>
+            <Tooltip heading={t.builder.sliderLibraryVideo} position="top" size="small">
+              <IconButton
+                icon="RiFolderVideoLine"
+                variant="text"
+                size="small"
+                aria-label={t.builder.sliderLibraryVideo}
+                onClick={() => setLibraryKind('video')}
+              />
+            </Tooltip>
+          </div>
+
           {element.slides.length > 0 && (
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
               <SortableContext items={element.slides.map((s) => s.url)} strategy={rectSortingStrategy}>
@@ -238,6 +273,16 @@ export const SliderElementCard = ({
           )}
         </div>
       </Modal>
+
+      <MediaLibraryModal
+        isOpen={libraryKind !== null}
+        onClose={() => setLibraryKind(null)}
+        kind={libraryKind ?? 'image'}
+        onSelect={addLibraryFile}
+        onUploadNew={(file) => addFiles([file])}
+        uploadAccept={libraryKind ? LIBRARY_ACCEPT[libraryKind] : undefined}
+        texts={t.builder.mediaLibrary}
+      />
     </ElementShell>
   )
 }

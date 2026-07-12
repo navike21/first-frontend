@@ -30,7 +30,9 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     busy,
     onSubmit,
     handleCancel,
-    setPendingFile,
+    onPickFile,
+    onSelectLibrary,
+    libraryUrl,
     onGenderChange,
     onGroupsChange,
     onAddressChange,
@@ -47,10 +49,13 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
       <PanelLayout
         left={
           <PhotoPicker
+            currentUrl={libraryUrl ?? undefined}
             uploadLabel={t.form.uploadPhoto}
             formatsHint={t.form.uploadFormats}
-            onChange={setPendingFile}
+            onChange={onPickFile}
             disabled={busy}
+            onSelectLibrary={onSelectLibrary}
+            libraryTexts={t.mediaLibrary}
           />
         }
         right={

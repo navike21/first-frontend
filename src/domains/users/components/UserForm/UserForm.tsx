@@ -11,11 +11,16 @@ interface UserFormProps {
   defaultValues?: Partial<User>
   isSubmitting: boolean
   onCancel: () => void
-  onCreate: (data: CreateUserFormData, avatar?: File | null) => void
+  onCreate: (
+    data: CreateUserFormData,
+    avatar?: File | null,
+    avatarLibraryUrl?: string
+  ) => void
   onUpdate: (
     data: UpdateUserFormData,
     avatar?: File | null,
-    removeAvatar?: boolean
+    removeAvatar?: boolean,
+    avatarLibraryUrl?: string
   ) => void
   submitError?: unknown
   isProfile?: boolean

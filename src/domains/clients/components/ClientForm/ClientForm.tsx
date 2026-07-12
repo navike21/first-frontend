@@ -22,6 +22,7 @@ import {
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useConfigData } from '@/shared/api/config'
+import type { StorageFile } from '@/shared/api/storage'
 import { useClientsTranslation } from '../../i18n'
 import { createClientSchema } from '../../model/client.schema'
 import type { CreateClientFormData } from '../../model/client.schema'
@@ -36,7 +37,8 @@ export interface ClientFormProps {
   onSubmit: (
     data: CreateClientFormData,
     logo?: File | null,
-    removeLogo?: boolean
+    removeLogo?: boolean,
+    logoLibraryUrl?: string
   ) => void
 }
 
@@ -108,6 +110,7 @@ export const ClientForm = ({
   )
   const [pendingLogo, setPendingLogo] = useState<File | null>(null)
   const [removeLogo, setRemoveLogo] = useState(false)
+  const [logoLibraryUrl, setLogoLibraryUrl] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<ClientFormTab>('general')
   const [maxStep, setMaxStep] = useState(0)
 
@@ -184,7 +187,7 @@ export const ClientForm = ({
           ? { primaryContact: stripEmpty(primaryContact) }
           : {}),
       } as CreateClientFormData
-      onSubmit(payload, pendingLogo, removeLogo)
+      onSubmit(payload, pendingLogo, removeLogo, logoLibraryUrl ?? undefined)
     },
     (formErrors) => setActiveTab(tabForErrors(formErrors))
   )
@@ -240,14 +243,24 @@ export const ClientForm = ({
             formatsHint={t.form.logoHint}
             onChange={(file) => {
               setPendingLogo(file)
-              if (file) setRemoveLogo(false)
+              if (file) {
+                setRemoveLogo(false)
+                setLogoLibraryUrl(null)
+              }
             }}
             disabled={isSubmitting}
-            {...(initialLogoUrl ? { currentUrl: initialLogoUrl } : {})}
+            {...(logoLibraryUrl ?? initialLogoUrl ? { currentUrl: logoLibraryUrl ?? initialLogoUrl } : {})}
             onRemove={() => {
               setPendingLogo(null)
               setRemoveLogo(true)
+              setLogoLibraryUrl(null)
             }}
+            onSelectLibrary={(file: StorageFile) => {
+              setLogoLibraryUrl(file.original.url)
+              setPendingLogo(null)
+              setRemoveLogo(false)
+            }}
+            libraryTexts={t.mediaLibrary}
           />
         }
         right={

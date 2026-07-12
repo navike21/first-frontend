@@ -94,6 +94,17 @@ export const fr: CollaboratorTranslations = {
     cancel: 'Annuler',
     optional: '(facultatif)',
   },
+  mediaLibrary: {
+    titleImage: 'Choisir une image',
+    titleVideo: 'Choisir une vidéo',
+    searchPlaceholder: 'Rechercher par nom de fichier…',
+    empty: 'Aucun fichier trouvé',
+    selectLabel: 'Sélectionner',
+    prevPage: 'Précédent',
+    nextPage: 'Suivant',
+    uploadNewLabel: 'Téléverser un nouveau',
+    uploadNewHint: 'Introuvable ? Téléversez un nouveau fichier',
+  },
   toasts: {
     created: 'Collaborateur enregistré',
     updated: 'Collaborateur mis à jour',

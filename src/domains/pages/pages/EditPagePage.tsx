@@ -42,9 +42,15 @@ export const EditPagePage = () => {
   const updatePage = useUpdatePage(pageId)
   const { data: usersData } = useUsersForPagePicker()
 
-  const handleUpdate = (data: PageFormData, cover?: File | null, removeCover?: boolean, ogImage?: File | null) => {
+  const handleUpdate = (
+    data: PageFormData,
+    cover?: File | null,
+    removeCover?: boolean,
+    ogImage?: File | null,
+    coverLibraryUrl?: string
+  ) => {
     updatePage.mutate(
-      { data: toPagePayload(data), cover, removeCover, ogImage },
+      { data: toPagePayload(data), cover, removeCover, ogImage, coverLibraryUrl },
       {
         onSuccess: () => {
           notify.success(t.toasts.updated)

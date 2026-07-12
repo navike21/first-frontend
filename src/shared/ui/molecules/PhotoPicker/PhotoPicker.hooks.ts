@@ -21,9 +21,7 @@ export function usePhotoPicker({
     setPreview(currentUrl)
   }, [currentUrl])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const handleFile = (file: File) => {
     setError(null)
     if (file.size > MAX_BYTES) {
       setError('Max 3 MB')
@@ -34,6 +32,12 @@ export function usePhotoPicker({
       return URL.createObjectURL(file)
     })
     onChange(file)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    handleFile(file)
     if (inputRef.current) inputRef.current.value = ''
   }
 
@@ -49,5 +53,5 @@ export function usePhotoPicker({
     onRemove?.()
   }
 
-  return { inputRef, preview, error, handleChange, openPicker, handleRemove }
+  return { inputRef, preview, error, handleChange, handleFile, openPicker, handleRemove }
 }

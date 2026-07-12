@@ -13,6 +13,7 @@ import {
   SectionLabel,
   type WizardStep,
 } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -42,7 +43,13 @@ export interface PageFormProps {
   isSubmitting: boolean
   submitError?: unknown
   onCancel: () => void
-  onSubmit: (data: PageFormData, cover?: File | null, removeCover?: boolean, ogImage?: File | null) => void
+  onSubmit: (
+    data: PageFormData,
+    cover?: File | null,
+    removeCover?: boolean,
+    ogImage?: File | null,
+    coverLibraryUrl?: string
+  ) => void
 }
 
 type StepId = 'general' | 'seo' | 'organization' | 'cover'
@@ -160,6 +167,7 @@ export const PageForm = ({
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
+  const [coverLibraryUrl, setCoverLibraryUrl] = useState<string | null>(null)
   const [pendingOgImage, setPendingOgImage] = useState<File | null>(null)
   const [previewsOpen, setPreviewsOpen] = useState(false)
   const [activeStep, setActiveStep] = useState<StepId>('general')
@@ -275,6 +283,7 @@ export const PageForm = ({
     ogPreviewUrl ||
     (seoOgImageValue ?? '').trim() ||
     coverPreviewUrl ||
+    coverLibraryUrl ||
     (removeCover ? '' : (initialCoverUrl ?? ''))
 
   const categoryOptions = (categoriesData ?? []).map((c) => ({
@@ -325,7 +334,7 @@ export const PageForm = ({
   }
 
   const submit = handleSubmit(
-    (data) => onSubmit(data, pendingCover, removeCover, pendingOgImage),
+    (data) => onSubmit(data, pendingCover, removeCover, pendingOgImage, coverLibraryUrl ?? undefined),
     (formErrors) => {
       for (const step of ['general', 'seo', 'organization', 'cover'] as StepId[]) {
         if (STEP_FIELDS[step].some((f) => f in formErrors)) {
@@ -498,6 +507,11 @@ export const PageForm = ({
                     setPendingOgImage(null)
                     setValue('seoOgImage', '', { shouldValidate: true, shouldDirty: true, shouldTouch: true })
                   }}
+                  onSelectLibrary={(file: StorageFile) => {
+                    setPendingOgImage(null)
+                    setValue('seoOgImage', file.original.url, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                  }}
+                  libraryTexts={t.builder.mediaLibrary}
                 />
               </div>
               <div>
@@ -565,7 +579,7 @@ export const PageForm = ({
                   {t.form.cover} <span className="text-xs font-normal normal-case tracking-normal text-muted">{t.form.optional}</span>
                 </SectionLabel>
                 <CoverPicker
-                  currentUrl={initialCoverUrl}
+                  currentUrl={coverLibraryUrl ?? initialCoverUrl}
                   uploadLabel={t.form.coverUploadLabel}
                   dragLabel={t.form.coverDragLabel}
                   dragOrLabel={t.form.coverDragOrLabel}
@@ -575,12 +589,22 @@ export const PageForm = ({
                   disabled={isSubmitting}
                   onChange={(file) => {
                     setPendingCover(file)
-                    if (file) setRemoveCover(false)
+                    if (file) {
+                      setRemoveCover(false)
+                      setCoverLibraryUrl(null)
+                    }
                   }}
                   onRemove={() => {
                     setPendingCover(null)
                     setRemoveCover(true)
+                    setCoverLibraryUrl(null)
                   }}
+                  onSelectLibrary={(file: StorageFile) => {
+                    setCoverLibraryUrl(file.original.url)
+                    setPendingCover(null)
+                    setRemoveCover(false)
+                  }}
+                  libraryTexts={t.builder.mediaLibrary}
                 />
               </div>
             </div>

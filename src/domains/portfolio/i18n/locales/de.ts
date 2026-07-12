@@ -114,6 +114,17 @@ export const de: PortfolioTranslations = {
     next: 'Weiter',
     optional: '(optional)',
   },
+  mediaLibrary: {
+    titleImage: 'Bild auswählen',
+    titleVideo: 'Video auswählen',
+    searchPlaceholder: 'Nach Dateiname suchen…',
+    empty: 'Keine Dateien gefunden',
+    selectLabel: 'Auswählen',
+    prevPage: 'Zurück',
+    nextPage: 'Weiter',
+    uploadNewLabel: 'Neu hochladen',
+    uploadNewHint: 'Nicht gefunden? Lade eine neue Datei hoch',
+  },
   toasts: {
     created: 'Projekt erstellt',
     updated: 'Projekt aktualisiert',

@@ -2,6 +2,7 @@ import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import clsx from 'clsx'
 import { IconButton, Tooltip } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type {
@@ -29,6 +30,7 @@ export interface ColumnZoneProps {
   ) => void
   onElementDelete: (elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
+  onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
 }
@@ -49,6 +51,7 @@ export const ColumnZone = ({
   onElementChange,
   onElementDelete,
   onPickFile,
+  onSelectImageLibrary,
   onPickSliderFile,
   onRemoveSliderFile,
 }: ColumnZoneProps) => {
@@ -94,6 +97,7 @@ export const ColumnZone = ({
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickFile={(file) => onPickFile(element.id, file)}
+                onSelectLibrary={(file) => onSelectImageLibrary(element.id, file)}
                 onDelete={() => onElementDelete(element.id)}
               />
             )

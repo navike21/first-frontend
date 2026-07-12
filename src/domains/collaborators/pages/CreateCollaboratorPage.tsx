@@ -14,9 +14,16 @@ export const CreateCollaboratorPage = () => {
   const { t, language } = useCollaboratorsTranslation()
   const createCollaborator = useCreateCollaborator()
 
-  const handleCreate = (data: CollaboratorFormData, photo?: File | null) => {
+  const handleCreate = (
+    data: CollaboratorFormData,
+    photo?: File | null,
+    _removePhoto?: boolean,
+    photoLibraryUrl?: string
+  ) => {
+    const base = toCollaboratorPayload(data)
+    const payload = photoLibraryUrl ? { ...base, photoUrl: photoLibraryUrl } : base
     createCollaborator.mutate(
-      { data: toCollaboratorPayload(data), photo },
+      { data: payload, photo },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

@@ -14,9 +14,18 @@ export const CreateSubscriberPage = () => {
   const { t, language } = useSubscribersTranslation()
   const registerSubscriber = useRegisterSubscriber()
 
-  const handleCreate = (data: SubscriberFormData, photo?: File | null) => {
+  const handleCreate = (
+    data: SubscriberFormData,
+    photo?: File | null,
+    _removePhoto?: boolean,
+    photoLibraryUrl?: string
+  ) => {
+    const base = toSubscriberPayload(data)
+    const payload = photoLibraryUrl
+      ? { ...base, personalInformation: { ...base.personalInformation, profilePictureUrl: photoLibraryUrl } }
+      : base
     registerSubscriber.mutate(
-      { data: toSubscriberPayload(data), photo },
+      { data: payload, photo },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

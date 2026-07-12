@@ -16,6 +16,7 @@ import {
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useConfigData } from '@/shared/api/config'
+import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { useCollaboratorsTranslation } from '../../i18n'
@@ -30,7 +31,12 @@ export interface CollaboratorFormProps {
   isSubmitting: boolean
   submitError?: unknown
   onCancel: () => void
-  onSubmit: (data: CollaboratorFormData, photo?: File | null, removePhoto?: boolean) => void
+  onSubmit: (
+    data: CollaboratorFormData,
+    photo?: File | null,
+    removePhoto?: boolean,
+    photoLibraryUrl?: string
+  ) => void
 }
 
 type LangErrors = Record<Language, { message?: string } | undefined>
@@ -100,6 +106,7 @@ export const CollaboratorForm = ({
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [removePhoto, setRemovePhoto] = useState(false)
+  const [photoLibraryUrl, setPhotoLibraryUrl] = useState<string | null>(null)
 
   const emptyLocalized = useMemo(
     () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
@@ -155,17 +162,25 @@ export const CollaboratorForm = ({
   const isLinked = !!userIdValue
   const linkedUser = (usersData ?? []).find((u) => u.id === userIdValue)
 
-  const unlinkedDisplayUrl = removePhoto || pendingFile ? undefined : currentPhotoUrl
+  const unlinkedDisplayUrl = removePhoto || pendingFile ? undefined : (photoLibraryUrl ?? currentPhotoUrl)
   const currentDisplayUrl = isLinked ? linkedUser?.profilePictureUrl || currentPhotoUrl : unlinkedDisplayUrl
 
   const handlePhotoChange = (file: File | null) => {
     setPendingFile(file)
     setRemovePhoto(false)
+    setPhotoLibraryUrl(null)
   }
 
   const handleRemovePhoto = () => {
     setPendingFile(null)
     setRemovePhoto(true)
+    setPhotoLibraryUrl(null)
+  }
+
+  const handleSelectPhotoLibrary = (file: StorageFile) => {
+    setPhotoLibraryUrl(file.original.url)
+    setPendingFile(null)
+    setRemovePhoto(false)
   }
 
   // Each system user can back at most one collaborator: users already linked
@@ -194,10 +209,16 @@ export const CollaboratorForm = ({
     })
     setPendingFile(null)
     setRemovePhoto(false)
+    setPhotoLibraryUrl(null)
   }
 
   const submit = handleSubmit((data) =>
-    onSubmit(data, isLinked ? null : pendingFile, isLinked ? false : removePhoto),
+    onSubmit(
+      data,
+      isLinked ? null : pendingFile,
+      isLinked ? false : removePhoto,
+      isLinked ? undefined : (photoLibraryUrl ?? undefined),
+    ),
   )
 
   return (
@@ -227,6 +248,8 @@ export const CollaboratorForm = ({
             onRemove={!isLinked && (currentPhotoUrl || pendingFile) ? handleRemovePhoto : undefined}
             removeLabel={t.form.removePhoto}
             disabled={isSubmitting || isLinked}
+            onSelectLibrary={handleSelectPhotoLibrary}
+            libraryTexts={t.mediaLibrary}
           />
         </div>
 

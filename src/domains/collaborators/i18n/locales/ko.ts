@@ -94,6 +94,17 @@ export const ko: CollaboratorTranslations = {
     cancel: '취소',
     optional: '(선택 사항)',
   },
+  mediaLibrary: {
+    titleImage: '이미지 선택',
+    titleVideo: '동영상 선택',
+    searchPlaceholder: '파일 이름으로 검색…',
+    empty: '파일을 찾을 수 없습니다',
+    selectLabel: '선택',
+    prevPage: '이전',
+    nextPage: '다음',
+    uploadNewLabel: '새로 업로드',
+    uploadNewHint: '찾을 수 없나요? 새 파일을 업로드하세요',
+  },
   toasts: {
     created: '협력자가 등록되었습니다',
     updated: '협력자가 업데이트되었습니다',

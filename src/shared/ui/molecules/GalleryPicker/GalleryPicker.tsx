@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useState } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -16,6 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { IconComponent } from '../../atoms/IconComponent'
+import { MediaLibraryModal } from '../MediaLibraryModal'
 import { useGalleryPicker } from './GalleryPicker.hooks'
 import type { GalleryItem, GalleryPickerProps } from './GalleryPicker.types'
 
@@ -127,6 +129,8 @@ export const GalleryPicker = ({
   maxItems = 10,
   maxBytes,
   accept = ACCEPTED,
+  onSelectLibrary,
+  libraryTexts,
 }: GalleryPickerProps) => {
   const {
     inputRef,
@@ -138,9 +142,14 @@ export const GalleryPicker = ({
     handleDragLeave,
     handleDrop,
     openPicker,
+    addFiles,
+    addLibraryFile,
     removeItem,
     handleDragEnd,
   } = useGalleryPicker({ items, onItemsChange, maxItems, maxBytes })
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
+  const libraryFirst = Boolean(onSelectLibrary && libraryTexts)
+  const openMain = libraryFirst ? () => setIsLibraryOpen(true) : openPicker
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -176,7 +185,7 @@ export const GalleryPicker = ({
                 dragLabel={dragLabel}
                 isDragging={isDragging}
                 disabled={disabled}
-                onClick={openPicker}
+                onClick={openMain}
               />
             )}
           </div>
@@ -196,6 +205,21 @@ export const GalleryPicker = ({
       {displayError && <p className="text-xs font-medium text-red-500">{displayError}</p>}
       {!displayError && (atMax ? maxItemsHint : formatsHint) && (
         <p className="text-xs text-muted">{atMax ? maxItemsHint : formatsHint}</p>
+      )}
+
+      {onSelectLibrary && libraryTexts && (
+        <MediaLibraryModal
+          isOpen={isLibraryOpen}
+          onClose={() => setIsLibraryOpen(false)}
+          kind="image"
+          onSelect={(file) => {
+            addLibraryFile(file)
+            onSelectLibrary(file)
+          }}
+          onUploadNew={(file) => addFiles([file])}
+          uploadAccept={accept}
+          texts={libraryTexts}
+        />
       )}
     </div>
   )

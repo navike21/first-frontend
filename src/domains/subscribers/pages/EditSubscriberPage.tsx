@@ -51,17 +51,16 @@ export const EditSubscriberPage = () => {
   const handleUpdate = (
     data: SubscriberFormData,
     photo?: File | null,
-    removePhoto?: boolean
+    removePhoto?: boolean,
+    photoLibraryUrl?: string
   ) => {
-    const payload = removePhoto
-      ? {
-          ...toSubscriberPayload(data),
-          personalInformation: {
-            ...toSubscriberPayload(data).personalInformation,
-            profilePictureUrl: '',
-          },
-        }
-      : toSubscriberPayload(data)
+    const base = toSubscriberPayload(data)
+    let profilePictureUrl: string | undefined
+    if (removePhoto) profilePictureUrl = ''
+    else if (photoLibraryUrl) profilePictureUrl = photoLibraryUrl
+    const payload = profilePictureUrl !== undefined
+      ? { ...base, personalInformation: { ...base.personalInformation, profilePictureUrl } }
+      : base
 
     updateSubscriber.mutate(
       { data: payload, photo },

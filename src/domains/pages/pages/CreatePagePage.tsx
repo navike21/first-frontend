@@ -14,9 +14,15 @@ export const CreatePagePage = () => {
   const { t, language } = usePagesTranslation()
   const createPage = useCreatePage()
 
-  const handleCreate = (data: PageFormData, cover?: File | null, _removeCover?: boolean, ogImage?: File | null) => {
+  const handleCreate = (
+    data: PageFormData,
+    cover?: File | null,
+    _removeCover?: boolean,
+    ogImage?: File | null,
+    coverLibraryUrl?: string
+  ) => {
     createPage.mutate(
-      { data: toPagePayload(data), cover, ogImage },
+      { data: toPagePayload(data), cover, ogImage, coverLibraryUrl },
       {
         onSuccess: () => {
           notify.success(t.toasts.created)

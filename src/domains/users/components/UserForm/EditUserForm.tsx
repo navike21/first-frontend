@@ -35,7 +35,9 @@ export const EditUserForm = (
     onSubmit,
     handleCancel,
     onPhotoChange,
+    onPhotoSelectLibrary,
     onRemovePhoto,
+    libraryUrl,
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
@@ -54,13 +56,15 @@ export const EditUserForm = (
         left={
           <>
             <PhotoPicker
-              currentUrl={props.defaultValues.profilePictureUrl}
+              currentUrl={libraryUrl ?? props.defaultValues.profilePictureUrl}
               uploadLabel={t.form.uploadPhoto}
               formatsHint={t.form.uploadFormats}
               onChange={onPhotoChange}
               onRemove={onRemovePhoto}
               removeLabel={t.form.removePhoto}
               disabled={busy}
+              onSelectLibrary={onPhotoSelectLibrary}
+              libraryTexts={t.mediaLibrary}
             />
             {!props.isProfile && (
               <div className="w-full border-t border-border pt-4">

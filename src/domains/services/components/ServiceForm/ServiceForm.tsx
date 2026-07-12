@@ -15,6 +15,7 @@ import {
   type WizardStep,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
+import type { StorageFile } from '@/shared/api/storage'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -49,7 +50,9 @@ export interface ServiceFormProps {
     cover?: File | null,
     iconFile?: File | null,
     removeCover?: boolean,
-    removeIcon?: boolean
+    removeIcon?: boolean,
+    coverLibraryUrl?: string,
+    iconLibraryUrl?: string
   ) => void
 }
 
@@ -153,8 +156,10 @@ export const ServiceForm = ({
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
+  const [coverLibraryUrl, setCoverLibraryUrl] = useState<string | null>(null)
   const [pendingIcon, setPendingIcon] = useState<File | null>(null)
   const [removeIcon, setRemoveIcon] = useState(false)
+  const [iconLibraryUrl, setIconLibraryUrl] = useState<string | null>(null)
   const [activeStep, setActiveStep] = useState<StepId>('general')
   const [maxStep, setMaxStep] = useState(0)
 
@@ -289,7 +294,15 @@ export const ServiceForm = ({
           }
         }),
       )
-      onSubmit({ ...data, description: resolvedDesc }, pendingCover, pendingIcon, removeCover, removeIcon)
+      onSubmit(
+        { ...data, description: resolvedDesc },
+        pendingCover,
+        pendingIcon,
+        removeCover,
+        removeIcon,
+        coverLibraryUrl ?? undefined,
+        iconLibraryUrl ?? undefined,
+      )
     },
     (formErrors) => {
       // Jump to the first step with an error
@@ -426,7 +439,7 @@ export const ServiceForm = ({
                 <div className="flex flex-col gap-3 lg:col-span-2">
                   <SectionLabel>{t.form.cover}</SectionLabel>
                   <CoverPicker
-                    currentUrl={initialCoverUrl}
+                    currentUrl={coverLibraryUrl ?? initialCoverUrl}
                     uploadLabel={t.form.coverUploadLabel}
                     dragLabel={t.form.coverDragLabel}
                     dragOrLabel={t.form.coverDragOrLabel}
@@ -436,12 +449,22 @@ export const ServiceForm = ({
                     disabled={isSubmitting}
                     onChange={(file) => {
                       setPendingCover(file)
-                      if (file) setRemoveCover(false)
+                      if (file) {
+                        setRemoveCover(false)
+                        setCoverLibraryUrl(null)
+                      }
                     }}
                     onRemove={() => {
                       setPendingCover(null)
                       setRemoveCover(true)
+                      setCoverLibraryUrl(null)
                     }}
+                    onSelectLibrary={(file: StorageFile) => {
+                      setCoverLibraryUrl(file.original.url)
+                      setPendingCover(null)
+                      setRemoveCover(false)
+                    }}
+                    libraryTexts={t.mediaLibrary}
                   />
                 </div>
                 <div className="flex flex-col gap-6">
@@ -449,7 +472,7 @@ export const ServiceForm = ({
                     <SectionLabel>{t.form.icon}</SectionLabel>
                     <CoverPicker
                       variant="compact"
-                      currentUrl={initialIconUrl}
+                      currentUrl={iconLibraryUrl ?? initialIconUrl}
                       uploadLabel={t.form.iconUploadLabel}
                       dragLabel={t.form.iconDragLabel}
                       dragOrLabel={t.form.iconDragOrLabel}
@@ -460,12 +483,22 @@ export const ServiceForm = ({
                       disabled={isSubmitting}
                       onChange={(file) => {
                         setPendingIcon(file)
-                        if (file) setRemoveIcon(false)
+                        if (file) {
+                          setRemoveIcon(false)
+                          setIconLibraryUrl(null)
+                        }
                       }}
                       onRemove={() => {
                         setPendingIcon(null)
                         setRemoveIcon(true)
+                        setIconLibraryUrl(null)
                       }}
+                      onSelectLibrary={(file: StorageFile) => {
+                        setIconLibraryUrl(file.original.url)
+                        setPendingIcon(null)
+                        setRemoveIcon(false)
+                      }}
+                      libraryTexts={t.mediaLibrary}
                     />
                   </div>
                   <InputNumber

@@ -35,7 +35,9 @@ export const EditServicePage = () => {
     cover?: File | null,
     iconFile?: File | null,
     removeCover?: boolean,
-    removeIcon?: boolean
+    removeIcon?: boolean,
+    coverLibraryUrl?: string,
+    iconLibraryUrl?: string
   ) => {
     updateService.mutate(
       {
@@ -44,6 +46,8 @@ export const EditServicePage = () => {
         iconFile,
         removeCover,
         removeIcon,
+        coverLibraryUrl,
+        iconLibraryUrl,
       },
       {
         onSuccess: () => {

@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import type { DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
+import type { StorageFile } from '@/shared/api/storage'
 import type { GalleryItem } from './GalleryPicker.types'
 
 const DEFAULT_MAX_BYTES = 5 * 1024 * 1024
@@ -85,6 +86,11 @@ export function useGalleryPicker({
 
   const openPicker = () => inputRef.current?.click()
 
+  const addLibraryFile = (file: StorageFile) => {
+    if (items.length >= maxItems) return
+    onItemsChange([...items, { key: file.id, kind: 'existing', url: file.original.url }])
+  }
+
   const removeItem = (key: string) => {
     const target = items.find((item) => item.key === key)
     if (target?.kind === 'new') URL.revokeObjectURL(target.url)
@@ -110,6 +116,8 @@ export function useGalleryPicker({
     handleDragLeave,
     handleDrop,
     openPicker,
+    addFiles,
+    addLibraryFile,
     removeItem,
     handleDragEnd,
   }

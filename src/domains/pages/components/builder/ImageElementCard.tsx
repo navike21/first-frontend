@@ -1,11 +1,14 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import clsx from 'clsx'
-import { Button, IconButton, InputField, Modal, Select, Tooltip } from '@/shared/ui'
+import { Button, IconButton, InputField, MediaLibraryModal, Modal, Select, Tooltip } from '@/shared/ui'
+import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderImageElement } from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
+
+const ACCEPTED = 'image/jpeg,image/png,image/webp,image/gif,image/svg+xml'
 
 export interface ImageElementCardProps {
   element: BuilderImageElement
@@ -14,6 +17,7 @@ export interface ImageElementCardProps {
   language: Language
   onChange: (patch: Partial<BuilderImageElement>) => void
   onPickFile: (file: File) => void
+  onSelectLibrary: (file: StorageFile) => void
   onDelete: () => void
 }
 
@@ -30,12 +34,13 @@ export const ImageElementCard = ({
   language,
   onChange,
   onPickFile,
+  onSelectLibrary,
   onDelete,
 }: ImageElementCardProps) => {
   const { t } = usePagesTranslation()
-  const inputRef = useRef<HTMLInputElement>(null)
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
 
   const alignOptions: { value: BuilderImageElement['align']; label: string }[] = [
     { value: 'left', label: t.builder.alignLeft },
@@ -56,18 +61,6 @@ export const ImageElementCard = ({
       onEdit={() => setOpen(true)}
       onDelete={onDelete}
     >
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0]
-          if (file) onPickFile(file)
-          e.target.value = ''
-        }}
-      />
-
       {element.url ? (
         <button
           type="button"
@@ -87,7 +80,7 @@ export const ImageElementCard = ({
       ) : (
         <button
           type="button"
-          onClick={() => inputRef.current?.click()}
+          onClick={() => setIsLibraryOpen(true)}
           className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
         >
           {t.builder.imageSelect}
@@ -128,7 +121,7 @@ export const ImageElementCard = ({
             ) : (
               <button
                 type="button"
-                onClick={() => inputRef.current?.click()}
+                onClick={() => setIsLibraryOpen(true)}
                 className="flex h-48 w-full items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
               >
                 {t.builder.imageSelect}
@@ -143,7 +136,7 @@ export const ImageElementCard = ({
                       variant="text"
                       size="small"
                       aria-label={t.builder.imageReplace}
-                      onClick={() => inputRef.current?.click()}
+                      onClick={() => setIsLibraryOpen(true)}
                     />
                   </span>
                 </Tooltip>
@@ -188,6 +181,16 @@ export const ImageElementCard = ({
           </div>
         </div>
       </Modal>
+
+      <MediaLibraryModal
+        isOpen={isLibraryOpen}
+        onClose={() => setIsLibraryOpen(false)}
+        kind="image"
+        onSelect={onSelectLibrary}
+        onUploadNew={onPickFile}
+        uploadAccept={ACCEPTED}
+        texts={t.builder.mediaLibrary}
+      />
     </ElementShell>
   )
 }

@@ -115,6 +115,17 @@ export const it: ClientsTranslations = {
     next: 'Avanti',
     optional: '(facoltativo)',
   },
+  mediaLibrary: {
+    titleImage: 'Scegli immagine',
+    titleVideo: 'Scegli video',
+    searchPlaceholder: 'Cerca per nome file…',
+    empty: 'Nessun file trovato',
+    selectLabel: 'Seleziona',
+    prevPage: 'Precedente',
+    nextPage: 'Successivo',
+    uploadNewLabel: 'Carica nuovo',
+    uploadNewHint: 'Non lo trovi? Carica un nuovo file',
+  },
   toasts: {
     created: 'Cliente creato',
     updated: 'Cliente aggiornato',

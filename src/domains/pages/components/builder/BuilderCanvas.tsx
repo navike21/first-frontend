@@ -80,6 +80,7 @@ export interface BuilderCanvasProps {
   onElementDelete: (sectionId: string, columnId: string, elementId: string) => void
   onElementMove: (elementId: string, source: ElementLocation, target: ElementLocation, overElementId: string | null) => void
   onPickFile: (elementId: string, file: File) => void
+  onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
 }
@@ -357,6 +358,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                     props.onElementDelete(section.sectionId, columnId, elementId)
                   }
                   onPickFile={props.onPickFile}
+                  onSelectImageLibrary={props.onSelectImageLibrary}
                   onPickSliderFile={props.onPickSliderFile}
                   onRemoveSliderFile={props.onRemoveSliderFile}
                 />

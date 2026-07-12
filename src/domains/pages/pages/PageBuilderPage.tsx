@@ -105,6 +105,19 @@ export const PageBuilderPage = () => {
     setPendingFiles((map) => new Map(map).set(elementId, file))
   }
 
+  // Ya tiene URL real (viene de la biblioteca): se aplica directo, sin subida
+  // diferida; limpia cualquier archivo pendiente que hubiera quedado de un
+  // pick anterior para este mismo elemento (mutuamente excluyentes).
+  const handleSelectImageLibrary = (elementId: string, file: StorageFile) => {
+    patch((sections) => replaceImageUrl(sections, elementId, file.original.url))
+    setPendingFiles((map) => {
+      if (!map.has(elementId)) return map
+      const next = new Map(map)
+      next.delete(elementId)
+      return next
+    })
+  }
+
   // A diferencia de handlePickFile, la inserción optimista de la diapositiva
   // en `slides` ya ocurre dentro de SliderElementCard (necesita controlar el
   // orden dentro de su propio array); acá solo se registra la subida
@@ -295,6 +308,7 @@ export const PageBuilderPage = () => {
           patch((s) => moveElementAcross(s, elementId, source, target, overElementId))
         }
         onPickFile={handlePickFile}
+        onSelectImageLibrary={handleSelectImageLibrary}
         onPickSliderFile={handlePickSliderFile}
         onRemoveSliderFile={handleRemoveSliderFile}
       />

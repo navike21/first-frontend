@@ -18,6 +18,7 @@ import {
   type GalleryItem,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
+import type { StorageFile } from '@/shared/api/storage'
 import { useConfigData } from '@/shared/api/config'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
@@ -81,6 +82,7 @@ export interface PortfolioFormProps {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
+    coverLibraryUrl?: string,
   ) => void
 }
 
@@ -179,14 +181,16 @@ export const PortfolioForm = ({
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
+  const [coverLibraryUrl, setCoverLibraryUrl] = useState<string | null>(null)
   const [coverTouched, setCoverTouched] = useState(false)
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => toGalleryItems(initialGalleryUrls))
   const [activeStep, setActiveStep] = useState<StepId>('general')
   const [maxStep, setMaxStep] = useState(0)
 
   // Whether a cover will actually be persisted after this submit — accounts
-  // for a newly picked file, the existing one, and an explicit removal.
-  const willHaveCover = !!pendingCover || (!!initialCoverUrl && !removeCover)
+  // for a newly picked file, a library pick, the existing one, and an
+  // explicit removal.
+  const willHaveCover = !!pendingCover || !!coverLibraryUrl || (!!initialCoverUrl && !removeCover)
   const coverMissing = coverTouched && !willHaveCover
 
   const emptyLocalized = useMemo(
@@ -367,7 +371,14 @@ export const PortfolioForm = ({
         }),
       )
       const { galleryFiles, galleryOrder } = deriveGalleryPayload(galleryItems)
-      onSubmit({ ...data, description: resolvedDesc }, pendingCover, removeCover, galleryFiles, galleryOrder)
+      onSubmit(
+        { ...data, description: resolvedDesc },
+        pendingCover,
+        removeCover,
+        galleryFiles,
+        galleryOrder,
+        coverLibraryUrl ?? undefined,
+      )
     },
     (formErrors) => {
       setCoverTouched(true)
@@ -583,7 +594,7 @@ export const PortfolioForm = ({
                     {t.form.cover} <span className="text-red-500">*</span>
                   </SectionLabel>
                   <CoverPicker
-                    currentUrl={initialCoverUrl}
+                    currentUrl={coverLibraryUrl ?? initialCoverUrl}
                     uploadLabel={t.form.coverUploadLabel}
                     dragLabel={t.form.coverDragLabel}
                     dragOrLabel={t.form.coverDragOrLabel}
@@ -593,12 +604,22 @@ export const PortfolioForm = ({
                     disabled={isSubmitting}
                     onChange={(file) => {
                       setPendingCover(file)
-                      if (file) setRemoveCover(false)
+                      if (file) {
+                        setRemoveCover(false)
+                        setCoverLibraryUrl(null)
+                      }
                     }}
                     onRemove={() => {
                       setPendingCover(null)
                       setRemoveCover(true)
+                      setCoverLibraryUrl(null)
                     }}
+                    onSelectLibrary={(file: StorageFile) => {
+                      setCoverLibraryUrl(file.original.url)
+                      setPendingCover(null)
+                      setRemoveCover(false)
+                    }}
+                    libraryTexts={t.mediaLibrary}
                   />
                 </div>
                 <div className="flex flex-col gap-6">
@@ -631,6 +652,8 @@ export const PortfolioForm = ({
                   formatsHint={t.form.galleryFormatsHint}
                   maxItemsHint={t.form.galleryMaxHint}
                   disabled={isSubmitting}
+                  onSelectLibrary={() => {}}
+                  libraryTexts={t.mediaLibrary}
                 />
               </div>
             </div>

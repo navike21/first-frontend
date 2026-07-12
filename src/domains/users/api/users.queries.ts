@@ -44,6 +44,8 @@ export const useMyProfile = () =>
 export interface CreateUserVars {
   data: CreateUserFormData
   avatar?: File | null
+  /** Already-hosted URL picked from the media library (no upload needed). */
+  avatarLibraryUrl?: string
 }
 
 export interface UpdateUserVars {
@@ -51,13 +53,15 @@ export interface UpdateUserVars {
   avatar?: File | null
   /** When true (and no new avatar), clears the existing profile photo. */
   removeAvatar?: boolean
+  /** Already-hosted URL picked from the media library (no upload needed). */
+  avatarLibraryUrl?: string
 }
 
 export const useCreateUser = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar }: CreateUserVars) =>
-      usersApi.create(data, avatar),
+    mutationFn: ({ data, avatar, avatarLibraryUrl }: CreateUserVars) =>
+      usersApi.create(data, avatar, avatarLibraryUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: userKeys.lists() }),
   })
 }
@@ -65,8 +69,8 @@ export const useCreateUser = () => {
 export const useUpdateUser = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar, removeAvatar }: UpdateUserVars) =>
-      usersApi.update(id, data, avatar, removeAvatar),
+    mutationFn: ({ data, avatar, removeAvatar, avatarLibraryUrl }: UpdateUserVars) =>
+      usersApi.update(id, data, avatar, removeAvatar, avatarLibraryUrl),
     onSuccess: (res) => {
       const updated = res.data
 
@@ -106,8 +110,8 @@ export const useUpdateUser = (id: string) => {
 export const useUpdateProfile = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar, removeAvatar }: UpdateUserVars) =>
-      usersApi.updateProfile(data, avatar, removeAvatar),
+    mutationFn: ({ data, avatar, removeAvatar, avatarLibraryUrl }: UpdateUserVars) =>
+      usersApi.updateProfile(data, avatar, removeAvatar, avatarLibraryUrl),
     onSuccess: (res) => {
       const updated = res.data
       const id = updated.id

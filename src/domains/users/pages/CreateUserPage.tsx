@@ -12,9 +12,13 @@ export const CreateUserPage = () => {
   const { t, language } = useUsersTranslation()
   const createUser = useCreateUser()
 
-  const handleCreate = (data: CreateUserFormData, avatar?: File | null) => {
+  const handleCreate = (
+    data: CreateUserFormData,
+    avatar?: File | null,
+    avatarLibraryUrl?: string
+  ) => {
     createUser.mutate(
-      { data, avatar },
+      { data, avatar, avatarLibraryUrl },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.created)

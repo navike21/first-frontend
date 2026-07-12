@@ -130,6 +130,17 @@ export const en: UsersTranslations = {
     statusActive: 'Active',
     statusInactive: 'Inactive',
   },
+  mediaLibrary: {
+    titleImage: 'Choose image',
+    titleVideo: 'Choose video',
+    searchPlaceholder: 'Search by file name…',
+    empty: 'No files found',
+    selectLabel: 'Select',
+    prevPage: 'Previous',
+    nextPage: 'Next',
+    uploadNewLabel: 'Upload new',
+    uploadNewHint: 'Can\'t find it? Upload a new file',
+  },
   toasts: {
     bulkDeactivated: 'Users deleted',
     bulkRestored: 'Users restored',

@@ -112,6 +112,17 @@ export const fr: ServicesTranslations = {
     next: 'Suivant',
     optional: '(facultatif)',
   },
+  mediaLibrary: {
+    titleImage: 'Choisir une image',
+    titleVideo: 'Choisir une vidéo',
+    searchPlaceholder: 'Rechercher par nom de fichier…',
+    empty: 'Aucun fichier trouvé',
+    selectLabel: 'Sélectionner',
+    prevPage: 'Précédent',
+    nextPage: 'Suivant',
+    uploadNewLabel: 'Téléverser un nouveau',
+    uploadNewHint: 'Introuvable ? Téléversez un nouveau fichier',
+  },
   toasts: {
     created: 'Service créé',
     updated: 'Service mis à jour',

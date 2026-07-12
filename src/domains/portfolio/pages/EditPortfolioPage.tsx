@@ -49,9 +49,10 @@ export const EditPortfolioPage = () => {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
+    coverLibraryUrl?: string,
   ) => {
     updatePortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover, removeCover, galleryFiles, galleryOrder },
+      { data: toPortfolioPayload(data, language), cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl },
       {
         onSuccess: () => {
           notify.success(t.toasts.updated)

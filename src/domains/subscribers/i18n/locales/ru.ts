@@ -100,6 +100,17 @@ export const ru: SubscribersTranslations = {
     next: 'Далее',
     optional: '(необязательно)',
   },
+  mediaLibrary: {
+    titleImage: 'Выбрать изображение',
+    titleVideo: 'Выбрать видео',
+    searchPlaceholder: 'Поиск по имени файла…',
+    empty: 'Файлы не найдены',
+    selectLabel: 'Выбрать',
+    prevPage: 'Назад',
+    nextPage: 'Далее',
+    uploadNewLabel: 'Загрузить новый',
+    uploadNewHint: 'Не нашли? Загрузите новый файл',
+  },
   toasts: {
     created: 'Подписчик зарегистрирован',
     updated: 'Подписчик обновлён',

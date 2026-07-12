@@ -94,6 +94,17 @@ export const ja: CollaboratorTranslations = {
     cancel: 'キャンセル',
     optional: '（任意）',
   },
+  mediaLibrary: {
+    titleImage: '画像を選択',
+    titleVideo: '動画を選択',
+    searchPlaceholder: 'ファイル名で検索…',
+    empty: 'ファイルが見つかりません',
+    selectLabel: '選択',
+    prevPage: '前へ',
+    nextPage: '次へ',
+    uploadNewLabel: '新規アップロード',
+    uploadNewHint: '見つかりませんか？新しいファイルをアップロード',
+  },
   toasts: {
     created: 'コラボレーターを登録しました',
     updated: 'コラボレーターを更新しました',

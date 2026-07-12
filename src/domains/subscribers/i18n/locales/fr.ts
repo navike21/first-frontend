@@ -100,6 +100,17 @@ export const fr: SubscribersTranslations = {
     next: 'Suivant',
     optional: '(facultatif)',
   },
+  mediaLibrary: {
+    titleImage: 'Choisir une image',
+    titleVideo: 'Choisir une vidéo',
+    searchPlaceholder: 'Rechercher par nom de fichier…',
+    empty: 'Aucun fichier trouvé',
+    selectLabel: 'Sélectionner',
+    prevPage: 'Précédent',
+    nextPage: 'Suivant',
+    uploadNewLabel: 'Téléverser un nouveau',
+    uploadNewHint: 'Introuvable ? Téléversez un nouveau fichier',
+  },
   toasts: {
     created: 'Abonné enregistré',
     updated: 'Abonné mis à jour',

@@ -43,6 +43,7 @@ export interface SectionCardProps {
   ) => void
   onElementDelete: (columnId: string, elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
+  onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
 }
@@ -66,6 +67,7 @@ export const SectionCard = ({
   onElementChange,
   onElementDelete,
   onPickFile,
+  onSelectImageLibrary,
   onPickSliderFile,
   onRemoveSliderFile,
 }: SectionCardProps) => {
@@ -186,6 +188,7 @@ export const SectionCard = ({
               onElementChange={(elementId, patch) => onElementChange(column.id, elementId, patch)}
               onElementDelete={(elementId) => onElementDelete(column.id, elementId)}
               onPickFile={onPickFile}
+              onSelectImageLibrary={onSelectImageLibrary}
               onPickSliderFile={onPickSliderFile}
               onRemoveSliderFile={onRemoveSliderFile}
             />

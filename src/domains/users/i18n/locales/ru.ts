@@ -129,6 +129,17 @@ export const ru: UsersTranslations = {
     statusActive: 'Активные',
     statusInactive: 'Неактивные',
   },
+  mediaLibrary: {
+    titleImage: 'Выбрать изображение',
+    titleVideo: 'Выбрать видео',
+    searchPlaceholder: 'Поиск по имени файла…',
+    empty: 'Файлы не найдены',
+    selectLabel: 'Выбрать',
+    prevPage: 'Назад',
+    nextPage: 'Далее',
+    uploadNewLabel: 'Загрузить новый',
+    uploadNewHint: 'Не нашли? Загрузите новый файл',
+  },
   toasts: {
     bulkDeactivated: 'Пользователи удалены',
     bulkRestored: 'Пользователи восстановлены',

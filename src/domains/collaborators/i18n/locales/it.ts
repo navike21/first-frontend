@@ -94,6 +94,17 @@ export const it: CollaboratorTranslations = {
     cancel: 'Annulla',
     optional: '(facoltativo)',
   },
+  mediaLibrary: {
+    titleImage: 'Scegli immagine',
+    titleVideo: 'Scegli video',
+    searchPlaceholder: 'Cerca per nome file…',
+    empty: 'Nessun file trovato',
+    selectLabel: 'Seleziona',
+    prevPage: 'Precedente',
+    nextPage: 'Successivo',
+    uploadNewLabel: 'Carica nuovo',
+    uploadNewHint: 'Non lo trovi? Carica un nuovo file',
+  },
   toasts: {
     created: 'Collaboratore registrato',
     updated: 'Collaboratore aggiornato',

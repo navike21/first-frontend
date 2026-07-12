@@ -1,6 +1,7 @@
 import clsx from 'clsx'
-import type { KeyboardEvent } from 'react'
+import { useState, type KeyboardEvent } from 'react'
 import { IconComponent } from '../../atoms/IconComponent'
+import { MediaLibraryModal } from '../MediaLibraryModal'
 import { useCoverPicker } from './CoverPicker.hooks'
 import type { CoverPickerProps } from './CoverPicker.types'
 
@@ -151,6 +152,40 @@ function makeKeyHandler(fn: () => void) {
   }
 }
 
+interface DropzoneClassNameArgs {
+  isCompact: boolean
+  isDragging: boolean
+  hasError: boolean
+  disabled?: boolean
+  isInteractive: boolean
+}
+
+// Extracted to keep the component's own cognitive complexity under the
+// sonar limit — this is pure class computation, no behavior.
+function dropzoneClassName({ isCompact, isDragging, hasError, disabled, isInteractive }: DropzoneClassNameArgs) {
+  return clsx(
+    // Layout
+    'relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl',
+    isCompact ? 'min-h-24 gap-2 p-3' : 'min-h-44 gap-3 p-6',
+    // Visual
+    'border-2 border-dashed transition-colors',
+    // States
+    isDragging && 'border-primary-600 bg-primary-700/5',
+    hasError && !isDragging && 'border-red-500 bg-red-50/40 dark:bg-red-900/10',
+    !isDragging && !hasError && 'border-border bg-surface-subtle',
+    disabled && 'cursor-not-allowed opacity-50',
+    isInteractive && !hasError && 'cursor-pointer hover:border-primary-600/60 hover:bg-primary-700/5',
+    isInteractive && hasError && 'cursor-pointer hover:border-red-600/60',
+  )
+}
+
+// Only an interactive (empty, enabled) dropzone gets click/keyboard/role
+// semantics — extracted so the component itself doesn't carry these branches.
+function dropzoneInteractionProps(isInteractive: boolean, onOpen: () => void) {
+  if (!isInteractive) return {}
+  return { onClick: onOpen, role: 'button' as const, tabIndex: 0, onKeyDown: makeKeyHandler(onOpen) }
+}
+
 // ─── Public component ─────────────────────────────────────────────────────────
 
 export const CoverPicker = ({
@@ -168,6 +203,8 @@ export const CoverPicker = ({
   maxBytes,
   accept = ACCEPTED,
   variant = 'default',
+  onSelectLibrary,
+  libraryTexts,
 }: CoverPickerProps) => {
   const {
     inputRef,
@@ -175,12 +212,17 @@ export const CoverPicker = ({
     error,
     isDragging,
     handleChange,
+    handleFile,
     handleDragOver,
     handleDragLeave,
     handleDrop,
     openPicker,
     handleRemove,
   } = useCoverPicker({ currentUrl, onChange, onRemove, maxBytes })
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false)
+
+  const libraryFirst = Boolean(onSelectLibrary && libraryTexts)
+  const openMain = libraryFirst ? () => setIsLibraryOpen(true) : openPicker
 
   const isCompact = variant === 'compact'
   const isInteractive = !preview && !disabled
@@ -195,24 +237,8 @@ export const CoverPicker = ({
     <div className="flex flex-col gap-2">
       <div
         {...dragHandlers}
-        className={clsx(
-          // Layout
-          'relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl',
-          isCompact ? 'min-h-24 gap-2 p-3' : 'min-h-44 gap-3 p-6',
-          // Visual
-          'border-2 border-dashed transition-colors',
-          // States
-          isDragging && 'border-primary-600 bg-primary-700/5',
-          hasError && !isDragging && 'border-red-500 bg-red-50/40 dark:bg-red-900/10',
-          !isDragging && !hasError && 'border-border bg-surface-subtle',
-          disabled && 'cursor-not-allowed opacity-50',
-          isInteractive && !hasError && 'cursor-pointer hover:border-primary-600/60 hover:bg-primary-700/5',
-          isInteractive && hasError && 'cursor-pointer hover:border-red-600/60',
-        )}
-        onClick={isInteractive ? openPicker : undefined}
-        role={isInteractive ? 'button' : undefined}
-        tabIndex={isInteractive ? 0 : undefined}
-        onKeyDown={isInteractive ? makeKeyHandler(openPicker) : undefined}
+        {...dropzoneInteractionProps(isInteractive, openMain)}
+        className={dropzoneClassName({ isCompact, isDragging, hasError, disabled, isInteractive })}
         aria-label={uploadLabel}
       >
         {preview ? (
@@ -223,7 +249,7 @@ export const CoverPicker = ({
             removeLabel={removeLabel}
             disabled={disabled}
             onRemove={onRemove}
-            openPicker={openPicker}
+            openPicker={openMain}
             handleRemove={handleRemove}
           />
         ) : (
@@ -236,7 +262,7 @@ export const CoverPicker = ({
             dragOrLabel={dragOrLabel}
             browseLabel={browseLabel}
             displayError={displayError}
-            openPicker={openPicker}
+            openPicker={openMain}
           />
         )}
       </div>
@@ -252,6 +278,18 @@ export const CoverPicker = ({
 
       {formatsHint && !displayError && (
         <p className="text-xs text-muted">{formatsHint}</p>
+      )}
+
+      {onSelectLibrary && libraryTexts && (
+        <MediaLibraryModal
+          isOpen={isLibraryOpen}
+          onClose={() => setIsLibraryOpen(false)}
+          kind="image"
+          onSelect={onSelectLibrary}
+          onUploadNew={handleFile}
+          uploadAccept={accept}
+          texts={libraryTexts}
+        />
       )}
     </div>
   )

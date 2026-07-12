@@ -103,6 +103,17 @@ export const es: SubscribersTranslations = {
     next: 'Siguiente',
     optional: '(opcional)',
   },
+  mediaLibrary: {
+    titleImage: 'Elegir imagen',
+    titleVideo: 'Elegir video',
+    searchPlaceholder: 'Buscar por nombre de archivo…',
+    empty: 'No se encontraron archivos',
+    selectLabel: 'Seleccionar',
+    prevPage: 'Anterior',
+    nextPage: 'Siguiente',
+    uploadNewLabel: 'Subir nueva',
+    uploadNewHint: '¿No la encuentras? Sube un archivo nuevo',
+  },
   toasts: {
     created: 'Suscriptor registrado',
     updated: 'Suscriptor actualizado',

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MediaLibraryModal, Select } from '@/shared/ui'
+import { Select } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
@@ -36,7 +36,6 @@ const defaultVideo = (): BackgroundVideo => ({ type: 'video', sourceKind: 'uploa
 export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickLibraryFile }: SectionBackgroundTabProps) => {
   const { t } = usePagesTranslation()
   const [breakpoint, setBreakpoint] = useState<BackgroundBreakpoint>('desktop')
-  const [libraryFor, setLibraryFor] = useState<{ slot: BackgroundFileSlot; kind: 'image' | 'video' } | null>(null)
 
   const config: BackgroundConfig = background[breakpoint] ?? { type: 'none' }
 
@@ -80,7 +79,7 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
           config={config}
           onChange={(patch) => onChange(breakpoint, { ...config, ...patch })}
           onPickFile={(file) => onPickFile(breakpoint, 'image', file)}
-          onOpenLibrary={() => setLibraryFor({ slot: 'image', kind: 'image' })}
+          onSelectLibrary={(file) => onPickLibraryFile(breakpoint, 'image', file)}
         />
       )}
 
@@ -89,25 +88,7 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
           config={config}
           onChange={(patch) => onChange(breakpoint, { ...config, ...patch })}
           onPickFile={(slot, file) => onPickFile(breakpoint, slot, file)}
-          onOpenLibrary={(slot) => setLibraryFor({ slot, kind: 'video' })}
-        />
-      )}
-
-      {libraryFor && (
-        <MediaLibraryModal
-          isOpen
-          onClose={() => setLibraryFor(null)}
-          kind={libraryFor.kind}
-          onSelect={(file) => onPickLibraryFile(breakpoint, libraryFor.slot, file)}
-          texts={{
-            titleImage: t.builder.mediaLibrary.titleImage,
-            titleVideo: t.builder.mediaLibrary.titleVideo,
-            searchPlaceholder: t.builder.mediaLibrary.searchPlaceholder,
-            empty: t.builder.mediaLibrary.empty,
-            selectLabel: t.builder.mediaLibrary.selectLabel,
-            prevPage: t.builder.mediaLibrary.prevPage,
-            nextPage: t.builder.mediaLibrary.nextPage,
-          }}
+          onSelectLibrary={(slot, file) => onPickLibraryFile(breakpoint, slot, file)}
         />
       )}
     </div>

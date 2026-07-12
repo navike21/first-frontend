@@ -1,3 +1,6 @@
+import type { StorageFile } from '@/shared/api/storage'
+import type { MediaLibraryModalTexts } from '../MediaLibraryModal/MediaLibraryModal.types'
+
 export interface CoverPickerProps {
   currentUrl?: string
   uploadLabel?: string
@@ -18,4 +21,10 @@ export interface CoverPickerProps {
   accept?: string
   /** 'compact' reduces the height and padding for small icon pickers. Default: 'default'. */
   variant?: 'default' | 'compact'
+  /** Library-first UX: when passed, the main click (and "change") opens the
+   * media library first, with upload-a-new-file as the fallback inside that
+   * same modal — instead of opening the native file picker directly. */
+  onSelectLibrary?: (file: StorageFile) => void
+  /** Required alongside `onSelectLibrary` — texts for the library modal. */
+  libraryTexts?: MediaLibraryModalTexts
 }

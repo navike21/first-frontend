@@ -26,7 +26,8 @@ export interface UseEditUserFormProps {
   onUpdate: (
     data: UpdateUserFormData,
     avatar?: File | null,
-    removeAvatar?: boolean
+    removeAvatar?: boolean,
+    avatarLibraryUrl?: string
   ) => void
   /** Backend error from the submit mutation — mapped to inline field errors. */
   submitError?: unknown
@@ -46,18 +47,24 @@ export function useEditUserForm({
     () => createUpdateUserFormSchema(t.validation),
     [t.validation]
   )
-  const { pendingFile, setPendingFile } = usePhotoUpload()
+  const { pendingFile, libraryUrl, setLibraryUrl, onPickFile, onSelectLibrary } = usePhotoUpload()
   const [removeAvatar, setRemoveAvatar] = useState(false)
   const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
 
-  // Picking a new photo cancels a pending removal; the remove button clears any
-  // pending file and flags the avatar for deletion on submit.
+  // Picking a new photo (upload or library) cancels a pending removal; the
+  // remove button clears any pending file/library pick and flags the avatar
+  // for deletion on submit.
   const onPhotoChange = (file: File | null) => {
-    setPendingFile(file)
+    onPickFile(file)
     if (file) setRemoveAvatar(false)
   }
+  const onPhotoSelectLibrary: typeof onSelectLibrary = (file) => {
+    onSelectLibrary(file)
+    setRemoveAvatar(false)
+  }
   const onRemovePhoto = () => {
-    setPendingFile(null)
+    onPickFile(null)
+    setLibraryUrl(null)
     setRemoveAvatar(true)
   }
 
@@ -127,7 +134,7 @@ export function useEditUserForm({
       const payload = (
         password ? { ...rest, password } : rest
       ) as UpdateUserFormData
-      onUpdate(payload, pendingFile, removeAvatar)
+      onUpdate(payload, pendingFile, removeAvatar, libraryUrl ?? undefined)
     },
     // On invalid submit, reveal the tab that holds the first error.
     (formErrors) => setActiveTab(tabForErrors(formErrors))
@@ -205,7 +212,9 @@ export function useEditUserForm({
     onSubmit,
     handleCancel,
     onPhotoChange,
+    onPhotoSelectLibrary,
     onRemovePhoto,
+    libraryUrl,
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
