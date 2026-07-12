@@ -49,7 +49,7 @@ export const MediaLibraryModal = ({
     return () => clearTimeout(timer)
   }, [searchInput])
 
-  const { data, isLoading } = useStorageFiles({ kind, search: search || undefined, page, limit: PAGE_SIZE })
+  const { data, isLoading, isFetching } = useStorageFiles({ kind, search: search || undefined, page, limit: PAGE_SIZE })
   const items = data?.items ?? []
   const meta = data?.meta
 
@@ -101,6 +101,7 @@ export const MediaLibraryModal = ({
           items={items}
           getItemKey={(file) => file.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon={kind === 'video' ? 'RiVideoLine' : 'RiImage2Line'}
           emptyLabel={texts.empty}
           pagination={

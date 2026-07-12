@@ -30,6 +30,7 @@ export const MediaPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,
@@ -111,6 +112,7 @@ export const MediaPage = () => {
           items={items}
           getItemKey={(file) => file.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiImage2Line"
           emptyLabel={t.grid.empty}
           totalLabel={t.grid.totalCount(total)}

@@ -19,7 +19,7 @@ export function useMediaPage() {
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
   const [uploadOpen, setUploadOpen] = useState(false)
 
-  const { data, isLoading } = useStorageFiles(params)
+  const { data, isLoading, isFetching } = useStorageFiles(params)
   const softDelete = useSoftDeleteStorageFiles()
 
   useEffect(() => {
@@ -96,6 +96,7 @@ export function useMediaPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,

@@ -22,7 +22,7 @@ export function useMediaTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useStorageTrash(params)
+  const { data, isLoading, isFetching } = useStorageTrash(params)
   const restore = useRestoreStorageFile()
   const purge = usePurgeStorageFiles()
   const bulkRestore = useBulkRestoreStorageFiles()
@@ -119,6 +119,7 @@ export function useMediaTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

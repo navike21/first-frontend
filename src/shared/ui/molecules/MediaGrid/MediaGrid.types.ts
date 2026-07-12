@@ -16,7 +16,15 @@ export interface MediaGridProps<T> {
   getItemKey: (item: T) => string
   /** Renders the card content for a given item (thumbnail, name, actions…). */
   renderItem: (item: T) => ReactNode
+  /** True only while there's no data at all yet (first load) — shows the centered spinner. */
   isLoading?: boolean
+  /**
+   * True while a request is in flight, including page/filter changes after
+   * data already loaded once. Renders skeleton tiles over the (possibly
+   * stale, kept-around) `items` so a slow page change doesn't look "stuck"
+   * on the previous page before suddenly swapping.
+   */
+  isFetching?: boolean
   /** Icon shown in the empty state. */
   emptyIcon: IconName
   /** Label shown in the empty state. */

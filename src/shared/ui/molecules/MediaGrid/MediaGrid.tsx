@@ -1,9 +1,51 @@
 import clsx from 'clsx'
 import { IconButton } from '../../atoms/IconButton'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
+import { Skeleton } from '../../atoms/Skeleton'
 import { Spinner } from '../../atoms/Spinner'
 import { Checkbox } from '../Checkbox'
-import type { MediaGridProps } from './MediaGrid.types'
+import type { MediaGridPagination, MediaGridProps } from './MediaGrid.types'
+
+const FALLBACK_SKELETON_COUNT = 8
+
+interface PaginationFooterProps {
+  totalLabel?: string
+  pagination?: MediaGridPagination
+  /** Disables prev/next while a page change is already in flight. */
+  disabled?: boolean
+}
+
+const PaginationFooter = ({ totalLabel, pagination, disabled }: PaginationFooterProps) => {
+  if (!totalLabel && !pagination) return null
+  return (
+    <div className="flex items-center justify-between text-sm text-secondary">
+      <span>{totalLabel}</span>
+      {pagination && pagination.pages > 1 && (
+        <div className="flex items-center gap-1">
+          <IconButton
+            icon="RiArrowLeftSLine"
+            variant="text"
+            size="small"
+            aria-label={pagination.prevLabel}
+            disabled={disabled || pagination.page <= 1}
+            onClick={() => pagination.onPageChange(pagination.page - 1)}
+          />
+          <span className="px-2 font-medium text-foreground">
+            {pagination.page} / {pagination.pages}
+          </span>
+          <IconButton
+            icon="RiArrowRightSLine"
+            variant="text"
+            size="small"
+            aria-label={pagination.nextLabel}
+            disabled={disabled || pagination.page >= pagination.pages}
+            onClick={() => pagination.onPageChange(pagination.page + 1)}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
 
 /**
  * Domain-agnostic thumbnail grid: pass `items` + `renderItem`. Same shape as
@@ -16,6 +58,7 @@ export const MediaGrid = <T,>({
   getItemKey,
   renderItem,
   isLoading = false,
+  isFetching = false,
   emptyIcon,
   emptyLabel,
   totalLabel,
@@ -31,6 +74,23 @@ export const MediaGrid = <T,>({
     return (
       <div className="flex items-center justify-center py-20">
         <Spinner size="medium" />
+      </div>
+    )
+  }
+
+  // A page/filter change re-fetches while `items` still holds the previous
+  // page (kept around so the grid doesn't flash empty) — without this, the
+  // old page just sits there and then suddenly swaps once the new page
+  // lands. Skeletons make the in-between wait visible instead of looking stuck.
+  if (isFetching) {
+    return (
+      <div className={clsx('flex flex-col gap-4', className)}>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          {Array.from({ length: items.length || FALLBACK_SKELETON_COUNT }, (_, i) => (
+            <Skeleton key={i} variant="rect" className="aspect-square w-full" />
+          ))}
+        </div>
+        <PaginationFooter totalLabel={totalLabel} pagination={pagination} disabled />
       </div>
     )
   }
@@ -67,8 +127,6 @@ export const MediaGrid = <T,>({
     }
   }
 
-  const showFooter = Boolean(totalLabel) || Boolean(pagination)
-
   return (
     <div className={clsx('flex flex-col gap-4', className)}>
       {selectable && (
@@ -104,34 +162,7 @@ export const MediaGrid = <T,>({
         })}
       </div>
 
-      {showFooter && (
-        <div className="flex items-center justify-between text-sm text-secondary">
-          <span>{totalLabel}</span>
-          {pagination && pagination.pages > 1 && (
-            <div className="flex items-center gap-1">
-              <IconButton
-                icon="RiArrowLeftSLine"
-                variant="text"
-                size="small"
-                aria-label={pagination.prevLabel}
-                disabled={pagination.page <= 1}
-                onClick={() => pagination.onPageChange(pagination.page - 1)}
-              />
-              <span className="px-2 font-medium text-foreground">
-                {pagination.page} / {pagination.pages}
-              </span>
-              <IconButton
-                icon="RiArrowRightSLine"
-                variant="text"
-                size="small"
-                aria-label={pagination.nextLabel}
-                disabled={pagination.page >= pagination.pages}
-                onClick={() => pagination.onPageChange(pagination.page + 1)}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      <PaginationFooter totalLabel={totalLabel} pagination={pagination} />
     </div>
   )
 }

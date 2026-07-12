@@ -29,6 +29,7 @@ export const MediaTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -105,6 +106,7 @@ export const MediaTrashPage = () => {
           items={items}
           getItemKey={(file) => file.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.grid.totalCount(total)}
