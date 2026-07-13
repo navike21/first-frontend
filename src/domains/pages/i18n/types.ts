@@ -207,6 +207,10 @@ export interface PageTranslations {
       addSelectedLabel: string
       selectAllLabel: string
       selectItemLabel: string
+      previewLabel: string
+      closePreviewLabel: string
+      addToSelectionLabel: string
+      removeFromSelectionLabel: string
     }
     addText: string
     addImage: string

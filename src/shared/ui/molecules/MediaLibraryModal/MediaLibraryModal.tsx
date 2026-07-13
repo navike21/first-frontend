@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { useStorageFiles } from '@/shared/api/storage.queries'
 import type { StorageFile } from '@/shared/api/storage'
 import { Button } from '../../atoms/Button'
+import { IconButton } from '../../atoms/IconButton'
 import { IconComponent } from '../../atoms/IconComponent'
 import { MediaThumbnail } from '../../atoms/MediaThumbnail'
 import { InputField } from '../InputField'
@@ -34,6 +35,9 @@ export const MediaLibraryModal = ({
   // Selected files accumulate across pages/searches (keyed by id) so confirming
   // a multi-page selection doesn't lose files no longer in the current `items`.
   const [selectedFiles, setSelectedFiles] = useState<Map<string, StorageFile>>(new Map())
+  // Video-only: an in-place preview overlay (inside this same modal, not a
+  // stacked one) so picking a video doesn't mean guessing from a thumbnail.
+  const [previewFile, setPreviewFile] = useState<StorageFile | null>(null)
   const uploadInputRef = useRef<HTMLInputElement>(null)
 
   // Reset when transitioning closed→open (not via an effect: adjusting state
@@ -48,6 +52,7 @@ export const MediaLibraryModal = ({
       setPage(1)
       setSelectedIds([])
       setSelectedFiles(new Map())
+      setPreviewFile(null)
     }
   }
 
@@ -98,6 +103,20 @@ export const MediaLibraryModal = ({
     onClose()
   }
 
+  const isPreviewSelected = previewFile ? selectedIds.includes(previewFile.id) : false
+  let previewActionLabel: string | undefined = texts.selectLabel
+  if (multiple) previewActionLabel = isPreviewSelected ? texts.removeFromSelectionLabel : texts.addToSelectionLabel
+
+  const handlePreviewAction = () => {
+    if (!previewFile) return
+    if (multiple) {
+      toggleSelected(previewFile)
+      setPreviewFile(null)
+    } else {
+      handleSelect(previewFile)
+    }
+  }
+
   const handleUploadNew = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     e.target.value = ''
@@ -120,7 +139,7 @@ export const MediaLibraryModal = ({
         ) : undefined
       }
     >
-      <div className="flex flex-col gap-4">
+      <div className="relative flex flex-col gap-4">
         <InputField
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
@@ -167,13 +186,20 @@ export const MediaLibraryModal = ({
           selectAllLabel={texts.selectAllLabel}
           selectItemLabel={texts.selectItemLabel}
           renderItem={(file) => (
-            <button
-              type="button"
+            <div
+              role="button"
+              tabIndex={0}
               onClick={() => (multiple ? toggleSelected(file) : handleSelect(file))}
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return
+                e.preventDefault()
+                if (multiple) toggleSelected(file)
+                else handleSelect(file)
+              }}
               aria-label={`${texts.selectLabel}: ${file.originalName}`}
-              className="group flex w-full flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
+              className="group flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
             >
-              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+              <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
                 <MediaThumbnail
                   src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
                   kind={file.isImage ? 'image' : 'video'}
@@ -182,11 +208,65 @@ export const MediaLibraryModal = ({
                   alt={file.originalName}
                   className="h-full w-full object-cover"
                 />
+                {!file.isImage && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setPreviewFile(file)
+                    }}
+                    aria-label={`${texts.previewLabel}: ${file.originalName}`}
+                    className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-opacity group-hover:bg-black/30 group-hover:opacity-100 focus-visible:opacity-100"
+                  >
+                    <IconComponent icon="RiPlayCircleLine" className="h-8 w-8 drop-shadow" />
+                  </button>
+                )}
               </div>
               <span className="truncate text-[11px] text-muted">{file.originalName}</span>
-            </button>
+            </div>
           )}
         />
+
+        {previewFile && (
+          <div
+            role="presentation"
+            onClick={() => setPreviewFile(null)}
+            // `inset-x-0 top-0` (no `bottom`) instead of `inset-0`: this box's
+            // sibling (the grid) can be shorter than the video+button content
+            // below, and `inset-0` would size to that shorter box, leaving
+            // the confirm button to overflow past it and render underneath
+            // the modal's fixed footer — unclickable (confirmed live).
+            // Height auto-sizing to content keeps it properly in the
+            // scrollable flow instead.
+            className="absolute inset-x-0 top-0 z-10 flex min-h-full flex-col items-center justify-center gap-3 rounded-lg bg-surface/95 p-4 backdrop-blur-sm"
+          >
+            <div
+              role="presentation"
+              onClick={(e) => e.stopPropagation()}
+              className="flex w-full max-w-full flex-col items-center gap-3"
+            >
+              <div className="flex w-full items-center justify-between gap-2">
+                <span className="truncate text-sm font-medium text-foreground">{previewFile.originalName}</span>
+                <IconButton
+                  icon="RiCloseLine"
+                  variant="text"
+                  size="small"
+                  aria-label={texts.closePreviewLabel}
+                  onClick={() => setPreviewFile(null)}
+                />
+              </div>
+              <video
+                src={previewFile.original.url}
+                controls
+                autoPlay
+                className="max-h-[50vh] w-full rounded-md bg-black object-contain"
+              />
+              <Button variant="primary" onClick={handlePreviewAction}>
+                {previewActionLabel}
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </Modal>
   )

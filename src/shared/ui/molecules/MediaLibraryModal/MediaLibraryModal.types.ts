@@ -18,6 +18,14 @@ export interface MediaLibraryModalTexts {
   selectAllLabel?: string
   /** Per-item checkbox accessible label — `multiple` mode only. */
   selectItemLabel?: string
+  /** Accessible label for the hover "preview" trigger on video tiles. */
+  previewLabel?: string
+  /** Accessible label for the in-place video preview's close button. */
+  closePreviewLabel?: string
+  /** Preview overlay's action button label — `multiple` mode, item not yet selected. */
+  addToSelectionLabel?: string
+  /** Preview overlay's action button label — `multiple` mode, item already selected. */
+  removeFromSelectionLabel?: string
 }
 
 export interface MediaLibraryModalProps {
