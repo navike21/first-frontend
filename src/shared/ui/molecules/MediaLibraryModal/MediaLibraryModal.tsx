@@ -262,7 +262,14 @@ export const MediaLibraryModal = ({
                             setPreviewFile(file)
                           }}
                           aria-label={`${texts.previewLabel}: ${file.originalName}`}
-                          className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-opacity group-hover:bg-black/30 group-hover:opacity-100 focus-visible:opacity-100"
+                          // Mobile-first: touch devices can't trigger :hover,
+                          // so the trigger stays visible by default (a subtle
+                          // permanent tint) — the fade-in-on-hover treatment
+                          // only kicks in from `sm:` up, where a real pointer
+                          // is likely (confirmed live: at mobile width the
+                          // icon was fully invisible — opacity:0 with no
+                          // hover to ever reveal it — before this fix).
+                          className="absolute inset-0 flex items-center justify-center bg-black/20 text-white transition-opacity sm:bg-black/0 sm:opacity-0 sm:group-hover:bg-black/30 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
                         >
                           <IconComponent icon="RiPlayCircleLine" className="h-8 w-8 drop-shadow" />
                         </button>
