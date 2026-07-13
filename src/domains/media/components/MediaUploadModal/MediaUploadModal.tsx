@@ -3,7 +3,8 @@ import clsx from 'clsx'
 import { useQueryClient } from '@tanstack/react-query'
 import { Modal, Button, IconButton, IconComponent } from '@/shared/ui'
 import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.queries'
-import { directUploadVideo } from '@/shared/api/storage'
+import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
+import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { useMediaTranslation } from '../../i18n'
 import { formatFileSize } from '../../model/formatFileSize'
 
@@ -63,9 +64,18 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     const images = queue.filter((q) => isImageFile(q.file))
     const videos = queue.filter((q) => isVideoFile(q.file))
 
+    const uploadVideoWithCover = async (file: File) => {
+      const id = crypto.randomUUID()
+      const result = await directUploadVideo(file, id)
+      captureVideoFrame(file).then((cover) => {
+        if (cover) attachVideoCoverWithRetry(id, cover)
+      })
+      return result
+    }
+
     const [imagesResult, ...videoResults] = await Promise.allSettled([
       images.length > 0 ? uploadImages.mutateAsync(images.map((q) => q.file)) : Promise.resolve([]),
-      ...videos.map((q) => directUploadVideo(q.file)),
+      ...videos.map((q) => uploadVideoWithCover(q.file)),
     ])
 
     const failedNames = new Set<string>()

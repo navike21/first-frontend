@@ -17,6 +17,8 @@ export const MediaCard = ({ file, caption, actions }: MediaCardProps) => (
       <MediaThumbnail
         src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
         kind={file.isImage ? 'image' : 'video'}
+        posterSrc={file.isImage ? undefined : (file.thumb?.url ?? file.full?.url)}
+        entityId={file.id}
         alt={file.originalName}
         className="h-full w-full object-cover"
       />

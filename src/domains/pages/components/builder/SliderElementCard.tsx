@@ -57,7 +57,7 @@ const SlideTile = ({ slide, removeLabel, onRemove }: SlideTileProps) => {
         isDragging && 'opacity-50',
       )}
     >
-      <MediaThumbnail src={slide.url} kind={slide.kind} className="h-full w-full object-cover" />
+      <MediaThumbnail src={slide.url} kind={slide.kind} posterSrc={slide.posterUrl} className="h-full w-full object-cover" />
       <button
         type="button"
         onPointerDown={(e) => e.stopPropagation()}
@@ -109,7 +109,11 @@ export const SliderElementCard = ({
   // pasar por `pendingSliderFiles` — no hay nada que subir al guardar.
   const addLibraryFiles = (files: StorageFile[]) => {
     if (!libraryKind || files.length === 0) return
-    const newSlides = files.map((file) => ({ url: file.original.url, kind: libraryKind }))
+    const newSlides = files.map((file) => ({
+      url: file.original.url,
+      kind: libraryKind,
+      ...(libraryKind === 'video' && { posterUrl: file.thumb?.url ?? file.full?.url }),
+    }))
     onChange({ slides: [...element.slides, ...newSlides] })
     setLibraryKind(null)
   }
@@ -164,7 +168,7 @@ export const SliderElementCard = ({
               key={slide.url}
               className="flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle"
             >
-              <MediaThumbnail src={slide.url} kind={slide.kind} className="h-full w-full object-cover" />
+              <MediaThumbnail src={slide.url} kind={slide.kind} posterSrc={slide.posterUrl} className="h-full w-full object-cover" />
             </span>
           ))}
         </button>

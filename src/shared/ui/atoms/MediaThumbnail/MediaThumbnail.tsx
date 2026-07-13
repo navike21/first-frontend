@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import { attachVideoCoverWithRetry } from '@/shared/api/storage'
+import { drawVideoFrameToBlob } from '@/shared/lib/captureVideoFrame'
 import type { MediaThumbnailProps } from './MediaThumbnail.types'
 
 /** Frame 0 is often a blank fade-in frame (many videos open on a beat of
@@ -35,16 +37,35 @@ async function paintVideoFrame(video: HTMLVideoElement, isCancelled: () => boole
   if (!isCancelled()) video.pause()
 }
 
-export const MediaThumbnail = ({ src, kind, alt = '', className }: MediaThumbnailProps) => {
+/** One-time self-heal for legacy videos with no cover yet: the frame already
+ * being painted for the fallback preview is captured and persisted, so this
+ * video never needs the expensive path again anywhere it's rendered. */
+async function backfillCover(video: HTMLVideoElement, entityId: string, isCancelled: () => boolean): Promise<void> {
+  const blob = await drawVideoFrameToBlob(video)
+  if (!blob || isCancelled()) return
+  await attachVideoCoverWithRetry(entityId, blob)
+}
+
+async function paintAndBackfill(
+  video: HTMLVideoElement,
+  entityId: string | undefined,
+  isCancelled: () => boolean,
+): Promise<void> {
+  await paintVideoFrame(video, isCancelled)
+  if (entityId) await backfillCover(video, entityId, isCancelled)
+}
+
+export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', className }: MediaThumbnailProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const isVideoFallback = kind === 'video' && !posterSrc
 
   useEffect(() => {
-    if (kind !== 'video') return
+    if (!isVideoFallback) return
     const video = videoRef.current
     if (!video) return
     let cancelled = false
     const start = () => {
-      void paintVideoFrame(video, () => cancelled)
+      paintAndBackfill(video, entityId, () => cancelled).catch(() => {})
     }
     if (video.readyState >= 1) start()
     else video.addEventListener('loadedmetadata', start, { once: true })
@@ -52,10 +73,13 @@ export const MediaThumbnail = ({ src, kind, alt = '', className }: MediaThumbnai
       cancelled = true
       video.removeEventListener('loadedmetadata', start)
     }
-  }, [kind, src])
+  }, [isVideoFallback, entityId, src])
 
   if (kind === 'image') {
     return <img src={src} alt={alt} className={className} />
+  }
+  if (posterSrc) {
+    return <img src={posterSrc} alt={alt} className={className} />
   }
   return <video ref={videoRef} src={src} muted playsInline preload="metadata" className={className} />
 }

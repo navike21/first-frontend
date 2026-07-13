@@ -34,6 +34,10 @@ export interface BuilderImageElement {
 export interface BuilderSliderSlide {
   url: string
   kind: 'image' | 'video'
+  /** Cover image for a video slide (thumb/full URL, or a local blob preview
+   * right after capture) — lets the tile show a real frame without ever
+   * loading the video itself. Unused for image slides. */
+  posterUrl?: string
 }
 
 export interface BuilderSliderElement {
