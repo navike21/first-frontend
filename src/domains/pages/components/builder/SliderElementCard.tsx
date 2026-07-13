@@ -11,7 +11,7 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Button, IconButton, IconComponent, MediaLibraryModal, Modal, Tooltip } from '@/shared/ui'
+import { Button, IconButton, IconComponent, MediaLibraryModal, MediaThumbnail, Modal, Tooltip } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderSliderElement, BuilderSliderSlide } from '../../model/page.types'
@@ -57,13 +57,7 @@ const SlideTile = ({ slide, removeLabel, onRemove }: SlideTileProps) => {
         isDragging && 'opacity-50',
       )}
     >
-      {slide.kind === 'image' ? (
-        <img src={slide.url} alt="" className="h-full w-full object-cover" />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <IconComponent icon="RiVideoLine" className="h-8 w-8 text-muted" />
-        </div>
-      )}
+      <MediaThumbnail src={slide.url} kind={slide.kind} className="h-full w-full object-cover" />
       <button
         type="button"
         onPointerDown={(e) => e.stopPropagation()}
@@ -111,11 +105,12 @@ export const SliderElementCard = ({
     if (newSlides.length > 0) onChange({ slides: [...element.slides, ...newSlides] })
   }
 
-  // Ya tiene URL real (viene de la biblioteca): se agrega directo, sin pasar
-  // por `pendingSliderFiles` — no hay nada que subir al guardar.
-  const addLibraryFile = (file: StorageFile) => {
-    if (!libraryKind) return
-    onChange({ slides: [...element.slides, { url: file.original.url, kind: libraryKind }] })
+  // Ya tienen URL real (vienen de la biblioteca): se agregan directo, sin
+  // pasar por `pendingSliderFiles` — no hay nada que subir al guardar.
+  const addLibraryFiles = (files: StorageFile[]) => {
+    if (!libraryKind || files.length === 0) return
+    const newSlides = files.map((file) => ({ url: file.original.url, kind: libraryKind }))
+    onChange({ slides: [...element.slides, ...newSlides] })
     setLibraryKind(null)
   }
 
@@ -169,11 +164,7 @@ export const SliderElementCard = ({
               key={slide.url}
               className="flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle"
             >
-              {slide.kind === 'image' ? (
-                <img src={slide.url} alt="" className="h-full w-full object-cover" />
-              ) : (
-                <IconComponent icon="RiVideoLine" className="h-6 w-6 text-muted" />
-              )}
+              <MediaThumbnail src={slide.url} kind={slide.kind} className="h-full w-full object-cover" />
             </span>
           ))}
         </button>
@@ -278,7 +269,8 @@ export const SliderElementCard = ({
         isOpen={libraryKind !== null}
         onClose={() => setLibraryKind(null)}
         kind={libraryKind ?? 'image'}
-        onSelect={addLibraryFile}
+        multiple
+        onSelectMultiple={addLibraryFiles}
         onUploadNew={(file) => addFiles([file])}
         uploadAccept={libraryKind ? LIBRARY_ACCEPT[libraryKind] : undefined}
         texts={t.builder.mediaLibrary}

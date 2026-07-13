@@ -122,6 +122,9 @@ export interface PortfolioTranslations {
     nextPage: string
     uploadNewLabel: string
     uploadNewHint: string
+    addSelectedLabel: string
+    selectAllLabel: string
+    selectItemLabel: string
   }
   toasts: {
     created: string

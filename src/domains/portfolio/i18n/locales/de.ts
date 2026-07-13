@@ -124,6 +124,9 @@ export const de: PortfolioTranslations = {
     nextPage: 'Weiter',
     uploadNewLabel: 'Neu hochladen',
     uploadNewHint: 'Nicht gefunden? Lade eine neue Datei hoch',
+    addSelectedLabel: 'Ausgewählte hinzufügen',
+    selectAllLabel: 'Alle auswählen',
+    selectItemLabel: 'Datei auswählen',
   },
   toasts: {
     created: 'Projekt erstellt',

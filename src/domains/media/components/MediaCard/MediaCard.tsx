@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { IconComponent } from '@/shared/ui'
+import { MediaThumbnail } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 
 export interface MediaCardProps {
@@ -14,15 +14,12 @@ export interface MediaCardProps {
 export const MediaCard = ({ file, caption, actions }: MediaCardProps) => (
   <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-surface p-2">
     <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
-      {file.isImage ? (
-        <img
-          src={file.thumb?.url ?? file.full?.url ?? file.original.url}
-          alt={file.originalName}
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        <IconComponent icon="RiVideoLine" className="h-8 w-8 text-muted" />
-      )}
+      <MediaThumbnail
+        src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
+        kind={file.isImage ? 'image' : 'video'}
+        alt={file.originalName}
+        className="h-full w-full object-cover"
+      />
     </div>
     <span className="truncate text-[11px] font-medium text-foreground" title={file.originalName}>
       {file.originalName}
