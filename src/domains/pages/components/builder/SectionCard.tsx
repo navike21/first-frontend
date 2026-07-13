@@ -174,7 +174,17 @@ export const SectionCard = ({
       )}
 
       {editable && !pendingChoice && (
-        <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${columnsCount}, minmax(0, 1fr))` }}>
+        // `minmax(12rem, 1fr)` (not `minmax(0, 1fr)`) so columns never shrink
+        // past a usable width on a narrow admin viewport — 3-4 columns used
+        // to squeeze into whatever space was available, cramming the T/
+        // imagen/slider mini-icons together (confirmed live, mobile-first
+        // check). `overflow-x-auto` lets the row scroll horizontally once
+        // the columns' combined minimum no longer fits, instead of shrinking
+        // them further or clipping.
+        <div
+          className="grid gap-3 overflow-x-auto pb-1"
+          style={{ gridTemplateColumns: `repeat(${columnsCount}, minmax(12rem, 1fr))` }}
+        >
           {columns.map((column) => (
             <ColumnZone
               key={column.id}
