@@ -10,9 +10,18 @@ export const ja: SiteConfigTranslations = {
     footer: 'フッター',
     content: 'コンテンツ',
     social: 'ソーシャルメディア',
+    maps: '地図',
   },
   social: {
     hint: '単一の信頼できる情報源：これらのURLは公開サイトのすべてのセクションで使用されます。使用しないものは空欄のままにしてください。',
+  },
+  maps: {
+    hint: '公開サイトで使用する地図プロバイダーを選択してください。',
+    providerLabel: '地図プロバイダー',
+    providers: {
+      google: 'Google マップ',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: '変更を保存',

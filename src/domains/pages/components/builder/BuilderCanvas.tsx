@@ -72,6 +72,10 @@ export interface BuilderCanvasProps {
   onAddButton: (sectionId: string, columnId: string) => void
   onAddGallery: (sectionId: string, columnId: string) => void
   onAddAccordion: (sectionId: string, columnId: string) => void
+  onAddTestimonials: (sectionId: string, columnId: string) => void
+  onAddStats: (sectionId: string, columnId: string) => void
+  onAddVideo: (sectionId: string, columnId: string) => void
+  onAddMap: (sectionId: string, columnId: string) => void
   onElementChange: (sectionId: string, columnId: string, elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (sectionId: string, columnId: string, elementId: string) => void
   onElementMove: (elementId: string, source: ElementLocation, target: ElementLocation, overElementId: string | null) => void
@@ -81,6 +85,8 @@ export interface BuilderCanvasProps {
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
+  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onRemoveTestimonialAvatarFile: (url: string) => void
 }
 
 /**
@@ -243,6 +249,10 @@ const ELEMENT_DRAG_ICON: Record<string, IconName> = {
   button: 'RiCursorLine',
   gallery: 'RiGalleryLine',
   accordion: 'RiQuestionAnswerLine',
+  testimonials: 'RiDoubleQuotesL',
+  stats: 'RiBarChartBoxLine',
+  video: 'RiVideoLine',
+  map: 'RiMapPin2Line',
 }
 
 function elementDragIcon(elementType: string | undefined): IconName {
@@ -259,6 +269,10 @@ function elementDragLabel(
     button: t.builder.buttonElement,
     gallery: t.builder.galleryElement,
     accordion: t.builder.accordionElement,
+    testimonials: t.builder.testimonialsElement,
+    stats: t.builder.statsElement,
+    video: t.builder.videoElement,
+    map: t.builder.mapElement,
   }
   return (elementType && labels[elementType]) || t.builder.textElement
 }
@@ -363,6 +377,10 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onAddButton={(columnId) => props.onAddButton(section.sectionId, columnId)}
                   onAddGallery={(columnId) => props.onAddGallery(section.sectionId, columnId)}
                   onAddAccordion={(columnId) => props.onAddAccordion(section.sectionId, columnId)}
+                  onAddTestimonials={(columnId) => props.onAddTestimonials(section.sectionId, columnId)}
+                  onAddStats={(columnId) => props.onAddStats(section.sectionId, columnId)}
+                  onAddVideo={(columnId) => props.onAddVideo(section.sectionId, columnId)}
+                  onAddMap={(columnId) => props.onAddMap(section.sectionId, columnId)}
                   onElementChange={(columnId, elementId, patch) =>
                     props.onElementChange(section.sectionId, columnId, elementId, patch)
                   }
@@ -375,6 +393,8 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onRemoveSliderFile={props.onRemoveSliderFile}
                   onPickGalleryFile={props.onPickGalleryFile}
                   onRemoveGalleryFile={props.onRemoveGalleryFile}
+                  onPickTestimonialAvatarFile={props.onPickTestimonialAvatarFile}
+                  onRemoveTestimonialAvatarFile={props.onRemoveTestimonialAvatarFile}
                 />
                 {showInsertionLines && props.insertIndex === index + 1 && <InsertionLine />}
               </Fragment>

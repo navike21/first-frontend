@@ -10,9 +10,18 @@ export const it: SiteConfigTranslations = {
     footer: 'Footer',
     content: 'Contenuto',
     social: 'Social network',
+    maps: 'Mappe',
   },
   social: {
     hint: 'Unica fonte di verità: questi URL alimentano tutte le sezioni del sito pubblico. Lascia vuoti i social che non usi.',
+  },
+  maps: {
+    hint: 'Scegli quale provider di mappe userà il sito pubblico.',
+    providerLabel: 'Provider di mappe',
+    providers: {
+      google: 'Google Maps',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: 'Salva le modifiche',

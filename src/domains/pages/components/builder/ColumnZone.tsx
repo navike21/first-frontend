@@ -12,6 +12,10 @@ import { SliderElementCard } from './SliderElementCard'
 import { ButtonElementCard } from './ButtonElementCard'
 import { GalleryElementCard } from './GalleryElementCard'
 import { AccordionElementCard } from './AccordionElementCard'
+import { TestimonialsElementCard } from './TestimonialsElementCard'
+import { StatsElementCard } from './StatsElementCard'
+import { VideoElementCard } from './VideoElementCard'
+import { MapElementCard } from './MapElementCard'
 
 export interface ColumnZoneProps {
   sectionId: string
@@ -25,6 +29,10 @@ export interface ColumnZoneProps {
   onAddButton: () => void
   onAddGallery: () => void
   onAddAccordion: () => void
+  onAddTestimonials: () => void
+  onAddStats: () => void
+  onAddVideo: () => void
+  onAddMap: () => void
   onElementChange: (elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
@@ -33,6 +41,8 @@ export interface ColumnZoneProps {
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
+  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onRemoveTestimonialAvatarFile: (url: string) => void
 }
 
 /**
@@ -51,6 +61,10 @@ export const ColumnZone = ({
   onAddButton,
   onAddGallery,
   onAddAccordion,
+  onAddTestimonials,
+  onAddStats,
+  onAddVideo,
+  onAddMap,
   onElementChange,
   onElementDelete,
   onPickFile,
@@ -59,6 +73,8 @@ export const ColumnZone = ({
   onRemoveSliderFile,
   onPickGalleryFile,
   onRemoveGalleryFile,
+  onPickTestimonialAvatarFile,
+  onRemoveTestimonialAvatarFile,
 }: ColumnZoneProps) => {
   const { t } = usePagesTranslation()
   const { setNodeRef, isOver } = useDroppable({
@@ -149,8 +165,62 @@ export const ColumnZone = ({
               />
             )
           }
+          if (element.type === 'accordion') {
+            return (
+              <AccordionElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'testimonials') {
+            return (
+              <TestimonialsElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onPickAvatarFile={(url, file) => onPickTestimonialAvatarFile(element.id, url, file)}
+                onRemoveAvatarFile={onRemoveTestimonialAvatarFile}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'stats') {
+            return (
+              <StatsElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'video') {
+            return (
+              <VideoElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
           return (
-            <AccordionElementCard
+            <MapElementCard
               key={element.id}
               element={element}
               sectionId={sectionId}
@@ -210,6 +280,42 @@ export const ColumnZone = ({
             size="small"
             aria-label={t.builder.addAccordion}
             onClick={onAddAccordion}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addTestimonials} position="top" size="small">
+          <IconButton
+            icon="RiDoubleQuotesL"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addTestimonials}
+            onClick={onAddTestimonials}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addStats} position="top" size="small">
+          <IconButton
+            icon="RiBarChartBoxLine"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addStats}
+            onClick={onAddStats}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addVideo} position="top" size="small">
+          <IconButton
+            icon="RiVideoLine"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addVideo}
+            onClick={onAddVideo}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addMap} position="top" size="small">
+          <IconButton
+            icon="RiMapPin2Line"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addMap}
+            onClick={onAddMap}
           />
         </Tooltip>
       </div>

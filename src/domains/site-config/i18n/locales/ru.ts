@@ -10,9 +10,18 @@ export const ru: SiteConfigTranslations = {
     footer: 'Подвал',
     content: 'Контент',
     social: 'Соцсети',
+    maps: 'Карты',
   },
   social: {
     hint: 'Единый источник истины: эти URL используются во всех разделах публичного сайта. Неиспользуемые сети оставьте пустыми.',
+  },
+  maps: {
+    hint: 'Выберите, какой провайдер карт будет использовать публичный сайт.',
+    providerLabel: 'Провайдер карт',
+    providers: {
+      google: 'Google Maps',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: 'Сохранить изменения',

@@ -10,9 +10,18 @@ export const ko: SiteConfigTranslations = {
     footer: '푸터',
     content: '콘텐츠',
     social: '소셜 네트워크',
+    maps: '지도',
   },
   social: {
     hint: '단일 정보 출처: 이 URL들은 공개 사이트의 모든 섹션에서 사용됩니다. 사용하지 않는 네트워크는 비워 두세요.',
+  },
+  maps: {
+    hint: '공개 사이트에서 사용할 지도 제공업체를 선택하세요.',
+    providerLabel: '지도 제공업체',
+    providers: {
+      google: 'Google 지도',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: '변경 사항 저장',

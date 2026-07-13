@@ -37,6 +37,10 @@ export interface SectionCardProps {
   onAddButton: (columnId: string) => void
   onAddGallery: (columnId: string) => void
   onAddAccordion: (columnId: string) => void
+  onAddTestimonials: (columnId: string) => void
+  onAddStats: (columnId: string) => void
+  onAddVideo: (columnId: string) => void
+  onAddMap: (columnId: string) => void
   onElementChange: (columnId: string, elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (columnId: string, elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
@@ -45,6 +49,8 @@ export interface SectionCardProps {
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
+  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onRemoveTestimonialAvatarFile: (url: string) => void
 }
 
 const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i + 1) as BuilderColumnsCount)
@@ -66,6 +72,10 @@ export const SectionCard = ({
   onAddButton,
   onAddGallery,
   onAddAccordion,
+  onAddTestimonials,
+  onAddStats,
+  onAddVideo,
+  onAddMap,
   onElementChange,
   onElementDelete,
   onPickFile,
@@ -74,6 +84,8 @@ export const SectionCard = ({
   onRemoveSliderFile,
   onPickGalleryFile,
   onRemoveGalleryFile,
+  onPickTestimonialAvatarFile,
+  onRemoveTestimonialAvatarFile,
 }: SectionCardProps) => {
   const { t } = usePagesTranslation()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -202,6 +214,10 @@ export const SectionCard = ({
               onAddButton={() => onAddButton(column.id)}
               onAddGallery={() => onAddGallery(column.id)}
               onAddAccordion={() => onAddAccordion(column.id)}
+              onAddTestimonials={() => onAddTestimonials(column.id)}
+              onAddStats={() => onAddStats(column.id)}
+              onAddVideo={() => onAddVideo(column.id)}
+              onAddMap={() => onAddMap(column.id)}
               onElementChange={(elementId, patch) => onElementChange(column.id, elementId, patch)}
               onElementDelete={(elementId) => onElementDelete(column.id, elementId)}
               onPickFile={onPickFile}
@@ -210,6 +226,8 @@ export const SectionCard = ({
               onRemoveSliderFile={onRemoveSliderFile}
               onPickGalleryFile={onPickGalleryFile}
               onRemoveGalleryFile={onRemoveGalleryFile}
+              onPickTestimonialAvatarFile={onPickTestimonialAvatarFile}
+              onRemoveTestimonialAvatarFile={onRemoveTestimonialAvatarFile}
             />
           ))}
         </div>

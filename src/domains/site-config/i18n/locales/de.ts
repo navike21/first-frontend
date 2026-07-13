@@ -10,9 +10,18 @@ export const de: SiteConfigTranslations = {
     footer: 'Footer',
     content: 'Inhalt',
     social: 'Soziale Netzwerke',
+    maps: 'Karten',
   },
   social: {
     hint: 'Single Source of Truth: Diese URLs speisen alle Bereiche der öffentlichen Website. Nicht genutzte Netzwerke leer lassen.',
+  },
+  maps: {
+    hint: 'Wähle, welchen Kartenanbieter die öffentliche Website verwenden soll.',
+    providerLabel: 'Kartenanbieter',
+    providers: {
+      google: 'Google Maps',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: 'Änderungen speichern',

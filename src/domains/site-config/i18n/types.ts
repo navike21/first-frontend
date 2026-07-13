@@ -1,4 +1,4 @@
-import type { HeaderVariant, FooterVariant } from '../model/site-config.types'
+import type { HeaderVariant, FooterVariant, MapProvider } from '../model/site-config.types'
 
 export interface SiteConfigTranslations {
   page: {
@@ -10,9 +10,15 @@ export interface SiteConfigTranslations {
     footer: string
     content: string
     social: string
+    maps: string
   }
   social: {
     hint: string
+  }
+  maps: {
+    hint: string
+    providerLabel: string
+    providers: Record<MapProvider, string>
   }
   actions: {
     save: string

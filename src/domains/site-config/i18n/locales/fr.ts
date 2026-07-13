@@ -10,9 +10,18 @@ export const fr: SiteConfigTranslations = {
     footer: 'Footer',
     content: 'Contenu',
     social: 'Réseaux sociaux',
+    maps: 'Cartes',
   },
   social: {
     hint: 'Source unique de vérité : ces URLs alimentent toutes les sections du site public. Laissez vides les réseaux inutilisés.',
+  },
+  maps: {
+    hint: 'Choisissez le fournisseur de cartes que le site public utilisera.',
+    providerLabel: 'Fournisseur de cartes',
+    providers: {
+      google: 'Google Maps',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: 'Enregistrer les modifications',
