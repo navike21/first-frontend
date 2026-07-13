@@ -75,7 +75,13 @@ function normalizeSliderSlide(raw: unknown): BuilderSliderSlide[] {
   if (!raw || typeof raw !== 'object') return []
   const slide = raw as Record<string, unknown>
   if (typeof slide.url !== 'string' || !slide.url) return []
-  return [{ url: slide.url, kind: slide.kind === 'video' ? 'video' : 'image' }]
+  return [
+    {
+      url: slide.url,
+      kind: slide.kind === 'video' ? 'video' : 'image',
+      posterUrl: typeof slide.posterUrl === 'string' ? slide.posterUrl : undefined,
+    },
+  ]
 }
 
 function normalizeSliderElement(el: Record<string, unknown>): BuilderSliderElement {
@@ -444,26 +450,36 @@ export function replaceImageUrl(sections: BuilderSection[], elementId: string, u
   })
 }
 
-function replaceSlideInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+function replaceSlideInElement(
+  e: BuilderElement,
+  elementId: string,
+  oldUrl: string,
+  newUrl: string,
+  posterUrl?: string,
+): BuilderElement {
   if (e.id !== elementId || e.type !== 'slider') return e
-  const slides = e.slides.map((slide) => (slide.url === oldUrl ? { ...slide, url: newUrl } : slide))
+  const slides = e.slides.map((slide) =>
+    slide.url === oldUrl ? { ...slide, url: newUrl, ...(posterUrl && { posterUrl }) } : slide,
+  )
   return { ...e, slides }
 }
 
 /** Sustituye una diapositiva puntual de un slider (post-subida) por su URL
  * real, dondequiera que esté el elemento — el resto de las diapositivas no
- * se tocan. */
+ * se tocan. `posterUrl` (solo video) se agrega si ya se generó al momento de
+ * guardar. */
 export function replaceSliderSlideUrl(
   sections: BuilderSection[],
   elementId: string,
   oldUrl: string,
   newUrl: string,
+  posterUrl?: string,
 ): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
-      elements: c.elements.map((e) => replaceSlideInElement(e, elementId, oldUrl, newUrl)),
+      elements: c.elements.map((e) => replaceSlideInElement(e, elementId, oldUrl, newUrl, posterUrl)),
     }))
     return { ...s, content: { ...s.content, columns } }
   })

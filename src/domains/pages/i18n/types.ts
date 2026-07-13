@@ -204,6 +204,9 @@ export interface PageTranslations {
       nextPage: string
       uploadNewLabel: string
       uploadNewHint: string
+      addSelectedLabel: string
+      selectAllLabel: string
+      selectItemLabel: string
     }
     addText: string
     addImage: string

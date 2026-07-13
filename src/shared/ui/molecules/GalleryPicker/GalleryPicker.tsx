@@ -143,7 +143,7 @@ export const GalleryPicker = ({
     handleDrop,
     openPicker,
     addFiles,
-    addLibraryFile,
+    addLibraryFiles,
     removeItem,
     handleDragEnd,
   } = useGalleryPicker({ items, onItemsChange, maxItems, maxBytes })
@@ -212,10 +212,8 @@ export const GalleryPicker = ({
           isOpen={isLibraryOpen}
           onClose={() => setIsLibraryOpen(false)}
           kind="image"
-          onSelect={(file) => {
-            addLibraryFile(file)
-            onSelectLibrary(file)
-          }}
+          multiple
+          onSelectMultiple={addLibraryFiles}
           onUploadNew={(file) => addFiles([file])}
           uploadAccept={accept}
           texts={libraryTexts}

@@ -124,6 +124,9 @@ export const en: PortfolioTranslations = {
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
     uploadNewHint: 'Can\'t find it? Upload a new file',
+    addSelectedLabel: 'Add selected',
+    selectAllLabel: 'Select all',
+    selectItemLabel: 'Select file',
   },
   toasts: {
     created: 'Project created',

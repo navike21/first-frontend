@@ -86,9 +86,13 @@ export function useGalleryPicker({
 
   const openPicker = () => inputRef.current?.click()
 
-  const addLibraryFile = (file: StorageFile) => {
-    if (items.length >= maxItems) return
-    onItemsChange([...items, { key: file.id, kind: 'existing', url: file.original.url }])
+  const addLibraryFiles = (files: StorageFile[]) => {
+    const remaining = maxItems - items.length
+    if (remaining <= 0) return
+    const accepted: GalleryItem[] = files
+      .slice(0, remaining)
+      .map((file) => ({ key: file.id, kind: 'existing', url: file.original.url }))
+    if (accepted.length) onItemsChange([...items, ...accepted])
   }
 
   const removeItem = (key: string) => {
@@ -117,7 +121,7 @@ export function useGalleryPicker({
     handleDrop,
     openPicker,
     addFiles,
-    addLibraryFile,
+    addLibraryFiles,
     removeItem,
     handleDragEnd,
   }

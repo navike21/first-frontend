@@ -1,6 +1,7 @@
 /* Shared library utilities barrel.
    Export pure utility functions and hooks from this folder. */
 export { notify } from './notify'
+export { captureVideoFrame, drawVideoFrameToBlob } from './captureVideoFrame'
 export { formatDate } from './formatDate'
 export { isOfflineQueued, onQueuedOr } from './offline-queue/handleQueued'
 export { useMounted } from './use-mounted'

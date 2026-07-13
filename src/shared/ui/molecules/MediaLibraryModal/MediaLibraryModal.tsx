@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { useStorageFiles } from '@/shared/api/storage.queries'
 import type { StorageFile } from '@/shared/api/storage'
+import { Button } from '../../atoms/Button'
 import { IconComponent } from '../../atoms/IconComponent'
+import { MediaThumbnail } from '../../atoms/MediaThumbnail'
 import { InputField } from '../InputField'
 import { Modal } from '../Modal'
 import { MediaGrid } from '../MediaGrid'
@@ -19,6 +21,8 @@ export const MediaLibraryModal = ({
   onClose,
   kind,
   onSelect,
+  multiple = false,
+  onSelectMultiple,
   onUploadNew,
   uploadAccept,
   texts,
@@ -26,6 +30,10 @@ export const MediaLibraryModal = ({
   const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  // Selected files accumulate across pages/searches (keyed by id) so confirming
+  // a multi-page selection doesn't lose files no longer in the current `items`.
+  const [selectedFiles, setSelectedFiles] = useState<Map<string, StorageFile>>(new Map())
   const uploadInputRef = useRef<HTMLInputElement>(null)
 
   // Reset when transitioning closed→open (not via an effect: adjusting state
@@ -38,6 +46,8 @@ export const MediaLibraryModal = ({
       setSearchInput('')
       setSearch('')
       setPage(1)
+      setSelectedIds([])
+      setSelectedFiles(new Map())
     }
   }
 
@@ -54,7 +64,37 @@ export const MediaLibraryModal = ({
   const meta = data?.meta
 
   const handleSelect = (file: StorageFile) => {
-    onSelect(file)
+    onSelect?.(file)
+    onClose()
+  }
+
+  const toggleSelected = (file: StorageFile) => {
+    setSelectedIds((ids) => (ids.includes(file.id) ? ids.filter((id) => id !== file.id) : [...ids, file.id]))
+    setSelectedFiles((prev) => {
+      const next = new Map(prev)
+      if (next.has(file.id)) next.delete(file.id)
+      else next.set(file.id, file)
+      return next
+    })
+  }
+
+  const handleSelectionChange = (ids: string[]) => {
+    setSelectedIds(ids)
+    setSelectedFiles((prev) => {
+      const next = new Map(prev)
+      for (const id of prev.keys()) if (!ids.includes(id)) next.delete(id)
+      for (const id of ids) {
+        if (!next.has(id)) {
+          const file = items.find((f) => f.id === id)
+          if (file) next.set(id, file)
+        }
+      }
+      return next
+    })
+  }
+
+  const handleConfirmMultiple = () => {
+    onSelectMultiple?.(Array.from(selectedFiles.values()))
     onClose()
   }
 
@@ -67,7 +107,19 @@ export const MediaLibraryModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg" title={kind === 'image' ? texts.titleImage : texts.titleVideo}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="lg"
+      title={kind === 'image' ? texts.titleImage : texts.titleVideo}
+      footer={
+        multiple ? (
+          <Button variant="primary" disabled={selectedIds.length === 0} onClick={handleConfirmMultiple}>
+            {texts.addSelectedLabel} ({selectedIds.length})
+          </Button>
+        ) : undefined
+      }
+    >
       <div className="flex flex-col gap-4">
         <InputField
           value={searchInput}
@@ -109,23 +161,27 @@ export const MediaLibraryModal = ({
               ? { page, pages: meta.totalPages, onPageChange: setPage, prevLabel: texts.prevPage, nextLabel: texts.nextPage }
               : undefined
           }
+          selectable={multiple}
+          selectedIds={selectedIds}
+          onSelectionChange={handleSelectionChange}
+          selectAllLabel={texts.selectAllLabel}
+          selectItemLabel={texts.selectItemLabel}
           renderItem={(file) => (
             <button
               type="button"
-              onClick={() => handleSelect(file)}
+              onClick={() => (multiple ? toggleSelected(file) : handleSelect(file))}
               aria-label={`${texts.selectLabel}: ${file.originalName}`}
               className="group flex w-full flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
             >
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
-                {file.isImage ? (
-                  <img
-                    src={file.thumb?.url ?? file.full?.url ?? file.original.url}
-                    alt={file.originalName}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <IconComponent icon="RiVideoLine" className="h-8 w-8 text-muted" />
-                )}
+                <MediaThumbnail
+                  src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
+                  kind={file.isImage ? 'image' : 'video'}
+                  posterSrc={file.isImage ? undefined : (file.thumb?.url ?? file.full?.url)}
+                  entityId={file.id}
+                  alt={file.originalName}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <span className="truncate text-[11px] text-muted">{file.originalName}</span>
             </button>

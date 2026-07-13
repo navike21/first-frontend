@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useParams } from '@tanstack/react-router'
 import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
+import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
-import { uploadEditorImage, directUploadVideo } from '@/shared/api/storage'
+import { uploadEditorImage, directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePage, useReplaceSections } from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
@@ -221,13 +222,24 @@ export const PageBuilderPage = () => {
           const url = await uploadEditorImage(file)
           sections = setBackgroundImageUrl(sections, sectionId, breakpoint, url)
         } else {
-          const { url, mimeType } = await directUploadVideo(file)
+          // Sin miniatura: el fondo de sección ya se previsualiza con un
+          // <video controls> real (un solo slot, no una grilla) — no hace
+          // falta evitarle la carga del archivo.
+          const { url, mimeType } = await directUploadVideo(file, crypto.randomUUID())
           sections = setBackgroundVideoFile(sections, sectionId, breakpoint, { url, mimeType })
         }
       }
       for (const [blobUrl, { elementId, file, kind }] of pendingSliderFiles) {
-        const url = kind === 'image' ? await uploadEditorImage(file) : (await directUploadVideo(file)).url
-        sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url)
+        if (kind === 'image') {
+          const url = await uploadEditorImage(file)
+          sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url)
+        } else {
+          const id = crypto.randomUUID()
+          const { url } = await directUploadVideo(file, id)
+          const cover = await captureVideoFrame(file)
+          const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
+          sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url, posterUrl)
+        }
       }
       setDraft(sections)
       setPendingFiles(new Map())
