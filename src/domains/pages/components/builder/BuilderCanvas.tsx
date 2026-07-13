@@ -27,10 +27,8 @@ import type {
   BackgroundConfig,
   BackgroundFileSlot,
   BuilderColumnsCount,
-  BuilderImageElement,
+  BuilderElementPatch,
   BuilderSection,
-  BuilderSliderElement,
-  BuilderTextElement,
 } from '../../model/page.types'
 import { SectionCard } from './SectionCard'
 
@@ -71,18 +69,18 @@ export interface BuilderCanvasProps {
   onAddText: (sectionId: string, columnId: string) => void
   onAddImage: (sectionId: string, columnId: string) => void
   onAddSlider: (sectionId: string, columnId: string) => void
-  onElementChange: (
-    sectionId: string,
-    columnId: string,
-    elementId: string,
-    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
-  ) => void
+  onAddButton: (sectionId: string, columnId: string) => void
+  onAddGallery: (sectionId: string, columnId: string) => void
+  onAddAccordion: (sectionId: string, columnId: string) => void
+  onElementChange: (sectionId: string, columnId: string, elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (sectionId: string, columnId: string, elementId: string) => void
   onElementMove: (elementId: string, source: ElementLocation, target: ElementLocation, overElementId: string | null) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
+  onPickGalleryFile: (elementId: string, url: string, file: File) => void
+  onRemoveGalleryFile: (url: string) => void
 }
 
 /**
@@ -239,7 +237,13 @@ const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProp
   )
 }
 
-const ELEMENT_DRAG_ICON: Record<string, IconName> = { image: 'RiImageLine', slider: 'RiCarouselView' }
+const ELEMENT_DRAG_ICON: Record<string, IconName> = {
+  image: 'RiImageLine',
+  slider: 'RiCarouselView',
+  button: 'RiCursorLine',
+  gallery: 'RiGalleryLine',
+  accordion: 'RiQuestionAnswerLine',
+}
 
 function elementDragIcon(elementType: string | undefined): IconName {
   return (elementType && ELEMENT_DRAG_ICON[elementType]) || 'RiText'
@@ -249,9 +253,14 @@ function elementDragLabel(
   elementType: string | undefined,
   t: ReturnType<typeof usePagesTranslation>['t'],
 ): string {
-  if (elementType === 'image') return t.builder.imageElement
-  if (elementType === 'slider') return t.builder.sliderElement
-  return t.builder.textElement
+  const labels: Record<string, string> = {
+    image: t.builder.imageElement,
+    slider: t.builder.sliderElement,
+    button: t.builder.buttonElement,
+    gallery: t.builder.galleryElement,
+    accordion: t.builder.accordionElement,
+  }
+  return (elementType && labels[elementType]) || t.builder.textElement
 }
 
 const OverlayChip = ({ icon, label }: { icon: IconName; label: string }) => (
@@ -351,6 +360,9 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
                   onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}
                   onAddSlider={(columnId) => props.onAddSlider(section.sectionId, columnId)}
+                  onAddButton={(columnId) => props.onAddButton(section.sectionId, columnId)}
+                  onAddGallery={(columnId) => props.onAddGallery(section.sectionId, columnId)}
+                  onAddAccordion={(columnId) => props.onAddAccordion(section.sectionId, columnId)}
                   onElementChange={(columnId, elementId, patch) =>
                     props.onElementChange(section.sectionId, columnId, elementId, patch)
                   }
@@ -361,6 +373,8 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onSelectImageLibrary={props.onSelectImageLibrary}
                   onPickSliderFile={props.onPickSliderFile}
                   onRemoveSliderFile={props.onRemoveSliderFile}
+                  onPickGalleryFile={props.onPickGalleryFile}
+                  onRemoveGalleryFile={props.onRemoveGalleryFile}
                 />
                 {showInsertionLines && props.insertIndex === index + 1 && <InsertionLine />}
               </Fragment>

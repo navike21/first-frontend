@@ -4,9 +4,15 @@ import type {
   BackgroundConfig,
   BackgroundVideo,
   BackgroundVideoFile,
+  BuilderAccordionElement,
+  BuilderAccordionItem,
+  BuilderButtonElement,
   BuilderColumn,
   BuilderColumnsCount,
   BuilderElement,
+  BuilderElementPatch,
+  BuilderGalleryElement,
+  BuilderGalleryImage,
   BuilderImageElement,
   BuilderSection,
   BuilderSliderElement,
@@ -93,12 +99,71 @@ function normalizeSliderElement(el: Record<string, unknown>): BuilderSliderEleme
   }
 }
 
+const BUTTON_VARIANTS: BuilderButtonElement['variant'][] = ['primary', 'secondary', 'outline']
+
+function normalizeButtonElement(el: Record<string, unknown>): BuilderButtonElement {
+  const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
+  const variant = BUTTON_VARIANTS.includes(el.variant as BuilderButtonElement['variant'])
+    ? (el.variant as BuilderButtonElement['variant'])
+    : 'primary'
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'button',
+    label: normalizeLocalized(el.label),
+    url: typeof el.url === 'string' ? el.url : '',
+    variant,
+    target: el.target === '_blank' ? '_blank' : '_self',
+    align,
+  }
+}
+
+function normalizeGalleryImage(raw: unknown): BuilderGalleryImage[] {
+  if (!raw || typeof raw !== 'object') return []
+  const img = raw as Record<string, unknown>
+  if (typeof img.url !== 'string' || !img.url) return []
+  return [{ url: img.url, alt: normalizeLocalized(img.alt) }]
+}
+
+function normalizeGalleryElement(el: Record<string, unknown>): BuilderGalleryElement {
+  const rawImages = Array.isArray(el.images) ? el.images : []
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'gallery',
+    images: rawImages.flatMap(normalizeGalleryImage),
+    columns: clampColumns(el.columns),
+  }
+}
+
+function normalizeAccordionItem(raw: unknown): BuilderAccordionItem[] {
+  if (!raw || typeof raw !== 'object') return []
+  const item = raw as Record<string, unknown>
+  return [
+    {
+      id: typeof item.id === 'string' ? item.id : newId(),
+      question: normalizeLocalized(item.question),
+      answer: normalizeLocalized(item.answer),
+    },
+  ]
+}
+
+function normalizeAccordionElement(el: Record<string, unknown>): BuilderAccordionElement {
+  const rawItems = Array.isArray(el.items) ? el.items : []
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'accordion',
+    items: rawItems.flatMap(normalizeAccordionItem),
+  }
+}
+
 function normalizeElement(raw: unknown): BuilderElement | null {
   if (!raw || typeof raw !== 'object') return null
   const el = raw as Record<string, unknown>
   if (el.type === 'text') return normalizeTextElement(el)
   if (el.type === 'image') return normalizeImageElement(el)
   if (el.type === 'slider') return normalizeSliderElement(el)
+  if (el.type === 'button') return normalizeButtonElement(el)
+  if (el.type === 'gallery') return normalizeGalleryElement(el)
+  if (el.type === 'accordion') return normalizeAccordionElement(el)
   return null
 }
 
@@ -196,6 +261,18 @@ export function createImageElement(): BuilderImageElement {
 
 export function createSliderElement(): BuilderSliderElement {
   return { id: newId(), type: 'slider', slides: [] }
+}
+
+export function createButtonElement(): BuilderButtonElement {
+  return { id: newId(), type: 'button', label: emptyLocalized(), url: '', variant: 'primary', target: '_self', align: 'center' }
+}
+
+export function createGalleryElement(): BuilderGalleryElement {
+  return { id: newId(), type: 'gallery', images: [], columns: 3 }
+}
+
+export function createAccordionElement(): BuilderAccordionElement {
+  return { id: newId(), type: 'accordion', items: [] }
 }
 
 // ── Operaciones puras sobre el draft (siempre devuelven un array nuevo) ─────
@@ -366,7 +443,7 @@ export function updateElement(
   sectionId: string,
   columnId: string,
   elementId: string,
-  patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
+  patch: BuilderElementPatch,
 ): BuilderSection[] {
   return mapColumn(sections, sectionId, columnId, (c) => ({
     ...c,
@@ -480,6 +557,30 @@ export function replaceSliderSlideUrl(
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
       elements: c.elements.map((e) => replaceSlideInElement(e, elementId, oldUrl, newUrl, posterUrl)),
+    }))
+    return { ...s, content: { ...s.content, columns } }
+  })
+}
+
+function replaceGalleryImageInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+  if (e.id !== elementId || e.type !== 'gallery') return e
+  return { ...e, images: e.images.map((img) => (img.url === oldUrl ? { ...img, url: newUrl } : img)) }
+}
+
+/** Sustituye la URL de una imagen puntual de la galería (post-subida) por su
+ * URL real, dondequiera que esté el elemento — el resto de las imágenes no
+ * se tocan. */
+export function replaceGalleryImageUrl(
+  sections: BuilderSection[],
+  elementId: string,
+  oldUrl: string,
+  newUrl: string,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (!isColumnsSection(s)) return s
+    const columns = (s.content.columns ?? []).map((c) => ({
+      ...c,
+      elements: c.elements.map((e) => replaceGalleryImageInElement(e, elementId, oldUrl, newUrl)),
     }))
     return { ...s, content: { ...s.content, columns } }
   })

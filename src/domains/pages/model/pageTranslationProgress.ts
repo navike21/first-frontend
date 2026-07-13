@@ -21,26 +21,50 @@ export interface LanguageProgress {
   total: number
 }
 
+function accumulateLocalizedField(
+  progress: Record<Language, LanguageProgress>,
+  value: Record<Language, string>,
+  kind: 'html' | 'text',
+  languages: readonly Language[],
+): void {
+  for (const lang of languages) {
+    progress[lang].total += 1
+    if (isLocalizedFilled(value[lang], kind)) progress[lang].filled += 1
+  }
+}
+
 function accumulateElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderElement,
   languages: readonly Language[],
 ): void {
   if (element.type === 'slider') return
-  const kind = element.type === 'text' ? 'html' : 'text'
-  const values = element.type === 'text' ? element.html : element.alt
-  for (const lang of languages) {
-    progress[lang].total += 1
-    if (isLocalizedFilled(values[lang], kind)) progress[lang].filled += 1
+  if (element.type === 'text') return accumulateLocalizedField(progress, element.html, 'html', languages)
+  if (element.type === 'image') return accumulateLocalizedField(progress, element.alt, 'text', languages)
+  if (element.type === 'button') return accumulateLocalizedField(progress, element.label, 'text', languages)
+  if (element.type === 'gallery') {
+    for (const image of element.images) accumulateLocalizedField(progress, image.alt, 'text', languages)
+    return
   }
+  if (element.type === 'accordion') {
+    for (const item of element.items) {
+      accumulateLocalizedField(progress, item.question, 'text', languages)
+      accumulateLocalizedField(progress, item.answer, 'html', languages)
+    }
+    return
+  }
+  const _exhaustive: never = element
+  return _exhaustive
 }
 
 /**
- * Cuenta, por idioma, cuántos campos traducibles del lienzo (texto de
- * elementos `text`, alt de elementos `image`) tienen contenido. Los sliders
- * no aportan — no tienen ningún campo localizado. Página sin texto/imagen
- * todavía → `total: 0`, tratado como 100% en el consumidor (nada que
- * traducir, no es un estado de error).
+ * Cuenta, por idioma, cuántos campos traducibles del lienzo tienen
+ * contenido: `html` de `text`, `alt` de `image`, `label` de `button`, `alt`
+ * por imagen de `gallery` (escala con la cantidad de imágenes), y
+ * `question`+`answer` por item de `accordion` (2 campos por item). Los
+ * sliders no aportan — no tienen ningún campo localizado. Página sin
+ * contenido traducible todavía → `total: 0`, tratado como 100% en el
+ * consumidor (nada que traducir, no es un estado de error).
  */
 export function computeTranslationProgress(
   sections: BuilderSection[],

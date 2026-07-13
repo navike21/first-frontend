@@ -221,9 +221,15 @@ export interface PageTranslations {
     addText: string
     addImage: string
     addSlider: string
+    addButton: string
+    addGallery: string
+    addAccordion: string
     textElement: string
     imageElement: string
     sliderElement: string
+    buttonElement: string
+    galleryElement: string
+    accordionElement: string
     imageSelect: string
     imageReplace: string
     imageAlt: string
@@ -234,6 +240,31 @@ export interface PageTranslations {
     sliderRemoveLabel: string
     sliderLibraryImage: string
     sliderLibraryVideo: string
+    buttonLabel: string
+    buttonUrl: string
+    buttonEmpty: string
+    buttonTargetLabel: string
+    buttonTargetSelf: string
+    buttonTargetBlank: string
+    buttonVariantLabel: string
+    buttonVariant: {
+      primary: string
+      secondary: string
+      outline: string
+    }
+    galleryEmpty: string
+    galleryAddLabel: string
+    galleryDragLabel: string
+    galleryFormatsHint: string
+    galleryRemoveLabel: string
+    galleryLibraryLabel: string
+    galleryAlt: string
+    accordionEmpty: string
+    accordionAddLabel: string
+    accordionQuestionLabel: string
+    accordionAnswerLabel: string
+    accordionRemoveLabel: string
+    accordionItemDragLabel: string
     deleteSection: string
     deleteSectionConfirm: string
     deleteElement: string

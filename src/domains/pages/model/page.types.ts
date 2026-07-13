@@ -46,7 +46,65 @@ export interface BuilderSliderElement {
   slides: BuilderSliderSlide[]
 }
 
-export type BuilderElement = BuilderTextElement | BuilderImageElement | BuilderSliderElement
+export interface BuilderButtonElement {
+  id: string
+  type: 'button'
+  label: PageLocalizedString
+  url: string
+  /** Solo los 3 niveles reales de botón de la app (primary/secondary/
+   * outline) — warning/error/information existen en ButtonVariant pero son
+   * para comunicar estado (ej. Chip), no opciones de estilo para un CTA de
+   * contenido. */
+  variant: 'primary' | 'secondary' | 'outline'
+  target: '_self' | '_blank'
+  align: 'left' | 'center' | 'right'
+}
+
+export interface BuilderGalleryImage {
+  url: string
+  alt: PageLocalizedString
+}
+
+export interface BuilderGalleryElement {
+  id: string
+  type: 'gallery'
+  images: BuilderGalleryImage[]
+  /** Reusa BuilderColumnsCount (1-4), misma noción que columnas de sección. */
+  columns: BuilderColumnsCount
+}
+
+export interface BuilderAccordionItem {
+  id: string
+  question: PageLocalizedString
+  /** Rich text (RichTextArea) — un FAQ típico quiere párrafos/links/listas
+   * en la respuesta, a diferencia de la pregunta (una línea). */
+  answer: PageLocalizedString
+}
+
+export interface BuilderAccordionElement {
+  id: string
+  type: 'accordion'
+  items: BuilderAccordionItem[]
+}
+
+export type BuilderElement =
+  | BuilderTextElement
+  | BuilderImageElement
+  | BuilderSliderElement
+  | BuilderButtonElement
+  | BuilderGalleryElement
+  | BuilderAccordionElement
+
+/** Distribuye Partial<> sobre cada miembro de BuilderElement en vez de
+ * colapsar a Partial<BuilderElement> (que solo conservaría `id`/`type` —
+ * keyof de una unión es la INTERSECCIÓN de las claves de cada miembro). */
+export type BuilderElementPatch =
+  | Partial<BuilderTextElement>
+  | Partial<BuilderImageElement>
+  | Partial<BuilderSliderElement>
+  | Partial<BuilderButtonElement>
+  | Partial<BuilderGalleryElement>
+  | Partial<BuilderAccordionElement>
 
 export interface BuilderColumn {
   id: string
