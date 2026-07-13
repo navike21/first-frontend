@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { StorageFile } from '@/shared/api/storage'
 import { MediaLibraryModal } from './MediaLibraryModal'
@@ -94,7 +94,7 @@ describe('MediaLibraryModal video preview', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('multiple mode: the preview action button toggles selection and only closes the preview', () => {
+  it('multiple mode: the preview action button toggles selection and only closes the preview', async () => {
     const onClose = vi.fn()
     render(
       <MediaLibraryModal isOpen kind="video" multiple onSelectMultiple={vi.fn()} onClose={onClose} texts={texts} />,
@@ -102,18 +102,21 @@ describe('MediaLibraryModal video preview', () => {
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
     fireEvent.click(screen.getByRole('button', { name: 'Add to selection' }))
+    // The preview panel slides out (AnimatePresence exit animation) rather
+    // than unmounting instantly — wait for it instead of asserting it's gone
+    // synchronously.
+    await waitForElementToBeRemoved(() => document.querySelector('video[autoplay]'))
 
     expect(onClose).not.toHaveBeenCalled()
-    expect(document.querySelector('video[autoplay]')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: `Add selected (1)` })).toBeInTheDocument()
   })
 
-  it('closes the preview when clicking the close button', () => {
+  it('closes the preview when clicking the close button', async () => {
     render(<MediaLibraryModal isOpen kind="video" onSelect={vi.fn()} onClose={vi.fn()} texts={texts} />)
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
     fireEvent.click(screen.getByLabelText('Close preview'))
 
-    expect(document.querySelector('video[autoplay]')).not.toBeInTheDocument()
+    await waitForElementToBeRemoved(() => document.querySelector('video[autoplay]'))
   })
 })
