@@ -14,10 +14,17 @@ import type {
   BuilderGalleryElement,
   BuilderGalleryImage,
   BuilderImageElement,
+  BuilderMapElement,
   BuilderSection,
   BuilderSliderElement,
   BuilderSliderSlide,
+  BuilderStatItem,
+  BuilderStatsElement,
+  BuilderTestimonialItem,
+  BuilderTestimonialRating,
+  BuilderTestimonialsElement,
   BuilderTextElement,
+  BuilderVideoElement,
   PageLocalizedString,
 } from './page.types'
 
@@ -155,6 +162,75 @@ function normalizeAccordionElement(el: Record<string, unknown>): BuilderAccordio
   }
 }
 
+const TESTIMONIAL_RATING_VALUES: BuilderTestimonialRating[] = [1, 2, 3, 4, 5]
+
+function normalizeTestimonialItem(raw: unknown): BuilderTestimonialItem[] {
+  if (!raw || typeof raw !== 'object') return []
+  const item = raw as Record<string, unknown>
+  const rating = TESTIMONIAL_RATING_VALUES.includes(item.rating as BuilderTestimonialRating)
+    ? (item.rating as BuilderTestimonialRating)
+    : undefined
+  return [
+    {
+      id: typeof item.id === 'string' ? item.id : newId(),
+      name: typeof item.name === 'string' ? item.name : '',
+      role: normalizeLocalized(item.role),
+      avatarUrl: typeof item.avatarUrl === 'string' && item.avatarUrl ? item.avatarUrl : undefined,
+      quote: normalizeLocalized(item.quote),
+      rating,
+    },
+  ]
+}
+
+function normalizeTestimonialsElement(el: Record<string, unknown>): BuilderTestimonialsElement {
+  const rawItems = Array.isArray(el.items) ? el.items : []
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'testimonials',
+    items: rawItems.flatMap(normalizeTestimonialItem),
+  }
+}
+
+function normalizeStatItem(raw: unknown): BuilderStatItem[] {
+  if (!raw || typeof raw !== 'object') return []
+  const item = raw as Record<string, unknown>
+  return [
+    {
+      id: typeof item.id === 'string' ? item.id : newId(),
+      value: typeof item.value === 'string' ? item.value : '',
+      label: normalizeLocalized(item.label),
+    },
+  ]
+}
+
+function normalizeStatsElement(el: Record<string, unknown>): BuilderStatsElement {
+  const rawItems = Array.isArray(el.items) ? el.items : []
+  return { id: typeof el.id === 'string' ? el.id : newId(), type: 'stats', items: rawItems.flatMap(normalizeStatItem) }
+}
+
+function normalizeVideoElement(el: Record<string, unknown>): BuilderVideoElement {
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'video',
+    url: typeof el.url === 'string' ? el.url : '',
+    caption: normalizeLocalized(el.caption),
+  }
+}
+
+function normalizeMapElement(el: Record<string, unknown>): BuilderMapElement {
+  const lat = typeof el.lat === 'number' && Number.isFinite(el.lat) ? el.lat : undefined
+  const lng = typeof el.lng === 'number' && Number.isFinite(el.lng) ? el.lng : undefined
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'map',
+    address: typeof el.address === 'string' ? el.address : '',
+    lat,
+    lng,
+    caption: normalizeLocalized(el.caption),
+    showDirectionsButtons: !!el.showDirectionsButtons,
+  }
+}
+
 function normalizeElement(raw: unknown): BuilderElement | null {
   if (!raw || typeof raw !== 'object') return null
   const el = raw as Record<string, unknown>
@@ -164,6 +240,10 @@ function normalizeElement(raw: unknown): BuilderElement | null {
   if (el.type === 'button') return normalizeButtonElement(el)
   if (el.type === 'gallery') return normalizeGalleryElement(el)
   if (el.type === 'accordion') return normalizeAccordionElement(el)
+  if (el.type === 'testimonials') return normalizeTestimonialsElement(el)
+  if (el.type === 'stats') return normalizeStatsElement(el)
+  if (el.type === 'video') return normalizeVideoElement(el)
+  if (el.type === 'map') return normalizeMapElement(el)
   return null
 }
 
@@ -273,6 +353,34 @@ export function createGalleryElement(): BuilderGalleryElement {
 
 export function createAccordionElement(): BuilderAccordionElement {
   return { id: newId(), type: 'accordion', items: [] }
+}
+
+export function createTestimonialsElement(): BuilderTestimonialsElement {
+  return { id: newId(), type: 'testimonials', items: [] }
+}
+
+export function createStatsElement(): BuilderStatsElement {
+  return { id: newId(), type: 'stats', items: [] }
+}
+
+export function createVideoElement(): BuilderVideoElement {
+  return { id: newId(), type: 'video', url: '', caption: emptyLocalized() }
+}
+
+export function createMapElement(): BuilderMapElement {
+  return { id: newId(), type: 'map', address: '', caption: emptyLocalized(), showDirectionsButtons: false }
+}
+
+/** Deep-link universal a Google Maps (no requiere API key) — usa lat/lng si
+ * están disponibles, si no cae a la dirección de texto libre. */
+export function buildGoogleMapsDirectionsUrl(address: string, lat?: number, lng?: number): string {
+  const destination = lat !== undefined && lng !== undefined ? `${lat},${lng}` : address
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`
+}
+
+/** Waze necesita lat/lng — no soporta destino por dirección de texto. */
+export function buildWazeUrl(lat: number, lng: number): string {
+  return `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`
 }
 
 // ── Operaciones puras sobre el draft (siempre devuelven un array nuevo) ─────
@@ -581,6 +689,30 @@ export function replaceGalleryImageUrl(
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
       elements: c.elements.map((e) => replaceGalleryImageInElement(e, elementId, oldUrl, newUrl)),
+    }))
+    return { ...s, content: { ...s.content, columns } }
+  })
+}
+
+function replaceTestimonialAvatarInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+  if (e.id !== elementId || e.type !== 'testimonials') return e
+  return { ...e, items: e.items.map((item) => (item.avatarUrl === oldUrl ? { ...item, avatarUrl: newUrl } : item)) }
+}
+
+/** Sustituye el avatar de un testimonio puntual (post-subida) por su URL
+ * real — se busca por `avatarUrl === oldUrl` dentro de `items` (cada blob
+ * URL de `URL.createObjectURL` es irrepetible, igual de único que un id). */
+export function replaceTestimonialAvatarUrl(
+  sections: BuilderSection[],
+  elementId: string,
+  oldUrl: string,
+  newUrl: string,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (!isColumnsSection(s)) return s
+    const columns = (s.content.columns ?? []).map((c) => ({
+      ...c,
+      elements: c.elements.map((e) => replaceTestimonialAvatarInElement(e, elementId, oldUrl, newUrl)),
     }))
     return { ...s, content: { ...s.content, columns } }
   })

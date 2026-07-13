@@ -19,6 +19,10 @@ import {
   createButtonElement,
   createGalleryElement,
   createAccordionElement,
+  createTestimonialsElement,
+  createStatsElement,
+  createVideoElement,
+  createMapElement,
   insertSection,
   moveSection,
   removeSection,
@@ -34,6 +38,7 @@ import {
   replaceImageUrl,
   replaceSliderSlideUrl,
   replaceGalleryImageUrl,
+  replaceTestimonialAvatarUrl,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
 import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
@@ -57,6 +62,11 @@ interface PendingGalleryFile {
   file: File
 }
 
+interface PendingTestimonialAvatarFile {
+  elementId: string
+  file: File
+}
+
 const backgroundFileKey = (sectionId: string, breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot) =>
   `${sectionId}:${breakpoint}:${slot}`
 
@@ -64,6 +74,79 @@ const mimeTypeForSlot = (slot: BackgroundFileSlot): string =>
   slot === 'video-webm' ? 'video/webm' : 'video/mp4'
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+
+async function uploadPendingFiles(sections: BuilderSection[], pendingFiles: Map<string, File>): Promise<BuilderSection[]> {
+  let next = sections
+  for (const [elementId, file] of pendingFiles) {
+    const url = await uploadEditorImage(file)
+    next = replaceImageUrl(next, elementId, url)
+  }
+  return next
+}
+
+async function uploadPendingBackgroundFiles(
+  sections: BuilderSection[],
+  pendingBackgroundFiles: Map<string, PendingBackgroundFile>,
+): Promise<BuilderSection[]> {
+  let next = sections
+  for (const { sectionId, breakpoint, slot, file } of pendingBackgroundFiles.values()) {
+    if (slot === 'image') {
+      const url = await uploadEditorImage(file)
+      next = setBackgroundImageUrl(next, sectionId, breakpoint, url)
+    } else {
+      // Sin miniatura: el fondo de sección ya se previsualiza con un
+      // <video controls> real (un solo slot, no una grilla) — no hace
+      // falta evitarle la carga del archivo.
+      const { url, mimeType } = await directUploadVideo(file, crypto.randomUUID())
+      next = setBackgroundVideoFile(next, sectionId, breakpoint, { url, mimeType })
+    }
+  }
+  return next
+}
+
+async function uploadPendingSliderFiles(
+  sections: BuilderSection[],
+  pendingSliderFiles: Map<string, PendingSliderFile>,
+): Promise<BuilderSection[]> {
+  let next = sections
+  for (const [blobUrl, { elementId, file, kind }] of pendingSliderFiles) {
+    if (kind === 'image') {
+      const url = await uploadEditorImage(file)
+      next = replaceSliderSlideUrl(next, elementId, blobUrl, url)
+    } else {
+      const id = crypto.randomUUID()
+      const { url } = await directUploadVideo(file, id)
+      const cover = await captureVideoFrame(file)
+      const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
+      next = replaceSliderSlideUrl(next, elementId, blobUrl, url, posterUrl)
+    }
+  }
+  return next
+}
+
+async function uploadPendingGalleryFiles(
+  sections: BuilderSection[],
+  pendingGalleryFiles: Map<string, PendingGalleryFile>,
+): Promise<BuilderSection[]> {
+  let next = sections
+  for (const [blobUrl, { elementId, file }] of pendingGalleryFiles) {
+    const url = await uploadEditorImage(file)
+    next = replaceGalleryImageUrl(next, elementId, blobUrl, url)
+  }
+  return next
+}
+
+async function uploadPendingTestimonialAvatarFiles(
+  sections: BuilderSection[],
+  pendingTestimonialAvatarFiles: Map<string, PendingTestimonialAvatarFile>,
+): Promise<BuilderSection[]> {
+  let next = sections
+  for (const [blobUrl, { elementId, file }] of pendingTestimonialAvatarFiles) {
+    const url = await uploadEditorImage(file)
+    next = replaceTestimonialAvatarUrl(next, elementId, blobUrl, url)
+  }
+  return next
+}
 
 export const PageBuilderPage = () => {
   const { t, language } = usePagesTranslation()
@@ -77,6 +160,9 @@ export const PageBuilderPage = () => {
   const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<Map<string, PendingBackgroundFile>>(new Map())
   const [pendingSliderFiles, setPendingSliderFiles] = useState<Map<string, PendingSliderFile>>(new Map())
   const [pendingGalleryFiles, setPendingGalleryFiles] = useState<Map<string, PendingGalleryFile>>(new Map())
+  const [pendingTestimonialAvatarFiles, setPendingTestimonialAvatarFiles] = useState<
+    Map<string, PendingTestimonialAvatarFile>
+  >(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
@@ -93,6 +179,7 @@ export const PageBuilderPage = () => {
     setPendingBackgroundFiles(new Map())
     setPendingSliderFiles(new Map())
     setPendingGalleryFiles(new Map())
+    setPendingTestimonialAvatarFiles(new Map())
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
@@ -103,7 +190,8 @@ export const PageBuilderPage = () => {
       pendingFiles.size > 0 ||
       pendingBackgroundFiles.size > 0 ||
       pendingSliderFiles.size > 0 ||
-      pendingGalleryFiles.size > 0)
+      pendingGalleryFiles.size > 0 ||
+      pendingTestimonialAvatarFiles.size > 0)
 
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
@@ -172,8 +260,25 @@ export const PageBuilderPage = () => {
     })
   }
 
+  // Mismo patrón que handlePickGalleryFile: TestimonialsElementCard ya
+  // inserta la blob preview en items[i].avatarUrl, acá solo se registra la
+  // subida pendiente.
+  const handlePickTestimonialAvatarFile = (elementId: string, url: string, file: File) => {
+    setPendingTestimonialAvatarFiles((map) => new Map(map).set(url, { elementId, file }))
+  }
+
+  const handleRemoveTestimonialAvatarFile = (url: string) => {
+    setPendingTestimonialAvatarFiles((map) => {
+      if (!map.has(url)) return map
+      const next = new Map(map)
+      next.delete(url)
+      return next
+    })
+  }
+
   // Borrar el elemento entero también debe limpiar sus subidas pendientes
-  // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider/galería.
+  // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider/
+  // galería/testimonios.
   const handleElementDelete = (sectionId: string, columnId: string, elementId: string) => {
     patch((s) => removeElement(s, sectionId, columnId, elementId))
     setPendingFiles((map) => {
@@ -194,6 +299,17 @@ export const PageBuilderPage = () => {
       return changed ? next : map
     })
     setPendingGalleryFiles((map) => {
+      const next = new Map(map)
+      let changed = false
+      for (const [url, entry] of map) {
+        if (entry.elementId === elementId) {
+          next.delete(url)
+          changed = true
+        }
+      }
+      return changed ? next : map
+    })
+    setPendingTestimonialAvatarFiles((map) => {
       const next = new Map(map)
       let changed = false
       for (const [url, entry] of map) {
@@ -257,43 +373,17 @@ export const PageBuilderPage = () => {
     setUploading(true)
     try {
       let sections = draft
-      for (const [elementId, file] of pendingFiles) {
-        const url = await uploadEditorImage(file)
-        sections = replaceImageUrl(sections, elementId, url)
-      }
-      for (const { sectionId, breakpoint, slot, file } of pendingBackgroundFiles.values()) {
-        if (slot === 'image') {
-          const url = await uploadEditorImage(file)
-          sections = setBackgroundImageUrl(sections, sectionId, breakpoint, url)
-        } else {
-          // Sin miniatura: el fondo de sección ya se previsualiza con un
-          // <video controls> real (un solo slot, no una grilla) — no hace
-          // falta evitarle la carga del archivo.
-          const { url, mimeType } = await directUploadVideo(file, crypto.randomUUID())
-          sections = setBackgroundVideoFile(sections, sectionId, breakpoint, { url, mimeType })
-        }
-      }
-      for (const [blobUrl, { elementId, file, kind }] of pendingSliderFiles) {
-        if (kind === 'image') {
-          const url = await uploadEditorImage(file)
-          sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url)
-        } else {
-          const id = crypto.randomUUID()
-          const { url } = await directUploadVideo(file, id)
-          const cover = await captureVideoFrame(file)
-          const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
-          sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url, posterUrl)
-        }
-      }
-      for (const [blobUrl, { elementId, file }] of pendingGalleryFiles) {
-        const url = await uploadEditorImage(file)
-        sections = replaceGalleryImageUrl(sections, elementId, blobUrl, url)
-      }
+      sections = await uploadPendingFiles(sections, pendingFiles)
+      sections = await uploadPendingBackgroundFiles(sections, pendingBackgroundFiles)
+      sections = await uploadPendingSliderFiles(sections, pendingSliderFiles)
+      sections = await uploadPendingGalleryFiles(sections, pendingGalleryFiles)
+      sections = await uploadPendingTestimonialAvatarFiles(sections, pendingTestimonialAvatarFiles)
       setDraft(sections)
       setPendingFiles(new Map())
       setPendingBackgroundFiles(new Map())
       setPendingSliderFiles(new Map())
       setPendingGalleryFiles(new Map())
+      setPendingTestimonialAvatarFiles(new Map())
       replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
     } catch {
       notify.error(t.builder.uploadError)
@@ -373,6 +463,12 @@ export const PageBuilderPage = () => {
         onAddButton={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createButtonElement()))}
         onAddGallery={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createGalleryElement()))}
         onAddAccordion={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createAccordionElement()))}
+        onAddTestimonials={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createTestimonialsElement()))
+        }
+        onAddStats={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createStatsElement()))}
+        onAddVideo={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createVideoElement()))}
+        onAddMap={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createMapElement()))}
         onElementChange={(sectionId, columnId, elementId, elementPatch) =>
           patch((s) => updateElement(s, sectionId, columnId, elementId, elementPatch))
         }
@@ -386,6 +482,8 @@ export const PageBuilderPage = () => {
         onRemoveSliderFile={handleRemoveSliderFile}
         onPickGalleryFile={handlePickGalleryFile}
         onRemoveGalleryFile={handleRemoveGalleryFile}
+        onPickTestimonialAvatarFile={handlePickTestimonialAvatarFile}
+        onRemoveTestimonialAvatarFile={handleRemoveTestimonialAvatarFile}
       />
 
       <Modal

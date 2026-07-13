@@ -224,12 +224,20 @@ export interface PageTranslations {
     addButton: string
     addGallery: string
     addAccordion: string
+    addTestimonials: string
+    addStats: string
+    addVideo: string
+    addMap: string
     textElement: string
     imageElement: string
     sliderElement: string
     buttonElement: string
     galleryElement: string
     accordionElement: string
+    testimonialsElement: string
+    statsElement: string
+    videoElement: string
+    mapElement: string
     imageSelect: string
     imageReplace: string
     imageAlt: string
@@ -265,6 +273,33 @@ export interface PageTranslations {
     accordionAnswerLabel: string
     accordionRemoveLabel: string
     accordionItemDragLabel: string
+    testimonialsEmpty: string
+    testimonialsAddLabel: string
+    testimonialsNameLabel: string
+    testimonialsRoleLabel: string
+    testimonialsQuoteLabel: string
+    testimonialsRatingLabel: string
+    testimonialsRatingNone: string
+    testimonialsAvatarLabel: string
+    testimonialsRemoveLabel: string
+    testimonialsItemDragLabel: string
+    statsEmpty: string
+    statsAddLabel: string
+    statsValueLabel: string
+    statsLabelLabel: string
+    statsRemoveLabel: string
+    statsItemDragLabel: string
+    videoUrlLabel: string
+    videoUrlHint: string
+    videoCaptionLabel: string
+    videoEmpty: string
+    mapAddressLabel: string
+    mapLatLabel: string
+    mapLngLabel: string
+    mapCaptionLabel: string
+    mapShowDirectionsLabel: string
+    mapShowDirectionsHint: string
+    mapEmpty: string
     deleteSection: string
     deleteSectionConfirm: string
     deleteElement: string

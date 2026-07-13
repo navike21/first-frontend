@@ -87,6 +87,57 @@ export interface BuilderAccordionElement {
   items: BuilderAccordionItem[]
 }
 
+export type BuilderTestimonialRating = 1 | 2 | 3 | 4 | 5
+
+export interface BuilderTestimonialItem {
+  id: string
+  /** Persona real — el nombre nunca se traduce. */
+  name: string
+  /** El cargo SÍ se traduce ("CEO" → "Gerente General"), a diferencia de `name`. */
+  role: PageLocalizedString
+  avatarUrl?: string
+  quote: PageLocalizedString
+  rating?: BuilderTestimonialRating
+}
+
+export interface BuilderTestimonialsElement {
+  id: string
+  type: 'testimonials'
+  items: BuilderTestimonialItem[]
+}
+
+export interface BuilderStatItem {
+  id: string
+  /** Plano: "500+", "98%" — símbolos/numerales no se traducen. */
+  value: string
+  label: PageLocalizedString
+}
+
+export interface BuilderStatsElement {
+  id: string
+  type: 'stats'
+  items: BuilderStatItem[]
+}
+
+export interface BuilderVideoElement {
+  id: string
+  type: 'video'
+  /** Sin parseo/validación — mismo contrato deliberadamente superficial que
+   * BackgroundVideo.embedUrl (no hay ni un <iframe> en este repo hoy). */
+  url: string
+  caption: PageLocalizedString
+}
+
+export interface BuilderMapElement {
+  id: string
+  type: 'map'
+  address: string
+  lat?: number
+  lng?: number
+  caption: PageLocalizedString
+  showDirectionsButtons: boolean
+}
+
 export type BuilderElement =
   | BuilderTextElement
   | BuilderImageElement
@@ -94,6 +145,10 @@ export type BuilderElement =
   | BuilderButtonElement
   | BuilderGalleryElement
   | BuilderAccordionElement
+  | BuilderTestimonialsElement
+  | BuilderStatsElement
+  | BuilderVideoElement
+  | BuilderMapElement
 
 /** Distribuye Partial<> sobre cada miembro de BuilderElement en vez de
  * colapsar a Partial<BuilderElement> (que solo conservaría `id`/`type` —
@@ -105,6 +160,10 @@ export type BuilderElementPatch =
   | Partial<BuilderButtonElement>
   | Partial<BuilderGalleryElement>
   | Partial<BuilderAccordionElement>
+  | Partial<BuilderTestimonialsElement>
+  | Partial<BuilderStatsElement>
+  | Partial<BuilderVideoElement>
+  | Partial<BuilderMapElement>
 
 export interface BuilderColumn {
   id: string

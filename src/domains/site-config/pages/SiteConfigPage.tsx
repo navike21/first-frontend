@@ -12,13 +12,15 @@ import type {
   FooterConfig,
   LayoutConfig,
   SocialConfig,
+  MapsConfig,
 } from '../model/site-config.types'
 import { HeaderConfigPanel } from '../components/HeaderConfigPanel'
 import { FooterConfigPanel } from '../components/FooterConfigPanel'
 import { ContentConfigPanel } from '../components/ContentConfigPanel'
 import { SocialConfigPanel } from '../components/SocialConfigPanel'
+import { MapsConfigPanel } from '../components/MapsConfigPanel'
 
-type TabId = 'header' | 'footer' | 'content' | 'social'
+type TabId = 'header' | 'footer' | 'content' | 'social' | 'maps'
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
@@ -49,12 +51,15 @@ export const SiteConfigPage = () => {
     setDraft((d) => (d ? { ...d, layout: { ...d.layout, ...patch } } : d))
   const patchSocial = (patch: Partial<SocialConfig>) =>
     setDraft((d) => (d ? { ...d, social: { ...d.social, ...patch } } : d))
+  const patchMaps = (patch: Partial<MapsConfig>) =>
+    setDraft((d) => (d ? { ...d, maps: { ...d.maps, ...patch } } : d))
 
   const dirtyHeader = !!draft && !!serverNorm && !sameJson(draft.header, serverNorm.header)
   const dirtyFooter = !!draft && !!serverNorm && !sameJson(draft.footer, serverNorm.footer)
   const dirtyLayout = !!draft && !!serverNorm && !sameJson(draft.layout, serverNorm.layout)
   const dirtySocial = !!draft && !!serverNorm && !sameJson(draft.social, serverNorm.social)
-  const dirty = dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial
+  const dirtyMaps = !!draft && !!serverNorm && !sameJson(draft.maps, serverNorm.maps)
+  const dirty = dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial || dirtyMaps
 
   const handleSave = () => {
     if (!draft) return
@@ -63,6 +68,7 @@ export const SiteConfigPage = () => {
       ...(dirtyFooter && { footer: draft.footer }),
       ...(dirtyLayout && { layout: draft.layout }),
       ...(dirtySocial && { social: draft.social }),
+      ...(dirtyMaps && { maps: draft.maps }),
     }
     updateConfig.mutate(payload, {
       onSuccess: () => notify.success(t.actions.saved),
@@ -74,6 +80,7 @@ export const SiteConfigPage = () => {
     { id: 'footer', label: t.tabs.footer },
     { id: 'content', label: t.tabs.content },
     { id: 'social', label: t.tabs.social },
+    { id: 'maps', label: t.tabs.maps },
   ]
 
   if (isLoading || !draft) {
@@ -105,6 +112,7 @@ export const SiteConfigPage = () => {
         )}
         {activeTab === 'content' && <ContentConfigPanel value={draft.layout} onChange={patchLayout} />}
         {activeTab === 'social' && <SocialConfigPanel value={draft.social} onChange={patchSocial} />}
+        {activeTab === 'maps' && <MapsConfigPanel value={draft.maps} onChange={patchMaps} />}
 
         <Can anyOf={CAN.siteConfigUpdate}>
           <div className="flex items-center justify-end gap-3 border-t border-border pt-4">

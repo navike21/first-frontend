@@ -9,6 +9,10 @@ import type {
   BuilderButtonElement,
   BuilderGalleryElement,
   BuilderAccordionElement,
+  BuilderTestimonialsElement,
+  BuilderStatsElement,
+  BuilderVideoElement,
+  BuilderMapElement,
 } from './page.types'
 import { isEmptyHtml, isLocalizedFilled, computeTranslationProgress } from './pageTranslationProgress'
 
@@ -65,6 +69,40 @@ const accordionElement = (
     question: localized(i.qEs, i.qEn),
     answer: localized(i.aEs, i.aEn),
   })),
+})
+
+const testimonialsElement = (
+  items: { name?: string; roleEs?: string; roleEn?: string; quoteEs?: string; quoteEn?: string }[],
+): BuilderTestimonialsElement => ({
+  id: 'testimonials-1',
+  type: 'testimonials',
+  items: items.map((i, idx) => ({
+    id: `item-${idx}`,
+    name: i.name ?? '',
+    role: localized(i.roleEs, i.roleEn),
+    quote: localized(i.quoteEs, i.quoteEn),
+  })),
+})
+
+const statsElement = (items: { value?: string; es?: string; en?: string }[]): BuilderStatsElement => ({
+  id: 'stats-1',
+  type: 'stats',
+  items: items.map((i, idx) => ({ id: `item-${idx}`, value: i.value ?? '', label: localized(i.es, i.en) })),
+})
+
+const videoElement = (es?: string, en?: string): BuilderVideoElement => ({
+  id: 'video-1',
+  type: 'video',
+  url: 'https://youtube.com/watch?v=x',
+  caption: localized(es, en),
+})
+
+const mapElement = (es?: string, en?: string): BuilderMapElement => ({
+  id: 'map-1',
+  type: 'map',
+  address: 'Av. Principal 123',
+  caption: localized(es, en),
+  showDirectionsButtons: false,
 })
 
 const columnsSection = (elements: BuilderElement[]): BuilderSection => ({
@@ -158,5 +196,44 @@ describe('computeTranslationProgress', () => {
     const progress = computeTranslationProgress(sections, LANGS)
     expect(progress.es).toEqual({ filled: 2, total: 2 })
     expect(progress.en).toEqual({ filled: 0, total: 2 })
+  })
+
+  it('counts role+quote per testimonial item, ignoring name/avatar/rating', () => {
+    const sections = [
+      columnsSection([
+        testimonialsElement([{ name: 'Ana', roleEs: 'Gerenta', roleEn: '', quoteEs: 'Excelente', quoteEn: '' }]),
+      ]),
+    ]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 2, total: 2 })
+    expect(progress.en).toEqual({ filled: 0, total: 2 })
+  })
+
+  it('counts only label per stats item, ignoring value', () => {
+    const sections = [
+      columnsSection([
+        statsElement([
+          { value: '500+', es: 'Clientes', en: 'Customers' },
+          { value: '98%', es: 'Satisfacción', en: '' },
+        ]),
+      ]),
+    ]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 2, total: 2 })
+    expect(progress.en).toEqual({ filled: 1, total: 2 })
+  })
+
+  it('counts only caption for video, ignoring url', () => {
+    const sections = [columnsSection([videoElement('Descripción', '')])]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 1, total: 1 })
+    expect(progress.en).toEqual({ filled: 0, total: 1 })
+  })
+
+  it('counts only caption for map, ignoring address/lat/lng', () => {
+    const sections = [columnsSection([mapElement('Nuestra tienda', '')])]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 1, total: 1 })
+    expect(progress.en).toEqual({ filled: 0, total: 1 })
   })
 })

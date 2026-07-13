@@ -10,9 +10,18 @@ export const zh: SiteConfigTranslations = {
     footer: '页脚',
     content: '内容',
     social: '社交网络',
+    maps: '地图',
   },
   social: {
     hint: '唯一真实来源：这些 URL 将用于公开网站的所有区域。不使用的网络请留空。',
+  },
+  maps: {
+    hint: '选择公开网站将使用的地图服务商。',
+    providerLabel: '地图服务商',
+    providers: {
+      google: 'Google 地图',
+      osm: 'OpenStreetMap',
+    },
   },
   actions: {
     save: '保存更改',

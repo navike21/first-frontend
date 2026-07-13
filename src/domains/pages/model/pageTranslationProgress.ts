@@ -1,6 +1,13 @@
 import type { Language } from '@/shared/i18n'
 import { isColumnsSection } from './page.builder'
-import type { BuilderElement, BuilderSection } from './page.types'
+import type {
+  BuilderAccordionElement,
+  BuilderElement,
+  BuilderGalleryElement,
+  BuilderSection,
+  BuilderStatsElement,
+  BuilderTestimonialsElement,
+} from './page.types'
 
 /** TipTap emite `<p></p>` cuando está "vacío": sin este chequeo un texto
  * recién creado (o borrado) contaría como lleno. */
@@ -33,6 +40,44 @@ function accumulateLocalizedField(
   }
 }
 
+function accumulateGalleryElement(
+  progress: Record<Language, LanguageProgress>,
+  element: BuilderGalleryElement,
+  languages: readonly Language[],
+): void {
+  for (const image of element.images) accumulateLocalizedField(progress, image.alt, 'text', languages)
+}
+
+function accumulateAccordionElement(
+  progress: Record<Language, LanguageProgress>,
+  element: BuilderAccordionElement,
+  languages: readonly Language[],
+): void {
+  for (const item of element.items) {
+    accumulateLocalizedField(progress, item.question, 'text', languages)
+    accumulateLocalizedField(progress, item.answer, 'html', languages)
+  }
+}
+
+function accumulateTestimonialsElement(
+  progress: Record<Language, LanguageProgress>,
+  element: BuilderTestimonialsElement,
+  languages: readonly Language[],
+): void {
+  for (const item of element.items) {
+    accumulateLocalizedField(progress, item.role, 'text', languages)
+    accumulateLocalizedField(progress, item.quote, 'text', languages)
+  }
+}
+
+function accumulateStatsElement(
+  progress: Record<Language, LanguageProgress>,
+  element: BuilderStatsElement,
+  languages: readonly Language[],
+): void {
+  for (const item of element.items) accumulateLocalizedField(progress, item.label, 'text', languages)
+}
+
 function accumulateElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderElement,
@@ -42,17 +87,12 @@ function accumulateElement(
   if (element.type === 'text') return accumulateLocalizedField(progress, element.html, 'html', languages)
   if (element.type === 'image') return accumulateLocalizedField(progress, element.alt, 'text', languages)
   if (element.type === 'button') return accumulateLocalizedField(progress, element.label, 'text', languages)
-  if (element.type === 'gallery') {
-    for (const image of element.images) accumulateLocalizedField(progress, image.alt, 'text', languages)
-    return
-  }
-  if (element.type === 'accordion') {
-    for (const item of element.items) {
-      accumulateLocalizedField(progress, item.question, 'text', languages)
-      accumulateLocalizedField(progress, item.answer, 'html', languages)
-    }
-    return
-  }
+  if (element.type === 'video') return accumulateLocalizedField(progress, element.caption, 'text', languages)
+  if (element.type === 'map') return accumulateLocalizedField(progress, element.caption, 'text', languages)
+  if (element.type === 'gallery') return accumulateGalleryElement(progress, element, languages)
+  if (element.type === 'accordion') return accumulateAccordionElement(progress, element, languages)
+  if (element.type === 'testimonials') return accumulateTestimonialsElement(progress, element, languages)
+  if (element.type === 'stats') return accumulateStatsElement(progress, element, languages)
   const _exhaustive: never = element
   return _exhaustive
 }
@@ -60,11 +100,13 @@ function accumulateElement(
 /**
  * Cuenta, por idioma, cuántos campos traducibles del lienzo tienen
  * contenido: `html` de `text`, `alt` de `image`, `label` de `button`, `alt`
- * por imagen de `gallery` (escala con la cantidad de imágenes), y
- * `question`+`answer` por item de `accordion` (2 campos por item). Los
- * sliders no aportan — no tienen ningún campo localizado. Página sin
- * contenido traducible todavía → `total: 0`, tratado como 100% en el
- * consumidor (nada que traducir, no es un estado de error).
+ * por imagen de `gallery` (escala con la cantidad de imágenes),
+ * `question`+`answer` por item de `accordion` (2 campos por item),
+ * `role`+`quote` por item de `testimonials` (2 campos por item), `label`
+ * por item de `stats`, y `caption` de `video`/`map`. Los sliders no
+ * aportan — no tienen ningún campo localizado. Página sin contenido
+ * traducible todavía → `total: 0`, tratado como 100% en el consumidor
+ * (nada que traducir, no es un estado de error).
  */
 export function computeTranslationProgress(
   sections: BuilderSection[],

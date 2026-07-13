@@ -68,11 +68,19 @@ export type SocialNetwork = (typeof SOCIAL_NETWORKS)[number]
 /** Fuente única de la verdad de las redes sociales del sitio ('' = oculta). */
 export type SocialConfig = Record<SocialNetwork, string>
 
+export const MAP_PROVIDERS = ['google', 'osm'] as const
+export type MapProvider = (typeof MAP_PROVIDERS)[number]
+
+export interface MapsConfig {
+  provider: MapProvider
+}
+
 export interface SiteConfigData {
   header: HeaderConfig
   footer: FooterConfig
   layout: LayoutConfig
   social: SocialConfig
+  maps: MapsConfig
 }
 
 export type SiteConfigUpdatePayload = Partial<SiteConfigData>
@@ -108,6 +116,7 @@ export function siteConfigFallback(): SiteConfigData {
     },
     layout: { contentWidth: 'boxed', boxedMaxWidth: 1200 },
     social: emptySocial(),
+    maps: { provider: 'google' },
   }
 }
 
@@ -125,5 +134,6 @@ export function normalizeSiteConfig(input?: DeepPartial<SiteConfigData> | null):
     footer: { ...base.footer, ...input?.footer } as SiteConfigData['footer'],
     layout: { ...base.layout, ...input?.layout } as SiteConfigData['layout'],
     social: { ...base.social, ...input?.social } as SocialConfig,
+    maps: { ...base.maps, ...input?.maps } as SiteConfigData['maps'],
   }
 }
