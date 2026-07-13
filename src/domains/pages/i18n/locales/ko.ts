@@ -215,6 +215,12 @@ export const ko: PageTranslations = {
       addToSelectionLabel: '선택에 추가',
       removeFromSelectionLabel: '선택에서 제거',
     },
+    translationProgress: {
+      heading: '번역 진행 상황',
+      complete: '완료',
+      partial: '진행 중',
+      empty: '시작 안 함',
+    },
     addText: '텍스트',
     addImage: '이미지',
     addSlider: '슬라이더',

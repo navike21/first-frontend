@@ -212,6 +212,12 @@ export interface PageTranslations {
       addToSelectionLabel: string
       removeFromSelectionLabel: string
     }
+    translationProgress: {
+      heading: string
+      complete: string
+      partial: string
+      empty: string
+    }
     addText: string
     addImage: string
     addSlider: string

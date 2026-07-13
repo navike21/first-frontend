@@ -215,6 +215,12 @@ export const zh: PageTranslations = {
       addToSelectionLabel: '添加到选择',
       removeFromSelectionLabel: '从选择中移除',
     },
+    translationProgress: {
+      heading: '翻译进度',
+      complete: '已完成',
+      partial: '进行中',
+      empty: '未开始',
+    },
     addText: '文本',
     addImage: '图片',
     addSlider: '滑动组件',

@@ -215,6 +215,12 @@ export const ru: PageTranslations = {
       addToSelectionLabel: 'Добавить в выбор',
       removeFromSelectionLabel: 'Убрать из выбора',
     },
+    translationProgress: {
+      heading: 'Прогресс перевода',
+      complete: 'завершено',
+      partial: 'в процессе',
+      empty: 'не начато',
+    },
     addText: 'Текст',
     addImage: 'Изображение',
     addSlider: 'Слайдер',

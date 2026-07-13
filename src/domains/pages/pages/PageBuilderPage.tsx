@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from '@tanstack/react-router'
 import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
@@ -6,6 +6,8 @@ import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
 import { uploadEditorImage, directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
+import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
+import type { Language } from '@/shared/i18n'
 import { usePage, useReplaceSections } from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
 import {
@@ -29,8 +31,9 @@ import {
   replaceImageUrl,
   replaceSliderSlideUrl,
 } from '../model/page.builder'
+import { computeTranslationProgress } from '../model/pageTranslationProgress'
 import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
-import { BuilderCanvas } from '../components/builder'
+import { BuilderCanvas, PageTranslationProgress } from '../components/builder'
 
 interface PendingBackgroundFile {
   sectionId: string
@@ -66,6 +69,9 @@ export const PageBuilderPage = () => {
   const [pendingSliderFiles, setPendingSliderFiles] = useState<Map<string, PendingSliderFile>>(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
+
+  const progress = useMemo(() => computeTranslationProgress(draft ?? [], SUPPORTED_LANGUAGES), [draft])
 
   // Adopta datos frescos del servidor durante el render (carga inicial y
   // refetch post-guardado), normalizados para que caché vieja o secciones de
@@ -280,6 +286,15 @@ export const PageBuilderPage = () => {
         },
       ]}
     >
+      <div className="mb-4">
+        <PageTranslationProgress
+          progress={progress}
+          reviewLanguage={reviewLanguage}
+          onReviewLanguageChange={setReviewLanguage}
+          nativeLanguage={language}
+        />
+      </div>
+
       <div className="mb-4 flex items-center justify-end gap-3">
         {dirty && <span className="text-xs text-amber-500">{t.builder.unsaved}</span>}
         <Button
@@ -297,7 +312,7 @@ export const PageBuilderPage = () => {
 
       <BuilderCanvas
         sections={draft}
-        language={language}
+        language={reviewLanguage}
         onAddSection={handleAddSection}
         onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
         onChooseColumns={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
