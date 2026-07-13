@@ -52,7 +52,7 @@ async function paintAndBackfill(
   isCancelled: () => boolean,
 ): Promise<void> {
   await paintVideoFrame(video, isCancelled)
-  if (entityId) await backfillCover(video, entityId, isCancelled)
+  if (entityId && !isCancelled()) await backfillCover(video, entityId, isCancelled)
 }
 
 export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', className }: MediaThumbnailProps) => {
@@ -72,6 +72,14 @@ export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', class
     return () => {
       cancelled = true
       video.removeEventListener('loadedmetadata', start)
+      // React StrictMode runs this effect twice in dev (setup → cleanup →
+      // setup again) on the SAME <video> node — without an immediate pause
+      // here, the first pass's pending play() and the second pass's play()/
+      // pause() calls race on the shared element and can reject each
+      // other's promise, silently killing the whole chain before it ever
+      // reaches the backfill upload (confirmed: reproduced live, zero
+      // network calls to /storage/:id/cover from a fresh dev reload).
+      video.pause()
     }
   }, [isVideoFallback, entityId, src])
 
@@ -81,5 +89,12 @@ export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', class
   if (posterSrc) {
     return <img src={posterSrc} alt={alt} className={className} />
   }
-  return <video ref={videoRef} src={src} muted playsInline preload="metadata" className={className} />
+  // crossOrigin is required for the backfill: without it, drawing this
+  // cross-origin video onto a <canvas> taints it and toBlob() throws a
+  // SecurityError (confirmed live) — silently swallowed by the caller's
+  // catch, so the cover upload never happened despite everything else
+  // working. Storage (Vercel Blob) already serves permissive CORS headers.
+  return (
+    <video ref={videoRef} src={src} muted playsInline preload="metadata" crossOrigin="anonymous" className={className} />
+  )
 }
