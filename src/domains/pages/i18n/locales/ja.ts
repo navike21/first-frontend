@@ -215,6 +215,12 @@ export const ja: PageTranslations = {
       addToSelectionLabel: '選択に追加',
       removeFromSelectionLabel: '選択から削除',
     },
+    translationProgress: {
+      heading: '翻訳の進捗',
+      complete: '完了',
+      partial: '進行中',
+      empty: '未着手',
+    },
     addText: 'テキスト',
     addImage: '画像',
     addSlider: 'スライダー',

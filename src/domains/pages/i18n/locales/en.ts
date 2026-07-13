@@ -215,6 +215,12 @@ export const en: PageTranslations = {
       addToSelectionLabel: 'Add to selection',
       removeFromSelectionLabel: 'Remove from selection',
     },
+    translationProgress: {
+      heading: 'Translation progress',
+      complete: 'complete',
+      partial: 'in progress',
+      empty: 'not started',
+    },
     addText: 'Text',
     addImage: 'Image',
     addSlider: 'Slider',

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button, Modal, RichTextArea } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
+import { isEmptyHtml } from '../../model/pageTranslationProgress'
 import type { BuilderTextElement } from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
@@ -22,14 +23,6 @@ export const TextElementCard = ({ element, sectionId, columnId, language, onChan
   const { t } = usePagesTranslation()
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
-
-  // TipTap emite '<p></p>' cuando está vacío: sin este chequeo la tarjeta se
-  // veía "sin nada" en lugar del hint de editar.
-  const isEmptyHtml = (html: string | undefined): boolean => {
-    if (!html) return true
-    const text = new DOMParser().parseFromString(html, 'text/html').body.textContent ?? ''
-    return !text.trim()
-  }
 
   const raw = element.html[language] ?? ''
   const fallback = element.html.en ?? ''
