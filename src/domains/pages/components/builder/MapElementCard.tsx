@@ -25,6 +25,12 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
   const { t } = usePagesTranslation()
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
+  // Buffer de texto separado del número derivado: si el valor mostrado
+  // viniera de `String(element.lat)` en cada tecla, escribir "-" o un "."
+  // final parsea a NaN/entero y el campo se "come" ese carácter apenas se
+  // vuelve a renderizar (ej. "-12.0464" terminaba guardado como 120464).
+  const [latText, setLatText] = useState(() => (element.lat !== undefined ? String(element.lat) : ''))
+  const [lngText, setLngText] = useState(() => (element.lng !== undefined ? String(element.lng) : ''))
 
   return (
     <ElementShell
@@ -73,14 +79,20 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
             <InputField
               label={t.builder.mapLatLabel}
               inputMode="decimal"
-              value={element.lat !== undefined ? String(element.lat) : ''}
-              onChange={(e) => onChange({ lat: parseCoord(e.target.value) })}
+              value={latText}
+              onChange={(e) => {
+                setLatText(e.target.value)
+                onChange({ lat: parseCoord(e.target.value) })
+              }}
             />
             <InputField
               label={t.builder.mapLngLabel}
               inputMode="decimal"
-              value={element.lng !== undefined ? String(element.lng) : ''}
-              onChange={(e) => onChange({ lng: parseCoord(e.target.value) })}
+              value={lngText}
+              onChange={(e) => {
+                setLngText(e.target.value)
+                onChange({ lng: parseCoord(e.target.value) })
+              }}
             />
           </div>
           <div className="flex flex-col gap-2">
