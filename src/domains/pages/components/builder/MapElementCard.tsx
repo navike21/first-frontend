@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, IconComponent, InputField, Modal, Switch } from '@/shared/ui'
+import { Button, IconComponent, InputField, InputNumber, Modal, Switch } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderMapElement } from '../../model/page.types'
@@ -15,8 +15,11 @@ export interface MapElementCardProps {
   onDelete: () => void
 }
 
+/** Precisión de ~11cm — suficiente para cualquier dirección real. */
+const COORD_DECIMALS = 6
+
 const parseCoord = (raw: string): number | undefined => {
-  if (!raw.trim()) return undefined
+  if (!raw.trim() || raw.trim() === '-') return undefined
   const n = Number(raw)
   return Number.isFinite(n) ? n : undefined
 }
@@ -25,12 +28,6 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
   const { t } = usePagesTranslation()
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
-  // Buffer de texto separado del número derivado: si el valor mostrado
-  // viniera de `String(element.lat)` en cada tecla, escribir "-" o un "."
-  // final parsea a NaN/entero y el campo se "come" ese carácter apenas se
-  // vuelve a renderizar (ej. "-12.0464" terminaba guardado como 120464).
-  const [latText, setLatText] = useState(() => (element.lat !== undefined ? String(element.lat) : ''))
-  const [lngText, setLngText] = useState(() => (element.lng !== undefined ? String(element.lng) : ''))
 
   return (
     <ElementShell
@@ -76,23 +73,19 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
             onChange={(e) => onChange({ address: e.target.value })}
           />
           <div className="grid grid-cols-2 gap-4">
-            <InputField
+            <InputNumber
               label={t.builder.mapLatLabel}
-              inputMode="decimal"
-              value={latText}
-              onChange={(e) => {
-                setLatText(e.target.value)
-                onChange({ lat: parseCoord(e.target.value) })
-              }}
+              allowNegative
+              decimals={COORD_DECIMALS}
+              defaultValue={element.lat !== undefined ? String(element.lat) : ''}
+              onChange={(e) => onChange({ lat: parseCoord(e.target.value) })}
             />
-            <InputField
+            <InputNumber
               label={t.builder.mapLngLabel}
-              inputMode="decimal"
-              value={lngText}
-              onChange={(e) => {
-                setLngText(e.target.value)
-                onChange({ lng: parseCoord(e.target.value) })
-              }}
+              allowNegative
+              decimals={COORD_DECIMALS}
+              defaultValue={element.lng !== undefined ? String(element.lng) : ''}
+              onChange={(e) => onChange({ lng: parseCoord(e.target.value) })}
             />
           </div>
           <div className="flex flex-col gap-2">
