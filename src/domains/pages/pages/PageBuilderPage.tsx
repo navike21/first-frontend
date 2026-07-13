@@ -16,6 +16,9 @@ import {
   createTextElement,
   createImageElement,
   createSliderElement,
+  createButtonElement,
+  createGalleryElement,
+  createAccordionElement,
   insertSection,
   moveSection,
   removeSection,
@@ -30,6 +33,7 @@ import {
   moveElementAcross,
   replaceImageUrl,
   replaceSliderSlideUrl,
+  replaceGalleryImageUrl,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
 import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
@@ -46,6 +50,11 @@ interface PendingSliderFile {
   elementId: string
   file: File
   kind: 'image' | 'video'
+}
+
+interface PendingGalleryFile {
+  elementId: string
+  file: File
 }
 
 const backgroundFileKey = (sectionId: string, breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot) =>
@@ -67,6 +76,7 @@ export const PageBuilderPage = () => {
   const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
   const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<Map<string, PendingBackgroundFile>>(new Map())
   const [pendingSliderFiles, setPendingSliderFiles] = useState<Map<string, PendingSliderFile>>(new Map())
+  const [pendingGalleryFiles, setPendingGalleryFiles] = useState<Map<string, PendingGalleryFile>>(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
@@ -82,6 +92,7 @@ export const PageBuilderPage = () => {
     setPendingFiles(new Map())
     setPendingBackgroundFiles(new Map())
     setPendingSliderFiles(new Map())
+    setPendingGalleryFiles(new Map())
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
@@ -91,7 +102,8 @@ export const PageBuilderPage = () => {
     (!sameJson(draft, serverNorm) ||
       pendingFiles.size > 0 ||
       pendingBackgroundFiles.size > 0 ||
-      pendingSliderFiles.size > 0)
+      pendingSliderFiles.size > 0 ||
+      pendingGalleryFiles.size > 0)
 
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
@@ -145,8 +157,23 @@ export const PageBuilderPage = () => {
     })
   }
 
+  // Mismo patrón que handlePickSliderFile: GalleryElementCard ya inserta la
+  // blob preview en `images`, acá solo se registra la subida pendiente.
+  const handlePickGalleryFile = (elementId: string, url: string, file: File) => {
+    setPendingGalleryFiles((map) => new Map(map).set(url, { elementId, file }))
+  }
+
+  const handleRemoveGalleryFile = (url: string) => {
+    setPendingGalleryFiles((map) => {
+      if (!map.has(url)) return map
+      const next = new Map(map)
+      next.delete(url)
+      return next
+    })
+  }
+
   // Borrar el elemento entero también debe limpiar sus subidas pendientes
-  // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider.
+  // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider/galería.
   const handleElementDelete = (sectionId: string, columnId: string, elementId: string) => {
     patch((s) => removeElement(s, sectionId, columnId, elementId))
     setPendingFiles((map) => {
@@ -156,6 +183,17 @@ export const PageBuilderPage = () => {
       return next
     })
     setPendingSliderFiles((map) => {
+      const next = new Map(map)
+      let changed = false
+      for (const [url, entry] of map) {
+        if (entry.elementId === elementId) {
+          next.delete(url)
+          changed = true
+        }
+      }
+      return changed ? next : map
+    })
+    setPendingGalleryFiles((map) => {
       const next = new Map(map)
       let changed = false
       for (const [url, entry] of map) {
@@ -247,10 +285,15 @@ export const PageBuilderPage = () => {
           sections = replaceSliderSlideUrl(sections, elementId, blobUrl, url, posterUrl)
         }
       }
+      for (const [blobUrl, { elementId, file }] of pendingGalleryFiles) {
+        const url = await uploadEditorImage(file)
+        sections = replaceGalleryImageUrl(sections, elementId, blobUrl, url)
+      }
       setDraft(sections)
       setPendingFiles(new Map())
       setPendingBackgroundFiles(new Map())
       setPendingSliderFiles(new Map())
+      setPendingGalleryFiles(new Map())
       replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
     } catch {
       notify.error(t.builder.uploadError)
@@ -327,6 +370,9 @@ export const PageBuilderPage = () => {
         onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
         onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}
         onAddSlider={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createSliderElement()))}
+        onAddButton={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createButtonElement()))}
+        onAddGallery={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createGalleryElement()))}
+        onAddAccordion={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createAccordionElement()))}
         onElementChange={(sectionId, columnId, elementId, elementPatch) =>
           patch((s) => updateElement(s, sectionId, columnId, elementId, elementPatch))
         }
@@ -338,6 +384,8 @@ export const PageBuilderPage = () => {
         onSelectImageLibrary={handleSelectImageLibrary}
         onPickSliderFile={handlePickSliderFile}
         onRemoveSliderFile={handleRemoveSliderFile}
+        onPickGalleryFile={handlePickGalleryFile}
+        onRemoveGalleryFile={handleRemoveGalleryFile}
       />
 
       <Modal

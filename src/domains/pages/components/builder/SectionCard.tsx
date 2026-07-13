@@ -13,10 +13,8 @@ import type {
   BackgroundConfig,
   BackgroundFileSlot,
   BuilderColumnsCount,
-  BuilderImageElement,
+  BuilderElementPatch,
   BuilderSection,
-  BuilderSliderElement,
-  BuilderTextElement,
 } from '../../model/page.types'
 import { ColumnZone } from './ColumnZone'
 import { SectionSettingsModal } from './SectionSettingsModal'
@@ -36,16 +34,17 @@ export interface SectionCardProps {
   onAddText: (columnId: string) => void
   onAddImage: (columnId: string) => void
   onAddSlider: (columnId: string) => void
-  onElementChange: (
-    columnId: string,
-    elementId: string,
-    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
-  ) => void
+  onAddButton: (columnId: string) => void
+  onAddGallery: (columnId: string) => void
+  onAddAccordion: (columnId: string) => void
+  onElementChange: (columnId: string, elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (columnId: string, elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
+  onPickGalleryFile: (elementId: string, url: string, file: File) => void
+  onRemoveGalleryFile: (url: string) => void
 }
 
 const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i + 1) as BuilderColumnsCount)
@@ -64,12 +63,17 @@ export const SectionCard = ({
   onAddText,
   onAddImage,
   onAddSlider,
+  onAddButton,
+  onAddGallery,
+  onAddAccordion,
   onElementChange,
   onElementDelete,
   onPickFile,
   onSelectImageLibrary,
   onPickSliderFile,
   onRemoveSliderFile,
+  onPickGalleryFile,
+  onRemoveGalleryFile,
 }: SectionCardProps) => {
   const { t } = usePagesTranslation()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -195,12 +199,17 @@ export const SectionCard = ({
               onAddText={() => onAddText(column.id)}
               onAddImage={() => onAddImage(column.id)}
               onAddSlider={() => onAddSlider(column.id)}
+              onAddButton={() => onAddButton(column.id)}
+              onAddGallery={() => onAddGallery(column.id)}
+              onAddAccordion={() => onAddAccordion(column.id)}
               onElementChange={(elementId, patch) => onElementChange(column.id, elementId, patch)}
               onElementDelete={(elementId) => onElementDelete(column.id, elementId)}
               onPickFile={onPickFile}
               onSelectImageLibrary={onSelectImageLibrary}
               onPickSliderFile={onPickSliderFile}
               onRemoveSliderFile={onRemoveSliderFile}
+              onPickGalleryFile={onPickGalleryFile}
+              onRemoveGalleryFile={onRemoveGalleryFile}
             />
           ))}
         </div>

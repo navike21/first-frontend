@@ -5,15 +5,13 @@ import { IconButton, Tooltip } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type {
-  BuilderColumn,
-  BuilderImageElement,
-  BuilderSliderElement,
-  BuilderTextElement,
-} from '../../model/page.types'
+import type { BuilderColumn, BuilderElementPatch } from '../../model/page.types'
 import { TextElementCard } from './TextElementCard'
 import { ImageElementCard } from './ImageElementCard'
 import { SliderElementCard } from './SliderElementCard'
+import { ButtonElementCard } from './ButtonElementCard'
+import { GalleryElementCard } from './GalleryElementCard'
+import { AccordionElementCard } from './AccordionElementCard'
 
 export interface ColumnZoneProps {
   sectionId: string
@@ -24,15 +22,17 @@ export interface ColumnZoneProps {
   onAddText: () => void
   onAddImage: () => void
   onAddSlider: () => void
-  onElementChange: (
-    elementId: string,
-    patch: Partial<BuilderTextElement> | Partial<BuilderImageElement> | Partial<BuilderSliderElement>,
-  ) => void
+  onAddButton: () => void
+  onAddGallery: () => void
+  onAddAccordion: () => void
+  onElementChange: (elementId: string, patch: BuilderElementPatch) => void
   onElementDelete: (elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
   onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
   onRemoveSliderFile: (url: string) => void
+  onPickGalleryFile: (elementId: string, url: string, file: File) => void
+  onRemoveGalleryFile: (url: string) => void
 }
 
 /**
@@ -48,12 +48,17 @@ export const ColumnZone = ({
   onAddText,
   onAddImage,
   onAddSlider,
+  onAddButton,
+  onAddGallery,
+  onAddAccordion,
   onElementChange,
   onElementDelete,
   onPickFile,
   onSelectImageLibrary,
   onPickSliderFile,
   onRemoveSliderFile,
+  onPickGalleryFile,
+  onRemoveGalleryFile,
 }: ColumnZoneProps) => {
   const { t } = usePagesTranslation()
   const { setNodeRef, isOver } = useDroppable({
@@ -102,15 +107,56 @@ export const ColumnZone = ({
               />
             )
           }
+          if (element.type === 'slider') {
+            return (
+              <SliderElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onPickFile={(url, file, kind) => onPickSliderFile(element.id, url, file, kind)}
+                onRemoveSlide={onRemoveSliderFile}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'button') {
+            return (
+              <ButtonElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
+          if (element.type === 'gallery') {
+            return (
+              <GalleryElementCard
+                key={element.id}
+                element={element}
+                sectionId={sectionId}
+                columnId={column.id}
+                language={language}
+                onChange={(patch) => onElementChange(element.id, patch)}
+                onPickFile={(url, file) => onPickGalleryFile(element.id, url, file)}
+                onRemoveImage={onRemoveGalleryFile}
+                onDelete={() => onElementDelete(element.id)}
+              />
+            )
+          }
           return (
-            <SliderElementCard
+            <AccordionElementCard
               key={element.id}
               element={element}
               sectionId={sectionId}
               columnId={column.id}
+              language={language}
               onChange={(patch) => onElementChange(element.id, patch)}
-              onPickFile={(url, file, kind) => onPickSliderFile(element.id, url, file, kind)}
-              onRemoveSlide={onRemoveSliderFile}
               onDelete={() => onElementDelete(element.id)}
             />
           )
@@ -137,6 +183,33 @@ export const ColumnZone = ({
             size="small"
             aria-label={t.builder.addSlider}
             onClick={onAddSlider}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addButton} position="top" size="small">
+          <IconButton
+            icon="RiCursorLine"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addButton}
+            onClick={onAddButton}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addGallery} position="top" size="small">
+          <IconButton
+            icon="RiGalleryLine"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addGallery}
+            onClick={onAddGallery}
+          />
+        </Tooltip>
+        <Tooltip heading={t.builder.addAccordion} position="top" size="small">
+          <IconButton
+            icon="RiQuestionAnswerLine"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addAccordion}
+            onClick={onAddAccordion}
           />
         </Tooltip>
       </div>

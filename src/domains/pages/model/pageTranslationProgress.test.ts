@@ -6,6 +6,9 @@ import type {
   BuilderTextElement,
   BuilderImageElement,
   BuilderSliderElement,
+  BuilderButtonElement,
+  BuilderGalleryElement,
+  BuilderAccordionElement,
 } from './page.types'
 import { isEmptyHtml, isLocalizedFilled, computeTranslationProgress } from './pageTranslationProgress'
 
@@ -33,6 +36,35 @@ const sliderElement = (): BuilderSliderElement => ({
   id: 'slider-1',
   type: 'slider',
   slides: [],
+})
+
+const buttonElement = (es?: string, en?: string): BuilderButtonElement => ({
+  id: 'button-1',
+  type: 'button',
+  label: localized(es, en),
+  url: 'https://example.com',
+  variant: 'primary',
+  target: '_self',
+  align: 'center',
+})
+
+const galleryElement = (images: { url: string; es?: string; en?: string }[]): BuilderGalleryElement => ({
+  id: 'gallery-1',
+  type: 'gallery',
+  columns: 3,
+  images: images.map((i) => ({ url: i.url, alt: localized(i.es, i.en) })),
+})
+
+const accordionElement = (
+  items: { qEs?: string; qEn?: string; aEs?: string; aEn?: string }[],
+): BuilderAccordionElement => ({
+  id: 'accordion-1',
+  type: 'accordion',
+  items: items.map((i, idx) => ({
+    id: `item-${idx}`,
+    question: localized(i.qEs, i.qEn),
+    answer: localized(i.aEs, i.aEn),
+  })),
 })
 
 const columnsSection = (elements: BuilderElement[]): BuilderSection => ({
@@ -96,5 +128,35 @@ describe('computeTranslationProgress', () => {
     ]
     const progress = computeTranslationProgress(sections, LANGS)
     expect(progress.es).toEqual({ filled: 0, total: 0 })
+  })
+
+  it('counts a button label the same as a single localized field', () => {
+    const sections = [columnsSection([buttonElement('Comprar', '')])]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 1, total: 1 })
+    expect(progress.en).toEqual({ filled: 0, total: 1 })
+  })
+
+  it('scales gallery total with the number of images, not a flat 1', () => {
+    const sections = [
+      columnsSection([
+        galleryElement([
+          { url: 'a.jpg', es: 'Perro', en: 'Dog' },
+          { url: 'b.jpg', es: 'Gato', en: '' },
+        ]),
+      ]),
+    ]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 2, total: 2 })
+    expect(progress.en).toEqual({ filled: 1, total: 2 })
+  })
+
+  it('counts 2 fields per accordion item per language', () => {
+    const sections = [
+      columnsSection([accordionElement([{ qEs: '¿Precio?', aEs: '<p>10 soles</p>', qEn: '', aEn: '<p></p>' }])]),
+    ]
+    const progress = computeTranslationProgress(sections, LANGS)
+    expect(progress.es).toEqual({ filled: 2, total: 2 })
+    expect(progress.en).toEqual({ filled: 0, total: 2 })
   })
 })
