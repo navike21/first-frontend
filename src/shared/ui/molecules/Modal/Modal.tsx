@@ -15,6 +15,7 @@ const sizeClasses: Record<NonNullable<ModalProps['size']>, string> = {
   md: 'w-full max-w-md',
   lg: 'w-full max-w-lg',
   xl: 'w-full max-w-2xl',
+  '2xl': 'w-full max-w-4xl',
 }
 
 const animationVariants = {

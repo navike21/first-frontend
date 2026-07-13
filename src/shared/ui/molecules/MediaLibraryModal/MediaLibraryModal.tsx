@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { useStorageFiles } from '@/shared/api/storage.queries'
 import type { StorageFile } from '@/shared/api/storage'
 import { Button } from '../../atoms/Button'
@@ -16,6 +17,12 @@ const DEFAULT_UPLOAD_ACCEPT: Record<'image' | 'video', string> = {
   image: 'image/jpeg,image/png,image/webp,image/svg+xml,image/gif',
   video: 'video/mp4,video/webm',
 }
+// Both panels are absolutely positioned so they can slide over one another —
+// that takes them out of flow, so the wrapper needs a reserved height itself
+// (a fixed min-height is the simplest way to keep the transition steady
+// regardless of which panel — grid or preview — happens to be shorter).
+const CONTENT_MIN_HEIGHT = 'min-h-[26rem]'
+const SLIDE_TRANSITION = { type: 'tween', duration: 0.25, ease: 'easeOut' } as const
 
 export const MediaLibraryModal = ({
   isOpen,
@@ -129,7 +136,7 @@ export const MediaLibraryModal = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size="lg"
+      size="2xl"
       title={kind === 'image' ? texts.titleImage : texts.titleVideo}
       footer={
         multiple ? (
@@ -139,134 +146,135 @@ export const MediaLibraryModal = ({
         ) : undefined
       }
     >
-      <div className="relative flex flex-col gap-4">
-        <InputField
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder={texts.searchPlaceholder}
-          leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
-        />
-
-        {onUploadNew && (
-          <>
-            <button
-              type="button"
-              onClick={() => uploadInputRef.current?.click()}
-              className="flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border bg-surface-subtle px-3 py-2.5 text-sm font-medium text-secondary transition-colors hover:border-primary-600/60 hover:text-primary-600"
+      <div className={`relative overflow-hidden ${CONTENT_MIN_HEIGHT}`}>
+        <AnimatePresence initial={false}>
+          {previewFile ? (
+            <motion.div
+              key="preview"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={SLIDE_TRANSITION}
+              className="absolute inset-0 flex flex-col gap-3 overflow-y-auto bg-surface"
             >
-              <IconComponent icon="RiUploadCloud2Line" className="h-4 w-4" />
-              {texts.uploadNewLabel}
-            </button>
-            {texts.uploadNewHint && <p className="-mt-2 text-center text-xs text-muted">{texts.uploadNewHint}</p>}
-            <input
-              ref={uploadInputRef}
-              type="file"
-              accept={uploadAccept ?? DEFAULT_UPLOAD_ACCEPT[kind]}
-              className="hidden"
-              onChange={handleUploadNew}
-            />
-          </>
-        )}
-
-        <MediaGrid
-          items={items}
-          getItemKey={(file) => file.id}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          emptyIcon={kind === 'video' ? 'RiVideoLine' : 'RiImage2Line'}
-          emptyLabel={texts.empty}
-          pagination={
-            meta && meta.totalPages > 1
-              ? { page, pages: meta.totalPages, onPageChange: setPage, prevLabel: texts.prevPage, nextLabel: texts.nextPage }
-              : undefined
-          }
-          selectable={multiple}
-          selectedIds={selectedIds}
-          onSelectionChange={handleSelectionChange}
-          selectAllLabel={texts.selectAllLabel}
-          selectItemLabel={texts.selectItemLabel}
-          renderItem={(file) => (
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => (multiple ? toggleSelected(file) : handleSelect(file))}
-              onKeyDown={(e) => {
-                if (e.key !== 'Enter' && e.key !== ' ') return
-                e.preventDefault()
-                if (multiple) toggleSelected(file)
-                else handleSelect(file)
-              }}
-              aria-label={`${texts.selectLabel}: ${file.originalName}`}
-              className="group flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
-            >
-              <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
-                <MediaThumbnail
-                  src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
-                  kind={file.isImage ? 'image' : 'video'}
-                  posterSrc={file.isImage ? undefined : (file.thumb?.url ?? file.full?.url)}
-                  entityId={file.id}
-                  alt={file.originalName}
-                  className="h-full w-full object-cover"
-                />
-                {!file.isImage && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setPreviewFile(file)
-                    }}
-                    aria-label={`${texts.previewLabel}: ${file.originalName}`}
-                    className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-opacity group-hover:bg-black/30 group-hover:opacity-100 focus-visible:opacity-100"
-                  >
-                    <IconComponent icon="RiPlayCircleLine" className="h-8 w-8 drop-shadow" />
-                  </button>
-                )}
-              </div>
-              <span className="truncate text-[11px] text-muted">{file.originalName}</span>
-            </div>
-          )}
-        />
-
-        {previewFile && (
-          <div
-            role="presentation"
-            onClick={() => setPreviewFile(null)}
-            // `inset-x-0 top-0` (no `bottom`) instead of `inset-0`: this box's
-            // sibling (the grid) can be shorter than the video+button content
-            // below, and `inset-0` would size to that shorter box, leaving
-            // the confirm button to overflow past it and render underneath
-            // the modal's fixed footer — unclickable (confirmed live).
-            // Height auto-sizing to content keeps it properly in the
-            // scrollable flow instead.
-            className="absolute inset-x-0 top-0 z-10 flex min-h-full flex-col items-center justify-center gap-3 rounded-lg bg-surface/95 p-4 backdrop-blur-sm"
-          >
-            <div
-              role="presentation"
-              onClick={(e) => e.stopPropagation()}
-              className="flex w-full max-w-full flex-col items-center gap-3"
-            >
-              <div className="flex w-full items-center justify-between gap-2">
-                <span className="truncate text-sm font-medium text-foreground">{previewFile.originalName}</span>
+              <div className="flex items-center gap-2">
                 <IconButton
-                  icon="RiCloseLine"
+                  icon="RiArrowLeftLine"
                   variant="text"
                   size="small"
                   aria-label={texts.closePreviewLabel}
                   onClick={() => setPreviewFile(null)}
                 />
+                <span className="truncate text-sm font-medium text-foreground">{previewFile.originalName}</span>
               </div>
               <video
                 src={previewFile.original.url}
                 controls
                 autoPlay
-                className="max-h-[50vh] w-full rounded-md bg-black object-contain"
+                className="max-h-[50vh] w-full shrink-0 rounded-md bg-black object-contain"
               />
-              <Button variant="primary" onClick={handlePreviewAction}>
+              <Button variant="primary" onClick={handlePreviewAction} className="self-center">
                 {previewActionLabel}
               </Button>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="grid"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={SLIDE_TRANSITION}
+              className="absolute inset-0 flex flex-col gap-4 overflow-y-auto bg-surface"
+            >
+              <InputField
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder={texts.searchPlaceholder}
+                leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
+              />
+
+              {onUploadNew && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => uploadInputRef.current?.click()}
+                    className="flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border bg-surface-subtle px-3 py-2.5 text-sm font-medium text-secondary transition-colors hover:border-primary-600/60 hover:text-primary-600"
+                  >
+                    <IconComponent icon="RiUploadCloud2Line" className="h-4 w-4" />
+                    {texts.uploadNewLabel}
+                  </button>
+                  {texts.uploadNewHint && <p className="-mt-2 text-center text-xs text-muted">{texts.uploadNewHint}</p>}
+                  <input
+                    ref={uploadInputRef}
+                    type="file"
+                    accept={uploadAccept ?? DEFAULT_UPLOAD_ACCEPT[kind]}
+                    className="hidden"
+                    onChange={handleUploadNew}
+                  />
+                </>
+              )}
+
+              <MediaGrid
+                items={items}
+                getItemKey={(file) => file.id}
+                isLoading={isLoading}
+                isFetching={isFetching}
+                emptyIcon={kind === 'video' ? 'RiVideoLine' : 'RiImage2Line'}
+                emptyLabel={texts.empty}
+                pagination={
+                  meta && meta.totalPages > 1
+                    ? { page, pages: meta.totalPages, onPageChange: setPage, prevLabel: texts.prevPage, nextLabel: texts.nextPage }
+                    : undefined
+                }
+                selectable={multiple}
+                selectedIds={selectedIds}
+                onSelectionChange={handleSelectionChange}
+                selectAllLabel={texts.selectAllLabel}
+                selectItemLabel={texts.selectItemLabel}
+                renderItem={(file) => (
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => (multiple ? toggleSelected(file) : handleSelect(file))}
+                    onKeyDown={(e) => {
+                      if (e.key !== 'Enter' && e.key !== ' ') return
+                      e.preventDefault()
+                      if (multiple) toggleSelected(file)
+                      else handleSelect(file)
+                    }}
+                    aria-label={`${texts.selectLabel}: ${file.originalName}`}
+                    className="group flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
+                  >
+                    <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+                      <MediaThumbnail
+                        src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
+                        kind={file.isImage ? 'image' : 'video'}
+                        posterSrc={file.isImage ? undefined : (file.thumb?.url ?? file.full?.url)}
+                        entityId={file.id}
+                        alt={file.originalName}
+                        className="h-full w-full object-cover"
+                      />
+                      {!file.isImage && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setPreviewFile(file)
+                          }}
+                          aria-label={`${texts.previewLabel}: ${file.originalName}`}
+                          className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-opacity group-hover:bg-black/30 group-hover:opacity-100 focus-visible:opacity-100"
+                        >
+                          <IconComponent icon="RiPlayCircleLine" className="h-8 w-8 drop-shadow" />
+                        </button>
+                      )}
+                    </div>
+                    <span className="truncate text-[11px] text-muted">{file.originalName}</span>
+                  </div>
+                )}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Modal>
   )
