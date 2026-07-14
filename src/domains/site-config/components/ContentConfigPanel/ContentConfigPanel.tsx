@@ -1,4 +1,5 @@
-import { InputField, FadeCollapse } from '@/shared/ui'
+import { useState } from 'react'
+import { InputNumber, FadeCollapse } from '@/shared/ui'
 import { useSiteConfigTranslation } from '../../i18n'
 import { CONTENT_WIDTHS } from '../../model/site-config.types'
 import type { LayoutConfig, ContentWidth } from '../../model/site-config.types'
@@ -14,6 +15,7 @@ const MAX_WIDTH = 1920
 
 export const ContentConfigPanel = ({ value, onChange }: ContentConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
+  const [clampVersion, setClampVersion] = useState(0)
 
   const options = CONTENT_WIDTHS.map((width) => ({
     value: width,
@@ -21,14 +23,13 @@ export const ContentConfigPanel = ({ value, onChange }: ContentConfigPanelProps)
     wireframe: <ContentWireframe width={width} boxedMaxWidth={value.boxedMaxWidth} />,
   }))
 
-  const handleMaxWidthChange = (raw: string) => {
-    const digits = raw.replace(/\D/g, '').slice(0, 4)
-    onChange({ boxedMaxWidth: digits ? Number(digits) : 0 })
-  }
-
-  const clampMaxWidth = () => {
-    const clamped = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, value.boxedMaxWidth || MIN_WIDTH))
-    if (clamped !== value.boxedMaxWidth) onChange({ boxedMaxWidth: clamped })
+  const clampMaxWidth = (raw: string) => {
+    const parsed = Number(raw) || 0
+    const clamped = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, parsed || MIN_WIDTH))
+    if (clamped !== parsed) {
+      onChange({ boxedMaxWidth: clamped })
+      setClampVersion((v) => v + 1)
+    }
   }
 
   return (
@@ -45,13 +46,14 @@ export const ContentConfigPanel = ({ value, onChange }: ContentConfigPanelProps)
 
       <FadeCollapse show={value.contentWidth === 'boxed'}>
         <div className="max-w-xs">
-          <InputField
+          <InputNumber
+            key={clampVersion}
             label={t.content.boxedMaxWidth}
             helperText={t.content.boxedMaxWidthHint}
-            inputMode="numeric"
-            value={value.boxedMaxWidth ? String(value.boxedMaxWidth) : ''}
-            onChange={(e) => handleMaxWidthChange(e.target.value)}
-            onBlur={clampMaxWidth}
+            decimals={0}
+            defaultValue={value.boxedMaxWidth ? String(value.boxedMaxWidth) : ''}
+            onChange={(e) => onChange({ boxedMaxWidth: e.target.value ? Number(e.target.value) : 0 })}
+            onBlur={(e) => clampMaxWidth(e.target.value)}
           />
         </div>
       </FadeCollapse>

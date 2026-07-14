@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import { Button, InputField } from '@/shared/ui'
+import { Button, InputField, HexColorInput } from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useCreateUserGroupForm } from './CreateUserGroupForm.hooks'
 import type { UseCreateUserGroupFormProps } from './CreateUserGroupForm.hooks'
@@ -37,40 +36,13 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
             disabled={busy}
             {...register('description')}
           />
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-foreground">
-              {t.form.color}
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={colorValue}
-                onChange={(e) => setColor(e.target.value)}
-                disabled={busy}
-                className={clsx(
-                  'h-9 w-14 cursor-pointer p-0.5',
-                  'rounded border border-border',
-                  'disabled:cursor-not-allowed'
-                )}
-              />
-              <input
-                type="text"
-                value={colorValue}
-                onChange={(e) => setColor(e.target.value)}
-                disabled={busy}
-                maxLength={7}
-                className={clsx(
-                  'h-9 w-28 px-3',
-                  'rounded-lg border border-border bg-surface text-sm text-foreground',
-                  'focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none',
-                  'disabled:cursor-not-allowed disabled:bg-surface-subtle'
-                )}
-              />
-            </div>
-            {errors.color && (
-              <p className="text-xs text-red-500">{errors.color.message}</p>
-            )}
-          </div>
+          <HexColorInput
+            label={t.form.color}
+            value={colorValue}
+            onChange={setColor}
+            disabled={busy}
+            errorMessage={errors.color?.message}
+          />
         </div>
 
         <div className="flex flex-col gap-2">

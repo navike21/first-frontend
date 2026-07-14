@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Button, InputField, Switch } from '@/shared/ui'
+import { Button, InputField, Switch, HexColorInput } from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useEditUserGroupForm } from './EditUserGroupForm.hooks'
 import type { UseEditUserGroupFormProps } from './EditUserGroupForm.hooks'
@@ -51,40 +51,13 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
             disabled={busy || isSystem}
             {...register('description')}
           />
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-foreground">
-              {t.form.color}
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={colorValue ?? props.defaultValues.color}
-                onChange={(e) => setColor(e.target.value)}
-                disabled={busy || isSystem}
-                className={clsx(
-                  'h-9 w-14 cursor-pointer p-0.5',
-                  'rounded border border-border',
-                  'disabled:cursor-not-allowed'
-                )}
-              />
-              <input
-                type="text"
-                value={colorValue ?? props.defaultValues.color}
-                onChange={(e) => setColor(e.target.value)}
-                disabled={busy || isSystem}
-                maxLength={7}
-                className={clsx(
-                  'h-9 w-28 px-3',
-                  'rounded-lg border border-border bg-surface text-sm text-foreground',
-                  'focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none',
-                  'disabled:cursor-not-allowed disabled:bg-surface-subtle'
-                )}
-              />
-            </div>
-            {errors.color && (
-              <p className="text-xs text-red-500">{errors.color.message}</p>
-            )}
-          </div>
+          <HexColorInput
+            label={t.form.color}
+            value={colorValue ?? props.defaultValues.color}
+            onChange={setColor}
+            disabled={busy || isSystem}
+            errorMessage={errors.color?.message}
+          />
 
           <div className="flex items-end pb-1">
             <Switch

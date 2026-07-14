@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import clsx from 'clsx'
 import {
   InputField,
   InputNumber,
@@ -12,6 +11,7 @@ import {
   Button,
   FormGrid,
   SectionLabel,
+  LangTabs,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -40,53 +40,6 @@ export interface CollaboratorFormProps {
 }
 
 type LangErrors = Record<Language, { message?: string } | undefined>
-
-const langDotClass = (error: boolean, filled: boolean): string => {
-  if (error) return 'bg-red-500'
-  if (filled) return 'bg-emerald-500'
-  return 'bg-border'
-}
-
-interface LangTabsProps {
-  editingLanguage: Language
-  userLanguage: Language
-  hasContent: (lang: Language) => boolean
-  hasError: (lang: Language) => boolean
-  onChange: (lang: Language) => void
-}
-
-const LangTabs = ({ editingLanguage, userLanguage, hasContent, hasError, onChange }: LangTabsProps) => (
-  <div className="flex flex-wrap gap-1.5">
-    {SUPPORTED_LANGUAGES.map((lang) => {
-      const isActive = lang === editingLanguage
-      const filled = hasContent(lang)
-      const error = hasError(lang)
-      return (
-        <button
-          key={lang}
-          type="button"
-          onClick={() => onChange(lang)}
-          className={clsx(
-            // Layout
-            'inline-flex items-center gap-1.5 rounded-md px-2 py-1',
-            // Visual
-            'text-xs font-semibold uppercase tracking-wider',
-            // Transitions
-            'transition-colors',
-            // Conditionals
-            isActive
-              ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-              : 'bg-surface-subtle text-muted hover:text-foreground',
-          )}
-        >
-          {lang}
-          {lang === userLanguage && <span className="text-[10px] text-primary-600">★</span>}
-          <span className={clsx('h-1.5 w-1.5 rounded-full', langDotClass(error, filled))} />
-        </button>
-      )
-    })}
-  </div>
-)
 
 export const CollaboratorForm = ({
   mode,
