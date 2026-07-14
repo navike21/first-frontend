@@ -19,6 +19,10 @@ servicios/portafolio, y todo lo necesario para operar el sitio público).
 SPA en **React 19 + TypeScript + Vite**, arquitectura **domain-sliced**,
 consume la API de [`first-backend`](../first-backend).
 
+**15** dominios de negocio · **10** idiomas · **54** componentes en
+`shared/ui` (22 atoms + 32 molecules) · offline-first con cola de
+mutaciones · code-splitting por ruta · **0 `any`** en todo el repo.
+
 > **¿Nuevo en este repo?** Lee [`CLAUDE.md`](./CLAUDE.md) primero — documenta
 > las convenciones (qué va en `shared/ui`/`shared/lib`, campos numéricos,
 > nunca duplicar un componente reutilizable) que todo el código nuevo debe
