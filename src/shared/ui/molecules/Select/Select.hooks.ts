@@ -73,12 +73,16 @@ export const useSelectHook = (
     openAbove: false,
   })
   const [selectedValues, setSelectedValues] = useState<string[]>(() =>
-    normalizeValues(defaultValue)
+    normalizeValues(value ?? defaultValue)
   )
 
-  // Sync with controlled value prop — use content equality to avoid extra re-render
-  // when parent passes a new array reference with the same values
-  useEffect(() => {
+  // Adjust state during render (React's recommended alternative to an effect
+  // for "reset internal state when a prop changes") — avoids the extra
+  // effect-triggered render pass. Content-equality check avoids setting a new
+  // array reference when the values are the same.
+  const [prevValue, setPrevValue] = useState(value)
+  if (value !== prevValue) {
+    setPrevValue(value)
     if (value !== undefined) {
       const next = normalizeValues(value)
       setSelectedValues((prev) =>
@@ -87,21 +91,22 @@ export const useSelectHook = (
           : next
       )
     }
-  }, [value])
+  }
 
   // Merged ref: satisfies both internal use and forwarded ref (RHF callback ref)
+  /* eslint-disable react-hooks/immutability -- merged-ref pattern: intentional mutation of forwarded object ref */
   const setRef = useCallback(
     (node: HTMLSelectElement | null) => {
       internalRef.current = node
       if (typeof ref === 'function') {
         ref(node)
       } else if (ref !== null && ref !== undefined) {
-        // eslint-disable-next-line react-hooks/immutability -- merged-ref pattern: intentional mutation of forwarded object ref
         ref.current = node
       }
     },
     [ref]
   )
+  /* eslint-enable react-hooks/immutability */
 
   const filteredOptions = useMemo(() => {
     // Never render the empty/placeholder option as a clickable list item —

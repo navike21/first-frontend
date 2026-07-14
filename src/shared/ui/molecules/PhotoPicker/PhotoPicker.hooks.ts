@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 
 const MAX_BYTES = 3 * 1024 * 1024
 
@@ -17,9 +17,14 @@ export function usePhotoPicker({
   const [preview, setPreview] = useState<string | undefined>(currentUrl)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  // Adjust state during render (React's recommended alternative to an effect
+  // for "reset internal state when a prop changes") — avoids the extra
+  // effect-triggered render pass.
+  const [prevUrl, setPrevUrl] = useState(currentUrl)
+  if (currentUrl !== prevUrl) {
+    setPrevUrl(currentUrl)
     setPreview(currentUrl)
-  }, [currentUrl])
+  }
 
   const handleFile = (file: File) => {
     setError(null)

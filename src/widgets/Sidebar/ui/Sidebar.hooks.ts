@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useRouterState } from '@tanstack/react-router'
 import { useSidebarStore } from '../model/store'
 import { getMenuConfig } from '../model/menu.config'
@@ -53,9 +53,14 @@ export function useSidebar() {
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(activeGroupId)
 
-  useEffect(() => {
+  // Adjust state during render (React's recommended alternative to an effect
+  // for "reset internal state when a derived value changes") — avoids the
+  // extra effect-triggered render pass.
+  const [prevActiveGroupId, setPrevActiveGroupId] = useState(activeGroupId)
+  if (activeGroupId !== prevActiveGroupId) {
+    setPrevActiveGroupId(activeGroupId)
     setOpenMenuId(activeGroupId)
-  }, [activeGroupId])
+  }
 
   const handleToggle = useCallback(
     (id: string) => () => {
