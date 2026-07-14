@@ -1,14 +1,15 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { ServicesPage } from '@domains/services/pages/ServicesPage'
-import { CreateServicePage } from '@domains/services/pages/CreateServicePage'
-import { EditServicePage } from '@domains/services/pages/EditServicePage'
-import { ServicesTrashPage } from '@domains/services/pages/ServicesTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const ServicesPage = lazyRouteComponent(() => import('@domains/services/pages/ServicesPage'), 'ServicesPage')
+const CreateServicePage = lazyRouteComponent(() => import('@domains/services/pages/CreateServicePage'), 'CreateServicePage')
+const EditServicePage = lazyRouteComponent(() => import('@domains/services/pages/EditServicePage'), 'EditServicePage')
+const ServicesTrashPage = lazyRouteComponent(() => import('@domains/services/pages/ServicesTrashPage'), 'ServicesTrashPage')
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.services[l]))

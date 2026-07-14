@@ -1,13 +1,14 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { ClientsPage } from '@domains/clients/pages/ClientsPage'
-import { CreateClientPage } from '@domains/clients/pages/CreateClientPage'
-import { EditClientPage } from '@domains/clients/pages/EditClientPage'
-import { ClientsTrashPage } from '@domains/clients/pages/ClientsTrashPage'
+
+const ClientsPage = lazyRouteComponent(() => import('@domains/clients/pages/ClientsPage'), 'ClientsPage')
+const CreateClientPage = lazyRouteComponent(() => import('@domains/clients/pages/CreateClientPage'), 'CreateClientPage')
+const EditClientPage = lazyRouteComponent(() => import('@domains/clients/pages/EditClientPage'), 'EditClientPage')
+const ClientsTrashPage = lazyRouteComponent(() => import('@domains/clients/pages/ClientsTrashPage'), 'ClientsTrashPage')
 
 // The `clients` slug is shared by some languages (en/fr → "clients", es/pt →
 // "clientes"), so the layout is deduped by its parent slug. Under each unique

@@ -1,15 +1,16 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { PagesPage } from '@domains/pages/pages/PagesPage'
-import { CreatePagePage } from '@domains/pages/pages/CreatePagePage'
-import { EditPagePage } from '@domains/pages/pages/EditPagePage'
-import { PagesTrashPage } from '@domains/pages/pages/PagesTrashPage'
-import { PageBuilderPage } from '@domains/pages/pages/PageBuilderPage'
 import type { Language } from '@/shared/types/languages'
+
+const PagesPage = lazyRouteComponent(() => import('@domains/pages/pages/PagesPage'), 'PagesPage')
+const CreatePagePage = lazyRouteComponent(() => import('@domains/pages/pages/CreatePagePage'), 'CreatePagePage')
+const EditPagePage = lazyRouteComponent(() => import('@domains/pages/pages/EditPagePage'), 'EditPagePage')
+const PagesTrashPage = lazyRouteComponent(() => import('@domains/pages/pages/PagesTrashPage'), 'PagesTrashPage')
+const PageBuilderPage = lazyRouteComponent(() => import('@domains/pages/pages/PageBuilderPage'), 'PageBuilderPage')
 
 const parentSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.pages[l])))
 

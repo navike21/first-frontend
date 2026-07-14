@@ -9,9 +9,8 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { Button, IconButton, IconComponent, MediaLibraryModal, MediaThumbnail, Modal, Tooltip } from '@/shared/ui'
+import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
+import { Button, IconButton, IconComponent, MediaLibraryModal, MediaThumbnail, Modal, SortableMediaTile, Tooltip } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderSliderElement, BuilderSliderSlide } from '../../model/page.types'
@@ -37,42 +36,6 @@ export interface SliderElementCardProps {
   onDelete: () => void
 }
 
-interface SlideTileProps {
-  slide: BuilderSliderSlide
-  removeLabel: string
-  onRemove: (url: string) => void
-}
-
-const SlideTile = ({ slide, removeLabel, onRemove }: SlideTileProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: slide.url })
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
-      {...attributes}
-      {...listeners}
-      className={clsx(
-        'relative aspect-square touch-none cursor-grab overflow-hidden rounded-lg border border-border bg-surface-subtle transition-opacity active:cursor-grabbing',
-        isDragging && 'opacity-50',
-      )}
-    >
-      <MediaThumbnail src={slide.url} kind={slide.kind} posterSrc={slide.posterUrl} className="h-full w-full object-cover" />
-      <button
-        type="button"
-        onPointerDown={(e) => e.stopPropagation()}
-        onClick={(e) => {
-          e.stopPropagation()
-          onRemove(slide.url)
-        }}
-        aria-label={removeLabel}
-        className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white ring-2 ring-surface transition-colors hover:bg-red-700"
-      >
-        <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
-      </button>
-    </div>
-  )
-}
 
 export const SliderElementCard = ({
   element,
@@ -255,11 +218,15 @@ export const SliderElementCard = ({
               <SortableContext items={element.slides.map((s) => s.url)} strategy={rectSortingStrategy}>
                 <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
                   {element.slides.map((slide) => (
-                    <SlideTile
+                    <SortableMediaTile
                       key={slide.url}
-                      slide={slide}
+                      id={slide.url}
+                      src={slide.url}
+                      kind={slide.kind}
+                      posterUrl={slide.posterUrl}
+                      dragLabel={t.builder.dragElement}
                       removeLabel={t.builder.sliderRemoveLabel}
-                      onRemove={removeSlide}
+                      onRemove={() => removeSlide(slide.url)}
                     />
                   ))}
                 </div>

@@ -1,14 +1,15 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { SubscribersPage } from '@domains/subscribers/pages/SubscribersPage'
-import { CreateSubscriberPage } from '@domains/subscribers/pages/CreateSubscriberPage'
-import { EditSubscriberPage } from '@domains/subscribers/pages/EditSubscriberPage'
-import { SubscribersTrashPage } from '@domains/subscribers/pages/SubscribersTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const SubscribersPage = lazyRouteComponent(() => import('@domains/subscribers/pages/SubscribersPage'), 'SubscribersPage')
+const CreateSubscriberPage = lazyRouteComponent(() => import('@domains/subscribers/pages/CreateSubscriberPage'), 'CreateSubscriberPage')
+const EditSubscriberPage = lazyRouteComponent(() => import('@domains/subscribers/pages/EditSubscriberPage'), 'EditSubscriberPage')
+const SubscribersTrashPage = lazyRouteComponent(() => import('@domains/subscribers/pages/SubscribersTrashPage'), 'SubscribersTrashPage')
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.subscribers[l]))

@@ -9,9 +9,8 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { Button, IconButton, IconComponent, InputField, MediaLibraryModal, MediaThumbnail, Modal, Tooltip } from '@/shared/ui'
+import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
+import { Button, IconButton, IconComponent, InputField, MediaLibraryModal, MediaThumbnail, Modal, SortableMediaTile, Tooltip } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -40,56 +39,6 @@ export interface GalleryElementCardProps {
 const isLangComplete = (images: BuilderGalleryImage[], lang: Language): boolean =>
   images.length > 0 && images.every((img) => !!img.alt[lang]?.trim())
 
-interface GalleryTileProps {
-  image: BuilderGalleryImage
-  editing: Language
-  dragLabel: string
-  removeLabel: string
-  altLabel: string
-  onAltChange: (value: string) => void
-  onRemove: () => void
-}
-
-const GalleryTile = ({ image, editing, dragLabel, removeLabel, altLabel, onAltChange, onRemove }: GalleryTileProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: image.url })
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={clsx(
-        'flex flex-col gap-1.5 rounded-lg border border-border bg-surface-subtle p-1.5',
-        isDragging && 'opacity-50',
-      )}
-    >
-      <div className="relative aspect-square overflow-hidden rounded-md">
-        <MediaThumbnail src={image.url} kind="image" className="h-full w-full object-cover" />
-        <button
-          type="button"
-          aria-label={dragLabel}
-          className="absolute top-1 left-1 flex h-6 w-6 cursor-grab items-center justify-center rounded-full bg-surface/90 text-muted ring-1 ring-border active:cursor-grabbing"
-          {...attributes}
-          {...listeners}
-        >
-          <IconComponent icon="RiDraggable" className="h-3.5 w-3.5" />
-        </button>
-        <button
-          type="button"
-          onClick={onRemove}
-          aria-label={removeLabel}
-          className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white ring-2 ring-surface transition-colors hover:bg-red-700"
-        >
-          <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
-        </button>
-      </div>
-      <InputField
-        label={altLabel}
-        value={image.alt[editing] ?? ''}
-        onChange={(e) => onAltChange(e.target.value)}
-      />
-    </div>
-  )
-}
 
 export const GalleryElementCard = ({
   element,
@@ -289,15 +238,22 @@ export const GalleryElementCard = ({
               <SortableContext items={element.images.map((img) => img.url)} strategy={rectSortingStrategy}>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {element.images.map((image) => (
-                    <GalleryTile
+                    <SortableMediaTile
                       key={image.url}
-                      image={image}
-                      editing={editing}
+                      id={image.url}
+                      src={image.url}
+                      kind="image"
+                      dragMode="handle"
                       dragLabel={t.builder.dragElement}
                       removeLabel={t.builder.galleryRemoveLabel}
-                      altLabel={t.builder.galleryAlt}
-                      onAltChange={(value) => updateAlt(image.url, value)}
                       onRemove={() => removeImage(image.url)}
+                      footer={
+                        <InputField
+                          label={t.builder.galleryAlt}
+                          value={image.alt[editing] ?? ''}
+                          onChange={(e) => updateAlt(image.url, e.target.value)}
+                        />
+                      }
                     />
                   ))}
                 </div>

@@ -1,14 +1,15 @@
-import { createRoute, Outlet } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { UsersPage } from '@domains/users/pages/UsersPage'
-import { CreateUserPage } from '@domains/users/pages/CreateUserPage'
-import { EditUserPage } from '@domains/users/pages/EditUserPage'
-import { UsersTrashPage } from '@domains/users/pages/UsersTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const UsersPage = lazyRouteComponent(() => import('@domains/users/pages/UsersPage'), 'UsersPage')
+const CreateUserPage = lazyRouteComponent(() => import('@domains/users/pages/CreateUserPage'), 'CreateUserPage')
+const EditUserPage = lazyRouteComponent(() => import('@domains/users/pages/EditUserPage'), 'EditUserPage')
+const UsersTrashPage = lazyRouteComponent(() => import('@domains/users/pages/UsersTrashPage'), 'UsersTrashPage')
 
 function createUsersRouteTree(lang: Language) {
   // Viewing the Users section requires read (or manage / *:*); deeper routes

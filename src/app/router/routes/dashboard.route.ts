@@ -1,7 +1,8 @@
-import { createRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { NAV } from '@/shared/router'
-import { DashboardPage } from '@domains/dashboard'
+
+const DashboardPage = lazyRouteComponent(() => import('@domains/dashboard'), 'DashboardPage')
 
 export const dashboardRoute = createRoute({
   getParentRoute: () => privateLayout,

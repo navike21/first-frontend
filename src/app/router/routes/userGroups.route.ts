@@ -1,15 +1,16 @@
-import { createRoute, Outlet } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { UserGroupsPage } from '@domains/user-groups/pages/UserGroupsPage'
-import { CreateUserGroupPage } from '@domains/user-groups/pages/CreateUserGroupPage'
-import { EditUserGroupPage } from '@domains/user-groups/pages/EditUserGroupPage'
-import { GroupUsersPage } from '@domains/user-groups/pages/GroupUsersPage'
-import { UserGroupsTrashPage } from '@domains/user-groups/pages/UserGroupsTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const UserGroupsPage = lazyRouteComponent(() => import('@domains/user-groups/pages/UserGroupsPage'), 'UserGroupsPage')
+const CreateUserGroupPage = lazyRouteComponent(() => import('@domains/user-groups/pages/CreateUserGroupPage'), 'CreateUserGroupPage')
+const EditUserGroupPage = lazyRouteComponent(() => import('@domains/user-groups/pages/EditUserGroupPage'), 'EditUserGroupPage')
+const GroupUsersPage = lazyRouteComponent(() => import('@domains/user-groups/pages/GroupUsersPage'), 'GroupUsersPage')
+const UserGroupsTrashPage = lazyRouteComponent(() => import('@domains/user-groups/pages/UserGroupsTrashPage'), 'UserGroupsTrashPage')
 
 function createUserGroupsRouteTree(lang: Language) {
   // Viewing the User Groups section requires read (or manage / *:*); deeper
