@@ -1,14 +1,15 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { CollaboratorsPage } from '@domains/collaborators/pages/CollaboratorsPage'
-import { CreateCollaboratorPage } from '@domains/collaborators/pages/CreateCollaboratorPage'
-import { EditCollaboratorPage } from '@domains/collaborators/pages/EditCollaboratorPage'
-import { CollaboratorsTrashPage } from '@domains/collaborators/pages/CollaboratorsTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const CollaboratorsPage = lazyRouteComponent(() => import('@domains/collaborators/pages/CollaboratorsPage'), 'CollaboratorsPage')
+const CreateCollaboratorPage = lazyRouteComponent(() => import('@domains/collaborators/pages/CreateCollaboratorPage'), 'CreateCollaboratorPage')
+const EditCollaboratorPage = lazyRouteComponent(() => import('@domains/collaborators/pages/EditCollaboratorPage'), 'EditCollaboratorPage')
+const CollaboratorsTrashPage = lazyRouteComponent(() => import('@domains/collaborators/pages/CollaboratorsTrashPage'), 'CollaboratorsTrashPage')
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.collaborators[l]))

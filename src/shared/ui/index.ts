@@ -131,6 +131,10 @@ export {
   SortableItemActions,
   type SortableItemActionsProps,
 } from './molecules/SortableItemActions'
+export {
+  SortableMediaTile,
+  type SortableMediaTileProps,
+} from './molecules/SortableMediaTile'
 
 export {
   InputDate,

@@ -1,12 +1,13 @@
-import { createRoute, Outlet, type AnyRoute } from '@tanstack/react-router'
+import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
-import { MediaPage } from '@domains/media/pages/MediaPage'
-import { MediaTrashPage } from '@domains/media/pages/MediaTrashPage'
 import type { Language } from '@/shared/types/languages'
+
+const MediaPage = lazyRouteComponent(() => import('@domains/media/pages/MediaPage'), 'MediaPage')
+const MediaTrashPage = lazyRouteComponent(() => import('@domains/media/pages/MediaTrashPage'), 'MediaTrashPage')
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.media[l]))
