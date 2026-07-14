@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useCallback } from 'react'
 
 const DEFAULT_MAX = 5 * 1024 * 1024
 
@@ -21,9 +21,14 @@ export function useCoverPicker({
   const [error, setError] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
 
-  useEffect(() => {
+  // Adjust state during render (React's recommended alternative to an effect
+  // for "reset internal state when a prop changes") — avoids the extra
+  // effect-triggered render pass.
+  const [prevUrl, setPrevUrl] = useState(currentUrl)
+  if (currentUrl !== prevUrl) {
+    setPrevUrl(currentUrl)
     setPreview(currentUrl)
-  }, [currentUrl])
+  }
 
   const processFile = useCallback(
     (file: File) => {

@@ -109,21 +109,21 @@ export const useInputDate = (
   const internalHiddenRef = useRef<HTMLInputElement>(null)
 
   // Merged ref — satisfies both internal dispatch and RHF's forwarded ref
+  /* eslint-disable react-hooks/immutability -- merged-ref pattern: intentional mutation of forwarded object ref */
   const setHiddenRef = useCallback(
     (node: HTMLInputElement | null) => {
       internalHiddenRef.current = node
       if (typeof forwardedRef === 'function') {
         forwardedRef(node)
       } else if (forwardedRef !== null && forwardedRef !== undefined) {
-        /* eslint-disable react-hooks/immutability -- merged-ref pattern */
         ;(
           forwardedRef as React.MutableRefObject<HTMLInputElement | null>
         ).current = node
-        /* eslint-enable react-hooks/immutability */
       }
     },
     [forwardedRef]
   )
+  /* eslint-enable react-hooks/immutability */
 
   // Internal refs for range from/to hidden inputs (merged with fromInput/toInput refs)
   const fromInternalRef = useRef<HTMLInputElement>(null)
@@ -275,7 +275,12 @@ export const useInputDate = (
   }, [closeDropdown])
 
   // ── Sync controlled value ────────────────────────────────────────────────────
-  useEffect(() => {
+  // Adjust state during render (React's recommended alternative to an effect
+  // for "reset internal state when a prop changes") — avoids the extra
+  // effect-triggered render pass.
+  const [prevValue, setPrevValue] = useState(value)
+  if (value !== prevValue) {
+    setPrevValue(value)
     if (value !== undefined) {
       const d = parseToDate(value as string | undefined)
       setSelectedDate(d)
@@ -284,7 +289,7 @@ export const useInputDate = (
         setYearPageCenter(d.getFullYear())
       }
     }
-  }, [value])
+  }
 
   // ── Click-outside → close ────────────────────────────────────────────────────
   useEffect(() => {
