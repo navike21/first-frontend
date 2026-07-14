@@ -147,6 +147,7 @@ a `shared/types`).
 | `pages` | Páginas CMS con **constructor visual** (ver sección dedicada abajo) |
 | `collaborators` | Perfiles públicos del equipo (distinto de `users`) |
 | `subscribers` | Lista de newsletter |
+| `forms` | Formularios públicos configurables por campos (contacto, cotización, postulación…) + bandeja de respuestas |
 | `categories` / `tags` | Taxonomía compartida para contenido |
 | `media` | Biblioteca de archivos (imágenes/video), subida directa a storage |
 | `site-config` | Configuración global de presentación del sitio (header/footer/social/mapas) |

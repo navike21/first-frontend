@@ -209,6 +209,26 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.subscribers[l_]}/${ROUTE_SLUGS.subscriberTrash[l_]}`
   },
+  forms: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forms[l_]}`
+  },
+  formCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forms[l_]}/${ROUTE_SLUGS.formCreate[l_]}`
+  },
+  formEdit: (formId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forms[l_]}/${ROUTE_SLUGS.formEdit[l_]}/${formId}`
+  },
+  formTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forms[l_]}/${ROUTE_SLUGS.formTrash[l_]}`
+  },
+  formSubmissions: (formId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forms[l_]}/${ROUTE_SLUGS.formSubmissions[l_]}/${formId}`
+  },
   auditLogs: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.auditLogs[l_]}`
