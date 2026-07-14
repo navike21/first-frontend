@@ -1,0 +1,1 @@
+export { FormSubmissionTable } from './FormSubmissionTable'

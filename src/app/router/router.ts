@@ -18,6 +18,7 @@ import { allCollaboratorsRouteTrees } from './routes/collaborators.route'
 import { allCategoriesRouteTrees } from './routes/categories.route'
 import { allTagsRouteTrees } from './routes/tags.route'
 import { allSubscribersRouteTrees } from './routes/subscribers.route'
+import { allFormsRouteTrees } from './routes/forms.route'
 import { allAuditLogsRouteTrees } from './routes/auditLogs.route'
 import { allAppSettingsRouteTrees } from './routes/appSettings.route'
 import { allSiteConfigRouteTrees } from './routes/siteConfig.route'
@@ -63,6 +64,7 @@ const routeTree = rootRoute.addChildren([
       ...allCategoriesRouteTrees,
       ...allTagsRouteTrees,
       ...allSubscribersRouteTrees,
+      ...allFormsRouteTrees,
       ...allAuditLogsRouteTrees,
       ...allAppSettingsRouteTrees,
       ...allSiteConfigRouteTrees,

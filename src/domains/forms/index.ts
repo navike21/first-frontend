@@ -1,0 +1,5 @@
+export { FormsPage } from './pages/FormsPage'
+export { CreateFormPage } from './pages/CreateFormPage'
+export { EditFormPage } from './pages/EditFormPage'
+export { FormsTrashPage } from './pages/FormsTrashPage'
+export { FormSubmissionsPage } from './pages/FormSubmissionsPage'
