@@ -11,7 +11,7 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Button, IconButton, IconComponent, InputField, Modal, RichTextArea, Tooltip } from '@/shared/ui'
+import { Button, InputField, Modal, RichTextArea, SortableItemActions } from '@/shared/ui'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
@@ -67,23 +67,13 @@ const AccordionItemRow = ({
         isDragging && 'opacity-50',
       )}
     >
-      <div className="flex items-center gap-1">
-        <Tooltip heading={dragLabel} position="top" size="small">
-          <button
-            type="button"
-            aria-label={dragLabel}
-            className="cursor-grab rounded p-0.5 text-muted hover:text-foreground active:cursor-grabbing"
-            {...attributes}
-            {...listeners}
-          >
-            <IconComponent icon="RiDraggable" className="h-3.5 w-3.5" />
-          </button>
-        </Tooltip>
-        <span className="flex-1" />
-        <Tooltip heading={removeLabel} position="top" size="small">
-          <IconButton icon="RiDeleteBinLine" variant="text" size="small" aria-label={removeLabel} onClick={onRemove} />
-        </Tooltip>
-      </div>
+      <SortableItemActions
+        dragLabel={dragLabel}
+        removeLabel={removeLabel}
+        attributes={attributes}
+        listeners={listeners}
+        onRemove={onRemove}
+      />
       <InputField
         label={questionLabel}
         value={item.question[editing] ?? ''}

@@ -36,6 +36,7 @@ export { DetailField, type DetailFieldProps } from './atoms/DetailField'
 export { SectionLabel, type SectionLabelProps } from './atoms/SectionLabel'
 export { SectionDivider } from './atoms/SectionDivider'
 export { RichTextArea, type RichTextAreaProps } from './atoms/RichTextArea'
+export { LangBadge, type LangBadgeProps } from './atoms/LangBadge'
 
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'
@@ -123,6 +124,13 @@ export {
   type PageHeaderButtonAction,
   type PageHeaderLinkAction,
 } from './molecules/PageHeader'
+export { LangSidebar, type LangSidebarProps } from './molecules/LangSidebar'
+export { LangTabs, type LangTabsProps } from './molecules/LangTabs'
+export { HexColorInput, type HexColorInputProps } from './molecules/HexColorInput'
+export {
+  SortableItemActions,
+  type SortableItemActionsProps,
+} from './molecules/SortableItemActions'
 
 export {
   InputDate,

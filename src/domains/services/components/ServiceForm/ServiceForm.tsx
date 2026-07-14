@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import clsx from 'clsx'
 import {
   InputField,
   InputNumber,
@@ -12,6 +11,8 @@ import {
   Wizard,
   SectionLabel,
   SectionDivider,
+  LangSidebar,
+  LangBadge,
   type WizardStep,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
@@ -63,80 +64,6 @@ const STEP_FIELDS: Record<StepId, (keyof ServiceFormData)[]> = {
   content: ['description', 'pillars', 'tags'],
   media: ['order', 'isActive'],
 }
-
-// ─── Sub-components ──────────────────────────────────────────────────────────
-
-const langDotClass = (error: boolean, filled: boolean): string => {
-  if (error) return 'bg-red-500'
-  if (filled) return 'bg-emerald-500'
-  return 'bg-border'
-}
-
-const LangBadge = ({ lang }: { lang: Language }) => (
-  <span className="inline-flex h-5 items-center rounded bg-primary-700/10 px-1.5 text-[10px] font-semibold tracking-widest text-primary-600 uppercase">
-    {lang}
-  </span>
-)
-
-interface LangSidebarProps {
-  editingLanguage: Language
-  userLanguage: Language
-  hasContent: (lang: Language) => boolean
-  hasError: (lang: Language) => boolean
-  label: string
-  onChange: (lang: Language) => void
-}
-
-const LangSidebar = ({
-  editingLanguage,
-  userLanguage,
-  hasContent,
-  hasError,
-  label,
-  onChange,
-}: LangSidebarProps) => (
-  <div className="flex flex-col gap-1">
-    <span className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">
-      {label}
-    </span>
-    {SUPPORTED_LANGUAGES.map((lang) => {
-      const isActive = lang === editingLanguage
-      const isUser = lang === userLanguage
-      const filled = hasContent(lang)
-      const error = hasError(lang)
-
-      return (
-        <button
-          key={lang}
-          type="button"
-          onClick={() => onChange(lang)}
-          className={clsx(
-            'flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors',
-            isActive
-              ? 'bg-primary-700/10 ring-1 ring-primary-700/20'
-              : 'hover:bg-surface-subtle',
-          )}
-        >
-          <LangBadge lang={lang} />
-          <span
-            className={clsx(
-              'flex-1 truncate text-sm',
-              isActive ? 'font-medium text-primary-600' : 'text-foreground',
-            )}
-          >
-            {NATIVE_LANGUAGE_NAMES[lang]}
-          </span>
-          {isUser && (
-            <span className="text-[10px] text-primary-600">★</span>
-          )}
-          <span
-            className={clsx('h-2 w-2 shrink-0 rounded-full', langDotClass(error, filled))}
-          />
-        </button>
-      )
-    })}
-  </div>
-)
 
 // ─── Main form ────────────────────────────────────────────────────────────────
 

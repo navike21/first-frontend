@@ -13,15 +13,14 @@ import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinat
 import { CSS } from '@dnd-kit/utilities'
 import {
   Button,
-  IconButton,
   IconComponent,
   InputField,
   MediaLibraryModal,
   MediaThumbnail,
   Modal,
   Select,
+  SortableItemActions,
   TextArea,
-  Tooltip,
 } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
@@ -92,23 +91,13 @@ const TestimonialItemRow = ({
         isDragging && 'opacity-50',
       )}
     >
-      <div className="flex items-center gap-1">
-        <Tooltip heading={dragLabel} position="top" size="small">
-          <button
-            type="button"
-            aria-label={dragLabel}
-            className="cursor-grab rounded p-0.5 text-muted hover:text-foreground active:cursor-grabbing"
-            {...attributes}
-            {...listeners}
-          >
-            <IconComponent icon="RiDraggable" className="h-3.5 w-3.5" />
-          </button>
-        </Tooltip>
-        <span className="flex-1" />
-        <Tooltip heading={removeLabel} position="top" size="small">
-          <IconButton icon="RiDeleteBinLine" variant="text" size="small" aria-label={removeLabel} onClick={onRemove} />
-        </Tooltip>
-      </div>
+      <SortableItemActions
+        dragLabel={dragLabel}
+        removeLabel={removeLabel}
+        attributes={attributes}
+        listeners={listeners}
+        onRemove={onRemove}
+      />
 
       <div className="flex gap-3">
         <button
