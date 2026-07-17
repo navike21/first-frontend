@@ -87,6 +87,8 @@ export interface BuilderCanvasProps {
   onRemoveGalleryFile: (url: string) => void
   onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
+  onPickVideoFile: (elementId: string, url: string, file: File) => void
+  onRemoveVideoFile: (url: string) => void
 }
 
 /**
@@ -395,6 +397,8 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onRemoveGalleryFile={props.onRemoveGalleryFile}
                   onPickTestimonialAvatarFile={props.onPickTestimonialAvatarFile}
                   onRemoveTestimonialAvatarFile={props.onRemoveTestimonialAvatarFile}
+                  onPickVideoFile={props.onPickVideoFile}
+                  onRemoveVideoFile={props.onRemoveVideoFile}
                 />
                 {showInsertionLines && props.insertIndex === index + 1 && <InsertionLine />}
               </Fragment>

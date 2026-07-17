@@ -51,6 +51,8 @@ export interface SectionCardProps {
   onRemoveGalleryFile: (url: string) => void
   onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
+  onPickVideoFile: (elementId: string, url: string, file: File) => void
+  onRemoveVideoFile: (url: string) => void
 }
 
 const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i + 1) as BuilderColumnsCount)
@@ -86,6 +88,8 @@ export const SectionCard = ({
   onRemoveGalleryFile,
   onPickTestimonialAvatarFile,
   onRemoveTestimonialAvatarFile,
+  onPickVideoFile,
+  onRemoveVideoFile,
 }: SectionCardProps) => {
   const { t } = usePagesTranslation()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -228,6 +232,8 @@ export const SectionCard = ({
               onRemoveGalleryFile={onRemoveGalleryFile}
               onPickTestimonialAvatarFile={onPickTestimonialAvatarFile}
               onRemoveTestimonialAvatarFile={onRemoveTestimonialAvatarFile}
+              onPickVideoFile={onPickVideoFile}
+              onRemoveVideoFile={onRemoveVideoFile}
             />
           ))}
         </div>

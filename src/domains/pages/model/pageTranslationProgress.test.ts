@@ -93,6 +93,7 @@ const statsElement = (items: { value?: string; es?: string; en?: string }[]): Bu
 const videoElement = (es?: string, en?: string): BuilderVideoElement => ({
   id: 'video-1',
   type: 'video',
+  sourceKind: 'embed',
   url: 'https://youtube.com/watch?v=x',
   caption: localized(es, en),
 })

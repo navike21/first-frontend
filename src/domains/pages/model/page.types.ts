@@ -122,9 +122,19 @@ export interface BuilderStatsElement {
 export interface BuilderVideoElement {
   id: string
   type: 'video'
-  /** Sin parseo/validación — mismo contrato deliberadamente superficial que
-   * BackgroundVideo.embedUrl (no hay ni un <iframe> en este repo hoy). */
+  /** 'embed' = URL externa (source `url`); 'upload' = archivo real de storage
+   * (`fileUrl`), subido o elegido de la galería. Mismo discriminador que
+   * BackgroundVideo.sourceKind, por consistencia. Ausente en datos previos a
+   * esta opción → se normaliza a 'embed' (los datos viejos eran siempre una URL). */
+  sourceKind: BackgroundSourceKind
+  /** Embed URL (sourceKind === 'embed'). Sin parseo/validación — mismo
+   * contrato deliberadamente superficial que BackgroundVideo.embedUrl. */
   url: string
+  /** URL del archivo de video real de storage (sourceKind === 'upload'). */
+  fileUrl?: string
+  /** Poster/miniatura del video subido o de galería, para no cargar el archivo
+   * solo por mostrar un frame en el editor. */
+  posterUrl?: string
   caption: PageLocalizedString
 }
 
