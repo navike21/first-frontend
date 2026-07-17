@@ -43,6 +43,8 @@ export interface ColumnZoneProps {
   onRemoveGalleryFile: (url: string) => void
   onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
+  onPickVideoFile: (elementId: string, url: string, file: File) => void
+  onRemoveVideoFile: (url: string) => void
 }
 
 /**
@@ -75,6 +77,8 @@ export const ColumnZone = ({
   onRemoveGalleryFile,
   onPickTestimonialAvatarFile,
   onRemoveTestimonialAvatarFile,
+  onPickVideoFile,
+  onRemoveVideoFile,
 }: ColumnZoneProps) => {
   const { t } = usePagesTranslation()
   const { setNodeRef, isOver } = useDroppable({
@@ -215,6 +219,8 @@ export const ColumnZone = ({
                 columnId={column.id}
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
+                onPickFile={(url, file) => onPickVideoFile(element.id, url, file)}
+                onRemoveFile={onRemoveVideoFile}
                 onDelete={() => onElementDelete(element.id)}
               />
             )

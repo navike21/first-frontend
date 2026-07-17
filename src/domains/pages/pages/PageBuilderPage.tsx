@@ -39,6 +39,7 @@ import {
   replaceSliderSlideUrl,
   replaceGalleryImageUrl,
   replaceTestimonialAvatarUrl,
+  setVideoFile,
   resolveSectionsRichTextImages,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
@@ -64,6 +65,11 @@ interface PendingGalleryFile {
 }
 
 interface PendingTestimonialAvatarFile {
+  elementId: string
+  file: File
+}
+
+interface PendingVideoFile {
   elementId: string
   file: File
 }
@@ -149,6 +155,23 @@ async function uploadPendingTestimonialAvatarFiles(
   return next
 }
 
+async function uploadPendingVideoFiles(
+  sections: BuilderSection[],
+  pendingVideoFiles: Map<string, PendingVideoFile>,
+): Promise<BuilderSection[]> {
+  let next = sections
+  for (const { elementId, file } of pendingVideoFiles.values()) {
+    // Mismo camino que el video del slider: subida directa a blob (salta el
+    // límite de body de la función) + poster capturado de un frame.
+    const id = crypto.randomUUID()
+    const { url } = await directUploadVideo(file, id)
+    const cover = await captureVideoFrame(file)
+    const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
+    next = setVideoFile(next, elementId, url, posterUrl)
+  }
+  return next
+}
+
 export const PageBuilderPage = () => {
   const { t, language } = usePagesTranslation()
   const { pageId } = useParams({ strict: false }) as { pageId: string }
@@ -164,6 +187,7 @@ export const PageBuilderPage = () => {
   const [pendingTestimonialAvatarFiles, setPendingTestimonialAvatarFiles] = useState<
     Map<string, PendingTestimonialAvatarFile>
   >(new Map())
+  const [pendingVideoFiles, setPendingVideoFiles] = useState<Map<string, PendingVideoFile>>(new Map())
   const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
@@ -181,6 +205,7 @@ export const PageBuilderPage = () => {
     setPendingSliderFiles(new Map())
     setPendingGalleryFiles(new Map())
     setPendingTestimonialAvatarFiles(new Map())
+    setPendingVideoFiles(new Map())
   }
 
   const serverNorm = item ? normalizeSections(item.sections) : null
@@ -192,7 +217,8 @@ export const PageBuilderPage = () => {
       pendingBackgroundFiles.size > 0 ||
       pendingSliderFiles.size > 0 ||
       pendingGalleryFiles.size > 0 ||
-      pendingTestimonialAvatarFiles.size > 0)
+      pendingTestimonialAvatarFiles.size > 0 ||
+      pendingVideoFiles.size > 0)
 
   const patch = (fn: (sections: BuilderSection[]) => BuilderSection[]) =>
     setDraft((d) => (d ? fn(d) : d))
@@ -277,6 +303,21 @@ export const PageBuilderPage = () => {
     })
   }
 
+  // El VideoElementCard ya fijó la blob preview en element.fileUrl; acá solo se
+  // registra la subida pendiente (mismo patrón diferido que el slider).
+  const handlePickVideoFile = (elementId: string, url: string, file: File) => {
+    setPendingVideoFiles((map) => new Map(map).set(url, { elementId, file }))
+  }
+
+  const handleRemoveVideoFile = (url: string) => {
+    setPendingVideoFiles((map) => {
+      if (!map.has(url)) return map
+      const next = new Map(map)
+      next.delete(url)
+      return next
+    })
+  }
+
   // Borrar el elemento entero también debe limpiar sus subidas pendientes
   // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider/
   // galería/testimonios.
@@ -311,6 +352,17 @@ export const PageBuilderPage = () => {
       return changed ? next : map
     })
     setPendingTestimonialAvatarFiles((map) => {
+      const next = new Map(map)
+      let changed = false
+      for (const [url, entry] of map) {
+        if (entry.elementId === elementId) {
+          next.delete(url)
+          changed = true
+        }
+      }
+      return changed ? next : map
+    })
+    setPendingVideoFiles((map) => {
       const next = new Map(map)
       let changed = false
       for (const [url, entry] of map) {
@@ -379,6 +431,7 @@ export const PageBuilderPage = () => {
       sections = await uploadPendingSliderFiles(sections, pendingSliderFiles)
       sections = await uploadPendingGalleryFiles(sections, pendingGalleryFiles)
       sections = await uploadPendingTestimonialAvatarFiles(sections, pendingTestimonialAvatarFiles)
+      sections = await uploadPendingVideoFiles(sections, pendingVideoFiles)
       sections = await resolveSectionsRichTextImages(sections, (html) => resolveRichTextImages(html, uploadEditorImage))
       setDraft(sections)
       setPendingFiles(new Map())
@@ -386,6 +439,7 @@ export const PageBuilderPage = () => {
       setPendingSliderFiles(new Map())
       setPendingGalleryFiles(new Map())
       setPendingTestimonialAvatarFiles(new Map())
+      setPendingVideoFiles(new Map())
       replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
     } catch {
       notify.error(t.builder.uploadError)
@@ -486,6 +540,8 @@ export const PageBuilderPage = () => {
         onRemoveGalleryFile={handleRemoveGalleryFile}
         onPickTestimonialAvatarFile={handlePickTestimonialAvatarFile}
         onRemoveTestimonialAvatarFile={handleRemoveTestimonialAvatarFile}
+        onPickVideoFile={handlePickVideoFile}
+        onRemoveVideoFile={handleRemoveVideoFile}
       />
 
       <Modal

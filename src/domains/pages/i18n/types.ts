@@ -293,6 +293,14 @@ export interface PageTranslations {
     videoUrlHint: string
     videoCaptionLabel: string
     videoEmpty: string
+    videoSourceLabel: string
+    videoSourceLibrary: string
+    videoSourceEmbed: string
+    videoFromLibrary: string
+    videoFile: string
+    videoChoose: string
+    videoReplace: string
+    videoRemove: string
     mapAddressLabel: string
     mapLatLabel: string
     mapLngLabel: string

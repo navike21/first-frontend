@@ -212,7 +212,10 @@ function normalizeVideoElement(el: Record<string, unknown>): BuilderVideoElement
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
     type: 'video',
+    sourceKind: el.sourceKind === 'upload' ? 'upload' : 'embed',
     url: typeof el.url === 'string' ? el.url : '',
+    fileUrl: typeof el.fileUrl === 'string' && el.fileUrl ? el.fileUrl : undefined,
+    posterUrl: typeof el.posterUrl === 'string' && el.posterUrl ? el.posterUrl : undefined,
     caption: normalizeLocalized(el.caption),
   }
 }
@@ -364,7 +367,7 @@ export function createStatsElement(): BuilderStatsElement {
 }
 
 export function createVideoElement(): BuilderVideoElement {
-  return { id: newId(), type: 'video', url: '', caption: emptyLocalized() }
+  return { id: newId(), type: 'video', sourceKind: 'embed', url: '', caption: emptyLocalized() }
 }
 
 export function createMapElement(): BuilderMapElement {
@@ -620,6 +623,29 @@ export function moveElementAcross(
     if (index >= 0) elements.splice(index, 0, moved as BuilderElement)
     else elements.push(moved as BuilderElement)
     return { ...c, elements }
+  })
+}
+
+/** Fija el archivo de video de un widget `video` (post-subida o elección de
+ * galería) esté donde esté, marcándolo como `sourceKind: 'upload'`. `posterUrl`
+ * puede venir de la miniatura de la biblioteca o de un frame capturado. */
+export function setVideoFile(
+  sections: BuilderSection[],
+  elementId: string,
+  fileUrl: string,
+  posterUrl?: string,
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (!isColumnsSection(s)) return s
+    const columns = (s.content.columns ?? []).map((c) => ({
+      ...c,
+      elements: c.elements.map((e) =>
+        e.id === elementId && e.type === 'video'
+          ? { ...e, sourceKind: 'upload' as const, fileUrl, posterUrl }
+          : e,
+      ),
+    }))
+    return { ...s, content: { ...s.content, columns } }
   })
 }
 
