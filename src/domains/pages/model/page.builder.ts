@@ -717,3 +717,60 @@ export function replaceTestimonialAvatarUrl(
     return { ...s, content: { ...s.content, columns } }
   })
 }
+
+async function resolveLocalized(
+  value: PageLocalizedString,
+  resolve: (html: string) => Promise<string>,
+): Promise<PageLocalizedString> {
+  const next = { ...value }
+  await Promise.all(
+    SUPPORTED_LANGUAGES.map(async (lang) => {
+      next[lang] = await resolve(value[lang] ?? '')
+    }),
+  )
+  return next
+}
+
+/**
+ * Sube a storage cualquier imagen embebida como base64 (`data:image/...`) en
+ * los dos únicos campos rich-text del builder — el cuerpo de un elemento
+ * `text` y la respuesta de un ítem de `accordion` — y la reemplaza por su URL
+ * real, ANTES de guardar. RichTextArea inserta esas imágenes directo como
+ * base64 (pegar/soltar/subir desde su propio toolbar, sin pasar por el resto
+ * del flujo de subida diferida de este archivo); si no se resuelven acá, el
+ * sanitizador HTML del backend las descarta en el guardado (no permite
+ * esquema `data:`), perdiendo la imagen en silencio.
+ */
+export async function resolveSectionsRichTextImages(
+  sections: BuilderSection[],
+  resolve: (html: string) => Promise<string>,
+): Promise<BuilderSection[]> {
+  return Promise.all(
+    sections.map(async (s) => {
+      if (!isColumnsSection(s)) return s
+      const columns = await Promise.all(
+        (s.content.columns ?? []).map(async (c) => ({
+          ...c,
+          elements: await Promise.all(c.elements.map((e) => resolveElementRichTextImages(e, resolve))),
+        })),
+      )
+      return { ...s, content: { ...s.content, columns } }
+    }),
+  )
+}
+
+async function resolveElementRichTextImages(
+  element: BuilderElement,
+  resolve: (html: string) => Promise<string>,
+): Promise<BuilderElement> {
+  if (element.type === 'text') {
+    return { ...element, html: await resolveLocalized(element.html, resolve) }
+  }
+  if (element.type === 'accordion') {
+    const items = await Promise.all(
+      element.items.map(async (item) => ({ ...item, answer: await resolveLocalized(item.answer, resolve) })),
+    )
+    return { ...element, items }
+  }
+  return element
+}

@@ -4,7 +4,7 @@ import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
-import { uploadEditorImage, directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
+import { uploadEditorImage, resolveRichTextImages, directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -39,6 +39,7 @@ import {
   replaceSliderSlideUrl,
   replaceGalleryImageUrl,
   replaceTestimonialAvatarUrl,
+  resolveSectionsRichTextImages,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
 import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
@@ -378,6 +379,7 @@ export const PageBuilderPage = () => {
       sections = await uploadPendingSliderFiles(sections, pendingSliderFiles)
       sections = await uploadPendingGalleryFiles(sections, pendingGalleryFiles)
       sections = await uploadPendingTestimonialAvatarFiles(sections, pendingTestimonialAvatarFiles)
+      sections = await resolveSectionsRichTextImages(sections, (html) => resolveRichTextImages(html, uploadEditorImage))
       setDraft(sections)
       setPendingFiles(new Map())
       setPendingBackgroundFiles(new Map())
