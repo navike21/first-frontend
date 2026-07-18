@@ -187,14 +187,16 @@
   }
 
   .dark {
-    --surface: #1c252e; /* page / card background            */
-    --surface-subtle: #141a21; /* sidebar, table rows, inputs       */
-    --surface-raised: #1c252e; /* modals, dropdowns, cards          */
-    --border: #2d3a45; /* default border                    */
-    --border-subtle: #1e2a35; /* dividers, skeleton lines          */
-    --text-primary: #f4f6f8; /* headings, body                    */
-    --text-secondary: #8899a6; /* labels, helper text               */
-    --text-muted: #637381; /* placeholders, disabled labels     */
+    /* Modo oscuro sobre la familia navy del Manual de Marca (secciones
+       oscuras = Navy Base #0B1220 + divisor #232E45), no grises genéricos. */
+    --surface: #131b2d; /* page / card — navy elevado        */
+    --surface-subtle: #0b1220; /* Navy Base — sidebar, filas, inputs */
+    --surface-raised: #1b2540; /* modals, dropdowns, popovers       */
+    --border: #232e45; /* divisor navy del manual           */
+    --border-subtle: #1a2338; /* dividers, skeleton lines          */
+    --text-primary: #eef2f8; /* headings, body                    */
+    --text-secondary: #97a3bb; /* labels, helper text               */
+    --text-muted: #6b7688; /* placeholders, disabled labels     */
     --text-disabled: #454f5b; /* disabled control text             */
   }
 

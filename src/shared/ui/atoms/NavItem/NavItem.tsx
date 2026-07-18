@@ -15,14 +15,14 @@ export const NavItem = ({
     'group flex w-full cursor-pointer items-center gap-3 px-3 py-2.5',
     'rounded-lg text-sm font-medium',
     'transition-colors duration-fast ease-out-expo',
-    // Inactive hover — light: subtle brand tint + brand text; dark: keep.
+    // Inactive hover — acento Azul First (#4C86FF, primary-600) del manual.
     !isActive &&
-      'hover:bg-primary-700/5 hover:text-primary-700 dark:hover:bg-primary-950/20 dark:hover:text-primary-500',
-    // Active — light: light brand tint bg + brand text (follows the active
-    // color theme); dark: keep the existing dark highlight.
+      'hover:bg-primary-600/5 hover:text-primary-600 dark:hover:bg-primary-950/20 dark:hover:text-primary-500',
+    // Active — tinte + texto del acento Azul First (#4C86FF); en oscuro el
+    // realce sobre navy.
     isActive
-      ? 'bg-primary-700/10 font-semibold text-primary-700 dark:bg-primary-950/40 dark:text-primary-500'
-      : 'text-slate-500 dark:text-slate-300',
+      ? 'bg-primary-600/10 font-semibold text-primary-600 dark:bg-primary-950/40 dark:text-primary-500'
+      : 'text-secondary dark:text-slate-300',
     className
   )
 
@@ -33,8 +33,8 @@ export const NavItem = ({
         className={clsx(
           'h-5 w-5 shrink-0',
           isActive
-            ? 'text-primary-700 dark:text-primary-500'
-            : 'group-hover:text-primary-700 dark:group-hover:text-primary-500'
+            ? 'text-primary-600 dark:text-primary-500'
+            : 'group-hover:text-primary-600 dark:group-hover:text-primary-500'
         )}
       />
       <span>{label}</span>

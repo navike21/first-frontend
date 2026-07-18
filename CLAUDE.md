@@ -70,12 +70,17 @@ documento alfanumérico) — esos siguen usando `InputField` plano.
 El color y las tipografías están **fijos a la marca** — no hay selector de tema
 de color (se eliminó el `ColorPicker` + el `primaryColor` por usuario). Todo
 vive en `src/app/styles/index.css`:
-- **Color**: un único acento **Azul First `#4C86FF`** = `--color-primary-600`
-  (CTA/activo/foco); hover = `#3E63B5` (700), activo = `#34456B` (800),
-  navy `#0B1220` = 950. Neutros del manual: Niebla `#F3F5F9` (surface-subtle),
-  Línea `#E3E8F0` (border), Pizarra `#5C6675` (text-secondary), Navy foreground.
-  Se conserva el toggle **claro/oscuro** (no confundir con la selección de
-  color, que ya no existe).
+- **Color**: un único acento **Azul First `#4C86FF`** = `--color-primary-600`.
+  Los CTAs sólidos (Button primary, etc.) usan `primary-600` con hover
+  `primary-700` (#3E63B5); enlaces = `primary-700`. `primary-800` = #34456B,
+  `950` = navy `#0B1220`. Neutros (tema claro): Niebla `#F3F5F9`
+  (surface-subtle), Línea `#E3E8F0` (border), Pizarra `#5C6675` (text-secondary),
+  Navy foreground.
+- **Modo oscuro**: se conserva el toggle claro/oscuro, y el dark usa la
+  **familia navy del manual** (surface `#131b2d`, sidebar/subtle `#0b1220` =
+  Navy Base, border `#232e45`), no grises genéricos. El acento sigue siendo
+  `#4C86FF`. (No confundir "claro/oscuro" con la selección de color, que ya no
+  existe.)
 - **Tipografía**: `--font-sans` = **IBM Plex Sans** (UI/cuerpo), `--font-display`
   = **Space Grotesk** (aplicada a `h1–h4` vía regla base, tracking -0.02em),
   `--font-mono` = **IBM Plex Mono** (tokens/IDs). Usa `font-display`/`font-mono`

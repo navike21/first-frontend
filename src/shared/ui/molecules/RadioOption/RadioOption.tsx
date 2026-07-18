@@ -83,7 +83,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             }
             transition={bounceTransition}
             className={clsx('h-2.5 w-2.5 rounded-full', {
-              'bg-primary-700 dark:bg-primary-600': !disabled && !error,
+              'bg-primary-600 dark:bg-primary-500': !disabled && !error,
               'bg-slate-300 dark:bg-slate-600': disabled,
               'bg-red-500': error,
             })}

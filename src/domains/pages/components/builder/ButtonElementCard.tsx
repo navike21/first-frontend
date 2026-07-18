@@ -73,7 +73,7 @@ export const ButtonElementCard = ({
           <span
             className={clsx(
               'inline-flex items-center rounded-md px-4 py-2 text-xs font-medium',
-              element.variant === 'primary' && 'bg-primary-700 text-white',
+              element.variant === 'primary' && 'bg-primary-600 text-white',
               element.variant === 'secondary' && 'text-primary-700 ring-1 ring-primary-700 ring-inset',
               element.variant === 'outline' && 'text-primary-700 ring-1 ring-primary-700 ring-inset',
             )}
