@@ -174,6 +174,10 @@ export const de: PageTranslations = {
       tablet: 'Tablet',
       mobile: 'Mobilgerät',
     },
+    layout: {
+      label: 'Aufteilung',
+      hint: 'Spaltenbreiten auf dem Desktop (ab 1280px). Schmalere Bildschirme teilen gleichmäßig.',
+    },
     background: {
       typeLabel: 'Hintergrundtyp',
       typeNone: 'Keiner',

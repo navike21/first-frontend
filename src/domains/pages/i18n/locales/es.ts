@@ -174,6 +174,10 @@ export const es: PageTranslations = {
       tablet: 'Tablet',
       mobile: 'Móvil',
     },
+    layout: {
+      label: 'Distribución',
+      hint: 'Ancho de las columnas en escritorio (desde 1280px). En pantallas menores se reparten por igual.',
+    },
     background: {
       typeLabel: 'Tipo de fondo',
       typeNone: 'Ninguno',

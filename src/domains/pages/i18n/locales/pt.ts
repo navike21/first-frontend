@@ -174,6 +174,10 @@ export const pt: PageTranslations = {
       tablet: 'Tablet',
       mobile: 'Celular',
     },
+    layout: {
+      label: 'Distribuição',
+      hint: 'Largura das colunas no computador (a partir de 1280px). Telas menores dividem por igual.',
+    },
     background: {
       typeLabel: 'Tipo de fundo',
       typeNone: 'Nenhum',

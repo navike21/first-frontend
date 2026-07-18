@@ -174,6 +174,10 @@ export const en: PageTranslations = {
       tablet: 'Tablet',
       mobile: 'Mobile',
     },
+    layout: {
+      label: 'Distribution',
+      hint: 'Column widths on desktop (from 1280px). Narrower screens split evenly.',
+    },
     background: {
       typeLabel: 'Background type',
       typeNone: 'None',

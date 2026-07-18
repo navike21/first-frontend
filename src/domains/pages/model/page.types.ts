@@ -175,9 +175,26 @@ export type BuilderElementPatch =
   | Partial<BuilderVideoElement>
   | Partial<BuilderMapElement>
 
+/** Ancho de una columna sobre el grid de 12 (ver BUILDER_GRID_COLUMNS). */
+export type BuilderColumnSpan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+
 export interface BuilderColumn {
   id: string
   elements: BuilderElement[]
+  /**
+   * Ancho en el grid de 12 a partir de `xl` (1280px); por debajo la sección
+   * usa los conteos responsive (tablet/mobileColumns), siempre simétricos.
+   *
+   * Ausente = simétrico (12 / nº de columnas). Como 12 es divisible entre
+   * 1-4 (el rango de MAX_BUILDER_COLUMNS), los conteos simétricos existentes
+   * equivalen exactamente a spans de 12/6/4/3 — por eso este campo es
+   * opcional y las páginas previas no necesitan migración.
+   *
+   * Invariante: dentro de una sección, o TODAS las columnas lo llevan y suman
+   * 12, o NINGUNA (simétrico). `normalizeSections` degrada a simétrico
+   * cualquier combinación que no cumpla eso.
+   */
+  span?: BuilderColumnSpan
 }
 
 // ── Fondo de sección (por breakpoint) ───────────────────────────────────────

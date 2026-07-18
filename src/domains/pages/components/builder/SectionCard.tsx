@@ -6,12 +6,13 @@ import { IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS } from '../../model/page.builder'
+import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS, sectionSpans } from '../../model/page.builder'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
   BackgroundBreakpoint,
   BackgroundConfig,
   BackgroundFileSlot,
+  BuilderColumnSpan,
   BuilderColumnsCount,
   BuilderElementPatch,
   BuilderSection,
@@ -26,6 +27,7 @@ export interface SectionCardProps {
   elementDragActive: boolean
   onChooseColumns: (count: BuilderColumnsCount) => void
   onColumnsChange: (count: BuilderColumnsCount) => void
+  onLayoutChange: (spans: BuilderColumnSpan[]) => void
   onResponsiveChange: (patch: ResponsiveSectionSettings) => void
   onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
   onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
@@ -63,6 +65,7 @@ export const SectionCard = ({
   elementDragActive,
   onChooseColumns,
   onColumnsChange,
+  onLayoutChange,
   onResponsiveChange,
   onBackgroundChange,
   onPickBackgroundFile,
@@ -194,16 +197,18 @@ export const SectionCard = ({
       )}
 
       {editable && !pendingChoice && (
-        // `minmax(12rem, 1fr)` (not `minmax(0, 1fr)`) so columns never shrink
+        // `minmax(12rem, Nfr)` (not `minmax(0, …)`) so columns never shrink
         // past a usable width on a narrow admin viewport — 3-4 columns used
         // to squeeze into whatever space was available, cramming the T/
         // imagen/slider mini-icons together (confirmed live, mobile-first
         // check). `overflow-x-auto` lets the row scroll horizontally once
         // the columns' combined minimum no longer fits, instead of shrinking
-        // them further or clipping.
+        // them further or clipping. Los `fr` llevan el span de 12 de cada
+        // columna (span ?? simétrico) — así una fila 8/4 se ve `8fr 4fr`
+        // manteniendo el mínimo por columna.
         <div
           className="grid gap-3 overflow-x-auto pb-1"
-          style={{ gridTemplateColumns: `repeat(${columnsCount}, minmax(12rem, 1fr))` }}
+          style={{ gridTemplateColumns: sectionSpans(section).map((s) => `minmax(12rem, ${s}fr)`).join(' ') }}
         >
           {columns.map((column) => (
             <ColumnZone
@@ -250,6 +255,8 @@ export const SectionCard = ({
           isOpen={settingsOpen}
           onClose={() => setSettingsOpen(false)}
           columns={columnsCount}
+          spans={sectionSpans(section)}
+          onLayoutChange={onLayoutChange}
           settings={{
             tabletColumns: section.settings.tabletColumns as BuilderColumnsCount | undefined,
             mobileColumns: section.settings.mobileColumns as BuilderColumnsCount | undefined,
