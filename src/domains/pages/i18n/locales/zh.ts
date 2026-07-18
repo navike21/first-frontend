@@ -174,6 +174,10 @@ export const zh: PageTranslations = {
       tablet: '平板',
       mobile: '移动端',
     },
+    layout: {
+      label: '分布',
+      hint: '桌面端（1280px 起）的列宽。较窄的屏幕会平均分配。',
+    },
     background: {
       typeLabel: '背景类型',
       typeNone: '无',

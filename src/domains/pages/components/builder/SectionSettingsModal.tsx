@@ -4,11 +4,13 @@ import { Button, Modal, Select, Switch, Tabs } from '@/shared/ui'
 import type { TabItem } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
+import { BUILDER_LAYOUT_PRESETS } from '../../model/page.builder'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
   BackgroundBreakpoint,
   BackgroundConfig,
   BackgroundFileSlot,
+  BuilderColumnSpan,
   BuilderColumnsCount,
   SectionBackground,
 } from '../../model/page.types'
@@ -19,12 +21,66 @@ export interface SectionSettingsModalProps {
   onClose: () => void
   /** Columnas de escritorio de la sección: tope de los selectores responsive. */
   columns: BuilderColumnsCount
+  /** Spans efectivos actuales (escritorio): resalta el preset activo. */
+  spans: BuilderColumnSpan[]
+  onLayoutChange: (spans: BuilderColumnSpan[]) => void
   settings: ResponsiveSectionSettings
   onChange: (patch: ResponsiveSectionSettings) => void
   background: SectionBackground
   onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
   onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
   onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
+}
+
+const spansEqual = (a: BuilderColumnSpan[], b: BuilderColumnSpan[]) =>
+  a.length === b.length && a.every((n, i) => n === b[i])
+
+interface LayoutPresetPickerProps {
+  columns: BuilderColumnsCount
+  value: BuilderColumnSpan[]
+  onChange: (spans: BuilderColumnSpan[]) => void
+}
+
+/** Distribuciones de ancho (escritorio) como mini-diagramas proporcionales al
+ * grid de 12. Solo aparece con 2-3 columnas: con 1 y 4 solo existe el
+ * simétrico, así que un único preset no aporta elección. */
+const LayoutPresetPicker = ({ columns, value, onChange }: LayoutPresetPickerProps) => {
+  const presets = BUILDER_LAYOUT_PRESETS[columns]
+  return (
+    <div className="flex flex-wrap gap-2">
+      {presets.map((preset) => {
+        const active = spansEqual(preset, value)
+        return (
+          <button
+            key={preset.join('-')}
+            type="button"
+            aria-pressed={active}
+            aria-label={preset.join(' / ')}
+            onClick={() => onChange(preset)}
+            className={clsx(
+              'flex h-10 min-w-24 flex-1 items-stretch gap-0.5 rounded-lg border p-1 transition-colors',
+              active
+                ? 'border-primary-600 bg-primary-700/10'
+                : 'border-border bg-surface hover:border-primary-600',
+            )}
+          >
+            {preset.map((span, i) => (
+              <span
+                key={i}
+                style={{ flexGrow: span }}
+                className={clsx(
+                  'flex items-center justify-center rounded text-[10px] font-bold',
+                  active ? 'bg-primary-700/20 text-primary-600' : 'bg-surface-subtle text-muted',
+                )}
+              >
+                {span}
+              </span>
+            ))}
+          </button>
+        )
+      })}
+    </div>
+  )
 }
 
 interface ColumnPickerProps {
@@ -63,6 +119,8 @@ export const SectionSettingsModal = ({
   isOpen,
   onClose,
   columns,
+  spans,
+  onLayoutChange,
   settings,
   onChange,
   background,
@@ -109,6 +167,16 @@ export const SectionSettingsModal = ({
           instanceId="section-settings"
           ariaLabel={t.builder.sectionSettings}
         />
+
+        {activeTab === 'columns' && BUILDER_LAYOUT_PRESETS[columns].length > 1 && (
+          <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-4">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs font-medium text-foreground">{t.builder.layout.label}</span>
+              <span className="text-[11px] text-muted">{t.builder.layout.hint}</span>
+            </div>
+            <LayoutPresetPicker columns={columns} value={spans} onChange={onLayoutChange} />
+          </div>
+        )}
 
         {activeTab === 'columns' && (
           <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-4">

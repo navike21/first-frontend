@@ -174,6 +174,10 @@ export const it: PageTranslations = {
       tablet: 'Tablet',
       mobile: 'Mobile',
     },
+    layout: {
+      label: 'Distribuzione',
+      hint: 'Larghezza delle colonne su desktop (da 1280px). Sugli schermi più stretti si dividono equamente.',
+    },
     background: {
       typeLabel: 'Tipo di sfondo',
       typeNone: 'Nessuno',

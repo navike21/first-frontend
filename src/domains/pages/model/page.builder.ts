@@ -8,6 +8,7 @@ import type {
   BuilderAccordionItem,
   BuilderButtonElement,
   BuilderColumn,
+  BuilderColumnSpan,
   BuilderColumnsCount,
   BuilderElement,
   BuilderElementPatch,
@@ -30,7 +31,70 @@ import type {
 
 export const MAX_BUILDER_COLUMNS = 4
 
+/** Grid del sitio público. 12 es divisible entre 1-4 (MAX_BUILDER_COLUMNS),
+ * así que cada conteo simétrico tiene un span entero exacto (12/6/4/3). */
+export const BUILDER_GRID_COLUMNS = 12
+
 const newId = (): string => crypto.randomUUID()
+
+/** Span de una columna cuando la sección es simétrica (sin spans explícitos). */
+export function symmetricSpan(count: BuilderColumnsCount): BuilderColumnSpan {
+  return (BUILDER_GRID_COLUMNS / count) as BuilderColumnSpan
+}
+
+function isValidSpan(value: unknown): value is BuilderColumnSpan {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= BUILDER_GRID_COLUMNS
+}
+
+/** Ancho efectivo de una columna: su span explícito, o el simétrico. */
+export function columnSpan(column: BuilderColumn, count: BuilderColumnsCount): BuilderColumnSpan {
+  return column.span ?? symmetricSpan(count)
+}
+
+/** Spans efectivos de una sección, en orden — para pintar el grid y para
+ * resaltar el preset activo. */
+export function sectionSpans(section: BuilderSection): BuilderColumnSpan[] {
+  const columns = section.content.columns ?? []
+  const count = clampColumns(section.settings.columns)
+  return columns.map((c) => columnSpan(c, count))
+}
+
+/** Distribuciones ofrecidas en el constructor, por nº de columnas. Cada una
+ * suma 12. Deliberadamente acotadas a los layouts reales de una web (no toda
+ * combinación posible): con 1 y 4 columnas solo existe el simétrico. */
+export const BUILDER_LAYOUT_PRESETS: Record<BuilderColumnsCount, BuilderColumnSpan[][]> = {
+  1: [[12]],
+  2: [
+    [6, 6],
+    [8, 4],
+    [4, 8],
+    [9, 3],
+    [3, 9],
+    [7, 5],
+    [5, 7],
+  ],
+  3: [
+    [4, 4, 4],
+    [6, 3, 3],
+    [3, 6, 3],
+    [3, 3, 6],
+  ],
+  4: [[3, 3, 3, 3]],
+}
+
+/**
+ * Aplica la invariante de spans: o todas las columnas lo llevan y suman 12,
+ * o ninguna (simétrico). Cualquier otra combinación —dato viejo, edición a
+ * mano, o una reconciliación que cambió el conteo— degrada a simétrico en
+ * vez de romper, mismo criterio defensivo que el resto de `normalizeSections`.
+ */
+function normalizeColumnSpans(columns: BuilderColumn[]): BuilderColumn[] {
+  const toSymmetric = () => columns.map((c) => ({ ...c, span: undefined }))
+  if (columns.every((c) => c.span === undefined)) return columns
+  if (!columns.every((c) => isValidSpan(c.span))) return toSymmetric()
+  const total = columns.reduce((sum, c) => sum + (c.span ?? 0), 0)
+  return total === BUILDER_GRID_COLUMNS ? columns : toSymmetric()
+}
 
 function emptyLocalized(): PageLocalizedString {
   return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as PageLocalizedString
@@ -256,6 +320,7 @@ function normalizeColumn(raw: unknown): BuilderColumn {
   return {
     id: typeof col.id === 'string' ? col.id : newId(),
     elements: elementsRaw.map(normalizeElement).filter((e): e is BuilderElement => e !== null),
+    ...(isValidSpan(col.span) ? { span: col.span } : {}),
   }
 }
 
@@ -273,7 +338,11 @@ export function reconcileColumns(columns: BuilderColumn[], count: BuilderColumns
     const last = next[next.length - 1]
     last.elements = [...last.elements, ...overflow]
   }
-  return next
+  // Al cambiar el conteo, los spans previos ya no pueden sumar 12 (y una
+  // columna nueva no tendría cuál) — se vuelve a simétrico. Si el conteo no
+  // cambió esto es un no-op, así que `normalizeSections` no pisa la
+  // distribución guardada en cada carga.
+  return columns.length === count ? next : next.map((c) => ({ ...c, span: undefined }))
 }
 
 /**
@@ -308,7 +377,10 @@ export function normalizeSections(input?: unknown): BuilderSection[] {
           hiddenOnTablet: !!settings.hiddenOnTablet,
           hiddenOnMobile: !!settings.hiddenOnMobile,
         }
-        section.content = { ...content, columns: reconcileColumns(columnsRaw.map(normalizeColumn), count) }
+        section.content = {
+          ...content,
+          columns: normalizeColumnSpans(reconcileColumns(columnsRaw.map(normalizeColumn), count)),
+        }
       }
       return section
     })
@@ -434,6 +506,30 @@ export function setSectionColumns(
       mobileColumns: clampOptionalColumns(s.settings.mobileColumns, count),
     }
     return { ...s, settings, content: { ...s.content, columns } }
+  })
+}
+
+/**
+ * Aplica una distribución (preset) a las columnas de una sección: el span se
+ * guarda EN cada columna, no en un array paralelo en `settings` — así viaja
+ * con ella y `reconcileColumns`/reordenamientos no pueden desincronizarlo.
+ * `spans` acá es solo la entrada posicional del preset elegido.
+ *
+ * Ignora un preset que no cuadre con las columnas actuales (otra longitud, o
+ * que no sume 12): la invariante se mantiene en el dato, no en la confianza
+ * sobre quien llama.
+ */
+export function setColumnSpans(
+  sections: BuilderSection[],
+  sectionId: string,
+  spans: BuilderColumnSpan[],
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (s.sectionId !== sectionId || !isColumnsSection(s)) return s
+    const columns = s.content.columns ?? []
+    if (spans.length !== columns.length) return s
+    if (spans.reduce((sum, n) => sum + n, 0) !== BUILDER_GRID_COLUMNS) return s
+    return { ...s, content: { ...s.content, columns: columns.map((c, i) => ({ ...c, span: spans[i] })) } }
   })
 }
 

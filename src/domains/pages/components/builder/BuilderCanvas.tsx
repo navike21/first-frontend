@@ -26,6 +26,7 @@ import type {
   BackgroundBreakpoint,
   BackgroundConfig,
   BackgroundFileSlot,
+  BuilderColumnSpan,
   BuilderColumnsCount,
   BuilderElementPatch,
   BuilderSection,
@@ -51,6 +52,7 @@ export interface BuilderCanvasProps {
   onSectionMove: (activeId: string, overId: string) => void
   onChooseColumns: (sectionId: string, count: BuilderColumnsCount) => void
   onColumnsChange: (sectionId: string, count: BuilderColumnsCount) => void
+  onLayoutChange: (sectionId: string, spans: BuilderColumnSpan[]) => void
   onResponsiveChange: (sectionId: string, patch: ResponsiveSectionSettings) => void
   onBackgroundChange: (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
   onPickBackgroundFile: (
@@ -364,6 +366,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   elementDragActive={props.elementDragging}
                   onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
                   onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
+                  onLayoutChange={(spans) => props.onLayoutChange(section.sectionId, spans)}
                   onResponsiveChange={(patch) => props.onResponsiveChange(section.sectionId, patch)}
                   onBackgroundChange={(breakpoint, config) => props.onBackgroundChange(section.sectionId, breakpoint, config)}
                   onPickBackgroundFile={(breakpoint, slot, file) =>

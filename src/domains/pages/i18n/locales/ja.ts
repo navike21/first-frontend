@@ -174,6 +174,10 @@ export const ja: PageTranslations = {
       tablet: 'タブレット',
       mobile: 'モバイル',
     },
+    layout: {
+      label: '配分',
+      hint: 'デスクトップ（1280px以上）での列幅。より狭い画面では均等に分割されます。',
+    },
     background: {
       typeLabel: '背景タイプ',
       typeNone: 'なし',

@@ -27,6 +27,7 @@ import {
   moveSection,
   removeSection,
   setSectionColumns,
+  setColumnSpans,
   setResponsiveSettings,
   setSectionBackground,
   setBackgroundImageUrl,
@@ -43,7 +44,13 @@ import {
   resolveSectionsRichTextImages,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
-import type { BackgroundBreakpoint, BackgroundConfig, BackgroundFileSlot, BuilderSection } from '../model/page.types'
+import type {
+  BackgroundBreakpoint,
+  BackgroundConfig,
+  BackgroundFileSlot,
+  BuilderColumnSpan,
+  BuilderSection,
+} from '../model/page.types'
 import { BuilderCanvas, PageTranslationProgress } from '../components/builder'
 
 interface PendingBackgroundFile {
@@ -506,6 +513,7 @@ export const PageBuilderPage = () => {
         onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
         onChooseColumns={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
         onColumnsChange={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
+        onLayoutChange={(sectionId, spans: BuilderColumnSpan[]) => patch((s) => setColumnSpans(s, sectionId, spans))}
         onResponsiveChange={(sectionId, responsivePatch) =>
           patch((s) => setResponsiveSettings(s, sectionId, responsivePatch))
         }

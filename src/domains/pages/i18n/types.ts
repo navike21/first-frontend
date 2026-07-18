@@ -171,6 +171,10 @@ export interface PageTranslations {
       tablet: string
       mobile: string
     }
+    layout: {
+      label: string
+      hint: string
+    }
     background: {
       typeLabel: string
       typeNone: string

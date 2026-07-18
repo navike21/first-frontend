@@ -174,6 +174,10 @@ export const fr: PageTranslations = {
       tablet: 'Tablette',
       mobile: 'Mobile',
     },
+    layout: {
+      label: 'Répartition',
+      hint: 'Largeur des colonnes sur ordinateur (à partir de 1280px). Les écrans plus étroits partagent équitablement.',
+    },
     background: {
       typeLabel: 'Type d’arrière-plan',
       typeNone: 'Aucun',

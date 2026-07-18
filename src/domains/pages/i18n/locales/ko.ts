@@ -174,6 +174,10 @@ export const ko: PageTranslations = {
       tablet: '태블릿',
       mobile: '모바일',
     },
+    layout: {
+      label: '분배',
+      hint: '데스크톱(1280px 이상)에서의 열 너비입니다. 더 좁은 화면에서는 균등하게 나뉩니다.',
+    },
     background: {
       typeLabel: '배경 유형',
       typeNone: '없음',

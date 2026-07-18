@@ -174,6 +174,10 @@ export const ru: PageTranslations = {
       tablet: 'Планшет',
       mobile: 'Мобильный',
     },
+    layout: {
+      label: 'Распределение',
+      hint: 'Ширина колонок на десктопе (от 1280px). На узких экранах делятся поровну.',
+    },
     background: {
       typeLabel: 'Тип фона',
       typeNone: 'Нет',
