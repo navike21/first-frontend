@@ -18,6 +18,5 @@ export const de: HeaderTranslations = {
   settingsDrawer: {
     title: 'Einstellungen',
     mode: 'Modus',
-    color: 'Farbe',
   },
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @import 'tailwindcss';
 
@@ -128,20 +128,28 @@
   /* Input helper / validation error transition */
   --animate-helper-in: helper-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
 
-  --font-sans: 'Inter', sans-serif;
+  /* Fuentes — Manual de Marca First: IBM Plex Sans (UI/cuerpo), Space Grotesk
+     (titulares/wordmark), IBM Plex Mono (tokens/IDs/metadatos). */
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 
-  /* Colors — default teal brand; overridden per .color-* class on <html> */
-  --color-primary-50: #00b0bd;
-  --color-primary-100: #00a9b4;
-  --color-primary-200: #009fb0;
-  --color-primary-300: #0095ab;
-  --color-primary-400: #008ba7;
-  --color-primary-500: #0081a2;
-  --color-primary-600: #007797;
-  --color-primary-700: #006d8d;
-  --color-primary-800: #006483;
-  --color-primary-900: #005a79;
-  --color-primary-950: #004254;
+  /* Color primario — Manual de Marca First: un único acento, Azul First.
+     Anclas del manual: 600 = Azul First #4C86FF (CTA/activo/foco),
+     700 = Azul Medio #3E63B5 (hover/enlaces), 800 = Azul Profundo #34456B,
+     950 = Navy Base #0B1220. 50-500 tintes; 900 navy-divisor. Sin selector:
+     el color queda fijo a la marca. */
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #dce8ff;
+  --color-primary-200: #c1d6ff;
+  --color-primary-300: #97b8ff;
+  --color-primary-400: #6e99ff;
+  --color-primary-500: #5a8cff;
+  --color-primary-600: #4c86ff;
+  --color-primary-700: #3e63b5;
+  --color-primary-800: #34456b;
+  --color-primary-900: #232e45;
+  --color-primary-950: #0b1220;
 
   /* ── Semantic color tokens — registered so they emit real utilities
      (bg-surface, text-foreground, text-secondary, border-border, …).
@@ -163,32 +171,19 @@
    Change a value here (light) or in .dark to update every component.        */
 @layer base {
   :root {
+    /* Neutros del Manual de Marca First (tema claro). */
     /* Surfaces */
-    --surface: var(--color-white); /* page / card background            */
-    --surface-subtle: var(
-      --color-slate-50
-    ); /* sidebar, table rows, inputs       */
-    --surface-raised: var(
-      --color-white
-    ); /* modals, dropdowns, popovers       */
+    --surface: #ffffff; /* page / card background            */
+    --surface-subtle: #f3f5f9; /* Niebla — sidebar, table rows, inputs */
+    --surface-raised: #ffffff; /* modals, dropdowns, popovers       */
     /* Borders */
-    --border: var(--color-slate-200); /* default border                    */
-    --border-subtle: var(
-      --color-slate-100
-    ); /* dividers, skeleton lines          */
+    --border: #e3e8f0; /* Línea — default border            */
+    --border-subtle: #eef1f6; /* dividers, skeleton lines          */
     /* Text */
-    --text-primary: var(
-      --color-slate-950
-    ); /* headings, body                    */
-    --text-secondary: var(
-      --color-slate-500
-    ); /* labels, helper text               */
-    --text-muted: var(
-      --color-slate-400
-    ); /* placeholders, disabled labels     */
-    --text-disabled: var(
-      --color-slate-300
-    ); /* disabled control text             */
+    --text-primary: #0b1220; /* Navy Base — headings, body        */
+    --text-secondary: #5c6675; /* Pizarra — labels, helper text     */
+    --text-muted: #8a97b3; /* placeholders, disabled labels     */
+    --text-disabled: #b9c2d0; /* disabled control text             */
   }
 
   .dark {
@@ -230,155 +225,21 @@
     background: transparent;
   }
 
-  /* ── Brand color themes ─────────────────────────────────────────────────────
-     Applied as a class on <html>. Overrides --color-primary-* CSS variables
-     so every utility that uses primary-* adapts automatically.
-     teal: custom scale (no Tailwind equivalent) — keeps hex values.
-     All others reference Tailwind's generated CSS variables directly.       */
-
-  .color-teal {
-    --color-primary-50: #00b0bd;
-    --color-primary-100: #00a9b4;
-    --color-primary-200: #009fb0;
-    --color-primary-300: #0095ab;
-    --color-primary-400: #008ba7;
-    --color-primary-500: #0081a2;
-    --color-primary-600: #007797;
-    --color-primary-700: #006d8d;
-    --color-primary-800: #006483;
-    --color-primary-900: #005a79;
-    --color-primary-950: #004254;
-  }
-
-  .color-violet {
-    --color-primary-50: var(--color-violet-50);
-    --color-primary-100: var(--color-violet-100);
-    --color-primary-200: var(--color-violet-200);
-    --color-primary-300: var(--color-violet-300);
-    --color-primary-400: var(--color-violet-400);
-    --color-primary-500: var(--color-violet-500);
-    --color-primary-600: var(--color-violet-600);
-    --color-primary-700: var(--color-violet-600);
-    --color-primary-800: var(--color-violet-700);
-    --color-primary-900: var(--color-violet-900);
-    --color-primary-950: var(--color-violet-950);
-  }
-
-  .color-emerald {
-    --color-primary-50: var(--color-emerald-50);
-    --color-primary-100: var(--color-emerald-100);
-    --color-primary-200: var(--color-emerald-200);
-    --color-primary-300: var(--color-emerald-300);
-    --color-primary-400: var(--color-emerald-400);
-    --color-primary-500: var(--color-emerald-500);
-    --color-primary-600: var(--color-emerald-600);
-    --color-primary-700: var(--color-emerald-600);
-    --color-primary-800: var(--color-emerald-700);
-    --color-primary-900: var(--color-emerald-900);
-    --color-primary-950: var(--color-emerald-950);
-  }
-
-  .color-rose {
-    --color-primary-50: var(--color-rose-50);
-    --color-primary-100: var(--color-rose-100);
-    --color-primary-200: var(--color-rose-200);
-    --color-primary-300: var(--color-rose-300);
-    --color-primary-400: var(--color-rose-400);
-    --color-primary-500: var(--color-rose-500);
-    --color-primary-600: var(--color-rose-600);
-    --color-primary-700: var(--color-rose-600);
-    --color-primary-800: var(--color-rose-700);
-    --color-primary-900: var(--color-rose-900);
-    --color-primary-950: var(--color-rose-950);
-  }
-
-  .color-amber {
-    --color-primary-50: var(--color-amber-50);
-    --color-primary-100: var(--color-amber-100);
-    --color-primary-200: var(--color-amber-200);
-    --color-primary-300: var(--color-amber-300);
-    --color-primary-400: var(--color-amber-400);
-    --color-primary-500: var(--color-amber-500);
-    --color-primary-600: var(--color-amber-600);
-    --color-primary-700: var(--color-amber-600);
-    --color-primary-800: var(--color-amber-700);
-    --color-primary-900: var(--color-amber-900);
-    --color-primary-950: var(--color-amber-950);
-  }
-
-  .color-sky {
-    --color-primary-50: var(--color-sky-50);
-    --color-primary-100: var(--color-sky-100);
-    --color-primary-200: var(--color-sky-200);
-    --color-primary-300: var(--color-sky-300);
-    --color-primary-400: var(--color-sky-400);
-    --color-primary-500: var(--color-sky-500);
-    --color-primary-600: var(--color-sky-600);
-    --color-primary-700: var(--color-sky-600);
-    --color-primary-800: var(--color-sky-700);
-    --color-primary-900: var(--color-sky-900);
-    --color-primary-950: var(--color-sky-950);
-  }
-
-  .color-indigo {
-    --color-primary-50: var(--color-indigo-50);
-    --color-primary-100: var(--color-indigo-100);
-    --color-primary-200: var(--color-indigo-200);
-    --color-primary-300: var(--color-indigo-300);
-    --color-primary-400: var(--color-indigo-400);
-    --color-primary-500: var(--color-indigo-500);
-    --color-primary-600: var(--color-indigo-600);
-    --color-primary-700: var(--color-indigo-600);
-    --color-primary-800: var(--color-indigo-700);
-    --color-primary-900: var(--color-indigo-900);
-    --color-primary-950: var(--color-indigo-950);
-  }
-
-  .color-orange {
-    --color-primary-50: var(--color-orange-50);
-    --color-primary-100: var(--color-orange-100);
-    --color-primary-200: var(--color-orange-200);
-    --color-primary-300: var(--color-orange-300);
-    --color-primary-400: var(--color-orange-400);
-    --color-primary-500: var(--color-orange-500);
-    --color-primary-600: var(--color-orange-600);
-    --color-primary-700: var(--color-orange-600);
-    --color-primary-800: var(--color-orange-700);
-    --color-primary-900: var(--color-orange-900);
-    --color-primary-950: var(--color-orange-950);
-  }
-
-  .color-pink {
-    --color-primary-50: var(--color-pink-50);
-    --color-primary-100: var(--color-pink-100);
-    --color-primary-200: var(--color-pink-200);
-    --color-primary-300: var(--color-pink-300);
-    --color-primary-400: var(--color-pink-400);
-    --color-primary-500: var(--color-pink-500);
-    --color-primary-600: var(--color-pink-600);
-    --color-primary-700: var(--color-pink-600);
-    --color-primary-800: var(--color-pink-700);
-    --color-primary-900: var(--color-pink-900);
-    --color-primary-950: var(--color-pink-950);
-  }
-
-  .color-cyan {
-    --color-primary-50: var(--color-cyan-50);
-    --color-primary-100: var(--color-cyan-100);
-    --color-primary-200: var(--color-cyan-200);
-    --color-primary-300: var(--color-cyan-300);
-    --color-primary-400: var(--color-cyan-400);
-    --color-primary-500: var(--color-cyan-500);
-    --color-primary-600: var(--color-cyan-600);
-    --color-primary-700: var(--color-cyan-600);
-    --color-primary-800: var(--color-cyan-700);
-    --color-primary-900: var(--color-cyan-900);
-    --color-primary-950: var(--color-cyan-950);
+  /* ── Titulares — Manual de Marca First ──────────────────────────────────────
+     Space Grotesk en H1–H4 (el cuerpo hereda IBM Plex Sans vía --font-sans).
+     Tracking -0.02em como el wordmark. Es una regla de base: cualquier
+     componente puede sobreescribir con una utilidad font-* si lo necesita. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 
   /* Smooth theme transition — lower specificity than Tailwind utilities,
      so explicit duration-ease-* classes on components always win.
-     Covers dark-mode toggle and brand-color changes on all surfaces. */
+     Covers the dark-mode toggle on all surfaces. */
   *,
   *::before,
   *::after {

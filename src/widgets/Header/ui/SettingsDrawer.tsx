@@ -1,4 +1,4 @@
-import { Drawer, ThemeToggle, ColorPicker, LanguageSwitcher } from '@/shared/ui'
+import { Drawer, ThemeToggle, LanguageSwitcher } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeaderTranslation } from '../i18n'
 
@@ -55,19 +55,6 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
               {t.settingsDrawer.mode}
             </span>
             <ThemeToggle />
-          </div>
-        </div>
-
-        {/* Color */}
-        <div>
-          <SectionLabel>{t.settingsDrawer.color}</SectionLabel>
-          <div
-            className={clsx(
-              'rounded-xl border border-border bg-surface-raised',
-              'px-4 py-4'
-            )}
-          >
-            <ColorPicker />
           </div>
         </div>
       </div>

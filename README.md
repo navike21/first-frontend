@@ -201,7 +201,7 @@ revisar si ya existe aquí.
 <summary><strong>Atoms (22)</strong></summary>
 
 `AppLogo`, `Avatar`, `Button`, `Can` (gating por permisos), `Card`, `Chip`,
-`ColorPicker`, `DetailField`, `FadeCollapse`, `HelperText`, `IconButton`,
+`DetailField`, `FadeCollapse`, `HelperText`, `IconButton`,
 `IconComponent`, `Label`, `LangBadge`, `LinkButton`, `MediaThumbnail`,
 `NavItem`, `RichTextArea`, `SectionDivider`, `SectionLabel`, `Skeleton`,
 `Spinner`, `Switch`, `ThemeToggle`

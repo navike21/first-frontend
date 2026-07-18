@@ -18,6 +18,5 @@ export const ja: HeaderTranslations = {
   settingsDrawer: {
     title: '設定',
     mode: 'モード',
-    color: 'カラー',
   },
 }

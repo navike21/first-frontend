@@ -36,8 +36,9 @@ entre 6+ formularios de negocio):
   código de idioma en sí, usado tanto dentro de `LangSidebar` como suelto
   junto a labels de campos individuales.
 - `HexColorInput` (`shared/ui/molecules`) — swatch + input de texto para
-  colores hex arbitrarios. No confundir con `ColorPicker` (paleta fija de
-  swatches de marca/tema).
+  colores hex arbitrarios (de contenido, ej. HexColorInput del builder/forms).
+  Es lo único de "elegir color" que queda: el color de la MARCA está bloqueado
+  (ver la sección de marca abajo), no hay selector de tema.
 - `SortableItemActions` (`shared/ui/molecules`) — fila de
   drag-handle + botón eliminar para items reordenables con `useSortable`
   (dnd-kit). No usar para overlays sobre thumbnails (ver `GalleryPicker.Tile`,
@@ -63,6 +64,25 @@ la posición del cursor mientras se escribe. Ver `ContentConfigPanel.tsx`
 No apliques `InputNumber` a campos que parecen numéricos pero no lo son
 (ancho/alto en px o %, "valor" de estadística tipo "500+", número de
 documento alfanumérico) — esos siguen usando `InputField` plano.
+
+## Marca / sistema de diseño (bloqueado al Manual de Marca First)
+
+El color y las tipografías están **fijos a la marca** — no hay selector de tema
+de color (se eliminó el `ColorPicker` + el `primaryColor` por usuario). Todo
+vive en `src/app/styles/index.css`:
+- **Color**: un único acento **Azul First `#4C86FF`** = `--color-primary-600`
+  (CTA/activo/foco); hover = `#3E63B5` (700), activo = `#34456B` (800),
+  navy `#0B1220` = 950. Neutros del manual: Niebla `#F3F5F9` (surface-subtle),
+  Línea `#E3E8F0` (border), Pizarra `#5C6675` (text-secondary), Navy foreground.
+  Se conserva el toggle **claro/oscuro** (no confundir con la selección de
+  color, que ya no existe).
+- **Tipografía**: `--font-sans` = **IBM Plex Sans** (UI/cuerpo), `--font-display`
+  = **Space Grotesk** (aplicada a `h1–h4` vía regla base, tracking -0.02em),
+  `--font-mono` = **IBM Plex Mono** (tokens/IDs). Usa `font-display`/`font-mono`
+  para casos explícitos.
+- Al agregar color, usa siempre las utilidades `primary-*`/tokens semánticos —
+  nunca un hex suelto de marca. `HexColorInput` es para color de **contenido**,
+  no de tema.
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.

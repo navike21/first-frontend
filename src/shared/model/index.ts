@@ -16,8 +16,5 @@ export {
   useThemeStore,
   useTheme,
   useToggleTheme,
-  useBrandColor,
-  useSetColor,
   type Theme,
-  type BrandColor,
 } from './theme.store'

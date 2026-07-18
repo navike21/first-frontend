@@ -22,8 +22,6 @@ export type ThemePreference = 'light' | 'dark' | 'system'
 export interface UserPreferences {
   /** Supported language code (e.g. `es`, `en`). */
   language?: string
-  /** Primary color as hex `#RRGGBB`. */
-  primaryColor?: string
   theme?: ThemePreference
 }
 
