@@ -1,4 +1,4 @@
-import { IconComponent, Avatar, IconButton } from '@/shared/ui'
+import { IconComponent, Avatar, IconButton, BrandMark } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
@@ -19,6 +19,7 @@ export const Header = () => {
     logout,
     toggleSidebar,
     toggleMobileSidebar,
+    isLoading,
   } = useHeader()
 
   const { t } = useHeaderTranslation()
@@ -68,8 +69,8 @@ export const Header = () => {
         </button>
 
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold tracking-tight text-foreground">
-            First
+          <h1>
+            <BrandMark size="x-small" pulse={isLoading} />
           </h1>
         </div>
       </div>

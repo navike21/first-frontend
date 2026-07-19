@@ -30,7 +30,6 @@ export { Spinner, type SpinnerProps } from './atoms/Spinner'
 export { Skeleton, type SkeletonProps } from './atoms/Skeleton'
 export { MediaThumbnail, type MediaThumbnailProps } from './atoms/MediaThumbnail'
 export { ThemeToggle } from './atoms/ThemeToggle'
-export { ColorPicker } from './atoms/ColorPicker'
 export { FadeCollapse, type FadeCollapseProps } from './atoms/FadeCollapse'
 export { DetailField, type DetailFieldProps } from './atoms/DetailField'
 export { SectionLabel, type SectionLabelProps } from './atoms/SectionLabel'
@@ -83,6 +82,7 @@ export {
   type BreadcrumbItem,
   type BreadcrumbsProps,
 } from './molecules/Breadcrumbs'
+export { BrandMark, type BrandMarkProps } from './molecules/BrandMark'
 export {
   Select,
   Option,

@@ -44,7 +44,7 @@ describe('LinkButton component', () => {
   it('should apply primary variant styles by default', () => {
     render(<LinkButton href="/test">Primary Button</LinkButton>)
     const link = screen.getByRole('link')
-    expect(link).toHaveClass('bg-primary-700', 'text-white')
+    expect(link).toHaveClass('bg-primary-600', 'text-white')
   })
 
   it('should apply secondary variant styles', () => {
@@ -138,7 +138,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     let link = screen.getByRole('link')
-    expect(link).toHaveClass('hover:bg-primary-800')
+    expect(link).toHaveClass('hover:bg-primary-700')
 
     rerender(
       <LinkButton href="/test" variant="secondary">

@@ -1,6 +1,6 @@
 import { useThemeStore, type Theme } from '@/shared/model/theme.store'
 import { useLanguageStore } from '@/shared/model/language.store'
-import { hexToBrandColor, isSupportedLanguage } from './preferencesSync'
+import { isSupportedLanguage } from './preferencesSync'
 import type { UserPreferences } from '@/shared/types'
 
 const resolveSystemTheme = (): Theme =>
@@ -22,10 +22,6 @@ export const hydratePreferences = (prefs?: UserPreferences): void => {
     theme.hydrateTheme(
       prefs.theme === 'system' ? resolveSystemTheme() : prefs.theme
     )
-  }
-  if (prefs.primaryColor) {
-    const color = hexToBrandColor(prefs.primaryColor)
-    if (color) theme.hydrateColor(color)
   }
   if (prefs.language && isSupportedLanguage(prefs.language)) {
     useLanguageStore.getState().hydrateLanguage(prefs.language)

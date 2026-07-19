@@ -18,6 +18,5 @@ export const ru: HeaderTranslations = {
   settingsDrawer: {
     title: 'Настройки',
     mode: 'Режим',
-    color: 'Цвет',
   },
 }

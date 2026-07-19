@@ -28,7 +28,7 @@ describe('IconButton component', () => {
     render(<IconButton icon="RiHomeLine" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-primary-700', 'text-white')
+    expect(button).toHaveClass('bg-primary-600', 'text-white')
   })
 
   it('should apply secondary variant styles', () => {

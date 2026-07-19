@@ -30,7 +30,7 @@ export const FeatureCard = ({
           <div
             className={clsx(
               'flex h-10 w-10 items-center justify-center',
-              'bg-primary-700 rounded-md text-white'
+              'bg-primary-600 rounded-md text-white'
             )}
           >
             <IconComponent icon={icon} className="h-5 w-5" />

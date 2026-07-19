@@ -25,7 +25,7 @@ vi.mock('@/shared/ui', () => ({
       </dialog>
     ) : null,
   ThemeToggle: () => <div data-testid="theme-toggle" />,
-  ColorPicker: () => <div data-testid="color-picker" />,
+  LanguageSwitcher: () => <div data-testid="language-switcher" />,
 }))
 
 describe('SettingsDrawer component', () => {
@@ -51,11 +51,6 @@ describe('SettingsDrawer component', () => {
   it('should render the ThemeToggle', () => {
     render(<SettingsDrawer isOpen={true} onClose={vi.fn()} />)
     expect(screen.getByTestId('theme-toggle')).toBeInTheDocument()
-  })
-
-  it('should render the ColorPicker', () => {
-    render(<SettingsDrawer isOpen={true} onClose={vi.fn()} />)
-    expect(screen.getByTestId('color-picker')).toBeInTheDocument()
   })
 
   it('should call onClose when close button is clicked', async () => {

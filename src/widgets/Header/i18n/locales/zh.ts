@@ -18,6 +18,5 @@ export const zh: HeaderTranslations = {
   settingsDrawer: {
     title: '设置',
     mode: '模式',
-    color: '颜色',
   },
 }

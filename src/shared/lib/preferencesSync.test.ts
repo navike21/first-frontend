@@ -11,27 +11,12 @@ vi.mock('@/shared/model/session.store', () => ({
 
 import { preferencesApi } from '@/shared/api/preferences'
 import { useSessionStore } from '@/shared/model/session.store'
-import {
-  brandColorToHex,
-  hexToBrandColor,
-  isSupportedLanguage,
-  queuePreferenceSave,
-} from './preferencesSync'
+import { isSupportedLanguage, queuePreferenceSave } from './preferencesSync'
 
 const updateMock = vi.mocked(preferencesApi.update)
 const getStateMock = vi.mocked(useSessionStore.getState)
 
-describe('preferencesSync — color/language mapping', () => {
-  it('round-trips a brand color through hex losslessly', () => {
-    expect(brandColorToHex('teal')).toBe('#0081a2')
-    expect(hexToBrandColor('#0081A2')).toBe('teal') // case-insensitive
-    expect(hexToBrandColor('#0ea5e9')).toBe('sky')
-  })
-
-  it('returns undefined for an unknown hex', () => {
-    expect(hexToBrandColor('#ffffff')).toBeUndefined()
-  })
-
+describe('preferencesSync — language guard', () => {
   it('guards supported languages', () => {
     expect(isSupportedLanguage('es')).toBe(true)
     expect(isSupportedLanguage('en')).toBe(true)
@@ -60,13 +45,13 @@ describe('queuePreferenceSave — debounced + auth-gated', () => {
       token: 'tok',
     } as unknown as ReturnType<typeof useSessionStore.getState>)
     queuePreferenceSave({ theme: 'dark' })
-    queuePreferenceSave({ primaryColor: '#0081a2' })
+    queuePreferenceSave({ language: 'es' })
     expect(updateMock).not.toHaveBeenCalled() // still within debounce window
     vi.advanceTimersByTime(500)
     expect(updateMock).toHaveBeenCalledTimes(1)
     expect(updateMock).toHaveBeenCalledWith({
       theme: 'dark',
-      primaryColor: '#0081a2',
+      language: 'es',
     })
   })
 })

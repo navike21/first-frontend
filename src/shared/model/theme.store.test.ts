@@ -1,12 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import {
-  useThemeStore,
-  useTheme,
-  useToggleTheme,
-  useBrandColor,
-  useSetColor,
-} from './theme.store'
+import { useThemeStore, useTheme, useToggleTheme } from './theme.store'
 
 const mockStorage = (() => {
   let store: Record<string, string> = {}
@@ -29,18 +23,12 @@ vi.stubGlobal('localStorage', mockStorage)
 describe('useThemeStore', () => {
   beforeEach(() => {
     mockStorage.clear()
-    useThemeStore.setState({ theme: 'light', color: 'teal' })
+    useThemeStore.setState({ theme: 'light' })
     document.documentElement.classList.remove('dark')
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
-  })
-
-  describe('initial state', () => {
-    it('has default color teal', () => {
-      expect(useThemeStore.getState().color).toBe('teal')
-    })
   })
 
   describe('detectSystemTheme', () => {
@@ -67,16 +55,11 @@ describe('useThemeStore', () => {
   })
 
   describe('onRehydrateStorage', () => {
-    it('applies theme and color when stored state is restored', () => {
+    it('applies theme when stored state is restored', () => {
       useThemeStore.getState().setTheme('dark')
-      useThemeStore.getState().setColor('violet')
       document.documentElement.classList.remove('dark')
-      document.documentElement.classList.remove('color-violet')
       useThemeStore.persist.rehydrate()
       expect(document.documentElement.classList.contains('dark')).toBe(true)
-      expect(document.documentElement.classList.contains('color-violet')).toBe(
-        true
-      )
     })
 
     it('does nothing when stored state is null (invalid JSON in storage)', () => {
@@ -111,27 +94,6 @@ describe('useThemeStore', () => {
       useThemeStore.setState({ theme: 'dark' })
       useThemeStore.getState().toggleTheme()
       expect(useThemeStore.getState().theme).toBe('light')
-    })
-  })
-
-  describe('setColor', () => {
-    it('sets color and adds the corresponding class', () => {
-      useThemeStore.getState().setColor('violet')
-      expect(useThemeStore.getState().color).toBe('violet')
-      expect(document.documentElement.classList.contains('color-violet')).toBe(
-        true
-      )
-    })
-
-    it('removes previous color class when changing colors', () => {
-      useThemeStore.getState().setColor('rose')
-      useThemeStore.getState().setColor('emerald')
-      expect(document.documentElement.classList.contains('color-rose')).toBe(
-        false
-      )
-      expect(document.documentElement.classList.contains('color-emerald')).toBe(
-        true
-      )
     })
   })
 
@@ -170,18 +132,6 @@ describe('useThemeStore', () => {
       const { result } = renderHook(() => useToggleTheme())
       result.current()
       expect(useThemeStore.getState().theme).toBe('dark')
-    })
-
-    it('useBrandColor returns current color', () => {
-      useThemeStore.setState({ color: 'amber' })
-      const { result } = renderHook(() => useBrandColor())
-      expect(result.current).toBe('amber')
-    })
-
-    it('useSetColor returns setColor function', () => {
-      const { result } = renderHook(() => useSetColor())
-      result.current('rose')
-      expect(useThemeStore.getState().color).toBe('rose')
     })
   })
 })

@@ -3,6 +3,7 @@ import { useRouter } from '@tanstack/react-router'
 import { useSidebarStore } from '../../Sidebar/model/store'
 import { useSessionStore } from '@/shared/model'
 import { navPaths } from '@/shared/router'
+import { useGlobalLoading } from '@/shared/lib/useGlobalLoading'
 
 export const useHeader = () => {
   const { isCollapsed, toggleSidebar, toggleMobileSidebar } = useSidebarStore()
@@ -11,6 +12,7 @@ export const useHeader = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const router = useRouter()
+  const isLoading = useGlobalLoading()
 
   const toggleProfile = useCallback(() => {
     setIsProfileOpen((prev) => !prev)
@@ -48,5 +50,6 @@ export const useHeader = () => {
     logout,
     toggleSidebar,
     toggleMobileSidebar,
+    isLoading,
   }
 }

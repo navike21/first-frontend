@@ -18,6 +18,5 @@ export const ko: HeaderTranslations = {
   settingsDrawer: {
     title: '설정',
     mode: '모드',
-    color: '색상',
   },
 }

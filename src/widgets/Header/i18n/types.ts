@@ -16,6 +16,5 @@ export interface HeaderTranslations {
   settingsDrawer: {
     title: string
     mode: string
-    color: string
   }
 }

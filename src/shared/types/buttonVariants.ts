@@ -4,7 +4,9 @@ export type ButtonVariant = NonNullable<ButtonBaseProps['variant']>
 export type ButtonSize = NonNullable<ButtonBaseProps['size']>
 
 export const variantColorClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-primary-700 text-white',
+  // Azul First #4C86FF (primary-600) = el acento único del Manual de Marca
+  // para CTAs; hover a Azul Medio #3E63B5 (700).
+  primary: 'bg-primary-600 text-white',
   // Brand-colored outline (uses primary-* so it follows the active color
   // theme) over the surface — for "cancel" / dismiss actions.
   secondary:
@@ -19,7 +21,7 @@ export const variantColorClasses: Record<ButtonVariant, string> = {
 }
 
 export const variantHoverClasses: Record<ButtonVariant, string> = {
-  primary: 'hover:bg-primary-800',
+  primary: 'hover:bg-primary-700',
   secondary: 'hover:bg-primary-700/10',
   outline: 'hover:bg-primary-700/10',
   text: '',
