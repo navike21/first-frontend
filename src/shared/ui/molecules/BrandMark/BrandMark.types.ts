@@ -7,5 +7,8 @@ export interface BrandMarkProps {
    * a momentos de entrada fría (login, error) — nunca a algo que se re-monte
    * en cada navegación interna, como el Header. */
   animateIn?: boolean
+  /** Pulso en loop mientras hay una carga en curso en la app (ver AppLogo /
+   * useGlobalLoading) — pensado para el logo del Header. */
+  pulse?: boolean
   className?: string
 }

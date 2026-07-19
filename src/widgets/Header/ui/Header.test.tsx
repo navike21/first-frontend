@@ -37,6 +37,7 @@ const makeHeaderState = (
   logout: logoutMock,
   toggleSidebar: toggleSidebarMock,
   toggleMobileSidebar: toggleMobileSidebarMock,
+  isLoading: false,
   ...overrides,
 })
 
@@ -53,6 +54,11 @@ vi.mock('@/shared/ui', async (importOriginal) => {
   return {
     ...actual,
     AppLogo: () => <svg data-testid="app-logo" />,
+    BrandMark: ({ pulse }: { pulse?: boolean }) => (
+      <span data-testid="brand-mark" data-pulse={pulse}>
+        First
+      </span>
+    ),
     IconComponent: ({
       icon,
       className,
@@ -192,5 +198,16 @@ describe('Header component', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ isSettingsOpen: true }))
     render(<Header />)
     expect(screen.getByTestId('settings-drawer')).toBeInTheDocument()
+  })
+
+  it('should not pulse the brand mark when nothing is loading', () => {
+    render(<Header />)
+    expect(screen.getByTestId('brand-mark')).toHaveAttribute('data-pulse', 'false')
+  })
+
+  it('should pulse the brand mark when isLoading is true', () => {
+    useHeaderMock.mockReturnValue(makeHeaderState({ isLoading: true }))
+    render(<Header />)
+    expect(screen.getByTestId('brand-mark')).toHaveAttribute('data-pulse', 'true')
   })
 })

@@ -102,4 +102,30 @@ describe('AppLogo component', () => {
     expect(bars[3]).toHaveAttribute('y', '22')
     expect(bars[3]).toHaveAttribute('height', '50')
   })
+
+  it('should keep the bars at their real geometry when pulsing (only transform animates)', () => {
+    const { container } = render(<AppLogo pulse />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars).toHaveLength(4) // badge + 3 barras
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+    expect(bars[3]).toHaveAttribute('y', '22')
+    expect(bars[3]).toHaveAttribute('height', '50')
+  })
+
+  it('should skip the pulse loop when prefers-reduced-motion is set', () => {
+    useReducedMotionMock.mockReturnValue(true)
+    const { container } = render(<AppLogo pulse />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+  })
+
+  it('should prioritize pulse over animateIn when both are set', () => {
+    const { container } = render(<AppLogo pulse animateIn />)
+    const bars = container.querySelectorAll('rect')
+    // Con pulse activo, la geometría siempre es la final (solo cambia el transform).
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+  })
 })

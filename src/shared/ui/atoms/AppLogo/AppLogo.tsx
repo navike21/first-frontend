@@ -14,6 +14,12 @@ const sizeClass: Record<AppLogoSize, string> = {
 const BAR_TRANSITION = { duration: 0.32, ease: [0.34, 1.56, 0.64, 1.08] } as const
 const BAR_STAGGER_S = 0.09
 
+// Pulso de carga: loop infinito, así que anima solo `scaleY` (transform,
+// compositor) en vez de los atributos `y`/`height` del arranque — evita
+// reflow de layout en cada frame mientras la carga se prolonga.
+const PULSE_TRANSITION = { duration: 0.6, ease: 'easeInOut', repeat: Infinity } as const
+const PULSE_STAGGER_S = 0.12
+
 interface Bar {
   x: number
   y: number
@@ -43,13 +49,15 @@ export const AppLogo = ({
   color = 'default',
   size = 'medium',
   animateIn = false,
+  pulse = false,
   ...props
 }: AppLogoProps) => {
   const barClass = color === 'white' ? 'fill-white' : undefined
   const barClasses = [barClass ?? 'fill-primary-800', barClass ?? 'fill-primary-700', barClass ?? 'fill-primary-600']
-  // Llamado siempre (regla de hooks); solo se usa si animateIn está activo.
+  // Llamado siempre (regla de hooks); solo se usa si animateIn/pulse están activos.
   const reduceMotion = useReducedMotion()
-  const shouldAnimate = animateIn && !reduceMotion
+  const shouldPulse = pulse && !reduceMotion
+  const shouldAnimateIn = animateIn && !reduceMotion && !shouldPulse
 
   return (
     <svg
@@ -60,22 +68,43 @@ export const AppLogo = ({
       {...props}
     >
       <rect width="100" height="100" rx="22" className="fill-primary-950" />
-      {BARS.map((bar, i) =>
-        shouldAnimate ? (
-          <motion.rect
-            key={bar.x}
-            x={bar.x}
-            width="13"
-            rx="6.5"
-            className={barClasses[i]}
-            initial={{ y: 100, height: 0 }}
-            animate={{ y: bar.y, height: bar.height }}
-            transition={{ ...BAR_TRANSITION, delay: i * BAR_STAGGER_S }}
-          />
-        ) : (
-          <rect key={bar.x} x={bar.x} y={bar.y} width="13" height={bar.height} rx="6.5" className={barClasses[i]} />
-        )
-      )}
+      {BARS.map((bar, i) => {
+        const barGeometry = {
+          x: bar.x,
+          y: bar.y,
+          width: 13,
+          height: bar.height,
+          rx: 6.5,
+          className: barClasses[i],
+        }
+
+        if (shouldPulse) {
+          return (
+            <motion.rect
+              key={bar.x}
+              {...barGeometry}
+              style={{ originY: 1 }}
+              initial={false}
+              animate={{ scaleY: [1, 0.15, 1] }}
+              transition={{ ...PULSE_TRANSITION, delay: i * PULSE_STAGGER_S }}
+            />
+          )
+        }
+
+        if (shouldAnimateIn) {
+          return (
+            <motion.rect
+              key={bar.x}
+              {...barGeometry}
+              initial={{ y: 100, height: 0 }}
+              animate={{ y: bar.y, height: bar.height }}
+              transition={{ ...BAR_TRANSITION, delay: i * BAR_STAGGER_S }}
+            />
+          )
+        }
+
+        return <rect key={bar.x} {...barGeometry} />
+      })}
     </svg>
   )
 }

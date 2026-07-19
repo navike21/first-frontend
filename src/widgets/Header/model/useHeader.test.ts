@@ -7,6 +7,10 @@ import type { AuthUser } from '@/shared/types'
 
 const navigateMock = vi.fn().mockResolvedValue(undefined)
 
+const { useGlobalLoadingMock } = vi.hoisted(() => ({
+  useGlobalLoadingMock: vi.fn(() => false),
+}))
+
 vi.mock('@tanstack/react-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-router')>()
   return {
@@ -14,6 +18,10 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
     useRouter: () => ({ navigate: navigateMock }),
   }
 })
+
+vi.mock('@/shared/lib/useGlobalLoading', () => ({
+  useGlobalLoading: useGlobalLoadingMock,
+}))
 
 const mockStorage = (() => {
   let store: Record<string, string> = {}
@@ -47,6 +55,7 @@ describe('useHeader', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     navigateMock.mockResolvedValue(undefined)
+    useGlobalLoadingMock.mockReturnValue(false)
     mockStorage.clear()
     useSidebarStore.setState({ isCollapsed: false, isOpenMobile: false })
     useSessionStore.setState({
@@ -212,6 +221,12 @@ describe('useHeader', () => {
     const { result } = renderHook(() => useHeader())
     // Assert
     expect(result.current.isCollapsed).toBe(true)
+  })
+
+  it('should expose isLoading from useGlobalLoading', () => {
+    useGlobalLoadingMock.mockReturnValue(true)
+    const { result } = renderHook(() => useHeader())
+    expect(result.current.isLoading).toBe(true)
   })
 
   it('catch handler does not throw when navigate rejects on logout', async () => {

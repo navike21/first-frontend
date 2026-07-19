@@ -33,4 +33,12 @@ describe('BrandMark component', () => {
     const { container } = render(<BrandMark className="custom-class" />)
     expect(container.firstElementChild).toHaveClass('custom-class')
   })
+
+  it('should forward pulse to the icon without breaking its geometry', () => {
+    const { container } = render(<BrandMark pulse />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars).toHaveLength(4) // badge + 3 barras
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+  })
 })

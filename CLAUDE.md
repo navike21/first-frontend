@@ -113,6 +113,22 @@ vive en `src/app/styles/index.css`:
     `NotFoundPage`). **Nunca** en `Header` u otro elemento que persista y se
     re-monte en cada navegación interna de la SPA — re-animar el logo en
     cada click sería ruido, no un detalle de marca.
+  - **Pulso de carga** (`pulse`, default `false`): las mismas 3 barras
+    laten en loop mientras hay una operación en curso en cualquier parte de
+    la app — usado en el logo del `Header` vía `useHeader().isLoading`
+    (`useGlobalLoading`, `shared/lib`). `useGlobalLoading` combina
+    `useIsFetching`/`useIsMutating` de React Query + el estado de navegación
+    de TanStack Router — como el `QueryClient` y el `Router` son únicos y
+    globales, esto cubre guardar un formulario, construir una página o
+    paginar una tabla sin que cada pantalla tenga que reportarlo, y trae un
+    debounce de 150ms para no parpadear en cargas casi instantáneas (ej. una
+    página ya en caché). A diferencia de `animateIn` (que anima los
+    atributos `y`/`height`, un one-shot corto), `pulse` anima solo
+    `transform: scaleY` (con `originY: 1`, ancladas a su propia base) —
+    compositor puro, sin reflow de layout — porque puede sostenerse durante
+    cargas largas y no debe competir por el hilo principal justo cuando la
+    app ya está ocupada. Si ambas props están activas, `pulse` gana. También
+    respeta `prefers-reduced-motion`.
 
 ### Regla dura: nada de valores arbitrarios de color/fuente
 

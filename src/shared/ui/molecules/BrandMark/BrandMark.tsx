@@ -26,10 +26,17 @@ export const BrandMark = ({
   size = 'medium',
   color = 'default',
   animateIn = false,
+  pulse = false,
   className,
 }: BrandMarkProps) => (
   <span className={clsx('inline-flex items-center', gapClass[size], className)}>
-    <AppLogo size={size} color={color} animateIn={animateIn} aria-hidden="true" />
+    <AppLogo
+      size={size}
+      color={color}
+      animateIn={animateIn}
+      pulse={pulse}
+      aria-hidden="true"
+    />
     <span
       className={clsx(
         'font-display font-bold',

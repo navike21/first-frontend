@@ -19,6 +19,7 @@ export const Header = () => {
     logout,
     toggleSidebar,
     toggleMobileSidebar,
+    isLoading,
   } = useHeader()
 
   const { t } = useHeaderTranslation()
@@ -69,7 +70,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-3">
           <h1>
-            <BrandMark size="x-small" />
+            <BrandMark size="x-small" pulse={isLoading} />
           </h1>
         </div>
       </div>
