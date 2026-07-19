@@ -81,13 +81,48 @@ vive en `src/app/styles/index.css`:
   Navy Base, border `#232e45`), no grises genéricos. El acento sigue siendo
   `#4C86FF`. (No confundir "claro/oscuro" con la selección de color, que ya no
   existe.)
-- **Tipografía**: `--font-sans` = **IBM Plex Sans** (UI/cuerpo), `--font-display`
-  = **Space Grotesk** (aplicada a `h1–h4` vía regla base, tracking -0.02em),
-  `--font-mono` = **IBM Plex Mono** (tokens/IDs). Usa `font-display`/`font-mono`
-  para casos explícitos.
-- Al agregar color, usa siempre las utilidades `primary-*`/tokens semánticos —
-  nunca un hex suelto de marca. `HexColorInput` es para color de **contenido**,
-  no de tema.
+- **Tipografía**: `--font-sans` = **IBM Plex Sans** (UI/cuerpo, heredado desde
+  `html,body`), `--font-display` = **Space Grotesk** (tracking -0.02em),
+  `--font-mono` = **IBM Plex Mono** (tokens/IDs). **Todo `h1`–`h6` toma Space
+  Grotesk automáticamente** — hay una regla global en `index.css` (fuera de
+  `@layer`, ver gotcha abajo) que lo aplica a cualquier heading tag sin que el
+  componente haga nada. Un título que **no** es un heading semántico (un
+  `<span>`/`<div>` usado como titular por layout) necesita la clase
+  `font-display` explícita.
+- **Insignia de marca**: `AppLogo` (`shared/ui/atoms`) y `public/favicon.svg`
+  usan la insignia del manual — badge Navy Base + 3 barras ascendentes
+  (Azul Profundo/Medio/First). `AppLogo` colorea por clases (`fill-primary-950/800/700/600`
+  o `fill-white`); `favicon.svg` lleva los hex fijos porque es un asset servido
+  directo por el navegador (no pasa por Tailwind) — es la única excepción
+  legítima a la regla de "sin hex sueltos" de abajo.
+
+### Regla dura: nada de valores arbitrarios de color/fuente
+
+**Prohibido** en JSX/TSX: `text-[#...]`, `bg-[#...]`, `border-[#...]`,
+`fill-[#...]`, `font-['...']` — cualquier valor de color o fuente entre
+corchetes. Todo color/fuente **del sistema de diseño** se consume por **clase
+con nombre**: utilidades `primary-*` o tokens semánticos (`text-foreground`,
+`bg-surface`, `fill-primary-600`…) para color; `font-display`/`font-mono` (o
+heredado) para fuente. Si falta un tono, se **agrega al CSS** (`@theme` /
+`--color-*`), nunca inline. Así, **cambiar la tipografía o el color de todo el
+sistema = editar solo `src/app/styles/index.css`**, sin tocar componentes.
+Verificación rápida: `grep -rE "(text|bg|border|ring|fill)-\[#|font-\[" src`
+debe devolver 0 coincidencias (fuera de tests).
+
+Excepción legítima: `HexColorInput` (`shared/ui/molecules`) sí acepta hex
+libre — es color de **contenido** elegido por el usuario (branding de un
+cliente en el builder/forms), no del sistema de diseño de First. Esa regla
+solo aplica al chrome de la app, no a datos de negocio.
+
+**Gotcha real (ya resuelto, no reintroducir):** una regla de elemento
+(`h1 { font-family: ... }`) dentro de `@layer base` **no se emite** en este
+setup de Tailwind v4 — quedaba muerta en el código fuente sin dar error ni
+warning. Y a la inversa: una regla **sin** `@layer` (top-level) tiene prioridad
+de cascada sobre **cualquier** utilidad de Tailwind (que sí vive en un layer),
+sin importar especificidad — por eso la regla global de headings vive
+deliberadamente top-level. Si se agrega una regla de elemento nueva a
+`index.css`, probarla en el navegador con `getComputedStyle` — un lint/build
+en verde no garantiza que la regla realmente aplique.
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.

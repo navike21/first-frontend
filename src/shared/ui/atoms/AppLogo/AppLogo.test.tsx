@@ -12,16 +12,27 @@ describe('AppLogo component', () => {
     expect(container.querySelector('svg')).toBeInTheDocument()
   })
 
-  it('should apply default color class (fill-[#0f172a])', () => {
+  it('should render the navy badge background', () => {
     const { container } = render(<AppLogo />)
-    const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('fill-[#0f172a]')
+    const badge = container.querySelector('rect')
+    expect(badge).toHaveClass('fill-primary-950')
   })
 
-  it('should apply white color class when color="white"', () => {
+  it('should render the ascending bars in brand colors by default', () => {
+    const { container } = render(<AppLogo />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars[1]).toHaveClass('fill-primary-800')
+    expect(bars[2]).toHaveClass('fill-primary-700')
+    expect(bars[3]).toHaveClass('fill-primary-600')
+  })
+
+  it('should render white bars (negative mono) when color="white"', () => {
     const { container } = render(<AppLogo color="white" />)
-    const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('fill-white')
+    const bars = container.querySelectorAll('rect')
+    expect(bars[0]).toHaveClass('fill-primary-950') // badge stays navy
+    expect(bars[1]).toHaveClass('fill-white')
+    expect(bars[2]).toHaveClass('fill-white')
+    expect(bars[3]).toHaveClass('fill-white')
   })
 
   it('should apply medium size class by default (w-14)', () => {

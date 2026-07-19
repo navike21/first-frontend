@@ -5,6 +5,19 @@
 /* ── Dark mode: class strategy (.dark on <html>) ────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Tipografía de titulares — Manual de Marca First ─────────────────────────
+   La fuente de los títulos (Space Grotesk) se consume por la clase `font-display`
+   en los componentes de título; el cuerpo/UI hereda IBM Plex Sans vía --font-sans
+   en <html>. Se define aquí como @utility (y no como regla de elemento h1–h6,
+   que en este setup de Tailwind v4 no se emite de forma fiable) para garantizar
+   que la clase exista siempre. Cambiar la tipografía del sistema = editar SOLO
+   los tokens --font-* de @theme (más abajo); ningún componente lleva la fuente
+   hardcodeada. */
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
 @keyframes page-in {
   from {
     opacity: 0;
@@ -227,18 +240,6 @@
     background: transparent;
   }
 
-  /* ── Titulares — Manual de Marca First ──────────────────────────────────────
-     Space Grotesk en H1–H4 (el cuerpo hereda IBM Plex Sans vía --font-sans).
-     Tracking -0.02em como el wordmark. Es una regla de base: cualquier
-     componente puede sobreescribir con una utilidad font-* si lo necesita. */
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    letter-spacing: -0.02em;
-  }
-
   /* Smooth theme transition — lower specificity than Tailwind utilities,
      so explicit duration-ease-* classes on components always win.
      Covers the dark-mode toggle on all surfaces. */
@@ -306,15 +307,18 @@ body {
   @apply font-normal;
 }
 
+/* Todo título (h1–h6) toma Space Grotesk automáticamente — Manual de Marca
+   First. Cambiar la tipografía de titulares = editar SOLO --font-display en
+   @theme; ningún componente necesita una clase de fuente. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  @apply font-sans;
-  @apply font-bold;
-  letter-spacing: 0.02rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .animate-tab-fade {

@@ -35,8 +35,10 @@ export default defineConfig({
         name: 'First — Gestor navike21',
         short_name: 'First',
         description: 'Gestor navike21',
-        theme_color: '#1c252e',
-        background_color: '#1c252e',
+        // Navy Base del Manual de Marca First (#0B1220) — mismo tono que el
+        // badge de la insignia (favicon.svg) y el fondo de secciones oscuras.
+        theme_color: '#0b1220',
+        background_color: '#0b1220',
         display: 'standalone',
         start_url: '/',
         icons: [

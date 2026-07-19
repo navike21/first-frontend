@@ -10,11 +10,11 @@ export const ForbiddenPage = () => {
       <div className="fixed top-4 right-4 z-20">
         <LanguageSwitcher />
       </div>
-      <span className="text-2xl font-bold tracking-tight text-foreground">
+      <span className="font-display text-2xl font-bold text-foreground">
         First
       </span>
       <div className="flex flex-col items-center gap-2 text-center">
-        <span className="text-6xl font-bold text-foreground">403</span>
+        <span className="font-display text-6xl font-bold text-foreground">403</span>
         <h1 className="text-2xl font-semibold text-foreground">
           {t.forbidden.heading}
         </h1>
