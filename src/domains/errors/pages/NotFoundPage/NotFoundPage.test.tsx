@@ -40,7 +40,7 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 })
 
 vi.mock('@/shared/ui', () => ({
-  AppLogo: () => <svg data-testid="app-logo" />,
+  BrandMark: () => <span>First</span>,
   LanguageSwitcher: () => <div data-testid="language-switcher" />,
   Button: ({
     children,

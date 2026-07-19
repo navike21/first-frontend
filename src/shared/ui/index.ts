@@ -82,6 +82,7 @@ export {
   type BreadcrumbItem,
   type BreadcrumbsProps,
 } from './molecules/Breadcrumbs'
+export { BrandMark, type BrandMarkProps } from './molecules/BrandMark'
 export {
   Select,
   Option,

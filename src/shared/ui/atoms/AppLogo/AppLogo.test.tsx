@@ -2,9 +2,22 @@ import { render } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AppLogo } from './AppLogo'
 
+const { useReducedMotionMock } = vi.hoisted(() => ({
+  useReducedMotionMock: vi.fn(() => false),
+}))
+
+vi.mock('motion/react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('motion/react')>()
+  return {
+    ...actual,
+    useReducedMotion: useReducedMotionMock,
+  }
+})
+
 describe('AppLogo component', () => {
   beforeEach(() => {
     vi.resetAllMocks()
+    useReducedMotionMock.mockReturnValue(false)
   })
 
   it('should render an SVG element', () => {
@@ -63,5 +76,30 @@ describe('AppLogo component', () => {
     const { container } = render(<AppLogo aria-label="First logo" />)
     const svg = container.querySelector('svg')
     expect(svg).toHaveAttribute('aria-label', 'First logo')
+  })
+
+  it('should render bars at their final position by default (no animateIn)', () => {
+    const { container } = render(<AppLogo />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+    expect(bars[3]).toHaveAttribute('y', '22')
+    expect(bars[3]).toHaveAttribute('height', '50')
+  })
+
+  it('should render 3 bars when animateIn is true', () => {
+    const { container } = render(<AppLogo animateIn />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars).toHaveLength(4) // badge + 3 barras
+  })
+
+  it('should skip the animation and render final positions when prefers-reduced-motion is set', () => {
+    useReducedMotionMock.mockReturnValue(true)
+    const { container } = render(<AppLogo animateIn />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars[1]).toHaveAttribute('y', '48')
+    expect(bars[1]).toHaveAttribute('height', '24')
+    expect(bars[3]).toHaveAttribute('y', '22')
+    expect(bars[3]).toHaveAttribute('height', '50')
   })
 })

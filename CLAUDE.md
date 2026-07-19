@@ -91,10 +91,28 @@ vive en `src/app/styles/index.css`:
   `font-display` explícita.
 - **Insignia de marca**: `AppLogo` (`shared/ui/atoms`) y `public/favicon.svg`
   usan la insignia del manual — badge Navy Base + 3 barras ascendentes
-  (Azul Profundo/Medio/First). `AppLogo` colorea por clases (`fill-primary-950/800/700/600`
+  (Azul Profundo/Medio/First). Geometría exacta de los assets oficiales
+  exportados por el usuario (`first-icon.svg`/`first-logo.svg`), no una
+  aproximación. `AppLogo` colorea por clases (`fill-primary-950/800/700/600`
   o `fill-white`); `favicon.svg` lleva los hex fijos porque es un asset servido
   directo por el navegador (no pasa por Tailwind) — es la única excepción
   legítima a la regla de "sin hex sueltos" de abajo.
+- **`BrandMark`** (`shared/ui/molecules`): el lockup ícono+wordmark ("First"
+  en `font-display`) del manual, para donde hay espacio (Header, Login,
+  páginas de error). Para espacios reducidos/avatares usa `AppLogo` a secas
+  (el ícono solo) — el favicon ya cubre ese caso. `BrandMark` importa
+  `AppLogo` por ruta relativa (no por el barrel), como toda composición
+  dentro de `shared/ui`.
+  - **Animación de entrada** (`animateIn`, default `false`): las 3 barras
+    ascienden con stagger (~90ms) y un rebote sutil (mismo cubic-bezier que
+    `--ease-spring-bounce`), vía `motion/react` (`motion.rect` animando
+    `y`/`height` directamente). Respeta `prefers-reduced-motion` con
+    `useReducedMotion()` (si está activo, renderiza las posiciones finales
+    sin animar). **Reservada a momentos de "entrada fría"** — se monta una
+    vez cuando el usuario recién llega (`LoginLayout`, `ForbiddenPage`,
+    `NotFoundPage`). **Nunca** en `Header` u otro elemento que persista y se
+    re-monte en cada navegación interna de la SPA — re-animar el logo en
+    cada click sería ruido, no un detalle de marca.
 
 ### Regla dura: nada de valores arbitrarios de color/fuente
 

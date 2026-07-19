@@ -1,4 +1,4 @@
-import { Button, LanguageSwitcher } from '@/shared/ui'
+import { Button, LanguageSwitcher, BrandMark } from '@/shared/ui'
 import { useNotFoundPage } from './NotFoundPage.hooks'
 
 export const NotFoundPage = () => {
@@ -10,9 +10,7 @@ export const NotFoundPage = () => {
       <div className="fixed top-4 right-4 z-20">
         <LanguageSwitcher />
       </div>
-      <span className="font-display text-2xl font-bold text-foreground">
-        First
-      </span>
+      <BrandMark size="small" animateIn />
 
       <div className="flex flex-col items-center gap-3 text-center">
         <span className="font-display text-6xl font-bold text-foreground">404</span>
