@@ -92,12 +92,20 @@ export const AppLogo = ({
         }
 
         if (shouldAnimateIn) {
+          // `attrY` (no `y`): en motion, `y` es un alias de transform
+          // (translateY) para cualquier elemento, SVG incluido — usarlo aquí
+          // sumaría un translateY encima del atributo `y` real, desplazando
+          // la barra al doble de su posición. `attrY` sí apunta al atributo
+          // SVG `y` en sí.
           return (
             <motion.rect
               key={bar.x}
-              {...barGeometry}
-              initial={{ y: 100, height: 0 }}
-              animate={{ y: bar.y, height: bar.height }}
+              x={bar.x}
+              width={13}
+              rx={6.5}
+              className={barClasses[i]}
+              initial={{ attrY: 100, height: 0 }}
+              animate={{ attrY: bar.y, height: bar.height }}
               transition={{ ...BAR_TRANSITION, delay: i * BAR_STAGGER_S }}
             />
           )
