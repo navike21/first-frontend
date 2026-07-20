@@ -93,6 +93,17 @@ describe('AppLogo component', () => {
     expect(bars).toHaveLength(4) // badge + 3 barras
   })
 
+  it('should animate the real y attribute, not a duplicate transform (regression)', () => {
+    // motion trata `y` como alias de translateY (transform) para cualquier
+    // elemento, SVG incluido — usarlo en animate/initial sumaría un
+    // translateY encima del atributo `y` real, desplazando la barra al doble
+    // de su posición. `attrY` sí apunta al atributo SVG `y`.
+    const { container } = render(<AppLogo animateIn />)
+    const bars = container.querySelectorAll('rect')
+    expect(bars[1].getAttribute('style') ?? '').not.toContain('translateY')
+    expect(bars[3].getAttribute('style') ?? '').not.toContain('translateY')
+  })
+
   it('should skip the animation and render final positions when prefers-reduced-motion is set', () => {
     useReducedMotionMock.mockReturnValue(true)
     const { container } = render(<AppLogo animateIn />)
