@@ -5,14 +5,17 @@ import type { BrandMarkProps } from './BrandMark.types'
 
 const gapClass: Record<AppLogoSize, string> = {
   'x-small': 'gap-2',
-  small: 'gap-2',
+  small: 'gap-3',
   medium: 'gap-3',
   large: 'gap-3',
 }
 
+// Proporción texto/ícono ~0.77 (consistente en todos los mockups del Manual de
+// Marca: login, sidebar, favicon, tamaño mínimo) — con `small` en text-2xl el
+// wordmark se veía chico frente al ícono. `x-small` (Header) queda igual.
 const textSizeClass: Record<AppLogoSize, string> = {
   'x-small': 'text-xl',
-  small: 'text-2xl',
+  small: 'text-3xl',
   medium: 'text-3xl',
   large: 'text-4xl',
 }
