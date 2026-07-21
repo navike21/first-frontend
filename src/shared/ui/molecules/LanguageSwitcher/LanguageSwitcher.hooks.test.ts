@@ -49,6 +49,16 @@ describe('useLanguageSwitcher', () => {
     expect(callArg).toMatchObject({ replace: true })
   })
 
+  it('handleChange preserves search params (e.g. ?token= on reset-password)', async () => {
+    const { result } = renderHook(() => useLanguageSwitcher())
+    await act(async () => {
+      result.current.handleChange('en')
+    })
+    expect(navigateMock).toHaveBeenCalledWith(
+      expect.objectContaining({ search: true })
+    )
+  })
+
   it('catch handler does not throw when navigate rejects', async () => {
     navigateMock.mockRejectedValueOnce(new Error('Navigation failed'))
     const { result } = renderHook(() => useLanguageSwitcher())

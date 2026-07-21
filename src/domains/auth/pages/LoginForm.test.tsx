@@ -4,6 +4,20 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { LoginForm } from './LoginForm'
 
+vi.mock('@/shared/ui', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/shared/ui')>()
+  return {
+    ...actual,
+    LinkButton: ({
+      children,
+      href,
+    }: {
+      children: React.ReactNode
+      href?: string
+    }) => <a href={href}>{children}</a>,
+  }
+})
+
 const { loginMock } = vi.hoisted(() => ({ loginMock: vi.fn() }))
 const errorMessageRef = { value: null as string | null }
 
@@ -114,6 +128,14 @@ describe('LoginForm component', () => {
     const form = container.querySelector('form')
     // Assert
     expect(form).toHaveClass('flex', 'flex-col')
+  })
+
+  it('should render a link to the forgot-password page', () => {
+    // Arrange & Act
+    render(<LoginForm />, { wrapper })
+    // Assert
+    const link = screen.getByText(/olvidaste tu contraseña/i)
+    expect(link.closest('a')).toHaveAttribute('href', '/es/recuperar-contrasena')
   })
 
   it('should display errorMessage when login fails', () => {

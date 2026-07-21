@@ -11,4 +11,9 @@ export interface ErrorTranslations {
     homeButton: string
     loginButton: string
   }
+  serverError: {
+    heading: string
+    message: string
+    retryButton: string
+  }
 }

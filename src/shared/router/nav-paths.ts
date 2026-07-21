@@ -1,5 +1,6 @@
 import { useLanguageStore } from '@/shared/model/language.store'
 import { ROUTE_SLUGS } from './route-slugs'
+import { NAV } from './navigation.config'
 import type { Language } from '@/shared/types/languages'
 
 function lang(override?: Language): Language {
@@ -10,6 +11,20 @@ export const navPaths = {
   home: (l?: Language) => `/${lang(l)}`,
 
   login: (l?: Language) => `/${lang(l)}/login`,
+
+  forgotPassword: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.forgotPassword[l_]}`
+  },
+
+  // Slug fijo (no traducido): lo genera el backend en el email de reset, y
+  // nunca se arma con un token desde la app — ver navigation.config.ts.
+  resetPassword: (l?: Language) => `/${lang(l)}/${NAV.resetPassword.segment}`,
+
+  serverError: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.serverError[l_]}`
+  },
 
   forbidden: (l?: Language) => {
     const l_ = lang(l)

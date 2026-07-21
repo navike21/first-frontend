@@ -6,6 +6,7 @@ vi.hoisted(() => {
   vi.stubEnv('VITE_FAKE_PASSWORD', 'password123')
 })
 
+import { HttpError } from '../api.services'
 import { fakeAuthService } from './auth.fake'
 
 describe('fakeAuthService.signIn', () => {
@@ -40,5 +41,49 @@ describe('fakeAuthService.signIn', () => {
     vi.advanceTimersByTime(800)
     await Promise.resolve()
     expect(resolved).toBe(false)
+  })
+})
+
+describe('fakeAuthService.forgotPassword', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('always resolves, regardless of the email', async () => {
+    const promise = fakeAuthService.forgotPassword('anyone@test.com')
+    vi.advanceTimersByTime(900)
+    const result = await promise
+    expect(result.message).toBeTruthy()
+  })
+})
+
+describe('fakeAuthService.resetPassword', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('resolves for the fake reset token', async () => {
+    const promise = fakeAuthService.resetPassword('fake-reset-token', 'Password1')
+    vi.advanceTimersByTime(900)
+    const result = await promise
+    expect(result.message).toBeTruthy()
+  })
+
+  it('rejects with an INVALID_TOKEN HttpError for any other token', async () => {
+    const promise = fakeAuthService.resetPassword('bad-token', 'Password1')
+    vi.advanceTimersByTime(900)
+    await expect(promise).rejects.toMatchObject({
+      code: 'INVALID_TOKEN',
+      status: 401,
+    })
+    await expect(promise).rejects.toBeInstanceOf(HttpError)
   })
 })

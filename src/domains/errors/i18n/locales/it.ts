@@ -15,4 +15,10 @@ export const it: ErrorTranslations = {
     homeButton: 'Vai alla home',
     loginButton: 'Accedi',
   },
+  serverError: {
+    heading: 'Errore del server',
+    message:
+      'Si è verificato un errore imprevisto del server. Ce ne stiamo già occupando — riprova tra qualche minuto.',
+    retryButton: 'Riprova',
+  },
 }

@@ -1,2 +1,6 @@
 export { LoginLayout } from './pages/LoginLayout'
 export type { LoginFormData } from './model/login.schema'
+export { ForgotPasswordLayout } from './pages/ForgotPasswordPage/ForgotPasswordLayout'
+export type { ForgotPasswordFormData } from './model/forgotPassword.schema'
+export { ResetPasswordLayout } from './pages/ResetPasswordPage/ResetPasswordLayout'
+export type { ResetPasswordFormData } from './model/resetPassword.schema'

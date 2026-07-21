@@ -1,9 +1,9 @@
 import { LanguageSwitcher, BrandMark } from '@/shared/ui'
 import { LoginForm } from './LoginForm'
-import { useLoginTranslation } from '../i18n'
+import { useAuthTranslation } from '../i18n'
 
 export const LoginLayout = () => {
-  const { t } = useLoginTranslation()
+  const { t } = useAuthTranslation()
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-surface-subtle">

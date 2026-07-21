@@ -97,9 +97,20 @@ interface ErrorPayload {
   details?: ApiErrorDetails
 }
 
-async function parseErrorBody(res: Response): Promise<ErrorPayload> {
+export async function parseErrorBody(res: Response): Promise<ErrorPayload> {
   try {
-    return (await res.json()) as ErrorPayload
+    // errorResponse (backend) nests code/details under `error`; message stays
+    // top-level. `code`/`details` were previously read from the top level
+    // directly, so HttpError.code/details were always undefined in practice.
+    const body = (await res.json()) as {
+      message?: string
+      error?: { code?: string; details?: ApiErrorDetails }
+    }
+    return {
+      message: body.message,
+      code: body.error?.code,
+      details: body.error?.details,
+    }
   } catch {
     return {}
   }

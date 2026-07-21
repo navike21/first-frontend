@@ -297,15 +297,18 @@ describe('api.services', () => {
     })
 
     it('should attach code and details from the error body to HttpError', async () => {
-      // Arrange
+      // Arrange — el backend anida code/details bajo `error`, message queda al
+      // nivel superior (helpers/responseStructure.ts::errorResponse real).
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 422,
         statusText: 'Unprocessable Entity',
         json: async () => ({
           message: 'Validation failed',
-          code: 'VALIDATION_SCHEMA_ERROR',
-          details: { validation: [{ path: 'email', message: 'Invalid' }] },
+          error: {
+            code: 'VALIDATION_SCHEMA_ERROR',
+            details: { validation: [{ path: 'email', message: 'Invalid' }] },
+          },
         }),
       })
       // Act

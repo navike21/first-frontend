@@ -1,8 +1,26 @@
-import type { IAuthService, SignInResult } from './auth.types'
+import type { IAuthService, MessageResult, SignInResult } from './auth.types'
 import type { AuthUser, UserPreferences } from '@/shared/types'
 import { useLanguageStore } from '@/shared/model/language.store'
+// Ruta relativa (no el barrel @/shared/api) para evitar un ciclo: el barrel
+// re-exporta authService, que vive en este mismo módulo.
+import { HttpError, parseErrorBody } from '../api.services'
 
 const BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
+
+interface BackendMessageResponse {
+  message: string
+}
+
+async function throwHttpError(res: Response): Promise<never> {
+  const data = await parseErrorBody(res)
+  throw new HttpError(
+    res.status,
+    res.statusText,
+    data.message ?? `Error ${res.status}: ${res.statusText}`,
+    data.code,
+    data.details
+  )
+}
 
 interface BackendLoginResponse {
   data: {
@@ -53,5 +71,41 @@ export const apiAuthService: IAuthService = {
     }
 
     return { token: accessToken, user: authUser }
+  },
+
+  forgotPassword: async (email): Promise<MessageResult> => {
+    const lang = useLanguageStore.getState().language
+
+    const res = await fetch(`${BASE}/auth/forgot-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': lang,
+      },
+      body: JSON.stringify({ email }),
+    })
+
+    if (!res.ok) await throwHttpError(res)
+
+    const body = (await res.json()) as BackendMessageResponse
+    return { message: body.message }
+  },
+
+  resetPassword: async (token, password): Promise<MessageResult> => {
+    const lang = useLanguageStore.getState().language
+
+    const res = await fetch(`${BASE}/auth/reset-password/${token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': lang,
+      },
+      body: JSON.stringify({ password }),
+    })
+
+    if (!res.ok) await throwHttpError(res)
+
+    const body = (await res.json()) as BackendMessageResponse
+    return { message: body.message }
   },
 }

@@ -15,4 +15,10 @@ export const ru: ErrorTranslations = {
     homeButton: 'На главную',
     loginButton: 'Войти',
   },
+  serverError: {
+    heading: 'Ошибка сервера',
+    message:
+      'Произошла непредвиденная ошибка сервера. Мы уже разбираемся с этим — попробуйте снова через несколько минут.',
+    retryButton: 'Повторить',
+  },
 }

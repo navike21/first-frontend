@@ -11,7 +11,12 @@ export function useLanguageSwitcher() {
   const handleChange = (newLang: Language) => {
     setLanguage(newLang)
     const newPath = translatePath(router.state.location.pathname, newLang)
-    router.navigate({ to: newPath as never, replace: true }).catch(() => null)
+    // `search: true` preserva los query params tal cual (ej. el ?token= de
+    // reset-password) — sin esto, cambiar de idioma los descartaba en
+    // cualquier página con search params.
+    router
+      .navigate({ to: newPath as never, search: true, replace: true })
+      .catch(() => null)
   }
 
   return { language, handleChange }
