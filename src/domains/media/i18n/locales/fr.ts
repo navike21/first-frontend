@@ -56,7 +56,6 @@ export const fr: MediaTranslations = {
     formatsHint: 'Images (JPEG, PNG, WebP) ou vidéo (MP4, WebM)',
     uploadButton: 'Téléverser',
     uploadingLabel: 'Téléversement…',
-    errorLabel: "Ce fichier n'a pas pu être téléversé",
   },
   preview: {
     uploadedBy: 'Téléversé par',

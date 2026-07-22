@@ -56,7 +56,6 @@ export const ja: MediaTranslations = {
     formatsHint: '画像（JPEG、PNG、WebP）または動画（MP4、WebM）',
     uploadButton: 'アップロード',
     uploadingLabel: 'アップロード中…',
-    errorLabel: 'このファイルをアップロードできませんでした',
   },
   preview: {
     uploadedBy: 'アップロード者',

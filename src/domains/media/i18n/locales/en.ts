@@ -56,7 +56,6 @@ export const en: MediaTranslations = {
     formatsHint: 'Images (JPEG, PNG, WebP) or video (MP4, WebM)',
     uploadButton: 'Upload',
     uploadingLabel: 'Uploading…',
-    errorLabel: 'This file could not be uploaded',
   },
   preview: {
     uploadedBy: 'Uploaded by',

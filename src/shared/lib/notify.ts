@@ -225,28 +225,37 @@ function getLang(): Language {
   return useLanguageStore.getState().language
 }
 
+/**
+ * Resolves a human-readable, specific message for an error — prefers the
+ * backend's own reason (already localized, specific — e.g. "el archivo
+ * excede el tamaño máximo de 4 MB") over the generic per-status message, so
+ * failures stay explainable instead of vague. Shared between `queryError`
+ * (toast) and any inline (non-toast) surface that needs the same wording,
+ * e.g. a per-file error in an upload list.
+ */
+function resolveErrorMessage(error: unknown): string {
+  const lang = getLang()
+  if (error instanceof HttpError) {
+    return error.backendMessage ?? HTTP_MESSAGES[lang][error.status] ?? error.message
+  }
+  return NETWORK_MESSAGES[lang]
+}
+
 export const notify = {
   success: (message: string) => toast.success(message),
   error: (message: string) => toast.error(message),
   info: (message: string) => toast.info(message),
   warning: (message: string) => toast.warning(message),
 
+  /** Human-readable message for an error — see {@link resolveErrorMessage}. */
+  errorMessage: resolveErrorMessage,
+
   queryError: (error: unknown) => {
     // A queued offline mutation is not a failure — the global MutationCache
     // already shows the "saved offline" toast, so don't paint a red error.
     if (error instanceof OfflineQueuedError) return
-    const lang = getLang()
-    if (error instanceof HttpError) {
-      if (error.status === 401) return
-      // Prefer the backend's own reason (already localized, specific — e.g.
-      // "el archivo excede el tamaño máximo de 4 MB") over the generic
-      // per-status message, so failures stay explainable instead of vague.
-      const message =
-        error.backendMessage ?? HTTP_MESSAGES[lang][error.status] ?? error.message
-      toast.error(message)
-    } else {
-      toast.error(NETWORK_MESSAGES[lang])
-    }
+    if (error instanceof HttpError && error.status === 401) return
+    toast.error(resolveErrorMessage(error))
   },
 
   /** Persistent warning when the connection drops. */

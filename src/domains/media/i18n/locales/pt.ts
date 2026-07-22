@@ -56,7 +56,6 @@ export const pt: MediaTranslations = {
     formatsHint: 'Imagens (JPEG, PNG, WebP) ou vídeo (MP4, WebM)',
     uploadButton: 'Enviar',
     uploadingLabel: 'Enviando…',
-    errorLabel: 'Não foi possível enviar este arquivo',
   },
   preview: {
     uploadedBy: 'Enviado por',

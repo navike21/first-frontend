@@ -56,7 +56,6 @@ export const zh: MediaTranslations = {
     formatsHint: '图片（JPEG、PNG、WebP）或视频（MP4、WebM）',
     uploadButton: '上传',
     uploadingLabel: '正在上传…',
-    errorLabel: '无法上传此文件',
   },
   preview: {
     uploadedBy: '上传者',

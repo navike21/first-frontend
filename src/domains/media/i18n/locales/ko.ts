@@ -56,7 +56,6 @@ export const ko: MediaTranslations = {
     formatsHint: '이미지(JPEG, PNG, WebP) 또는 동영상(MP4, WebM)',
     uploadButton: '업로드',
     uploadingLabel: '업로드 중…',
-    errorLabel: '이 파일을 업로드할 수 없습니다',
   },
   preview: {
     uploadedBy: '업로드한 사람',

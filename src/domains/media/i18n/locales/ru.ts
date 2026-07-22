@@ -56,7 +56,6 @@ export const ru: MediaTranslations = {
     formatsHint: 'Изображения (JPEG, PNG, WebP) или видео (MP4, WebM)',
     uploadButton: 'Загрузить',
     uploadingLabel: 'Загрузка…',
-    errorLabel: 'Не удалось загрузить этот файл',
   },
   preview: {
     uploadedBy: 'Загрузил(а)',
