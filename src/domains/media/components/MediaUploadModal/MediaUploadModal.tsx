@@ -5,6 +5,7 @@ import { Modal, Button, IconButton, IconComponent } from '@/shared/ui'
 import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.queries'
 import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
+import { notify } from '@/shared/lib/notify'
 import { useMediaTranslation } from '../../i18n'
 import { formatFileSize } from '../../model/formatFileSize'
 
@@ -78,12 +79,20 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
       ...videos.map((q) => uploadVideoWithCover(q.file)),
     ])
 
-    const failedNames = new Set<string>()
+    // Maps each failed file name to the *specific* reason it failed (the
+    // backend's own message when available) instead of one generic label —
+    // every file in a rejected bulk image upload shares that same request's
+    // reason, since they went out as a single /storage/upload-bulk call.
+    const failedMessages = new Map<string, string>()
     if (images.length > 0 && imagesResult.status === 'rejected') {
-      images.forEach((q) => failedNames.add(q.file.name))
+      const message = notify.errorMessage(imagesResult.reason)
+      images.forEach((q) => failedMessages.set(q.file.name, message))
     }
     videos.forEach((q, i) => {
-      if (videoResults[i]?.status === 'rejected') failedNames.add(q.file.name)
+      const result = videoResults[i]
+      if (result?.status === 'rejected') {
+        failedMessages.set(q.file.name, notify.errorMessage(result.reason))
+      }
     })
 
     const hasUploadedVideo = videoResults.some((r) => r.status === 'fulfilled')
@@ -91,18 +100,18 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
       setTimeout(() => qc.invalidateQueries({ queryKey: storageKeys.all }), VIDEO_REGISTRATION_DELAY_MS)
     }
 
-    if (failedNames.size === 0) {
+    if (failedMessages.size === 0) {
       reset()
       onUploaded()
       onClose()
       return
     }
 
-    const hadSuccess = failedNames.size < queue.length
+    const hadSuccess = failedMessages.size < queue.length
     setQueue((prev) =>
       prev
-        .filter((q) => failedNames.has(q.file.name))
-        .map((q) => ({ ...q, error: t.upload.errorLabel })),
+        .filter((q) => failedMessages.has(q.file.name))
+        .map((q) => ({ ...q, error: failedMessages.get(q.file.name) })),
     )
     setUploading(false)
     if (hadSuccess) onUploaded()

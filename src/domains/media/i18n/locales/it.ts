@@ -56,7 +56,6 @@ export const it: MediaTranslations = {
     formatsHint: 'Immagini (JPEG, PNG, WebP) o video (MP4, WebM)',
     uploadButton: 'Carica',
     uploadingLabel: 'Caricamento…',
-    errorLabel: 'Impossibile caricare questo file',
   },
   preview: {
     uploadedBy: 'Caricato da',

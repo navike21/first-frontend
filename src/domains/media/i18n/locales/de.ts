@@ -56,7 +56,6 @@ export const de: MediaTranslations = {
     formatsHint: 'Bilder (JPEG, PNG, WebP) oder Video (MP4, WebM)',
     uploadButton: 'Hochladen',
     uploadingLabel: 'Wird hochgeladen…',
-    errorLabel: 'Diese Datei konnte nicht hochgeladen werden',
   },
   preview: {
     uploadedBy: 'Hochgeladen von',

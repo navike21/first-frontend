@@ -54,7 +54,6 @@ export interface MediaTranslations {
     formatsHint: string
     uploadButton: string
     uploadingLabel: string
-    errorLabel: string
   }
   preview: {
     uploadedBy: string
