@@ -27,6 +27,43 @@ con `vercel alias set <url-del-deploy-nuevo> first-frontend-rose.vercel.app
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
+### Gotcha real (ya resuelto, no reintroducir): el service worker (PWA) podía dejar a un usuario varios deploys atrás sin avisar
+`vite-plugin-pwa` con `registerType: 'autoUpdate'` **no activa la nueva
+service worker por su cuenta** — se verificó leyendo el código generado
+(`node_modules/vite-plugin-pwa/dist/client/build/react.js`): en modo `auto`
+el cliente nunca llama a `messageSkipWaiting()` (esa llamada está detrás de
+un `if (!auto)`), y la propia `sw.js` generada solo hace `self.skipWaiting()`
+al **recibir** ese mensaje, nunca por su cuenta. Sin nadie que mande el
+mensaje, una service worker nueva se queda en estado `waiting` indefinidamente
+— el comportamiento "seguro" de Workbox por defecto es esperar a que **se
+cierren todas las pestañas** de ese origen antes de activarla, para no
+cambiar de versión bajo un usuario con la app abierta. En una pestaña de
+celular que rara vez se cierra del todo, esto significa que un usuario puede
+quedar **varios deploys atrás indefinidamente**, sin ningún error visible —
+solo contenido/comportamiento desactualizado. Confirmado en vivo: un fix ya
+desplegado (`<html lang>`, ver sección de i18n) no se aplicó pese a dos
+recargas completas de la página — la nueva service worker estaba `waiting`,
+y solo se activó al mandarle el mensaje `SKIP_WAITING` a mano desde la
+consola. Además, el registro solo revisa si hay una versión nueva **una
+vez** (al registrarse) — una pestaña abierta por un rato nunca se entera de
+deploys posteriores sin un chequeo repetido.
+
+Arreglado en dos partes:
+- `vite.config.ts`: `registerType` pasó de `'autoUpdate'` a `'prompt'` — el
+  modo que sí conecta `messageSkipWaiting()` cuando el código de la app lo
+  pide explícitamente (`auto=false` habilita esa rama).
+- `app/main.tsx`: `registerSW({ onNeedRefresh() { updateSW(true) } })`
+  fuerza la actualización **en cuanto se detecta** una versión nueva (en vez
+  de mostrarle un prompt al usuario o esperar a que cierre todas las
+  pestañas), y `onRegisteredSW` arranca un `setInterval` de 60s llamando
+  `registration.update()` para que una pestaña de larga vida sí vuelva a
+  revisar por su cuenta.
+
+Si se toca este mecanismo de nuevo, verificar en vivo con
+`navigator.serviceWorker.getRegistrations()` (mirar `.waiting` además de
+`.active`) — un `pnpm build` o `pnpm test` en verde no revisan que la nueva
+versión realmente tome control.
+
 ## Regla crítica: reutilización de componentes
 
 **Ningún componente potencialmente reutilizable se define dentro de un
