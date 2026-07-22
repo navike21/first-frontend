@@ -12,6 +12,7 @@ import {
   SectionLabel,
   SectionDivider,
   LangSidebar,
+  LangTabs,
   LangBadge,
   type WizardStep,
 } from '@/shared/ui'
@@ -250,6 +251,15 @@ export const ServiceForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
+      <div className="mb-4 lg:hidden">
+        <LangTabs
+          editingLanguage={editingLanguage}
+          userLanguage={language}
+          hasContent={hasContent}
+          hasError={hasError}
+          onChange={setEditingLanguage}
+        />
+      </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
 
         {/* ── Main form (Wizard) ─────────────────────────────────── */}
@@ -452,7 +462,7 @@ export const ServiceForm = ({
         </div>
 
         {/* ── Language sidebar ──────────────────────────────────── */}
-        <div className="w-full rounded-xl border border-border bg-surface p-4 lg:w-52 lg:shrink-0 lg:sticky lg:top-4">
+        <div className="hidden rounded-xl border border-border bg-surface p-4 lg:block lg:w-52 lg:shrink-0 lg:sticky lg:top-4">
           <LangSidebar
             editingLanguage={editingLanguage}
             userLanguage={language}

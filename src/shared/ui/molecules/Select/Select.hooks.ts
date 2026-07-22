@@ -22,6 +22,11 @@ interface DropdownStyle {
 
 const DROPDOWN_MAX_HEIGHT = 248
 const SEARCH_BAR_HEIGHT = 52
+// A compact trigger (e.g. the flag-only LanguageSwitcher on mobile) is
+// narrower than its own option labels — without a floor, the panel would
+// inherit that width and clip every option's text.
+const DROPDOWN_MIN_WIDTH = 180
+const VIEWPORT_MARGIN = 8
 
 interface UseSelectHookProps {
   options: SelectOptionItem[]
@@ -132,14 +137,21 @@ export const useSelectHook = (
       DROPDOWN_MAX_HEIGHT + (search ? SEARCH_BAR_HEIGHT : 0)
     const spaceBelow = globalThis.innerHeight - rect.bottom
     const openAbove = spaceBelow < estimatedHeight && rect.top > estimatedHeight
+
+    const width = Math.max(rect.width, DROPDOWN_MIN_WIDTH)
+    // Anchor to the trigger's left edge, but pull back if a panel wider than
+    // the trigger would overflow past the right edge of the viewport.
+    const maxLeft = globalThis.innerWidth - width - VIEWPORT_MARGIN
+    const left = Math.max(VIEWPORT_MARGIN, Math.min(rect.left, maxLeft))
+
     setDropdownStyle({
       // When opening below: anchor top edge 4px below trigger bottom
       top: openAbove ? 0 : rect.bottom + 4,
       // When opening above: anchor bottom edge 4px above trigger top
       // CSS `bottom` = distance from viewport bottom = globalThis.innerHeight - rect.top + 4
       bottom: openAbove ? globalThis.innerHeight - rect.top + 4 : 0,
-      left: rect.left,
-      width: rect.width,
+      left,
+      width,
       openAbove,
     })
   }, [search])

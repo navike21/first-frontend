@@ -11,7 +11,7 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
-import { InputField, TextArea, Select, Button, FormGrid, SectionLabel, LangSidebar } from '@/shared/ui'
+import { InputField, TextArea, Select, Button, FormGrid, SectionLabel, LangSidebar, LangTabs } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import type { Language } from '@/shared/i18n'
@@ -114,15 +114,26 @@ export const FormEditor = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-6 lg:flex-row">
-        <LangSidebar
+      <div className="mb-4 lg:hidden">
+        <LangTabs
           editingLanguage={editing}
           userLanguage={language}
-          label={t.form.sectionGeneral}
           hasContent={(lang) => !!titleValue?.[lang]?.trim()}
           hasError={(lang) => !!errors.title?.[lang] || !!errors.fields}
           onChange={setEditing}
         />
+      </div>
+      <div className="flex flex-col gap-6 lg:flex-row">
+        <div className="hidden lg:block">
+          <LangSidebar
+            editingLanguage={editing}
+            userLanguage={language}
+            label={t.form.sectionGeneral}
+            hasContent={(lang) => !!titleValue?.[lang]?.trim()}
+            hasError={(lang) => !!errors.title?.[lang] || !!errors.fields}
+            onChange={setEditing}
+          />
+        </div>
 
         <div className="flex flex-1 flex-col gap-6">
           <div className="rounded-xl border border-border bg-surface p-6">
