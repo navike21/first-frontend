@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
+import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
 
-const MAX_BYTES = 3 * 1024 * 1024
+const MAX_BYTES = MAX_IMAGE_UPLOAD_BYTES
 
 interface UsePhotoPickerProps {
   currentUrl?: string
@@ -29,7 +30,7 @@ export function usePhotoPicker({
   const handleFile = (file: File) => {
     setError(null)
     if (file.size > MAX_BYTES) {
-      setError('Max 3 MB')
+      setError(`Max ${Math.round(MAX_BYTES / 1024 / 1024)} MB`)
       return
     }
     setPreview((prev) => {
