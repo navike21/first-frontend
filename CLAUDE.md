@@ -10,6 +10,20 @@ plataforma multipropósito (CRM + CMS). Es el par de `first-backend`
 - `pnpm typecheck` — `tsc -b`. `pnpm lint` — eslint. `pnpm lint:sonar` —
   eslint-plugin-sonarjs (cognitive complexity ≤15 y otros code smells).
   Los tres deben quedar en 0 antes de cerrar cualquier cambio.
+
+## Deploy (Vercel)
+Producción: `first-frontend-rose.vercel.app` (proyecto
+`prj_EKV3QfROHvQAUxsDvS0DWJ2OTp4H`, team `team_HlO61rBCXDgQTkK5byfxEoEk`).
+Auto-deploy por rama vía GitHub (`main`→Production). **El alias de
+producción no siempre sigue al deploy nuevo tras un merge** (visto en el
+merge de PR #55 — el deploy se construyó y quedó `READY`/`target:
+production`, pero `first-frontend-rose.vercel.app` seguía apuntando al
+anterior) — mismo síntoma ya documentado como recurrente en
+`first-backend/CLAUDE.md`; en el frontend solo se vio una vez hasta ahora,
+pero conviene verificar igual tras cada merge (`get_deployment` comparando
+`githubCommitSha` contra `git rev-parse main`, o `curl` simple) y corregir
+con `vercel alias set <url-del-deploy-nuevo> first-frontend-rose.vercel.app
+--scope navike21` si no coincide.
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
