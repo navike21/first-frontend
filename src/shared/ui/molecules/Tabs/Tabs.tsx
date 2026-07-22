@@ -19,7 +19,12 @@ export const Tabs = ({
   return (
     <LayoutGroup id={instanceId ?? 'default-tabs'}>
       {/* Outer wrapper: border stretches full width, content scrolls inside */}
-      <div className={clsx('overflow-x-auto border-b border-border-control', className)}>
+      <div
+        className={clsx(
+          'overflow-x-auto overflow-y-hidden border-b border-border-control',
+          className
+        )}
+      >
         <div
           role="tablist"
           aria-label={ariaLabel}
