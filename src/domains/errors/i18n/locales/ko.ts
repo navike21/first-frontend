@@ -15,4 +15,10 @@ export const ko: ErrorTranslations = {
     homeButton: '홈으로',
     loginButton: '로그인',
   },
+  serverError: {
+    heading: '서버 오류',
+    message:
+      '예기치 않은 서버 오류가 발생했습니다. 이미 확인하고 있습니다 — 잠시 후 다시 시도해 주세요.',
+    retryButton: '다시 시도',
+  },
 }

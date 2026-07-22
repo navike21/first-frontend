@@ -159,6 +159,45 @@ deliberadamente top-level. Si se agrega una regla de elemento nueva a
 `index.css`, probarla en el navegador con `getComputedStyle` — un lint/build
 en verde no garantiza que la regla realmente aplique.
 
+## Auth: recuperar/restablecer contraseña
+
+`domains/auth` tiene 3 páginas (`useAuthTranslation`, renombrado desde
+`useLoginTranslation` ya que dejó de ser solo login): Login, `ForgotPasswordPage`
+(pide el email, slug traducido por idioma) y `ResetPasswordPage` (desde el link
+del correo, `/{lang}/reset-password?token=...`).
+
+- **`reset-password` usa un slug FIJO** (igual en los 10 idiomas), a propósito
+  fuera de `ROUTE_SLUGS` — lo genera el *backend* dentro de un email de un solo
+  uso; sincronizar una traducción por idioma entre los dos repos para un link
+  que casi nunca se ve como texto no vale el riesgo. Mismo precedente que
+  `login` en `navigation.config.ts` (`NAV`/`SEGMENTS`, no `ROUTE_SLUGS`).
+- `ResetPasswordLayout` lee el token con `useSearch({ strict: false })` (primer
+  uso de `useSearch` en el código) — no puede usar `{ from: resetPasswordRoute.id }`
+  porque la ruta importa el layout (ciclo), así que se castea el resultado a mano.
+- El estado "enlace inválido" tiene dos disparadores que renderizan la misma
+  vista: sin `token` en absoluto (nunca se llega a intentar el submit), o un
+  submit real que responde 401 `INVALID_TOKEN`.
+
+### Gotcha (ya resuelto, no reintroducir): `HttpError.code`/`.details` venían siempre `undefined`
+El backend anida `code`/`details` bajo `error: {...}` en toda respuesta de error
+(`helpers/responseStructure.ts::errorResponse`); `message` sí queda al nivel
+superior. `shared/api/api.services.ts::parseErrorBody` leía `code`/`details`
+del nivel superior (donde nunca estuvieron) — cualquier `error.code === 'X'`
+en el frontend (`PagesTrashPage`, `serverFormErrors.ts`, y el nuevo
+`useResetPassword`) fallaba en silencio contra el backend real, aunque el test
+lo tapaba (mockeaba el JSON con la forma plana equivocada). Arreglado leyendo
+`body.error?.code`/`body.error?.details`. Si un `.code===` nuevo "nunca dispara"
+contra el backend real pese a verse bien en tests, sospechar del mock antes que
+de la lógica.
+
+### Gotcha (ya resuelto, no reintroducir): cambiar de idioma borraba los search params
+`LanguageSwitcher` navega con `router.navigate({ to: newPath, replace: true })`
+sin `search` — TanStack Router no preserva los query params por defecto, así
+que cualquier `?foo=bar` se perdía al cambiar de idioma. Invisible hasta ahora
+porque `reset-password` es el primer uso real de search params en la app.
+Arreglado con `search: true` (preserva tal cual). Si se agrega una página con
+search params propios, probar el selector de idioma sobre ella explícitamente.
+
 ## Alineación de átomos al Design System de First (botones, inputs, selectores)
 
 Fase 1 de una alineación pixel-a-pixel de `shared/ui` contra "First Design

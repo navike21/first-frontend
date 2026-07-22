@@ -10,7 +10,7 @@ import { ko } from './locales/ko'
 import { zh } from './locales/zh'
 import { ru } from './locales/ru'
 
-export const useLoginTranslation = createTranslations({
+export const useAuthTranslation = createTranslations({
   es,
   en,
   de,

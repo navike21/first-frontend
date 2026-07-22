@@ -13,6 +13,14 @@ describe('SLUG_TO_MODULE', () => {
   it('maps forbidden slug', () => {
     expect(SLUG_TO_MODULE['no-autorizado']).toBe('forbidden')
   })
+
+  it('maps serverError slug', () => {
+    expect(SLUG_TO_MODULE['error-del-servidor']).toBe('serverError')
+  })
+
+  it('maps forgotPassword slug', () => {
+    expect(SLUG_TO_MODULE['recuperar-contrasena']).toBe('forgotPassword')
+  })
 })
 
 describe('translatePath', () => {
@@ -53,5 +61,11 @@ describe('translatePath', () => {
 
   it('passes through unknown slugs unchanged', () => {
     expect(translatePath('/es/unknown-page', 'en')).toBe('/en/unknown-page')
+  })
+
+  it('leaves the fixed reset-password slug untouched across languages', () => {
+    // Deliberadamente fuera de ROUTE_SLUGS: el backend embebe esta URL exacta
+    // en un email, así que cambiar de idioma no debe reescribir el segmento.
+    expect(translatePath('/es/reset-password', 'en')).toBe('/en/reset-password')
   })
 })

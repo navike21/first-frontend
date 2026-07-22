@@ -15,4 +15,10 @@ export const ja: ErrorTranslations = {
     homeButton: 'ホームへ',
     loginButton: 'ログイン',
   },
+  serverError: {
+    heading: 'サーバーエラー',
+    message:
+      '予期しないサーバーエラーが発生しました。すでに調査中です — 数分後にもう一度お試しください。',
+    retryButton: '再試行',
+  },
 }

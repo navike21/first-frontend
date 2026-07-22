@@ -13,4 +13,9 @@ export const zh: ErrorTranslations = {
     homeButton: '返回首页',
     loginButton: '登录',
   },
+  serverError: {
+    heading: '服务器错误',
+    message: '服务器发生了意外错误。我们正在处理 — 请几分钟后再试。',
+    retryButton: '重试',
+  },
 }
