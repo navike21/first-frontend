@@ -11,7 +11,7 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
-import { InputField, TextArea, Select, Button, FormGrid, SectionLabel, LangSidebar, LangTabs } from '@/shared/ui'
+import { InputField, TextArea, Select, Button, ButtonGroup, FormGrid, SectionLabel, LangSidebar, LangTabs } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import type { Language } from '@/shared/i18n'
@@ -222,7 +222,7 @@ export const FormEditor = ({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 border-t border-border pt-4">
+          <ButtonGroup className="border-t border-border pt-4">
             <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
               {t.form.cancel}
             </Button>
@@ -236,7 +236,7 @@ export const FormEditor = ({
             >
               {mode === 'create' ? t.form.create : t.form.save}
             </Button>
-          </div>
+          </ButtonGroup>
         </div>
       </div>
     </form>

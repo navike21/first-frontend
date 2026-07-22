@@ -2,7 +2,7 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button,
+  Button, ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -146,7 +146,7 @@ export const ServicesTrashPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
@@ -168,7 +168,7 @@ export const ServicesTrashPage = () => {
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 

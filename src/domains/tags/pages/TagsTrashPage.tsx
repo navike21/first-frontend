@@ -1,7 +1,7 @@
 import {
   PageContent,
   DataTable,
-  Button,
+  Button, ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -136,7 +136,7 @@ export const TagsTrashPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
@@ -150,7 +150,7 @@ export const TagsTrashPage = () => {
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 

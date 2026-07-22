@@ -593,6 +593,47 @@ for f in $(grep -rl "<button" src/shared/ui src/domains src/widgets src/app --in
 done
 ```
 
+## Convención: `ButtonGroup` — regla de responsividad para grupos de botones de acción
+
+**Todo grupo de 2-3 botones de acción** (footer de modal/formulario, barra de
+selección múltiple) debe envolverse en `ButtonGroup` (`shared/ui/atoms`), no
+en un `<div className="flex ...">` a mano. La regla, pedida explícitamente
+por el usuario tras notar footers de 2-3 botones colapsando mal en mobile:
+**2 botones quedan uno al lado del otro incluso en mobile; 3 o más se apilan
+verticales (ancho completo) en mobile y vuelven a fila desde `sm:`**.
+
+- **Detección por CSS, no por prop**: `ButtonGroup` usa
+  `has-[>:nth-child(3)]:flex-col` (cuenta hijos directos reales en el DOM) en
+  vez de recibir un prop de cantidad — así, botones condicionales
+  (`{cond && <Button/>}`, o botones envueltos en `<Can>`, que renderiza un
+  Fragment sin nodo propio) cambian el layout automáticamente según cuántos
+  terminan renderizándose de verdad, sin que el caller tenga que calcularlo.
+  Verificado en vivo: un footer con `<Can>`-gated buttons pasa de 2→3 botones
+  reales según los permisos del usuario, y `ButtonGroup` se adapta solo.
+- **`sm:flex-row!` con `!important`** (mismo patrón que el gotcha de foco de
+  `InputLayout` de la sección de Design System): a partir de `sm:`, la fila
+  debe ganar sin importar cuántos hijos haya — `has-[...]` no está gateado
+  por viewport, así que en desktop con 3 botones ambas condiciones
+  (`has-[>:nth-child(3)]:flex-col` y `sm:flex-row`) aplican a la vez; sin
+  `!`, cuál gana no está garantizado.
+- **Adoptado en**: el footer de `Modal.tsx` (~40+ call sites heredan el
+  comportamiento sin tocar nada), los 7 footers de formulario simple
+  (Category/Collaborator/Subscriber/Tag/FormEditor/UserGroup Create+Edit,
+  antes duplicaban el mismo `<div className="flex justify-end gap-3 ...">`
+  a mano) y las 24 barras de selección múltiple (`FadeCollapse` + "N
+  seleccionados" + botones, en todo `*Page.tsx`/`*TrashPage.tsx`).
+- **`Wizard.tsx` no usa `ButtonGroup` directo** (su estructura ya separa
+  Cancel de Back+Primary con `order-*`/`flex-col-reverse` propios para que
+  el botón primario quede arriba al apilar) — pero ahora respeta la misma
+  regla: el footer entero es `flex-row` (no `flex-col`) cuando `isFirst`
+  (Cancelar + Siguiente/Guardar, 2 botones — antes se apilaba igual que el
+  caso de 3), y sigue apilando cuando hay `Back` (Cancelar + Atrás +
+  Siguiente/Guardar, 3 botones).
+- **`PageHeader.tsx` (título + 1-3 acciones junto al título) NO se tocó** —
+  ya tenía su propio patrón responsive previo (`flex-wrap`, col→row en
+  `sm:`) apropiado para labels cortos tipo "Nuevo"/"Ver papelera"; es un
+  patrón distinto a propósito, no un descuido.
+
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
 - `README.md` — qué es el proyecto y cómo levantarlo.

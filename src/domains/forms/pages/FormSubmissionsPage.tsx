@@ -1,4 +1,4 @@
-import { PageContent, Select, Modal, Button, FadeCollapse, Spinner } from '@/shared/ui'
+import { PageContent, Select, Modal, Button, ButtonGroup, FadeCollapse, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { FormSubmissionTable } from '../components/FormSubmissionTable'
 import { FormSubmissionDetailModal } from '../components/FormSubmissionDetailModal'
@@ -75,14 +75,14 @@ export const FormSubmissionsPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
               <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
                 {t.actions.bulkDelete}
               </Button>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 
