@@ -629,10 +629,30 @@ verticales (ancho completo) en mobile y vuelven a fila desde `sm:`**.
   (Cancelar + Siguiente/Guardar, 2 botones — antes se apilaba igual que el
   caso de 3), y sigue apilando cuando hay `Back` (Cancelar + Atrás +
   Siguiente/Guardar, 3 botones).
-- **`PageHeader.tsx` (título + 1-3 acciones junto al título) NO se tocó** —
-  ya tenía su propio patrón responsive previo (`flex-wrap`, col→row en
-  `sm:`) apropiado para labels cortos tipo "Nuevo"/"Ver papelera"; es un
-  patrón distinto a propósito, no un descuido.
+- **Gotcha real (ya resuelto, no reintroducir) — `Button` es `w-full` por
+  default y eso rompe un `flex-wrap` con 2+ botones**: `Button.tsx` pone
+  `w-full sm:w-fit` en su clase base (tap target ancho completo en mobile a
+  propósito) — dentro de un contenedor `flex flex-wrap`, dos botones al
+  100% de ancho **nunca** caben en la misma fila sin importar el viewport
+  (cada uno pide `flex-basis:100%` vía su `width`), así que ambos quedan en
+  su propia línea, uno debajo del otro. Esto es justo lo que le pasaba a
+  `PageHeader.tsx` (título + acciones) — se asumió en la primera pasada que
+  su `flex-wrap` existente ya era "responsive" y se dejó afuera, pero en la
+  práctica dos botones con labels normales ("Ver papelera"/"Nuevo cliente")
+  igual se apilaban en mobile; reportado en vivo por el usuario con
+  captura. `ButtonGroup` corrige esto con `[&>*]:flex-1` en el caso de fila
+  (2 botones) — `flex-basis` de `flex-1` gana sobre el `width:100%` de
+  `Button` para el cálculo de tamaño del eje principal, así que los dos
+  botones se reparten la fila 50/50 en vez de apilarse — y
+  `has-[>:nth-child(3)]:[&>*]:flex-none` en el caso apilado (3 botones),
+  donde se le devuelve el control del tamaño al `w-full`/`sm:w-fit` propio
+  de `Button`. **`PageHeader.tsx` y el "floating title bar" de
+  `PageContent.tsx`** (mini-header sticky que aparece al hacer scroll más
+  allá del `<h1>`, con su propia fila de acciones) ahora usan `ButtonGroup`
+  también — si se agrega un contenedor de botones nuevo sin pasar por
+  `ButtonGroup`, verificar explícitamente que no repita este bug (un
+  `flex-wrap` con botones no achicados **siempre** los apila, sea cual sea
+  el ancho de pantalla — no es solo un problema de mobile).
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
