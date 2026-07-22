@@ -86,40 +86,7 @@ describe('useHeader', () => {
     expect(result.current.user).toBeNull()
   })
 
-  it('should toggle isProfileOpen when toggleProfile is called', () => {
-    // Arrange
-    const { result } = renderHook(() => useHeader())
-    expect(result.current.isProfileOpen).toBe(false)
-    // Act
-    act(() => {
-      result.current.toggleProfile()
-    })
-    // Assert
-    expect(result.current.isProfileOpen).toBe(true)
-    // Act (second toggle)
-    act(() => {
-      result.current.toggleProfile()
-    })
-    // Assert
-    expect(result.current.isProfileOpen).toBe(false)
-  })
-
-  it('should set isProfileOpen to false when closeProfile is called', () => {
-    // Arrange
-    const { result } = renderHook(() => useHeader())
-    act(() => {
-      result.current.toggleProfile()
-    })
-    expect(result.current.isProfileOpen).toBe(true)
-    // Act
-    act(() => {
-      result.current.closeProfile()
-    })
-    // Assert
-    expect(result.current.isProfileOpen).toBe(false)
-  })
-
-  it('should clear session, close profile, and navigate to /login on logout', () => {
+  it('should clear session and navigate to /login on logout', () => {
     // Arrange
     const mockUser = makeAuthUser()
     useSessionStore.setState({
@@ -128,15 +95,11 @@ describe('useHeader', () => {
       user: mockUser,
     })
     const { result } = renderHook(() => useHeader())
-    act(() => {
-      result.current.toggleProfile()
-    })
     // Act
     act(() => {
       result.current.logout()
     })
     // Assert
-    expect(result.current.isProfileOpen).toBe(false)
     expect(navigateMock).toHaveBeenCalledWith({ to: '/es/login' })
     expect(useSessionStore.getState().isAuthenticated).toBe(false)
   })
@@ -164,32 +127,6 @@ describe('useHeader', () => {
       result.current.closeSettings()
     })
     expect(result.current.isSettingsOpen).toBe(false)
-  })
-
-  it('should close settings when profile is toggled', () => {
-    const { result } = renderHook(() => useHeader())
-    act(() => {
-      result.current.toggleSettings()
-    })
-    expect(result.current.isSettingsOpen).toBe(true)
-    act(() => {
-      result.current.toggleProfile()
-    })
-    expect(result.current.isSettingsOpen).toBe(false)
-    expect(result.current.isProfileOpen).toBe(true)
-  })
-
-  it('should close profile when settings is toggled', () => {
-    const { result } = renderHook(() => useHeader())
-    act(() => {
-      result.current.toggleProfile()
-    })
-    expect(result.current.isProfileOpen).toBe(true)
-    act(() => {
-      result.current.toggleSettings()
-    })
-    expect(result.current.isProfileOpen).toBe(false)
-    expect(result.current.isSettingsOpen).toBe(true)
   })
 
   it('should toggle isCollapsed in sidebar store when toggleSidebar is called', () => {

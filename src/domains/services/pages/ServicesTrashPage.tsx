@@ -161,7 +161,7 @@ export const ServicesTrashPage = () => {
               </Can>
               <Can anyOf={CAN.servicesPurge}>
                 <Button
-                  variant="error"
+                  variant="destructive"
                   size="small"
                   onClick={() => setBulkAction('purge')}
                 >
@@ -249,7 +249,7 @@ export const ServicesTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="destructive"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >
@@ -281,7 +281,7 @@ export const ServicesTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant={bulkAction === 'restore' ? 'primary' : 'error'}
+              variant={bulkAction === 'restore' ? 'primary' : 'destructive'}
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >

@@ -24,7 +24,6 @@ vi.mock('@/shared/ui', () => ({
         {children}
       </dialog>
     ) : null,
-  ThemeToggle: () => <div data-testid="theme-toggle" />,
   LanguageSwitcher: () => <div data-testid="language-switcher" />,
 }))
 
@@ -48,9 +47,9 @@ describe('SettingsDrawer component', () => {
     expect(screen.getByText('Configuración')).toBeInTheDocument()
   })
 
-  it('should render the ThemeToggle', () => {
+  it('should render the language switcher', () => {
     render(<SettingsDrawer isOpen={true} onClose={vi.fn()} />)
-    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument()
+    expect(screen.getByTestId('language-switcher')).toBeInTheDocument()
   })
 
   it('should call onClose when close button is clicked', async () => {

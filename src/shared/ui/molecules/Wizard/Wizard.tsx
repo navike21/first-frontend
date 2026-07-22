@@ -6,16 +6,16 @@ type StepState = 'completed' | 'active' | 'upcoming' | 'error'
 
 const CIRCLE_BY_STATE: Record<StepState, string> = {
   completed: 'border-primary-600 bg-primary-600 text-white',
-  active: 'border-primary-600 bg-surface',
-  upcoming: 'border-border bg-surface',
-  error: 'border-red-500 bg-red-500 text-white',
+  active: 'border-primary-600 bg-primary-600 text-white',
+  upcoming: 'border-border-control bg-surface text-muted',
+  error: 'border-danger-600 bg-danger-600 text-white',
 }
 
 const TITLE_BY_STATE: Record<StepState, string> = {
   completed: 'text-foreground',
   active: 'text-primary-600',
   upcoming: 'text-muted',
-  error: 'text-red-500',
+  error: 'text-danger-600',
 }
 
 function stepStateAt(
@@ -105,7 +105,7 @@ export const Wizard = ({
                   className={clsx(
                     'h-0.5 flex-1',
                     i === 0 && 'invisible',
-                    i <= reachedIndex ? 'bg-primary-600' : 'bg-border'
+                    i <= reachedIndex ? 'bg-primary-600' : 'bg-border-control'
                   )}
                 />
                 <button
@@ -122,15 +122,13 @@ export const Wizard = ({
                 >
                   {state === 'completed' && <CheckIcon />}
                   {state === 'error' && <WarnIcon />}
-                  {state === 'active' && (
-                    <span className="size-2.5 rounded-full bg-primary-600" />
-                  )}
+                  {(state === 'active' || state === 'upcoming') && <span>{i + 1}</span>}
                 </button>
                 <span
                   className={clsx(
                     'h-0.5 flex-1',
                     i === steps.length - 1 && 'invisible',
-                    i < reachedIndex ? 'bg-primary-600' : 'bg-border'
+                    i < reachedIndex ? 'bg-primary-600' : 'bg-border-control'
                   )}
                 />
               </div>
@@ -174,7 +172,7 @@ export const Wizard = ({
 
       {children}
 
-      <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-end">
+      <div className="flex flex-col gap-3 border-t border-border-control pt-5 sm:flex-row sm:items-center sm:justify-end">
         {/* Cancel — bottom on mobile, left on desktop */}
         <div className="order-last sm:order-first">
           {onCancel && (
@@ -195,7 +193,7 @@ export const Wizard = ({
           {!isFirst && (
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               onClick={onBack}
               disabled={isSubmitting}
               className="w-full sm:w-auto"

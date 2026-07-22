@@ -120,7 +120,7 @@ describe('Drawer component', () => {
     expect(aside).toHaveClass('-translate-x-full')
   })
 
-  it('should apply right-0 border-l classes for placement=right (default)', () => {
+  it('should apply right-0 and left-shadow classes for placement=right (default)', () => {
     // Arrange & Act
     const { container } = render(
       <Drawer isOpen={true} onClose={vi.fn()}>
@@ -129,10 +129,10 @@ describe('Drawer component', () => {
     )
     // Assert
     const aside = container.querySelector('aside')
-    expect(aside).toHaveClass('right-0', 'border-l')
+    expect(aside).toHaveClass('right-0', 'shadow-drawer-left')
   })
 
-  it('should apply left-0 border-r classes for placement=left', () => {
+  it('should apply left-0 and right-shadow classes for placement=left', () => {
     // Arrange & Act
     const { container } = render(
       <Drawer isOpen={true} onClose={vi.fn()} placement="left">
@@ -141,7 +141,7 @@ describe('Drawer component', () => {
     )
     // Assert
     const aside = container.querySelector('aside')
-    expect(aside).toHaveClass('left-0', 'border-r')
+    expect(aside).toHaveClass('left-0', 'shadow-drawer-right')
   })
 
   it('should call onClose when Escape key is pressed while open', async () => {

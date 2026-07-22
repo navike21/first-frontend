@@ -62,7 +62,7 @@ export const SubscribersPage = () => {
               {
                 type: 'link' as const,
                 label: t.actions.viewTrash,
-                variant: 'outline' as const,
+                variant: 'secondary' as const,
                 to: navPaths.subscriberTrash(language),
                 size: 'small' as const,
               },

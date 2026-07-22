@@ -72,10 +72,11 @@ de color (se eliminó el `ColorPicker` + el `primaryColor` por usuario). Todo
 vive en `src/app/styles/index.css`:
 - **Color**: un único acento **Azul First `#4C86FF`** = `--color-primary-600`.
   Los CTAs sólidos (Button primary, etc.) usan `primary-600` con hover
-  `primary-700` (#3E63B5); enlaces = `primary-700`. `primary-800` = #34456B,
-  `950` = navy `#0B1220`. Neutros (tema claro): Niebla `#F3F5F9`
-  (surface-subtle), Línea `#E3E8F0` (border), Pizarra `#5C6675` (text-secondary),
-  Navy foreground.
+  **`--color-primary-hover`** (#3E6FE0 — token propio, **no** `primary-700`);
+  `primary-700` (#3E63B5) queda reservado para hover de **texto/enlaces**
+  (variant `ghost`, links). `primary-800` = #34456B, `950` = navy `#0B1220`.
+  Neutros (tema claro): Niebla `#F3F5F9` (surface-subtle), Línea `#E3E8F0`
+  (border), Pizarra `#5C6675` (text-secondary), Navy foreground.
 - **Modo oscuro**: se conserva el toggle claro/oscuro, y el dark usa la
   **familia navy del manual** (surface `#131b2d`, sidebar/subtle `#0b1220` =
   Navy Base, border `#232e45`), no grises genéricos. El acento sigue siendo
@@ -157,6 +158,329 @@ sin importar especificidad — por eso la regla global de headings vive
 deliberadamente top-level. Si se agrega una regla de elemento nueva a
 `index.css`, probarla en el navegador con `getComputedStyle` — un lint/build
 en verde no garantiza que la regla realmente aplique.
+
+## Alineación de átomos al Design System de First (botones, inputs, selectores)
+
+Fase 1 de una alineación pixel-a-pixel de `shared/ui` contra "First Design
+System.dc.html" (documento claude.ai/design del usuario). Cubre Botones,
+Inputs (`InputLayout`→`InputField`/`InputNumber`, `TextArea`, `InputDate`) y
+Selectores (`Select`, `Checkbox`, `RadioOption`, `Switch`) + los tokens de
+color/radio de los que dependen. **Fuera de esta fase** (no tocado todavía,
+posible fase 2): rework visual de Cards/Chips/Tabs/Tooltip/Accordion/Avatar/
+Badge/Progress/Steppers, y un componente nuevo de Segmented Control (el
+Design System lo documenta pero no existe hoy en el código).
+
+- **Radios con nombre** (`@theme` en `index.css`, Tailwind v4 conecta
+  `--radius-*` a `rounded-*` automáticamente): `--radius-control` (8px —
+  botones, inputs, select-search), `--radius-select` (10px — trigger y panel
+  del `Select`, valor propio del manual, distinto de 8 y 12), `--radius-checkbox`
+  (5px). El radio de Card (12px) ya coincidía vía `rounded-xl`, sin cambio.
+- **Color danger** (`--color-danger-50/200/600` = #FBE7E7/#F3D2D2/#D64545):
+  reemplaza los `red-500`/`emerald-500`/`yellow-500` genéricos de Tailwind que
+  usaban `InputLayout`/`TextArea`/`InputDate`/`Select`/`Checkbox`/`RadioOption`/
+  `HelperText` para su estado `error` — antes ningún error en la app usaba el
+  rojo de marca.
+- **Semánticos claro/oscuro nuevos** en `:root`/`.dark`: `--surface-input`
+  (fondo de input/select, dark `#111A2C` — distinto de `surface-subtle`),
+  `--surface-panel` (fondo del panel abierto del Select, dark `#151F35`),
+  `--surface-hover-row` (fila hover/seleccionada del Select, dark `#1B2540` —
+  coincide con `surface-raised`, es intencional), `--border-control` (borde
+  de controles, dark `#2A3650` — **distinto** de `--border` genérico que en
+  dark es `#232E45`, el borde de card), `--border-hover` (borde en hover,
+  `#B9C2D0` en claro; el valor dark es inferido — el manual no documenta ese
+  estado para oscuro).
+- **Taxonomía de `ButtonVariant`** (`shared/types/buttonVariants.ts`, fuente
+  única para `Button`/`IconButton`/`LinkButton`) rehecha para calzar 1:1 con
+  los 4 botones del manual: `primary` | `secondary` | `ghost` | `text` |
+  `destructive`.
+  - `secondary` **cambió de apariencia**: antes era un botón con anillo azul
+    (`ring-primary-700`); ahora es blanco/neutro (`bg-surface`,
+    `border-control`, texto `text-foreground`) — así es como el manual lo
+    define ("Vista previa"/"Cancelar"). Todo call-site existente de
+    `secondary` (~15 archivos) hereda el look correcto automáticamente.
+  - `ghost` es **nuevo** (transparente, texto `primary-700`, hover
+    `surface-subtle`) — el GHOST del manual. Aún sin consumidores reales en
+    este pase (el caso de uso obvio, los links "¿Olvidaste tu contraseña?"/
+    "← Volver a inicio de sesión", vive en la feature de auth todavía sin
+    mergear); adoptarlo ahí cuando esa rama se integre.
+  - `error` se **renombró a `destructive`** (mecánico, el type-checker marca
+    cada call-site) y cambió de rojo sólido a blanco/borde-danger-200/texto-
+    danger-600 con hover danger-50 — el DESTRUCTIVE del manual. Se verificó
+    que el 100% de los usos reales eran acciones de purgar/eliminar antes de
+    hacer el rename.
+  - `outline`/`warning`/`information` se **retiraron** del type: `outline`
+    (2 call-sites reales) se consolidó en `secondary` (mismo uso semántico,
+    "volver"/"vista previa"); `warning`/`information` no tenían ningún uso
+    real fuera de tests/stories.
+  - `text` **no se tocó** — sigue siendo el patrón establecido para botones
+    de ícono sin fondo en tablas (50+ archivos), un caso de uso propio que el
+    Design System no cubre; redefinirlo hubiera tenido un blast radius fuera
+    de alcance.
+  - Tamaños (`sizeClasses`) pasaron de padding vertical a **altura fija**
+    (SM=32px/MD=40px/LG=48px, paddings y tamaños de fuente exactos del
+    manual) — antes los botones eran notablemente más grandes que el diseño.
+- **Checkbox**: el estado marcado antes NO rellenaba la caja (dejaba
+  `bg-surface` y solo espesaba un `ring-10`, una utilidad de Tailwind que ni
+  siquiera existe — bug silencioso, nunca se vio el efecto) — ahora rellena
+  `bg-primary-600` con el check blanco encima, como el manual.
+- **RadioOption**: el ring "marcado" usaba `primary-700` (el tono reservado
+  para hover de texto/enlaces) en vez de `primary-600` (el acento real) —
+  corregido. También su tamaño pasó de 20px (`h-5 w-5`) a 18px exacto, como
+  Checkbox.
+- **Botones sin sombra**: verificado con un grep de `box-shadow` sobre la
+  sección Botones completa del manual → **0 coincidencias**. `Button`/
+  `IconButton`/`LinkButton` tenían `shadow-md shadow-black/30` +
+  `hover:shadow-lg` en todo variant "sólido" (era código pre-existente, no
+  del manual) — se retiró por completo (`variantHasShadow` ya no existe).
+- **Glow de foco** (`--shadow-focus-ring: 0 0 0 3px rgba(76,134,255,0.18)`,
+  token nuevo en `@theme`): es un halo, no una sombra de elevación — verificado
+  contra las 3 apariciones idénticas en Inputs/Selectores (input, checkbox,
+  radio, switch). Reemplaza el `focus-within:shadow-sm` genérico que tenían
+  `InputLayout`/`TextArea` (no aplicaba a `InputDate`, que no tenía ningún
+  glow de foco — se agregó ahí también). `Checkbox`/`RadioOption`/`Switch`
+  también lo llevan en `focus-visible`.
+  - **Gotcha (ya resuelto, no reintroducir):** `focus-within:ring-primary-600`
+    y `hover:ring-border-hover` son dos pseudo-clases de **igual
+    especificidad** sobre la misma propiedad (`ring-color`) — sin ayuda, gana
+    la que Tailwind emite después en la hoja de estilos (orden no
+    determinista para el autor), y en la práctica el hover pisaba el foco
+    (un input enfocado con el mouse encima quedaba con el ring gris, no
+    azul — confirmado con `getComputedStyle` en vivo). Arreglado con el
+    modificador `!important` de Tailwind v4 (sufijo `!`, ej.
+    `focus-within:ring-primary-600!`) en `InputLayout`/`TextArea`/`InputDate`.
+    Los casos de `has-[input:checked]:ring-primary-600` (Checkbox/RadioOption/
+    Switch) no tenían este problema — `:has()` ya suma especificidad extra
+    sobre `:hover` sola, gana sin necesitar `!`. Si se agrega un nuevo estado
+    con prioridad sobre hover, verificar con `getComputedStyle` en el
+    navegador (hover **y** foco simultáneos, ej. click con el mouse quieto
+    sobre el campo) — un lint/build en verde no lo detecta.
+- **Panel del Select — sombra por tema** (`--shadow-panel-down`/`-up`,
+  indirección a `--panel-shadow-down`/`-up` en `:root`/`.dark`, mismo patrón
+  que `--color-surface`/`--surface`): el manual usa un rgba **distinto** en
+  oscuro (`rgba(0,0,0,0.35)` vs `rgba(11,18,32,0.14)` en claro) — la primera
+  versión de este cambio dejó el valor de claro fijo para ambos temas.
+- **`Select` — ícono de error** (`constants/variantIconMap.ts`): también
+  usaba `text-red-500`, en un archivo aparte de `getInputAreaClass.ts` — se
+  pasó por alto en la primera pasada de esta alineación; corregido a
+  `text-danger-600`.
+
+**Segunda ronda de hallazgos** (tras un pedido explícito de re-verificar a
+fondo — la primera pasada de arriba, aunque correcta, no fue exhaustiva):
+
+- **`--text-muted` tenía los valores de claro/oscuro invertidos**: el token
+  ya existía antes de esta alineación, pero con `#8A97B3` en `:root` — ese
+  es en realidad el valor que el manual usa para **oscuro** (confirmado:
+  aparece siempre dentro de las cajas "DARK" de Inputs/Selectores, nunca en
+  las de "LIGHT"). El valor de claro real es `#9AA4B5` (el de los labels de
+  estado — "Inactivo"/"Hover"/etc. — y el placeholder). Corregido: claro
+  `#9AA4B5`, oscuro `#8A97B3`.
+- **Botones — `disabled` no era un color plano**: el manual solo tiene **un**
+  swatch de Disabled (no uno por variant), y reemplaza el color por completo
+  (`bg:#E3E8F0`, `texto:#9AA4B5`, sin borde) — el código hacía
+  `opacity-50` sobre el color del variant (un botón primary disabled se veía
+  azul desteñido, no gris). `Button`/`IconButton` ahora reemplazan el color
+  del variant por completo cuando `disabled` (`variant !== 'text'`; `text`
+  queda con el `opacity-50` viejo por estar fuera del alcance del Design
+  System).
+- **Botones — `loading` atenuaba solo el texto**: el manual pone
+  `opacity:0.85` en el botón **entero** (spinner incluido); el código
+  aplicaba `opacity-70` solo al `<div>` del texto, dejando el spinner al
+  100%. Corregido: la opacidad ahora vive en el botón raíz.
+- **`secondary` en dark no es un relleno sólido**: verificado en la franja
+  LIGHT/DARK de Botones — "Cancelar" en oscuro es
+  `background:transparent`, no un `bg-surface` navy. `variantColorClasses.secondary`
+  ahora lleva `dark:bg-transparent`.
+- **Gotcha de foco (ya resuelto, no reintroducir) — Checkbox/RadioOption/
+  Switch**: estos tres tienen un `<button>` puramente decorativo (pinta la
+  caja/círculo/track) envolviendo un `<input>` real con `opacity-0` que es
+  el que de verdad recibe clicks/foco/cambia `checked`. Antes el botón NO
+  tenía `tabIndex={-1}`, así que era focusable por su cuenta — con Tab caían
+  **dos** tab-stops por cada control (el botón decorativo vacío, después el
+  input real), y `focus-visible:shadow-focus-ring` estaba puesto en el botón
+  (que nunca es el elemento realmente enfocado — ver abajo), así que el glow
+  de foco **nunca se veía** en la práctica. Arreglado con dos cambios juntos:
+  `tabIndex={-1}` en el botón decorativo (un solo tab-stop, el del input) +
+  `has-[input:focus-visible]:shadow-focus-ring` en vez de `focus-visible:`
+  directo (detecta el foco del input anidado, no el del wrapper). Verificado
+  en vivo con `document.activeElement`/`getComputedStyle` tras un `Tab` real
+  — clave: un click de mouse SÍ mueve el foco real al input pero
+  correctamente **no** dispara `:focus-visible` (eso es el comportamiento
+  esperado del navegador, no un bug); solo un `Tab` de teclado lo hace. Si
+  se toca este patrón de nuevo, probar con Tab real, no con `.click()` ni
+  con un click de mouse simulado — ninguno de los dos prueba `:focus-visible`.
+
+## `UserMenu` (`shared/ui/molecules`) — reemplaza al `ProfileDrawer`
+
+El manual documenta el "Menú de usuario" como un **dropdown compacto**
+(trigger tipo pill: avatar 28px + nombre + chevron que rota 180° al abrir),
+no como un drawer de panel completo. `ProfileDrawer.tsx` (y su test) se
+**eliminaron** — `Header.tsx` ahora usa `UserMenu` directamente.
+
+- **Contenido del panel** (230px, `rounded-xl`, `bg-surface-panel`,
+  `ring-border-control`, sombra propia `shadow-menu-panel`): header con
+  nombre+email, "Mi perfil" (link real vía `Link` de `@tanstack/react-router`
+  — `profileHref` es una prop, el molecule no importa `navPaths` directo para
+  no acoplar `shared/ui` al router de la app), "Preferencias", el **toggle de
+  tema** (antes vivía en `SettingsDrawer`, ver abajo), separador, "Cerrar
+  sesión" (rojo, mismo `danger-600`).
+- **`SettingsDrawer` perdió su sección de Modo/tema** — ahora solo tiene el
+  selector de idioma. El toggle de tema se movió a `UserMenu` (decisión
+  explícita del usuario: el manual solo muestra tema adentro del menú, no
+  idioma). El ícono de engranaje del header sigue abriendo `SettingsDrawer`
+  tal cual (ahora solo-idioma); "Preferencias" en `UserMenu` abre lo mismo
+  (dos entradas al mismo lugar, redundancia intencional y de bajo riesgo).
+- **`useHeader.ts` perdió `isProfileOpen`/`toggleProfile`/`closeProfile`** —
+  `UserMenu` maneja su propio estado abierto/cerrado internamente (mismo
+  patrón que `ActionMenu`: portal + posición calculada + click-afuera/Escape/
+  scroll/resize para cerrar), no hace falta que `Header` lo controle.
+- **`Avatar` ganó el tamaño `xs` (28px = `size-7`)** — no existía un tamaño
+  tan chico en la escala previa (`sm`=32/`md`=48/`lg`=64); es aditivo, no
+  cambia ningún consumidor existente.
+- **Sin "rol" bajo el nombre**: el mockup muestra "Administrador" como
+  subtítulo, pero `AuthUser` no expone un campo de rol/grupo legible (solo
+  `permissions: string[]`) — se omitió esa línea en vez de inventar un dato
+  que no existe. Si se agrega un campo de rol al backend, agregarlo acá.
+- **Tokens nuevos, mismo patrón de indirección que `--color-surface`**:
+  `--shadow-trigger-active` (glow del trigger abierto, 0.14 de opacidad —
+  **distinto** de `--shadow-focus-ring`, que es 0.18, no reusar uno por otro),
+  `--shadow-menu-panel` (con `--menu-panel-shadow` por tema: 28px/0.12 en
+  claro, 28px/0.35 en oscuro — valores propios, no coinciden con los del
+  panel del Select). `bg-surface-panel`/`ring-border-control`/
+  `bg-surface-hover-row` del Select se **reutilizan tal cual** para el panel
+  y las filas del menú — coinciden exacto con la evidencia del manual.
+- **`--color-danger-600` pasó a variar por tema** (antes era constante):
+  el manual muestra "Cerrar sesión" en `#F19A9A` en dark, más claro que el
+  `#D64545` de claro — mismo patrón que `--text-primary`/`--text-secondary`.
+  `--color-danger-50`/`200` (fondo/borde del botón destructivo) siguen
+  constantes — no hay evidencia de un valor de dark distinto para esos.
+
+## Segunda alineación al Design System — barrido completo del sidebar
+
+El usuario pidió re-verificar **absolutamente todo** contra un nuevo archivo
+autoritativo ("First Design System (Standalone).html", un bundler JS que solo
+se puede inspeccionar renderizado en un navegador real — no es HTML plano
+grepeable), en el orden del sidebar del propio manual. Se recorrieron los ~30
+átomos/moléculas/plantillas restantes (Acordeón, Adjuntar archivos, Avatar,
+Cards, Chips ya cubiertos en una ronda previa; esta ronda cubrió desde List
+hasta Librería de íconos). Extracción vía `getComputedStyle` en vivo
+(`javascript_tool`), nunca `outerHTML` crudo (bloqueado por el filtro de
+seguridad de la herramienta).
+
+- **`ActionMenu`** (dropdown de "Menú de opciones"): mismo patrón que
+  `UserMenu` — radio 12px (era 8px/`rounded-lg`), `bg-surface-panel`/
+  `ring-border-control`/`shadow-menu-panel` (era `bg-surface`/`ring-border`/
+  `shadow-lg` genérico), hover `bg-surface-hover-row` (era `surface-subtle`),
+  ítem danger `text-danger-600`/`hover:bg-surface-hover-row` (era
+  `text-red-500`/`hover:bg-red-500/10`).
+- **`SectionDivider`**: `bg-border` → `bg-border-control` (el manual muestra
+  el separador con el borde de **controles**, no el de card — distinto en
+  oscuro: `#2A3650` vs `#232E45`).
+- **`RichTextArea`** ("Textarea enriquecido"): radio 10px (`rounded-select`,
+  era `rounded-lg`=8px — este control es más grande que un input plano, no
+  comparte el radio de 8px de los controles normales); contenedor
+  `bg-surface-input`/`border-control`/`hover:border-hover`/
+  `focus-within:border-primary-600! focus-within:shadow-focus-ring` (mismo
+  patrón que `TextArea`, antes tenía su propio `ring`/`border-red-400` ad
+  hoc); toda divisoria de toolbar (`Divider`, barras de contexto de tabla/
+  código/link, footer de conteo) pasó de `border-border` a `border-control`;
+  todo `text-red-500` de error pasó a `text-danger-600`.
+- **`Tooltip`**: el manual muestra el tooltip con superficie **invertida a
+  propósito** — en tema claro es navy+texto blanco, en oscuro se invierte a
+  niebla+texto navy (confirmado en el comparativo LIGHT/DARK: el bg oscuro
+  del tooltip es literalmente el `--surface-subtle` del tema **claro**, y
+  viceversa — busca máximo contraste contra el fondo de la app, no sigue
+  `--surface`/`--foreground` directo). Tokens nuevos `--color-tooltip-bg`/
+  `-text` con esa indirección invertida. Radio corregido a 6px (`rounded-md`,
+  era `rounded-lg`=8px — no hay token con nombre para 6px, se usa el
+  `rounded-md` de Tailwind tal cual). El variant `dark` ya no usa
+  `bg-gray-950`/`text-slate-300` genéricos.
+- **`Wizard`**: el paso **activo** (no solo el completado) va con círculo
+  **relleno** `bg-primary-600`+número en blanco — antes mostraba solo un
+  punto decorativo (`size-2.5 rounded-full`) sin el número. El paso
+  **upcoming** tampoco renderizaba su número en absoluto (bug: el JSX no
+  tenía ninguna rama para ese estado). Corregido: `active`/`upcoming` ahora
+  renderizan `{i + 1}`. Conectores y borde del paso `upcoming` pasaron de
+  `border-border`/`bg-border` a `border-control`/`bg-border-control`. Error
+  de `red-500` a `danger-600`.
+- **`Spinner`**: el variant `gradient` (usado en botones `secondary`/`ghost`/
+  `destructive`, todos de fondo claro) tenía un degradado cian→índigo
+  (`#17CADD`→`#332eb9ff`) totalmente ajeno a la marca — el manual muestra un
+  arco **primary-600 sólido** sobre un track gris. Corregido `default`/
+  `gradient` a `var(--color-primary-600)` en ambos "stops" (ya no es un
+  degradado real, solo mantiene la estructura por si hiciera falta a
+  futuro) y el track de `fill-slate-200 dark:fill-slate-700` a
+  `fill-border-control`. El variant `white` (para el botón `primary`, ya
+  relleno de azul) no se tocó — no tiene evidencia en el manual y necesita
+  contraste blanco sobre fondo azul.
+- **`Tabs`**: borde del contenedor a `border-control` (era `border-border`);
+  se quitó el tinte `hover:bg-slate-50/60 dark:hover:bg-slate-800/20` — el
+  manual muestra que el hover **solo** oscurece el texto a `text-foreground`,
+  sin cambiar el fondo.
+- **`Breadcrumbs`**: el ícono separador usaba `text-muted`; el manual lo
+  muestra más apagado, `text-disabled`. El layout "vertical" que documenta
+  el manual no tiene consumidor real, no se construyó.
+- **`Toasts y notificaciones` (sonner)**: el bg/texto de cada severidad
+  coincide **exacto** con los tokens de Chip ya existentes (verificado
+  pixel a pixel: éxito `#E4F3EC`/`#1F7A54`, error `#FBE7E7`, warning
+  `#FBEFDD`, info `#E8F0FF`, y sus pares oscuros). El borde (Chip no lleva
+  borde, Toast sí) y la sombra son nuevos: `--color-toast-*-border` +
+  `--shadow-toast` (`0 10px 24px rgba(11,18,32,0.1)` en claro, `none` en
+  oscuro — el manual no muestra sombra sobre fondo oscuro). Se inyectan en
+  `<Toaster toastOptions={{ style: toastStyle }}>` (`app/providers/index.tsx`)
+  sobreescribiendo las variables CSS que sonner expone (`--success-bg`, etc.)
+  — el `style` inline gana siempre por especificidad sobre las reglas
+  `[data-sonner-toaster][data-sonner-theme=...]` de la librería, sin
+  importar el orden de carga del CSS. También se sincronizó `theme={theme}`
+  (antes fijo en claro, ignoraba el tema real de la app). Verificado en vivo
+  contra un toast real disparado en la app — coincide exacto.
+- **`Drawer`**: la sombra caía hacia abajo (`shadow-xl` genérico) en vez de
+  hacia el costado del contenido — el manual muestra offset-x **negativo**
+  para un drawer anclado a la derecha (la sombra "cuelga" hacia la
+  izquierda, no hacia abajo). Nuevos tokens `--shadow-drawer-left`/`-right`
+  (uno por `placement`). También se quitó el borde de canto
+  (`border-l`/`border-r border-border`) — el manual no muestra ninguno,
+  border-width 0 confirmado en la extracción; la sombra sola marca el borde.
+- **`Modal`**: radio 12px (era `rounded-2xl`=16px); sombra dedicada
+  `--shadow-modal` (`0 20px 50px rgba(0,0,0,0.35)`, **constante en ambos
+  temas** — a diferencia de las demás sombras de este documento, esta no
+  necesita indirección `:root`/`.dark` porque se proyecta sobre el backdrop
+  oscuro semitransparente, que es casi negro en cualquier tema de la app).
+- **`DataTable`**: quitado `shadow-sm` de la card mobile y del wrapper
+  desktop (ninguna card del manual lleva sombra, mismo hallazgo que `Card`);
+  `divide-slate-100 dark:divide-slate-700` (genérico) → `divide-border-control`;
+  fila hover/seleccionada de `bg-surface-subtle` a `bg-surface-hover-row`
+  (mismo criterio que `Select`/`ActionMenu` — fila interactiva, no bloque
+  recessed estático).
+
+**Gaps identificados — "componente nuevo", no construidos especulativamente**
+(mismo criterio que Segmented Control en la fase 1; requieren una decisión de
+alcance con el usuario antes de construirse):
+- **Badge** (contador/punto/pill de notificación — solo existe `LangBadge`,
+  mucho más específico).
+- **Carrusel** — no existe ningún componente de carrusel.
+- **Progress** (barra lineal y circular) — no existe.
+- **Slider** — no existe, y no se usa en ningún dominio hoy.
+- **Stepper numérico** (input de cantidad con botones −/+) — no existe;
+  distinto del `Wizard` (que sí existe y es el stepper de *progreso*, ya
+  alineado arriba).
+- **Barra de búsqueda global** (trigger `⌘K` tipo command-palette) — no
+  existe ninguna función de búsqueda global en la app; los buscadores por
+  página ya usan `InputField` (ya alineado en fase 1).
+- **Paginación numerada con elipsis** — el manual documenta un control de
+  páginas (`1 2 3 … 8`); `DataTable` implementa en su lugar un patrón
+  prev/next + "página / total" mucho más simple (`shared/ui/molecules/
+  DataTable/DataTable.tsx`), ya con colores/tokens correctos pero de forma
+  distinta. Reconstruir el control numerado es un cambio de lógica real
+  (calcular qué páginas mostrar, elipsis), no solo de estilo — pendiente de
+  decisión.
+
+**Decisión explícita del usuario — Sidebar NO pasa a navy permanente**: el
+sitio del Design System (y su diagrama de "Comportamiento del layout del
+dashboard") usa un sidebar siempre oscuro (`#0B1220`) independiente del tema
+claro/oscuro de la app. Se le preguntó al usuario si esto debía adoptarse en
+el `Sidebar` real de First (cambio grande, afecta toda la app) — decidió
+**dejarlo como está** (sigue el tema claro/oscuro normal, blanco en modo
+claro). No re-litigar esto sin un pedido explícito nuevo.
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.

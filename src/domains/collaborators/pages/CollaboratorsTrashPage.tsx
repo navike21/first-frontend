@@ -160,7 +160,7 @@ export const CollaboratorsTrashPage = () => {
               </Can>
               <Can anyOf={CAN.collaboratorsPurge}>
                 <Button
-                  variant="error"
+                  variant="destructive"
                   size="small"
                   onClick={() => setBulkAction('purge')}
                 >
@@ -242,7 +242,7 @@ export const CollaboratorsTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="error"
+              variant="destructive"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >
@@ -274,7 +274,7 @@ export const CollaboratorsTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant={bulkAction === 'restore' ? 'primary' : 'error'}
+              variant={bulkAction === 'restore' ? 'primary' : 'destructive'}
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >

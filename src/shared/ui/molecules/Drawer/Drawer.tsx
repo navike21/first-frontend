@@ -73,12 +73,9 @@ export const Drawer: React.FC<DrawerProps> = ({
           'fixed inset-y-0 z-50 flex h-full flex-col overflow-x-hidden overflow-y-auto',
           'bg-surface',
           'duration-normal ease-out-expo transition-[translate,width]',
-          isMobileOnly
-            ? 'shadow-xl md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none'
-            : 'shadow-xl',
-          placement === 'left'
-            ? 'left-0 border-r border-border'
-            : 'right-0 border-l border-border',
+          placement === 'left' ? 'shadow-drawer-right' : 'shadow-drawer-left',
+          isMobileOnly && 'md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none',
+          placement === 'left' ? 'left-0' : 'right-0',
           isOpen
             ? 'translate-x-0 delay-[50ms]'
             : clsx('delay-0', {

@@ -58,12 +58,17 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       >
         <button
           type="button"
+          tabIndex={-1}
           disabled={disabled}
           className={clsx(
             'group relative shrink-0 border-none p-0 outline-none',
-            'rounded-full bg-slate-300 dark:bg-slate-600',
+            'rounded-full bg-border-control hover:bg-border-hover',
             'duration-fast ease-spring transition-all',
-            'has-[input:checked]:bg-primary-500',
+            'has-[input:checked]:bg-primary-600 has-[input:checked]:hover:bg-primary-600',
+            // Mismo motivo que Checkbox/RadioOption: el input real está
+            // anidado y opacity-0; este botón decorativo no debe ser un
+            // tab-stop propio y vacío.
+            'has-[input:focus-visible]:shadow-focus-ring',
             TRACK_CLS[size],
             {
               'cursor-not-allowed opacity-60': disabled,
@@ -74,7 +79,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           <span
             className={clsx(
               'pointer-events-none absolute top-1/2 -translate-y-1/2',
-              'rounded-full bg-white shadow-sm dark:bg-slate-100',
+              'rounded-full bg-white dark:bg-slate-100',
               'duration-fast ease-spring transition-all',
               THUMB_CLS[size],
               THUMB_OFFSET_CLS[size],

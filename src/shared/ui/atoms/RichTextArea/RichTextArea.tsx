@@ -122,7 +122,7 @@ const ToolbarBtn = ({ icon, title, onClick, active, disabled }: ToolbarBtnProps)
   </button>
 )
 
-const Divider = () => <div className="mx-0.5 h-3.5 w-px shrink-0 bg-border" />
+const Divider = () => <div className="mx-0.5 h-3.5 w-px shrink-0 bg-border-control" />
 
 // ─── ToolbarSelect (block type) ───────────────────────────────────────────────
 
@@ -520,16 +520,16 @@ export const RichTextArea = ({
 
       <div
         className={clsx(
-          'flex flex-col rounded-lg border bg-surface transition-colors',
+          'flex flex-col rounded-select border bg-surface-input transition-colors',
           hasError
-            ? 'border-red-400 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-400/30'
-            : 'border-border focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600/20',
+            ? 'border-danger-600 focus-within:border-danger-600'
+            : 'border-border-control hover:border-border-hover focus-within:border-primary-600! focus-within:shadow-focus-ring',
           fullscreen && 'fixed inset-0 z-50 rounded-none',
           disabled && 'opacity-60',
         )}
       >
         {/* ── Main toolbar ──────────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-border px-2 py-1.5">
+        <div className="flex flex-wrap items-center gap-0.5 border-b border-border-control bg-surface-subtle px-2 py-1.5">
           {/* History */}
           <ToolbarBtn icon="RiArrowGoBackLine" title="Undo" disabled={disabled || !editor?.can().undo()} onClick={() => editor?.chain().focus().undo().run()} />
           <ToolbarBtn icon="RiArrowGoForwardLine" title="Redo" disabled={disabled || !editor?.can().redo()} onClick={() => editor?.chain().focus().redo().run()} />
@@ -616,7 +616,7 @@ export const RichTextArea = ({
 
         {/* ── Context: link input ──────────────────────────── */}
         {linkInput !== null && (
-          <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-3 py-1.5">
+          <div className="flex items-center gap-2 border-b border-border-control bg-surface-subtle px-3 py-1.5">
             <input
               autoFocus
               type="url"
@@ -640,7 +640,7 @@ export const RichTextArea = ({
 
         {/* ── Context: table management ────────────────────── */}
         {isInTable && (
-          <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-surface-subtle px-2 py-1">
+          <div className="flex flex-wrap items-center gap-0.5 border-b border-border-control bg-surface-subtle px-2 py-1">
             <span className="mr-1 text-[10px] font-medium text-muted uppercase">Table</span>
             <ToolbarBtn icon="RiInsertRowTop" title="Add row before" disabled={disabled} onClick={() => editor?.chain().focus().addRowBefore().run()} />
             <ToolbarBtn icon="RiInsertRowBottom" title="Add row after" disabled={disabled} onClick={() => editor?.chain().focus().addRowAfter().run()} />
@@ -659,7 +659,7 @@ export const RichTextArea = ({
 
         {/* ── Context: code block language ─────────────────── */}
         {isInCodeBlock && (
-          <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-3 py-1.5">
+          <div className="flex items-center gap-2 border-b border-border-control bg-surface-subtle px-3 py-1.5">
             <span className="text-[10px] font-medium text-muted uppercase">Language</span>
             <select
               value={(editor?.getAttributes('codeBlock').language as string | undefined) ?? ''}
@@ -690,8 +690,8 @@ export const RichTextArea = ({
         {(showCount || maxLength !== undefined) && (
           <div
             className={clsx(
-              'flex justify-end border-t border-border px-3 py-1 text-[11px]',
-              isOverLimit ? 'text-red-500' : 'text-muted',
+              'flex justify-end border-t border-border-control px-3 py-1 text-[11px]',
+              isOverLimit ? 'text-danger-600' : 'text-muted',
             )}
           >
             {maxLength !== undefined ? `${textLength} / ${maxLength}` : textLength}
@@ -700,7 +700,7 @@ export const RichTextArea = ({
       </div>
 
       {(helperText || errorMessage) && (
-        <p className={clsx('text-xs', errorMessage ? 'text-red-500' : 'text-muted')}>
+        <p className={clsx('text-xs', errorMessage ? 'text-danger-600' : 'text-muted')}>
           {errorMessage ?? helperText}
         </p>
       )}

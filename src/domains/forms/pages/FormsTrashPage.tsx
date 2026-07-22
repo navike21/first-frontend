@@ -129,7 +129,7 @@ export const FormsTrashPage = () => {
                 </Button>
               </Can>
               <Can anyOf={CAN.formsPurge}>
-                <Button variant="error" size="small" onClick={() => setBulkAction('purge')}>
+                <Button variant="destructive" size="small" onClick={() => setBulkAction('purge')}>
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
@@ -189,7 +189,7 @@ export const FormsTrashPage = () => {
             <Button variant="secondary" onClick={() => setPurging(null)} disabled={purge.isPending}>
               {t.actions.cancel}
             </Button>
-            <Button variant="error" loading={purge.isPending} onClick={handleConfirmPurge}>
+            <Button variant="destructive" loading={purge.isPending} onClick={handleConfirmPurge}>
               {t.actions.confirmPurge}
             </Button>
           </>
@@ -216,7 +216,7 @@ export const FormsTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant={bulkAction === 'restore' ? 'primary' : 'error'}
+              variant={bulkAction === 'restore' ? 'primary' : 'destructive'}
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >

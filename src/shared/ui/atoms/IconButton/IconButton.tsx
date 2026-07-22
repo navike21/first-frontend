@@ -6,7 +6,6 @@ import type { SpinnerProps } from '../Spinner/Spinner.types'
 import {
   variantColorClasses,
   variantHoverClasses,
-  variantHasShadow,
   iconSizeClasses,
 } from '@/shared/types/buttonVariants'
 import type {
@@ -25,14 +24,12 @@ const loadingVariants: LoadingVariant = {
   primary: 'white',
   secondary: 'gradient',
   text: 'default',
-  warning: 'white',
-  error: 'white',
-  information: 'white',
+  destructive: 'gradient',
 }
 
 const shapeClasses: Record<IconButtonShape, string> = {
   circle: 'rounded-full',
-  square: 'rounded-md',
+  square: 'rounded-control',
 }
 
 const sizePaddingClasses: Record<IconButtonSize, string> = {
@@ -61,22 +58,26 @@ export const IconButton = ({
         shapeClasses[shape],
         sizePaddingClasses[size],
         'font-medium',
-        variantColorClasses[variant],
         'duration-fast ease-out-expo transition-all',
         {
-          'shadow-md shadow-black/30': variantHasShadow[variant],
-        },
-        {
-          'hover:shadow-lg': variantHasShadow[variant] && !disabled && !loading,
           'active:scale-95': !disabled && !loading,
           'hover:bg-surface-subtle':
             variant === 'text' && !disabled && !loading,
         },
-        !disabled && !loading && variantHoverClasses[variant],
+        // Mismo criterio que Button: disabled reemplaza el color (gris
+        // plano), no lo atenúa con opacidad — excepto en `text`, fuera del
+        // alcance del Design System.
+        disabled && variant !== 'text' && 'bg-border-control text-muted',
+        disabled && variant === 'text' && 'opacity-50',
+        !disabled && [
+          variantColorClasses[variant],
+          !loading && variantHoverClasses[variant],
+          loading && 'opacity-85',
+        ],
         {
           'cursor-pointer': !disabled && !loading,
           'cursor-wait': loading,
-          'cursor-not-allowed opacity-50 shadow-none': disabled,
+          'cursor-not-allowed': disabled,
         }
       )}
       whileTap={canInteract ? { scale: 0.95 } : undefined}

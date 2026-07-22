@@ -126,8 +126,8 @@ describe('Checkbox', () => {
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
       'cursor-not-allowed',
-      'ring-slate-400',
-      'bg-slate-200'
+      'ring-border-control',
+      'bg-surface-subtle'
     )
   })
 
@@ -136,7 +136,7 @@ describe('Checkbox', () => {
     render(<Checkbox />)
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
-      'ring-slate-30',
+      'ring-border-control',
       'bg-surface'
     )
   })
@@ -146,7 +146,7 @@ describe('Checkbox', () => {
     render(<Checkbox checked onChange={vi.fn()} />)
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
-      'has-[input:checked]:ring-primary-700'
+      'has-[input:checked]:bg-primary-600'
     )
   })
 
@@ -154,7 +154,7 @@ describe('Checkbox', () => {
     // Arrange & Act
     render(<Checkbox error />)
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('ring-red-500')
+    expect(screen.getByRole('button')).toHaveClass('ring-danger-600')
   })
 
   it('should not throw when ref current is null (defensive guard branch)', () => {

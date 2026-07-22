@@ -47,18 +47,21 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       >
         <motion.button
           className={clsx(
-            'group relative flex h-5 w-5 items-center justify-center border-none p-px outline-none',
+            'group relative flex h-[18px] w-[18px] items-center justify-center border-none outline-none',
             'duration-fast ease-spring transition-all',
-            'rounded-sm ring-1 ring-inset',
-            'has-[input:checked]:ring-10',
-            'has-[input:indeterminate]:ring-10',
+            'rounded-checkbox ring-1 ring-inset',
+            // El input real (el que de verdad recibe foco) vive anidado
+            // dentro de este botón puramente decorativo — el botón lleva
+            // tabIndex=-1 (no debe ser un tab-stop independiente y vacío).
+            'has-[input:focus-visible]:shadow-focus-ring',
             {
-              'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
+              'cursor-not-allowed bg-surface-subtle ring-border-control':
                 disabled,
-              'ring-slate-30 bg-surface': !disabled,
-              'has-[input:checked]:ring-primary-700 has-[input:indeterminate]:ring-primary-700 dark:has-[input:checked]:ring-primary-600 dark:has-[input:indeterminate]:ring-primary-600':
+              'bg-surface ring-border-control hover:ring-border-hover':
+                !disabled,
+              'has-[input:checked]:bg-primary-600 has-[input:checked]:ring-primary-600 has-[input:indeterminate]:bg-primary-600 has-[input:indeterminate]:ring-primary-600':
                 !disabled && !error,
-              'ring-red-500 has-[input:checked]:ring-red-500 has-[input:indeterminate]:ring-red-500':
+              'ring-danger-600 has-[input:checked]:bg-danger-600 has-[input:checked]:ring-danger-600 has-[input:indeterminate]:bg-danger-600 has-[input:indeterminate]:ring-danger-600':
                 error,
             }
           )}
@@ -66,6 +69,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           transition={{ type: 'spring', stiffness: 500, damping: 20 }}
           disabled={disabled}
           type="button"
+          tabIndex={-1}
         >
           {/* Checkmark SVG with path drawing */}
           <svg

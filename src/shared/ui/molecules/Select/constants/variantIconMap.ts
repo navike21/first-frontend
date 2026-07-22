@@ -10,7 +10,7 @@ export const VARIANT_ICON_MAP: Partial<
   },
   error: {
     icon: 'RiErrorWarningFill',
-    className: 'text-red-500 mr-3 size-5',
+    className: 'text-danger-600 mr-3 size-5',
   },
   warning: {
     icon: 'RiErrorWarningFill',

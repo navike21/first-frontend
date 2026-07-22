@@ -59,7 +59,7 @@ export const ClientsPage = () => {
               {
                 type: 'link' as const,
                 label: t.actions.viewTrash,
-                variant: 'outline' as const,
+                variant: 'secondary' as const,
                 to: navPaths.clientTrash(language),
                 size: 'small' as const,
               },

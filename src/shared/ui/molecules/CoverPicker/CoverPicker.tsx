@@ -60,7 +60,7 @@ const PreviewContent = ({
           className={clsx(
             'flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5',
             'text-xs font-medium text-secondary transition-colors',
-            'hover:border-red-500 hover:text-red-500'
+            'hover:border-danger-600 hover:text-danger-600'
           )}
         >
           <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
@@ -105,7 +105,7 @@ const EmptyContent = ({
         isCompact ? 'h-10 w-10' : 'h-14 w-14',
         'border transition-colors',
         isDragging && 'border-primary-600 bg-surface text-primary-600',
-        hasError && !isDragging && 'border-red-400 bg-surface text-red-500',
+        hasError && !isDragging && 'border-danger-200 bg-surface text-danger-600',
         !isDragging && !hasError && 'border-border bg-surface text-muted',
       )}
     >
@@ -118,7 +118,7 @@ const EmptyContent = ({
       <p className={clsx(
         'font-semibold',
         isCompact ? 'text-xs' : 'text-sm',
-        hasError ? 'text-red-500' : 'text-foreground',
+        hasError ? 'text-danger-600' : 'text-foreground',
       )}>
         {isDragging ? dragLabel : uploadLabel}
       </p>
@@ -135,7 +135,7 @@ const EmptyContent = ({
         </p>
       )}
       {displayError && (
-        <p className="mt-1.5 text-xs font-medium text-red-500">{displayError}</p>
+        <p className="mt-1.5 text-xs font-medium text-danger-600">{displayError}</p>
       )}
     </div>
   </>
@@ -169,13 +169,15 @@ function dropzoneClassName({ isCompact, isDragging, hasError, disabled, isIntera
     isCompact ? 'min-h-24 gap-2 p-3' : 'min-h-44 gap-3 p-6',
     // Visual
     'border-2 border-dashed transition-colors',
-    // States
-    isDragging && 'border-primary-600 bg-primary-700/5',
-    hasError && !isDragging && 'border-red-500 bg-red-50/40 dark:bg-red-900/10',
-    !isDragging && !hasError && 'border-border bg-surface-subtle',
+    // States — el manual muestra el dropzone vacío en blanco con borde
+    // dashed border-hover (#B9C2D0, no el border por defecto), y el estado
+    // arrastrando con un azul sólido claro (primary-100), no una opacidad.
+    isDragging && 'border-primary-600 bg-primary-100',
+    hasError && !isDragging && 'border-danger-200 bg-danger-50',
+    !isDragging && !hasError && 'border-border-hover bg-surface',
     disabled && 'cursor-not-allowed opacity-50',
-    isInteractive && !hasError && 'cursor-pointer hover:border-primary-600/60 hover:bg-primary-700/5',
-    isInteractive && hasError && 'cursor-pointer hover:border-red-600/60',
+    isInteractive && !hasError && 'cursor-pointer hover:border-primary-600',
+    isInteractive && hasError && 'cursor-pointer hover:border-danger-600',
   )
 }
 

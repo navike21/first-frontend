@@ -4,7 +4,6 @@ import { type LinkButtonProps } from '@/shared/types/buttonProps'
 import {
   variantColorClasses,
   variantHoverClasses,
-  variantHasShadow,
   buttonShapeClass,
   sizeClasses,
   textSizeClasses,
@@ -29,8 +28,6 @@ export const LinkButton = ({
       'sm:w-fit',
       variant !== 'text' && buttonShapeClass,
       {
-        'shadow-md shadow-black/30': variantHasShadow[variant],
-        'hover:shadow-lg': variantHasShadow[variant],
         'active:scale-95': variant !== 'text',
       },
       variantColorClasses[variant],

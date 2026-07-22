@@ -64,7 +64,7 @@ describe('HelperText', () => {
     render(<HelperText variant="error">Error message</HelperText>)
     // Assert
     const element = screen.getByText('Error message')
-    expect(element).toHaveClass('text-red-500')
+    expect(element).toHaveClass('text-danger-600')
     expect(element).toHaveAttribute('role', 'alert')
     expect(element).toHaveAttribute('aria-live', 'polite')
   })
@@ -79,7 +79,7 @@ describe('HelperText', () => {
     // Assert
     const element = screen.getByText('Error message')
     expect(element).toHaveClass('text-purple-500')
-    expect(element).not.toHaveClass('text-red-500')
+    expect(element).not.toHaveClass('text-danger-600')
     expect(element).toHaveAttribute('role', 'alert')
     expect(element).toHaveAttribute('aria-live', 'polite')
   })

@@ -7,7 +7,6 @@ import type { SpinnerProps } from '../Spinner/Spinner.types'
 import {
   variantColorClasses,
   variantHoverClasses,
-  variantHasShadow,
   buttonShapeClass,
   sizeClasses,
   textSizeClasses,
@@ -23,11 +22,9 @@ type LoadingVariant = Record<
 const loadingVariants: LoadingVariant = {
   primary: 'white',
   secondary: 'gradient',
-  outline: 'gradient',
+  ghost: 'gradient',
   text: 'default',
-  warning: 'white',
-  error: 'white',
-  information: 'white',
+  destructive: 'gradient',
 }
 
 export const Button = ({
@@ -64,17 +61,23 @@ export const Button = ({
         {
           'cursor-wait': loading,
         },
-        {
-          'cursor-not-allowed opacity-50 shadow-none': disabled,
-        },
         variant !== 'text' && buttonShapeClass,
         {
-          'shadow-md shadow-black/30': variantHasShadow[variant],
-          'hover:shadow-lg': variantHasShadow[variant] && !disabled && !loading,
           'active:scale-95': variant !== 'text' && !disabled && !loading,
         },
-        variantColorClasses[variant],
-        !disabled && !loading && variantHoverClasses[variant],
+        // Disabled reemplaza el color del variant por el gris plano del
+        // manual (bg #E3E8F0 / texto #9AA4B5, sin borde) — no es un fade de
+        // opacidad sobre el color del variant. `text` queda fuera (no es
+        // uno de los 4 botones del Design System).
+        disabled && variant !== 'text' && 'cursor-not-allowed bg-border-control text-muted',
+        disabled && variant === 'text' && 'cursor-not-allowed opacity-50',
+        !disabled && [
+          variantColorClasses[variant],
+          !loading && variantHoverClasses[variant],
+          // Loading atenúa el botón entero (opacity 0.85 del manual), no
+          // solo el texto.
+          loading && 'opacity-85',
+        ],
         {
           'before:duration-fast before:ease-out-expo before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-muted before:opacity-0 before:transition-all before:content-[""]':
             variant === 'text',
@@ -91,13 +94,7 @@ export const Button = ({
       {...props}
       disabled={loading || disabled}
     >
-      <div
-        className={clsx({
-          'opacity-70': loading,
-        })}
-      >
-        {children}
-      </div>
+      <div>{children}</div>
       {loading && (
         <div
           className={clsx('min-w-5', {

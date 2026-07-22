@@ -244,7 +244,7 @@ export const UserGroupsTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="primary"
+              variant="destructive"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >

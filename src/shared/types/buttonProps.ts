@@ -19,14 +19,7 @@ export type MotionConflictingHandlers =
   | 'onAnimationEnd'
 
 export interface ButtonBaseProps {
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'outline'
-    | 'text'
-    | 'warning'
-    | 'error'
-    | 'information'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'text' | 'destructive'
   size?: 'small' | 'medium' | 'large'
   icon?: IconName
   loading?: boolean

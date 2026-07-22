@@ -39,8 +39,7 @@ export const HelperText = ({
         {
           'text-secondary':
             variant === 'default' && !HAS_TEXT_CLASS_COLOR,
-          'text-red-500 dark:text-red-400':
-            variant === 'error' && !HAS_TEXT_CLASS_COLOR,
+          'text-danger-600': variant === 'error' && !HAS_TEXT_CLASS_COLOR,
           'text-emerald-500 dark:text-emerald-400':
             variant === 'success' && !HAS_TEXT_CLASS_COLOR,
           'text-yellow-500 dark:text-yellow-400':

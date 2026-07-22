@@ -3,9 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Header } from './Header'
 import type { AuthUser } from '@/shared/types'
+import type { UserMenuProps } from '@/shared/ui'
 
-const toggleProfileMock = vi.fn()
-const closeProfileMock = vi.fn()
 const toggleSettingsMock = vi.fn()
 const closeSettingsMock = vi.fn()
 const logoutMock = vi.fn()
@@ -28,9 +27,6 @@ const makeHeaderState = (
 ) => ({
   user: makeAuthUser() as AuthUser | null,
   isCollapsed: false,
-  isProfileOpen: false,
-  toggleProfile: toggleProfileMock,
-  closeProfile: closeProfileMock,
   isSettingsOpen: false,
   toggleSettings: toggleSettingsMock,
   closeSettings: closeSettingsMock,
@@ -79,19 +75,24 @@ vi.mock('@/shared/ui', async (importOriginal) => {
         aria-label={ariaLabel}
       />
     ),
-    Avatar: ({ alt, name }: { alt?: string; name?: string }) => (
-      <div data-testid="avatar" aria-label={alt ?? name} />
-    ),
     LanguageSwitcher: ({ label }: { label?: string }) => (
       <div data-testid="language-switcher">{label}</div>
     ),
+    UserMenu: ({
+      name,
+      email,
+      onPreferencesClick,
+      onLogoutClick,
+    }: UserMenuProps) => (
+      <div data-testid="user-menu">
+        <span>{name}</span>
+        <span>{email}</span>
+        <button onClick={onPreferencesClick}>preferences</button>
+        <button onClick={onLogoutClick}>logout</button>
+      </div>
+    ),
   }
 })
-
-vi.mock('./ProfileDrawer', () => ({
-  ProfileDrawer: ({ isOpen }: { isOpen: boolean }) =>
-    isOpen ? <div data-testid="profile-drawer" /> : null,
-}))
 
 vi.mock('./SettingsDrawer', () => ({
   SettingsDrawer: ({ isOpen }: { isOpen: boolean }) =>
@@ -119,9 +120,9 @@ describe('Header component', () => {
     expect(screen.getByText('Test User')).toBeInTheDocument()
   })
 
-  it('should not render the user email', () => {
+  it('should pass the user email to UserMenu', () => {
     render(<Header />)
-    expect(screen.queryByText('test@navike21.com')).not.toBeInTheDocument()
+    expect(screen.getByText('test@navike21.com')).toBeInTheDocument()
   })
 
   it('should call toggleMobileSidebar when mobile menu button is clicked', async () => {
@@ -132,11 +133,18 @@ describe('Header component', () => {
     expect(toggleMobileSidebarMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should call toggleProfile when avatar area is clicked', async () => {
+  it('should call toggleSettings when UserMenu requests preferences', async () => {
     const user = userEvent.setup()
     render(<Header />)
-    await user.click(screen.getByLabelText('Menú de usuario'))
-    expect(toggleProfileMock).toHaveBeenCalledTimes(1)
+    await user.click(screen.getByText('preferences'))
+    expect(toggleSettingsMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call logout when UserMenu requests logout', async () => {
+    const user = userEvent.setup()
+    render(<Header />)
+    await user.click(screen.getByText('logout'))
+    expect(logoutMock).toHaveBeenCalledTimes(1)
   })
 
   it('should call toggleSettings when settings button is clicked', async () => {
@@ -178,20 +186,13 @@ describe('Header component', () => {
   it('should show guest name when user is null', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ user: null }))
     render(<Header />)
-    const spans = screen.getAllByText('Usuario Invitado')
-    expect(spans.length).toBeGreaterThanOrEqual(1)
+    expect(screen.getByText('Usuario Invitado')).toBeInTheDocument()
   })
 
-  it('should not show guest email when user is null', () => {
+  it('should show guest email when user is null', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ user: null }))
     render(<Header />)
-    expect(screen.queryByText('Sin iniciar sesión')).not.toBeInTheDocument()
-  })
-
-  it('should render ProfileDrawer when isProfileOpen is true', () => {
-    useHeaderMock.mockReturnValue(makeHeaderState({ isProfileOpen: true }))
-    render(<Header />)
-    expect(screen.getByTestId('profile-drawer')).toBeInTheDocument()
+    expect(screen.getByText('Sin iniciar sesión')).toBeInTheDocument()
   })
 
   it('should render SettingsDrawer when isSettingsOpen is true', () => {

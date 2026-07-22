@@ -9,6 +9,7 @@ export const TriggerDisplay = ({
   singleOption,
   singleLabel,
   placeholder,
+  disabled = false,
 }: TriggerDisplayProps) => {
   const leftSlot = singleOption ? resolveOptionLeftSlot(singleOption) : null
   const rightSlot = singleOption ? resolveOptionRightSlot(singleOption) : null
@@ -21,8 +22,8 @@ export const TriggerDisplay = ({
       <span
         data-select-trigger-label
         className={clsx('text-sm', {
-          'text-foreground': singleLabel,
-          'text-muted': !singleLabel,
+          'text-foreground': singleLabel && !disabled,
+          'text-muted': !singleLabel || disabled,
         })}
       >
         {singleLabel || placeholder || ''}

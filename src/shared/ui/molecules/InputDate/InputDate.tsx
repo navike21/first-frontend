@@ -14,9 +14,9 @@ import { CalendarMonth } from './calendar/CalendarMonth'
 import { CalendarYear } from './calendar/CalendarYear'
 
 const VARIANT_RING: Record<InputDateVariant, string> = {
-  default: 'ring-border',
+  default: 'ring-border-control hover:ring-border-hover focus:ring-primary-600!',
   success: 'ring-emerald-500',
-  error: 'ring-red-500',
+  error: 'ring-danger-600',
   warning: 'ring-yellow-500',
 }
 
@@ -30,7 +30,7 @@ const VARIANT_ICON: Record<InputDateVariant, string | null> = {
 const VARIANT_ICON_COLOR: Record<InputDateVariant, string> = {
   default: '',
   success: 'text-emerald-500',
-  error: 'text-red-500',
+  error: 'text-danger-600',
   warning: 'text-yellow-500',
 }
 
@@ -49,6 +49,36 @@ function computeTriggerText(args: {
     return `${rangeDisplayFrom || '—'} → ${rangeDisplayTo || '—'}`
   }
   return fallback
+}
+
+/** Resolves the trigger container className — kept out of the component body
+ * so its conditional/clsx chain doesn't count against the component's own
+ * cognitive complexity budget. */
+function getTriggerClass(args: {
+  disabled: boolean
+  loading: boolean
+  variant: InputDateVariant
+  classInput?: string
+}): string {
+  const { disabled, loading, variant, classInput } = args
+  return clsx(
+    'content-input',
+    'flex h-10 w-full items-center',
+    'rounded-control select-none',
+    'duration-fast ease-out-expo transition-all',
+    'focus-within:ring-2',
+    {
+      'bg-surface-subtle': disabled,
+      'bg-surface-input ring-1 ring-inset': !disabled,
+      'pointer-events-none': loading,
+    },
+    disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+    !disabled && 'outline-none',
+    !disabled && 'focus:ring-2',
+    !disabled && variant === 'default' && 'focus:shadow-focus-ring',
+    !disabled && VARIANT_RING[variant],
+    classInput
+  )
 }
 
 export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
@@ -178,23 +208,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             }
             if (e.key === 'Escape') toggleOpen()
           }}
-          className={clsx(
-            'content-input',
-            'flex h-10 w-full items-center',
-            'rounded-sm select-none',
-            'duration-fast ease-out-expo transition-all',
-            'focus-within:ring-2',
-            {
-              'bg-slate-400/50 dark:bg-slate-600/50': disabled,
-              'bg-surface ring-1 ring-inset': !disabled,
-              'pointer-events-none': loading,
-            },
-            disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-            !disabled && 'outline-none',
-            !disabled && 'focus:ring-2',
-            !disabled && VARIANT_RING[variant],
-            classInput
-          )}
+          className={getTriggerClass({ disabled, loading, variant, classInput })}
         >
           {/* Left slot */}
           {leftSlot && (
@@ -216,9 +230,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
           {/* Display text */}
           <span
             className={clsx('flex-1 truncate text-sm', {
-              'text-muted': isPlaceholder,
+              'text-muted': isPlaceholder || (!isPlaceholder && disabled),
               'text-foreground': !isPlaceholder && !disabled,
-              'text-secondary': !isPlaceholder && disabled,
               'pl-4': leftSlot,
             })}
           >

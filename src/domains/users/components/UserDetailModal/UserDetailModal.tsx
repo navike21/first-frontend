@@ -44,7 +44,7 @@ export const UserDetailModal = ({
               </Button>
             )}
             {showPurge && (
-              <Button variant="error" onClick={onPurge}>
+              <Button variant="destructive" onClick={onPurge}>
                 {t.detail.purgeButton}
               </Button>
             )}

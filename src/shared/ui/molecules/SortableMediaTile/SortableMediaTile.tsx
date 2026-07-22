@@ -61,7 +61,7 @@ export const SortableMediaTile = ({
             onRemove()
           }}
           aria-label={removeLabel}
-          className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white ring-2 ring-surface transition-colors hover:bg-red-700"
+          className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-danger-600 text-white ring-2 ring-surface transition-colors hover:bg-danger-600/90"
         >
           <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
         </button>

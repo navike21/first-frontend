@@ -33,9 +33,9 @@ export const Option = ({
       {
         'cursor-pointer': !disabled,
         'cursor-not-allowed opacity-50': disabled,
-        'bg-surface-subtle': selected && !disabled,
+        'bg-surface-hover-row': selected && !disabled,
       },
-      !disabled && 'hover:bg-surface-subtle'
+      !disabled && 'hover:bg-surface-hover-row'
     )}
   >
     {leftSlot && <span className="flex shrink-0 items-center">{leftSlot}</span>}

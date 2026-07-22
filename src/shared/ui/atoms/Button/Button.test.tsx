@@ -29,9 +29,27 @@ describe('Button component', () => {
     const button = screen.getByRole('button')
     expect(button).toHaveClass(
       'bg-surface',
-      'text-primary-700',
+      'text-foreground',
       'ring-1',
-      'ring-primary-700',
+      'ring-border-control',
+      'ring-inset'
+    )
+  })
+
+  it('should apply ghost variant styles', () => {
+    render(<Button variant="ghost">Ghost Button</Button>)
+    const button = screen.getByRole('button')
+    expect(button).toHaveClass('bg-transparent', 'text-primary-700')
+  })
+
+  it('should apply destructive variant styles', () => {
+    render(<Button variant="destructive">Destructive Button</Button>)
+    const button = screen.getByRole('button')
+    expect(button).toHaveClass(
+      'bg-surface',
+      'text-danger-600',
+      'ring-1',
+      'ring-danger-200',
       'ring-inset'
     )
   })
@@ -39,15 +57,15 @@ describe('Button component', () => {
   it('should apply correct size classes', () => {
     const { rerender } = render(<Button size="small">Small</Button>)
     let button = screen.getByRole('button')
-    expect(button).toHaveClass('px-6', 'py-3', 'text-xs')
+    expect(button).toHaveClass('h-8', 'px-3.5', 'text-[13px]')
 
     rerender(<Button size="medium">Medium</Button>)
     button = screen.getByRole('button')
-    expect(button).toHaveClass('px-8', 'py-3.5', 'text-sm')
+    expect(button).toHaveClass('h-10', 'px-[18px]', 'text-sm')
 
     rerender(<Button size="large">Large</Button>)
     button = screen.getByRole('button')
-    expect(button).toHaveClass('px-10', 'py-4', 'text-md')
+    expect(button).toHaveClass('h-12', 'px-6', 'text-[15px]')
   })
 
   it('should handle click events', async () => {
@@ -71,7 +89,23 @@ describe('Button component', () => {
     render(<Button disabled>Disabled Button</Button>)
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
+    expect(button).toHaveClass('cursor-not-allowed', 'bg-border-control', 'text-muted')
+  })
+
+  it('should apply the opacity-50 fallback when disabled with variant text', () => {
+    render(
+      <Button disabled variant="text">
+        Disabled Button
+      </Button>
+    )
+    const button = screen.getByRole('button')
     expect(button).toHaveClass('cursor-not-allowed', 'opacity-50')
+  })
+
+  it('should dim the whole button (not just the text) while loading', () => {
+    render(<Button loading>Loading</Button>)
+    const button = screen.getByRole('button')
+    expect(button).toHaveClass('opacity-85')
   })
 
   it('should pass through additional props', () => {
@@ -98,7 +132,7 @@ describe('Button component', () => {
       'duration-fast',
       'ease-out-expo',
       'font-medium',
-      'rounded-md'
+      'rounded-control'
     )
   })
 

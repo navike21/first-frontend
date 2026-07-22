@@ -46,17 +46,14 @@ describe('Card component', () => {
     // Arrange & Act
     const { container } = render(<Card interactive>Content</Card>)
     // Assert
-    expect(container.firstChild).toHaveClass(
-      'hover:shadow-md',
-      'hover:border-gray-300'
-    )
+    expect(container.firstChild).toHaveClass('hover:border-border-hover')
   })
 
   it('should not apply hover classes when interactive is false by default', () => {
     // Arrange & Act
     const { container } = render(<Card>Content</Card>)
     // Assert
-    expect(container.firstChild).not.toHaveClass('hover:shadow-md')
+    expect(container.firstChild).not.toHaveClass('hover:border-border-hover')
   })
 
   it('should merge custom className', () => {

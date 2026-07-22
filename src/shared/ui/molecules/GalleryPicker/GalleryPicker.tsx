@@ -68,11 +68,11 @@ const Tile = ({ item, removeLabel, disabled, onRemove }: TileProps) => {
             // Layout
             'absolute top-1 right-1 flex h-6 w-6 items-center justify-center',
             // Visual
-            'rounded-full bg-red-600 text-white ring-2 ring-surface',
+            'rounded-full bg-danger-600 text-white ring-2 ring-surface',
             // Transitions
             'transition-colors',
             // States
-            'hover:bg-red-700',
+            'hover:bg-danger-600/90',
           )}
         >
           <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
@@ -99,13 +99,14 @@ const AddTile = ({ label, isDragging, dragLabel, disabled, onClick }: AddTilePro
     className={clsx(
       // Layout
       'flex aspect-square flex-col items-center justify-center gap-1.5 rounded-lg',
-      // Visual
-      'border-2 border-dashed border-border bg-surface-subtle text-muted',
+      // Visual — el manual muestra el placeholder "agregar" con borde
+      // dashed border-hover (#B9C2D0), no el border por defecto.
+      'border-2 border-dashed border-border-hover bg-surface text-muted',
       // Transitions
       'transition-colors',
       // States
-      isDragging && 'border-primary-600 bg-primary-700/5 text-primary-600',
-      !disabled && !isDragging && 'hover:border-primary-600/60 hover:bg-primary-700/5',
+      isDragging && 'border-primary-600 bg-primary-100 text-primary-600',
+      !disabled && !isDragging && 'hover:border-primary-600',
       disabled && 'cursor-not-allowed opacity-50',
     )}
   >
@@ -173,7 +174,7 @@ export const GalleryPicker = ({
             {...dragHandlers}
             className={clsx(
               'grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5',
-              displayError && 'rounded-lg ring-1 ring-red-500',
+              displayError && 'rounded-lg ring-1 ring-danger-600',
             )}
           >
             {items.map((item) => (
@@ -202,7 +203,7 @@ export const GalleryPicker = ({
         disabled={disabled}
       />
 
-      {displayError && <p className="text-xs font-medium text-red-500">{displayError}</p>}
+      {displayError && <p className="text-xs font-medium text-danger-600">{displayError}</p>}
       {!displayError && (atMax ? maxItemsHint : formatsHint) && (
         <p className="text-xs text-muted">{atMax ? maxItemsHint : formatsHint}</p>
       )}

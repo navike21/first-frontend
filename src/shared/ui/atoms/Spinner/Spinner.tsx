@@ -6,9 +6,20 @@ const COLOR_SPINNER: Record<
   NonNullable<SpinnerProps['variant']>,
   { colorFrom: string; colorTo: string }
 > = {
-  default: { colorFrom: '#62748e', colorTo: '#62748e' },
+  // Arco del manual (mismo tono para ambos "stops" — no es un gradiente real,
+  // solo un color plano; se mantiene la estructura de gradiente por si algún
+  // consumidor futuro sí lo necesita).
+  default: {
+    colorFrom: 'var(--color-primary-600)',
+    colorTo: 'var(--color-primary-600)',
+  },
+  // Sin cambio — necesita contraste blanco sobre un botón "primary" ya
+  // relleno de primary-600, caso que el manual no documenta.
   white: { colorFrom: '#f9f3f4', colorTo: '#f9f3f4' },
-  gradient: { colorFrom: '#17CADD', colorTo: '#332eb9ff' },
+  gradient: {
+    colorFrom: 'var(--color-primary-600)',
+    colorTo: 'var(--color-primary-600)',
+  },
 }
 
 export const Spinner = ({
@@ -34,7 +45,7 @@ export const Spinner = ({
         <path
           d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16ZM3.2 16C3.2 23.0692 8.93075 28.8 16 28.8C23.0692 28.8 28.8 23.0692 28.8 16C28.8 8.93075 23.0692 3.2 16 3.2C8.93075 3.2 3.2 8.93075 3.2 16Z"
           className={clsx({
-            'fill-slate-200 dark:fill-slate-700':
+            'fill-border-control':
               variant === 'default' || variant === 'gradient',
             'fill-slate-50/10': variant === 'white',
           })}

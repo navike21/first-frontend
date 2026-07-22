@@ -32,7 +32,6 @@ describe('Chip', () => {
       'inline-flex',
       'items-center',
       'rounded-full',
-      'ring-1',
       'font-medium'
     )
   })
@@ -42,7 +41,7 @@ describe('Chip', () => {
     const { container } = render(<Chip>Chip</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('bg-slate-100', 'text-slate-700', 'ring-slate-300')
+    expect(chip).toHaveClass('bg-surface-subtle', 'text-secondary')
   })
 
   it('should apply success variant classes', () => {
@@ -50,11 +49,7 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="success">Success</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass(
-      'bg-emerald-100',
-      'text-emerald-700',
-      'ring-emerald-300'
-    )
+    expect(chip).toHaveClass('bg-chip-success-bg', 'text-chip-success-text')
   })
 
   it('should apply warning variant classes', () => {
@@ -62,11 +57,7 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="warning">Warning</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass(
-      'bg-yellow-100',
-      'text-yellow-700',
-      'ring-yellow-300'
-    )
+    expect(chip).toHaveClass('bg-chip-warning-bg', 'text-chip-warning-text')
   })
 
   it('should apply informative variant classes', () => {
@@ -74,7 +65,7 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="informative">Info</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('bg-blue-100', 'text-blue-700', 'ring-blue-300')
+    expect(chip).toHaveClass('bg-chip-info-bg', 'text-chip-info-text')
   })
 
   it('should apply error variant classes', () => {
@@ -82,7 +73,7 @@ describe('Chip', () => {
     const { container } = render(<Chip variant="error">Error</Chip>)
     const chip = container.firstChild as HTMLElement
     // Assert
-    expect(chip).toHaveClass('bg-red-100', 'text-red-700', 'ring-red-300')
+    expect(chip).toHaveClass('bg-chip-error-bg', 'text-chip-error-text')
   })
 
   it('should apply x-small size classes', () => {

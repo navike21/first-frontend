@@ -163,6 +163,94 @@
   --color-primary-800: #34456b;
   --color-primary-900: #232e45;
   --color-primary-950: #0b1220;
+  /* Hover del CTA sólido (Button primary) — distinto de 700, que el manual
+     reserva para hover de texto/enlaces. Mismo valor en claro y oscuro. */
+  --color-primary-hover: #3e6fe0;
+
+  /* Rojo "danger" del manual — botón destructivo + estado error de
+     inputs/select/checkbox/radio/switch/HelperText. 50/200 son un solo set
+     (sin evidencia de un valor de dark distinto — no hay ejemplo de botón
+     destructivo en dark en el manual). 600 sí varía por tema — el Menú de
+     usuario muestra "Cerrar sesión" en #F19A9A en dark, más claro que el
+     #D64545 de claro (mismo patrón que --text-primary/--text-secondary). */
+  --color-danger-50: #fbe7e7;
+  --color-danger-200: #f3d2d2;
+  --color-danger-600: var(--danger-600);
+
+  /* Punto de presencia "online" del Avatar — verde propio del manual, no el
+     verde genérico de Tailwind. Sin evidencia de los otros 3 estados
+     (busy/away/offline), esos quedan con sus tonos genéricos actuales. */
+  --color-avatar-online: #2e9b6f;
+
+  /* Chips de estado — pares bg+texto propios del manual, sin borde/ring
+     (verificado: ninguna variante lleva ring). El texto de "error" es un
+     rojo más apagado (#B23A3A) que --color-danger-600, no reusar ese. La
+     variante "default" (Borrador) ya coincide con --surface-subtle/
+     --text-secondary existentes, no necesita tokens propios. */
+  --color-chip-success-bg: var(--chip-success-bg);
+  --color-chip-success-text: var(--chip-success-text);
+  --color-chip-warning-bg: var(--chip-warning-bg);
+  --color-chip-warning-text: var(--chip-warning-text);
+  --color-chip-error-bg: var(--chip-error-bg);
+  --color-chip-error-text: var(--chip-error-text);
+  --color-chip-info-bg: var(--chip-info-bg);
+  --color-chip-info-text: var(--chip-info-text);
+
+  /* Glow de foco del Design System — halo alrededor del control, NO una
+     sombra de elevación. Aplica a input/select/checkbox/radio/switch en
+     estado focus. Los botones, en cambio, no llevan sombra en absoluto
+     (verificado: 0 coincidencias de box-shadow en la sección Botones). */
+  --shadow-focus-ring: 0 0 0 3px rgba(76, 134, 255, 0.18);
+  /* Sombra del panel abierto del Select — indirección a una custom property
+     plana (--panel-shadow-down/up) para poder variar el valor en .dark,
+     igual que --color-surface/--surface. */
+  --shadow-panel-down: var(--panel-shadow-down);
+  --shadow-panel-up: var(--panel-shadow-up);
+  /* Glow del trigger del Menú de usuario cuando está abierto — valor propio
+     del manual (opacidad 0.14, distinta del glow de foco genérico 0.18). */
+  --shadow-trigger-active: 0 0 0 3px rgba(76, 134, 255, 0.14);
+  /* Sombra del panel del Menú de usuario — valor propio (28px de spread,
+     0.12 en claro), distinto del panel del Select. */
+  --shadow-menu-panel: var(--menu-panel-shadow);
+
+  /* Tooltip — superficie INVERTIDA a propósito (no sigue --surface/--foreground
+     directo): en tema claro es navy+texto blanco, en tema oscuro se invierte a
+     niebla+texto navy (verificado en el comparativo LIGHT/DARK del manual —
+     el tooltip busca máximo contraste contra el fondo de la app, por eso el
+     valor de cada tema es el opuesto de --surface/--text-primary de ESE mismo
+     tema, no una simple copia). */
+  --color-tooltip-bg: var(--tooltip-bg);
+  --color-tooltip-text: var(--tooltip-text);
+
+  /* Toasts (sonner) — bg/texto reutilizan los tokens de Chip tal cual
+     (verificado: coinciden exacto, ej. success bg #E4F3EC en ambos). El
+     borde es propio de Toast (Chip no lleva borde). Se inyectan en
+     `<Toaster style={{...}}>` (AppProviders) sobreescribiendo las
+     variables --success-bg/--normal-border/etc. que sonner expone. */
+  --color-toast-success-border: var(--toast-success-border);
+  --color-toast-warning-border: var(--toast-warning-border);
+  --color-toast-error-border: var(--toast-error-border);
+  --color-toast-info-border: var(--toast-info-border);
+  --shadow-toast: var(--toast-shadow);
+  /* Drawer — la sombra cae hacia el lado donde está el contenido de la app,
+     no hacia abajo (verificado: el manual muestra offset-x negativo para un
+     drawer anclado a la derecha, border-width 0 — sin borde de por medio,
+     la sombra sola marca el borde del panel). */
+  --shadow-drawer-left: var(--drawer-shadow-left);
+  --shadow-drawer-right: var(--drawer-shadow-right);
+  /* Modal — sombra constante en ambos temas: se proyecta sobre el backdrop
+     oscuro semitransparente (siempre casi negro, en claro y oscuro), no
+     sobre la página, por eso no necesita la indirección :root/.dark de las
+     demás sombras. */
+  --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.35);
+
+  /* ── Radios con nombre — Design System de First ──────────────────────────
+     Tailwind v4 conecta automáticamente --radius-* a la utilidad rounded-*.
+     8px = controles (botón, input); 10px = Select (valor propio, no 8 ni 12);
+     5px = casilla del Checkbox. (12px de Card ya coincide vía rounded-xl.) */
+  --radius-control: 8px;
+  --radius-select: 10px;
+  --radius-checkbox: 5px;
 
   /* ── Semantic color tokens — registered so they emit real utilities
      (bg-surface, text-foreground, text-secondary, border-border, …).
@@ -170,8 +258,13 @@
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-raised: var(--surface-raised);
+  --color-surface-input: var(--surface-input);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-hover-row: var(--surface-hover-row);
   --color-border: var(--border);
   --color-border-subtle: var(--border-subtle);
+  --color-border-control: var(--border-control);
+  --color-border-hover: var(--border-hover);
   --color-foreground: var(--text-primary);
   --color-secondary: var(--text-secondary);
   --color-muted: var(--text-muted);
@@ -189,14 +282,41 @@
     --surface: #ffffff; /* page / card background            */
     --surface-subtle: #f3f5f9; /* Niebla — sidebar, table rows, inputs */
     --surface-raised: #ffffff; /* modals, dropdowns, popovers       */
+    --surface-input: #ffffff; /* input / select / textarea background */
+    --surface-panel: #ffffff; /* panel abierto del Select          */
+    --surface-hover-row: #f3f5f9; /* fila hover/seleccionada del Select */
     /* Borders */
     --border: #e3e8f0; /* Línea — default border            */
     --border-subtle: #eef1f6; /* dividers, skeleton lines          */
+    --border-control: #e3e8f0; /* borde de input/select/checkbox/switch */
+    --border-hover: #b9c2d0; /* borde en hover de esos controles  */
     /* Text */
     --text-primary: #0b1220; /* Navy Base — headings, body        */
     --text-secondary: #5c6675; /* Pizarra — labels, helper text     */
-    --text-muted: #8a97b3; /* placeholders, disabled labels     */
+    --text-muted: #9aa4b5; /* placeholders, disabled labels — valor del
+      Design System (antes tenía el valor de dark #8A97B3 puesto en claro) */
     --text-disabled: #b9c2d0; /* disabled control text             */
+    --danger-600: #d64545;
+    --chip-success-bg: #e4f3ec;
+    --chip-success-text: #1f7a54;
+    --chip-warning-bg: #fbefdd;
+    --chip-warning-text: #a6701f;
+    --chip-error-bg: #fbe7e7;
+    --chip-error-text: #b23a3a;
+    --chip-info-bg: #e8f0ff;
+    --chip-info-text: #3e63b5;
+    --panel-shadow-down: 0 12px 26px rgba(11, 18, 32, 0.14); /* panel del Select */
+    --panel-shadow-up: 0 -12px 26px rgba(11, 18, 32, 0.14);
+    --menu-panel-shadow: 0 12px 28px rgba(11, 18, 32, 0.12); /* panel del Menú de usuario */
+    --tooltip-bg: #0b1220; /* invertido: es el --surface-subtle de .dark */
+    --tooltip-text: #ffffff;
+    --toast-success-border: #bfe3d0;
+    --toast-warning-border: #edd9ae;
+    --toast-error-border: #f0c6c6;
+    --toast-info-border: #c7d9fa;
+    --toast-shadow: 0 10px 24px rgba(11, 18, 32, 0.1);
+    --drawer-shadow-left: -8px 0 24px rgba(11, 18, 32, 0.1);
+    --drawer-shadow-right: 8px 0 24px rgba(11, 18, 32, 0.1);
   }
 
   .dark {
@@ -205,12 +325,45 @@
     --surface: #131b2d; /* page / card — navy elevado        */
     --surface-subtle: #0b1220; /* Navy Base — sidebar, filas, inputs */
     --surface-raised: #1b2540; /* modals, dropdowns, popovers       */
+    --surface-input: #111a2c; /* input / select / textarea background —
+      distinto de surface-subtle, valor propio del Design System */
+    --surface-panel: #151f35; /* panel abierto del Select — distinto de
+      surface-raised */
+    --surface-hover-row: #1b2540; /* fila hover/seleccionada del Select —
+      coincide con surface-raised, es intencional */
     --border: #232e45; /* divisor navy del manual           */
     --border-subtle: #1a2338; /* dividers, skeleton lines          */
+    --border-control: #2a3650; /* borde de input/select/checkbox/switch —
+      distinto del --border genérico (ese es borde de card) */
+    --border-hover: #3a4a6b; /* borde en hover — el Design System no
+      documenta este estado para oscuro; valor inferido, un paso más claro
+      que --border-control dark, misma proporción que en claro */
     --text-primary: #eef2f8; /* headings, body                    */
     --text-secondary: #97a3bb; /* labels, helper text               */
-    --text-muted: #6b7688; /* placeholders, disabled labels     */
+    --text-muted: #8a97b3; /* placeholders, disabled labels — valor del
+      Design System para dark (antes era #6B7688, un valor sin evidencia) */
     --text-disabled: #454f5b; /* disabled control text             */
+    --danger-600: #f19a9a; /* Cerrar sesión en el Menú de usuario */
+    --chip-success-bg: #123425;
+    --chip-success-text: #5fd79b;
+    --chip-warning-bg: #3a2a10;
+    --chip-warning-text: #f0b255;
+    --chip-error-bg: #3a1414;
+    --chip-error-text: #f19a9a;
+    --chip-info-bg: #16233f;
+    --chip-info-text: #8ab1ff;
+    --panel-shadow-down: 0 12px 26px rgba(0, 0, 0, 0.35); /* panel del Select */
+    --panel-shadow-up: 0 -12px 26px rgba(0, 0, 0, 0.35);
+    --menu-panel-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); /* panel del Menú de usuario */
+    --tooltip-bg: #f3f5f9; /* invertido: es el --surface-subtle de :root (claro) */
+    --tooltip-text: #0b1220;
+    --toast-success-border: #1c5539;
+    --toast-warning-border: #5c441c;
+    --toast-error-border: #5c2020;
+    --toast-info-border: #26345c;
+    --toast-shadow: none; /* el manual no muestra sombra en toasts sobre fondo oscuro */
+    --drawer-shadow-left: -8px 0 24px rgba(0, 0, 0, 0.35);
+    --drawer-shadow-right: 8px 0 24px rgba(0, 0, 0, 0.35);
   }
 
   /* ── Scrollbars — subtle, harmonized with the theme ──────────────────────────

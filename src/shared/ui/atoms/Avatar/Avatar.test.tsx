@@ -54,6 +54,12 @@ describe('Avatar component', () => {
   })
 
   describe('size variants', () => {
+    it('should apply extra-small size classes', () => {
+      const { container } = render(<Avatar name="Test" size="xs" />)
+      const figure = container.querySelector('figure')
+      expect(figure).toHaveClass('size-7')
+    })
+
     it('should apply small size classes', () => {
       const { container } = render(<Avatar name="Test" size="sm" />)
       const figure = container.querySelector('figure')
@@ -77,14 +83,14 @@ describe('Avatar component', () => {
     it('should not render status indicator when status is none', () => {
       const { container } = render(<Avatar name="Test" status="none" />)
       const statusIndicator = container.querySelector(
-        '.bg-green-500, .bg-gray-400, .bg-red-500, .bg-yellow-400'
+        '.bg-avatar-online, .bg-gray-400, .bg-red-500, .bg-yellow-400'
       )
       expect(statusIndicator).not.toBeInTheDocument()
     })
 
     it('should render online status with green color', () => {
       const { container } = render(<Avatar name="Test" status="online" />)
-      const statusIndicator = container.querySelector('.bg-green-500')
+      const statusIndicator = container.querySelector('.bg-avatar-online')
       expect(statusIndicator).toBeInTheDocument()
     })
 
@@ -110,7 +116,7 @@ describe('Avatar component', () => {
       const { container } = render(
         <Avatar name="Test" status="online" size="sm" />
       )
-      const statusIndicator = container.querySelector('.bg-green-500')
+      const statusIndicator = container.querySelector('.bg-avatar-online')
       expect(statusIndicator).toHaveClass('w-3', 'h-3')
     })
 
@@ -118,7 +124,7 @@ describe('Avatar component', () => {
       const { container } = render(
         <Avatar name="Test" status="online" size="md" />
       )
-      const statusIndicator = container.querySelector('.bg-green-500')
+      const statusIndicator = container.querySelector('.bg-avatar-online')
       expect(statusIndicator).toHaveClass('w-3.5', 'h-3.5')
     })
 
@@ -126,7 +132,7 @@ describe('Avatar component', () => {
       const { container } = render(
         <Avatar name="Test" status="online" size="lg" />
       )
-      const statusIndicator = container.querySelector('.bg-green-500')
+      const statusIndicator = container.querySelector('.bg-avatar-online')
       expect(statusIndicator).toHaveClass('w-4', 'h-4')
     })
   })

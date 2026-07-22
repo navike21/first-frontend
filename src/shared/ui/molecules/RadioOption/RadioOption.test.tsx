@@ -130,8 +130,8 @@ describe('RadioOption', () => {
     // Assert
     expect(screen.getByRole('button')).toHaveClass(
       'cursor-not-allowed',
-      'ring-slate-400',
-      'bg-slate-200'
+      'ring-border-control',
+      'bg-surface-subtle'
     )
   })
 
@@ -139,7 +139,7 @@ describe('RadioOption', () => {
     // Arrange & Act
     render(<RadioOption error />)
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('ring-red-500')
+    expect(screen.getByRole('button')).toHaveClass('ring-danger-600')
   })
 
   it('should render as rounded-full shape', () => {

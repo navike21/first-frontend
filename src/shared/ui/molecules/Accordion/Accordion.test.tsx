@@ -83,14 +83,15 @@ describe('Accordion component', () => {
   })
 
   it('should apply isOpen active styles on button when open', () => {
-    // Arrange & Act
+    // Arrange & Act — el manual mantiene texto navy en ambos estados, solo
+    // cambia el fondo (niebla) cuando está abierto.
     render(
       <Accordion title="Title" isOpen={true} onToggle={vi.fn()}>
         Content
       </Accordion>
     )
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('text-primary-700')
+    expect(screen.getByRole('button')).toHaveClass('bg-surface-subtle')
   })
 
   it('should apply closed styles on button when not open', () => {
@@ -101,7 +102,8 @@ describe('Accordion component', () => {
       </Accordion>
     )
     // Assert
-    expect(screen.getByRole('button')).toHaveClass('text-secondary')
+    expect(screen.getByRole('button')).toHaveClass('text-foreground')
+    expect(screen.getByRole('button')).not.toHaveClass('bg-surface-subtle')
   })
 
   it('should apply the arrow icon with rotate class when open', () => {

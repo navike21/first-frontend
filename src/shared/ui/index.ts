@@ -40,6 +40,11 @@ export { LangBadge, type LangBadgeProps } from './atoms/LangBadge'
 // Molecules
 export { Accordion, type AccordionProps } from './molecules/Accordion'
 export { ActionMenu, type ActionMenuItem, type ActionMenuProps } from './molecules/ActionMenu'
+export {
+  UserMenu,
+  type UserMenuProps,
+  type UserMenuLabels,
+} from './molecules/UserMenu'
 export { Checkbox, type CheckboxProps } from './molecules/Checkbox'
 export { Drawer, type DrawerProps } from './molecules/Drawer'
 export { FeatureCard, type FeatureCardProps } from './molecules/FeatureCard'
