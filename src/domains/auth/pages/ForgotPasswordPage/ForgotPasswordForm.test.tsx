@@ -69,7 +69,7 @@ describe('ForgotPasswordForm component', () => {
   it('should render a link back to login', () => {
     render(<ForgotPasswordForm />, { wrapper })
     const link = screen.getByText(/volver a inicio de sesión/i)
-    expect(link.closest('a')).toHaveAttribute('href', '/es/login')
+    expect(link.closest('a')).toHaveAttribute('href', '/es/iniciar-sesion')
   })
 
   it('should show a validation error when submitted with an invalid email', async () => {

@@ -3,6 +3,18 @@ import type { Language } from '@/shared/types/languages'
 import type { RouteModule } from './route-slugs'
 
 const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
+  login: {
+    es: 'Iniciar sesión',
+    en: 'Login',
+    de: 'Anmelden',
+    fr: 'Connexion',
+    pt: 'Entrar',
+    it: 'Accedi',
+    ja: 'ログイン',
+    ko: '로그인',
+    zh: '登录',
+    ru: 'Вход',
+  },
   forbidden: {
     es: 'No autorizado',
     en: 'Unauthorized',
