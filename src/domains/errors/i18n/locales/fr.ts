@@ -15,4 +15,10 @@ export const fr: ErrorTranslations = {
     homeButton: "Retour à l'accueil",
     loginButton: 'Se connecter',
   },
+  serverError: {
+    heading: 'Erreur du serveur',
+    message:
+      "Une erreur serveur inattendue s'est produite. Nous nous en occupons déjà — réessayez dans quelques minutes.",
+    retryButton: 'Réessayer',
+  },
 }

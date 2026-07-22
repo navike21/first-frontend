@@ -27,6 +27,33 @@ describe('navPaths', () => {
     })
   })
 
+  describe('forgotPassword', () => {
+    it('returns the es forgotPassword path', () => {
+      expect(navPaths.forgotPassword('es')).toBe('/es/recuperar-contrasena')
+    })
+
+    it('returns the en forgotPassword path', () => {
+      expect(navPaths.forgotPassword('en')).toBe('/en/forgot-password')
+    })
+  })
+
+  describe('resetPassword', () => {
+    it('uses the fixed reset-password slug regardless of language', () => {
+      expect(navPaths.resetPassword('es')).toBe('/es/reset-password')
+      expect(navPaths.resetPassword('en')).toBe('/en/reset-password')
+    })
+  })
+
+  describe('serverError', () => {
+    it('returns the es serverError path', () => {
+      expect(navPaths.serverError('es')).toBe('/es/error-del-servidor')
+    })
+
+    it('returns the en serverError path', () => {
+      expect(navPaths.serverError('en')).toBe('/en/server-error')
+    })
+  })
+
   describe('forbidden', () => {
     it('returns the es forbidden path', () => {
       expect(navPaths.forbidden('es')).toBe('/es/no-autorizado')

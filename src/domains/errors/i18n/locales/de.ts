@@ -15,4 +15,10 @@ export const de: ErrorTranslations = {
     homeButton: 'Zur Startseite',
     loginButton: 'Anmelden',
   },
+  serverError: {
+    heading: 'Serverfehler',
+    message:
+      'Ein unerwarteter Serverfehler ist aufgetreten. Wir kümmern uns bereits darum — versuche es in ein paar Minuten erneut.',
+    retryButton: 'Erneut versuchen',
+  },
 }

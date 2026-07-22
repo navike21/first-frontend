@@ -4,6 +4,9 @@ import { createLoginSchema } from './login.schema'
 const mockValidation = {
   emailInvalid: 'Introduce un correo electrónico válido',
   passwordMin: 'La contraseña debe tener al menos 8 caracteres',
+  passwordUppercase: 'Debe contener al menos una mayúscula',
+  passwordNumber: 'Debe contener al menos un número',
+  passwordMismatch: 'Las contraseñas no coinciden',
 }
 
 const loginSchema = createLoginSchema(mockValidation)

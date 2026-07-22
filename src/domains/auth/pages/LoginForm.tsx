@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { Button, InputField, HelperText } from '@/shared/ui'
+import { Button, InputField, HelperText, LinkButton } from '@/shared/ui'
+import { navPaths } from '@/shared/router'
 import { useLoginForm } from './LoginForm.hooks'
 
 export const LoginForm = () => {
@@ -28,6 +29,13 @@ export const LoginForm = () => {
         variant={errors.password ? 'error' : 'default'}
         {...register('password')}
       />
+      <LinkButton
+        variant="text"
+        href={navPaths.forgotPassword()}
+        className="self-end text-sm"
+      >
+        {t.form.forgotPasswordLink}
+      </LinkButton>
       {errorMessage && <HelperText variant="error">{errorMessage}</HelperText>}
       <Button
         fullWidth

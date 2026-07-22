@@ -1,11 +1,13 @@
 import { createRoute, createRouter, redirect } from '@tanstack/react-router'
-import { NotFoundPage } from '@domains/errors'
+import { NotFoundPage, ServerErrorPage } from '@domains/errors'
 import { useLanguageStore } from '@/shared/model/language.store'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { rootRoute } from './root'
 import { langRoute, langCatchAll } from './routes/lang.route'
 import { publicLayout, privateLayout } from './layouts'
 import { loginRouteTree } from './routes/login.route'
+import { allForgotPasswordRouteTrees } from './routes/forgotPassword.route'
+import { resetPasswordRouteTree } from './routes/resetPassword.route'
 import { dashboardRoute } from './routes/dashboard.route'
 import { allUsersRouteTrees } from './routes/users.route'
 import { allUserGroupsRouteTrees } from './routes/userGroups.route'
@@ -25,6 +27,7 @@ import { allSiteConfigRouteTrees } from './routes/siteConfig.route'
 import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
+import { allServerErrorRouteTrees } from './routes/serverError.route'
 import { setLastValidPath } from './navigationHistory'
 
 const rootRedirect = createRoute({
@@ -50,7 +53,11 @@ declare module '@tanstack/react-router' {
 const routeTree = rootRoute.addChildren([
   rootRedirect,
   langRoute.addChildren([
-    publicLayout.addChildren([loginRouteTree]),
+    publicLayout.addChildren([
+      loginRouteTree,
+      ...allForgotPasswordRouteTrees,
+      resetPasswordRouteTree,
+    ]),
     privateLayout.addChildren([
       dashboardRoute,
       ...allUsersRouteTrees,
@@ -72,6 +79,7 @@ const routeTree = rootRoute.addChildren([
     ]),
     ...allForbiddenRouteTrees,
     ...allNotFoundRouteTrees,
+    ...allServerErrorRouteTrees,
     langCatchAll,
   ]),
 ])
@@ -79,19 +87,24 @@ const routeTree = rootRoute.addChildren([
 export const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,
+  defaultErrorComponent: ServerErrorPage,
 })
 
 const forbiddenSlugs = new Set<string>(Object.values(ROUTE_SLUGS.forbidden))
 const notFoundSlugs = new Set<string>(Object.values(ROUTE_SLUGS.notFound))
+const serverErrorSlugs = new Set<string>(Object.values(ROUTE_SLUGS.serverError))
 
 router.subscribe('onResolved', () => {
   const { location, matches } = router.state
-  const isNotFound = matches.some((m) => m.status === 'notFound')
+  const isNotFoundOrError = matches.some(
+    (m) => m.status === 'notFound' || m.status === 'error'
+  )
   const lastSegment = location.pathname.split('/').filter(Boolean).at(-1) ?? ''
   if (
-    !isNotFound &&
+    !isNotFoundOrError &&
     !forbiddenSlugs.has(lastSegment) &&
-    !notFoundSlugs.has(lastSegment)
+    !notFoundSlugs.has(lastSegment) &&
+    !serverErrorSlugs.has(lastSegment)
   ) {
     setLastValidPath(location.pathname)
   }

@@ -15,4 +15,10 @@ export const pt: ErrorTranslations = {
     homeButton: 'Ir ao início',
     loginButton: 'Iniciar sessão',
   },
+  serverError: {
+    heading: 'Erro do servidor',
+    message:
+      'Ocorreu um erro inesperado no servidor. Já estamos a investigar — tenta novamente em alguns minutos.',
+    retryButton: 'Tentar novamente',
+  },
 }

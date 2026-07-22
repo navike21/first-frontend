@@ -15,4 +15,10 @@ export const en: ErrorTranslations = {
     homeButton: 'Go home',
     loginButton: 'Sign in',
   },
+  serverError: {
+    heading: 'Server Error',
+    message:
+      "An unexpected server error occurred. We're already looking into it — try again in a few minutes.",
+    retryButton: 'Retry',
+  },
 }
