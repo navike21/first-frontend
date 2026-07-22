@@ -1,4 +1,4 @@
-import { Button, InputField, HexColorInput } from '@/shared/ui'
+import { Button, ButtonGroup, InputField, HexColorInput } from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useCreateUserGroupForm } from './CreateUserGroupForm.hooks'
 import type { UseCreateUserGroupFormProps } from './CreateUserGroupForm.hooks'
@@ -60,7 +60,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-2">
+        <ButtonGroup className="pt-2">
           <Button
             variant="secondary"
             type="button"
@@ -72,7 +72,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
           <Button variant="primary" type="submit" loading={busy}>
             {t.form.createButton}
           </Button>
-        </div>
+        </ButtonGroup>
       </div>
     </form>
   )

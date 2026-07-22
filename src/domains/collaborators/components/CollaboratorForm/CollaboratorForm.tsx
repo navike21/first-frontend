@@ -9,6 +9,7 @@ import {
   Switch,
   PhotoPicker,
   Button,
+  ButtonGroup,
   FormGrid,
   SectionLabel,
   LangTabs,
@@ -334,7 +335,7 @@ export const CollaboratorForm = ({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 border-t border-border pt-4">
+        <ButtonGroup className="border-t border-border pt-4">
           <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
             {t.form.cancel}
           </Button>
@@ -348,7 +349,7 @@ export const CollaboratorForm = ({
           >
             {mode === 'create' ? t.form.create : t.form.save}
           </Button>
-        </div>
+        </ButtonGroup>
       </div>
     </form>
   )

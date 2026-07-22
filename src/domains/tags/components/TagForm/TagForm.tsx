@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputField, InputNumber, Switch, Button, FormGrid, SectionLabel, LangTabs } from '@/shared/ui'
+import { InputField, InputNumber, Switch, Button, ButtonGroup, FormGrid, SectionLabel, LangTabs } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
@@ -138,7 +138,7 @@ export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCanc
           disabled={isSubmitting}
         />
 
-        <div className="flex justify-end gap-3 border-t border-border pt-4">
+        <ButtonGroup className="border-t border-border pt-4">
           <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
             {t.form.cancel}
           </Button>
@@ -152,7 +152,7 @@ export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCanc
           >
             {mode === 'create' ? t.form.create : t.form.save}
           </Button>
-        </div>
+        </ButtonGroup>
       </div>
     </form>
   )

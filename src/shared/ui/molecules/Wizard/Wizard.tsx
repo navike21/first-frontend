@@ -172,24 +172,32 @@ export const Wizard = ({
 
       {children}
 
-      <div className="flex flex-col gap-3 border-t border-border-control pt-5 sm:flex-row sm:items-center sm:justify-end">
-        {/* Cancel — bottom on mobile, left on desktop */}
-        <div className="order-last sm:order-first">
+      <div
+        className={clsx(
+          'flex gap-3 border-t border-border-control pt-5 sm:flex-row sm:items-center sm:justify-end',
+          // Exactly 2 buttons (Cancel + Next/Submit, first step) stay side by
+          // side even on mobile; 3 (Cancel + Back + Next/Submit) stack full-
+          // width, same rule as ButtonGroup elsewhere in the app.
+          isFirst ? 'flex-row items-center justify-end' : 'flex-col'
+        )}
+      >
+        {/* Cancel — bottom on mobile only when stacked (3-button steps), left on desktop always */}
+        <div className={isFirst ? undefined : 'order-last sm:order-first'}>
           {onCancel && (
             <Button
               type="button"
               variant="secondary"
               onClick={onCancel}
               disabled={isSubmitting}
-              className="w-full sm:w-auto"
+              className={isFirst ? undefined : 'w-full sm:w-auto'}
             >
               {cancelLabel}
             </Button>
           )}
         </div>
 
-        {/* Back + Primary — col-reverse on mobile (primary on top), row on desktop */}
-        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center">
+        {/* Back + Primary — col-reverse on mobile (primary on top) when stacked, row otherwise */}
+        <div className={isFirst ? undefined : 'flex flex-col-reverse gap-2 sm:flex-row sm:items-center'}>
           {!isFirst && (
             <Button
               type="button"
@@ -207,7 +215,7 @@ export const Wizard = ({
               variant="primary"
               onClick={onSubmit}
               loading={isSubmitting}
-              className="w-full sm:w-auto"
+              className={isFirst ? undefined : 'w-full sm:w-auto'}
             >
               {submitLabel}
             </Button>
@@ -216,7 +224,7 @@ export const Wizard = ({
               type="button"
               variant="primary"
               onClick={onNext}
-              className="w-full sm:w-auto"
+              className={isFirst ? undefined : 'w-full sm:w-auto'}
             >
               {nextLabel}
             </Button>

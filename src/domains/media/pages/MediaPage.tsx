@@ -3,7 +3,7 @@ import {
   Select,
   InputField,
   Modal,
-  Button,
+  Button, ButtonGroup,
   IconButton,
   IconComponent,
   Tooltip,
@@ -96,14 +96,14 @@ export const MediaPage = () => {
               <span className="text-sm font-medium text-foreground">
                 {t.actions.selectedCount(selectedIds.length)}
               </span>
-              <div className="flex items-center gap-2">
+              <ButtonGroup>
                 <Button variant="secondary" size="small" onClick={clearSelection}>
                   {t.actions.clearSelection}
                 </Button>
                 <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
                   {t.actions.bulkDelete}
                 </Button>
-              </div>
+              </ButtonGroup>
             </div>
           </FadeCollapse>
         )}

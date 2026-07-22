@@ -1,7 +1,7 @@
 import {
   PageContent,
   Modal,
-  Button,
+  Button, ButtonGroup,
   IconButton,
   Tooltip,
   Avatar,
@@ -153,7 +153,7 @@ export const UsersTrashPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button
                 variant="secondary"
                 size="small"
@@ -179,7 +179,7 @@ export const UsersTrashPage = () => {
                   {t.actions.bulkPurge}
                 </Button>
               )}
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 

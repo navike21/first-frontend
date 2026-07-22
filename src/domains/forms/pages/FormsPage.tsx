@@ -1,4 +1,4 @@
-import { PageContent, InputField, Select, Modal, Button, IconComponent, FadeCollapse } from '@/shared/ui'
+import { PageContent, InputField, Select, Modal, Button, ButtonGroup, IconComponent, FadeCollapse } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import { FormTable } from '../components/FormTable'
@@ -99,14 +99,14 @@ export const FormsPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
               <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
                 {t.actions.bulkDelete}
               </Button>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 

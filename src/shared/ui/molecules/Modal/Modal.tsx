@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { motion, AnimatePresence } from 'motion/react'
-import { IconComponent } from '@/shared/ui'
+import { IconComponent } from '../../atoms/IconComponent'
+import { ButtonGroup } from '../../atoms/ButtonGroup'
 import {
   modalSpringVariants,
   modalSlideUpVariants,
@@ -101,9 +102,9 @@ export const Modal = ({
 
       {/* Footer */}
       {footer && (
-        <div className="flex shrink-0 items-center justify-end gap-3 border-t border-border-subtle px-6 py-4">
+        <ButtonGroup className="shrink-0 border-t border-border-subtle px-6 py-4">
           {footer}
-        </div>
+        </ButtonGroup>
       )}
     </>
   )

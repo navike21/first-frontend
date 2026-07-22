@@ -1,7 +1,7 @@
 import {
   PageContent,
   InputField,
-  Button,
+  Button, ButtonGroup,
   Avatar,
   Chip,
   Spinner,
@@ -187,7 +187,7 @@ export const GroupUsersPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.members.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button
                 variant="secondary"
                 size="small"
@@ -202,7 +202,7 @@ export const GroupUsersPage = () => {
               >
                 {t.members.bulkRemove}
               </Button>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 

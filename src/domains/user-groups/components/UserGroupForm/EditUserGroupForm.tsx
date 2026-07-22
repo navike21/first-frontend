@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Button, InputField, Switch, HexColorInput } from '@/shared/ui'
+import { Button, ButtonGroup, InputField, Switch, HexColorInput } from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useEditUserGroupForm } from './EditUserGroupForm.hooks'
 import type { UseEditUserGroupFormProps } from './EditUserGroupForm.hooks'
@@ -85,7 +85,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-2">
+        <ButtonGroup className="pt-2">
           <Button
             variant="secondary"
             type="button"
@@ -102,7 +102,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
           >
             {t.form.saveButton}
           </Button>
-        </div>
+        </ButtonGroup>
       </div>
     </form>
   )

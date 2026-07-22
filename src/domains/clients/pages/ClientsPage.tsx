@@ -3,7 +3,7 @@ import {
   InputField,
   Select,
   Modal,
-  Button,
+  Button, ButtonGroup,
   IconComponent,
   FadeCollapse,
 } from '@/shared/ui'
@@ -109,7 +109,7 @@ export const ClientsPage = () => {
             <span className="text-sm font-medium text-foreground">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
-            <div className="flex items-center gap-2">
+            <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
@@ -120,7 +120,7 @@ export const ClientsPage = () => {
               >
                 {t.actions.bulkDelete}
               </Button>
-            </div>
+            </ButtonGroup>
           </div>
         </FadeCollapse>
 
