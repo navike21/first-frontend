@@ -86,7 +86,7 @@ describe('useHeader', () => {
     expect(result.current.user).toBeNull()
   })
 
-  it('should clear session and navigate to /login on logout', () => {
+  it('should clear session and navigate to login on logout', () => {
     // Arrange
     const mockUser = makeAuthUser()
     useSessionStore.setState({
@@ -100,7 +100,7 @@ describe('useHeader', () => {
       result.current.logout()
     })
     // Assert
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/es/login' })
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/es/iniciar-sesion' })
     expect(useSessionStore.getState().isAuthenticated).toBe(false)
   })
 

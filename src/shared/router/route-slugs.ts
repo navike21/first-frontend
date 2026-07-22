@@ -1,6 +1,18 @@
 import type { Language } from '@/shared/types/languages'
 
 export const ROUTE_SLUGS = {
+  login: {
+    es: 'iniciar-sesion',
+    en: 'login',
+    de: 'anmelden',
+    fr: 'connexion',
+    pt: 'entrar',
+    it: 'accedi',
+    ja: 'roguin',
+    ko: 'rogeuin',
+    zh: 'denglu',
+    ru: 'vhod',
+  },
   forbidden: {
     es: 'no-autorizado',
     en: 'unauthorized',

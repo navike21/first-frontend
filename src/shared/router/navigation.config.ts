@@ -3,7 +3,6 @@
 
 const SEGMENTS = {
   home: '/',
-  login: 'login',
   // Slug fijo (no traducido) — lo genera el backend dentro del email de
   // recuperación de contraseña; ver shared/router/nav-paths.ts.
   resetPassword: 'reset-password',
@@ -20,11 +19,6 @@ export const NAV = {
     segment: SEGMENTS.home,
     path: SEGMENTS.home,
     label: 'Dashboard',
-  },
-  login: {
-    segment: SEGMENTS.login,
-    path: `/${SEGMENTS.login}`,
-    label: 'Iniciar sesión',
   },
   resetPassword: {
     segment: SEGMENTS.resetPassword,

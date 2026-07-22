@@ -21,6 +21,10 @@ describe('SLUG_TO_MODULE', () => {
   it('maps forgotPassword slug', () => {
     expect(SLUG_TO_MODULE['recuperar-contrasena']).toBe('forgotPassword')
   })
+
+  it('maps login slug', () => {
+    expect(SLUG_TO_MODULE['iniciar-sesion']).toBe('login')
+  })
 })
 
 describe('translatePath', () => {
@@ -42,6 +46,10 @@ describe('translatePath', () => {
 
   it('translates /es/no-autorizado to /en/unauthorized', () => {
     expect(translatePath('/es/no-autorizado', 'en')).toBe('/en/unauthorized')
+  })
+
+  it('translates /es/iniciar-sesion to /fr/connexion', () => {
+    expect(translatePath('/es/iniciar-sesion', 'fr')).toBe('/fr/connexion')
   })
 
   it('preserves unknown segments (IDs) unchanged', () => {

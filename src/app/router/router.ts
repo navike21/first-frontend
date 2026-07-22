@@ -5,7 +5,7 @@ import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { rootRoute } from './root'
 import { langRoute, langCatchAll } from './routes/lang.route'
 import { publicLayout, privateLayout } from './layouts'
-import { loginRouteTree } from './routes/login.route'
+import { allLoginRouteTrees } from './routes/login.route'
 import { allForgotPasswordRouteTrees } from './routes/forgotPassword.route'
 import { resetPasswordRouteTree } from './routes/resetPassword.route'
 import { dashboardRoute } from './routes/dashboard.route'
@@ -54,7 +54,7 @@ const routeTree = rootRoute.addChildren([
   rootRedirect,
   langRoute.addChildren([
     publicLayout.addChildren([
-      loginRouteTree,
+      ...allLoginRouteTrees,
       ...allForgotPasswordRouteTrees,
       resetPasswordRouteTree,
     ]),

@@ -122,7 +122,7 @@ describe('NotFoundPage component', () => {
     render(<NotFoundPage />)
     await user.click(screen.getByRole('button', { name: /iniciar sesión/i }))
     expect(navigateMock).toHaveBeenCalledWith({
-      to: '/es/login',
+      to: '/es/iniciar-sesion',
       replace: true,
     })
   })

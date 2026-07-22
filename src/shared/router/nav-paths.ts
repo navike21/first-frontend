@@ -10,7 +10,10 @@ function lang(override?: Language): Language {
 export const navPaths = {
   home: (l?: Language) => `/${lang(l)}`,
 
-  login: (l?: Language) => `/${lang(l)}/login`,
+  login: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.login[l_]}`
+  },
 
   forgotPassword: (l?: Language) => {
     const l_ = lang(l)

@@ -18,12 +18,12 @@ describe('navPaths', () => {
   })
 
   describe('login', () => {
-    it('returns /es/login by default', () => {
-      expect(navPaths.login()).toBe('/es/login')
+    it('returns /es/iniciar-sesion by default', () => {
+      expect(navPaths.login()).toBe('/es/iniciar-sesion')
     })
 
-    it('returns /fr/login when override is fr', () => {
-      expect(navPaths.login('fr')).toBe('/fr/login')
+    it('returns /fr/connexion when override is fr', () => {
+      expect(navPaths.login('fr')).toBe('/fr/connexion')
     })
   })
 

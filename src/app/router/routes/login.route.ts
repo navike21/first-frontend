@@ -1,16 +1,16 @@
 import { createRoute } from '@tanstack/react-router'
 import { publicLayout } from '../layouts'
-import { NAV } from '@/shared/router'
+import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
+import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import { LoginLayout } from '@domains/auth'
+import type { Language } from '@/shared/types/languages'
 
-export const loginRoute = createRoute({
-  getParentRoute: () => publicLayout,
-  path: NAV.login.segment,
-  component: LoginLayout,
-})
+function createLoginRoute(lang: Language) {
+  return createRoute({
+    getParentRoute: () => publicLayout,
+    path: ROUTE_SLUGS.login[lang],
+    component: LoginLayout,
+  })
+}
 
-// Re-exported as loginRouteTree for consistency with other feature barrels.
-// Using loginRoute directly (no addChildren) avoids a TanStack Router type
-// inference issue where addChildren([]) with an empty array drops the route
-// path from the navigable-paths type union.
-export const loginRouteTree = loginRoute
+export const allLoginRouteTrees = SUPPORTED_LANGUAGES.map(createLoginRoute)
