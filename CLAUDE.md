@@ -521,6 +521,78 @@ el `Sidebar` real de First (cambio grande, afecta toda la app) — decidió
 **dejarlo como está** (sigue el tema claro/oscuro normal, blanco en modo
 claro). No re-litigar esto sin un pedido explícito nuevo.
 
+## Mensajes de error transparentes (backend → usuario)
+
+El usuario pidió que los mensajes de error dejen de ser genéricos/técnicos y
+expliquen **por qué** falló una acción (ej. "no puedo subir una imagen, pero
+no me dice el por qué"), usando la razón específica que el backend ya manda.
+Esto tocó dos casos distintos — éxito-con-warnings y error real — con
+mecanismos separados.
+
+- **Caso "éxito con warnings"** (mutación 2xx pero algo no bloqueante falló,
+  ej. el registro se guardó pero la imagen no se subió): el envelope
+  `ApiResponse<T>` (`shared/api/types.ts`) trae `warnings?: ApiWarning[]`.
+  Patrón establecido en `onSuccess`:
+  ```ts
+  onSuccess: (res) => {
+    notify.success(t.toasts.updated)
+    if (res?.warnings?.length) {
+      notify.warning(res.warnings.map((w) => w.message).join(' '))
+    }
+    navigate(...)
+  },
+  onError: onQueuedOr(() => {
+    if (avatar) notify.warning(t.toasts.offlinePhotoSkipped)
+    navigate(...)
+  }),
+  ```
+  Ya estaba en Users/Clients; se extendió a **Collaborators, Portfolio,
+  Services, Pages** (`Create*Page.tsx`/`Edit*Page.tsx` de cada dominio) — cada
+  uno con su propia condición según qué archivos maneja (`photo`, `cover ||
+  galleryFiles?.length`, `cover || iconFile`, `cover || ogImage`). Requiere la
+  key `offlinePhotoSkipped` en el `i18n/types.ts` + locales de cada dominio —
+  **ojo con módulos con traducciones parciales**: Portfolio solo tiene
+  `es/en/de` reales, el resto (`fr/pt/it/ja/ko/zh/ru`) son stubs de 5 líneas
+  que re-exportan `en` (`export const fr = en`) — no tocar esos stubs, heredan
+  la key automáticamente. Verificar con `wc -l` antes de asumir que un módulo
+  tiene las 10 traducciones completas (Services y Pages sí las tienen).
+
+- **Caso "error real"** (la mutación falla del todo, ej. 422 por archivo que
+  excede el tamaño máximo): `notify.queryError` (`shared/lib/notify.ts`)
+  tenía la prioridad **invertida** — `HTTP_MESSAGES[lang][status] ??
+  error.message` mostraba siempre el mensaje genérico por código de estado
+  (que existe para casi todo status real: 400/403/404/409/422/429/500/502/
+  503), tapando casi por completo la razón específica del backend. Arreglado
+  con un campo nuevo `HttpError.backendMessage` (`shared/api/api.services.ts`)
+  — guarda el mensaje **crudo** que mandó el backend, `undefined` si no mandó
+  nada — distinto de `.message`, que sigue sintetizando el fallback técnico
+  `HTTP {status}: {statusText}` cuando no hay mensaje (se mantiene por
+  compatibilidad/logging, pero ya no se usa para decidir qué mostrarle al
+  usuario). `queryError` ahora prioriza `error.backendMessage ??
+  HTTP_MESSAGES[lang][status] ?? error.message`.
+
+## Header — ícono de configuración retirado
+
+El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
+una segunda entrada redundante a la misma acción que ya cubre "Preferencias"
+dentro de `UserMenu` (`toggleSettings`). `useHeader()` conserva
+`toggleSettings`/`closeSettings`/`isSettingsOpen` sin cambios, solo cambió
+quién los dispara.
+
+## Convención: `cursor-pointer` en todo elemento accionable
+
+Todo elemento clickeable (botón, link, ítem de menú, fila de opción, tab,
+casilla/switch/radio ya lo tenían) debe llevar `cursor-pointer` explícito en
+su estado habilitado — no asumir que el navegador ya lo infiere. Excepción
+real: **drag handles** (`SortableItemActions`, `SortableMediaTile`) usan
+`cursor-grab`/`active:cursor-grabbing`, no `cursor-pointer` — es la
+convención correcta para arrastre, no un olvido. Para detectar huecos:
+```bash
+for f in $(grep -rl "<button" src/shared/ui src/domains src/widgets src/app --include="*.tsx" | grep -v ".test.tsx\|.stories.tsx"); do
+  grep -q "cursor-pointer\|cursor-grab" "$f" || echo "MISSING: $f"
+done
+```
+
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
 - `README.md` — qué es el proyecto y cómo levantarlo.

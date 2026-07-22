@@ -147,6 +147,8 @@ export const ja: PageTranslations = {
     bulkDeleted: 'ページが削除されました',
     bulkRestored: 'ページが復元されました',
     bulkPurged: 'ページが完全に削除されました',
+    offlinePhotoSkipped:
+      '画像はオフラインでは保存されません。再接続時に追加してください。',
   },
   validation: {
     required: '必須項目',

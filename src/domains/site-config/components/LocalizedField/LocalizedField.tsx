@@ -30,7 +30,7 @@ export const LocalizedField = ({ label, value, userLanguage, disabled, onChange 
               type="button"
               onClick={() => setEditingLanguage(lang)}
               className={clsx(
-                'inline-flex items-center gap-1.5 rounded-md px-2 py-1',
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1',
                 'text-xs font-semibold uppercase tracking-wider',
                 'transition-colors',
                 active

@@ -70,6 +70,22 @@ describe('notify', () => {
       expect(toast.error).toHaveBeenCalledWith("I'm a teapot")
     })
 
+    it('prefers the backend-specific message over the generic per-status message', () => {
+      useLanguageStore.setState({ language: 'es' })
+      notify.queryError(
+        new HttpError(422, 'Unprocessable Entity', 'El archivo excede el tamaño máximo de 4 MB')
+      )
+      expect(toast.error).toHaveBeenCalledWith(
+        'El archivo excede el tamaño máximo de 4 MB'
+      )
+    })
+
+    it('falls back to the generic per-status message when the backend sent none', () => {
+      useLanguageStore.setState({ language: 'es' })
+      notify.queryError(new HttpError(422, 'Unprocessable Entity'))
+      expect(toast.error).toHaveBeenCalledWith('Los datos enviados no son válidos.')
+    })
+
     it('shows network error message for non-HttpError', () => {
       notify.queryError(new Error('network failed'))
       expect(toast.error).toHaveBeenCalledWith(

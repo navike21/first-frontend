@@ -137,6 +137,8 @@ export const en: PortfolioTranslations = {
     bulkDeleted: 'Projects deleted',
     bulkRestored: 'Projects restored',
     bulkPurged: 'Projects permanently deleted',
+    offlinePhotoSkipped:
+      'Images are not saved offline; add them when you reconnect.',
   },
   validation: {
     required: 'Required field',

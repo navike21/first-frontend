@@ -88,7 +88,7 @@ export const VideoElementCard = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
+        className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
       >
         {element.sourceKind === 'upload' && element.fileUrl ? (
           <span className="flex h-10 w-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
@@ -179,7 +179,7 @@ export const VideoElementCard = ({
                   type="button"
                   onClick={() => setIsLibraryOpen(true)}
                   className={clsx(
-                    'flex h-32 w-full flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground',
+                    'flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground',
                   )}
                 >
                   <IconComponent icon="RiVideoAddLine" className="h-6 w-6" />

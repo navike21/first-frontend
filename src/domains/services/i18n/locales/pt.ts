@@ -132,6 +132,8 @@ export const pt: ServicesTranslations = {
     bulkDeleted: 'Serviços eliminados',
     bulkRestored: 'Serviços restaurados',
     bulkPurged: 'Serviços eliminados definitivamente',
+    offlinePhotoSkipped:
+      'As imagens não são guardadas sem ligação; adicione-as ao reconectar.',
   },
   validation: {
     required: 'Campo obrigatório',

@@ -76,16 +76,6 @@ export const Header = () => {
         {/* Notifications */}
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
 
-        {/* Settings */}
-        <IconButton
-          icon="RiSettings3Line"
-          shape="circle"
-          variant="text"
-          onClick={toggleSettings}
-          aria-label={t.settingsDrawer.title}
-          aria-expanded={isSettingsOpen}
-        />
-
         {/* User menu */}
         <div className="ml-2 border-l border-border pl-3">
           <UserMenu

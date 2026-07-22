@@ -147,6 +147,8 @@ export const es: PageTranslations = {
     bulkDeleted: 'Páginas eliminadas',
     bulkRestored: 'Páginas restauradas',
     bulkPurged: 'Páginas eliminadas permanentemente',
+    offlinePhotoSkipped:
+      'Las imágenes no se guardan sin conexión; añádelas al reconectar.',
   },
   validation: {
     required: 'Campo obligatorio',

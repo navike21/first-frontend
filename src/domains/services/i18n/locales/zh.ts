@@ -132,6 +132,7 @@ export const zh: ServicesTranslations = {
     bulkDeleted: '服务已删除',
     bulkRestored: '服务已还原',
     bulkPurged: '服务已永久删除',
+    offlinePhotoSkipped: '图片不会离线保存；重新连接后请添加。',
   },
   validation: {
     required: '必填字段',

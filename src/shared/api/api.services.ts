@@ -61,6 +61,16 @@ export class HttpError extends Error {
   readonly code?: string
   /** Structured details (validation issues, duplicate keys, …). */
   readonly details?: ApiErrorDetails
+  /**
+   * The message the backend actually sent, if any — distinct from `.message`,
+   * which falls back to a generic "HTTP {status}: {statusText}" string when
+   * the backend didn't provide one (kept for logging/debugging). Backend
+   * messages are already localized and specific (e.g. "el archivo excede el
+   * tamaño máximo de 4 MB") — consumers showing errors to the user should
+   * prefer this over a generic per-status message so failures stay
+   * explainable, not just "something went wrong".
+   */
+  readonly backendMessage?: string
 
   constructor(
     status: number,
@@ -75,6 +85,7 @@ export class HttpError extends Error {
     this.statusText = statusText
     this.code = code
     this.details = details
+    this.backendMessage = message
   }
 }
 

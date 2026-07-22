@@ -114,6 +114,7 @@ export const zh: CollaboratorTranslations = {
     bulkDeleted: '合作者已删除',
     bulkRestored: '合作者已恢复',
     bulkPurged: '合作者已永久删除',
+    offlinePhotoSkipped: '图片不会离线保存；重新连接后请添加。',
   },
   validation: {
     required: '必填项',

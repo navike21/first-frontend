@@ -33,7 +33,7 @@ export function LayoutVariantPicker<V extends string>({
               onClick={() => onChange(option.value)}
               aria-pressed={active}
               className={clsx(
-                'flex flex-col gap-2 rounded-xl border p-3 text-left',
+                'flex cursor-pointer flex-col gap-2 rounded-xl border p-3 text-left',
                 'transition-colors',
                 active
                   ? 'border-primary-600 bg-primary-700/10 ring-1 ring-primary-700/20'

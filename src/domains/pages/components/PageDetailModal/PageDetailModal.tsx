@@ -92,7 +92,7 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
                   type="button"
                   onClick={() => setViewLang(lang)}
                   className={clsx(
-                    'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wider transition-colors',
+                    'inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wider transition-colors',
                     active
                       ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
                       : 'bg-surface-subtle text-muted hover:text-foreground',

@@ -66,7 +66,7 @@ const Tile = ({ item, removeLabel, disabled, onRemove }: TileProps) => {
           aria-label={removeLabel}
           className={clsx(
             // Layout
-            'absolute top-1 right-1 flex h-6 w-6 items-center justify-center',
+            'absolute top-1 right-1 flex h-6 w-6 cursor-pointer items-center justify-center',
             // Visual
             'rounded-full bg-danger-600 text-white ring-2 ring-surface',
             // Transitions
@@ -106,7 +106,7 @@ const AddTile = ({ label, isDragging, dragLabel, disabled, onClick }: AddTilePro
       'transition-colors',
       // States
       isDragging && 'border-primary-600 bg-primary-100 text-primary-600',
-      !disabled && !isDragging && 'hover:border-primary-600',
+      !disabled && !isDragging && 'cursor-pointer hover:border-primary-600',
       disabled && 'cursor-not-allowed opacity-50',
     )}
   >

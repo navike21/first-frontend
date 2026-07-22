@@ -19,7 +19,7 @@ export const LangTabs = ({ editingLanguage, userLanguage, hasContent, hasError, 
           type="button"
           onClick={() => onChange(lang)}
           className={clsx(
-            'inline-flex items-center gap-1.5 rounded-md px-2 py-1',
+            'inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1',
             'text-xs font-semibold uppercase tracking-wider',
             'transition-colors',
             isActive

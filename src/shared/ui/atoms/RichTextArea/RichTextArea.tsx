@@ -111,7 +111,7 @@ const ToolbarBtn = ({ icon, title, onClick, active, disabled }: ToolbarBtnProps)
     disabled={disabled}
     onMouseDown={(e) => { e.preventDefault(); onClick() }}
     className={clsx(
-      'flex h-6 w-6 items-center justify-center rounded transition-colors',
+      'flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors',
       'disabled:cursor-not-allowed disabled:opacity-40',
       active
         ? 'bg-primary-700/10 text-primary-600'
@@ -143,7 +143,7 @@ const ToolbarSelect = ({ value, onChange, disabled }: ToolbarSelectProps) => {
         disabled={disabled}
         onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
         className={clsx(
-          'flex h-6 items-center gap-1 rounded-sm px-1.5 transition-colors',
+          'flex h-6 cursor-pointer items-center gap-1 rounded-sm px-1.5 transition-colors',
           'ring-1 ring-inset bg-surface text-[11px] font-medium text-foreground',
           open ? 'ring-primary-600' : 'ring-border hover:ring-primary-600/40',
           'disabled:cursor-not-allowed disabled:opacity-40',
@@ -168,7 +168,7 @@ const ToolbarSelect = ({ value, onChange, disabled }: ToolbarSelectProps) => {
                 setOpen(false)
               }}
               className={clsx(
-                'flex w-full items-center px-2.5 py-1.5 text-left text-xs transition-colors',
+                'flex w-full cursor-pointer items-center px-2.5 py-1.5 text-left text-xs transition-colors',
                 value === opt.value
                   ? 'bg-primary-700/10 font-medium text-primary-600'
                   : 'text-foreground hover:bg-surface-subtle',
@@ -197,7 +197,7 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
         title="Text color"
         onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
         className={clsx(
-          'flex h-6 w-6 flex-col items-center justify-center gap-px rounded transition-colors',
+          'flex h-6 w-6 cursor-pointer flex-col items-center justify-center gap-px rounded transition-colors',
           'disabled:cursor-not-allowed disabled:opacity-40',
           open
             ? 'bg-primary-700/10 text-primary-600'
@@ -218,7 +218,7 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
             <button
               type="button"
               onMouseDown={(e) => { e.preventDefault(); editor?.chain().focus().unsetColor().run(); setOpen(false) }}
-              className="text-[10px] text-muted hover:text-foreground"
+              className="cursor-pointer text-[10px] text-muted hover:text-foreground"
             >
               Reset
             </button>
@@ -235,7 +235,7 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
                   setOpen(false)
                 }}
                 className={clsx(
-                  'h-5 w-5 rounded-sm border-2 transition-transform hover:scale-110',
+                  'h-5 w-5 cursor-pointer rounded-sm border-2 transition-transform hover:scale-110',
                   currentColor === value ? 'border-primary-600 scale-110' : 'border-transparent',
                 )}
                 style={{ backgroundColor: value }}
@@ -262,7 +262,7 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
         title="Highlight"
         onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
         className={clsx(
-          'flex h-6 w-6 items-center justify-center rounded transition-colors',
+          'flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors',
           'disabled:cursor-not-allowed disabled:opacity-40',
           open || currentHighlight
             ? 'bg-primary-700/10 text-primary-600'
@@ -280,7 +280,7 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
             <button
               type="button"
               onMouseDown={(e) => { e.preventDefault(); editor?.chain().focus().unsetHighlight().run(); setOpen(false) }}
-              className="text-[10px] text-muted hover:text-foreground"
+              className="cursor-pointer text-[10px] text-muted hover:text-foreground"
             >
               Remove
             </button>
@@ -297,7 +297,7 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
                   setOpen(false)
                 }}
                 className={clsx(
-                  'h-5 w-5 rounded-sm border-2 transition-transform hover:scale-110',
+                  'h-5 w-5 cursor-pointer rounded-sm border-2 transition-transform hover:scale-110',
                   currentHighlight === value ? 'border-primary-600 scale-110' : 'border-border',
                 )}
                 style={{ backgroundColor: value }}
@@ -353,7 +353,7 @@ const TablePicker = ({ editor, disabled }: { editor: Editor | null; disabled?: b
                     setHover({ rows: 0, cols: 0 })
                   }}
                   className={clsx(
-                    'h-4 w-4 rounded-sm border transition-colors',
+                    'h-4 w-4 cursor-pointer rounded-sm border transition-colors',
                     row < hover.rows && col < hover.cols
                       ? 'border-primary-600 bg-primary-700/20'
                       : 'border-border bg-surface-subtle',
@@ -629,10 +629,10 @@ export const RichTextArea = ({
               placeholder="https://..."
               className="min-w-0 flex-1 rounded border border-border bg-surface px-2 py-1 text-xs text-foreground outline-none focus:border-primary-600"
             />
-            <button type="button" onClick={applyLink} className="rounded bg-primary-700/10 px-2.5 py-1 text-xs font-medium text-primary-600 hover:bg-primary-700/20">
+            <button type="button" onClick={applyLink} className="cursor-pointer rounded bg-primary-700/10 px-2.5 py-1 text-xs font-medium text-primary-600 hover:bg-primary-700/20">
               Apply
             </button>
-            <button type="button" onClick={() => setLinkInput(null)} className="text-xs text-muted hover:text-foreground">
+            <button type="button" onClick={() => setLinkInput(null)} className="cursor-pointer text-xs text-muted hover:text-foreground">
               Cancel
             </button>
           </div>

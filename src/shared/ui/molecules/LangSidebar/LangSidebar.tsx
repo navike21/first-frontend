@@ -30,7 +30,7 @@ export const LangSidebar = ({
           type="button"
           onClick={() => onChange(lang)}
           className={clsx(
-            'flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors',
+            'flex w-full cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors',
             isActive ? 'bg-primary-700/10 ring-1 ring-primary-700/20' : 'hover:bg-surface-subtle',
           )}
         >

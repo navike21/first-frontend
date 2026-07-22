@@ -114,6 +114,8 @@ export const ja: CollaboratorTranslations = {
     bulkDeleted: 'コラボレーターを削除しました',
     bulkRestored: 'コラボレーターを復元しました',
     bulkPurged: 'コラボレーターを完全に削除しました',
+    offlinePhotoSkipped:
+      '画像はオフラインでは保存されません。再接続時に追加してください。',
   },
   validation: {
     required: '必須項目です',

@@ -138,7 +138,7 @@ export const StatsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full flex-wrap gap-2 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
+          className="flex w-full cursor-pointer flex-wrap gap-2 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
         >
           {element.items.map((item) => (
             <span
@@ -153,7 +153,7 @@ export const StatsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
         >
           {t.builder.statsEmpty}
         </button>

@@ -103,7 +103,7 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
                   item.onClick()
                 }}
                 className={clsx(
-                  'flex w-full items-center gap-2.5 px-3 py-2',
+                  'flex w-full cursor-pointer items-center gap-2.5 px-3 py-2',
                   'text-left text-sm',
                   'transition-colors',
                   item.danger

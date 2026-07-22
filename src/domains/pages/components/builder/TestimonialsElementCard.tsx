@@ -104,7 +104,7 @@ const TestimonialItemRow = ({
           type="button"
           onClick={onPickAvatar}
           aria-label={avatarLabel}
-          className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface ring-1 ring-border transition-colors hover:ring-primary-600/50"
+          className="flex h-16 w-16 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-surface ring-1 ring-border transition-colors hover:ring-primary-600/50"
         >
           {item.avatarUrl ? (
             <MediaThumbnail src={item.avatarUrl} kind="image" className="h-full w-full object-cover" />
@@ -218,7 +218,7 @@ export const TestimonialsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full flex-col gap-1 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
+          className="flex w-full cursor-pointer flex-col gap-1 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
         >
           {element.items.map((item) => (
             <p key={item.id} className="truncate text-xs text-foreground">
@@ -230,7 +230,7 @@ export const TestimonialsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
         >
           {t.builder.testimonialsEmpty}
         </button>

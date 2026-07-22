@@ -132,6 +132,8 @@ export const de: ServicesTranslations = {
     bulkDeleted: 'Dienste gelöscht',
     bulkRestored: 'Dienste wiederhergestellt',
     bulkPurged: 'Dienste endgültig gelöscht',
+    offlinePhotoSkipped:
+      'Bilder werden offline nicht gespeichert; fügen Sie sie bei erneuter Verbindung hinzu.',
   },
   validation: {
     required: 'Pflichtfeld',

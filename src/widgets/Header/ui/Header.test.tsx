@@ -147,13 +147,6 @@ describe('Header component', () => {
     expect(logoutMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should call toggleSettings when settings button is clicked', async () => {
-    const user = userEvent.setup()
-    render(<Header />)
-    await user.click(screen.getByLabelText('Configuración'))
-    expect(toggleSettingsMock).toHaveBeenCalledTimes(1)
-  })
-
   it('should render LanguageSwitcher', () => {
     render(<Header />)
     expect(screen.getByTestId('language-switcher')).toBeInTheDocument()

@@ -114,6 +114,8 @@ export const ru: CollaboratorTranslations = {
     bulkDeleted: 'Сотрудники удалены',
     bulkRestored: 'Сотрудники восстановлены',
     bulkPurged: 'Сотрудники удалены навсегда',
+    offlinePhotoSkipped:
+      'Изображения не сохраняются офлайн; добавьте его при восстановлении связи.',
   },
   validation: {
     required: 'Обязательное поле',

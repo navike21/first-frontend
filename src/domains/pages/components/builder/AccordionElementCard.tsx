@@ -147,7 +147,7 @@ export const AccordionElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full flex-col gap-1 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
+          className="flex w-full cursor-pointer flex-col gap-1 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
         >
           {element.items.map((item, index) => (
             <p key={item.id} className="truncate text-xs text-foreground">
@@ -159,7 +159,7 @@ export const AccordionElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
         >
           {t.builder.accordionEmpty}
         </button>
