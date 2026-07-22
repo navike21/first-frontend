@@ -622,6 +622,40 @@ mecanismos separados.
   usuario). `queryError` ahora prioriza `error.backendMessage ??
   HTTP_MESSAGES[lang][status] ?? error.message`.
 
+## Gotcha real: límite de tamaño de imagen desalineado con Vercel (causaba 500 "fantasma" en mobile)
+
+Reportado en producción: subir una foto de la galería del celular a un Service
+daba **"Error interno del servidor"** (500 genérico, sin razón) — a pesar del
+fix de transparencia de arriba. Investigado con `get_runtime_errors`/
+`get_runtime_logs` (MCP de Vercel) sobre `first-backend`: el `PATCH
+/api/v1/services/:id` fallaba con 500 pero **sin ningún stack trace en los
+logs de la app** — señal de que la función ni siquiera llegó a ejecutar el
+código de negocio.
+
+Causa real: `CoverPicker`/`GalleryPicker` (`shared/ui/molecules`) validaban el
+tamaño en el cliente contra un default de **5 MB** (`DEFAULT_MAX`/
+`DEFAULT_MAX_BYTES`), pero el backend acepta como máximo **4 MB**
+(`STORAGE_MAX_IMAGE_SIZE_BYTES`, ver `first-backend/CLAUDE.md`) — valor
+elegido a propósito ahí para quedar bajo el límite duro de body de Vercel
+(~4.5 MB). Ningún call-site real (`ServiceForm`, `PortfolioForm`, `PageForm`)
+pasaba `maxBytes` explícito, así que los tres heredaban el 5 MB por defecto.
+Una foto de celular entre 4 y 5 MB pasaba la validación del frontend como
+"está bien" y luego el request moría en la capa de plataforma de Vercel
+**antes** de llegar a Express/multer — por eso no hay stack trace: el backend
+nunca corrió, y `parseErrorBody` no tiene JSON que leer, así que
+`HttpError.backendMessage` queda `undefined` y `notify.queryError` cae
+(correctamente) al mensaje genérico de 500 — el fix de arriba funcionó como
+debía, el bug real estaba un nivel más abajo.
+
+Arreglado con una constante única `MAX_IMAGE_UPLOAD_BYTES` (`shared/lib/
+storageLimits.ts`, 4 MB, con comentario explicando el porqué) que ahora es el
+default de `CoverPicker`, `GalleryPicker` **y** `PhotoPicker` (que ya usaba un
+límite propio de 3 MB, más estricto y nunca causó este bug, pero quedaba
+como un tercer número mágico independiente sin relación explícita con el
+límite real del backend — unificado para que no vuelvan a desalinearse en
+silencio). Si se agrega un picker de imagen nuevo, usar esta constante como
+default en vez de inventar un número.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
