@@ -13,7 +13,7 @@ export const useInputField = ({ type = 'text', name }: InputFieldProps) => {
   const handleClassSlot = useCallback(
     (type: TypeInput, position: 'left' | 'right') =>
       clsx(
-        'flex items-center justify-left min-w-5 text-xs text-slate-900 font-semibold h-10',
+        'flex items-center justify-left min-w-5 text-xs text-secondary font-semibold h-10',
         '[&>svg]:size-5',
         {
           'px-3': type === 'text',

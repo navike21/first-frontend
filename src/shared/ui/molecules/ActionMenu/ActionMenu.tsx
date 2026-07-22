@@ -91,7 +91,7 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
               right: position.right,
               ...(position.openAbove ? { bottom: position.bottom } : { top: position.top }),
             }}
-            className="z-[9999] min-w-48 rounded-lg bg-surface py-1 shadow-lg ring-1 ring-border"
+            className="z-[9999] min-w-48 overflow-hidden rounded-xl bg-surface-panel py-1 shadow-menu-panel ring-1 ring-border-control"
           >
             {items.map((item) => (
               <button
@@ -107,8 +107,8 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
                   'text-left text-sm',
                   'transition-colors',
                   item.danger
-                    ? 'mt-1 border-t border-border text-red-500 hover:bg-red-500/10'
-                    : 'text-foreground hover:bg-surface-subtle',
+                    ? 'mt-1 border-t border-border-control text-danger-600 hover:bg-surface-hover-row'
+                    : 'text-foreground hover:bg-surface-hover-row',
                 )}
               >
                 <IconComponent icon={item.icon} className="h-4 w-4 shrink-0" />

@@ -138,7 +138,7 @@ export const Modal = ({
           <div
             className={clsx(
               'relative flex max-h-[calc(100vh-2rem)] flex-col',
-              'rounded-2xl bg-surface shadow-2xl',
+              'rounded-xl bg-surface shadow-modal',
               sizeClasses[size],
               isOpen
                 ? {
@@ -200,7 +200,7 @@ export const Modal = ({
               exit="exit"
               className={clsx(
                 'relative flex max-h-[calc(100vh-2rem)] flex-col',
-                'rounded-2xl bg-surface shadow-2xl',
+                'rounded-xl bg-surface shadow-modal',
                 sizeClasses[size]
               )}
             >

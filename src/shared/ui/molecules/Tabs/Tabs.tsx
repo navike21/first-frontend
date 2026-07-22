@@ -19,7 +19,7 @@ export const Tabs = ({
   return (
     <LayoutGroup id={instanceId ?? 'default-tabs'}>
       {/* Outer wrapper: border stretches full width, content scrolls inside */}
-      <div className={clsx('overflow-x-auto border-b border-border', className)}>
+      <div className={clsx('overflow-x-auto border-b border-border-control', className)}>
         <div
           role="tablist"
           aria-label={ariaLabel}
@@ -42,7 +42,6 @@ export const Tabs = ({
                   'border-b-2 border-transparent text-sm font-medium',
                   'duration-fast ease-out-expo transition-colors',
                   'cursor-pointer rounded-t-md whitespace-nowrap',
-                  'hover:bg-slate-50/60 dark:hover:bg-slate-800/20',
                   isActive
                     ? 'text-foreground'
                     : 'text-secondary hover:text-foreground'

@@ -1,4 +1,4 @@
-export type AvatarSize = 'sm' | 'md' | 'lg'
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg'
 export type AvatarStatus = 'online' | 'offline' | 'busy' | 'away' | 'none'
 
 export interface AvatarProps {

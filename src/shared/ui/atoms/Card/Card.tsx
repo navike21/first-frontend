@@ -11,8 +11,8 @@ export const Card = ({
   return (
     <div
       className={clsx(
-        // Visual base
-        'rounded-xl border border-border bg-surface shadow-sm',
+        // Visual base — el manual no muestra sombra en ninguna card
+        'rounded-xl border border-border bg-surface',
         // Transitions
         'duration-fast ease-out-expo transition-all',
         // Sizing
@@ -23,9 +23,7 @@ export const Card = ({
           'p-8': padding === 'large',
         },
         // Hover (interactive)
-        { 'hover:border-gray-300 hover:shadow-md': interactive },
-        // Dark hover (interactive)
-        { 'dark:hover:border-slate-500': interactive },
+        { 'hover:border-border-hover': interactive },
         className
       )}
       {...props}

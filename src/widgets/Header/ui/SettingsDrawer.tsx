@@ -1,4 +1,4 @@
-import { Drawer, ThemeToggle, LanguageSwitcher } from '@/shared/ui'
+import { Drawer, LanguageSwitcher } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeaderTranslation } from '../i18n'
 
@@ -13,6 +13,8 @@ const SectionLabel = ({ children }: { children: string }) => (
   </p>
 )
 
+// El toggle de tema vive en UserMenu (Design System: "Menú de usuario"
+// incluye Tema oscuro/claro adentro) — este drawer solo cubre idioma.
 export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
   const { t } = useHeaderTranslation()
 
@@ -39,23 +41,6 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
               'sm:[&_[data-select-trigger-label]]:inline'
             )}
           />
-        </div>
-
-        {/* Mode */}
-        <div>
-          <SectionLabel>{t.settingsDrawer.mode}</SectionLabel>
-          <div
-            className={clsx(
-              'flex items-center justify-between',
-              'rounded-xl border border-border bg-surface-raised',
-              'px-4 py-3'
-            )}
-          >
-            <span className="text-sm font-medium text-foreground">
-              {t.settingsDrawer.mode}
-            </span>
-            <ThemeToggle />
-          </div>
         </div>
       </div>
     </Drawer>

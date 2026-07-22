@@ -175,7 +175,7 @@ describe('InputLayout', () => {
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
-    expect(inputContainer).toHaveClass('ring-border')
+    expect(inputContainer).toHaveClass('ring-border-control')
   })
 
   it('should render with variant success', () => {
@@ -199,7 +199,7 @@ describe('InputLayout', () => {
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
-    expect(inputContainer).toHaveClass('ring-red-500')
+    expect(inputContainer).toHaveClass('ring-danger-600')
     // Error icon should be present
     expect(screen.getByTestId('icon-RiErrorWarningFill')).toBeInTheDocument()
   })
@@ -289,7 +289,7 @@ describe('InputLayout', () => {
     )
 
     const inputContainer = screen.getByRole('textbox').parentElement
-    expect(inputContainer).toHaveClass('bg-slate-400/50')
+    expect(inputContainer).toHaveClass('bg-surface-subtle')
     expect(inputContainer).not.toHaveClass('ring-1')
   })
 
@@ -302,6 +302,6 @@ describe('InputLayout', () => {
 
     const inputContainer = screen.getByRole('textbox').parentElement
     expect(inputContainer).toHaveClass('ring-1')
-    expect(inputContainer).toHaveClass('ring-border')
+    expect(inputContainer).toHaveClass('ring-border-control')
   })
 })

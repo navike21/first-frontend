@@ -466,7 +466,7 @@ export const PageForm = ({
                 />
               </div>
               <div>
-                <Button type="button" variant="outline" size="small" onClick={() => setPreviewsOpen(true)}>
+                <Button type="button" variant="secondary" size="small" onClick={() => setPreviewsOpen(true)}>
                   {t.seo.previewsTitle}
                 </Button>
               </div>

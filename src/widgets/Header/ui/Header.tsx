@@ -1,18 +1,15 @@
-import { IconComponent, Avatar, IconButton, BrandMark } from '@/shared/ui'
+import { IconComponent, IconButton, BrandMark, UserMenu } from '@/shared/ui'
 import clsx from 'clsx'
 import { useHeader } from '../model/useHeader'
 import { useHeaderTranslation } from '../i18n'
-import { ProfileDrawer } from './ProfileDrawer'
 import { SettingsDrawer } from './SettingsDrawer'
 import { useUserAvatarStatus } from '@/shared/model/presence.store'
+import { navPaths } from '@/shared/router'
 
 export const Header = () => {
   const {
     user,
     isCollapsed,
-    isProfileOpen,
-    toggleProfile,
-    closeProfile,
     isSettingsOpen,
     toggleSettings,
     closeSettings,
@@ -89,39 +86,24 @@ export const Header = () => {
           aria-expanded={isSettingsOpen}
         />
 
-        {/* Profile trigger */}
-        <button
-          onClick={toggleProfile}
-          className={clsx(
-            'ml-2 flex cursor-pointer items-center gap-3 pl-4',
-            'appearance-none border-l border-border outline-none',
-            'transition-opacity',
-            'hover:opacity-80'
-          )}
-          aria-label={t.userMenu}
-        >
-          <div className="hidden flex-col items-end md:flex">
-            <span className="text-sm leading-none font-medium text-foreground">
-              {user ? `${user.firstName} ${user.lastName}`.trim() : t.guestName}
-            </span>
-          </div>
-          <Avatar
-            src={user?.profilePictureUrl}
-            alt={user?.firstName || t.guestName}
-            size="md"
-            status={avatarStatus}
-            name={user?.firstName || t.guestName}
+        {/* User menu */}
+        <div className="ml-2 border-l border-border pl-3">
+          <UserMenu
+            name={
+              user ? `${user.firstName} ${user.lastName}`.trim() : t.guestName
+            }
+            email={user?.email ?? t.guestEmail}
+            avatarSrc={user?.profilePictureUrl}
+            avatarStatus={avatarStatus}
+            profileHref={navPaths.profile()}
+            labels={t.userMenu}
+            onPreferencesClick={toggleSettings}
+            onLogoutClick={logout}
           />
-        </button>
+        </div>
       </div>
 
       <SettingsDrawer isOpen={isSettingsOpen} onClose={closeSettings} />
-      <ProfileDrawer
-        isOpen={isProfileOpen}
-        onClose={closeProfile}
-        onLogout={logout}
-        user={user}
-      />
     </header>
   )
 }

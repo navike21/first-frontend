@@ -41,7 +41,7 @@ export const Breadcrumbs = ({ items }: Readonly<BreadcrumbsProps>) => {
               {index > 0 && (
                 <IconComponent
                   icon="RiArrowRightSLine"
-                  className="h-4 w-4 text-muted"
+                  className="h-4 w-4 text-disabled"
                 />
               )}
               {isLast ? (

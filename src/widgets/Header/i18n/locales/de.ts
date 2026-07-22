@@ -4,19 +4,17 @@ export const de: HeaderTranslations = {
   language: { label: 'Sprache' },
   expandMenu: 'Menü aufklappen',
   collapseMenu: 'Menü einklappen',
-  userMenu: 'Benutzermenü',
   guestName: 'Gastbenutzer',
   guestEmail: 'Nicht angemeldet',
-  profileDrawer: {
-    title: 'Mein Konto',
-    home: 'Startseite',
-    users: 'Benutzer',
-    userGroups: 'Benutzergruppen',
+  userMenu: {
+    ariaLabel: 'Benutzermenü',
     profile: 'Mein Profil',
+    preferences: 'Einstellungen',
+    themeDark: 'Dunkles Design',
+    themeLight: 'Helles Design',
     logout: 'Abmelden',
   },
   settingsDrawer: {
     title: 'Einstellungen',
-    mode: 'Modus',
   },
 }

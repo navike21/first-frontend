@@ -47,7 +47,8 @@ export const SelectDropdownPortal = ({
       }}
       className={clsx(
         'z-[9999] flex max-h-60 flex-col',
-        'rounded-sm bg-surface shadow-lg ring-1 ring-border'
+        'rounded-select bg-surface-panel ring-1 ring-border-control',
+        dropdownStyle.openAbove ? 'shadow-panel-up' : 'shadow-panel-down'
       )}
     >
       {search && (
@@ -61,8 +62,8 @@ export const SelectDropdownPortal = ({
             aria-label={searchAriaLabel}
             className={clsx(
               'h-8 w-full px-3',
-              'rounded-sm border border-border bg-surface-subtle text-sm outline-none',
-              'focus:ring-1 focus:ring-border',
+              'rounded-control border border-border-control bg-surface-input text-sm outline-none',
+              'focus:ring-1 focus:ring-border-control',
               'placeholder:text-muted'
             )}
           />

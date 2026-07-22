@@ -27,7 +27,7 @@ export const Avatar = memo(
     return (
       <figure
         className={clsx(
-          'relative inline-flex aspect-square shrink-0 rounded-full shadow-sm',
+          'relative inline-flex aspect-square shrink-0 rounded-full',
           sizeMap[size],
           className
         )}
@@ -44,7 +44,7 @@ export const Avatar = memo(
           <span
             className={clsx(
               'flex h-full w-full items-center justify-center',
-              'rounded-full bg-gray-200 font-bold text-gray-600 uppercase select-none dark:bg-slate-700 dark:text-slate-300'
+              'rounded-full bg-primary-600 font-bold text-white uppercase select-none'
             )}
           >
             {initials}

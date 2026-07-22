@@ -172,7 +172,7 @@ export const UsersTrashPage = () => {
               )}
               {canPurge && (
                 <Button
-                  variant="primary"
+                  variant="destructive"
                   size="small"
                   onClick={() => setBulkPurgeOpen(true)}
                 >
@@ -277,7 +277,7 @@ export const UsersTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="primary"
+              variant="destructive"
               loading={purge.isPending}
               onClick={handleConfirmPurge}
             >
@@ -331,7 +331,7 @@ export const UsersTrashPage = () => {
               {t.actions.cancel}
             </Button>
             <Button
-              variant="primary"
+              variant="destructive"
               loading={bulkPurge.isPending}
               onClick={handleConfirmBulkPurge}
             >

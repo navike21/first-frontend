@@ -99,7 +99,7 @@ export const DataTable = <T,>({
             <li
               key={key}
               className={clsx(
-                'rounded-xl border p-4 shadow-sm',
+                'rounded-xl border p-4',
                 'duration-fast ease-out-expo transition-colors',
                 isSelected
                   ? 'border-primary-700 bg-surface-subtle'
@@ -154,7 +154,7 @@ export const DataTable = <T,>({
       </ul>
 
       {/* Desktop: classic table with horizontal scroll fallback. */}
-      <div className="hidden overflow-x-auto rounded-xl border border-border bg-surface shadow-sm md:block">
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-surface md:block">
         <table className="w-full text-sm">
           <thead>
             <tr
@@ -187,7 +187,7 @@ export const DataTable = <T,>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+          <tbody className="divide-y divide-border-control">
             {rows.map((row) => {
               const key = getRowKey(row)
               const isSelected = selected.includes(key)
@@ -197,8 +197,8 @@ export const DataTable = <T,>({
                   className={clsx(
                     'duration-fast ease-out-expo transition-colors',
                     isSelected
-                      ? 'bg-surface-subtle'
-                      : 'hover:bg-surface-subtle'
+                      ? 'bg-surface-hover-row'
+                      : 'hover:bg-surface-hover-row'
                   )}
                 >
                   {selectable && (

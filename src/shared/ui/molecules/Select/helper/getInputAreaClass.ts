@@ -16,18 +16,23 @@ export const getInputAreaClass = ({
   classInput?: string
 }): string =>
   clsx(
-    'flex items-center w-full rounded-sm',
+    'flex items-center w-full rounded-select',
     'transition-all ease-in-out duration-300',
-    'ring-inset',
-    isOpen ? 'ring-2' : 'ring-1',
     {
-      'bg-slate-400/50 dark:bg-slate-600/50': disabled,
-      'bg-surface': !disabled,
+      'bg-surface-subtle': disabled,
+      'bg-surface-input ring-inset': !disabled,
     },
+    // No ring at all when disabled — matches InputLayout, which only ever
+    // applies ring-1/ring-inset in the !disabled branch. Applying a bare
+    // ring-1/ring-2 with no color class here used to fall back to
+    // Tailwind's default ring color (a stray blue), the actual mismatch vs.
+    // the input's clean, borderless disabled look.
+    !disabled && (isOpen ? 'ring-2' : 'ring-1'),
     {
-      'ring-border': variant === 'default' && !disabled,
+      'ring-border-control hover:ring-border-hover':
+        variant === 'default' && !disabled,
       'ring-emerald-500': variant === 'success' && !disabled,
-      'ring-red-500': variant === 'error' && !disabled,
+      'ring-danger-600': variant === 'error' && !disabled,
       'ring-yellow-500': variant === 'warning' && !disabled,
     },
     isMultipleWithChips ? 'h-auto min-h-10' : 'h-10',

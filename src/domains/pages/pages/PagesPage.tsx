@@ -60,7 +60,7 @@ export const PagesPage = () => {
       description={t.page.listDescription}
       actions={[
         ...(canSeeTrash
-          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'outline' as const, to: navPaths.pageTrash(language), size: 'small' as const }]
+          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'secondary' as const, to: navPaths.pageTrash(language), size: 'small' as const }]
           : []),
         ...(canCreate
           ? [{ type: 'link' as const, label: t.actions.newItem, variant: 'primary' as const, to: navPaths.pageCreate(language), size: 'small' as const }]

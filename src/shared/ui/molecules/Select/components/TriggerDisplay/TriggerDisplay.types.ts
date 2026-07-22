@@ -4,4 +4,5 @@ export interface TriggerDisplayProps {
   singleOption?: SelectOptionItem
   singleLabel: string
   placeholder?: string
+  disabled?: boolean
 }

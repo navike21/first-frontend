@@ -114,22 +114,23 @@ describe('InputField', () => {
     expect(helper).toBeInTheDocument()
   })
 
-  it('should render email type with icon', () => {
-    // Arrange & Act
+  it('should render email type as a plain input, no leading icon', () => {
+    // Arrange & Act — el Design System muestra el input de email como un
+    // campo de texto plano, sin ícono (verificado contra el HTML del manual)
     render(<InputField type="email" placeholder="Enter email" />)
     // Assert
     const input = screen.getByPlaceholderText('Enter email')
     expect(input).toHaveAttribute('type', 'email')
-    expect(screen.getByTestId('icon-RiMailFill')).toBeInTheDocument()
+    expect(screen.queryByTestId('icon-RiMailFill')).not.toBeInTheDocument()
   })
 
-  it('should render password type with icon and toggle button', () => {
+  it('should render password type with a toggle button but no leading icon', () => {
     // Arrange & Act
     render(<InputField type="password" placeholder="Enter password" />)
     // Assert
     const input = screen.getByPlaceholderText('Enter password')
     expect(input).toHaveAttribute('type', 'password')
-    expect(screen.getByTestId('icon-RiLockPasswordFill')).toBeInTheDocument()
+    expect(screen.queryByTestId('icon-RiLockPasswordFill')).not.toBeInTheDocument()
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).toBeInTheDocument()
   })
@@ -258,7 +259,7 @@ describe('InputField', () => {
     )
     // Assert
     const label = screen.getByText('Disabled Label')
-    expect(label).toHaveClass('text-secondary', 'cursor-not-allowed')
+    expect(label).toHaveClass('text-disabled', 'cursor-not-allowed')
   })
 
   it('should apply correct classes for enabled label', () => {
@@ -363,17 +364,17 @@ describe('InputField', () => {
   it('should apply correct input classes for text type without slots', () => {
     // Arrange & Act
     render(<InputField type="text" placeholder="Test" />)
-    // Assert
+    // Assert — 11px/14px exactos del Design System
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('py-2', 'px-4')
+    expect(input).toHaveClass('py-[11px]', 'px-[14px]')
   })
 
   it('should apply correct input classes for email type without slots', () => {
-    // Arrange & Act
+    // Arrange & Act — email es un input plano, mismo padding que text
     render(<InputField type="email" placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('py-2', 'pr-4')
+    expect(input).toHaveClass('py-[11px]', 'px-[14px]')
   })
 
   it('should apply correct input classes for password type without slots', () => {
@@ -381,7 +382,7 @@ describe('InputField', () => {
     render(<InputField type="password" placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('py-2', 'pr-1')
+    expect(input).toHaveClass('py-[11px]', 'pl-[14px]', 'pr-1')
   })
 
   it('should apply correct input classes with left slot', () => {
@@ -389,7 +390,7 @@ describe('InputField', () => {
     render(<InputField leftSlot={<span>L</span>} placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('pr-4')
+    expect(input).toHaveClass('pr-[14px]')
   })
 
   it('should apply correct input classes with right slot', () => {
@@ -397,7 +398,7 @@ describe('InputField', () => {
     render(<InputField rightSlot={<span>R</span>} placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('pl-4')
+    expect(input).toHaveClass('pl-[14px]')
   })
 
   it('should apply disabled classes to input', () => {
@@ -405,7 +406,7 @@ describe('InputField', () => {
     render(<InputField disabled placeholder="Test" />)
     // Assert
     const input = screen.getByPlaceholderText('Test')
-    expect(input).toHaveClass('text-secondary', 'cursor-not-allowed')
+    expect(input).toHaveClass('text-muted', 'cursor-not-allowed')
   })
 
   it('should apply loading classes to input', () => {

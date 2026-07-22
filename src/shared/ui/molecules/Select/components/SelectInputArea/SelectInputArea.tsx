@@ -89,6 +89,7 @@ export const SelectInputArea = ({
           {(!multiple || selectedValues.length === 0) && (
             <TriggerDisplay
               singleLabel={singleLabel}
+              disabled={disabled}
               {...(singleOption !== undefined && { singleOption })}
               {...(placeholder !== undefined && { placeholder })}
             />
@@ -112,7 +113,7 @@ export const SelectInputArea = ({
         >
           <IconComponent
             icon={isOpen ? 'RiArrowUpSLine' : 'RiArrowDownSLine'}
-            className="size-5 text-foreground"
+            className={clsx('size-5', disabled ? 'text-muted' : 'text-foreground')}
           />
         </button>
 

@@ -18,14 +18,7 @@ const meta = {
     },
     variant: {
       control: { type: 'select' },
-      options: [
-        'primary',
-        'secondary',
-        'text',
-        'warning',
-        'error',
-        'information',
-      ],
+      options: ['primary', 'secondary', 'text', 'destructive'],
     },
     size: {
       control: { type: 'select' },
@@ -71,9 +64,7 @@ export const Variants: Story = {
       <IconButton {...args} variant="primary" aria-label="Primary" />
       <IconButton {...args} variant="secondary" aria-label="Secondary" />
       <IconButton {...args} variant="text" aria-label="Text" />
-      <IconButton {...args} variant="warning" aria-label="Warning" />
-      <IconButton {...args} variant="error" aria-label="Error" />
-      <IconButton {...args} variant="information" aria-label="Information" />
+      <IconButton {...args} variant="destructive" aria-label="Destructive" />
     </div>
   ),
 }

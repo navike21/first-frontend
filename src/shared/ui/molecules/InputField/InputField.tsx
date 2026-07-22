@@ -44,22 +44,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         variant={variant}
         errorMessage={errorMessage}
       >
-        {type === 'password' && (
-          <div className={clsx('flex min-w-10 items-center justify-center')}>
-            <IconComponent
-              icon="RiLockPasswordFill"
-              className="size-5 text-foreground"
-            />
-          </div>
-        )}
-        {type === 'email' && (
-          <div className={clsx('flex min-w-10 items-center justify-center')}>
-            <IconComponent
-              icon="RiMailFill"
-              className="size-5 text-foreground"
-            />
-          </div>
-        )}
         {leftSlot && (
           <div className={handleClassSlot(type, 'left')}>{leftSlot}</div>
         )}
@@ -74,13 +58,12 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             'placeholder:text-muted',
             'focus:border-transparent focus:ring-0 focus:outline-none',
             {
-              'px-4 py-2': !leftSlot && !rightSlot && type === 'text',
-              'py-2 pr-4': !leftSlot && !rightSlot && type === 'email',
-              'py-2 pr-1': !leftSlot && !rightSlot && type === 'password',
-              'pr-4': leftSlot && !rightSlot && type !== 'password',
-              'pr-1': leftSlot && !rightSlot && type === 'password',
-              'pl-4': rightSlot && !leftSlot,
-              'cursor-not-allowed text-secondary': disabled,
+              'py-[11px] px-[14px]': !leftSlot && !rightSlot && type !== 'password',
+              'py-[11px] pl-[14px] pr-1': !leftSlot && type === 'password',
+              'pr-[14px]': leftSlot && !rightSlot && type !== 'password',
+              'pr-1': leftSlot && type === 'password',
+              'pl-[14px]': rightSlot && !leftSlot,
+              'cursor-not-allowed text-muted': disabled,
               'text-foreground': !disabled,
               'pointer-events-none': loading,
             }

@@ -79,17 +79,18 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
         <div
           className={clsx(
-            'flex w-full rounded-sm',
+            'flex w-full rounded-control',
             'duration-fast ease-out-expo transition-all',
-            'focus-within:shadow-sm focus-within:ring-2',
+            'focus-within:ring-2',
             {
-              'bg-slate-400/50 dark:bg-slate-600/50': disabled,
-              'bg-surface ring-1 ring-inset': !disabled,
-              'focus-within:ring-primary-600 dark:focus-within:ring-primary-400 ring-border':
+              'bg-surface-subtle': disabled,
+              'bg-surface-input ring-1 ring-inset': !disabled,
+              'ring-border-control hover:ring-border-hover focus-within:ring-primary-600! focus-within:shadow-focus-ring':
                 variant === 'default' && !isError && !disabled,
               'ring-emerald-500 focus-within:ring-emerald-600':
                 variant === 'success' && !disabled,
-              'ring-red-500 focus-within:ring-red-600': isError && !disabled,
+              'ring-danger-600 focus-within:ring-danger-600':
+                isError && !disabled,
               'ring-yellow-500 focus-within:ring-yellow-600':
                 variant === 'warning' && !disabled,
             },
@@ -113,7 +114,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               'placeholder:text-muted',
               'focus:outline-none',
               {
-                'cursor-not-allowed text-secondary': disabled,
+                'cursor-not-allowed text-muted': disabled,
                 'text-foreground': !disabled,
               }
             )}
@@ -137,7 +138,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               className={clsx('shrink-0 text-xs tabular-nums', {
                 'text-muted': !nearLimit && !atLimit,
                 'text-yellow-500': nearLimit,
-                'font-medium text-red-500': atLimit,
+                'font-medium text-danger-600': atLimit,
               })}
             >
               {length}/{maxLength}

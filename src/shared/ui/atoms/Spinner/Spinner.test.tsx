@@ -58,8 +58,8 @@ describe('Spinner', () => {
     expect(gradient?.getAttribute('id')).toMatch(/^spinner_.*default$/)
 
     const stops = gradient?.querySelectorAll('stop')
-    expect(stops?.[0]).toHaveAttribute('stop-color', '#62748e')
-    expect(stops?.[1]).toHaveAttribute('stop-color', '#62748e')
+    expect(stops?.[0]).toHaveAttribute('stop-color', 'var(--color-primary-600)')
+    expect(stops?.[1]).toHaveAttribute('stop-color', 'var(--color-primary-600)')
   })
 
   it('should render with white variant', () => {
@@ -94,8 +94,8 @@ describe('Spinner', () => {
     expect(gradient?.getAttribute('id')).toMatch(/^spinner_.*gradient$/)
 
     const stops = gradient?.querySelectorAll('stop')
-    expect(stops?.[0]).toHaveAttribute('stop-color', '#17CADD')
-    expect(stops?.[1]).toHaveAttribute('stop-color', '#332eb9ff')
+    expect(stops?.[0]).toHaveAttribute('stop-color', 'var(--color-primary-600)')
+    expect(stops?.[1]).toHaveAttribute('stop-color', 'var(--color-primary-600)')
   })
 
   it('should generate unique gradient IDs for different instances', () => {
@@ -142,7 +142,7 @@ describe('Spinner', () => {
     const { rerender } = render(<Spinner variant="default" />)
     // Assert default
     let path = screen.getByTestId('spinner').querySelector('svg path')
-    expect(path).toHaveClass('fill-slate-200')
+    expect(path).toHaveClass('fill-border-control')
     // Assert white
     rerender(<Spinner variant="white" />)
     path = screen.getByTestId('spinner').querySelector('svg path')
@@ -150,7 +150,7 @@ describe('Spinner', () => {
     // Assert gradient
     rerender(<Spinner variant="gradient" />)
     path = screen.getByTestId('spinner').querySelector('svg path')
-    expect(path).toHaveClass('fill-slate-200')
+    expect(path).toHaveClass('fill-border-control')
   })
 
   it('should have correct accessibility attributes', () => {

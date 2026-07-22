@@ -3,13 +3,14 @@ import type { AvatarProps } from './Avatar.types'
 const SIZE_MAP = {
   // Fixed width AND height (size-*) so the avatar is always a circle. `min-w-*`
   // let the figure stretch to a photo's intrinsic width → it rendered as an oval.
+  xs: 'size-7 text-xs', // 28px — trigger del Menú de usuario (Design System)
   sm: 'size-8 text-sm',
   md: 'size-12 text-base',
   lg: 'size-16 text-lg',
 } as const
 
 const STATUS_COLOR_MAP = {
-  online: 'bg-green-500',
+  online: 'bg-avatar-online',
   offline: 'bg-gray-400',
   busy: 'bg-red-500',
   away: 'bg-yellow-400',
@@ -23,6 +24,7 @@ const STATUS_EFFECT_MAP = {
 } as const
 
 const STATUS_SIZE_MAP = {
+  xs: 'w-2.5 h-2.5',
   sm: 'w-3 h-3',
   md: 'w-3.5 h-3.5',
   lg: 'w-4 h-4',

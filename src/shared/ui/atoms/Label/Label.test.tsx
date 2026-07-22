@@ -28,7 +28,7 @@ describe('Label', () => {
     render(<Label disabled>Test Label</Label>)
     // Assert
     const label = screen.getByText('Test Label')
-    expect(label).toHaveClass('text-secondary', 'cursor-not-allowed')
+    expect(label).toHaveClass('text-disabled', 'cursor-not-allowed')
     expect(label).not.toHaveClass('text-foreground')
   })
 
@@ -39,7 +39,7 @@ describe('Label', () => {
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-foreground')
     expect(label).not.toHaveClass(
-      'text-secondary',
+      'text-disabled',
       'cursor-not-allowed'
     )
   })
@@ -143,7 +143,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass(
-      'text-secondary',
+      'text-disabled',
       'cursor-not-allowed',
       'text-blue-500'
     )

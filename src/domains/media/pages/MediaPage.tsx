@@ -63,7 +63,7 @@ export const MediaPage = () => {
       description={t.page.listDescription}
       actions={[
         ...(canSeeTrash
-          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'outline' as const, to: navPaths.mediaTrash(), size: 'small' as const }]
+          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'secondary' as const, to: navPaths.mediaTrash(), size: 'small' as const }]
           : []),
         ...(canUpload
           ? [{ type: 'button' as const, label: t.actions.uploadFiles, variant: 'primary' as const, size: 'small' as const, onClick: () => setUploadOpen(true) }]

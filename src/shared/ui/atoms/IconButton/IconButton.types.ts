@@ -4,13 +4,7 @@ import type { MotionConflictingHandlers } from '@/shared/types/buttonProps'
 
 export type IconButtonShape = 'circle' | 'square'
 
-export type IconButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'text'
-  | 'warning'
-  | 'error'
-  | 'information'
+export type IconButtonVariant = 'primary' | 'secondary' | 'text' | 'destructive'
 
 export type IconButtonSize = 'small' | 'medium' | 'large'
 

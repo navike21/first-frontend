@@ -11,13 +11,13 @@ import type {
 import { useTooltipPosition } from './Tooltip.hooks'
 
 const variantClasses: Record<TooltipVariant, string> = {
-  dark: 'bg-gray-950 text-white shadow-lg shadow-black/40 ring-1 ring-white/10',
+  dark: 'bg-tooltip-bg text-tooltip-text',
   light:
     'bg-white dark:bg-slate-700 text-foreground shadow-lg ring-1 ring-black/10 dark:ring-white/10',
 }
 
 const arrowVariantClasses: Record<TooltipVariant, string> = {
-  dark: 'bg-gray-950',
+  dark: 'bg-tooltip-bg',
   light: 'bg-white dark:bg-slate-700',
 }
 
@@ -88,7 +88,7 @@ export const Tooltip = ({
             }}
             className={clsx(
               'animate-tooltip-in pointer-events-none z-[9999]',
-              'rounded-lg',
+              'rounded-md',
               variantClasses[variant],
               sizeClasses[size],
               hasSubtitle ? 'max-w-xs whitespace-normal' : 'whitespace-nowrap'
@@ -108,7 +108,7 @@ export const Tooltip = ({
                       'shrink-0',
                       hasSubtitle ? 'mt-0.5 h-4 w-4' : 'h-3.5 w-3.5',
                       variant === 'dark'
-                        ? 'text-slate-300'
+                        ? 'text-tooltip-text/70'
                         : 'text-slate-500 dark:text-slate-400'
                     )}
                   />
@@ -120,7 +120,7 @@ export const Tooltip = ({
                       className={clsx(
                         'leading-snug text-xs font-normal',
                         variant === 'dark'
-                          ? 'text-slate-400'
+                          ? 'text-tooltip-text/70'
                           : 'text-slate-500 dark:text-slate-400'
                       )}
                     >

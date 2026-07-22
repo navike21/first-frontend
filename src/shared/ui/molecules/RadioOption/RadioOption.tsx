@@ -59,22 +59,27 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
       >
         <motion.button
           className={clsx(
-            'group relative flex h-5 w-5 items-center justify-center border-none outline-none',
+            'group relative flex h-[18px] w-[18px] items-center justify-center border-none outline-none',
             'duration-fast ease-out-expo transition-all',
             'rounded-full ring-1 ring-inset',
+            // Mismo motivo que Checkbox: el input real está anidado y
+            // opacity-0 — hay que detectar su foco vía has-[]. El botón
+            // lleva tabIndex=-1, no debe ser un tab-stop propio y vacío.
+            'has-[input:focus-visible]:shadow-focus-ring',
             {
-              'cursor-not-allowed bg-slate-200 ring-slate-400 dark:bg-slate-700 dark:ring-slate-600':
+              'cursor-not-allowed bg-surface-subtle ring-border-control':
                 disabled,
-              'bg-surface ring-border': !disabled,
-              'has-[input:checked]:ring-primary-700 dark:has-[input:checked]:ring-primary-600':
-                !disabled && !error,
-              'ring-red-500 has-[input:checked]:ring-red-500': error,
+              'bg-surface ring-border-control hover:ring-border-hover':
+                !disabled,
+              'has-[input:checked]:ring-primary-600': !disabled && !error,
+              'ring-danger-600 has-[input:checked]:ring-danger-600': error,
             }
           )}
           whileTap={!disabled ? { scale: 0.9 } : undefined}
           transition={{ type: 'spring', stiffness: 500, damping: 20 }}
           disabled={disabled}
           type="button"
+          tabIndex={-1}
         >
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -83,9 +88,9 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             }
             transition={bounceTransition}
             className={clsx('h-2.5 w-2.5 rounded-full', {
-              'bg-primary-600 dark:bg-primary-500': !disabled && !error,
-              'bg-slate-300 dark:bg-slate-600': disabled,
-              'bg-red-500': error,
+              'bg-primary-600': !disabled && !error,
+              'bg-disabled': disabled,
+              'bg-danger-600': error,
             })}
           />
           <input

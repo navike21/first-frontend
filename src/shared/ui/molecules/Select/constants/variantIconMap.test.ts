@@ -18,10 +18,10 @@ describe('VARIANT_ICON_MAP', () => {
     })
   })
 
-  it('should map error to RiErrorWarningFill with red color class', () => {
+  it('should map error to RiErrorWarningFill with danger color class', () => {
     expect(VARIANT_ICON_MAP['error']).toEqual({
       icon: 'RiErrorWarningFill',
-      className: 'text-red-500 mr-3 size-5',
+      className: 'text-danger-600 mr-3 size-5',
     })
   })
 

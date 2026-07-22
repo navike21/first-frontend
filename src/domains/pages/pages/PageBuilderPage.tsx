@@ -476,7 +476,7 @@ export const PageBuilderPage = () => {
         {
           type: 'link',
           label: t.table.editItem,
-          variant: 'outline',
+          variant: 'secondary',
           to: navPaths.pageEdit(item.id, language),
           size: 'small',
         },

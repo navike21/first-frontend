@@ -41,17 +41,18 @@ export const InputLayout = ({
         className={clsx(
           'content-input',
           'flex h-10 w-full items-center',
-          'rounded-sm',
+          'rounded-control',
           'duration-fast ease-out-expo transition-all',
-          'focus-within:shadow-sm focus-within:ring-2',
+          'focus-within:ring-2',
+          { 'focus-within:shadow-focus-ring': variant === 'default' && !disabled },
           {
-            'bg-slate-400/50 dark:bg-slate-600/50': disabled,
-            'bg-surface ring-1 ring-inset': !disabled,
-            'focus-within:ring-primary-600 dark:focus-within:ring-primary-400 ring-border':
+            'bg-surface-subtle': disabled,
+            'bg-surface-input ring-1 ring-inset': !disabled,
+            'ring-border-control hover:ring-border-hover focus-within:ring-primary-600!':
               variant === 'default' && !disabled,
             'ring-emerald-500 focus-within:ring-emerald-600':
               variant === 'success' && !disabled,
-            'ring-red-500 focus-within:ring-red-600':
+            'ring-danger-600 focus-within:ring-danger-600':
               variant === 'error' && !disabled,
             'ring-yellow-500 focus-within:ring-yellow-600':
               variant === 'warning' && !disabled,
@@ -74,7 +75,7 @@ export const InputLayout = ({
         {variant === 'error' && !loading && (
           <IconComponent
             icon="RiErrorWarningFill"
-            className="mr-3 size-5 text-red-500"
+            className="mr-3 size-5 text-danger-600"
           />
         )}
         {variant === 'warning' && !loading && (

@@ -45,7 +45,7 @@ export const PortfolioPage = () => {
       description={t.page.listDescription}
       actions={[
         ...(canSeeTrash
-          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'outline' as const, to: navPaths.portfolioTrash(language), size: 'small' as const }]
+          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'secondary' as const, to: navPaths.portfolioTrash(language), size: 'small' as const }]
           : []),
         ...(canCreate
           ? [{ type: 'link' as const, label: t.actions.newItem, variant: 'primary' as const, to: navPaths.portfolioCreate(language), size: 'small' as const }]

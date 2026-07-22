@@ -40,49 +40,31 @@ describe('IconButton component', () => {
     // Assert
     expect(button).toHaveClass(
       'bg-surface',
-      'text-primary-700',
+      'text-foreground',
       'ring-1',
-      'ring-primary-700',
+      'ring-border-control',
       'ring-inset'
     )
   })
 
-  it('should apply warning variant styles', () => {
-    // Arrange & Act
-    render(
-      <IconButton icon="RiAlertLine" variant="warning" aria-label="Warning" />
-    )
-    const button = screen.getByRole('button')
-    // Assert
-    expect(button).toHaveClass('bg-amber-500', 'text-white')
-  })
-
-  it('should apply error variant styles', () => {
+  it('should apply destructive variant styles', () => {
     // Arrange & Act
     render(
       <IconButton
         icon="RiErrorWarningLine"
-        variant="error"
+        variant="destructive"
         aria-label="Error"
       />
     )
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('bg-red-600', 'text-white')
-  })
-
-  it('should apply information variant styles', () => {
-    // Arrange & Act
-    render(
-      <IconButton
-        icon="RiInformationLine"
-        variant="information"
-        aria-label="Info"
-      />
+    expect(button).toHaveClass(
+      'bg-surface',
+      'text-danger-600',
+      'ring-1',
+      'ring-danger-200',
+      'ring-inset'
     )
-    const button = screen.getByRole('button')
-    // Assert
-    expect(button).toHaveClass('bg-blue-600', 'text-white')
   })
 
   it('should apply text variant styles', () => {
@@ -102,12 +84,12 @@ describe('IconButton component', () => {
     expect(button).not.toHaveClass('rounded-md')
   })
 
-  it('should apply square shape (rounded-md) when requested', () => {
+  it('should apply square shape (rounded-control) when requested', () => {
     // Arrange & Act
     render(<IconButton icon="RiHomeLine" shape="square" aria-label="Home" />)
     const button = screen.getByRole('button')
     // Assert
-    expect(button).toHaveClass('rounded-md')
+    expect(button).toHaveClass('rounded-control')
     expect(button).not.toHaveClass('rounded-full')
   })
 
@@ -117,7 +99,7 @@ describe('IconButton component', () => {
     const button = screen.getByRole('button')
     // Assert
     expect(button).toHaveClass('rounded-full')
-    expect(button).not.toHaveClass('rounded-md')
+    expect(button).not.toHaveClass('rounded-control')
   })
 
   it('should apply small size padding', () => {
@@ -191,6 +173,20 @@ describe('IconButton component', () => {
     const button = screen.getByRole('button')
     // Assert
     expect(button).toBeDisabled()
+    expect(button).toHaveClass(
+      'cursor-not-allowed',
+      'bg-border-control',
+      'text-muted'
+    )
+  })
+
+  it('should apply the opacity-50 fallback when disabled with variant text', () => {
+    // Arrange & Act
+    render(
+      <IconButton icon="RiHomeLine" variant="text" disabled aria-label="Home" />
+    )
+    const button = screen.getByRole('button')
+    // Assert
     expect(button).toHaveClass('cursor-not-allowed', 'opacity-50')
   })
 

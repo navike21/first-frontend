@@ -56,11 +56,21 @@ describe('LinkButton component', () => {
     const link = screen.getByRole('link')
     expect(link).toHaveClass(
       'bg-surface',
-      'text-primary-700',
+      'text-foreground',
       'ring-1',
-      'ring-primary-700',
+      'ring-border-control',
       'ring-inset'
     )
+  })
+
+  it('should apply ghost variant styles', () => {
+    render(
+      <LinkButton href="/test" variant="ghost">
+        Ghost Button
+      </LinkButton>
+    )
+    const link = screen.getByRole('link')
+    expect(link).toHaveClass('bg-transparent', 'text-primary-700')
   })
 
   it('should apply correct size classes', () => {
@@ -70,7 +80,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     let link = screen.getByRole('link')
-    expect(link).toHaveClass('px-6', 'py-3', 'text-xs')
+    expect(link).toHaveClass('h-8', 'px-3.5', 'text-[13px]')
 
     rerender(
       <LinkButton href="/test" size="medium">
@@ -78,7 +88,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     link = screen.getByRole('link')
-    expect(link).toHaveClass('px-8', 'py-3.5', 'text-sm')
+    expect(link).toHaveClass('h-10', 'px-[18px]', 'text-sm')
 
     rerender(
       <LinkButton href="/test" size="large">
@@ -86,7 +96,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     link = screen.getByRole('link')
-    expect(link).toHaveClass('px-10', 'py-4', 'text-md')
+    expect(link).toHaveClass('h-12', 'px-6', 'text-[15px]')
   })
 
   it('should apply custom className', () => {
@@ -127,7 +137,7 @@ describe('LinkButton component', () => {
       'duration-fast',
       'ease-out-expo',
       'font-medium',
-      'rounded-md'
+      'rounded-control'
     )
   })
 
@@ -138,7 +148,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     let link = screen.getByRole('link')
-    expect(link).toHaveClass('hover:bg-primary-700')
+    expect(link).toHaveClass('hover:bg-primary-hover')
 
     rerender(
       <LinkButton href="/test" variant="secondary">
@@ -146,7 +156,7 @@ describe('LinkButton component', () => {
       </LinkButton>
     )
     link = screen.getByRole('link')
-    expect(link).toHaveClass('hover:bg-primary-700/10')
+    expect(link).toHaveClass('hover:bg-surface-subtle')
   })
 
   it('should render icon with correct size classes', () => {
