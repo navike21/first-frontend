@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { PageHeader, type PageHeaderAction } from '@/shared/ui/molecules/PageHeader'
 import { Button } from '@/shared/ui/atoms/Button'
 import { LinkButton } from '@/shared/ui/atoms/LinkButton'
+import { ButtonGroup } from '@/shared/ui/atoms/ButtonGroup'
 import type { PageContentProps } from './PageContent.types'
 
 /* ── Floating title bar (appears when original title scrolls out) ── */
@@ -78,15 +79,11 @@ const FloatingTitleBar = ({
             {title}
           </h2>
 
-          {/* Actions:
-              mobile  → full row below title, each button flex-1 (50/50)
-              desktop → inline right of title via absolute/flex trick handled
-                        by swapping to a row layout from sm up              */}
+          {/* Actions — same ButtonGroup rule as everywhere else: 2 stay
+              side by side even on mobile, 3+ stack full-width; desktop is
+              always a row, positioned inline right of the title. */}
           {hasActions && (
-            <div className={clsx(
-              'mt-1.5 flex items-center gap-2',
-              'sm:absolute sm:inset-y-0 sm:right-4 sm:mt-0 sm:flex sm:items-center sm:gap-2 md:right-8'
-            )}>
+            <ButtonGroup className="mt-1.5 sm:absolute sm:inset-y-0 sm:right-4 sm:mt-0 md:right-8">
               {actions.map((action) =>
                 action.type === 'button' ? (
                   <Button
@@ -97,7 +94,7 @@ const FloatingTitleBar = ({
                     loading={action.loading}
                     disabled={action.disabled}
                     onClick={action.onClick}
-                    className="flex-1 whitespace-nowrap sm:flex-none"
+                    className="whitespace-nowrap"
                   >
                     {action.label}
                   </Button>
@@ -108,13 +105,13 @@ const FloatingTitleBar = ({
                     variant={action.variant ?? 'primary'}
                     size="small"
                     icon={action.icon}
-                    className="flex-1 whitespace-nowrap sm:flex-none"
+                    className="whitespace-nowrap"
                   >
                     {action.label}
                   </LinkButton>
                 )
               )}
-            </div>
+            </ButtonGroup>
           )}
         </div>
       </motion.div>

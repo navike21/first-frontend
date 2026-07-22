@@ -1,5 +1,6 @@
 import { Button } from '@/shared/ui/atoms/Button'
 import { LinkButton } from '@/shared/ui/atoms/LinkButton'
+import { ButtonGroup } from '@/shared/ui/atoms/ButtonGroup'
 import type { PageHeaderProps } from './PageHeader.types'
 
 export const PageHeader = ({
@@ -22,7 +23,7 @@ export const PageHeader = ({
       </div>
 
       {hasActions && (
-        <div className="flex flex-wrap items-center gap-3 sm:shrink-0 sm:pt-1">
+        <ButtonGroup className="sm:shrink-0 sm:pt-1">
           {actions.map((action) =>
             action.type === 'button' ? (
               <Button
@@ -48,7 +49,7 @@ export const PageHeader = ({
               </LinkButton>
             )
           )}
-        </div>
+        </ButtonGroup>
       )}
     </header>
   )
