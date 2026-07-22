@@ -654,6 +654,34 @@ verticales (ancho completo) en mobile y vuelven a fila desde `sm:`**.
   `flex-wrap` con botones no achicados **siempre** los apila, sea cual sea
   el ancho de pantalla — no es solo un problema de mobile).
 
+## `<html lang>` sincronizado con el idioma activo
+
+Reportado por el usuario: con el navegador (Chrome, celular) en español y
+First también en español, igual aparecía el prompt de "¿Traducir esta
+página?" — señal de que Chrome detectaba un idioma de contenido distinto al
+real. Causa: `index.html` traía `<html lang="en">` fijo y **nada** en el
+código actualizaba `document.documentElement.lang` — quedaba pegado a ese
+valor estático para siempre sin importar el idioma real de la UI, así que
+el heurístico de traducción de Chrome (que confía en `lang`) detectaba un
+posible desajuste con el contenido real y ofrecía traducir una página que
+ya estaba en el idioma correcto.
+
+Arreglado en `shared/model/language.store.ts`, mismo patrón ya establecido
+en `theme.store.ts` (`applyTheme`/`document.documentElement.classList`):
+una función `applyLanguage(lang)` que hace
+`document.documentElement.lang = lang`, invocada dentro de **las tres vías**
+por las que el idioma activo cambia — `setLanguage` (selector explícito),
+`hydrateLanguage` (sync por URL en `lang.route.ts::beforeLoad`, y
+preferencia del backend en `preferencesHydrate.ts`) — y en
+`onRehydrateStorage` (carga inicial de la página, cuando Zustand rehidrata
+el idioma persistido de una sesión anterior desde `localStorage` antes de
+cualquier interacción). `index.html` también se corrigió de `lang="en"` a
+`lang="es"` (el default real de la app) para que el valor sea correcto
+incluso en el instante antes de que React monte. Verificado en vivo
+cambiando de idioma con el selector real y leyendo
+`document.documentElement.lang` en consola — ambas direcciones (es→en,
+en→es) sincronizan correctamente.
+
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
 - `README.md` — qué es el proyecto y cómo levantarlo.

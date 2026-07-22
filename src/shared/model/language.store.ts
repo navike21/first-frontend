@@ -5,6 +5,16 @@ import { queuePreferenceSave } from '@/shared/lib/preferencesSync'
 
 const LANGUAGE_KEY = '_first_lang'
 
+// Keeps <html lang> in sync with the active UI language — otherwise it stays
+// stuck at index.html's static value forever, and the browser's own
+// translate heuristics (Chrome's "Translate this page?") misdetect the
+// content language and offer to translate a page that's already in the
+// user's language (confirmed: reported live on a phone with both Chrome and
+// First set to Spanish, still prompted to translate).
+const applyLanguage = (lang: Language): void => {
+  document.documentElement.lang = lang
+}
+
 interface LanguageState {
   language: Language
 }
@@ -47,15 +57,21 @@ export const useLanguageStore = create<LanguageStore>()(
       (set) => ({
         language: 'es',
         setLanguage: (lang) => {
+          applyLanguage(lang)
           set({ language: lang }, false, 'language/setLanguage')
           queuePreferenceSave({ language: lang })
         },
-        hydrateLanguage: (lang) =>
-          set({ language: lang }, false, 'language/hydrateLanguage'),
+        hydrateLanguage: (lang) => {
+          applyLanguage(lang)
+          set({ language: lang }, false, 'language/hydrateLanguage')
+        },
       }),
       {
         name: LANGUAGE_KEY,
         storage: createJSONStorage(() => safeLocalStorage),
+        onRehydrateStorage: () => (state) => {
+          if (state) applyLanguage(state.language)
+        },
       }
     ),
     { name: 'LanguageStore' }

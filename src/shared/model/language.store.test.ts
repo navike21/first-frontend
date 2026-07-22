@@ -51,6 +51,28 @@ describe('useLanguageStore', () => {
       useLanguageStore.getState().setLanguage('de')
       expect(useLanguageStore.getState().language).toBe('de')
     })
+
+    it('syncs document.documentElement.lang', () => {
+      useLanguageStore.getState().setLanguage('ja')
+      expect(document.documentElement.lang).toBe('ja')
+    })
+  })
+
+  describe('hydrateLanguage', () => {
+    it('syncs document.documentElement.lang without persisting a preference save', () => {
+      useLanguageStore.getState().hydrateLanguage('pt')
+      expect(useLanguageStore.getState().language).toBe('pt')
+      expect(document.documentElement.lang).toBe('pt')
+    })
+  })
+
+  describe('onRehydrateStorage', () => {
+    it('applies the persisted language to document.documentElement.lang', () => {
+      useLanguageStore.getState().setLanguage('de')
+      document.documentElement.lang = 'es'
+      useLanguageStore.persist.rehydrate()
+      expect(document.documentElement.lang).toBe('de')
+    })
   })
 
   describe('safeLocalStorage error handling', () => {
