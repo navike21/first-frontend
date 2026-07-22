@@ -29,7 +29,16 @@ export default defineConfig({
     // the shell + nav fallback + fonts. Registration is manual (main.tsx) to
     // keep it in the bundle and CSP-safe (no injected inline script).
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt' (not 'autoUpdate') — main.tsx calls updateSW() itself the
+      // instant an update is found instead of waiting for the user or for
+      // every open tab of this origin to close naturally. vite-plugin-pwa's
+      // 'autoUpdate' client code never actually sends the skip-waiting
+      // message on its own (confirmed reading its generated register.js —
+      // that call is gated on `!auto`); it just waits for Workbox's default
+      // no-controlled-clients moment, which on a long-lived mobile tab can
+      // never arrive. Confirmed live: a deployed fix sat unapplied through
+      // two full reloads until skip-waiting was sent manually.
+      registerType: 'prompt',
       injectRegister: false,
       manifest: {
         name: 'First — Gestor navike21',
