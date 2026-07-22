@@ -147,6 +147,8 @@ export const ru: PageTranslations = {
     bulkDeleted: 'Страницы удалены',
     bulkRestored: 'Страницы восстановлены',
     bulkPurged: 'Страницы удалены навсегда',
+    offlinePhotoSkipped:
+      'Изображения не сохраняются офлайн; добавьте их при восстановлении связи.',
   },
   validation: {
     required: 'Обязательное поле',

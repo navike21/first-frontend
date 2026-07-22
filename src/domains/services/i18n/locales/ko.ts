@@ -132,6 +132,8 @@ export const ko: ServicesTranslations = {
     bulkDeleted: '서비스가 삭제되었습니다',
     bulkRestored: '서비스가 복원되었습니다',
     bulkPurged: '서비스가 영구적으로 삭제되었습니다',
+    offlinePhotoSkipped:
+      '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
   },
   validation: {
     required: '필수 필드',

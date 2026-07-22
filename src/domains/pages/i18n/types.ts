@@ -144,6 +144,7 @@ export interface PageTranslations {
     bulkDeleted: string
     bulkRestored: string
     bulkPurged: string
+    offlinePhotoSkipped: string
   }
   validation: {
     required: string

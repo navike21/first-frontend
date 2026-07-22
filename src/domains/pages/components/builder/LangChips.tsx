@@ -22,7 +22,7 @@ export const LangChips = ({ editing, userLanguage, values, onChange }: LangChips
           type="button"
           onClick={() => onChange(lang)}
           className={clsx(
-            'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5',
+            'inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-0.5',
             'text-[10px] font-semibold uppercase tracking-wider',
             'transition-colors',
             active

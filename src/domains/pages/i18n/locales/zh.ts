@@ -147,6 +147,7 @@ export const zh: PageTranslations = {
     bulkDeleted: '页面已删除',
     bulkRestored: '页面已恢复',
     bulkPurged: '页面已永久删除',
+    offlinePhotoSkipped: '图片不会离线保存；重新连接后请添加。',
   },
   validation: {
     required: '必填项',

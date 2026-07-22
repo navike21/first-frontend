@@ -52,11 +52,20 @@ export const EditPagePage = () => {
     updatePage.mutate(
       { data: toPagePayload(data), cover, removeCover, ogImage, coverLibraryUrl },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           notify.success(t.toasts.updated)
+          // 2xx with warnings = record saved but an image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
           navigate({ to: navPaths.pages(language) as never })
         },
-        onError: onQueuedOr(() => navigate({ to: navPaths.pages(language) as never })),
+        // Offline: the edit is queued (without its images). Soft success —
+        // warn the images were skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (cover || ogImage) notify.warning(t.toasts.offlinePhotoSkipped)
+          navigate({ to: navPaths.pages(language) as never })
+        }),
       },
     )
   }

@@ -16,7 +16,7 @@ export const DAY_PICKER_CLASS_NAMES = {
   week: 'mt-1 flex',
   day: 'relative flex-1 p-0 text-center',
   day_button: [
-    'mx-auto flex size-9 items-center justify-center rounded-sm text-sm',
+    'mx-auto flex size-9 cursor-pointer items-center justify-center rounded-sm text-sm',
     'text-foreground transition-colors duration-fast ease-out-expo',
     'hover:bg-surface-subtle',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',
@@ -49,14 +49,14 @@ export const DAY_PICKER_CLASS_NAMES = {
 }
 
 export const CAPTION_BTN_CLS = clsx(
-  'rounded-sm px-1.5 py-0.5 text-sm font-semibold text-foreground',
+  'cursor-pointer rounded-sm px-1.5 py-0.5 text-sm font-semibold text-foreground',
   'transition-all duration-fast ease-out-expo',
   'hover:bg-surface-subtle',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
 )
 
 export const NAV_BTN_CLS = clsx(
-  'flex size-7 shrink-0 items-center justify-center rounded-sm',
+  'flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-sm',
   'text-secondary transition-colors duration-fast ease-out-expo',
   'hover:bg-surface-subtle hover:text-foreground',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500',

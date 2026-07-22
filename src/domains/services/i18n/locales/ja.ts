@@ -132,6 +132,8 @@ export const ja: ServicesTranslations = {
     bulkDeleted: 'サービスを削除しました',
     bulkRestored: 'サービスを復元しました',
     bulkPurged: 'サービスを完全に削除しました',
+    offlinePhotoSkipped:
+      '画像はオフラインでは保存されません。再接続時に追加してください。',
   },
   validation: {
     required: '必須フィールド',

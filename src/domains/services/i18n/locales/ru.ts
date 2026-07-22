@@ -132,6 +132,8 @@ export const ru: ServicesTranslations = {
     bulkDeleted: 'Услуги удалены',
     bulkRestored: 'Услуги восстановлены',
     bulkPurged: 'Услуги удалены навсегда',
+    offlinePhotoSkipped:
+      'Изображения не сохраняются офлайн; добавьте их при восстановлении связи.',
   },
   validation: {
     required: 'Обязательное поле',

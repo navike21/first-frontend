@@ -43,7 +43,7 @@ export const TextElementCard = ({ element, sectionId, columnId, language, onChan
       onEdit={() => setOpen(true)}
       onDelete={onDelete}
     >
-      <button type="button" onClick={() => setOpen(true)} className="rounded-md text-left transition-colors hover:bg-surface-subtle">
+      <button type="button" onClick={() => setOpen(true)} className="cursor-pointer rounded-md text-left transition-colors hover:bg-surface-subtle">
         {preview ? (
           <div className={`${PROSE} max-h-40 overflow-hidden px-1 py-0.5`} dangerouslySetInnerHTML={{ __html: preview }} />
         ) : (

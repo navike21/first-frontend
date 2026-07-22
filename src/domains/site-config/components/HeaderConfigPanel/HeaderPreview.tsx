@@ -145,7 +145,7 @@ export const HeaderPreview = ({ config }: HeaderPreviewProps) => {
               onClick={() => setDevice(d)}
               aria-pressed={device === d}
               className={clsx(
-                'inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs',
+                'inline-flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 text-xs',
                 'transition-colors',
                 device === d
                   ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'

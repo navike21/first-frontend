@@ -114,6 +114,8 @@ export const en: CollaboratorTranslations = {
     bulkDeleted: 'Collaborators deleted',
     bulkRestored: 'Collaborators restored',
     bulkPurged: 'Collaborators permanently deleted',
+    offlinePhotoSkipped:
+      'Images are not saved offline; add it when you reconnect.',
   },
   validation: {
     required: 'Required field',

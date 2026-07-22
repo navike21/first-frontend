@@ -16,7 +16,7 @@ export const CalendarNav = ({
       disabled={isPrevDisabled}
       onClick={onPrev}
       className={clsx(
-        'flex size-7 shrink-0 items-center justify-center',
+        'flex size-7 shrink-0 cursor-pointer items-center justify-center',
         'rounded-sm text-secondary',
         'duration-fast ease-out-expo transition-all',
         'hover:bg-surface-subtle hover:text-foreground',
@@ -32,7 +32,7 @@ export const CalendarNav = ({
         type="button"
         onClick={onLabelClick}
         className={clsx(
-          'min-w-0 flex-1 px-2',
+          'min-w-0 flex-1 cursor-pointer px-2',
           'rounded-sm text-sm font-semibold text-foreground',
           'duration-fast ease-out-expo transition-all',
           'hover:bg-surface-subtle',
@@ -52,7 +52,7 @@ export const CalendarNav = ({
       disabled={isNextDisabled}
       onClick={onNext}
       className={clsx(
-        'flex size-7 shrink-0 items-center justify-center',
+        'flex size-7 shrink-0 cursor-pointer items-center justify-center',
         'rounded-sm text-secondary',
         'duration-fast ease-out-expo transition-all',
         'hover:bg-surface-subtle hover:text-foreground',

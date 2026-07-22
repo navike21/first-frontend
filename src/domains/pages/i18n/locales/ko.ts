@@ -147,6 +147,8 @@ export const ko: PageTranslations = {
     bulkDeleted: '페이지가 삭제되었습니다',
     bulkRestored: '페이지가 복원되었습니다',
     bulkPurged: '페이지가 영구적으로 삭제되었습니다',
+    offlinePhotoSkipped:
+      '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
   },
   validation: {
     required: '필수 항목',

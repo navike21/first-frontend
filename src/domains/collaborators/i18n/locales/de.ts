@@ -114,6 +114,8 @@ export const de: CollaboratorTranslations = {
     bulkDeleted: 'Mitarbeiter gelöscht',
     bulkRestored: 'Mitarbeiter wiederhergestellt',
     bulkPurged: 'Mitarbeiter endgültig gelöscht',
+    offlinePhotoSkipped:
+      'Bilder werden offline nicht gespeichert; fügen Sie es bei erneuter Verbindung hinzu.',
   },
   validation: {
     required: 'Pflichtfeld',

@@ -39,6 +39,15 @@ describe('api.services', () => {
       expect(err.message).toBe('Custom message')
     })
 
+    it('should expose the raw backend message separately from the synthetic fallback', () => {
+      // Arrange & Act
+      const withMessage = new HttpError(422, 'Unprocessable Entity', 'El archivo excede 4 MB')
+      const withoutMessage = new HttpError(404, 'Not Found')
+      // Assert
+      expect(withMessage.backendMessage).toBe('El archivo excede 4 MB')
+      expect(withoutMessage.backendMessage).toBeUndefined()
+    })
+
     it('should be an instance of Error', () => {
       // Arrange & Act
       const err = new HttpError(400, 'Bad Request')

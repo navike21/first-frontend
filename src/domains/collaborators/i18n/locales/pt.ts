@@ -114,6 +114,8 @@ export const pt: CollaboratorTranslations = {
     bulkDeleted: 'Colaboradores excluídos',
     bulkRestored: 'Colaboradores restaurados',
     bulkPurged: 'Colaboradores excluídos permanentemente',
+    offlinePhotoSkipped:
+      'As imagens não são guardadas sem ligação; adicione-a ao reconectar.',
   },
   validation: {
     required: 'Campo obrigatório',

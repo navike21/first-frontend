@@ -59,7 +59,7 @@ export const PageTranslationProgress = ({
               onClick={() => onReviewLanguageChange(lang)}
               aria-label={`${NATIVE_LANGUAGE_NAMES[lang]}: ${percent}% — ${statusLabel(percent)}`}
               className={clsx(
-                'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors',
+                'flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors',
                 active
                   ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
                   : 'bg-surface-subtle text-secondary hover:text-foreground',

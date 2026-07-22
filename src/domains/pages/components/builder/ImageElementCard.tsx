@@ -65,7 +65,7 @@ export const ImageElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={clsx('flex w-full rounded-md transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
+          className={clsx('flex w-full cursor-pointer rounded-md transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
         >
           <img
             src={element.url}
@@ -81,7 +81,7 @@ export const ImageElementCard = ({
         <button
           type="button"
           onClick={() => setIsLibraryOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
         >
           {t.builder.imageSelect}
         </button>
@@ -122,7 +122,7 @@ export const ImageElementCard = ({
               <button
                 type="button"
                 onClick={() => setIsLibraryOpen(true)}
-                className="flex h-48 w-full items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+                className="flex h-48 w-full cursor-pointer items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
               >
                 {t.builder.imageSelect}
               </button>

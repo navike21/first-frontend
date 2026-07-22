@@ -67,7 +67,7 @@ export const ButtonElementCard = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={clsx('flex w-full rounded-md p-1 transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
+        className={clsx('flex w-full cursor-pointer rounded-md p-1 transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
       >
         {label ? (
           <span

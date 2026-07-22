@@ -50,13 +50,20 @@ export const EditServicePage = () => {
         iconLibraryUrl,
       },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           notify.success(t.toasts.updated)
+          // 2xx with warnings = record saved but an image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
           navigate({ to: navPaths.services(language) as never })
         },
-        onError: onQueuedOr(() =>
+        // Offline: the edit is queued (without its images). Soft success —
+        // warn the images were skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (cover || iconFile) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.services(language) as never })
-        ),
+        }),
       }
     )
   }

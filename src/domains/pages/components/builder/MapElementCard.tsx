@@ -45,7 +45,7 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
+        className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
       >
         <IconComponent icon="RiMapPin2Line" className="h-5 w-5 shrink-0 text-muted" />
         {element.address ? (

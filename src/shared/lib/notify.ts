@@ -238,7 +238,11 @@ export const notify = {
     const lang = getLang()
     if (error instanceof HttpError) {
       if (error.status === 401) return
-      const message = HTTP_MESSAGES[lang][error.status] ?? error.message
+      // Prefer the backend's own reason (already localized, specific — e.g.
+      // "el archivo excede el tamaño máximo de 4 MB") over the generic
+      // per-status message, so failures stay explainable instead of vague.
+      const message =
+        error.backendMessage ?? HTTP_MESSAGES[lang][error.status] ?? error.message
       toast.error(message)
     } else {
       toast.error(NETWORK_MESSAGES[lang])

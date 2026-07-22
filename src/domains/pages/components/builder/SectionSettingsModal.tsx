@@ -58,7 +58,7 @@ const LayoutPresetPicker = ({ columns, value, onChange }: LayoutPresetPickerProp
             aria-label={preset.join(' / ')}
             onClick={() => onChange(preset)}
             className={clsx(
-              'flex h-10 min-w-24 flex-1 items-stretch gap-0.5 rounded-lg border p-1 transition-colors',
+              'flex h-10 min-w-24 flex-1 cursor-pointer items-stretch gap-0.5 rounded-lg border p-1 transition-colors',
               active
                 ? 'border-primary-600 bg-primary-700/10'
                 : 'border-border bg-surface hover:border-primary-600',
@@ -98,7 +98,7 @@ const ColumnPicker = ({ max, value, onChange }: ColumnPickerProps) => (
         aria-pressed={value === n}
         onClick={() => onChange(n)}
         className={clsx(
-          'flex h-10 w-10 items-center justify-center rounded-lg border text-sm font-bold transition-colors',
+          'flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border text-sm font-bold transition-colors',
           value === n
             ? 'border-primary-600 bg-primary-700/10 text-primary-600'
             : 'border-border bg-surface text-foreground hover:border-primary-600 hover:text-primary-600',

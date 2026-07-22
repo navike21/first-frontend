@@ -49,13 +49,20 @@ export const EditCollaboratorPage = () => {
     updateCollaborator.mutate(
       { data: payload, photo },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           notify.success(t.toasts.updated)
+          // 2xx with warnings = record saved but the image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
           navigate({ to: navPaths.collaborators(language) as never })
         },
-        onError: onQueuedOr(() =>
+        // Offline: the edit is queued (without the photo). Soft success —
+        // warn the photo was skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (photo) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.collaborators(language) as never })
-        ),
+        }),
       }
     )
   }

@@ -54,11 +54,20 @@ export const EditPortfolioPage = () => {
     updatePortfolio.mutate(
       { data: toPortfolioPayload(data, language), cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           notify.success(t.toasts.updated)
+          // 2xx with warnings = record saved but an image upload failed.
+          if (res?.warnings?.length) {
+            notify.warning(res.warnings.map((w) => w.message).join(' '))
+          }
           navigate({ to: navPaths.portfolio(language) as never })
         },
-        onError: onQueuedOr(() => navigate({ to: navPaths.portfolio(language) as never })),
+        // Offline: the edit is queued (without its images). Soft success —
+        // warn the images were skipped and go back to the list.
+        onError: onQueuedOr(() => {
+          if (cover || galleryFiles?.length) notify.warning(t.toasts.offlinePhotoSkipped)
+          navigate({ to: navPaths.portfolio(language) as never })
+        }),
       },
     )
   }

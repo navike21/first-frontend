@@ -110,6 +110,7 @@ export interface CollaboratorTranslations {
     bulkDeleted: string
     bulkRestored: string
     bulkPurged: string
+    offlinePhotoSkipped: string
   }
   validation: {
     required: string
