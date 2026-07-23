@@ -90,10 +90,16 @@ export function useCreateUserForm({
     (data) => {
       // `confirmPassword` is UI-only; an empty `password` means "invite" (create
       // the user without a password) → omit it so the backend stores none.
-      const { confirmPassword: _confirm, password, ...rest } = data
-      const payload = (
-        password ? { ...rest, password } : rest
-      ) as CreateUserFormData
+      // `dateOfBirth` is optional but, when present, must be a real ISO date —
+      // the picker leaves it as '' when untouched, which the backend's
+      // z.iso.date().optional() rejects as an invalid format (optional only
+      // exempts a missing key, not an empty string), so omit it too when blank.
+      const { confirmPassword: _confirm, password, dateOfBirth, ...rest } = data
+      const payload = {
+        ...rest,
+        ...(password && { password }),
+        ...(dateOfBirth && { dateOfBirth }),
+      } as CreateUserFormData
       onCreate(payload, pendingFile, libraryUrl ?? undefined)
     },
     // On invalid submit, reveal the tab that holds the first error.
