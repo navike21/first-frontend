@@ -18,6 +18,12 @@ export function registerLanguageProvider(fn: LanguageProvider): void {
   _languageProvider = fn
 }
 
+/** Current UI language, if a provider was registered — exposed for callers
+ * (e.g. `uploadWithProgress`) that build their own request outside `request()`. */
+export function getCurrentLanguage(): string | undefined {
+  return _languageProvider?.()
+}
+
 /** Represents any value that can be safely serialised with JSON.stringify */
 export type JsonBody =
   | string
@@ -108,20 +114,24 @@ interface ErrorPayload {
   details?: ApiErrorDetails
 }
 
+interface RawErrorBody {
+  message?: string
+  error?: { code?: string; details?: ApiErrorDetails }
+}
+
+/** errorResponse (backend) nests code/details under `error`; message stays
+ * top-level. Shared so any transport (fetch, XHR) parses the same shape. */
+export function parseErrorJson(body: RawErrorBody): ErrorPayload {
+  return {
+    message: body.message,
+    code: body.error?.code,
+    details: body.error?.details,
+  }
+}
+
 export async function parseErrorBody(res: Response): Promise<ErrorPayload> {
   try {
-    // errorResponse (backend) nests code/details under `error`; message stays
-    // top-level. `code`/`details` were previously read from the top level
-    // directly, so HttpError.code/details were always undefined in practice.
-    const body = (await res.json()) as {
-      message?: string
-      error?: { code?: string; details?: ApiErrorDetails }
-    }
-    return {
-      message: body.message,
-      code: body.error?.code,
-      details: body.error?.details,
-    }
+    return parseErrorJson((await res.json()) as RawErrorBody)
   } catch {
     return {}
   }

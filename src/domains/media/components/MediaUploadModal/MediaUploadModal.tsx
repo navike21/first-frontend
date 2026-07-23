@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useQueryClient } from '@tanstack/react-query'
-import { Modal, Button, IconButton, IconComponent } from '@/shared/ui'
+import { Modal, Button, IconButton, IconComponent, ProgressBar } from '@/shared/ui'
 import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.queries'
 import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
+import type { UploadProgress } from '@/shared/api/storage'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { notify } from '@/shared/lib/notify'
 import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
@@ -44,6 +45,25 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
   const uploadImages = useUploadStorageImages()
   const hasUploadableFiles = queue.some((q) => !q.error)
 
+  // Every file — image or video — is its own request, so each gets its own
+  // progress value, keyed by file name.
+  const [fileProgress, setFileProgress] = useState<Record<string, number>>({})
+
+  const rowProgress = (q: QueuedFile): number | undefined => {
+    if (!uploading || q.error) return undefined
+    return fileProgress[q.file.name]
+  }
+
+  const updateFileProgress = (fileName: string, percentage: number) => {
+    setFileProgress((prev) => ({ ...prev, [fileName]: percentage }))
+  }
+
+  const renderRowStatus = (q: QueuedFile, progress: number | undefined) => {
+    if (q.error) return <span className="shrink-0 text-xs text-danger-600">{q.error}</span>
+    if (progress !== undefined) return <span className="shrink-0 text-xs text-muted">{progress}%</span>
+    return <span className="shrink-0 text-xs text-muted">{formatFileSize(q.file.size)}</span>
+  }
+
   const addFiles = (fileList: FileList) => {
     setQueue((prev) => [
       ...prev,
@@ -66,6 +86,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     setQueue([])
     setIsDragging(false)
     setUploading(false)
+    setFileProgress({})
   }
 
   const handleClose = () => {
@@ -76,43 +97,47 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
 
   const handleUpload = async () => {
     setUploading(true)
+    setFileProgress({})
     // Files already flagged (e.g. oversized) never get sent — no point
     // attempting a request already known to fail.
     const validQueue = queue.filter((q) => !q.error)
-    const images = validQueue.filter((q) => isImageFile(q.file))
-    const videos = validQueue.filter((q) => isVideoFile(q.file))
+
+    const uploadImageFile = (file: File) =>
+      uploadImages.mutateAsync({
+        files: [file],
+        onProgress: (progress) => updateFileProgress(file.name, progress.percentage),
+      })
 
     const uploadVideoWithCover = async (file: File) => {
       const id = crypto.randomUUID()
-      const result = await directUploadVideo(file, id)
+      const onProgress = (progress: UploadProgress) => updateFileProgress(file.name, progress.percentage)
+      const result = await directUploadVideo(file, id, onProgress)
       captureVideoFrame(file).then((cover) => {
         if (cover) attachVideoCoverWithRetry(id, cover)
       })
       return result
     }
 
-    const [imagesResult, ...videoResults] = await Promise.allSettled([
-      images.length > 0 ? uploadImages.mutateAsync(images.map((q) => q.file)) : Promise.resolve([]),
-      ...videos.map((q) => uploadVideoWithCover(q.file)),
-    ])
+    // Every file goes out as its own request — this used to send all queued
+    // images in one shared /storage/upload-bulk call, but a big enough batch
+    // (e.g. 3 files just under the 4MB-each client limit) could still exceed
+    // Vercel's platform body-size limit as a combined payload, failing with a
+    // generic network error instead of a specific one. One request per file
+    // keeps every payload under the already-validated per-file limit, and as
+    // a side benefit gives each image its own progress, like video already had.
+    const results = await Promise.allSettled(
+      validQueue.map((q) => (isImageFile(q.file) ? uploadImageFile(q.file) : uploadVideoWithCover(q.file))),
+    )
 
     // Maps each failed file name to the *specific* reason it failed (the
-    // backend's own message when available) instead of one generic label —
-    // every file in a rejected bulk image upload shares that same request's
-    // reason, since they went out as a single /storage/upload-bulk call.
+    // backend's own message when available) instead of one generic label.
     const failedMessages = new Map<string, string>()
-    if (images.length > 0 && imagesResult.status === 'rejected') {
-      const message = notify.errorMessage(imagesResult.reason)
-      images.forEach((q) => failedMessages.set(q.file.name, message))
-    }
-    videos.forEach((q, i) => {
-      const result = videoResults[i]
-      if (result?.status === 'rejected') {
-        failedMessages.set(q.file.name, notify.errorMessage(result.reason))
-      }
+    validQueue.forEach((q, i) => {
+      const result = results[i]
+      if (result.status === 'rejected') failedMessages.set(q.file.name, notify.errorMessage(result.reason))
     })
 
-    const hasUploadedVideo = videoResults.some((r) => r.status === 'fulfilled')
+    const hasUploadedVideo = validQueue.some((q, i) => isVideoFile(q.file) && results[i].status === 'fulfilled')
     if (hasUploadedVideo) {
       setTimeout(() => qc.invalidateQueries({ queryKey: storageKeys.all }), VIDEO_REGISTRATION_DELAY_MS)
     }
@@ -204,27 +229,29 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
 
         {queue.length > 0 && (
           <ul className="flex max-h-64 flex-col gap-2 overflow-y-auto">
-            {queue.map((q, i) => (
-              <li
-                key={`${q.file.name}-${i}`}
-                className="flex items-center justify-between gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm"
-              >
-                <span className="min-w-0 flex-1 truncate">{q.file.name}</span>
-                {q.error ? (
-                  <span className="shrink-0 text-xs text-danger-600">{q.error}</span>
-                ) : (
-                  <span className="shrink-0 text-xs text-muted">{formatFileSize(q.file.size)}</span>
-                )}
-                <IconButton
-                  icon="RiCloseLine"
-                  variant="text"
-                  size="small"
-                  aria-label={t.actions.cancel}
-                  disabled={uploading}
-                  onClick={() => removeFile(i)}
-                />
-              </li>
-            ))}
+            {queue.map((q, i) => {
+              const progress = rowProgress(q)
+              return (
+                <li
+                  key={`${q.file.name}-${i}`}
+                  className="flex flex-col gap-1.5 rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="min-w-0 flex-1 truncate">{q.file.name}</span>
+                    {renderRowStatus(q, progress)}
+                    <IconButton
+                      icon="RiCloseLine"
+                      variant="text"
+                      size="small"
+                      aria-label={t.actions.cancel}
+                      disabled={uploading}
+                      onClick={() => removeFile(i)}
+                    />
+                  </div>
+                  {progress !== undefined && <ProgressBar value={progress} />}
+                </li>
+              )
+            })}
           </ul>
         )}
       </div>

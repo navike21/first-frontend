@@ -1,7 +1,10 @@
 import { upload } from '@vercel/blob/client'
 import { request } from '@/shared/api/api.services'
+import { uploadWithProgress, type UploadProgress } from '@/shared/api/uploadWithProgress'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse } from '@/shared/api/types'
+
+export type { UploadProgress }
 
 export interface StorageFile {
   id: string
@@ -119,7 +122,11 @@ export interface DirectUploadResult {
  * webhook — letting the caller attach a cover image right after without a
  * round trip to discover the record's id. See {@link attachVideoCover}.
  */
-export async function directUploadVideo(file: File, id: string): Promise<DirectUploadResult> {
+export async function directUploadVideo(
+  file: File,
+  id: string,
+  onProgress?: (progress: UploadProgress) => void
+): Promise<DirectUploadResult> {
   const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
   const token = useSessionStore.getState().token
   const blob = await upload(file.name, file, {
@@ -127,6 +134,13 @@ export async function directUploadVideo(file: File, id: string): Promise<DirectU
     handleUploadUrl: `${baseUrl}/storage/direct-upload`,
     clientPayload: JSON.stringify({ originalName: file.name, size: file.size, id }),
     ...(token && { headers: { Authorization: `Bearer ${token}` } }),
+    // @vercel/blob's client upload() already tracks upload progress natively
+    // (unlike fetch-based uploadWithProgress, needed for the /storage
+    // endpoints) — just forward it in the same {loaded,total,percentage} shape.
+    ...(onProgress && {
+      onUploadProgress: (event: UploadProgress) =>
+        onProgress({ loaded: event.loaded, total: event.total, percentage: Math.round(event.percentage) }),
+    }),
   })
   return { url: blob.url, mimeType: blob.contentType }
 }
@@ -218,15 +232,22 @@ export async function listDeletedStorageFiles(params: StorageListParams = {}): P
  * any other batch upload; it has no meaning beyond grouping that one upload.
  * Videos can't go through this (body-size limit) — use {@link directUploadVideo}.
  */
-export async function uploadStorageImages(files: File[], entityType = 'media'): Promise<StorageFile[]> {
+export async function uploadStorageImages(
+  files: File[],
+  entityType = 'media',
+  onProgress?: (progress: UploadProgress) => void
+): Promise<StorageFile[]> {
   const form = new FormData()
   form.append('entityType', entityType)
   form.append('entityId', crypto.randomUUID())
   files.forEach((file) => form.append('files', file))
-  const res = await request<ApiResponse<StorageFile[]>, FormData>({
+  // All files in one multipart request — progress reflects the whole batch,
+  // not any single file (the bulk endpoint doesn't upload them separately).
+  const res = await uploadWithProgress<ApiResponse<StorageFile[]>>({
     api: '/storage/upload-bulk',
     method: 'POST',
     body: form,
+    onProgress,
   })
   return res.data
 }
