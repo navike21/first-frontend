@@ -72,9 +72,23 @@ apuntando al anterior) — mismo síntoma ya documentado como recurrente en
 `first-backend/CLAUDE.md`; conviene verificar tras cada merge
 (`get_deployment` comparando `githubCommitSha` contra `git rev-parse main`,
 o `curl` simple) y corregir con `vercel alias set <url-del-deploy-nuevo>
-first-frontend-rose.vercel.app --scope navike21` si no coincide. El mismo
-comando aplica para re-apuntar `first-frontend-git-test-navike21.vercel.app`
-tras un deploy manual a Test.
+first-frontend-rose.vercel.app --scope navike21` si no coincide.
+
+**El alias de Test (`first-frontend-git-test-navike21.vercel.app`) tiene el
+mismo problema — y no solo tras un deploy manual, también tras un `git push
+origin test` normal.** Confirmado en vivo durante un QA completo: varios
+merges y pushes a `test` durante la misma sesión NUNCA movieron el alias,
+que quedó apuntando a un deploy de varias sesiones atrás — toda una ronda de
+pruebas contra "Test" terminó ejecutándose sobre código viejo sin ningún
+aviso (mismo síntoma que el service worker de abajo: nada rompe, nada avisa,
+simplemente se prueba código desactualizado). Si un fix recién mergeado no
+se ve reflejado en Test pese a que el deploy figura `READY`, **verificar el
+alias primero** (`get_deployment('first-frontend-git-test-navike21.vercel.app')`
+y comparar `githubCommitSha` contra `git rev-parse test`) antes de investigar
+el código — y corregir con el mismo comando de arriba, apuntando al deploy
+nuevo. Limpiar también el service worker/cache del navegador de prueba
+(`navigator.serviceWorker.getRegistrations()` + `caches.keys()`) al
+reverificar, ya que un bundle viejo puede quedar cacheado ahí también.
 
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
