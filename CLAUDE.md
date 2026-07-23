@@ -656,6 +656,27 @@ límite real del backend — unificado para que no vuelvan a desalinearse en
 silencio). Si se agrega un picker de imagen nuevo, usar esta constante como
 default en vez de inventar un número.
 
+También la usa `MediaUploadModal` (Multimedia): a diferencia de los otros
+tres, este NO validaba el tamaño en el cliente en absoluto — un archivo
+grande se encolaba sin ningún aviso, y solo fallaba (o no) al intentar
+subirlo de verdad. Ahora `addFiles` marca cada imagen que excede el límite
+con un error visible de inmediato, y `handleUpload` la excluye del request
+real (no tiene sentido intentar una subida que ya se sabe que va a fallar).
+
+**Gotcha de proceso (ya resuelto, no repetir): un commit pusheado después de
+mergear su PR nunca llega a `main`.** Este mismo fix de `MAX_IMAGE_UPLOAD_BYTES`
+se implementó y se dio por deployado en una sesión anterior, pero el commit
+(`f7fbb14`) se pusheó a la rama `fix/error-transparency-and-ui-cleanup`
+**después** de que su PR #52 ya estuviera mergeado — quedó huérfano en la
+rama (nunca en un PR, nunca en `main`) sin que nada lo señalara como error.
+El bug de 5 MB siguió en producción varios días pese al reporte de "ya
+arreglado". Encontrado por accidente al toparse con un `import` que
+referenciaba un archivo (`storageLimits.ts`) que no existía en el working
+tree de `main`. Recuperado con `git cherry-pick f7fbb14` sobre una rama
+nueva. **Verificar siempre el estado del PR (`gh pr view <n> --json state`)
+antes de pushear una nueva corrección a una rama ya usada** — si el PR ya
+está `MERGED`, hace falta una rama y un PR nuevos, no otro push a la vieja.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
