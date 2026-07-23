@@ -7,7 +7,7 @@ import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/stora
 import type { UploadProgress } from '@/shared/api/storage'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { notify } from '@/shared/lib/notify'
-import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
+import { MAX_IMAGE_UPLOAD_BYTES, MAX_VIDEO_UPLOAD_BYTES } from '@/shared/lib'
 import { useMediaTranslation } from '../../i18n'
 import { formatFileSize } from '../../model/formatFileSize'
 
@@ -64,19 +64,27 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     return <span className="shrink-0 text-xs text-muted">{formatFileSize(q.file.size)}</span>
   }
 
+  // Checked client-side before a file ever reaches the network — otherwise
+  // an oversized file silently queues with no hint of why it'll fail, and
+  // only shows a reason once "Subir" is clicked. Videos in particular have
+  // no client-side check inside @vercel/blob/client itself (the size limit
+  // is only enforced by the server once the upload is already underway), so
+  // skipping this means a multi-hundred-MB video starts uploading for real
+  // before failing with an opaque connection error.
+  const oversizedError = (file: File): string | undefined => {
+    if (isImageFile(file) && file.size > MAX_IMAGE_UPLOAD_BYTES) {
+      return `Max ${Math.round(MAX_IMAGE_UPLOAD_BYTES / 1024 / 1024)} MB`
+    }
+    if (isVideoFile(file) && file.size > MAX_VIDEO_UPLOAD_BYTES) {
+      return `Max ${Math.round(MAX_VIDEO_UPLOAD_BYTES / 1024 / 1024)} MB`
+    }
+    return undefined
+  }
+
   const addFiles = (fileList: FileList) => {
     setQueue((prev) => [
       ...prev,
-      ...Array.from(fileList).map((file) => ({
-        file,
-        // Checked client-side before the file ever reaches the network —
-        // otherwise an oversized image silently queues with no hint of why
-        // it'll fail, and only shows a reason once "Subir" is clicked.
-        error:
-          isImageFile(file) && file.size > MAX_IMAGE_UPLOAD_BYTES
-            ? `Max ${Math.round(MAX_IMAGE_UPLOAD_BYTES / 1024 / 1024)} MB`
-            : undefined,
-      })),
+      ...Array.from(fileList).map((file) => ({ file, error: oversizedError(file) })),
     ])
   }
 
