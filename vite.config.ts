@@ -9,9 +9,13 @@ export default defineConfig({
   server: {
     port: 5176,
     strictPort: true,
+    // Only used if VITE_API_BASE_URL is ever left empty (the app normally
+    // fetches VITE_API_BASE_URL directly, bypassing this proxy entirely).
+    // Points at the test backend, never production — a safe fallback so an
+    // empty/misconfigured .env can't silently start mutating real data.
     proxy: {
       '/api': {
-        target: 'https://first-backend-navike21.vercel.app',
+        target: 'https://first-backend-git-test-navike21.vercel.app',
         changeOrigin: true,
         secure: true,
       },

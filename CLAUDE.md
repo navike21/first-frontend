@@ -11,19 +11,67 @@ plataforma multipropósito (CRM + CMS). Es el par de `first-backend`
   eslint-plugin-sonarjs (cognitive complexity ≤15 y otros code smells).
   Los tres deben quedar en 0 antes de cerrar cualquier cambio.
 
+## Ambientes (development / test / production)
+
+Tres ambientes, cada uno con su propio backend (base de datos separada) —
+desarrollo local **nunca** toca datos de producción:
+
+| Ambiente | Frontend | Backend (`VITE_API_BASE_URL`) | Cuándo |
+|---|---|---|---|
+| **Development** | Local (`pnpm dev`, `localhost:5176`) — sin backend local | `https://first-backend-git-test-navike21.vercel.app` | Día a día. Un solo proceso — el backend corre en Vercel (ambiente Test), no en la laptop |
+| **Test** | `https://first-frontend-git-test-navike21.vercel.app` | `https://first-backend-git-test-navike21.vercel.app` | Staging persistente — verificar una feature completa (front+back) antes de mergear |
+| **Production** | `https://first-frontend-rose.vercel.app` | `https://first-backend-alpha.vercel.app` | Usuarios reales |
+
+**La rama `test` (en ambos repos) es infraestructura, no una rama de
+feature** (ver `TEST_BRANCH.md`) — existe solo para que Vercel tenga un
+branch estable donde desplegar Test. Tiene un PR permanentemente abierto
+contra `main` (PR #59 — **nunca mergear ni cerrar**) porque el proyecto
+**solo auto-despliega ramas con un PR asociado** (confirmado en vivo: un
+`git push` de `test` sin PR no generó ningún deployment; abrir el PR sí lo
+disparó de inmediato). Para traer los cambios de `main` a Test:
+`git checkout test && git merge main && git push`.
+
+Las URLs `-git-test-` quedan detrás del SSO de Vercel (protección de
+deployment por defecto para cualquier alias que no sea el dominio de
+producción, igual que cualquier otro Preview) — accesibles para el equipo
+logueado en Vercel, no público; esto es esperado, no un bug.
+
+### Gotcha real (ya resuelto, no reintroducir): `.env` local apuntaba a producción con URL absoluta, sin CORS
+`VITE_API_BASE_URL` local traía la URL de **producción** en texto plano,
+contradiciendo el propio comentario del archivo ("dejar vacío en local — el
+proxy de Vite reenvía"). Como el valor SÍ estaba seteado, el navegador
+llamaba directo (cross-origin) a producción en vez de pasar por el proxy —
+y `WHITELISTED_DOMAINS` de Production (Vercel) solo lista los dominios de
+Vercel desplegados, nunca `localhost` — así que el navegador bloqueaba la
+petición por CORS, mostrando "Failed to fetch" sin ninguna pista de la
+razón real. Confirmado pidiendo el valor real de `WHITELISTED_DOMAINS` de
+Production vía `vercel env pull`.
+
+Arreglado con el ambiente de **Test** de arriba: `.env` local ahora apunta
+`VITE_API_BASE_URL`/`VITE_SOCKET_URL` al backend de test (nunca producción),
+y ese backend tiene `WHITELISTED_DOMAINS` (scope Preview, rama `test`)
+seteado explícitamente para incluir `http://localhost:5176` — confirmado
+en vivo con `curl -H "Origin: http://localhost:5176"` devolviendo
+`Access-Control-Allow-Origin: http://localhost:5176`. El proxy de
+`vite.config.ts` (`/api` → ahora el backend de test, no producción) queda
+como respaldo de seguridad por si `VITE_API_BASE_URL` alguna vez se deja
+vacío por error — así ese error nunca termina mutando datos reales.
+
 ## Deploy (Vercel)
 Producción: `first-frontend-rose.vercel.app` (proyecto
 `prj_EKV3QfROHvQAUxsDvS0DWJ2OTp4H`, team `team_HlO61rBCXDgQTkK5byfxEoEk`).
-Auto-deploy por rama vía GitHub (`main`→Production). **El alias de
-producción no siempre sigue al deploy nuevo tras un merge** (visto en el
-merge de PR #55 — el deploy se construyó y quedó `READY`/`target:
-production`, pero `first-frontend-rose.vercel.app` seguía apuntando al
-anterior) — mismo síntoma ya documentado como recurrente en
-`first-backend/CLAUDE.md`; en el frontend solo se vio una vez hasta ahora,
-pero conviene verificar igual tras cada merge (`get_deployment` comparando
-`githubCommitSha` contra `git rev-parse main`, o `curl` simple) y corregir
-con `vercel alias set <url-del-deploy-nuevo> first-frontend-rose.vercel.app
---scope navike21` si no coincide.
+Auto-deploy por rama vía GitHub (`main`→Production, `test`→ambiente de test
+persistente, cualquier otra rama con PR abierto→Preview efímero). **El alias
+de producción no siempre sigue al deploy nuevo tras un merge** (visto en el
+merge de PR #55 y de nuevo en el de PR #58 — el deploy se construyó y quedó
+`READY`/`target: production`, pero `first-frontend-rose.vercel.app` seguía
+apuntando al anterior) — mismo síntoma ya documentado como recurrente en
+`first-backend/CLAUDE.md`; conviene verificar tras cada merge
+(`get_deployment` comparando `githubCommitSha` contra `git rev-parse main`,
+o `curl` simple) y corregir con `vercel alias set <url-del-deploy-nuevo>
+first-frontend-rose.vercel.app --scope navike21` si no coincide. El mismo
+comando aplica para re-apuntar `first-frontend-git-test-navike21.vercel.app`
+tras un deploy manual a Test.
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
