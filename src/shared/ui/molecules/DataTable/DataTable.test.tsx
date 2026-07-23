@@ -120,6 +120,21 @@ describe('DataTable component', () => {
     expect(screen.getByText('Actions')).toBeInTheDocument()
   })
 
+  it('should reserve the same cell height as real content while isFetching', () => {
+    // Arrange & Act — each skeleton cell must reserve the height of the
+    // tallest common cell content (an Avatar `sm` or IconButton `small`,
+    // both 32px/h-8), so the row doesn't shrink relative to real data and
+    // then jump back once the fetch resolves.
+    const { container } = renderTable({ isFetching: true })
+    // Assert
+    const desktopTable = container.querySelector('table')
+    const cells = desktopTable?.querySelectorAll('tbody td') ?? []
+    expect(cells.length).toBeGreaterThan(0)
+    cells.forEach((cell) => {
+      expect(cell.querySelector('.h-8')).toBeInTheDocument()
+    })
+  })
+
   it('should prioritize the initial-load spinner over the fetching skeleton', () => {
     // Arrange & Act
     renderTable({ isLoading: true, isFetching: true })

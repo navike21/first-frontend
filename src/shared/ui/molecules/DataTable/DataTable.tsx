@@ -55,6 +55,32 @@ const PaginationFooter = ({
   )
 }
 
+// Mobile (card) layout and the desktop table both classify columns by their
+// `mobile` role, with sensible fallbacks so tables work without extra config
+// — the first column becomes the card title and any right-aligned column
+// becomes the footer. Shared by the real render and the skeleton so both
+// stay in sync.
+function classifyColumns<T>(columns: DataTableColumn<T>[]) {
+  const explicitPrimary = columns.find((col) => col.mobile === 'primary')
+  const primaryColumn = explicitPrimary ?? columns[0]
+  const footerColumns = columns.filter((col) =>
+    col.mobile ? col.mobile === 'footer' : col.align === 'right'
+  )
+  const bodyColumns = columns.filter(
+    (col) =>
+      col !== primaryColumn &&
+      !footerColumns.includes(col) &&
+      col.mobile !== 'hidden'
+  )
+  return { primaryColumn, bodyColumns, footerColumns }
+}
+
+// Height of the tallest content a cell typically holds (an Avatar `sm` or an
+// IconButton `small`, both 32px) — every skeleton cell reserves this much
+// space so the skeleton row is the same height as the real row it stands in
+// for, instead of collapsing to the skeleton bar's own shorter line-height.
+const CELL_CONTENT_HEIGHT = 'h-8'
+
 interface DataTableSkeletonProps<T> {
   columns: DataTableColumn<T>[]
   rowCount: number
@@ -71,63 +97,110 @@ const DataTableSkeleton = <T,>({
   totalLabel,
   pagination,
   className,
-}: DataTableSkeletonProps<T>) => (
-  <div className={clsx('flex flex-col gap-4', className)}>
-    <ul className="flex flex-col gap-3 md:hidden">
-      {Array.from({ length: rowCount }, (_, i) => (
-        <li
-          key={i}
-          className="border-border bg-surface rounded-xl border p-4"
-        >
-          <Skeleton variant="text" width="55%" />
-          <Skeleton variant="text" rows={2} className="mt-3" />
-        </li>
-      ))}
-    </ul>
+}: DataTableSkeletonProps<T>) => {
+  const { bodyColumns, footerColumns } = classifyColumns(columns)
 
-    <div className="border-border bg-surface hidden overflow-x-auto rounded-xl border md:block">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-border-subtle bg-surface-subtle text-secondary border-b text-xs font-semibold tracking-wide uppercase">
-            {selectable && <th className="w-px px-4 py-3" />}
-            {columns.map((col) => (
-              <th
-                key={col.id}
+  return (
+    <div className={clsx('flex flex-col gap-4', className)}>
+      <ul className="flex flex-col gap-3 md:hidden">
+        {Array.from({ length: rowCount }, (_, i) => (
+          <li
+            key={i}
+            className="border-border bg-surface rounded-xl border p-4"
+          >
+            <div className="flex items-center gap-3">
+              {selectable && (
+                <Skeleton variant="rect" width={18} height={18} />
+              )}
+              <div className={clsx('flex flex-1 items-center', CELL_CONTENT_HEIGHT)}>
+                <Skeleton variant="text" width="55%" />
+              </div>
+            </div>
+
+            {bodyColumns.length > 0 && (
+              <div className="border-border-subtle mt-3 flex flex-col gap-2 border-t pt-3">
+                {bodyColumns.map((col) => (
+                  <div
+                    key={col.id}
+                    className="flex items-center justify-between gap-3"
+                  >
+                    <Skeleton variant="text" width="30%" />
+                    <Skeleton variant="text" width="35%" />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {footerColumns.length > 0 && (
+              <div
                 className={clsx(
-                  'px-4 py-3 text-left',
-                  col.align === 'right' && 'text-right'
+                  'border-border-subtle mt-3 flex items-center justify-end gap-1 border-t pt-2',
+                  CELL_CONTENT_HEIGHT
                 )}
               >
-                {col.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="divide-border-control divide-y">
-          {Array.from({ length: rowCount }, (_, i) => (
-            <tr key={i}>
-              {selectable && (
-                <td className="px-4 py-3">
-                  <Skeleton variant="rect" width={18} height={18} />
-                </td>
-              )}
+                <Skeleton variant="rect" width={32} height={32} />
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <div className="border-border bg-surface hidden overflow-x-auto rounded-xl border md:block">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-border-subtle bg-surface-subtle text-secondary border-b text-xs font-semibold tracking-wide uppercase">
+              {selectable && <th className="w-px px-4 py-3" />}
               {columns.map((col) => (
-                <td key={col.id} className="px-4 py-3">
-                  <Skeleton
-                    variant="text"
-                    width={col.align === 'right' ? '40%' : '70%'}
-                  />
-                </td>
+                <th
+                  key={col.id}
+                  className={clsx(
+                    'px-4 py-3 text-left',
+                    col.align === 'right' && 'text-right'
+                  )}
+                >
+                  {col.header}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className="divide-border-control divide-y">
+            {Array.from({ length: rowCount }, (_, i) => (
+              <tr key={i}>
+                {selectable && (
+                  <td className="px-4 py-3">
+                    <div
+                      className={clsx('flex items-center', CELL_CONTENT_HEIGHT)}
+                    >
+                      <Skeleton variant="rect" width={18} height={18} />
+                    </div>
+                  </td>
+                )}
+                {columns.map((col) => (
+                  <td key={col.id} className="px-4 py-3">
+                    <div
+                      className={clsx('flex items-center', CELL_CONTENT_HEIGHT)}
+                    >
+                      <Skeleton
+                        variant="text"
+                        width={col.align === 'right' ? '40%' : '70%'}
+                      />
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-    <PaginationFooter totalLabel={totalLabel} pagination={pagination} disabled />
-  </div>
-)
+      <PaginationFooter
+        totalLabel={totalLabel}
+        pagination={pagination}
+        disabled
+      />
+    </div>
+  )
+}
 
 /**
  * Domain-agnostic table: pass `columns` (header + cell renderer) and `rows`.
@@ -214,20 +287,8 @@ export const DataTable = <T,>({
     }
   }
 
-  // Mobile (card) layout: classify columns by their `mobile` role, with
-  // sensible fallbacks so tables work without extra config — the first column
-  // becomes the card title and any right-aligned column becomes the footer.
-  const explicitPrimary = columns.find((col) => col.mobile === 'primary')
-  const primaryColumn = explicitPrimary ?? columns[0]
-  const footerColumns = columns.filter((col) =>
-    col.mobile ? col.mobile === 'footer' : col.align === 'right'
-  )
-  const bodyColumns = columns.filter(
-    (col) =>
-      col !== primaryColumn &&
-      !footerColumns.includes(col) &&
-      col.mobile !== 'hidden'
-  )
+  const { primaryColumn, bodyColumns, footerColumns } =
+    classifyColumns(columns)
 
   return (
     <div className={clsx('flex flex-col gap-4', className)}>
