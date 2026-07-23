@@ -751,6 +751,34 @@ intento de red; uno de 10MB se encola normalmente.
 directo, sin ningún chequeo de tamaño de video propio — mismo riesgo, no
 arreglado en esta sesión.
 
+### Gotcha real: seleccionar un segundo archivo con "buscar archivos" no lo agregaba a la cola
+
+Reportado por el usuario: adjuntaba un video y luego intentaba adjuntar
+también una foto en la misma carga — la foto simplemente no se agregaba a la
+cola. Reproducido de forma 100% consistente: en un `MediaUploadModal` recién
+abierto, la **primera** selección de archivo vía "buscar archivos" (el
+`<input type="file">` oculto) siempre funciona; **cualquier selección
+posterior** reutilizando ese mismo nodo `<input>` no dispara `addFiles` en
+absoluto, aunque el evento `change` nativo sí llega con el `FileList`
+correcto (confirmado interceptándolo con un listener en fase de captura
+antes de que React lo procese). Arrastrar-y-soltar un segundo archivo, en
+cambio, **sí** funcionaba siempre — que fue la pista clave: descarta que
+`addFiles`/`setQueue` estén rotos, y apunta puntualmente a reusar el mismo
+nodo DOM del `<input>` entre selecciones.
+
+El truco habitual para permitir re-seleccionar el **mismo** archivo dos
+veces (`e.target.value = ''` tras leer `e.target.files`) no alcanza para
+este caso — sea cual sea el mecanismo exacto (algo en cómo el navegador o
+React determinan si un evento `change` posterior "ya se procesó" para ese
+nodo), sigue fallando con archivos **distintos** en cada selección.
+Arreglado con el patrón robusto conocido para este tipo de bug: un estado
+`inputKey` que se incrementa en cada `onChange`, pasado como `key` del
+`<input>` — fuerza a React a **desmontar y montar un nodo `<input>` nuevo**
+después de cada selección, así que nunca hay un nodo reusado que pueda
+arrastrar un estado interno del navegador de una selección a la siguiente.
+Verificado en vivo con hasta 3 selecciones separadas seguidas (video, foto,
+foto) — las 3 se agregan correctamente a la cola.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era

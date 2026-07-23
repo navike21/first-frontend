@@ -42,6 +42,15 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
   const [queue, setQueue] = useState<QueuedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
+  // Forces the <input> to fully remount after every selection — reusing the
+  // same file input for a second, separate selection (e.g. pick a video,
+  // then click "buscar archivos" again to also add a photo) silently drops
+  // the new files: the browser fires the change event with the right
+  // FileList, but React never re-invokes onChange for it. Resetting
+  // `e.target.value` alone (the usual trick for re-picking the *same* file)
+  // doesn't fix this — only discarding the DOM node and mounting a fresh one
+  // does.
+  const [inputKey, setInputKey] = useState(0)
   const uploadImages = useUploadStorageImages()
   const hasUploadableFiles = queue.some((q) => !q.error)
 
@@ -224,6 +233,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
         </div>
 
         <input
+          key={inputKey}
           ref={inputRef}
           type="file"
           multiple
@@ -231,7 +241,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
           className="hidden"
           onChange={(e) => {
             if (e.target.files?.length) addFiles(e.target.files)
-            e.target.value = ''
+            setInputKey((k) => k + 1)
           }}
         />
 
