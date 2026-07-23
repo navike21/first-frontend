@@ -204,6 +204,7 @@ export const EditUserForm = (
                 <InputField
                   label={t.form.newPassword}
                   type="password"
+                  autoComplete="new-password"
                   helperText={t.form.passwordKeepHint}
                   variant={errors.password ? 'error' : undefined}
                   errorMessage={errors.password?.message}
@@ -212,6 +213,7 @@ export const EditUserForm = (
                 <InputField
                   label={t.form.confirmPassword}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.confirmPassword ? 'error' : undefined}
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}

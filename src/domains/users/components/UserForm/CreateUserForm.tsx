@@ -180,6 +180,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputField
                   label={t.form.password}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.password ? 'error' : undefined}
                   errorMessage={errors.password?.message}
                   {...register('password')}
@@ -187,6 +188,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputField
                   label={t.form.confirmPassword}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.confirmPassword ? 'error' : undefined}
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}
