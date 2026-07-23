@@ -20,7 +20,7 @@ export const Accordion = ({
         onClick={onToggle}
         className={clsx(
           'flex w-full cursor-pointer items-center justify-between px-3 py-2.5',
-          'rounded-lg text-sm font-semibold text-foreground',
+          'text-foreground rounded-lg text-sm font-semibold',
           'duration-fast ease-out-expo transition-colors',
           // El manual mantiene el texto navy en ambos estados — solo cambia
           // el fondo (niebla cuando está abierto) y la rotación del chevron,
@@ -36,7 +36,7 @@ export const Accordion = ({
         <IconComponent
           icon="RiArrowDownSLine"
           className={clsx(
-            'h-4 w-4 text-secondary',
+            'text-secondary h-4 w-4',
             'duration-fast ease-spring transition-transform',
             { 'rotate-180': isOpen }
           )}

@@ -9,7 +9,8 @@ export const it: CollaboratorTranslations = {
     editTitle: 'Modifica collaboratore',
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino collaboratori',
-    trashDescription: 'Collaboratori spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Collaboratori spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun collaboratore nel cestino',
     trashEmptyDescription: 'I collaboratori eliminati appariranno qui.',
   },
@@ -61,11 +62,14 @@ export const it: CollaboratorTranslations = {
     restoreTitle: 'Ripristina collaboratore',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} collaboratori nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} collaboratori nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} collaboratori. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} collaboratori. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     tabTranslations: 'Traduzioni',
@@ -86,7 +90,8 @@ export const it: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Account collegato',
     linkedUser: 'Utente di sistema',
-    linkedUserHint: 'Collega questo collaboratore a un account utente esistente (facoltativo)',
+    linkedUserHint:
+      'Collega questo collaboratore a un account utente esistente (facoltativo)',
     noLinkedUser: 'Non collegato',
     select: 'Seleziona…',
     save: 'Salva modifiche',

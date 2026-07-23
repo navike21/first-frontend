@@ -6,7 +6,7 @@ export const ForgotPasswordLayout = () => {
   const { t } = useAuthTranslation()
 
   return (
-    <div className="relative flex min-h-dvh flex-col bg-surface-subtle">
+    <div className="bg-surface-subtle relative flex min-h-dvh flex-col">
       <div className="fixed top-4 right-4 z-20">
         <LanguageSwitcher />
       </div>
@@ -16,9 +16,11 @@ export const ForgotPasswordLayout = () => {
           <div className="mb-6 flex flex-col items-center text-center">
             <h1 className="sr-only">{t.forgotPassword.heading}</h1>
             <BrandMark size="small" animateIn />
-            <p className="mt-1 text-sm text-secondary">{t.forgotPassword.subtitle}</p>
+            <p className="text-secondary mt-1 text-sm">
+              {t.forgotPassword.subtitle}
+            </p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+          <div className="border-border bg-surface rounded-xl border p-6 shadow-sm sm:p-8">
             <ForgotPasswordForm />
           </div>
         </div>

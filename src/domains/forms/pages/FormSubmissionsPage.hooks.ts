@@ -25,7 +25,11 @@ export function useFormSubmissionsPage() {
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
   const isRead = readFilter === 'all' ? undefined : readFilter === 'read'
-  const { data, isLoading } = useFormSubmissions(formId, { page, limit: 20, isRead })
+  const { data, isLoading } = useFormSubmissions(formId, {
+    page,
+    limit: 20,
+    isRead,
+  })
   const markRead = useMarkFormSubmissionRead(formId)
   const softDelete = useSoftDeleteFormSubmission(formId)
   const bulkSoftDelete = useBulkSoftDeleteFormSubmissions(formId)

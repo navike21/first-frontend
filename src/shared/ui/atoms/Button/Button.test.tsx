@@ -89,7 +89,11 @@ describe('Button component', () => {
     render(<Button disabled>Disabled Button</Button>)
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
-    expect(button).toHaveClass('cursor-not-allowed', 'bg-border-control', 'text-muted')
+    expect(button).toHaveClass(
+      'cursor-not-allowed',
+      'bg-border-control',
+      'text-muted'
+    )
   })
 
   it('should apply the opacity-50 fallback when disabled with variant text', () => {

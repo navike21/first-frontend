@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
-import { emptyLocalized, createField, resetFieldForType, emptyOption } from './form.builder'
+import {
+  emptyLocalized,
+  createField,
+  resetFieldForType,
+  emptyOption,
+} from './form.builder'
 
 describe('emptyLocalized', () => {
   it('returns an empty string for every supported language', () => {
@@ -24,7 +29,13 @@ describe('createField', () => {
   })
 
   it('starts textarea/email/phone/checkbox/date fields with no options', () => {
-    for (const type of ['textarea', 'email', 'phone', 'checkbox', 'date'] as const) {
+    for (const type of [
+      'textarea',
+      'email',
+      'phone',
+      'checkbox',
+      'date',
+    ] as const) {
       expect(createField(type).options).toEqual([])
     }
   })

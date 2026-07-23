@@ -9,7 +9,8 @@ export const ru: ServicesTranslations = {
     editTitle: 'Редактировать услугу',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина услуг',
-    trashDescription: 'Услуги, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Услуги, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые услуги будут отображаться здесь.',
   },
@@ -67,11 +68,14 @@ export const ru: ServicesTranslations = {
     restoreTitle: 'Восстановить услугу',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} услуг в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} услуг в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} услуг. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} услуг. Действие НЕОБРАТИМО.`,
   },
   form: {
     sectionGeneral: 'Общая информация',

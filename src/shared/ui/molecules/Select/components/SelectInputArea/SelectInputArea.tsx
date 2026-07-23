@@ -113,7 +113,10 @@ export const SelectInputArea = ({
         >
           <IconComponent
             icon={isOpen ? 'RiArrowUpSLine' : 'RiArrowDownSLine'}
-            className={clsx('size-5', disabled ? 'text-muted' : 'text-foreground')}
+            className={clsx(
+              'size-5',
+              disabled ? 'text-muted' : 'text-foreground'
+            )}
           />
         </button>
 

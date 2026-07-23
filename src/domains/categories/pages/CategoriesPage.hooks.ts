@@ -9,9 +9,15 @@ import {
   useBulkSoftDeleteCategories,
 } from '../api/categories.queries'
 import { useCategoriesTranslation } from '../i18n'
-import type { Category, CategoryListParams, CategoryPaginationMeta } from '../model/category.types'
+import type {
+  Category,
+  CategoryListParams,
+  CategoryPaginationMeta,
+} from '../model/category.types'
 
-function statusValueFor(isActive: boolean | undefined): 'all' | 'active' | 'inactive' {
+function statusValueFor(
+  isActive: boolean | undefined
+): 'all' | 'active' | 'inactive' {
   if (isActive === undefined) return 'all'
   return isActive ? 'active' : 'inactive'
 }
@@ -19,14 +25,22 @@ function statusValueFor(isActive: boolean | undefined): 'all' | 'active' | 'inac
 export function useCategoriesPage() {
   const navigate = useNavigate()
   const { t, language } = useCategoriesTranslation()
-  const [params, setParams] = useState<CategoryListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<CategoryListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [search, setSearch] = useState('')
-  const [deletingCategory, setDeletingCategory] = useState<Category | null>(null)
+  const [deletingCategory, setDeletingCategory] = useState<Category | null>(
+    null
+  )
   const [viewingCategory, setViewingCategory] = useState<Category | null>(null)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useCategories({ ...params, search: search || undefined })
+  const { data, isLoading } = useCategories({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteCategory()
   const bulkSoftDelete = useBulkSoftDeleteCategories()
 

@@ -9,7 +9,8 @@ export const en: PortfolioTranslations = {
     editTitle: 'Edit project',
     editDescription: (name) => `Update "${name}"`,
     trashTitle: 'Portfolio trash',
-    trashDescription: 'Projects that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Projects that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No projects in trash',
     trashEmptyDescription: 'When projects are deleted, they will appear here.',
   },
@@ -56,17 +57,22 @@ export const en: PortfolioTranslations = {
     bulkRestore: 'Restore',
     bulkPurge: 'Permanently delete',
     deleteTitle: 'Delete project',
-    deleteDescription: (name) => `Are you sure you want to delete "${name}"? You can restore it from the trash.`,
+    deleteDescription: (name) =>
+      `Are you sure you want to delete "${name}"? You can restore it from the trash.`,
     confirmDelete: 'Delete',
-    bulkDeleteDescription: (count) => `Delete ${count} projects? You can restore them from the trash.`,
+    bulkDeleteDescription: (count) =>
+      `Delete ${count} projects? You can restore them from the trash.`,
     restoreTitle: 'Restore project',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} projects to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} projects to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} projects. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} projects. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'General',
@@ -123,7 +129,7 @@ export const en: PortfolioTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
     addSelectedLabel: 'Add selected',
     selectAllLabel: 'Select all',
     selectItemLabel: 'Select file',

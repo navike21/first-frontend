@@ -9,7 +9,8 @@ export const en: ServicesTranslations = {
     editTitle: 'Edit service',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Services trash',
-    trashDescription: 'Services that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Services that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No services in trash',
     trashEmptyDescription: 'When services are deleted, they will appear here.',
   },
@@ -70,11 +71,14 @@ export const en: ServicesTranslations = {
     restoreTitle: 'Restore service',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} services to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} services to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} services. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} services. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'General',
@@ -124,7 +128,7 @@ export const en: ServicesTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
   },
   toasts: {
     created: 'Service created',

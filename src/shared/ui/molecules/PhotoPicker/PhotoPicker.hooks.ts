@@ -59,5 +59,13 @@ export function usePhotoPicker({
     onRemove?.()
   }
 
-  return { inputRef, preview, error, handleChange, handleFile, openPicker, handleRemove }
+  return {
+    inputRef,
+    preview,
+    error,
+    handleChange,
+    handleFile,
+    openPicker,
+    handleRemove,
+  }
 }

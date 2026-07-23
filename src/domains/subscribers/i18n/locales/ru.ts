@@ -9,7 +9,8 @@ export const ru: SubscribersTranslations = {
     editTitle: 'Редактировать подписчика',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина подписчиков',
-    trashDescription: 'Подписчики, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Подписчики, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые подписчики будут отображаться здесь.',
   },
@@ -65,11 +66,14 @@ export const ru: SubscribersTranslations = {
     restoreTitle: 'Восстановить подписчика',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} подписчиков в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} подписчиков в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} подписчиков. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} подписчиков. Действие НЕОБРАТИМО.`,
   },
   form: {
     sectionPersonal: 'Личная информация',

@@ -122,7 +122,9 @@ export const Wizard = ({
                 >
                   {state === 'completed' && <CheckIcon />}
                   {state === 'error' && <WarnIcon />}
-                  {(state === 'active' || state === 'upcoming') && <span>{i + 1}</span>}
+                  {(state === 'active' || state === 'upcoming') && (
+                    <span>{i + 1}</span>
+                  )}
                 </button>
                 <span
                   className={clsx(
@@ -142,13 +144,13 @@ export const Wizard = ({
               >
                 {step.label}
                 {step.optional && optionalLabel && (
-                  <span className="ml-1 text-xs font-normal text-muted">
+                  <span className="text-muted ml-1 text-xs font-normal">
                     {optionalLabel}
                   </span>
                 )}
               </span>
               {step.description && (
-                <span className="hidden px-1 text-xs text-muted sm:block">
+                <span className="text-muted hidden px-1 text-xs sm:block">
                   {step.description}
                 </span>
               )}
@@ -159,13 +161,17 @@ export const Wizard = ({
 
       {/* Mobile: active step label + counter below the dots row */}
       <div className="flex items-center justify-between sm:hidden">
-        <span className={clsx('text-sm font-medium', TITLE_BY_STATE[activeState])}>
+        <span
+          className={clsx('text-sm font-medium', TITLE_BY_STATE[activeState])}
+        >
           {activeStep.label}
           {activeStep.optional && optionalLabel && (
-            <span className="ml-1 text-xs font-normal text-muted">({optionalLabel})</span>
+            <span className="text-muted ml-1 text-xs font-normal">
+              ({optionalLabel})
+            </span>
           )}
         </span>
-        <span className="text-xs text-muted">
+        <span className="text-muted text-xs">
           {index + 1} / {steps.length}
         </span>
       </div>
@@ -174,7 +180,7 @@ export const Wizard = ({
 
       <div
         className={clsx(
-          'flex gap-3 border-t border-border-control pt-5 sm:flex-row sm:items-center sm:justify-end',
+          'border-border-control flex gap-3 border-t pt-5 sm:flex-row sm:items-center sm:justify-end',
           // Exactly 2 buttons (Cancel + Next/Submit, first step) stay side by
           // side even on mobile; 3 (Cancel + Back + Next/Submit) stack full-
           // width, same rule as ButtonGroup elsewhere in the app.
@@ -197,7 +203,13 @@ export const Wizard = ({
         </div>
 
         {/* Back + Primary — col-reverse on mobile (primary on top) when stacked, row otherwise */}
-        <div className={isFirst ? undefined : 'flex flex-col-reverse gap-2 sm:flex-row sm:items-center'}>
+        <div
+          className={
+            isFirst
+              ? undefined
+              : 'flex flex-col-reverse gap-2 sm:flex-row sm:items-center'
+          }
+        >
           {!isFirst && (
             <Button
               type="button"

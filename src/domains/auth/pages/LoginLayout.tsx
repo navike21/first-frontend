@@ -6,7 +6,7 @@ export const LoginLayout = () => {
   const { t } = useAuthTranslation()
 
   return (
-    <div className="relative flex min-h-dvh flex-col bg-surface-subtle">
+    <div className="bg-surface-subtle relative flex min-h-dvh flex-col">
       {/* Pinned to the visual viewport (fixed) so it stays visible when the
           mobile keyboard opens and the document scrolls. */}
       <div className="fixed top-4 right-4 z-20">
@@ -18,10 +18,10 @@ export const LoginLayout = () => {
           <div className="mb-6 flex flex-col items-center text-center">
             <h1 className="sr-only">{t.title}</h1>
             <BrandMark size="small" animateIn />
-            <p className="mt-1 text-sm text-secondary">{t.subtitle}</p>
+            <p className="text-secondary mt-1 text-sm">{t.subtitle}</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8">
-            <h2 className="mb-6 text-base font-semibold text-foreground">
+          <div className="border-border bg-surface rounded-xl border p-6 shadow-sm sm:p-8">
+            <h2 className="text-foreground mb-6 text-base font-semibold">
               {t.form.submit}
             </h2>
             <LoginForm />

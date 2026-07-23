@@ -1,10 +1,23 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { Button, IconButton, IconComponent, InputField, MediaLibraryModal, MediaThumbnail, Modal, Select, Tooltip } from '@/shared/ui'
+import {
+  Button,
+  IconButton,
+  IconComponent,
+  InputField,
+  MediaLibraryModal,
+  MediaThumbnail,
+  Modal,
+  Select,
+  Tooltip,
+} from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type { BackgroundSourceKind, BuilderVideoElement } from '../../model/page.types'
+import type {
+  BackgroundSourceKind,
+  BuilderVideoElement,
+} from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
 
@@ -46,14 +59,19 @@ export const VideoElementCard = ({
     { value: 'embed', label: t.builder.videoSourceEmbed },
   ]
 
-  const hasContent = element.sourceKind === 'embed' ? !!element.url : !!element.fileUrl
+  const hasContent =
+    element.sourceKind === 'embed' ? !!element.url : !!element.fileUrl
 
   // Ya tiene URL real (de la biblioteca): se aplica directo, sin subida
   // diferida; limpia cualquier pendiente que hubiera quedado de una subida
   // previa para este mismo elemento (mutuamente excluyentes).
   const selectFromLibrary = (file: StorageFile) => {
     if (element.fileUrl) onRemoveFile(element.fileUrl)
-    onChange({ sourceKind: 'upload', fileUrl: file.original.url, posterUrl: file.thumb?.url ?? file.full?.url })
+    onChange({
+      sourceKind: 'upload',
+      fileUrl: file.original.url,
+      posterUrl: file.thumb?.url ?? file.full?.url,
+    })
     setIsLibraryOpen(false)
   }
 
@@ -62,7 +80,11 @@ export const VideoElementCard = ({
   const pickUpload = (file: File) => {
     if (element.fileUrl) onRemoveFile(element.fileUrl)
     const previewUrl = URL.createObjectURL(file)
-    onChange({ sourceKind: 'upload', fileUrl: previewUrl, posterUrl: undefined })
+    onChange({
+      sourceKind: 'upload',
+      fileUrl: previewUrl,
+      posterUrl: undefined,
+    })
     onPickFile(previewUrl, file)
     setIsLibraryOpen(false)
   }
@@ -88,21 +110,31 @@ export const VideoElementCard = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
+        className="hover:bg-surface-subtle flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors"
       >
         {element.sourceKind === 'upload' && element.fileUrl ? (
-          <span className="flex h-10 w-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
-            <MediaThumbnail src={element.fileUrl} kind="video" posterSrc={element.posterUrl} className="h-full w-full object-cover" />
+          <span className="bg-surface-subtle flex h-10 w-16 shrink-0 items-center justify-center overflow-hidden rounded-md">
+            <MediaThumbnail
+              src={element.fileUrl}
+              kind="video"
+              posterSrc={element.posterUrl}
+              className="h-full w-full object-cover"
+            />
           </span>
         ) : (
-          <IconComponent icon="RiVideoLine" className="h-5 w-5 shrink-0 text-muted" />
+          <IconComponent
+            icon="RiVideoLine"
+            className="text-muted h-5 w-5 shrink-0"
+          />
         )}
         {hasContent ? (
-          <span className="truncate text-xs text-foreground">
-            {element.sourceKind === 'embed' ? element.url : t.builder.videoFromLibrary}
+          <span className="text-foreground truncate text-xs">
+            {element.sourceKind === 'embed'
+              ? element.url
+              : t.builder.videoFromLibrary}
           </span>
         ) : (
-          <span className="text-xs text-muted">{t.builder.videoEmpty}</span>
+          <span className="text-muted text-xs">{t.builder.videoEmpty}</span>
         )}
       </button>
 
@@ -122,7 +154,9 @@ export const VideoElementCard = ({
             label={t.builder.videoSourceLabel}
             options={sourceOptions}
             value={element.sourceKind}
-            onChange={(e) => onChange({ sourceKind: e.target.value as BackgroundSourceKind })}
+            onChange={(e) =>
+              onChange({ sourceKind: e.target.value as BackgroundSourceKind })
+            }
           />
 
           {element.sourceKind === 'embed' && (
@@ -135,12 +169,18 @@ export const VideoElementCard = ({
           )}
 
           {element.sourceKind === 'upload' && (
-            <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface-subtle p-3">
+            <div className="border-border bg-surface-subtle flex flex-col gap-2 rounded-lg border p-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-foreground">{t.builder.videoFile}</span>
+                <span className="text-foreground text-xs font-medium">
+                  {t.builder.videoFile}
+                </span>
                 <div className="flex items-center gap-1">
                   <Tooltip
-                    heading={element.fileUrl ? t.builder.videoReplace : t.builder.videoChoose}
+                    heading={
+                      element.fileUrl
+                        ? t.builder.videoReplace
+                        : t.builder.videoChoose
+                    }
                     position="top"
                     size="small"
                   >
@@ -148,12 +188,20 @@ export const VideoElementCard = ({
                       icon="RiFolderVideoLine"
                       variant="text"
                       size="small"
-                      aria-label={element.fileUrl ? t.builder.videoReplace : t.builder.videoChoose}
+                      aria-label={
+                        element.fileUrl
+                          ? t.builder.videoReplace
+                          : t.builder.videoChoose
+                      }
                       onClick={() => setIsLibraryOpen(true)}
                     />
                   </Tooltip>
                   {element.fileUrl && (
-                    <Tooltip heading={t.builder.videoRemove} position="top" size="small">
+                    <Tooltip
+                      heading={t.builder.videoRemove}
+                      position="top"
+                      size="small"
+                    >
                       <IconButton
                         icon="RiDeleteBinLine"
                         variant="text"
@@ -179,7 +227,7 @@ export const VideoElementCard = ({
                   type="button"
                   onClick={() => setIsLibraryOpen(true)}
                   className={clsx(
-                    'flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground',
+                    'border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-md border border-dashed text-xs transition-colors'
                   )}
                 >
                   <IconComponent icon="RiVideoAddLine" className="h-6 w-6" />
@@ -190,11 +238,20 @@ export const VideoElementCard = ({
           )}
 
           <div className="flex flex-col gap-2">
-            <LangChips editing={editing} userLanguage={language} values={element.caption} onChange={setEditing} />
+            <LangChips
+              editing={editing}
+              userLanguage={language}
+              values={element.caption}
+              onChange={setEditing}
+            />
             <InputField
               label={t.builder.videoCaptionLabel}
               value={element.caption[editing] ?? ''}
-              onChange={(e) => onChange({ caption: { ...element.caption, [editing]: e.target.value } })}
+              onChange={(e) =>
+                onChange({
+                  caption: { ...element.caption, [editing]: e.target.value },
+                })
+              }
             />
           </div>
         </div>

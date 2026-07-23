@@ -27,9 +27,20 @@ export interface SectionSettingsModalProps {
   settings: ResponsiveSectionSettings
   onChange: (patch: ResponsiveSectionSettings) => void
   background: SectionBackground
-  onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
-  onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
-  onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
+  onBackgroundChange: (
+    breakpoint: BackgroundBreakpoint,
+    config: BackgroundConfig
+  ) => void
+  onPickBackgroundFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: File
+  ) => void
+  onPickLibraryFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: StorageFile
+  ) => void
 }
 
 const spansEqual = (a: BuilderColumnSpan[], b: BuilderColumnSpan[]) =>
@@ -44,7 +55,11 @@ interface LayoutPresetPickerProps {
 /** Distribuciones de ancho (escritorio) como mini-diagramas proporcionales al
  * grid de 12. Solo aparece con 2-3 columnas: con 1 y 4 solo existe el
  * simétrico, así que un único preset no aporta elección. */
-const LayoutPresetPicker = ({ columns, value, onChange }: LayoutPresetPickerProps) => {
+const LayoutPresetPicker = ({
+  columns,
+  value,
+  onChange,
+}: LayoutPresetPickerProps) => {
   const presets = BUILDER_LAYOUT_PRESETS[columns]
   return (
     <div className="flex flex-wrap gap-2">
@@ -61,7 +76,7 @@ const LayoutPresetPicker = ({ columns, value, onChange }: LayoutPresetPickerProp
               'flex h-10 min-w-24 flex-1 cursor-pointer items-stretch gap-0.5 rounded-lg border p-1 transition-colors',
               active
                 ? 'border-primary-600 bg-primary-700/10'
-                : 'border-border bg-surface hover:border-primary-600',
+                : 'border-border bg-surface hover:border-primary-600'
             )}
           >
             {preset.map((span, i) => (
@@ -70,7 +85,9 @@ const LayoutPresetPicker = ({ columns, value, onChange }: LayoutPresetPickerProp
                 style={{ flexGrow: span }}
                 className={clsx(
                   'flex items-center justify-center rounded text-[10px] font-bold',
-                  active ? 'bg-primary-700/20 text-primary-600' : 'bg-surface-subtle text-muted',
+                  active
+                    ? 'bg-primary-700/20 text-primary-600'
+                    : 'bg-surface-subtle text-muted'
                 )}
               >
                 {span}
@@ -91,22 +108,24 @@ interface ColumnPickerProps {
 
 const ColumnPicker = ({ max, value, onChange }: ColumnPickerProps) => (
   <div className="flex items-center gap-2">
-    {Array.from({ length: max }, (_, i) => (i + 1) as BuilderColumnsCount).map((n) => (
-      <button
-        key={n}
-        type="button"
-        aria-pressed={value === n}
-        onClick={() => onChange(n)}
-        className={clsx(
-          'flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border text-sm font-bold transition-colors',
-          value === n
-            ? 'border-primary-600 bg-primary-700/10 text-primary-600'
-            : 'border-border bg-surface text-foreground hover:border-primary-600 hover:text-primary-600',
-        )}
-      >
-        {n}
-      </button>
-    ))}
+    {Array.from({ length: max }, (_, i) => (i + 1) as BuilderColumnsCount).map(
+      (n) => (
+        <button
+          key={n}
+          type="button"
+          aria-pressed={value === n}
+          onClick={() => onChange(n)}
+          className={clsx(
+            'flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border text-sm font-bold transition-colors',
+            value === n
+              ? 'border-primary-600 bg-primary-700/10 text-primary-600'
+              : 'border-border bg-surface text-foreground hover:border-primary-600 hover:text-primary-600'
+          )}
+        >
+          {n}
+        </button>
+      )
+    )}
   </div>
 )
 
@@ -130,7 +149,8 @@ export const SectionSettingsModal = ({
 }: SectionSettingsModalProps) => {
   const { t } = usePagesTranslation()
   const [activeTab, setActiveTab] = useState<SettingsTab>('columns')
-  const [columnsBreakpoint, setColumnsBreakpoint] = useState<ColumnsBreakpoint>('tablet')
+  const [columnsBreakpoint, setColumnsBreakpoint] =
+    useState<ColumnsBreakpoint>('tablet')
   const tabletColumns = settings.tabletColumns ?? columns
   const mobileColumns = settings.mobileColumns ?? columns
 
@@ -140,12 +160,27 @@ export const SectionSettingsModal = ({
   ]
 
   const columnsBreakpointOptions = [
-    { value: 'tablet', label: t.builder.tabletColumns, icon: 'RiTabletLine' as const },
-    { value: 'mobile', label: t.builder.mobileColumns, icon: 'RiSmartphoneLine' as const },
+    {
+      value: 'tablet',
+      label: t.builder.tabletColumns,
+      icon: 'RiTabletLine' as const,
+    },
+    {
+      value: 'mobile',
+      label: t.builder.mobileColumns,
+      icon: 'RiSmartphoneLine' as const,
+    },
   ]
-  const columnsHidden = columnsBreakpoint === 'tablet' ? !!settings.hiddenOnTablet : !!settings.hiddenOnMobile
-  const columnsValue = columnsBreakpoint === 'tablet' ? tabletColumns : mobileColumns
-  const columnsHideLabel = columnsBreakpoint === 'tablet' ? t.builder.hideOnTablet : t.builder.hideOnMobile
+  const columnsHidden =
+    columnsBreakpoint === 'tablet'
+      ? !!settings.hiddenOnTablet
+      : !!settings.hiddenOnMobile
+  const columnsValue =
+    columnsBreakpoint === 'tablet' ? tabletColumns : mobileColumns
+  const columnsHideLabel =
+    columnsBreakpoint === 'tablet'
+      ? t.builder.hideOnTablet
+      : t.builder.hideOnMobile
 
   return (
     <Modal
@@ -168,30 +203,45 @@ export const SectionSettingsModal = ({
           ariaLabel={t.builder.sectionSettings}
         />
 
-        {activeTab === 'columns' && BUILDER_LAYOUT_PRESETS[columns].length > 1 && (
-          <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-4">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-xs font-medium text-foreground">{t.builder.layout.label}</span>
-              <span className="text-[11px] text-muted">{t.builder.layout.hint}</span>
+        {activeTab === 'columns' &&
+          BUILDER_LAYOUT_PRESETS[columns].length > 1 && (
+            <div className="border-border bg-surface-subtle flex flex-col gap-3 rounded-xl border p-4">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-foreground text-xs font-medium">
+                  {t.builder.layout.label}
+                </span>
+                <span className="text-muted text-[11px]">
+                  {t.builder.layout.hint}
+                </span>
+              </div>
+              <LayoutPresetPicker
+                columns={columns}
+                value={spans}
+                onChange={onLayoutChange}
+              />
             </div>
-            <LayoutPresetPicker columns={columns} value={spans} onChange={onLayoutChange} />
-          </div>
-        )}
+          )}
 
         {activeTab === 'columns' && (
-          <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-4">
+          <div className="border-border bg-surface-subtle flex flex-col gap-4 rounded-xl border p-4">
             <Select
               label={t.builder.breakpoint.label}
               options={columnsBreakpointOptions}
               value={columnsBreakpoint}
-              onChange={(e) => setColumnsBreakpoint(e.target.value as ColumnsBreakpoint)}
+              onChange={(e) =>
+                setColumnsBreakpoint(e.target.value as ColumnsBreakpoint)
+              }
             />
             {!columnsHidden && (
               <ColumnPicker
                 max={columns}
                 value={columnsValue}
                 onChange={(count) =>
-                  onChange(columnsBreakpoint === 'tablet' ? { tabletColumns: count } : { mobileColumns: count })
+                  onChange(
+                    columnsBreakpoint === 'tablet'
+                      ? { tabletColumns: count }
+                      : { mobileColumns: count }
+                  )
                 }
               />
             )}
@@ -202,7 +252,7 @@ export const SectionSettingsModal = ({
                 onChange(
                   columnsBreakpoint === 'tablet'
                     ? { hiddenOnTablet: e.target.checked }
-                    : { hiddenOnMobile: e.target.checked },
+                    : { hiddenOnMobile: e.target.checked }
                 )
               }
             />

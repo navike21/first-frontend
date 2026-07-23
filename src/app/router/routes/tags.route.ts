@@ -1,4 +1,9 @@
-import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
+import {
+  createRoute,
+  lazyRouteComponent,
+  Outlet,
+  type AnyRoute,
+} from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
@@ -6,15 +11,31 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const TagsPage = lazyRouteComponent(() => import('@domains/tags/pages/TagsPage'), 'TagsPage')
-const CreateTagPage = lazyRouteComponent(() => import('@domains/tags/pages/CreateTagPage'), 'CreateTagPage')
-const EditTagPage = lazyRouteComponent(() => import('@domains/tags/pages/EditTagPage'), 'EditTagPage')
-const TagsTrashPage = lazyRouteComponent(() => import('@domains/tags/pages/TagsTrashPage'), 'TagsTrashPage')
+const TagsPage = lazyRouteComponent(
+  () => import('@domains/tags/pages/TagsPage'),
+  'TagsPage'
+)
+const CreateTagPage = lazyRouteComponent(
+  () => import('@domains/tags/pages/CreateTagPage'),
+  'CreateTagPage'
+)
+const EditTagPage = lazyRouteComponent(
+  () => import('@domains/tags/pages/EditTagPage'),
+  'EditTagPage'
+)
+const TagsTrashPage = lazyRouteComponent(
+  () => import('@domains/tags/pages/TagsTrashPage'),
+  'TagsTrashPage'
+)
 
-const parentSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.tags[l])))
+const parentSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.tags[l]))
+)
 
 export const allTagsRouteTrees = parentSlugs.map((parentSlug) => {
-  const langs = SUPPORTED_LANGUAGES.filter((l: Language) => ROUTE_SLUGS.tags[l] === parentSlug)
+  const langs = SUPPORTED_LANGUAGES.filter(
+    (l: Language) => ROUTE_SLUGS.tags[l] === parentSlug
+  )
 
   const layout = createRoute({
     getParentRoute: () => privateLayout,

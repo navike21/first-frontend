@@ -9,7 +9,8 @@ export const it: TagTranslations = {
     editTitle: 'Modifica tag',
     editDescription: (name) => `Aggiorna ${name}`,
     trashTitle: 'Cestino dei tag',
-    trashDescription: 'Tag spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Tag spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun tag nel cestino',
     trashEmptyDescription: 'I tag eliminati appariranno qui.',
   },
@@ -61,11 +62,14 @@ export const it: TagTranslations = {
     restoreTitle: 'Ripristina tag',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} tag nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} tag nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} tag. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} tag. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     tabTranslations: 'Traduzioni',

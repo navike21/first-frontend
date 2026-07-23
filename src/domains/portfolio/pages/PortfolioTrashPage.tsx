@@ -2,7 +2,8 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -66,7 +67,7 @@ export const PortfolioTrashPage = () => {
             name={item.name[language] || item.name.en}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {item.name[language] || item.name.en}
           </span>
         </div>
@@ -133,12 +134,20 @@ export const PortfolioTrashPage = () => {
     <PageContent
       title={t.page.trashTitle}
       description={t.page.trashDescription}
-      actions={[{ type: 'link', label: t.actions.cancel, variant: 'secondary', to: navPaths.portfolio(language), size: 'small' }]}
+      actions={[
+        {
+          type: 'link',
+          label: t.actions.cancel,
+          variant: 'secondary',
+          to: navPaths.portfolio(language),
+          size: 'small',
+        },
+      ]}
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -146,12 +155,20 @@ export const PortfolioTrashPage = () => {
                 {t.actions.clearSelection}
               </Button>
               <Can anyOf={CAN.portfolioUpdate}>
-                <Button variant="primary" size="small" onClick={() => setBulkAction('restore')}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkAction('restore')}
+                >
                   {t.actions.bulkRestore}
                 </Button>
               </Can>
               <Can anyOf={CAN.portfolioPurge}>
-                <Button variant="destructive" size="small" onClick={() => setBulkAction('purge')}>
+                <Button
+                  variant="destructive"
+                  size="small"
+                  onClick={() => setBulkAction('purge')}
+                >
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
@@ -167,7 +184,13 @@ export const PortfolioTrashPage = () => {
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}
-          pagination={{ page, pages, onPageChange: handlePageChange, prevLabel: t.table.prevPage, nextLabel: t.table.nextPage }}
+          pagination={{
+            page,
+            pages,
+            onPageChange: handlePageChange,
+            prevLabel: t.table.prevPage,
+            nextLabel: t.table.nextPage,
+          }}
           selectable
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
@@ -183,11 +206,29 @@ export const PortfolioTrashPage = () => {
         onClose={() => setRestoring(null)}
         size="sm"
         title={t.actions.restoreTitle}
-        description={restoring ? t.actions.restoreDescription(restoring.name[language] || restoring.name.en) : undefined}
+        description={
+          restoring
+            ? t.actions.restoreDescription(
+                restoring.name[language] || restoring.name.en
+              )
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setRestoring(null)} disabled={restore.isPending}>{t.actions.cancel}</Button>
-            <Button variant="primary" loading={restore.isPending} onClick={handleConfirmRestore}>{t.actions.confirmRestore}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setRestoring(null)}
+              disabled={restore.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="primary"
+              loading={restore.isPending}
+              onClick={handleConfirmRestore}
+            >
+              {t.actions.confirmRestore}
+            </Button>
           </>
         }
       />
@@ -197,11 +238,29 @@ export const PortfolioTrashPage = () => {
         onClose={() => setPurging(null)}
         size="sm"
         title={t.actions.purgeTitle}
-        description={purging ? t.actions.purgeDescription(purging.name[language] || purging.name.en) : undefined}
+        description={
+          purging
+            ? t.actions.purgeDescription(
+                purging.name[language] || purging.name.en
+              )
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setPurging(null)} disabled={purge.isPending}>{t.actions.cancel}</Button>
-            <Button variant="destructive" loading={purge.isPending} onClick={handleConfirmPurge}>{t.actions.confirmPurge}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPurging(null)}
+              disabled={purge.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="destructive"
+              loading={purge.isPending}
+              onClick={handleConfirmPurge}
+            >
+              {t.actions.confirmPurge}
+            </Button>
           </>
         }
       />
@@ -210,7 +269,11 @@ export const PortfolioTrashPage = () => {
         isOpen={!!bulkAction}
         onClose={() => setBulkAction(null)}
         size="sm"
-        title={bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle}
+        title={
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
+        }
         description={
           bulkAction === 'restore'
             ? t.actions.bulkRestoreDescription(selectedIds.length)
@@ -218,13 +281,21 @@ export const PortfolioTrashPage = () => {
         }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setBulkAction(null)} disabled={bulkRestore.isPending || bulkPurge.isPending}>{t.actions.cancel}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkAction(null)}
+              disabled={bulkRestore.isPending || bulkPurge.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
             <Button
               variant={bulkAction === 'restore' ? 'primary' : 'destructive'}
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >
-              {bulkAction === 'restore' ? t.actions.confirmRestore : t.actions.confirmPurge}
+              {bulkAction === 'restore'
+                ? t.actions.confirmRestore
+                : t.actions.confirmPurge}
             </Button>
           </>
         }

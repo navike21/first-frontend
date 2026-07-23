@@ -69,7 +69,12 @@ export const useCreateUser = () => {
 export const useUpdateUser = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar, removeAvatar, avatarLibraryUrl }: UpdateUserVars) =>
+    mutationFn: ({
+      data,
+      avatar,
+      removeAvatar,
+      avatarLibraryUrl,
+    }: UpdateUserVars) =>
       usersApi.update(id, data, avatar, removeAvatar, avatarLibraryUrl),
     onSuccess: (res) => {
       const updated = res.data
@@ -110,7 +115,12 @@ export const useUpdateUser = (id: string) => {
 export const useUpdateProfile = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, avatar, removeAvatar, avatarLibraryUrl }: UpdateUserVars) =>
+    mutationFn: ({
+      data,
+      avatar,
+      removeAvatar,
+      avatarLibraryUrl,
+    }: UpdateUserVars) =>
       usersApi.updateProfile(data, avatar, removeAvatar, avatarLibraryUrl),
     onSuccess: (res) => {
       const updated = res.data

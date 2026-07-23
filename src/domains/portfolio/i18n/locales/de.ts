@@ -9,7 +9,8 @@ export const de: PortfolioTranslations = {
     editTitle: 'Projekt bearbeiten',
     editDescription: (name) => `"${name}" aktualisieren`,
     trashTitle: 'Papierkorb Portfolio',
-    trashDescription: 'Projekte, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Projekte, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Projekte im Papierkorb',
     trashEmptyDescription: 'Gelöschte Projekte werden hier angezeigt.',
   },
@@ -56,17 +57,23 @@ export const de: PortfolioTranslations = {
     bulkRestore: 'Wiederherstellen',
     bulkPurge: 'Endgültig löschen',
     deleteTitle: 'Projekt löschen',
-    deleteDescription: (name) => `Möchten Sie "${name}" wirklich löschen? Sie können es aus dem Papierkorb wiederherstellen.`,
+    deleteDescription: (name) =>
+      `Möchten Sie "${name}" wirklich löschen? Sie können es aus dem Papierkorb wiederherstellen.`,
     confirmDelete: 'Löschen',
-    bulkDeleteDescription: (count) => `${count} Projekte löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
+    bulkDeleteDescription: (count) =>
+      `${count} Projekte löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Projekt wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Projekte in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Projekte in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Projekte endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Projekte endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     sectionGeneral: 'Allgemein',
@@ -83,7 +90,8 @@ export const de: PortfolioTranslations = {
     technologies: 'Technologien',
     projectUrl: 'Projekt-URL',
     serviceIds: 'Zugehörige Dienste',
-    serviceIdsHint: 'Einen oder mehrere Dienste auswählen, zu denen dieses Projekt gehört',
+    serviceIdsHint:
+      'Einen oder mehrere Dienste auswählen, zu denen dieses Projekt gehört',
     serviceNoTranslation: 'Übersetzung nicht verfügbar',
     clientId: 'Kunde',
     clientNoOptions: 'Keine Kunden gefunden',

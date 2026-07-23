@@ -6,7 +6,10 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const SiteConfigPage = lazyRouteComponent(() => import('@domains/site-config'), 'SiteConfigPage')
+const SiteConfigPage = lazyRouteComponent(
+  () => import('@domains/site-config'),
+  'SiteConfigPage'
+)
 
 function createSiteConfigRouteTree(lang: Language) {
   return createRoute({

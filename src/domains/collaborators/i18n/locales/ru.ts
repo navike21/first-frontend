@@ -9,7 +9,8 @@ export const ru: CollaboratorTranslations = {
     editTitle: 'Редактировать сотрудника',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина сотрудников',
-    trashDescription: 'Сотрудники, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Сотрудники, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые сотрудники будут отображаться здесь.',
   },
@@ -61,11 +62,14 @@ export const ru: CollaboratorTranslations = {
     restoreTitle: 'Восстановить сотрудника',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} сотрудников в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} сотрудников в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} сотрудников. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} сотрудников. Действие НЕОБРАТИМО.`,
   },
   form: {
     tabTranslations: 'Переводы',
@@ -86,7 +90,8 @@ export const ru: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Связанный аккаунт',
     linkedUser: 'Пользователь системы',
-    linkedUserHint: 'Связать этого сотрудника с существующей учётной записью пользователя (необязательно)',
+    linkedUserHint:
+      'Связать этого сотрудника с существующей учётной записью пользователя (необязательно)',
     noLinkedUser: 'Не связано',
     select: 'Выбрать…',
     save: 'Сохранить изменения',

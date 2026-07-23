@@ -55,7 +55,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             // tabIndex=-1 (no debe ser un tab-stop independiente y vacío).
             'has-[input:focus-visible]:shadow-focus-ring',
             {
-              'cursor-not-allowed bg-surface-subtle ring-border-control':
+              'bg-surface-subtle ring-border-control cursor-not-allowed':
                 disabled,
               'bg-surface ring-border-control hover:ring-border-hover':
                 !disabled,

@@ -9,7 +9,8 @@ export const fr: ClientsTranslations = {
     editTitle: 'Modifier le client',
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des clients',
-    trashDescription: 'Clients déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Clients déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun client dans la corbeille',
     trashEmptyDescription: 'Les clients supprimés apparaîtront ici.',
   },
@@ -60,17 +61,22 @@ export const fr: ClientsTranslations = {
     bulkRestore: 'Restaurer',
     bulkPurge: 'Supprimer définitivement',
     deleteTitle: 'Supprimer le client',
-    deleteDescription: (name) => `Supprimer ${name} ? Vous pourrez le restaurer depuis la corbeille.`,
+    deleteDescription: (name) =>
+      `Supprimer ${name} ? Vous pourrez le restaurer depuis la corbeille.`,
     confirmDelete: 'Supprimer',
-    bulkDeleteDescription: (count) => `Supprimer ${count} client${count !== 1 ? 's' : ''} ? Vous pourrez les restaurer.`,
+    bulkDeleteDescription: (count) =>
+      `Supprimer ${count} client${count !== 1 ? 's' : ''} ? Vous pourrez les restaurer.`,
     restoreTitle: 'Restaurer le client',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} clients dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} clients dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} clients. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} clients. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'Informations générales',

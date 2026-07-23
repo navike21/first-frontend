@@ -15,7 +15,9 @@ describe('Skeleton', () => {
 
   it('renders a pulse overlay element', () => {
     const { container } = render(<Skeleton />)
-    expect((container.firstChild as HTMLElement).firstElementChild).toHaveClass('absolute')
+    expect((container.firstChild as HTMLElement).firstElementChild).toHaveClass(
+      'absolute'
+    )
   })
 
   it('uses bg-border-subtle for theming', () => {

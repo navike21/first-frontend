@@ -10,15 +10,34 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
-import { InputField, TextArea, Select, Button, ButtonGroup, FormGrid, SectionLabel, LangSidebar, LangTabs } from '@/shared/ui'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import {
+  InputField,
+  TextArea,
+  Select,
+  Button,
+  ButtonGroup,
+  FormGrid,
+  SectionLabel,
+  LangSidebar,
+  LangTabs,
+} from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import type { Language } from '@/shared/i18n'
 import { useFormsTranslation } from '../../i18n'
 import { createFormSchema } from '../../model/form.schema'
 import type { FormFormData, FormFormField } from '../../model/form.schema'
-import { emptyLocalized, createField, resetFieldForType } from '../../model/form.builder'
+import {
+  emptyLocalized,
+  createField,
+  resetFieldForType,
+} from '../../model/form.builder'
 import type { FormFieldType } from '../../model/form.types'
 import { FormFieldCard } from '../FormFieldCard'
 
@@ -40,7 +59,10 @@ export const FormEditor = ({
   onSubmit,
 }: FormEditorProps) => {
   const { t, language } = useFormsTranslation()
-  const schema = useMemo(() => createFormSchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createFormSchema(t.validation, language),
+    [t.validation, language]
+  )
   const [editing, setEditing] = useState<Language>(language)
 
   const {
@@ -84,7 +106,8 @@ export const FormEditor = ({
     { value: 'inactive', label: t.status.inactive },
   ]
 
-  const addField = (type: FormFieldType) => setValue('fields', [...fieldsValue, createField(type)])
+  const addField = (type: FormFieldType) =>
+    setValue('fields', [...fieldsValue, createField(type)])
   const removeField = (index: number) =>
     setValue(
       'fields',
@@ -136,13 +159,18 @@ export const FormEditor = ({
         </div>
 
         <div className="flex flex-1 flex-col gap-6">
-          <div className="rounded-xl border border-border bg-surface p-6">
+          <div className="border-border bg-surface rounded-xl border p-6">
             <SectionLabel>{t.form.sectionGeneral}</SectionLabel>
             <FormGrid>
               <InputField
                 label={requiredLabel(t.form.title)}
                 value={titleValue?.[editing] ?? ''}
-                onChange={(e) => setValue('title', { ...titleValue, [editing]: e.target.value })}
+                onChange={(e) =>
+                  setValue('title', {
+                    ...titleValue,
+                    [editing]: e.target.value,
+                  })
+                }
                 errorMessage={errors.title?.[editing]?.message}
               />
               <Select
@@ -150,22 +178,34 @@ export const FormEditor = ({
                 options={statusOptions}
                 value={statusValue}
                 lang={language}
-                onChange={(e) => setValue('status', e.target.value as FormFormData['status'])}
+                onChange={(e) =>
+                  setValue('status', e.target.value as FormFormData['status'])
+                }
               />
               <TextArea
                 label={t.form.description}
                 value={descriptionValue?.[editing] ?? ''}
-                onChange={(e) => setValue('description', { ...descriptionValue, [editing]: e.target.value })}
+                onChange={(e) =>
+                  setValue('description', {
+                    ...descriptionValue,
+                    [editing]: e.target.value,
+                  })
+                }
               />
               <TextArea
                 label={t.form.successMessage}
                 value={successMessageValue?.[editing] ?? ''}
-                onChange={(e) => setValue('successMessage', { ...successMessageValue, [editing]: e.target.value })}
+                onChange={(e) =>
+                  setValue('successMessage', {
+                    ...successMessageValue,
+                    [editing]: e.target.value,
+                  })
+                }
               />
             </FormGrid>
           </div>
 
-          <div className="rounded-xl border border-border bg-surface p-6">
+          <div className="border-border bg-surface rounded-xl border p-6">
             <SectionLabel>{t.form.sectionNotifications}</SectionLabel>
             <FormGrid>
               <InputField
@@ -176,19 +216,25 @@ export const FormEditor = ({
             </FormGrid>
           </div>
 
-          <div className="rounded-xl border border-border bg-surface p-6">
+          <div className="border-border bg-surface rounded-xl border p-6">
             <div className="mb-3 flex items-center justify-between">
               <SectionLabel>{t.form.sectionFields}</SectionLabel>
             </div>
 
             {errors.fields?.root?.message && (
-              <p className="mb-3 text-sm text-error">{errors.fields.root.message}</p>
+              <p className="text-error mb-3 text-sm">
+                {errors.fields.root.message}
+              </p>
             )}
 
             {fieldsValue.length === 0 ? (
-              <p className="mb-4 text-sm text-muted">{t.form.noFields}</p>
+              <p className="text-muted mb-4 text-sm">{t.form.noFields}</p>
             ) : (
-              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
                 <SortableContext
                   items={fieldsValue.map((f) => f.fieldId ?? '')}
                   strategy={verticalListSortingStrategy}
@@ -203,7 +249,9 @@ export const FormEditor = ({
                         onChange={(patch) => updateField(index, patch)}
                         onTypeChange={(type) => changeFieldType(index, type)}
                         onRemove={() => removeField(index)}
-                        errorMessage={errors.fields?.[index]?.label?.[editing]?.message}
+                        errorMessage={
+                          errors.fields?.[index]?.label?.[editing]?.message
+                        }
                       />
                     ))}
                   </div>
@@ -212,18 +260,37 @@ export const FormEditor = ({
             )}
 
             <div className="flex flex-wrap gap-2">
-              {(['text', 'textarea', 'email', 'phone', 'select', 'radio', 'checkbox', 'date'] as FormFieldType[]).map(
-                (type) => (
-                  <Button key={type} variant="secondary" size="small" onClick={() => addField(type)}>
-                    {t.form.addField}: {t.fieldTypes[type]}
-                  </Button>
-                )
-              )}
+              {(
+                [
+                  'text',
+                  'textarea',
+                  'email',
+                  'phone',
+                  'select',
+                  'radio',
+                  'checkbox',
+                  'date',
+                ] as FormFieldType[]
+              ).map((type) => (
+                <Button
+                  key={type}
+                  variant="secondary"
+                  size="small"
+                  onClick={() => addField(type)}
+                >
+                  {t.form.addField}: {t.fieldTypes[type]}
+                </Button>
+              ))}
             </div>
           </div>
 
-          <ButtonGroup className="border-t border-border pt-4">
-            <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+          <ButtonGroup className="border-border border-t pt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
               {t.form.cancel}
             </Button>
             <Button

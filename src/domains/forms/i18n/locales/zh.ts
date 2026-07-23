@@ -91,17 +91,21 @@ export const zh: FormsTranslations = {
     bulkRestore: '恢复',
     bulkPurge: '永久删除',
     deleteTitle: '删除表单',
-    deleteDescription: (name) => `确定要删除「${name}」吗？其提交记录仍保留在回收站中，可以恢复。`,
+    deleteDescription: (name) =>
+      `确定要删除「${name}」吗？其提交记录仍保留在回收站中，可以恢复。`,
     confirmDelete: '删除',
-    bulkDeleteDescription: (count) => `删除 ${count} 个表单？可以从回收站恢复。`,
+    bulkDeleteDescription: (count) =>
+      `删除 ${count} 个表单？可以从回收站恢复。`,
     restoreTitle: '恢复表单',
     restoreDescription: (name) => `将「${name}」恢复到启用列表？`,
     confirmRestore: '恢复',
     bulkRestoreDescription: (count) => `将 ${count} 个表单恢复到启用列表？`,
     purgeTitle: '永久删除',
-    purgeDescription: (name) => `这将永久删除「${name}」及其所有提交记录。此操作无法撤销。`,
+    purgeDescription: (name) =>
+      `这将永久删除「${name}」及其所有提交记录。此操作无法撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个表单及其所有提交记录。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个表单及其所有提交记录。此操作不可逆。`,
   },
   form: {
     sectionGeneral: '基本信息',

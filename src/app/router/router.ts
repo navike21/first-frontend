@@ -99,7 +99,7 @@ router.subscribe('onResolved', () => {
   const isNotFoundOrError = matches.some(
     (m) => m.status === 'notFound' || m.status === 'error'
   )
-  const lastSegment = location.pathname.split('/').filter(Boolean).at(-1) ?? ''
+  const lastSegment = location.pathname.split('/').findLast(Boolean) ?? ''
   if (
     !isNotFoundOrError &&
     !forbiddenSlugs.has(lastSegment) &&

@@ -29,7 +29,9 @@ function renderCard(overrides: Parameters<typeof createField>[0] = 'text') {
 describe('FormFieldCard', () => {
   it('does not render an options editor for a plain text field', () => {
     renderCard('text')
-    expect(screen.queryByText('Value', { exact: false })).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Value', { exact: false })
+    ).not.toBeInTheDocument()
   })
 
   it('renders an options editor with 2 rows for a select field', () => {

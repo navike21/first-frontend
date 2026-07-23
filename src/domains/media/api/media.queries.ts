@@ -13,7 +13,10 @@ export const useUsersForMediaPicker = () =>
   useQuery({
     queryKey: ['users', 'picker-for-media'],
     queryFn: () =>
-      request<ApiResponse<{ items: UserPickerItem[] }>>({ api: '/users?limit=100', method: 'GET' }),
+      request<ApiResponse<{ items: UserPickerItem[] }>>({
+        api: '/users?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data.items ?? [],
     staleTime: 5 * 60 * 1000,
   })

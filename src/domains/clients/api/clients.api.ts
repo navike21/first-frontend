@@ -27,7 +27,11 @@ export const clientsApi = {
   getById: (id: string) =>
     request<ApiResponse<Client>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
-  create: (body: CreateClientFormData, logo?: File | null, logoLibraryUrl?: string) => {
+  create: (
+    body: CreateClientFormData,
+    logo?: File | null,
+    logoLibraryUrl?: string
+  ) => {
     // Multipart can't be serialised into the offline queue, so offline we send
     // JSON without the logo (it gets queued); online with a logo uses multipart.
     if (logo && navigator.onLine) {

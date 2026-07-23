@@ -62,7 +62,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           disabled={disabled}
           className={clsx(
             'group relative shrink-0 border-none p-0 outline-none',
-            'rounded-full bg-border-control hover:bg-border-hover',
+            'bg-border-control hover:bg-border-hover rounded-full',
             'duration-fast ease-spring transition-all',
             'has-[input:checked]:bg-primary-600 has-[input:checked]:hover:bg-primary-600',
             // Mismo motivo que Checkbox/RadioOption: el input real está

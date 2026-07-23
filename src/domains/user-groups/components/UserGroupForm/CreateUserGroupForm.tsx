@@ -20,7 +20,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-6">
+      <div className="border-border bg-surface flex flex-col gap-4 rounded-xl border p-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField
             label={t.form.name}
@@ -46,12 +46,10 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-foreground">
+          <label className="text-foreground text-sm font-medium">
             {t.form.permissions}
           </label>
-          <p className="text-xs text-muted">
-            {t.form.permissionsHint}
-          </p>
+          <p className="text-muted text-xs">{t.form.permissionsHint}</p>
           <PermissionsSelector
             value={permissionsValue}
             onChange={setPermissionsValue}

@@ -13,7 +13,11 @@ export interface FooterConfigPanelProps {
   onChange: (patch: Partial<FooterConfig>) => void
 }
 
-export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPanelProps) => {
+export const FooterConfigPanel = ({
+  value,
+  language,
+  onChange,
+}: FooterConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
 
   const variantOptions = FOOTER_VARIANTS.map((variant) => ({
@@ -22,7 +26,8 @@ export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPan
     wireframe: <FooterWireframe variant={variant} columns={value.columns} />,
   }))
 
-  const hasColumns = value.variant === 'columns' || value.variant === 'cta-columns'
+  const hasColumns =
+    value.variant === 'columns' || value.variant === 'cta-columns'
 
   return (
     <div className="flex flex-col gap-6">
@@ -43,7 +48,9 @@ export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPan
             ]}
             value={String(value.columns)}
             lang={language}
-            onChange={(e) => onChange({ columns: Number(e.target.value) as 3 | 4 })}
+            onChange={(e) =>
+              onChange({ columns: Number(e.target.value) as 3 | 4 })
+            }
           />
         )}
         <Switch
@@ -62,7 +69,9 @@ export const FooterConfigPanel = ({ value, language, onChange }: FooterConfigPan
         label={t.footer.copyright}
         value={value.copyright}
         userLanguage={language}
-        onChange={(lang, text) => onChange({ copyright: { ...value.copyright, [lang]: text } })}
+        onChange={(lang, text) =>
+          onChange({ copyright: { ...value.copyright, [lang]: text } })
+        }
       />
 
       <FooterPreview config={value} />

@@ -19,7 +19,7 @@ const BreadcrumbLink = ({ item }: { readonly item: BreadcrumbItem }) => (
 )
 
 const BreadcrumbCurrent = ({ item }: { readonly item: BreadcrumbItem }) => (
-  <span className="flex items-center gap-1 font-medium text-foreground">
+  <span className="text-foreground flex items-center gap-1 font-medium">
     {item.icon && <IconComponent icon={item.icon} className="h-4 w-4" />}
     {item.label}
   </span>
@@ -41,7 +41,7 @@ export const Breadcrumbs = ({ items }: Readonly<BreadcrumbsProps>) => {
               {index > 0 && (
                 <IconComponent
                   icon="RiArrowRightSLine"
-                  className="h-4 w-4 text-disabled"
+                  className="text-disabled h-4 w-4"
                 />
               )}
               {isLast ? (

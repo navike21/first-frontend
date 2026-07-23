@@ -13,5 +13,6 @@ function createForgotPasswordRoute(lang: Language) {
   })
 }
 
-export const allForgotPasswordRouteTrees =
-  SUPPORTED_LANGUAGES.map(createForgotPasswordRoute)
+export const allForgotPasswordRouteTrees = SUPPORTED_LANGUAGES.map(
+  createForgotPasswordRoute
+)

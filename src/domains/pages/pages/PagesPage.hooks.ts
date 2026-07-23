@@ -3,9 +3,17 @@ import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
 import { navPaths } from '@/shared/router'
-import { usePages, useSoftDeletePage, useBulkSoftDeletePages } from '../api/pages.queries'
+import {
+  usePages,
+  useSoftDeletePage,
+  useBulkSoftDeletePages,
+} from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
-import type { Page, PageListParams, PagePaginationMeta } from '../model/page.types'
+import type {
+  Page,
+  PageListParams,
+  PagePaginationMeta,
+} from '../model/page.types'
 
 export function usePagesPage() {
   const navigate = useNavigate()
@@ -17,7 +25,10 @@ export function usePagesPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = usePages({ ...params, search: search || undefined })
+  const { data, isLoading } = usePages({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeletePage()
   const bulkSoftDelete = useBulkSoftDeletePages()
 
@@ -30,8 +41,10 @@ export function usePagesPage() {
   const clearSelection = () => setSelectedIds([])
 
   const handleView = (item: Page) => setViewingItem(item)
-  const handleEdit = (item: Page) => navigate({ to: navPaths.pageEdit(item.id, language) as never })
-  const handleBuild = (item: Page) => navigate({ to: navPaths.pageBuilder(item.id, language) as never })
+  const handleEdit = (item: Page) =>
+    navigate({ to: navPaths.pageEdit(item.id, language) as never })
+  const handleBuild = (item: Page) =>
+    navigate({ to: navPaths.pageBuilder(item.id, language) as never })
   const handleDelete = (item: Page) => setDeletingItem(item)
 
   const handleConfirmDelete = () => {
@@ -66,7 +79,11 @@ export function usePagesPage() {
   }
 
   const handleStatusChange = (value: string) => {
-    setParams((p) => ({ ...p, page: 1, status: value === 'all' ? undefined : (value as Page['status']) }))
+    setParams((p) => ({
+      ...p,
+      page: 1,
+      status: value === 'all' ? undefined : (value as Page['status']),
+    }))
     clearSelection()
   }
 

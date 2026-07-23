@@ -9,11 +9,28 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
-import { Button, IconButton, IconComponent, MediaLibraryModal, MediaThumbnail, Modal, SortableMediaTile, Tooltip } from '@/shared/ui'
+import {
+  SortableContext,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import {
+  Button,
+  IconButton,
+  IconComponent,
+  MediaLibraryModal,
+  MediaThumbnail,
+  Modal,
+  SortableMediaTile,
+  Tooltip,
+} from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import type { BuilderSliderElement, BuilderSliderSlide } from '../../model/page.types'
+import type {
+  BuilderSliderElement,
+  BuilderSliderSlide,
+} from '../../model/page.types'
 import { ElementShell } from './ElementShell'
 
 const ACCEPTED = 'image/jpeg,image/png,image/webp,video/mp4,video/webm'
@@ -36,7 +53,6 @@ export interface SliderElementCardProps {
   onDelete: () => void
 }
 
-
 export const SliderElementCard = ({
   element,
   sectionId,
@@ -54,18 +70,21 @@ export const SliderElementCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
   const addFiles = (files: FileList | File[]) => {
     const newSlides: BuilderSliderSlide[] = []
     Array.from(files).forEach((file) => {
-      const kind: 'image' | 'video' = file.type.startsWith('video/') ? 'video' : 'image'
+      const kind: 'image' | 'video' = file.type.startsWith('video/')
+        ? 'video'
+        : 'image'
       const url = URL.createObjectURL(file)
       newSlides.push({ url, kind })
       onPickFile(url, file, kind)
     })
-    if (newSlides.length > 0) onChange({ slides: [...element.slides, ...newSlides] })
+    if (newSlides.length > 0)
+      onChange({ slides: [...element.slides, ...newSlides] })
   }
 
   // Ya tienen URL real (vienen de la biblioteca): se agregan directo, sin
@@ -75,7 +94,9 @@ export const SliderElementCard = ({
     const newSlides = files.map((file) => ({
       url: file.original.url,
       kind: libraryKind,
-      ...(libraryKind === 'video' && { posterUrl: file.thumb?.url ?? file.full?.url }),
+      ...(libraryKind === 'video' && {
+        posterUrl: file.thumb?.url ?? file.full?.url,
+      }),
     }))
     onChange({ slides: [...element.slides, ...newSlides] })
     setLibraryKind(null)
@@ -124,14 +145,19 @@ export const SliderElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full gap-1 overflow-x-auto rounded-md p-0.5 transition-colors hover:bg-surface-subtle"
+          className="hover:bg-surface-subtle flex w-full gap-1 overflow-x-auto rounded-md p-0.5 transition-colors"
         >
           {element.slides.map((slide) => (
             <span
               key={slide.url}
-              className="flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle"
+              className="bg-surface-subtle flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md"
             >
-              <MediaThumbnail src={slide.url} kind={slide.kind} posterSrc={slide.posterUrl} className="h-full w-full object-cover" />
+              <MediaThumbnail
+                src={slide.url}
+                kind={slide.kind}
+                posterSrc={slide.posterUrl}
+                className="h-full w-full object-cover"
+              />
             </span>
           ))}
         </button>
@@ -139,7 +165,7 @@ export const SliderElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-20 w-full items-center justify-center rounded-md border border-dashed text-xs transition-colors"
         >
           {t.builder.sliderEmpty}
         </button>
@@ -166,7 +192,8 @@ export const SliderElementCard = ({
             onDrop={(e) => {
               e.preventDefault()
               setIsDragging(false)
-              if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files)
+              if (e.dataTransfer.files.length > 0)
+                addFiles(e.dataTransfer.files)
             }}
             onClick={() => inputRef.current?.click()}
             role="button"
@@ -179,21 +206,36 @@ export const SliderElementCard = ({
             }}
             className={clsx(
               'flex min-h-24 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed p-4 text-center transition-colors',
-              isDragging ? 'border-primary-600 bg-primary-700/5' : 'border-border bg-surface-subtle hover:border-primary-600/60',
+              isDragging
+                ? 'border-primary-600 bg-primary-700/5'
+                : 'border-border bg-surface-subtle hover:border-primary-600/60'
             )}
           >
             <IconComponent
               icon={isDragging ? 'RiDownloadLine' : 'RiUploadCloud2Line'}
-              className={clsx('h-6 w-6', isDragging ? 'text-primary-600' : 'text-muted')}
+              className={clsx(
+                'h-6 w-6',
+                isDragging ? 'text-primary-600' : 'text-muted'
+              )}
             />
-            <span className="text-sm font-medium text-foreground">
-              {isDragging ? t.builder.sliderDragLabel : t.builder.sliderAddLabel}
+            <span className="text-foreground text-sm font-medium">
+              {isDragging
+                ? t.builder.sliderDragLabel
+                : t.builder.sliderAddLabel}
             </span>
-            {!isDragging && <span className="text-xs text-muted">{t.builder.sliderFormatsHint}</span>}
+            {!isDragging && (
+              <span className="text-muted text-xs">
+                {t.builder.sliderFormatsHint}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-1">
-            <Tooltip heading={t.builder.sliderLibraryImage} position="top" size="small">
+            <Tooltip
+              heading={t.builder.sliderLibraryImage}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiFolderImageLine"
                 variant="text"
@@ -202,7 +244,11 @@ export const SliderElementCard = ({
                 onClick={() => setLibraryKind('image')}
               />
             </Tooltip>
-            <Tooltip heading={t.builder.sliderLibraryVideo} position="top" size="small">
+            <Tooltip
+              heading={t.builder.sliderLibraryVideo}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiFolderVideoLine"
                 variant="text"
@@ -214,8 +260,15 @@ export const SliderElementCard = ({
           </div>
 
           {element.slides.length > 0 && (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={element.slides.map((s) => s.url)} strategy={rectSortingStrategy}>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={element.slides.map((s) => s.url)}
+                strategy={rectSortingStrategy}
+              >
                 <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
                   {element.slides.map((slide) => (
                     <SortableMediaTile

@@ -13,5 +13,6 @@ function createServerErrorRoute(lang: Language) {
   })
 }
 
-export const allServerErrorRouteTrees =
-  SUPPORTED_LANGUAGES.map(createServerErrorRoute)
+export const allServerErrorRouteTrees = SUPPORTED_LANGUAGES.map(
+  createServerErrorRoute
+)

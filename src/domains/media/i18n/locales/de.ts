@@ -3,9 +3,11 @@ import type { MediaTranslations } from '../types'
 export const de: MediaTranslations = {
   page: {
     listTitle: 'Medien',
-    listDescription: 'Verwalte die auf die Website hochgeladenen Bilder und Videos',
+    listDescription:
+      'Verwalte die auf die Website hochgeladenen Bilder und Videos',
     trashTitle: 'Medien-Papierkorb',
-    trashDescription: 'In den Papierkorb verschobene Dateien. Du kannst sie wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'In den Papierkorb verschobene Dateien. Du kannst sie wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Dateien im Papierkorb',
     trashEmptyDescription: 'Gelöschte Dateien werden hier angezeigt.',
   },
@@ -36,17 +38,23 @@ export const de: MediaTranslations = {
     bulkPurge: 'Endgültig löschen',
     viewItem: 'Details ansehen',
     deleteTitle: 'Datei löschen',
-    deleteDescription: (name) => `${name} löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
+    deleteDescription: (name) =>
+      `${name} löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
     confirmDelete: 'Löschen',
-    bulkDeleteDescription: (count) => `${count} Dateien löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
+    bulkDeleteDescription: (count) =>
+      `${count} Dateien löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Datei wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Bibliothek zurückholen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Bibliothek zurückholen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Dateien in die aktive Bibliothek zurückholen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Dateien in die aktive Bibliothek zurückholen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird für immer gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
+    purgeDescription: (name) =>
+      `${name} wird für immer gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dadurch werden ${count} Dateien endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
+    bulkPurgeDescription: (count) =>
+      `Dadurch werden ${count} Dateien endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
   },
   upload: {
     title: 'Dateien hochladen',
@@ -67,7 +75,8 @@ export const de: MediaTranslations = {
     tabUsage: 'Verwendung',
     usageLoading: 'Suche nach Verwendungsorten…',
     usageEmpty: 'Nirgendwo sonst auf der Website gefunden',
-    usageEditorNote: 'Es kann weitere Verwendungen in Rich-Text-Inhalten geben, die wir nicht automatisch erkennen.',
+    usageEditorNote:
+      'Es kann weitere Verwendungen in Rich-Text-Inhalten geben, die wir nicht automatisch erkennen.',
     moduleClients: 'Kunde',
     moduleUsers: 'Benutzer',
     moduleCollaborators: 'Mitarbeiter',

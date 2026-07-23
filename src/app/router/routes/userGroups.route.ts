@@ -6,11 +6,26 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const UserGroupsPage = lazyRouteComponent(() => import('@domains/user-groups/pages/UserGroupsPage'), 'UserGroupsPage')
-const CreateUserGroupPage = lazyRouteComponent(() => import('@domains/user-groups/pages/CreateUserGroupPage'), 'CreateUserGroupPage')
-const EditUserGroupPage = lazyRouteComponent(() => import('@domains/user-groups/pages/EditUserGroupPage'), 'EditUserGroupPage')
-const GroupUsersPage = lazyRouteComponent(() => import('@domains/user-groups/pages/GroupUsersPage'), 'GroupUsersPage')
-const UserGroupsTrashPage = lazyRouteComponent(() => import('@domains/user-groups/pages/UserGroupsTrashPage'), 'UserGroupsTrashPage')
+const UserGroupsPage = lazyRouteComponent(
+  () => import('@domains/user-groups/pages/UserGroupsPage'),
+  'UserGroupsPage'
+)
+const CreateUserGroupPage = lazyRouteComponent(
+  () => import('@domains/user-groups/pages/CreateUserGroupPage'),
+  'CreateUserGroupPage'
+)
+const EditUserGroupPage = lazyRouteComponent(
+  () => import('@domains/user-groups/pages/EditUserGroupPage'),
+  'EditUserGroupPage'
+)
+const GroupUsersPage = lazyRouteComponent(
+  () => import('@domains/user-groups/pages/GroupUsersPage'),
+  'GroupUsersPage'
+)
+const UserGroupsTrashPage = lazyRouteComponent(
+  () => import('@domains/user-groups/pages/UserGroupsTrashPage'),
+  'UserGroupsTrashPage'
+)
 
 function createUserGroupsRouteTree(lang: Language) {
   // Viewing the User Groups section requires read (or manage / *:*); deeper

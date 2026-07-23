@@ -9,7 +9,8 @@ export const de: TagTranslations = {
     editTitle: 'Tag bearbeiten',
     editDescription: (name) => `${name} aktualisieren`,
     trashTitle: 'Tag-Papierkorb',
-    trashDescription: 'Tags, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Tags, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Tags im Papierkorb',
     trashEmptyDescription: 'Gelöschte Tags werden hier angezeigt.',
   },
@@ -59,13 +60,17 @@ export const de: TagTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Tags löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Tag wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Tags in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Tags in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Tags endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Tags endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     tabTranslations: 'Übersetzungen',

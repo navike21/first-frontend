@@ -9,19 +9,29 @@ import {
   useBulkSoftDeleteServices,
 } from '../api/services.queries'
 import { useServicesTranslation } from '../i18n'
-import type { Service, ServiceListParams, ServicePaginationMeta } from '../model/service.types'
+import type {
+  Service,
+  ServiceListParams,
+  ServicePaginationMeta,
+} from '../model/service.types'
 
 export function useServicesPage() {
   const navigate = useNavigate()
   const { t, language } = useServicesTranslation()
-  const [params, setParams] = useState<ServiceListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<ServiceListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [search, setSearch] = useState('')
   const [deletingService, setDeletingService] = useState<Service | null>(null)
   const [viewingService, setViewingService] = useState<Service | null>(null)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useServices({ ...params, search: search || undefined })
+  const { data, isLoading } = useServices({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteService()
   const bulkSoftDelete = useBulkSoftDeleteServices()
 

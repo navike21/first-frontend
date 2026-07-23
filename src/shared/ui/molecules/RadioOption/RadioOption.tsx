@@ -67,7 +67,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             // lleva tabIndex=-1, no debe ser un tab-stop propio y vacío.
             'has-[input:focus-visible]:shadow-focus-ring',
             {
-              'cursor-not-allowed bg-surface-subtle ring-border-control':
+              'bg-surface-subtle ring-border-control cursor-not-allowed':
                 disabled,
               'bg-surface ring-border-control hover:ring-border-hover':
                 !disabled,

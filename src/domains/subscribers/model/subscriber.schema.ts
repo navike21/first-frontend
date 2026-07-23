@@ -13,31 +13,43 @@ export function createSubscriberSchema(v: V) {
       email: z.email(v.emailInvalid),
       phoneNumber: optional,
     }),
-    location: z.object({
-      countryCode: z.string().trim().length(2).transform((c) => c.toUpperCase()).optional().or(z.literal('')),
-      ubigeoCode: optional,
-      region: optional,
-      province: optional,
-      district: optional,
-      address: z.string().trim().max(300, v.addressMax).optional().or(z.literal('')),
-      addressNumber: optional,
-      addressInterior: optional,
-    }).optional(),
+    location: z
+      .object({
+        countryCode: z
+          .string()
+          .trim()
+          .length(2)
+          .transform((c) => c.toUpperCase())
+          .optional()
+          .or(z.literal('')),
+        ubigeoCode: optional,
+        region: optional,
+        province: optional,
+        district: optional,
+        address: z
+          .string()
+          .trim()
+          .max(300, v.addressMax)
+          .optional()
+          .or(z.literal('')),
+        addressNumber: optional,
+        addressInterior: optional,
+      })
+      .optional(),
     personalInformation: z.object({
       gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say'], {
         message: v.required,
       }),
       dateOfBirth: z.string().trim().optional().or(z.literal('')),
-      profilePictureUrl: z
-        .url(v.urlInvalid)
-        .optional()
-        .or(z.literal('')),
+      profilePictureUrl: z.url(v.urlInvalid).optional().or(z.literal('')),
     }),
     status: z.enum(['active', 'inactive']).default('active'),
   })
 }
 
-export type SubscriberFormData = z.infer<ReturnType<typeof createSubscriberSchema>>
+export type SubscriberFormData = z.infer<
+  ReturnType<typeof createSubscriberSchema>
+>
 
 export interface CreateSubscriberPayload {
   firstName: string
@@ -65,7 +77,7 @@ export interface CreateSubscriberPayload {
 }
 
 function buildLocation(
-  loc: SubscriberFormData['location'],
+  loc: SubscriberFormData['location']
 ): CreateSubscriberPayload['location'] | undefined {
   if (!loc || !Object.values(loc).some(Boolean)) return undefined
   return {
@@ -80,7 +92,9 @@ function buildLocation(
   }
 }
 
-export function toSubscriberPayload(data: SubscriberFormData): CreateSubscriberPayload {
+export function toSubscriberPayload(
+  data: SubscriberFormData
+): CreateSubscriberPayload {
   const pi = data.personalInformation
   return {
     firstName: data.firstName,

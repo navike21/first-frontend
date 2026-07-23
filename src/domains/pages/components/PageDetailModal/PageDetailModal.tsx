@@ -17,7 +17,10 @@ interface PageDetailModalProps {
   onClose: () => void
 }
 
-const STATUS_VARIANT: Record<PageStatus, 'success' | 'warning' | 'informative'> = {
+const STATUS_VARIANT: Record<
+  PageStatus,
+  'success' | 'warning' | 'informative'
+> = {
   published: 'success',
   scheduled: 'informative',
   draft: 'warning',
@@ -30,7 +33,7 @@ const langDotClass = (filled: boolean, active: boolean): string => {
 }
 
 const CoverPlaceholder = () => (
-  <div className="h-full w-full bg-gradient-to-br from-primary-700/20 via-primary-600/10 to-surface-subtle" />
+  <div className="from-primary-700/20 via-primary-600/10 to-surface-subtle h-full w-full bg-gradient-to-br" />
 )
 
 export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
@@ -59,7 +62,11 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
     <Modal isOpen={!!item} onClose={onClose} size="xl" title={t.table.viewItem}>
       <div className="-mx-6 -mt-5 mb-5 overflow-hidden">
         {item.coverImageUrl ? (
-          <img src={item.coverImageUrl} alt={title} className="aspect-[16/7] w-full object-cover" />
+          <img
+            src={item.coverImageUrl}
+            alt={title}
+            className="aspect-[16/7] w-full object-cover"
+          />
         ) : (
           <div className="aspect-[16/7] w-full">
             <CoverPlaceholder />
@@ -70,9 +77,13 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
       <div className="space-y-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="truncate text-lg font-bold text-foreground">{title}</h3>
+            <h3 className="text-foreground truncate text-lg font-bold">
+              {title}
+            </h3>
             {item.fullPath?.[viewLang] && (
-              <p className="mt-0.5 truncate font-mono text-xs text-muted">/{item.fullPath[viewLang]}</p>
+              <p className="text-muted mt-0.5 truncate font-mono text-xs">
+                /{item.fullPath[viewLang]}
+              </p>
             )}
           </div>
           <Chip size="x-small" variant={STATUS_VARIANT[effective]}>
@@ -81,7 +92,9 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-xs font-medium uppercase tracking-wide text-muted">{t.form.tabTranslations}</span>
+          <span className="text-muted text-xs font-medium tracking-wide uppercase">
+            {t.form.tabTranslations}
+          </span>
           <div className="flex flex-wrap gap-1.5">
             {SUPPORTED_LANGUAGES.map((lang) => {
               const active = lang === viewLang
@@ -92,14 +105,19 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
                   type="button"
                   onClick={() => setViewLang(lang)}
                   className={clsx(
-                    'inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wider transition-colors',
+                    'inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold tracking-wider uppercase transition-colors',
                     active
-                      ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-                      : 'bg-surface-subtle text-muted hover:text-foreground',
+                      ? 'bg-primary-700/10 text-primary-600 ring-primary-700/20 ring-1'
+                      : 'bg-surface-subtle text-muted hover:text-foreground'
                   )}
                 >
                   {lang}
-                  <span className={clsx('h-1.5 w-1.5 rounded-full', langDotClass(filled, active))} />
+                  <span
+                    className={clsx(
+                      'h-1.5 w-1.5 rounded-full',
+                      langDotClass(filled, active)
+                    )}
+                  />
                 </button>
               )
             })}
@@ -107,21 +125,40 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <DetailField label={t.form.parent} value={parent ? parent.title[language] || parent.title.en : t.form.noParent} />
+          <DetailField
+            label={t.form.parent}
+            value={
+              parent
+                ? parent.title[language] || parent.title.en
+                : t.form.noParent
+            }
+          />
           {item.status === 'scheduled' && item.scheduledAt && (
-            <DetailField label={t.form.scheduledAt} value={new Date(item.scheduledAt).toLocaleString(language)} />
+            <DetailField
+              label={t.form.scheduledAt}
+              value={new Date(item.scheduledAt).toLocaleString(language)}
+            />
           )}
-          <DetailField label={t.form.createdBy} value={userName(item.createdBy)} />
-          <DetailField label={t.form.updatedBy} value={userName(item.updatedBy)} />
+          <DetailField
+            label={t.form.createdBy}
+            value={userName(item.createdBy)}
+          />
+          <DetailField
+            label={t.form.updatedBy}
+            value={userName(item.updatedBy)}
+          />
         </div>
 
         {item.categoryIds.length > 0 && (
           <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-medium uppercase tracking-wide text-muted">{t.form.categoryIds}</span>
+            <span className="text-muted text-xs font-medium tracking-wide uppercase">
+              {t.form.categoryIds}
+            </span>
             <div className="flex flex-wrap gap-1">
               {item.categoryIds.map((id) => (
                 <Chip key={id} size="small" variant="default">
-                  {categoriesData?.find((c) => c.id === id)?.name[language] ?? id}
+                  {categoriesData?.find((c) => c.id === id)?.name[language] ??
+                    id}
                 </Chip>
               ))}
             </div>
@@ -130,7 +167,9 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
 
         {item.tagIds.length > 0 && (
           <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-medium uppercase tracking-wide text-muted">{t.form.tagIds}</span>
+            <span className="text-muted text-xs font-medium tracking-wide uppercase">
+              {t.form.tagIds}
+            </span>
             <div className="flex flex-wrap gap-1">
               {item.tagIds.map((id) => (
                 <Chip key={id} size="small" variant="default">
@@ -140,7 +179,6 @@ export const PageDetailModal = ({ item, onClose }: PageDetailModalProps) => {
             </div>
           </div>
         )}
-
       </div>
     </Modal>
   )

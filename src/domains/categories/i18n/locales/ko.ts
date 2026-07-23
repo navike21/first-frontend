@@ -9,7 +9,8 @@ export const ko: CategoryTranslations = {
     editTitle: '카테고리 편집',
     editDescription: (name) => `${name} 업데이트`,
     trashTitle: '카테고리 휴지통',
-    trashDescription: '휴지통으로 이동된 카테고리입니다. 복원하거나 영구 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 카테고리입니다. 복원하거나 영구 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 카테고리가 없습니다',
     trashEmptyDescription: '삭제된 카테고리가 여기에 표시됩니다.',
   },
@@ -60,13 +61,17 @@ export const ko: CategoryTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}개의 카테고리를 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     restoreTitle: '카테고리 복원',
-    restoreDescription: (name) => `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `카테고리 ${count}개를 활성 목록으로 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) =>
+      `카테고리 ${count}개를 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmPurge: '삭제',
-    bulkPurgeDescription: (count) => `카테고리 ${count}개를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    bulkPurgeDescription: (count) =>
+      `카테고리 ${count}개를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
   },
   form: {
     tabTranslations: '번역',

@@ -5,7 +5,8 @@ export const pt: MediaTranslations = {
     listTitle: 'Multimídia',
     listDescription: 'Gerencie as imagens e vídeos enviados para o site',
     trashTitle: 'Lixeira de multimídia',
-    trashDescription: 'Arquivos movidos para a lixeira. Você pode restaurá-los ou excluí-los permanentemente.',
+    trashDescription:
+      'Arquivos movidos para a lixeira. Você pode restaurá-los ou excluí-los permanentemente.',
     trashEmpty: 'Nenhum arquivo na lixeira',
     trashEmptyDescription: 'Os arquivos excluídos aparecerão aqui.',
   },
@@ -36,17 +37,22 @@ export const pt: MediaTranslations = {
     bulkPurge: 'Excluir permanentemente',
     viewItem: 'Ver detalhes',
     deleteTitle: 'Excluir arquivo',
-    deleteDescription: (name) => `Excluir ${name}? Você poderá restaurá-lo na lixeira.`,
+    deleteDescription: (name) =>
+      `Excluir ${name}? Você poderá restaurá-lo na lixeira.`,
     confirmDelete: 'Excluir',
-    bulkDeleteDescription: (count) => `Excluir ${count} arquivos? Você poderá restaurá-los na lixeira.`,
+    bulkDeleteDescription: (count) =>
+      `Excluir ${count} arquivos? Você poderá restaurá-los na lixeira.`,
     restoreTitle: 'Restaurar arquivo',
     restoreDescription: (name) => `Restaurar ${name} para a biblioteca ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} arquivos para a biblioteca ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} arquivos para a biblioteca ativa?`,
     purgeTitle: 'Excluir permanentemente',
-    purgeDescription: (name) => `${name} será excluído para sempre. Esta ação não pode ser desfeita.`,
+    purgeDescription: (name) =>
+      `${name} será excluído para sempre. Esta ação não pode ser desfeita.`,
     confirmPurge: 'Excluir',
-    bulkPurgeDescription: (count) => `Isso excluirá permanentemente ${count} arquivos. Esta ação não pode ser desfeita.`,
+    bulkPurgeDescription: (count) =>
+      `Isso excluirá permanentemente ${count} arquivos. Esta ação não pode ser desfeita.`,
   },
   upload: {
     title: 'Enviar arquivos',
@@ -67,7 +73,8 @@ export const pt: MediaTranslations = {
     tabUsage: 'Uso',
     usageLoading: 'Procurando onde é usado…',
     usageEmpty: 'Não encontrado em nenhum outro lugar do site',
-    usageEditorNote: 'Pode haver usos adicionais dentro de conteúdo de texto rico que não detectamos automaticamente.',
+    usageEditorNote:
+      'Pode haver usos adicionais dentro de conteúdo de texto rico que não detectamos automaticamente.',
     moduleClients: 'Cliente',
     moduleUsers: 'Usuário',
     moduleCollaborators: 'Colaborador',

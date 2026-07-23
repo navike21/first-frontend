@@ -1,6 +1,9 @@
 import { upload } from '@vercel/blob/client'
 import { request } from '@/shared/api/api.services'
-import { uploadWithProgress, type UploadProgress } from '@/shared/api/uploadWithProgress'
+import {
+  uploadWithProgress,
+  type UploadProgress,
+} from '@/shared/api/uploadWithProgress'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse } from '@/shared/api/types'
 
@@ -70,12 +73,12 @@ export async function uploadFile(
  */
 export async function resolveRichTextImages(
   html: string,
-  uploader: (file: File) => Promise<string>,
+  uploader: (file: File) => Promise<string>
 ): Promise<string> {
   if (!html || !html.includes('data:image/')) return html
   const doc = new DOMParser().parseFromString(html, 'text/html')
   const images = Array.from(doc.querySelectorAll('img')).filter((img) =>
-    img.src.startsWith('data:image/'),
+    img.src.startsWith('data:image/')
   )
   if (images.length === 0) return html
   await Promise.all(
@@ -89,7 +92,7 @@ export async function resolveRichTextImages(
       } catch {
         // leave the base64 intact if the upload fails
       }
-    }),
+    })
   )
   return doc.body.innerHTML
 }
@@ -127,19 +130,28 @@ export async function directUploadVideo(
   id: string,
   onProgress?: (progress: UploadProgress) => void
 ): Promise<DirectUploadResult> {
-  const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
+  const baseUrl =
+    (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
   const token = useSessionStore.getState().token
   const blob = await upload(file.name, file, {
     access: 'public',
     handleUploadUrl: `${baseUrl}/storage/direct-upload`,
-    clientPayload: JSON.stringify({ originalName: file.name, size: file.size, id }),
+    clientPayload: JSON.stringify({
+      originalName: file.name,
+      size: file.size,
+      id,
+    }),
     ...(token && { headers: { Authorization: `Bearer ${token}` } }),
     // @vercel/blob's client upload() already tracks upload progress natively
     // (unlike fetch-based uploadWithProgress, needed for the /storage
     // endpoints) — just forward it in the same {loaded,total,percentage} shape.
     ...(onProgress && {
       onUploadProgress: (event: UploadProgress) =>
-        onProgress({ loaded: event.loaded, total: event.total, percentage: Math.round(event.percentage) }),
+        onProgress({
+          loaded: event.loaded,
+          total: event.total,
+          percentage: Math.round(event.percentage),
+        }),
     }),
   })
   return { url: blob.url, mimeType: blob.contentType }
@@ -151,7 +163,10 @@ export async function directUploadVideo(
  * the same thumb/full pipeline a normal image gets. Returns the resulting
  * poster URL (thumb preferred, full as fallback).
  */
-export async function attachVideoCover(id: string, cover: Blob): Promise<string | undefined> {
+export async function attachVideoCover(
+  id: string,
+  cover: Blob
+): Promise<string | undefined> {
   const form = new FormData()
   form.append('cover', cover, 'cover.jpg')
   const res = await request<ApiResponse<StorageFile>>({
@@ -172,7 +187,10 @@ const COVER_ATTACH_RETRY_DELAY_MS = 800
  * before giving up silently (the cover is a nicety, never required for the
  * video itself to be usable).
  */
-export async function attachVideoCoverWithRetry(id: string, cover: Blob): Promise<string | undefined> {
+export async function attachVideoCoverWithRetry(
+  id: string,
+  cover: Blob
+): Promise<string | undefined> {
   for (let attempt = 1; attempt <= COVER_ATTACH_RETRIES; attempt += 1) {
     try {
       return await attachVideoCover(id, cover)
@@ -181,7 +199,9 @@ export async function attachVideoCoverWithRetry(id: string, cover: Blob): Promis
         console.warn('Could not attach video cover after retries', error)
         return undefined
       }
-      await new Promise((resolve) => setTimeout(resolve, COVER_ATTACH_RETRY_DELAY_MS))
+      await new Promise((resolve) =>
+        setTimeout(resolve, COVER_ATTACH_RETRY_DELAY_MS)
+      )
     }
   }
   return undefined
@@ -209,7 +229,9 @@ function storageListQuerySuffix(params: StorageListParams): string {
   return qs ? `?${qs}` : ''
 }
 
-export async function listStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
+export async function listStorageFiles(
+  params: StorageListParams = {}
+): Promise<StorageListResult> {
   const res = await request<ApiResponse<StorageListResult>>({
     api: `/storage/files${storageListQuerySuffix(params)}`,
     method: 'GET',
@@ -217,7 +239,9 @@ export async function listStorageFiles(params: StorageListParams = {}): Promise<
   return res.data
 }
 
-export async function listDeletedStorageFiles(params: StorageListParams = {}): Promise<StorageListResult> {
+export async function listDeletedStorageFiles(
+  params: StorageListParams = {}
+): Promise<StorageListResult> {
   const res = await request<ApiResponse<StorageListResult>>({
     api: `/storage/trash${storageListQuerySuffix(params)}`,
     method: 'GET',
@@ -261,7 +285,10 @@ export async function deleteStorageFiles(ids: string[]): Promise<void> {
 }
 
 export async function restoreStorageFile(id: string): Promise<StorageFile> {
-  const res = await request<ApiResponse<StorageFile>>({ api: `/storage/${id}/restore`, method: 'PATCH' })
+  const res = await request<ApiResponse<StorageFile>>({
+    api: `/storage/${id}/restore`,
+    method: 'PATCH',
+  })
   return res.data
 }
 
@@ -290,7 +317,8 @@ export type StorageUsageModule =
   | 'pages'
   | 'app-settings'
 
-export type StorageUsageContext = 'cover' | 'gallery' | 'ogImage' | 'background' | 'logo' | 'favicon'
+export type StorageUsageContext =
+  'cover' | 'gallery' | 'ogImage' | 'background' | 'logo' | 'favicon'
 
 export interface StorageFileUsage {
   module: StorageUsageModule
@@ -305,7 +333,12 @@ export interface StorageFileUsage {
  * (see first-backend's findStorageFileUsages.ts for the exact list and its
  * one documented gap: images pasted into rich-text page content).
  */
-export async function getStorageFileUsages(id: string): Promise<StorageFileUsage[]> {
-  const res = await request<ApiResponse<StorageFileUsage[]>>({ api: `/storage/${id}/usages`, method: 'GET' })
+export async function getStorageFileUsages(
+  id: string
+): Promise<StorageFileUsage[]> {
+  const res = await request<ApiResponse<StorageFileUsage[]>>({
+    api: `/storage/${id}/usages`,
+    method: 'GET',
+  })
   return res.data
 }

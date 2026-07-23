@@ -11,7 +11,7 @@ export const ResetPasswordLayout = () => {
   const token = typeof search.token === 'string' ? search.token : undefined
 
   return (
-    <div className="relative flex min-h-dvh flex-col bg-surface-subtle">
+    <div className="bg-surface-subtle relative flex min-h-dvh flex-col">
       <div className="fixed top-4 right-4 z-20">
         <LanguageSwitcher />
       </div>
@@ -21,9 +21,11 @@ export const ResetPasswordLayout = () => {
           <div className="mb-6 flex flex-col items-center text-center">
             <h1 className="sr-only">{t.resetPassword.heading}</h1>
             <BrandMark size="small" animateIn />
-            <p className="mt-1 text-sm text-secondary">{t.resetPassword.subtitle}</p>
+            <p className="text-secondary mt-1 text-sm">
+              {t.resetPassword.subtitle}
+            </p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+          <div className="border-border bg-surface rounded-xl border p-6 shadow-sm sm:p-8">
             <ResetPasswordForm token={token} />
           </div>
         </div>

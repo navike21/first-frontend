@@ -13,17 +13,28 @@ export interface SeoLengthBarProps {
   label?: string
 }
 
-export const SeoLengthBar = ({ metric, charsLabel, label }: SeoLengthBarProps) => {
+export const SeoLengthBar = ({
+  metric,
+  charsLabel,
+  label,
+}: SeoLengthBarProps) => {
   const pct = Math.min(100, Math.round((metric.length / metric.max) * 100))
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-baseline justify-between gap-2">
-        {label ? <span className="text-xs font-medium text-foreground">{label}</span> : <span />}
-        <span className="text-xs text-muted">{charsLabel}</span>
+        {label ? (
+          <span className="text-foreground text-xs font-medium">{label}</span>
+        ) : (
+          <span />
+        )}
+        <span className="text-muted text-xs">{charsLabel}</span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-subtle">
+      <div className="bg-surface-subtle h-1.5 w-full overflow-hidden rounded-full">
         <div
-          className={clsx('h-full rounded-full transition-[width]', BAR_CLASS[metric.status])}
+          className={clsx(
+            'h-full rounded-full transition-[width]',
+            BAR_CLASS[metric.status]
+          )}
           style={{ width: `${pct}%` }}
         />
       </div>

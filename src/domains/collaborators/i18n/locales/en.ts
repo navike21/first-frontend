@@ -9,9 +9,11 @@ export const en: CollaboratorTranslations = {
     editTitle: 'Edit collaborator',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Collaborators trash',
-    trashDescription: 'Collaborators that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Collaborators that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No collaborators in trash',
-    trashEmptyDescription: 'When collaborators are deleted, they will appear here.',
+    trashEmptyDescription:
+      'When collaborators are deleted, they will appear here.',
   },
   table: {
     noResults: 'No collaborators found',
@@ -61,11 +63,14 @@ export const en: CollaboratorTranslations = {
     restoreTitle: 'Restore collaborator',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} collaborators to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} collaborators to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} collaborators. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} collaborators. This action is IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Translations',
@@ -86,7 +91,8 @@ export const en: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Linked account',
     linkedUser: 'System user',
-    linkedUserHint: 'Link this collaborator to an existing user account (optional)',
+    linkedUserHint:
+      'Link this collaborator to an existing user account (optional)',
     noLinkedUser: 'Not linked',
     select: 'Select…',
     save: 'Save changes',
@@ -103,7 +109,7 @@ export const en: CollaboratorTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
   },
   toasts: {
     created: 'Collaborator registered',

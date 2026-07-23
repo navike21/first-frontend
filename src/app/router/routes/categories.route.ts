@@ -1,4 +1,9 @@
-import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
+import {
+  createRoute,
+  lazyRouteComponent,
+  Outlet,
+  type AnyRoute,
+} from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
@@ -6,10 +11,22 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const CategoriesPage = lazyRouteComponent(() => import('@domains/categories/pages/CategoriesPage'), 'CategoriesPage')
-const CreateCategoryPage = lazyRouteComponent(() => import('@domains/categories/pages/CreateCategoryPage'), 'CreateCategoryPage')
-const EditCategoryPage = lazyRouteComponent(() => import('@domains/categories/pages/EditCategoryPage'), 'EditCategoryPage')
-const CategoriesTrashPage = lazyRouteComponent(() => import('@domains/categories/pages/CategoriesTrashPage'), 'CategoriesTrashPage')
+const CategoriesPage = lazyRouteComponent(
+  () => import('@domains/categories/pages/CategoriesPage'),
+  'CategoriesPage'
+)
+const CreateCategoryPage = lazyRouteComponent(
+  () => import('@domains/categories/pages/CreateCategoryPage'),
+  'CreateCategoryPage'
+)
+const EditCategoryPage = lazyRouteComponent(
+  () => import('@domains/categories/pages/EditCategoryPage'),
+  'EditCategoryPage'
+)
+const CategoriesTrashPage = lazyRouteComponent(
+  () => import('@domains/categories/pages/CategoriesTrashPage'),
+  'CategoriesTrashPage'
+)
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.categories[l]))

@@ -11,7 +11,8 @@ export const fr: AuthTranslations = {
   },
   forgotPassword: {
     heading: 'Mot de passe oublié ?',
-    subtitle: 'Nous vous enverrons un lien de récupération à votre e-mail enregistré.',
+    subtitle:
+      'Nous vous enverrons un lien de récupération à votre e-mail enregistré.',
     emailLabel: 'E-mail',
     submitButton: 'Envoyer le lien',
     backToLoginLink: '← Retour à la connexion',

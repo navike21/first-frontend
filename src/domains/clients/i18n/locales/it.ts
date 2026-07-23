@@ -9,7 +9,8 @@ export const it: ClientsTranslations = {
     editTitle: 'Modifica cliente',
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino clienti',
-    trashDescription: 'Clienti spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Clienti spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun cliente nel cestino',
     trashEmptyDescription: 'I clienti eliminati appariranno qui.',
   },
@@ -60,17 +61,22 @@ export const it: ClientsTranslations = {
     bulkRestore: 'Ripristina',
     bulkPurge: 'Elimina definitivamente',
     deleteTitle: 'Elimina cliente',
-    deleteDescription: (name) => `Eliminare ${name}? Potrai ripristinarlo dal cestino.`,
+    deleteDescription: (name) =>
+      `Eliminare ${name}? Potrai ripristinarlo dal cestino.`,
     confirmDelete: 'Elimina',
-    bulkDeleteDescription: (count) => `Eliminare ${count} client${count !== 1 ? 'i' : 'e'}? Potrai ripristinarli.`,
+    bulkDeleteDescription: (count) =>
+      `Eliminare ${count} client${count !== 1 ? 'i' : 'e'}? Potrai ripristinarli.`,
     restoreTitle: 'Ripristina cliente',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} clienti nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} clienti nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} clienti. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} clienti. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     sectionGeneral: 'Informazioni generali',

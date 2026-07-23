@@ -9,7 +9,8 @@ export const it: ServicesTranslations = {
     editTitle: 'Modifica servizio',
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino servizi',
-    trashDescription: 'Servizi spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Servizi spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun servizio nel cestino',
     trashEmptyDescription: 'I servizi eliminati appariranno qui.',
   },
@@ -67,11 +68,14 @@ export const it: ServicesTranslations = {
     restoreTitle: 'Ripristina servizio',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} servizi nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} servizi nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} servizi. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} servizi. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     sectionGeneral: 'Generale',
@@ -98,12 +102,12 @@ export const it: ServicesTranslations = {
     coverFormatsHint: 'JPG, PNG, WebP o SVG',
     coverRemoveLabel: 'Rimuovi copertina',
     icon: 'Icona',
-    iconUploadLabel: "Trascina o seleziona icona",
+    iconUploadLabel: 'Trascina o seleziona icona',
     iconDragLabel: 'Trascina per caricare',
     iconDragOrLabel: 'Trascina qui o',
     iconBrowseLabel: 'sfoglia',
     iconFormatsHint: 'SVG o PNG consigliato',
-    iconRemoveLabel: "Rimuovi icona",
+    iconRemoveLabel: 'Rimuovi icona',
     select: 'Seleziona…',
     save: 'Salva modifiche',
     create: 'Crea servizio',

@@ -9,7 +9,8 @@ export const fr: CategoryTranslations = {
     editTitle: 'Modifier la catégorie',
     editDescription: (name) => `Mettre à jour ${name}`,
     trashTitle: 'Corbeille des catégories',
-    trashDescription: 'Catégories déplacées dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Catégories déplacées dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucune catégorie dans la corbeille',
     trashEmptyDescription: 'Les catégories supprimées apparaîtront ici.',
   },
@@ -62,11 +63,14 @@ export const fr: CategoryTranslations = {
     restoreTitle: 'Restaurer la catégorie',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} catégories dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} catégories dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimée définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimée définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} catégories. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} catégories. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traductions',
@@ -94,6 +98,7 @@ export const fr: CategoryTranslations = {
   },
   validation: {
     required: 'Champ obligatoire',
-    slugInvalid: 'Seules les minuscules, les chiffres et les tirets sont autorisés',
+    slugInvalid:
+      'Seules les minuscules, les chiffres et les tirets sont autorisés',
   },
 }

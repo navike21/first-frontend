@@ -5,7 +5,8 @@ export const es: MediaTranslations = {
     listTitle: 'Multimedia',
     listDescription: 'Administra las imágenes y videos subidos al sitio',
     trashTitle: 'Papelera de multimedia',
-    trashDescription: 'Archivos movidos a la papelera. Puedes restaurarlos o eliminarlos definitivamente.',
+    trashDescription:
+      'Archivos movidos a la papelera. Puedes restaurarlos o eliminarlos definitivamente.',
     trashEmpty: 'No hay archivos en la papelera',
     trashEmptyDescription: 'Los archivos eliminados aparecerán aquí.',
   },
@@ -36,17 +37,22 @@ export const es: MediaTranslations = {
     bulkPurge: 'Eliminar definitivamente',
     viewItem: 'Ver detalles',
     deleteTitle: 'Eliminar archivo',
-    deleteDescription: (name) => `¿Eliminar ${name}? Podrás restaurarlo desde la papelera.`,
+    deleteDescription: (name) =>
+      `¿Eliminar ${name}? Podrás restaurarlo desde la papelera.`,
     confirmDelete: 'Eliminar',
-    bulkDeleteDescription: (count) => `¿Eliminar ${count} archivos? Podrás restaurarlos desde la papelera.`,
+    bulkDeleteDescription: (count) =>
+      `¿Eliminar ${count} archivos? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar archivo',
     restoreDescription: (name) => `¿Restaurar ${name} a la biblioteca activa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} archivos a la biblioteca activa?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} archivos a la biblioteca activa?`,
     purgeTitle: 'Eliminar definitivamente',
-    purgeDescription: (name) => `${name} se eliminará para siempre. Esta acción no se puede deshacer.`,
+    purgeDescription: (name) =>
+      `${name} se eliminará para siempre. Esta acción no se puede deshacer.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Esto eliminará ${count} archivos para siempre. Esta acción no se puede deshacer.`,
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará ${count} archivos para siempre. Esta acción no se puede deshacer.`,
   },
   upload: {
     title: 'Subir archivos',
@@ -67,7 +73,8 @@ export const es: MediaTranslations = {
     tabUsage: 'Uso',
     usageLoading: 'Buscando dónde se usa…',
     usageEmpty: 'No se encontró en ningún otro lugar del sitio',
-    usageEditorNote: 'Puede haber usos adicionales dentro de contenido de texto enriquecido que no detectamos automáticamente.',
+    usageEditorNote:
+      'Puede haber usos adicionales dentro de contenido de texto enriquecido que no detectamos automáticamente.',
     moduleClients: 'Cliente',
     moduleUsers: 'Usuario',
     moduleCollaborators: 'Colaborador',

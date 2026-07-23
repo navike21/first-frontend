@@ -2,7 +2,10 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import clsx from 'clsx'
-import { PageHeader, type PageHeaderAction } from '@/shared/ui/molecules/PageHeader'
+import {
+  PageHeader,
+  type PageHeaderAction,
+} from '@/shared/ui/molecules/PageHeader'
 import { Button } from '@/shared/ui/atoms/Button'
 import { LinkButton } from '@/shared/ui/atoms/LinkButton'
 import { ButtonGroup } from '@/shared/ui/atoms/ButtonGroup'
@@ -57,7 +60,12 @@ const FloatingTitleBar = ({
   return createPortal(
     <div
       className="pointer-events-none fixed z-30 overflow-hidden"
-      style={{ top: rect.top, left: rect.left, width: rect.width, height: barHeight }}
+      style={{
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: barHeight,
+      }}
     >
       <motion.div
         ref={innerRef}
@@ -67,7 +75,7 @@ const FloatingTitleBar = ({
         transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.8 }}
         className={clsx(
           'pointer-events-auto w-full',
-          'border-b border-border',
+          'border-border border-b',
           'bg-surface/95 backdrop-blur-md',
           'px-4 py-2 md:px-8'
         )}
@@ -75,7 +83,7 @@ const FloatingTitleBar = ({
         {/* Inner max-width wrapper */}
         <div className="mx-auto w-full max-w-7xl">
           {/* Title — always visible */}
-          <h2 className="truncate text-base font-bold tracking-tight text-foreground">
+          <h2 className="text-foreground truncate text-base font-bold tracking-tight">
             {title}
           </h2>
 
@@ -164,11 +172,7 @@ export const PageContent = ({
       {mainEl && (
         <AnimatePresence>
           {isTitleHidden && (
-            <FloatingTitleBar
-              title={title}
-              actions={actions}
-              mainEl={mainEl}
-            />
+            <FloatingTitleBar title={title} actions={actions} mainEl={mainEl} />
           )}
         </AnimatePresence>
       )}

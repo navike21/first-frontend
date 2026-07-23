@@ -9,7 +9,8 @@ export const es: CollaboratorTranslations = {
     editTitle: 'Editar colaborador',
     editDescription: (name) => `Actualiza la información de ${name}`,
     trashTitle: 'Papelera de colaboradores',
-    trashDescription: 'Colaboradores que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashDescription:
+      'Colaboradores que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
     trashEmpty: 'No hay colaboradores en la papelera',
     trashEmptyDescription: 'Cuando se eliminen colaboradores, aparecerán aquí.',
   },
@@ -59,13 +60,17 @@ export const es: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `¿Eliminar ${count} colaboradores? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar colaborador',
-    restoreDescription: (name) => `¿Restaurar a ${name} en la lista de activos?`,
+    restoreDescription: (name) =>
+      `¿Restaurar a ${name} en la lista de activos?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} colaboradores en la lista de activos?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} colaboradores en la lista de activos?`,
     purgeTitle: 'Eliminar permanentemente',
-    purgeDescription: (name) => `Esto eliminará permanentemente a ${name}. Esta acción es IRREVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente a ${name}. Esta acción es IRREVERSIBLE.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} colaboradores. Esta acción es IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará permanentemente ${count} colaboradores. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traducciones',
@@ -86,7 +91,8 @@ export const es: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Cuenta vinculada',
     linkedUser: 'Usuario del sistema',
-    linkedUserHint: 'Vincula este colaborador con una cuenta de usuario existente (opcional)',
+    linkedUserHint:
+      'Vincula este colaborador con una cuenta de usuario existente (opcional)',
     noLinkedUser: 'Sin vincular',
     select: 'Seleccionar…',
     save: 'Guardar cambios',

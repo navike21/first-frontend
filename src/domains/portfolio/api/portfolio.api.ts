@@ -1,7 +1,10 @@
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import type { Portfolio, PortfolioListParams } from '../model/portfolio.types'
-import type { CreatePortfolioPayload, GalleryOrderToken } from '../model/portfolio.schema'
+import type {
+  CreatePortfolioPayload,
+  GalleryOrderToken,
+} from '../model/portfolio.schema'
 
 const BASE = '/portfolio'
 
@@ -27,17 +30,28 @@ export const portfolioApi = {
     body: CreatePortfolioPayload,
     cover?: File | null,
     galleryFiles?: File[],
-    coverLibraryUrl?: string,
+    coverLibraryUrl?: string
   ) => {
-    const payloadBody = { ...body, ...(!cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}) }
+    const payloadBody = {
+      ...body,
+      ...(!cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}),
+    }
     if ((cover || galleryFiles?.length) && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(payloadBody))
       if (cover) fd.append('cover', cover)
       galleryFiles?.forEach((file) => fd.append('gallery', file))
-      return request<ApiResponse<Portfolio>, FormData>({ api: BASE, method: 'POST', body: fd })
+      return request<ApiResponse<Portfolio>, FormData>({
+        api: BASE,
+        method: 'POST',
+        body: fd,
+      })
     }
-    return request<ApiResponse<Portfolio>, typeof payloadBody>({ api: BASE, method: 'POST', body: payloadBody })
+    return request<ApiResponse<Portfolio>, typeof payloadBody>({
+      api: BASE,
+      method: 'POST',
+      body: payloadBody,
+    })
   },
 
   update: (
@@ -47,12 +61,14 @@ export const portfolioApi = {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
-    coverLibraryUrl?: string,
+    coverLibraryUrl?: string
   ) => {
     const payloadBody = {
       ...body,
       ...(removeCover ? { coverImageUrl: '' } : {}),
-      ...(!removeCover && !cover && coverLibraryUrl ? { coverImageUrl: coverLibraryUrl } : {}),
+      ...(!removeCover && !cover && coverLibraryUrl
+        ? { coverImageUrl: coverLibraryUrl }
+        : {}),
       ...(galleryOrder ? { galleryOrder } : {}),
     }
     if ((cover || galleryFiles?.length) && navigator.onLine) {
@@ -60,7 +76,11 @@ export const portfolioApi = {
       fd.append('data', JSON.stringify(payloadBody))
       if (cover) fd.append('cover', cover)
       galleryFiles?.forEach((file) => fd.append('gallery', file))
-      return request<ApiResponse<Portfolio>, FormData>({ api: `${BASE}/${id}`, method: 'PATCH', body: fd })
+      return request<ApiResponse<Portfolio>, FormData>({
+        api: `${BASE}/${id}`,
+        method: 'PATCH',
+        body: fd,
+      })
     }
     return request<ApiResponse<Portfolio>, typeof payloadBody>({
       api: `${BASE}/${id}`,
@@ -84,17 +104,35 @@ export const portfolioApi = {
   },
 
   restore: (id: string) =>
-    request<ApiResponse<Portfolio>>({ api: `${BASE}/${id}/restore`, method: 'PATCH' }),
+    request<ApiResponse<Portfolio>>({
+      api: `${BASE}/${id}/restore`,
+      method: 'PATCH',
+    }),
 
   purge: (id: string) =>
-    request<ApiResponse<null>>({ api: `${BASE}/${id}/permanent`, method: 'DELETE' }),
+    request<ApiResponse<null>>({
+      api: `${BASE}/${id}/permanent`,
+      method: 'DELETE',
+    }),
 
   bulkSoftDelete: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk`, method: 'DELETE', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 
   bulkRestore: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk/restore`, method: 'PATCH', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk/restore`,
+      method: 'PATCH',
+      body: { ids },
+    }),
 
   bulkPurge: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk/permanent`, method: 'DELETE', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk/permanent`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 }

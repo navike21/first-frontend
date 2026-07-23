@@ -26,12 +26,7 @@ export function getCurrentLanguage(): string | undefined {
 
 /** Represents any value that can be safely serialised with JSON.stringify */
 export type JsonBody =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonBody[]
-  | { [key: string]: JsonBody }
+  string | number | boolean | null | JsonBody[] | { [key: string]: JsonBody }
 
 /**
  * Thrown when a non-GET request is intercepted offline and added to the queue.
@@ -148,7 +143,7 @@ async function retryWithToken<TResponse>(
   method: HttpMethod,
   requestBody: BodyInit | undefined,
   headers: HeadersInit,
-  init: RequestInit,
+  init: RequestInit
 ): Promise<TResponse> {
   const res = await fetch(url, { ...init, method, headers, body: requestBody })
   if (res.ok) {
@@ -157,7 +152,13 @@ async function retryWithToken<TResponse>(
   }
   const err = await parseErrorBody(res)
   if (res.status === 401) clearAndRedirect(err.message)
-  throw new HttpError(res.status, res.statusText, err.message, err.code, err.details)
+  throw new HttpError(
+    res.status,
+    res.statusText,
+    err.message,
+    err.code,
+    err.details
+  )
 }
 
 async function handle401<TResponse>(
@@ -166,7 +167,7 @@ async function handle401<TResponse>(
   requestBody: BodyInit | undefined,
   defaultHeaders: HeadersInit,
   init: RequestInit,
-  apiError: ErrorPayload,
+  apiError: ErrorPayload
 ): Promise<TResponse> {
   const newToken = await attemptRefresh()
 
@@ -182,7 +183,13 @@ async function handle401<TResponse>(
   }
 
   clearAndRedirect(apiError.message)
-  throw new HttpError(401, 'Unauthorized', apiError.message, apiError.code, apiError.details)
+  throw new HttpError(
+    401,
+    'Unauthorized',
+    apiError.message,
+    apiError.code,
+    apiError.details
+  )
 }
 
 // ─── Refresh promise ───────────────────────────────────────────────────────────
@@ -271,9 +278,22 @@ export async function request<TResponse, TBody = unknown>({
   if (!response.ok) {
     const apiError = await parseErrorBody(response)
     if (response.status === 401) {
-      return handle401<TResponse>(url, method, requestBody, defaultHeaders, init, apiError)
+      return handle401<TResponse>(
+        url,
+        method,
+        requestBody,
+        defaultHeaders,
+        init,
+        apiError
+      )
     }
-    throw new HttpError(response.status, response.statusText, apiError.message, apiError.code, apiError.details)
+    throw new HttpError(
+      response.status,
+      response.statusText,
+      apiError.message,
+      apiError.code,
+      apiError.details
+    )
   }
 
   // 204 No Content — no body to parse; caller should type TResponse as void

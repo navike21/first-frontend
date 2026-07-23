@@ -53,8 +53,7 @@ export const zh: CollaboratorTranslations = {
     bulkRestore: '恢复',
     bulkPurge: '永久删除',
     deleteTitle: '删除合作者',
-    deleteDescription: (name) =>
-      `确定要删除${name}吗？可以从回收站恢复。`,
+    deleteDescription: (name) => `确定要删除${name}吗？可以从回收站恢复。`,
     confirmDelete: '删除',
     bulkDeleteDescription: (count) =>
       `删除${count}位合作者？可以从回收站恢复。`,
@@ -65,7 +64,8 @@ export const zh: CollaboratorTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个合作者。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个合作者。此操作不可逆。`,
   },
   form: {
     tabTranslations: '翻译',

@@ -59,7 +59,12 @@ export const useCreateClient = () => {
 export const useUpdateClient = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, logo, removeLogo, logoLibraryUrl }: UpdateClientVars) =>
+    mutationFn: ({
+      data,
+      logo,
+      removeLogo,
+      logoLibraryUrl,
+    }: UpdateClientVars) =>
       clientsApi.update(id, data, logo, removeLogo, logoLibraryUrl),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: clientKeys.lists() })

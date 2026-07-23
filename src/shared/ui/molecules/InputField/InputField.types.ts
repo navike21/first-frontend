@@ -1,6 +1,7 @@
 import type { InputHTMLAttributes, ReactNode } from 'react'
 
-export type TypeInput = 'text' | 'email' | 'password' | 'date' | 'datetime-local'
+export type TypeInput =
+  'text' | 'email' | 'password' | 'date' | 'datetime-local'
 export type variantInput = 'default' | 'success' | 'error' | 'warning'
 
 export interface InputFieldProps extends Omit<

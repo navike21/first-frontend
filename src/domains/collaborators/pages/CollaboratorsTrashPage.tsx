@@ -2,7 +2,8 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -57,8 +58,15 @@ export const CollaboratorsTrashPage = () => {
       header: t.table.colName,
       cell: (collaborator) => (
         <div className="flex items-center gap-3">
-          <Avatar alt={collaborator.name} src={collaborator.photoUrl} name={collaborator.name} size="sm" />
-          <span className="font-medium text-foreground">{collaborator.name}</span>
+          <Avatar
+            alt={collaborator.name}
+            src={collaborator.photoUrl}
+            name={collaborator.name}
+            size="sm"
+          />
+          <span className="text-foreground font-medium">
+            {collaborator.name}
+          </span>
         </div>
       ),
     },
@@ -66,13 +74,17 @@ export const CollaboratorsTrashPage = () => {
       id: 'role',
       header: t.table.colRole,
       cellClassName: 'text-secondary',
-      cell: (collaborator) => labelFor(configData?.collaboratorRoles, collaborator.role),
+      cell: (collaborator) =>
+        labelFor(configData?.collaboratorRoles, collaborator.role),
     },
     {
       id: 'status',
       header: t.table.colStatus,
       cell: (collaborator) => (
-        <Chip size="small" variant={collaborator.isActive ? 'success' : 'default'}>
+        <Chip
+          size="small"
+          variant={collaborator.isActive ? 'success' : 'default'}
+        >
           {collaborator.isActive ? t.status.active : t.status.inactive}
         </Chip>
       ),
@@ -81,7 +93,8 @@ export const CollaboratorsTrashPage = () => {
       id: 'deletedAt',
       header: t.table.deletedAt,
       cellClassName: 'text-secondary',
-      cell: (collaborator) => (collaborator.deletedAt ? formatDate(collaborator.deletedAt) : '—'),
+      cell: (collaborator) =>
+        collaborator.deletedAt ? formatDate(collaborator.deletedAt) : '—',
     },
     {
       id: 'actions',
@@ -89,7 +102,11 @@ export const CollaboratorsTrashPage = () => {
       align: 'right',
       cell: (collaborator) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip heading={t.table.viewCollaborator} position="top" size="small">
+          <Tooltip
+            heading={t.table.viewCollaborator}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiEyeLine"
               variant="text"
@@ -99,7 +116,11 @@ export const CollaboratorsTrashPage = () => {
             />
           </Tooltip>
           <Can anyOf={CAN.collaboratorsUpdate}>
-            <Tooltip heading={t.table.restoreCollaborator} position="top" size="small">
+            <Tooltip
+              heading={t.table.restoreCollaborator}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiArrowGoBackLine"
                 variant="text"
@@ -110,7 +131,11 @@ export const CollaboratorsTrashPage = () => {
             </Tooltip>
           </Can>
           <Can anyOf={CAN.collaboratorsPurge}>
-            <Tooltip heading={t.table.purgeCollaborator} position="top" size="small">
+            <Tooltip
+              heading={t.table.purgeCollaborator}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBin6Line"
                 variant="text"
@@ -141,8 +166,8 @@ export const CollaboratorsTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -194,7 +219,10 @@ export const CollaboratorsTrashPage = () => {
         />
       </div>
 
-      <CollaboratorDetailModal collaborator={viewing} onClose={() => setViewing(null)} />
+      <CollaboratorDetailModal
+        collaborator={viewing}
+        onClose={() => setViewing(null)}
+      />
 
       <Modal
         isOpen={!!restoring}
@@ -257,7 +285,9 @@ export const CollaboratorsTrashPage = () => {
         onClose={() => setBulkAction(null)}
         size="sm"
         title={
-          bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
         }
         description={
           bulkAction === 'restore'

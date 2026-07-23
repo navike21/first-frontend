@@ -18,7 +18,7 @@ export const resolveOptionLeftSlot = (option: SlotSource): ReactNode => {
     return (
       <IconComponent
         icon={option.icon}
-        className="h-4 w-4 shrink-0 text-secondary"
+        className="text-secondary h-4 w-4 shrink-0"
       />
     )
   return null

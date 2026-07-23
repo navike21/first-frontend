@@ -41,7 +41,10 @@ export const ClientTable = ({
   onSelectionChange,
 }: ClientTableProps) => {
   const { t, language } = useClientsTranslation()
-  const { data: config } = useConfigData(['industries', 'clientTypes'], language)
+  const { data: config } = useConfigData(
+    ['industries', 'clientTypes'],
+    language
+  )
 
   const columns: DataTableColumn<Client>[] = [
     {
@@ -55,7 +58,7 @@ export const ClientTable = ({
             name={client.businessName}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {client.businessName}
           </span>
         </div>

@@ -1,4 +1,8 @@
-import type { HeaderVariant, FooterVariant, MapProvider } from '../model/site-config.types'
+import type {
+  HeaderVariant,
+  FooterVariant,
+  MapProvider,
+} from '../model/site-config.types'
 
 export interface SiteConfigTranslations {
   page: {

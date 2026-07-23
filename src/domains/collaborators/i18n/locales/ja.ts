@@ -9,7 +9,8 @@ export const ja: CollaboratorTranslations = {
     editTitle: 'コラボレーターを編集',
     editDescription: (name) => `${name}の情報を更新します`,
     trashTitle: 'コラボレーターのごみ箱',
-    trashDescription: 'ゴミ箱に移動されたコラボレーターです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたコラボレーターです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にコラボレーターはいません',
     trashEmptyDescription: '削除されたコラボレーターはここに表示されます。',
   },
@@ -61,11 +62,14 @@ export const ja: CollaboratorTranslations = {
     restoreTitle: 'コラボレーターを復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件のコラボレーターを有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件のコラボレーターを有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件のコラボレーターを完全に削除します。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count} 件のコラボレーターを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     tabTranslations: '翻訳',
@@ -86,7 +90,8 @@ export const ja: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: '連携アカウント',
     linkedUser: 'システムユーザー',
-    linkedUserHint: 'このコラボレーターを既存のユーザーアカウントに連携します（任意）',
+    linkedUserHint:
+      'このコラボレーターを既存のユーザーアカウントに連携します（任意）',
     noLinkedUser: '未連携',
     select: '選択…',
     save: '変更を保存',

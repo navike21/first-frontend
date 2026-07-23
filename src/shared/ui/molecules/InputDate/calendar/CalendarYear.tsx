@@ -55,8 +55,8 @@ export const CalendarYear = ({
                 'duration-fast ease-out-expo transition-all',
                 'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none',
                 {
-                  'cursor-pointer bg-primary-500 text-white': isSelected,
-                  'cursor-pointer text-foreground': !isSelected && !disabled,
+                  'bg-primary-500 cursor-pointer text-white': isSelected,
+                  'text-foreground cursor-pointer': !isSelected && !disabled,
                   'cursor-not-allowed text-slate-300 dark:text-slate-600':
                     disabled,
                   'ring-primary-400 font-bold ring-1': isToday && !isSelected,

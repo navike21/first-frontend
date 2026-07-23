@@ -3,11 +3,17 @@ import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
 import { navPaths } from '@/shared/router'
-import { useTags, useSoftDeleteTag, useBulkSoftDeleteTags } from '../api/tags.queries'
+import {
+  useTags,
+  useSoftDeleteTag,
+  useBulkSoftDeleteTags,
+} from '../api/tags.queries'
 import { useTagsTranslation } from '../i18n'
 import type { Tag, TagListParams, TagPaginationMeta } from '../model/tag.types'
 
-function statusValueFor(isActive: boolean | undefined): 'all' | 'active' | 'inactive' {
+function statusValueFor(
+  isActive: boolean | undefined
+): 'all' | 'active' | 'inactive' {
   if (isActive === undefined) return 'all'
   return isActive ? 'active' : 'inactive'
 }
@@ -22,7 +28,10 @@ export function useTagsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useTags({ ...params, search: search || undefined })
+  const { data, isLoading } = useTags({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteTag()
   const bulkSoftDelete = useBulkSoftDeleteTags()
 
@@ -35,7 +44,8 @@ export function useTagsPage() {
   const clearSelection = () => setSelectedIds([])
 
   const handleView = (tag: Tag) => setViewingTag(tag)
-  const handleEdit = (tag: Tag) => navigate({ to: navPaths.tagEdit(tag.id, language) as never })
+  const handleEdit = (tag: Tag) =>
+    navigate({ to: navPaths.tagEdit(tag.id, language) as never })
   const handleDelete = (tag: Tag) => setDeletingTag(tag)
 
   const handleConfirmDelete = () => {

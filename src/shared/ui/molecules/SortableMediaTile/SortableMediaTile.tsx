@@ -19,7 +19,14 @@ export const SortableMediaTile = ({
   dragMode = 'whole',
   footer,
 }: SortableMediaTileProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
   const isWholeTileDrag = dragMode === 'whole'
 
   return (
@@ -30,23 +37,28 @@ export const SortableMediaTile = ({
       {...(isWholeTileDrag ? listeners : {})}
       className={clsx(
         'flex flex-col gap-1.5 rounded-lg',
-        footer && 'border border-border bg-surface-subtle p-1.5',
-        isWholeTileDrag && 'touch-none cursor-grab active:cursor-grabbing',
-        isDragging && 'opacity-50',
+        footer && 'border-border bg-surface-subtle border p-1.5',
+        isWholeTileDrag && 'cursor-grab touch-none active:cursor-grabbing',
+        isDragging && 'opacity-50'
       )}
     >
       <div
         className={clsx(
           'relative aspect-square overflow-hidden rounded-md',
-          !footer && 'border border-border bg-surface-subtle',
+          !footer && 'border-border bg-surface-subtle border'
         )}
       >
-        <MediaThumbnail src={src} kind={kind} posterSrc={posterUrl} className="h-full w-full object-cover" />
+        <MediaThumbnail
+          src={src}
+          kind={kind}
+          posterSrc={posterUrl}
+          className="h-full w-full object-cover"
+        />
         {!isWholeTileDrag && (
           <button
             type="button"
             aria-label={dragLabel}
-            className="absolute top-1 left-1 flex h-6 w-6 cursor-grab items-center justify-center rounded-full bg-surface/90 text-muted ring-1 ring-border active:cursor-grabbing"
+            className="bg-surface/90 text-muted ring-border absolute top-1 left-1 flex h-6 w-6 cursor-grab items-center justify-center rounded-full ring-1 active:cursor-grabbing"
             {...attributes}
             {...listeners}
           >
@@ -55,13 +67,15 @@ export const SortableMediaTile = ({
         )}
         <button
           type="button"
-          onPointerDown={isWholeTileDrag ? (e) => e.stopPropagation() : undefined}
+          onPointerDown={
+            isWholeTileDrag ? (e) => e.stopPropagation() : undefined
+          }
           onClick={(e) => {
             if (isWholeTileDrag) e.stopPropagation()
             onRemove()
           }}
           aria-label={removeLabel}
-          className="absolute top-1 right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-danger-600 text-white ring-2 ring-surface transition-colors hover:bg-danger-600/90"
+          className="bg-danger-600 ring-surface hover:bg-danger-600/90 absolute top-1 right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-white ring-2 transition-colors"
         >
           <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
         </button>

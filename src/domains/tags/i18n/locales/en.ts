@@ -9,7 +9,8 @@ export const en: TagTranslations = {
     editTitle: 'Edit tag',
     editDescription: (name) => `Update ${name}`,
     trashTitle: 'Tags trash',
-    trashDescription: 'Tags that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Tags that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No tags in trash',
     trashEmptyDescription: 'When tags are deleted, they will appear here.',
   },
@@ -61,11 +62,14 @@ export const en: TagTranslations = {
     restoreTitle: 'Restore tag',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} tags to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} tags to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} tags. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} tags. This action is IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Translations',

@@ -54,11 +54,9 @@ export const zh: CategoryTranslations = {
     bulkRestore: '恢复',
     bulkPurge: '永久删除',
     deleteTitle: '删除分类',
-    deleteDescription: (name) =>
-      `确定要删除${name}吗？可以从回收站恢复。`,
+    deleteDescription: (name) => `确定要删除${name}吗？可以从回收站恢复。`,
     confirmDelete: '删除',
-    bulkDeleteDescription: (count) =>
-      `删除${count}个分类？可以从回收站恢复。`,
+    bulkDeleteDescription: (count) => `删除${count}个分类？可以从回收站恢复。`,
     restoreTitle: '还原分类',
     restoreDescription: (name) => `将 ${name} 还原到活跃列表？`,
     confirmRestore: '还原',
@@ -66,7 +64,8 @@ export const zh: CategoryTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个分类。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个分类。此操作不可逆。`,
   },
   form: {
     tabTranslations: '翻译',

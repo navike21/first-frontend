@@ -4,7 +4,12 @@ import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
-import { uploadEditorImage, resolveRichTextImages, directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
+import {
+  uploadEditorImage,
+  resolveRichTextImages,
+  directUploadVideo,
+  attachVideoCoverWithRetry,
+} from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -81,15 +86,22 @@ interface PendingVideoFile {
   file: File
 }
 
-const backgroundFileKey = (sectionId: string, breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot) =>
-  `${sectionId}:${breakpoint}:${slot}`
+const backgroundFileKey = (
+  sectionId: string,
+  breakpoint: BackgroundBreakpoint,
+  slot: BackgroundFileSlot
+) => `${sectionId}:${breakpoint}:${slot}`
 
 const mimeTypeForSlot = (slot: BackgroundFileSlot): string =>
   slot === 'video-webm' ? 'video/webm' : 'video/mp4'
 
-const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+const sameJson = (a: unknown, b: unknown) =>
+  JSON.stringify(a) === JSON.stringify(b)
 
-async function uploadPendingFiles(sections: BuilderSection[], pendingFiles: Map<string, File>): Promise<BuilderSection[]> {
+async function uploadPendingFiles(
+  sections: BuilderSection[],
+  pendingFiles: Map<string, File>
+): Promise<BuilderSection[]> {
   let next = sections
   for (const [elementId, file] of pendingFiles) {
     const url = await uploadEditorImage(file)
@@ -100,10 +112,15 @@ async function uploadPendingFiles(sections: BuilderSection[], pendingFiles: Map<
 
 async function uploadPendingBackgroundFiles(
   sections: BuilderSection[],
-  pendingBackgroundFiles: Map<string, PendingBackgroundFile>,
+  pendingBackgroundFiles: Map<string, PendingBackgroundFile>
 ): Promise<BuilderSection[]> {
   let next = sections
-  for (const { sectionId, breakpoint, slot, file } of pendingBackgroundFiles.values()) {
+  for (const {
+    sectionId,
+    breakpoint,
+    slot,
+    file,
+  } of pendingBackgroundFiles.values()) {
     if (slot === 'image') {
       const url = await uploadEditorImage(file)
       next = setBackgroundImageUrl(next, sectionId, breakpoint, url)
@@ -111,8 +128,14 @@ async function uploadPendingBackgroundFiles(
       // Sin miniatura: el fondo de sección ya se previsualiza con un
       // <video controls> real (un solo slot, no una grilla) — no hace
       // falta evitarle la carga del archivo.
-      const { url, mimeType } = await directUploadVideo(file, crypto.randomUUID())
-      next = setBackgroundVideoFile(next, sectionId, breakpoint, { url, mimeType })
+      const { url, mimeType } = await directUploadVideo(
+        file,
+        crypto.randomUUID()
+      )
+      next = setBackgroundVideoFile(next, sectionId, breakpoint, {
+        url,
+        mimeType,
+      })
     }
   }
   return next
@@ -120,7 +143,7 @@ async function uploadPendingBackgroundFiles(
 
 async function uploadPendingSliderFiles(
   sections: BuilderSection[],
-  pendingSliderFiles: Map<string, PendingSliderFile>,
+  pendingSliderFiles: Map<string, PendingSliderFile>
 ): Promise<BuilderSection[]> {
   let next = sections
   for (const [blobUrl, { elementId, file, kind }] of pendingSliderFiles) {
@@ -131,7 +154,9 @@ async function uploadPendingSliderFiles(
       const id = crypto.randomUUID()
       const { url } = await directUploadVideo(file, id)
       const cover = await captureVideoFrame(file)
-      const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
+      const posterUrl = cover
+        ? await attachVideoCoverWithRetry(id, cover)
+        : undefined
       next = replaceSliderSlideUrl(next, elementId, blobUrl, url, posterUrl)
     }
   }
@@ -140,7 +165,7 @@ async function uploadPendingSliderFiles(
 
 async function uploadPendingGalleryFiles(
   sections: BuilderSection[],
-  pendingGalleryFiles: Map<string, PendingGalleryFile>,
+  pendingGalleryFiles: Map<string, PendingGalleryFile>
 ): Promise<BuilderSection[]> {
   let next = sections
   for (const [blobUrl, { elementId, file }] of pendingGalleryFiles) {
@@ -152,7 +177,7 @@ async function uploadPendingGalleryFiles(
 
 async function uploadPendingTestimonialAvatarFiles(
   sections: BuilderSection[],
-  pendingTestimonialAvatarFiles: Map<string, PendingTestimonialAvatarFile>,
+  pendingTestimonialAvatarFiles: Map<string, PendingTestimonialAvatarFile>
 ): Promise<BuilderSection[]> {
   let next = sections
   for (const [blobUrl, { elementId, file }] of pendingTestimonialAvatarFiles) {
@@ -164,7 +189,7 @@ async function uploadPendingTestimonialAvatarFiles(
 
 async function uploadPendingVideoFiles(
   sections: BuilderSection[],
-  pendingVideoFiles: Map<string, PendingVideoFile>,
+  pendingVideoFiles: Map<string, PendingVideoFile>
 ): Promise<BuilderSection[]> {
   let next = sections
   for (const { elementId, file } of pendingVideoFiles.values()) {
@@ -173,7 +198,9 @@ async function uploadPendingVideoFiles(
     const id = crypto.randomUUID()
     const { url } = await directUploadVideo(file, id)
     const cover = await captureVideoFrame(file)
-    const posterUrl = cover ? await attachVideoCoverWithRetry(id, cover) : undefined
+    const posterUrl = cover
+      ? await attachVideoCoverWithRetry(id, cover)
+      : undefined
     next = setVideoFile(next, elementId, url, posterUrl)
   }
   return next
@@ -188,18 +215,30 @@ export const PageBuilderPage = () => {
   const [draft, setDraft] = useState<BuilderSection[] | null>(null)
   const [syncedWith, setSyncedWith] = useState<unknown>(null)
   const [pendingFiles, setPendingFiles] = useState<Map<string, File>>(new Map())
-  const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<Map<string, PendingBackgroundFile>>(new Map())
-  const [pendingSliderFiles, setPendingSliderFiles] = useState<Map<string, PendingSliderFile>>(new Map())
-  const [pendingGalleryFiles, setPendingGalleryFiles] = useState<Map<string, PendingGalleryFile>>(new Map())
-  const [pendingTestimonialAvatarFiles, setPendingTestimonialAvatarFiles] = useState<
-    Map<string, PendingTestimonialAvatarFile>
+  const [pendingBackgroundFiles, setPendingBackgroundFiles] = useState<
+    Map<string, PendingBackgroundFile>
   >(new Map())
-  const [pendingVideoFiles, setPendingVideoFiles] = useState<Map<string, PendingVideoFile>>(new Map())
-  const [deletingSectionId, setDeletingSectionId] = useState<string | null>(null)
+  const [pendingSliderFiles, setPendingSliderFiles] = useState<
+    Map<string, PendingSliderFile>
+  >(new Map())
+  const [pendingGalleryFiles, setPendingGalleryFiles] = useState<
+    Map<string, PendingGalleryFile>
+  >(new Map())
+  const [pendingTestimonialAvatarFiles, setPendingTestimonialAvatarFiles] =
+    useState<Map<string, PendingTestimonialAvatarFile>>(new Map())
+  const [pendingVideoFiles, setPendingVideoFiles] = useState<
+    Map<string, PendingVideoFile>
+  >(new Map())
+  const [deletingSectionId, setDeletingSectionId] = useState<string | null>(
+    null
+  )
   const [uploading, setUploading] = useState(false)
   const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
 
-  const progress = useMemo(() => computeTranslationProgress(draft ?? [], SUPPORTED_LANGUAGES), [draft])
+  const progress = useMemo(
+    () => computeTranslationProgress(draft ?? [], SUPPORTED_LANGUAGES),
+    [draft]
+  )
 
   // Adopta datos frescos del servidor durante el render (carga inicial y
   // refetch post-guardado), normalizados para que caché vieja o secciones de
@@ -264,8 +303,15 @@ export const PageBuilderPage = () => {
   // orden dentro de su propio array); acá solo se registra la subida
   // pendiente, indexada por esa misma blob url para poder reemplazarla más
   // tarde sin tocar el resto de las diapositivas.
-  const handlePickSliderFile = (elementId: string, url: string, file: File, kind: 'image' | 'video') => {
-    setPendingSliderFiles((map) => new Map(map).set(url, { elementId, file, kind }))
+  const handlePickSliderFile = (
+    elementId: string,
+    url: string,
+    file: File,
+    kind: 'image' | 'video'
+  ) => {
+    setPendingSliderFiles((map) =>
+      new Map(map).set(url, { elementId, file, kind })
+    )
   }
 
   // Si no se quita la pendiente al borrar la diapositiva, handleSave la sigue
@@ -281,7 +327,11 @@ export const PageBuilderPage = () => {
 
   // Mismo patrón que handlePickSliderFile: GalleryElementCard ya inserta la
   // blob preview en `images`, acá solo se registra la subida pendiente.
-  const handlePickGalleryFile = (elementId: string, url: string, file: File) => {
+  const handlePickGalleryFile = (
+    elementId: string,
+    url: string,
+    file: File
+  ) => {
     setPendingGalleryFiles((map) => new Map(map).set(url, { elementId, file }))
   }
 
@@ -297,8 +347,14 @@ export const PageBuilderPage = () => {
   // Mismo patrón que handlePickGalleryFile: TestimonialsElementCard ya
   // inserta la blob preview en items[i].avatarUrl, acá solo se registra la
   // subida pendiente.
-  const handlePickTestimonialAvatarFile = (elementId: string, url: string, file: File) => {
-    setPendingTestimonialAvatarFiles((map) => new Map(map).set(url, { elementId, file }))
+  const handlePickTestimonialAvatarFile = (
+    elementId: string,
+    url: string,
+    file: File
+  ) => {
+    setPendingTestimonialAvatarFiles((map) =>
+      new Map(map).set(url, { elementId, file })
+    )
   }
 
   const handleRemoveTestimonialAvatarFile = (url: string) => {
@@ -328,7 +384,11 @@ export const PageBuilderPage = () => {
   // Borrar el elemento entero también debe limpiar sus subidas pendientes
   // (mismo motivo que handleRemoveSliderFile) para texto/imagen/slider/
   // galería/testimonios.
-  const handleElementDelete = (sectionId: string, columnId: string, elementId: string) => {
+  const handleElementDelete = (
+    sectionId: string,
+    columnId: string,
+    elementId: string
+  ) => {
     patch((s) => removeElement(s, sectionId, columnId, elementId))
     setPendingFiles((map) => {
       if (!map.has(elementId)) return map
@@ -382,8 +442,14 @@ export const PageBuilderPage = () => {
     })
   }
 
-  const handleBackgroundChange = (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) =>
-    patch((sections) => setSectionBackground(sections, sectionId, breakpoint, config))
+  const handleBackgroundChange = (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    config: BackgroundConfig
+  ) =>
+    patch((sections) =>
+      setSectionBackground(sections, sectionId, breakpoint, config)
+    )
 
   // Preview optimista inmediato (blob local); el archivo real solo se sube
   // al guardar (mismo patrón diferido que las imágenes de elementos).
@@ -391,20 +457,25 @@ export const PageBuilderPage = () => {
     sectionId: string,
     breakpoint: BackgroundBreakpoint,
     slot: BackgroundFileSlot,
-    file: File,
+    file: File
   ) => {
     const previewUrl = URL.createObjectURL(file)
     patch((sections) =>
       slot === 'image'
         ? setBackgroundImageUrl(sections, sectionId, breakpoint, previewUrl)
-        : setBackgroundVideoFile(sections, sectionId, breakpoint, { url: previewUrl, mimeType: mimeTypeForSlot(slot) }),
+        : setBackgroundVideoFile(sections, sectionId, breakpoint, {
+            url: previewUrl,
+            mimeType: mimeTypeForSlot(slot),
+          })
     )
-    setPendingBackgroundFiles((map) => new Map(map).set(backgroundFileKey(sectionId, breakpoint, slot), {
-      sectionId,
-      breakpoint,
-      slot,
-      file,
-    }))
+    setPendingBackgroundFiles((map) =>
+      new Map(map).set(backgroundFileKey(sectionId, breakpoint, slot), {
+        sectionId,
+        breakpoint,
+        slot,
+        file,
+      })
+    )
   }
 
   // Ya tiene URL real (viene de la biblioteca): se aplica directo, sin pasar
@@ -413,12 +484,20 @@ export const PageBuilderPage = () => {
     sectionId: string,
     breakpoint: BackgroundBreakpoint,
     slot: BackgroundFileSlot,
-    file: StorageFile,
+    file: StorageFile
   ) => {
     patch((sections) =>
       slot === 'image'
-        ? setBackgroundImageUrl(sections, sectionId, breakpoint, file.original.url)
-        : setBackgroundVideoFile(sections, sectionId, breakpoint, { url: file.original.url, mimeType: file.mimeType }),
+        ? setBackgroundImageUrl(
+            sections,
+            sectionId,
+            breakpoint,
+            file.original.url
+          )
+        : setBackgroundVideoFile(sections, sectionId, breakpoint, {
+            url: file.original.url,
+            mimeType: file.mimeType,
+          })
     )
   }
 
@@ -434,12 +513,20 @@ export const PageBuilderPage = () => {
     try {
       let sections = draft
       sections = await uploadPendingFiles(sections, pendingFiles)
-      sections = await uploadPendingBackgroundFiles(sections, pendingBackgroundFiles)
+      sections = await uploadPendingBackgroundFiles(
+        sections,
+        pendingBackgroundFiles
+      )
       sections = await uploadPendingSliderFiles(sections, pendingSliderFiles)
       sections = await uploadPendingGalleryFiles(sections, pendingGalleryFiles)
-      sections = await uploadPendingTestimonialAvatarFiles(sections, pendingTestimonialAvatarFiles)
+      sections = await uploadPendingTestimonialAvatarFiles(
+        sections,
+        pendingTestimonialAvatarFiles
+      )
       sections = await uploadPendingVideoFiles(sections, pendingVideoFiles)
-      sections = await resolveSectionsRichTextImages(sections, (html) => resolveRichTextImages(html, uploadEditorImage))
+      sections = await resolveSectionsRichTextImages(sections, (html) =>
+        resolveRichTextImages(html, uploadEditorImage)
+      )
       setDraft(sections)
       setPendingFiles(new Map())
       setPendingBackgroundFiles(new Map())
@@ -447,7 +534,9 @@ export const PageBuilderPage = () => {
       setPendingGalleryFiles(new Map())
       setPendingTestimonialAvatarFiles(new Map())
       setPendingVideoFiles(new Map())
-      replaceSections.mutate(sections, { onSuccess: () => notify.success(t.builder.saved) })
+      replaceSections.mutate(sections, {
+        onSuccess: () => notify.success(t.builder.saved),
+      })
     } catch {
       notify.error(t.builder.uploadError)
     } finally {
@@ -457,7 +546,10 @@ export const PageBuilderPage = () => {
 
   if (isLoading || !item || !draft) {
     return (
-      <PageContent title={t.page.builderTitle} description={t.page.builderTitle}>
+      <PageContent
+        title={t.page.builderTitle}
+        description={t.page.builderTitle}
+      >
         <div className="flex justify-center py-20">
           <Spinner variant="gradient" size="large" />
         </div>
@@ -492,7 +584,9 @@ export const PageBuilderPage = () => {
       </div>
 
       <div className="mb-4 flex items-center justify-end gap-3">
-        {dirty && <span className="text-xs text-amber-500">{t.builder.unsaved}</span>}
+        {dirty && (
+          <span className="text-xs text-amber-500">{t.builder.unsaved}</span>
+        )}
         <Button
           variant="primary"
           size="small"
@@ -510,10 +604,18 @@ export const PageBuilderPage = () => {
         sections={draft}
         language={reviewLanguage}
         onAddSection={handleAddSection}
-        onSectionMove={(activeId, overId) => patch((s) => moveSection(s, activeId, overId))}
-        onChooseColumns={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
-        onColumnsChange={(sectionId, count) => patch((s) => setSectionColumns(s, sectionId, count))}
-        onLayoutChange={(sectionId, spans: BuilderColumnSpan[]) => patch((s) => setColumnSpans(s, sectionId, spans))}
+        onSectionMove={(activeId, overId) =>
+          patch((s) => moveSection(s, activeId, overId))
+        }
+        onChooseColumns={(sectionId, count) =>
+          patch((s) => setSectionColumns(s, sectionId, count))
+        }
+        onColumnsChange={(sectionId, count) =>
+          patch((s) => setSectionColumns(s, sectionId, count))
+        }
+        onLayoutChange={(sectionId, spans: BuilderColumnSpan[]) =>
+          patch((s) => setColumnSpans(s, sectionId, spans))
+        }
         onResponsiveChange={(sectionId, responsivePatch) =>
           patch((s) => setResponsiveSettings(s, sectionId, responsivePatch))
         }
@@ -521,24 +623,56 @@ export const PageBuilderPage = () => {
         onPickBackgroundFile={handlePickBackgroundFile}
         onPickLibraryFile={handlePickLibraryFile}
         onDeleteRequest={setDeletingSectionId}
-        onAddText={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createTextElement()))}
-        onAddImage={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createImageElement()))}
-        onAddSlider={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createSliderElement()))}
-        onAddButton={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createButtonElement()))}
-        onAddGallery={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createGalleryElement()))}
-        onAddAccordion={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createAccordionElement()))}
-        onAddTestimonials={(sectionId, columnId) =>
-          patch((s) => addElement(s, sectionId, columnId, createTestimonialsElement()))
+        onAddText={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createTextElement()))
         }
-        onAddStats={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createStatsElement()))}
-        onAddVideo={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createVideoElement()))}
-        onAddMap={(sectionId, columnId) => patch((s) => addElement(s, sectionId, columnId, createMapElement()))}
+        onAddImage={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createImageElement()))
+        }
+        onAddSlider={(sectionId, columnId) =>
+          patch((s) =>
+            addElement(s, sectionId, columnId, createSliderElement())
+          )
+        }
+        onAddButton={(sectionId, columnId) =>
+          patch((s) =>
+            addElement(s, sectionId, columnId, createButtonElement())
+          )
+        }
+        onAddGallery={(sectionId, columnId) =>
+          patch((s) =>
+            addElement(s, sectionId, columnId, createGalleryElement())
+          )
+        }
+        onAddAccordion={(sectionId, columnId) =>
+          patch((s) =>
+            addElement(s, sectionId, columnId, createAccordionElement())
+          )
+        }
+        onAddTestimonials={(sectionId, columnId) =>
+          patch((s) =>
+            addElement(s, sectionId, columnId, createTestimonialsElement())
+          )
+        }
+        onAddStats={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createStatsElement()))
+        }
+        onAddVideo={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createVideoElement()))
+        }
+        onAddMap={(sectionId, columnId) =>
+          patch((s) => addElement(s, sectionId, columnId, createMapElement()))
+        }
         onElementChange={(sectionId, columnId, elementId, elementPatch) =>
-          patch((s) => updateElement(s, sectionId, columnId, elementId, elementPatch))
+          patch((s) =>
+            updateElement(s, sectionId, columnId, elementId, elementPatch)
+          )
         }
         onElementDelete={handleElementDelete}
         onElementMove={(elementId, source, target, overElementId) =>
-          patch((s) => moveElementAcross(s, elementId, source, target, overElementId))
+          patch((s) =>
+            moveElementAcross(s, elementId, source, target, overElementId)
+          )
         }
         onPickFile={handlePickFile}
         onSelectImageLibrary={handleSelectImageLibrary}
@@ -560,7 +694,10 @@ export const PageBuilderPage = () => {
         description={t.builder.deleteSectionConfirm}
         footer={
           <>
-            <Button variant="secondary" onClick={() => setDeletingSectionId(null)}>
+            <Button
+              variant="secondary"
+              onClick={() => setDeletingSectionId(null)}
+            >
               {t.builder.cancel}
             </Button>
             <Button variant="primary" onClick={handleConfirmDeleteSection}>

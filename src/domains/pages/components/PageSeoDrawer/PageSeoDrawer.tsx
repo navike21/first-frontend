@@ -5,7 +5,11 @@ import { Drawer } from '@/shared/ui'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import { analyzePageSeo, SOCIAL_IMAGE_MIN_WIDTH, SOCIAL_IMAGE_MIN_HEIGHT } from '../../model/page.seo'
+import {
+  analyzePageSeo,
+  SOCIAL_IMAGE_MIN_WIDTH,
+  SOCIAL_IMAGE_MIN_HEIGHT,
+} from '../../model/page.seo'
 import type { SeoCheck, SeoCheckStatus, SeoLight } from '../../model/page.seo'
 import type { Page } from '../../model/page.types'
 import type { PageTranslations } from '../../i18n/types'
@@ -39,12 +43,19 @@ const CheckGroup = ({ title, status, checks, labels }: CheckGroupProps) => {
   if (checks.length === 0) return null
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-xs font-semibold uppercase tracking-wide text-muted">{title}</span>
+      <span className="text-muted text-xs font-semibold tracking-wide uppercase">
+        {title}
+      </span>
       <ul className="flex flex-col gap-1">
         {checks.map((check) => (
           <li key={check.id} className="flex items-start gap-2">
-            <span className={clsx('mt-1.5 h-2 w-2 shrink-0 rounded-full', DOT_CLASS[status])} />
-            <span className="text-sm text-foreground">{labels[check.id]}</span>
+            <span
+              className={clsx(
+                'mt-1.5 h-2 w-2 shrink-0 rounded-full',
+                DOT_CLASS[status]
+              )}
+            />
+            <span className="text-foreground text-sm">{labels[check.id]}</span>
           </li>
         ))}
       </ul>
@@ -55,7 +66,10 @@ const CheckGroup = ({ title, status, checks, labels }: CheckGroupProps) => {
 export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
   const { t, language } = usePagesTranslation()
   const [viewLang, setViewLang] = useState<Language>(language)
-  const [imageDims, setImageDims] = useState<{ width: number; height: number } | null>(null)
+  const [imageDims, setImageDims] = useState<{
+    width: number
+    height: number
+  } | null>(null)
   const [analyzedId, setAnalyzedId] = useState<string | null>(null)
   const [measuredUrl, setMeasuredUrl] = useState('')
 
@@ -77,12 +91,15 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
   useEffect(() => {
     if (!socialImageUrl) return
     const img = new Image()
-    img.onload = () => setImageDims({ width: img.naturalWidth, height: img.naturalHeight })
+    img.onload = () =>
+      setImageDims({ width: img.naturalWidth, height: img.naturalHeight })
     img.src = socialImageUrl
   }, [socialImageUrl])
 
   const imageBigEnough =
-    !!imageDims && imageDims.width >= SOCIAL_IMAGE_MIN_WIDTH && imageDims.height >= SOCIAL_IMAGE_MIN_HEIGHT
+    !!imageDims &&
+    imageDims.width >= SOCIAL_IMAGE_MIN_WIDTH &&
+    imageDims.height >= SOCIAL_IMAGE_MIN_HEIGHT
 
   // Portal to <body>: the page content sits inside animated (transformed)
   // containers, which would otherwise turn the drawer's fixed positioning
@@ -93,19 +110,34 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
       onClose={onClose}
       placement="right"
       className="w-full max-w-lg"
-      title={<span className="text-sm font-semibold text-foreground">{t.seo.drawerTitle}</span>}
+      title={
+        <span className="text-foreground text-sm font-semibold">
+          {t.seo.drawerTitle}
+        </span>
+      }
     >
       {item && analysis && (
         <div className="flex flex-col gap-6 p-4">
           <div className="flex flex-col gap-2">
-            <p className="truncate text-base font-semibold text-foreground">
+            <p className="text-foreground truncate text-base font-semibold">
               {item.title[viewLang] || item.title.en}
             </p>
             <div className="flex items-center gap-3">
-              <span className={clsx('h-3.5 w-3.5 rounded-full', LIGHT_CLASS[analysis.light])} />
-              <span className="text-2xl font-bold text-foreground">{analysis.score}%</span>
-              <span className="text-xs text-secondary">
-                {t.seo.summary(analysis.goodCount, analysis.warningCount, analysis.badCount)}
+              <span
+                className={clsx(
+                  'h-3.5 w-3.5 rounded-full',
+                  LIGHT_CLASS[analysis.light]
+                )}
+              />
+              <span className="text-foreground text-2xl font-bold">
+                {analysis.score}%
+              </span>
+              <span className="text-secondary text-xs">
+                {t.seo.summary(
+                  analysis.goodCount,
+                  analysis.warningCount,
+                  analysis.badCount
+                )}
               </span>
             </div>
           </div>
@@ -119,10 +151,10 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
                   type="button"
                   onClick={() => setViewLang(lang)}
                   className={clsx(
-                    'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wider transition-colors',
+                    'inline-flex cursor-pointer items-center rounded-md px-2 py-1 text-xs font-semibold tracking-wider uppercase transition-colors',
                     active
-                      ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-                      : 'bg-surface-subtle text-muted hover:text-foreground',
+                      ? 'bg-primary-700/10 text-primary-600 ring-primary-700/20 ring-1'
+                      : 'bg-surface-subtle text-muted hover:text-foreground'
                   )}
                 >
                   {lang}
@@ -131,10 +163,14 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
             })}
           </div>
 
-          <div className="flex flex-col gap-1 rounded-lg border border-border bg-surface-subtle px-3 py-2">
-            <span className="text-[10px] font-medium uppercase tracking-wide text-muted">{t.seo.focusKeyword}</span>
+          <div className="border-border bg-surface-subtle flex flex-col gap-1 rounded-lg border px-3 py-2">
+            <span className="text-muted text-[10px] font-medium tracking-wide uppercase">
+              {t.seo.focusKeyword}
+            </span>
             {analysis.focusKeyword ? (
-              <span className="text-sm font-medium text-foreground">{analysis.focusKeyword}</span>
+              <span className="text-foreground text-sm font-medium">
+                {analysis.focusKeyword}
+              </span>
             ) : (
               <span className="text-xs text-amber-500">{t.seo.noKeyword}</span>
             )}
@@ -144,7 +180,11 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
             <SeoLengthBar
               label={t.form.metaTitle}
               metric={analysis.metaTitle}
-              charsLabel={t.seo.charsCount(analysis.metaTitle.length, analysis.metaTitle.min, analysis.metaTitle.max)}
+              charsLabel={t.seo.charsCount(
+                analysis.metaTitle.length,
+                analysis.metaTitle.min,
+                analysis.metaTitle.max
+              )}
             />
             <SeoLengthBar
               label={t.form.metaDescription}
@@ -152,7 +192,7 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
               charsLabel={t.seo.charsCount(
                 analysis.metaDescription.length,
                 analysis.metaDescription.min,
-                analysis.metaDescription.max,
+                analysis.metaDescription.max
               )}
             />
           </div>
@@ -179,14 +219,19 @@ export const PageSeoDrawer = ({ item, onClose }: PageSeoDrawerProps) => {
           </div>
 
           {socialImageUrl && imageDims && (
-            <p className={clsx('text-xs', imageBigEnough ? 'text-emerald-500' : 'text-amber-500')}>
-              {t.seo.imageSize(imageDims.width, imageDims.height)} — {t.seo.imageSizeHint}
+            <p
+              className={clsx(
+                'text-xs',
+                imageBigEnough ? 'text-emerald-500' : 'text-amber-500'
+              )}
+            >
+              {t.seo.imageSize(imageDims.width, imageDims.height)} —{' '}
+              {t.seo.imageSizeHint}
             </p>
           )}
-
         </div>
       )}
     </Drawer>,
-    document.body,
+    document.body
   )
 }

@@ -15,7 +15,10 @@ describe('ProgressBar', () => {
     // Arrange & Act
     render(<ProgressBar value={42} />)
     // Assert
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '42')
+    expect(screen.getByRole('progressbar')).toHaveAttribute(
+      'aria-valuenow',
+      '42'
+    )
   })
 
   it('should set aria-valuemin and aria-valuemax to 0 and 100', () => {
@@ -30,7 +33,8 @@ describe('ProgressBar', () => {
   it('should render the fill at the given width', () => {
     // Arrange & Act
     render(<ProgressBar value={30} />)
-    const fill = screen.getByRole('progressbar').firstElementChild as HTMLElement
+    const fill = screen.getByRole('progressbar')
+      .firstElementChild as HTMLElement
     // Assert
     expect(fill).toHaveStyle({ width: '30%' })
   })

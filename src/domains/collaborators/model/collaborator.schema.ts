@@ -8,7 +8,12 @@ type V = CollaboratorTranslations['validation']
 
 export function createCollaboratorSchema(v: V, primaryLang: Language = 'en') {
   const optionalText = z.string().trim().optional().or(z.literal(''))
-  const optionalUrl = z.string().trim().url(v.urlInvalid).optional().or(z.literal(''))
+  const optionalUrl = z
+    .string()
+    .trim()
+    .url(v.urlInvalid)
+    .optional()
+    .or(z.literal(''))
 
   const langFields = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [
@@ -78,14 +83,16 @@ export interface CreateCollaboratorPayload {
   isActive: boolean
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): CollaboratorLocalizedString {
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): CollaboratorLocalizedString {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as CollaboratorLocalizedString
 }
 
 function buildSocialLinks(
-  links: CollaboratorFormData['socialLinks'],
+  links: CollaboratorFormData['socialLinks']
 ): CreateCollaboratorPayload['socialLinks'] {
   if (!links || !Object.values(links).some(Boolean)) return undefined
   return {
@@ -97,7 +104,9 @@ function buildSocialLinks(
   }
 }
 
-export function toCollaboratorPayload(data: CollaboratorFormData): CreateCollaboratorPayload {
+export function toCollaboratorPayload(
+  data: CollaboratorFormData
+): CreateCollaboratorPayload {
   return {
     name: data.name,
     role: data.role,

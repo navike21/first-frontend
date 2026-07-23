@@ -31,7 +31,14 @@ interface TileProps {
 }
 
 const Tile = ({ item, removeLabel, disabled, onRemove }: TileProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: item.key,
     disabled,
   })
@@ -46,12 +53,12 @@ const Tile = ({ item, removeLabel, disabled, onRemove }: TileProps) => {
         // Layout
         'relative aspect-square touch-none overflow-hidden rounded-lg',
         // Visual
-        'border border-border bg-surface-subtle',
+        'border-border bg-surface-subtle border',
         // Transitions
         'transition-opacity',
         // States
         isDragging && 'opacity-50',
-        !disabled && 'cursor-grab active:cursor-grabbing',
+        !disabled && 'cursor-grab active:cursor-grabbing'
       )}
     >
       <img src={item.url} alt="" className="h-full w-full object-cover" />
@@ -68,11 +75,11 @@ const Tile = ({ item, removeLabel, disabled, onRemove }: TileProps) => {
             // Layout
             'absolute top-1 right-1 flex h-6 w-6 cursor-pointer items-center justify-center',
             // Visual
-            'rounded-full bg-danger-600 text-white ring-2 ring-surface',
+            'bg-danger-600 ring-surface rounded-full text-white ring-2',
             // Transitions
             'transition-colors',
             // States
-            'hover:bg-danger-600/90',
+            'hover:bg-danger-600/90'
           )}
         >
           <IconComponent icon="RiDeleteBinLine" className="h-3.5 w-3.5" />
@@ -90,7 +97,13 @@ interface AddTileProps {
   onClick: () => void
 }
 
-const AddTile = ({ label, isDragging, dragLabel, disabled, onClick }: AddTileProps) => (
+const AddTile = ({
+  label,
+  isDragging,
+  dragLabel,
+  disabled,
+  onClick,
+}: AddTileProps) => (
   <button
     type="button"
     onClick={onClick}
@@ -101,17 +114,17 @@ const AddTile = ({ label, isDragging, dragLabel, disabled, onClick }: AddTilePro
       'flex aspect-square flex-col items-center justify-center gap-1.5 rounded-lg',
       // Visual — el manual muestra el placeholder "agregar" con borde
       // dashed border-hover (#B9C2D0), no el border por defecto.
-      'border-2 border-dashed border-border-hover bg-surface text-muted',
+      'border-border-hover bg-surface text-muted border-2 border-dashed',
       // Transitions
       'transition-colors',
       // States
       isDragging && 'border-primary-600 bg-primary-100 text-primary-600',
-      !disabled && !isDragging && 'cursor-pointer hover:border-primary-600',
-      disabled && 'cursor-not-allowed opacity-50',
+      !disabled && !isDragging && 'hover:border-primary-600 cursor-pointer',
+      disabled && 'cursor-not-allowed opacity-50'
     )}
   >
     <IconComponent icon="RiImageAddLine" className="h-6 w-6" />
-    <span className="px-1 text-center text-xs font-medium leading-tight">
+    <span className="px-1 text-center text-xs leading-tight font-medium">
       {isDragging ? dragLabel : label}
     </span>
   </button>
@@ -154,13 +167,17 @@ export const GalleryPicker = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
   const displayError = error || errorMessage
   const dragHandlers = disabled
     ? {}
-    : { onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop }
+    : {
+        onDragOver: handleDragOver,
+        onDragLeave: handleDragLeave,
+        onDrop: handleDrop,
+      }
 
   return (
     <div className="flex flex-col gap-2">
@@ -169,16 +186,25 @@ export const GalleryPicker = ({
         collisionDetection={closestCenter}
         onDragEnd={(event: DragEndEvent) => handleDragEnd(event)}
       >
-        <SortableContext items={items.map((item) => item.key)} strategy={rectSortingStrategy}>
+        <SortableContext
+          items={items.map((item) => item.key)}
+          strategy={rectSortingStrategy}
+        >
           <div
             {...dragHandlers}
             className={clsx(
               'grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5',
-              displayError && 'rounded-lg ring-1 ring-danger-600',
+              displayError && 'ring-danger-600 rounded-lg ring-1'
             )}
           >
             {items.map((item) => (
-              <Tile key={item.key} item={item} removeLabel={removeLabel} disabled={disabled} onRemove={removeItem} />
+              <Tile
+                key={item.key}
+                item={item}
+                removeLabel={removeLabel}
+                disabled={disabled}
+                onRemove={removeItem}
+              />
             ))}
             {!atMax && (
               <AddTile
@@ -203,9 +229,13 @@ export const GalleryPicker = ({
         disabled={disabled}
       />
 
-      {displayError && <p className="text-xs font-medium text-danger-600">{displayError}</p>}
+      {displayError && (
+        <p className="text-danger-600 text-xs font-medium">{displayError}</p>
+      )}
       {!displayError && (atMax ? maxItemsHint : formatsHint) && (
-        <p className="text-xs text-muted">{atMax ? maxItemsHint : formatsHint}</p>
+        <p className="text-muted text-xs">
+          {atMax ? maxItemsHint : formatsHint}
+        </p>
       )}
 
       {onSelectLibrary && libraryTexts && (

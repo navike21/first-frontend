@@ -11,13 +11,20 @@ const sizeClass: Record<AppLogoSize, string> = {
 
 // Rebote sutil (mismo cubic-bezier que --ease-spring-bounce en index.css) —
 // coherente con el resto de "pop"s de la app (ej. animate-modal-spring-pop).
-const BAR_TRANSITION = { duration: 0.32, ease: [0.34, 1.56, 0.64, 1.08] } as const
+const BAR_TRANSITION = {
+  duration: 0.32,
+  ease: [0.34, 1.56, 0.64, 1.08],
+} as const
 const BAR_STAGGER_S = 0.09
 
 // Pulso de carga: loop infinito, así que anima solo `scaleY` (transform,
 // compositor) en vez de los atributos `y`/`height` del arranque — evita
 // reflow de layout en cada frame mientras la carga se prolonga.
-const PULSE_TRANSITION = { duration: 0.6, ease: 'easeInOut', repeat: Infinity } as const
+const PULSE_TRANSITION = {
+  duration: 0.6,
+  ease: 'easeInOut',
+  repeat: Infinity,
+} as const
 const PULSE_STAGGER_S = 0.12
 
 interface Bar {
@@ -53,7 +60,11 @@ export const AppLogo = ({
   ...props
 }: AppLogoProps) => {
   const barClass = color === 'white' ? 'fill-white' : undefined
-  const barClasses = [barClass ?? 'fill-primary-800', barClass ?? 'fill-primary-700', barClass ?? 'fill-primary-600']
+  const barClasses = [
+    barClass ?? 'fill-primary-800',
+    barClass ?? 'fill-primary-700',
+    barClass ?? 'fill-primary-600',
+  ]
   // Llamado siempre (regla de hooks); solo se usa si animateIn/pulse están activos.
   const reduceMotion = useReducedMotion()
   const shouldPulse = pulse && !reduceMotion

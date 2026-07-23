@@ -57,7 +57,8 @@ export function useCategoriesTrashPage() {
 
   const handleConfirmBulk = () => {
     const mutation = bulkAction === 'restore' ? bulkRestore : bulkPurge
-    const toast = bulkAction === 'restore' ? t.toasts.bulkRestored : t.toasts.bulkPurged
+    const toast =
+      bulkAction === 'restore' ? t.toasts.bulkRestored : t.toasts.bulkPurged
     mutation.mutate(selectedIds, {
       onSuccess: () => {
         notify.success(toast)

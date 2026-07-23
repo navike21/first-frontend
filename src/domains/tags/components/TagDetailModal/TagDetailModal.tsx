@@ -16,8 +16,13 @@ export const TagDetailModal = ({ tag, onClose }: TagDetailModalProps) => {
         <div className="space-y-5">
           <div className="flex items-center gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">{tag.name[language] || tag.name.en}</span>
-              <Chip size="x-small" variant={tag.isActive ? 'success' : 'default'}>
+              <span className="text-foreground text-base font-bold">
+                {tag.name[language] || tag.name.en}
+              </span>
+              <Chip
+                size="x-small"
+                variant={tag.isActive ? 'success' : 'default'}
+              >
                 {tag.isActive ? t.status.active : t.status.inactive}
               </Chip>
             </div>

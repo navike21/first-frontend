@@ -1,7 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputField, InputNumber, Select, Switch, Button, ButtonGroup, FormGrid, SectionLabel, LangTabs } from '@/shared/ui'
+import {
+  InputField,
+  InputNumber,
+  Select,
+  Switch,
+  Button,
+  ButtonGroup,
+  FormGrid,
+  SectionLabel,
+  LangTabs,
+} from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
@@ -36,7 +46,11 @@ function slugify(text: string): string {
     .replace(/^-|-$/g, '')
 }
 
-function isDescendantOrSelf(candidateId: string, targetId: string, categories: Category[]): boolean {
+function isDescendantOrSelf(
+  candidateId: string,
+  targetId: string,
+  categories: Category[]
+): boolean {
   if (candidateId === targetId) return true
   const byParent = new Map<string, Category[]>()
   for (const c of categories) {
@@ -62,14 +76,21 @@ export const CategoryForm = ({
   onSubmit,
 }: CategoryFormProps) => {
   const { t, language } = useCategoriesTranslation()
-  const schema = useMemo(() => createCategorySchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createCategorySchema(t.validation, language),
+    [t.validation, language]
+  )
   const { data: categoriesData } = useCategoriesForPicker()
 
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
 
   const emptyLocalized = useMemo(
-    () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
-    [],
+    () =>
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
+        Language,
+        string
+      >,
+    []
   )
 
   const {
@@ -108,7 +129,11 @@ export const CategoryForm = ({
 
   useEffect(() => {
     if (detachedRef.current) return
-    setValue('slug', slugify(currentNameValue), { shouldValidate: false, shouldDirty: false, shouldTouch: false })
+    setValue('slug', slugify(currentNameValue), {
+      shouldValidate: false,
+      shouldDirty: false,
+      shouldTouch: false,
+    })
   }, [currentNameValue, setValue])
 
   const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,27 +141,36 @@ export const CategoryForm = ({
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '')
       .replace(/-+/g, '-')
-    setValue('slug', cleaned, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+    setValue('slug', cleaned, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
     detachedRef.current = !!cleaned
   }
 
   const hasContent = (lang: Language): boolean => !!nameValues?.[lang]?.trim()
-  const hasError = (lang: Language): boolean => !!(errors.name as LangErrors)?.[lang]
+  const hasError = (lang: Language): boolean =>
+    !!(errors.name as LangErrors)?.[lang]
   const nameError = (errors.name as LangErrors)?.[editingLanguage]?.message
 
   const availableParents = (categoriesData ?? []).filter(
-    (c) => !categoryId || !isDescendantOrSelf(c.id, categoryId, categoriesData ?? []),
+    (c) =>
+      !categoryId || !isDescendantOrSelf(c.id, categoryId, categoriesData ?? [])
   )
   const parentOptions = [
     { value: '', label: t.form.noParent },
-    ...availableParents.map((c) => ({ value: c.id, label: c.name[language] || c.name.en })),
+    ...availableParents.map((c) => ({
+      value: c.id,
+      label: c.name[language] || c.name.en,
+    })),
   ]
 
   const submit = handleSubmit((data) => onSubmit(data))
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-6 rounded-xl border border-border bg-surface p-6">
+      <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <SectionLabel>{t.form.tabTranslations}</SectionLabel>
@@ -173,7 +207,11 @@ export const CategoryForm = ({
           value={parentIdValue ?? ''}
           lang={language}
           onChange={(e) =>
-            setValue('parentId', e.target.value, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+            setValue('parentId', e.target.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+              shouldTouch: true,
+            })
           }
         />
 
@@ -181,13 +219,22 @@ export const CategoryForm = ({
           label={t.form.isActive}
           checked={isActiveValue}
           onChange={(e) =>
-            setValue('isActive', e.target.checked, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+            setValue('isActive', e.target.checked, {
+              shouldValidate: true,
+              shouldDirty: true,
+              shouldTouch: true,
+            })
           }
           disabled={isSubmitting}
         />
 
-        <ButtonGroup className="border-t border-border pt-4">
-          <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+        <ButtonGroup className="border-border border-t pt-4">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
             {t.form.cancel}
           </Button>
           <Button

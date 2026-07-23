@@ -79,7 +79,10 @@ export const ServiceForm = ({
   onSubmit,
 }: ServiceFormProps) => {
   const { t, language } = useServicesTranslation()
-  const schema = useMemo(() => createServiceSchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createServiceSchema(t.validation, language),
+    [t.validation, language]
+  )
 
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
@@ -92,7 +95,11 @@ export const ServiceForm = ({
   const [maxStep, setMaxStep] = useState(0)
 
   const emptyLocalized = useMemo(
-    () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
+    () =>
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
+        Language,
+        string
+      >,
     []
   )
 
@@ -134,7 +141,9 @@ export const ServiceForm = ({
   // Once detached, name changes no longer auto-fill the slug for that language.
   // Clears when the slug is emptied, re-attaching auto-fill.
   const detachedRef = useRef<Set<Language>>(
-    new Set(SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim()))
+    new Set(
+      SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim())
+    )
   )
 
   const currentNameValue = nameValues?.[editingLanguage] ?? ''
@@ -182,22 +191,39 @@ export const ServiceForm = ({
   }
 
   const nameError = (errors.name as LangErrors)?.[editingLanguage]?.message
-  const sdError = (errors.shortDescription as LangErrors)?.[editingLanguage]?.message
-  const descError = (errors.description as LangErrors)?.[editingLanguage]?.message
+  const sdError = (errors.shortDescription as LangErrors)?.[editingLanguage]
+    ?.message
+  const descError = (errors.description as LangErrors)?.[editingLanguage]
+    ?.message
 
   const stepHasError = (step: StepId) =>
     STEP_FIELDS[step].some((f) => f in errors)
 
   const steps: WizardStep[] = [
-    { id: 'general', label: t.form.sectionGeneral, error: stepHasError('general') },
-    { id: 'content', label: t.form.sectionContent, error: stepHasError('content') },
-    { id: 'media', label: t.form.sectionMedia, optional: true, error: stepHasError('media') },
+    {
+      id: 'general',
+      label: t.form.sectionGeneral,
+      error: stepHasError('general'),
+    },
+    {
+      id: 'content',
+      label: t.form.sectionContent,
+      error: stepHasError('content'),
+    },
+    {
+      id: 'media',
+      label: t.form.sectionMedia,
+      optional: true,
+      error: stepHasError('media'),
+    },
   ]
 
   const reachedIndex = mode === 'edit' ? steps.length - 1 : maxStep
 
   const handleNext = async () => {
-    const ok = await trigger(STEP_FIELDS[activeStep] as (keyof ServiceFormData)[])
+    const ok = await trigger(
+      STEP_FIELDS[activeStep] as (keyof ServiceFormData)[]
+    )
     if (!ok) return
     const i = steps.findIndex((s) => s.id === activeStep)
     if (i < steps.length - 1) {
@@ -218,9 +244,12 @@ export const ServiceForm = ({
       await Promise.all(
         SUPPORTED_LANGUAGES.map(async (lang) => {
           if (resolvedDesc[lang]) {
-            resolvedDesc[lang] = await resolveRichTextImages(resolvedDesc[lang], uploadEditorImage)
+            resolvedDesc[lang] = await resolveRichTextImages(
+              resolvedDesc[lang],
+              uploadEditorImage
+            )
           }
-        }),
+        })
       )
       onSubmit(
         { ...data, description: resolvedDesc },
@@ -229,7 +258,7 @@ export const ServiceForm = ({
         removeCover,
         removeIcon,
         coverLibraryUrl ?? undefined,
-        iconLibraryUrl ?? undefined,
+        iconLibraryUrl ?? undefined
       )
     },
     (formErrors) => {
@@ -261,9 +290,8 @@ export const ServiceForm = ({
         />
       </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-
         {/* ── Main form (Wizard) ─────────────────────────────────── */}
-        <div className="min-w-0 flex-1 rounded-xl border border-border bg-surface p-8">
+        <div className="border-border bg-surface min-w-0 flex-1 rounded-xl border p-8">
           <Wizard
             steps={steps}
             current={activeStep}
@@ -281,14 +309,19 @@ export const ServiceForm = ({
             optionalLabel={t.form.optional}
           >
             {/* ── Step 1: General ───────────────────────── */}
-            <div hidden={activeStep !== 'general'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'general'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
                     {t.form.name} <span className="text-red-500">*</span>
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
-                  <span className="text-xs text-muted">{NATIVE_LANGUAGE_NAMES[editingLanguage]}</span>
+                  <span className="text-muted text-xs">
+                    {NATIVE_LANGUAGE_NAMES[editingLanguage]}
+                  </span>
                 </div>
                 <InputField
                   variant={nameError ? 'error' : undefined}
@@ -299,7 +332,8 @@ export const ServiceForm = ({
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
-                    {t.form.shortDescription} <span className="text-red-500">*</span>
+                    {t.form.shortDescription}{' '}
+                    <span className="text-red-500">*</span>
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
                 </div>
@@ -316,8 +350,14 @@ export const ServiceForm = ({
                 </div>
                 <InputField
                   helperText={t.form.slugHint}
-                  variant={(errors.slug as LangErrors)?.[editingLanguage] ? 'error' : undefined}
-                  errorMessage={(errors.slug as LangErrors)?.[editingLanguage]?.message}
+                  variant={
+                    (errors.slug as LangErrors)?.[editingLanguage]
+                      ? 'error'
+                      : undefined
+                  }
+                  errorMessage={
+                    (errors.slug as LangErrors)?.[editingLanguage]?.message
+                  }
                   value={slugValues?.[editingLanguage] ?? ''}
                   onChange={handleSlugChange}
                 />
@@ -325,13 +365,16 @@ export const ServiceForm = ({
             </div>
 
             {/* ── Step 2: Content ───────────────────────── */}
-            <div hidden={activeStep !== 'content'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'content'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <RichTextArea
                 label={
                   <span className="flex items-center gap-2">
                     {t.form.description} <span className="text-red-500">*</span>
                     <LangBadge lang={editingLanguage} />
-                    <span className="text-xs font-normal normal-case tracking-normal text-muted">
+                    <span className="text-muted text-xs font-normal tracking-normal normal-case">
                       {NATIVE_LANGUAGE_NAMES[editingLanguage]}
                     </span>
                   </span>
@@ -358,7 +401,9 @@ export const ServiceForm = ({
                   value={pillarsValue}
                   lang={language}
                   onChange={(e) => {
-                    const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
+                    const selected = Array.from(e.target.selectedOptions).map(
+                      (o) => o.value
+                    )
                     setValue('pillars', selected as typeof pillarsValue)
                   }}
                 />
@@ -462,7 +507,7 @@ export const ServiceForm = ({
         </div>
 
         {/* ── Language sidebar ──────────────────────────────────── */}
-        <div className="hidden rounded-xl border border-border bg-surface p-4 lg:block lg:w-52 lg:shrink-0 lg:sticky lg:top-4">
+        <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
           <LangSidebar
             editingLanguage={editingLanguage}
             userLanguage={language}

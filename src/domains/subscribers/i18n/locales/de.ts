@@ -9,7 +9,8 @@ export const de: SubscribersTranslations = {
     editTitle: 'Abonnenten bearbeiten',
     editDescription: (name) => `Informationen für ${name} aktualisieren`,
     trashTitle: 'Papierkorb Abonnenten',
-    trashDescription: 'Abonnenten, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Abonnenten, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Abonnenten im Papierkorb',
     trashEmptyDescription: 'Gelöschte Abonnenten werden hier angezeigt.',
   },
@@ -63,13 +64,17 @@ export const de: SubscribersTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Abonnenten löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Abonnent wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Abonnenten in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Abonnenten in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Abonnenten endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Abonnenten endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     sectionPersonal: 'Persönliche Informationen',

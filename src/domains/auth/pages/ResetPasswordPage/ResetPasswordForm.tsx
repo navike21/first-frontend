@@ -24,10 +24,10 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   if (!token || isInvalidToken) {
     return (
       <div className="flex flex-col items-center gap-4 text-center">
-        <h2 className="text-base font-semibold text-foreground">
+        <h2 className="text-foreground text-base font-semibold">
           {t.resetPassword.invalidTokenHeading}
         </h2>
-        <p className="text-sm text-secondary">
+        <p className="text-secondary text-sm">
           {t.resetPassword.invalidTokenMessage}
         </p>
         <LinkButton variant="primary" href={navPaths.forgotPassword()}>
@@ -40,11 +40,11 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center gap-4 text-center">
-        <h2 className="text-base font-semibold text-foreground">
+        <h2 className="text-foreground text-base font-semibold">
           {t.resetPassword.successHeading}
         </h2>
         {successMessage && (
-          <p className="text-sm text-secondary">{successMessage}</p>
+          <p className="text-secondary text-sm">{successMessage}</p>
         )}
         <LinkButton variant="primary" href={navPaths.login()}>
           {t.resetPassword.backToLoginLink}
@@ -59,7 +59,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
       onSubmit={onSubmit}
       noValidate
     >
-      <h2 className="mb-2 text-base font-semibold text-foreground">
+      <h2 className="text-foreground mb-2 text-base font-semibold">
         {t.resetPassword.heading}
       </h2>
       <InputField

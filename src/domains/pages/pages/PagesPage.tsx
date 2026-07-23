@@ -4,7 +4,8 @@ import {
   InputField,
   Select,
   Modal,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconComponent,
   FadeCollapse,
 } from '@/shared/ui'
@@ -60,10 +61,26 @@ export const PagesPage = () => {
       description={t.page.listDescription}
       actions={[
         ...(canSeeTrash
-          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'secondary' as const, to: navPaths.pageTrash(language), size: 'small' as const }]
+          ? [
+              {
+                type: 'link' as const,
+                label: t.actions.viewTrash,
+                variant: 'secondary' as const,
+                to: navPaths.pageTrash(language),
+                size: 'small' as const,
+              },
+            ]
           : []),
         ...(canCreate
-          ? [{ type: 'link' as const, label: t.actions.newItem, variant: 'primary' as const, to: navPaths.pageCreate(language), size: 'small' as const }]
+          ? [
+              {
+                type: 'link' as const,
+                label: t.actions.newItem,
+                variant: 'primary' as const,
+                to: navPaths.pageCreate(language),
+                size: 'small' as const,
+              },
+            ]
           : []),
       ]}
     >
@@ -74,7 +91,7 @@ export const PagesPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-muted">
+              <span className="text-muted px-3">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }
@@ -93,15 +110,19 @@ export const PagesPage = () => {
 
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
-              <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setBulkConfirmOpen(true)}
+              >
                 {t.actions.bulkDelete}
               </Button>
             </ButtonGroup>
@@ -125,7 +146,10 @@ export const PagesPage = () => {
         />
       </div>
 
-      <PageDetailModal item={viewingItem} onClose={() => setViewingItem(null)} />
+      <PageDetailModal
+        item={viewingItem}
+        onClose={() => setViewingItem(null)}
+      />
 
       <PageSeoDrawer item={seoItem} onClose={() => setSeoItem(null)} />
 
@@ -135,14 +159,26 @@ export const PagesPage = () => {
         size="sm"
         title={t.actions.deleteTitle}
         description={
-          deletingItem ? t.actions.deleteDescription(deletingItem.title[language] || deletingItem.title.en) : undefined
+          deletingItem
+            ? t.actions.deleteDescription(
+                deletingItem.title[language] || deletingItem.title.en
+              )
+            : undefined
         }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setDeletingItem(null)} disabled={softDelete.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setDeletingItem(null)}
+              disabled={softDelete.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={softDelete.isPending} onClick={handleConfirmDelete}>
+            <Button
+              variant="primary"
+              loading={softDelete.isPending}
+              onClick={handleConfirmDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>
@@ -157,10 +193,18 @@ export const PagesPage = () => {
         description={t.actions.bulkDeleteDescription(selectedIds.length)}
         footer={
           <>
-            <Button variant="secondary" onClick={() => setBulkConfirmOpen(false)} disabled={bulkSoftDelete.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkConfirmOpen(false)}
+              disabled={bulkSoftDelete.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={bulkSoftDelete.isPending} onClick={handleConfirmBulkDelete}>
+            <Button
+              variant="primary"
+              loading={bulkSoftDelete.isPending}
+              onClick={handleConfirmBulkDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>

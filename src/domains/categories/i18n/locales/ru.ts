@@ -3,13 +3,15 @@ import type { CategoryTranslations } from '../types'
 export const ru: CategoryTranslations = {
   page: {
     listTitle: 'Категории',
-    listDescription: 'Управляйте категориями, используемыми для организации страниц',
+    listDescription:
+      'Управляйте категориями, используемыми для организации страниц',
     createTitle: 'Новая категория',
     createDescription: 'Зарегистрировать новую категорию',
     editTitle: 'Редактировать категорию',
     editDescription: (name) => `Обновить ${name}`,
     trashTitle: 'Корзина категорий',
-    trashDescription: 'Категории, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Категории, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые категории будут отображаться здесь.',
   },
@@ -62,11 +64,14 @@ export const ru: CategoryTranslations = {
     restoreTitle: 'Восстановить категорию',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} категорий в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} категорий в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} категорий. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} категорий. Действие НЕОБРАТИМО.`,
   },
   form: {
     tabTranslations: 'Переводы',

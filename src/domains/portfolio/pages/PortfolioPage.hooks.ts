@@ -9,12 +9,19 @@ import {
   useBulkSoftDeletePortfolio,
 } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
-import type { Portfolio, PortfolioListParams, PortfolioPaginationMeta } from '../model/portfolio.types'
+import type {
+  Portfolio,
+  PortfolioListParams,
+  PortfolioPaginationMeta,
+} from '../model/portfolio.types'
 
 export function usePortfolioPage() {
   const navigate = useNavigate()
   const { t, language } = usePortfolioTranslation()
-  const [params, setParams] = useState<PortfolioListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<PortfolioListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [deletingItem, setDeletingItem] = useState<Portfolio | null>(null)
   const [viewingItem, setViewingItem] = useState<Portfolio | null>(null)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -66,7 +73,8 @@ export function usePortfolioPage() {
     setParams((p) => ({
       ...p,
       page: 1,
-      status: value === 'all' ? undefined : (value as PortfolioListParams['status']),
+      status:
+        value === 'all' ? undefined : (value as PortfolioListParams['status']),
     }))
     clearSelection()
   }

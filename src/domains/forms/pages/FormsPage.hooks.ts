@@ -3,9 +3,17 @@ import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
 import { navPaths } from '@/shared/router'
-import { useForms, useSoftDeleteForm, useBulkSoftDeleteForms } from '../api/forms.queries'
+import {
+  useForms,
+  useSoftDeleteForm,
+  useBulkSoftDeleteForms,
+} from '../api/forms.queries'
 import { useFormsTranslation } from '../i18n'
-import type { Form, FormListParams, FormPaginationMeta } from '../model/form.types'
+import type {
+  Form,
+  FormListParams,
+  FormPaginationMeta,
+} from '../model/form.types'
 
 export function useFormsPage() {
   const navigate = useNavigate()
@@ -16,7 +24,10 @@ export function useFormsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useForms({ ...params, search: search || undefined })
+  const { data, isLoading } = useForms({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteForm()
   const bulkSoftDelete = useBulkSoftDeleteForms()
 
@@ -28,7 +39,8 @@ export function useFormsPage() {
 
   const clearSelection = () => setSelectedIds([])
 
-  const handleEdit = (form: Form) => navigate({ to: navPaths.formEdit(form.id, language) as never })
+  const handleEdit = (form: Form) =>
+    navigate({ to: navPaths.formEdit(form.id, language) as never })
   const handleDelete = (form: Form) => setDeletingForm(form)
   const handleViewSubmissions = (form: Form) =>
     navigate({ to: navPaths.formSubmissions(form.id, language) as never })

@@ -16,9 +16,10 @@ function toFormValues(sub: Subscriber): Partial<SubscriberFormData> {
     lastName: sub.lastName,
     contactInformation: {
       email: sub.contactInformation.email,
-      phoneNumber: sub.contactInformation.phoneNumber != null
-        ? String(sub.contactInformation.phoneNumber)
-        : '',
+      phoneNumber:
+        sub.contactInformation.phoneNumber != null
+          ? String(sub.contactInformation.phoneNumber)
+          : '',
     },
     location: {
       countryCode: sub.location?.countryCode ?? '',
@@ -44,7 +45,9 @@ function toFormValues(sub: Subscriber): Partial<SubscriberFormData> {
 export const EditSubscriberPage = () => {
   const navigate = useNavigate()
   const { t, language } = useSubscribersTranslation()
-  const { subscriberId } = useParams({ strict: false }) as { subscriberId: string }
+  const { subscriberId } = useParams({ strict: false }) as {
+    subscriberId: string
+  }
   const { data: subscriber, isLoading } = useSubscriber(subscriberId)
   const updateSubscriber = useUpdateSubscriber(subscriberId)
 
@@ -58,9 +61,16 @@ export const EditSubscriberPage = () => {
     let profilePictureUrl: string | undefined
     if (removePhoto) profilePictureUrl = ''
     else if (photoLibraryUrl) profilePictureUrl = photoLibraryUrl
-    const payload = profilePictureUrl !== undefined
-      ? { ...base, personalInformation: { ...base.personalInformation, profilePictureUrl } }
-      : base
+    const payload =
+      profilePictureUrl !== undefined
+        ? {
+            ...base,
+            personalInformation: {
+              ...base.personalInformation,
+              profilePictureUrl,
+            },
+          }
+        : base
 
     updateSubscriber.mutate(
       { data: payload, photo },
@@ -89,7 +99,9 @@ export const EditSubscriberPage = () => {
   return (
     <PageContent
       title={t.page.editTitle}
-      description={t.page.editDescription(`${subscriber.firstName} ${subscriber.lastName}`)}
+      description={t.page.editDescription(
+        `${subscriber.firstName} ${subscriber.lastName}`
+      )}
     >
       <SubscriberForm
         mode="edit"
@@ -97,7 +109,9 @@ export const EditSubscriberPage = () => {
         currentPhotoUrl={subscriber.personalInformation.profilePictureUrl}
         isSubmitting={updateSubscriber.isPending}
         submitError={updateSubscriber.error}
-        onCancel={() => navigate({ to: navPaths.subscribers(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.subscribers(language) as never })
+        }
         onSubmit={handleUpdate}
       />
     </PageContent>

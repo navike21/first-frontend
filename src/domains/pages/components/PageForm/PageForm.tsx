@@ -77,7 +77,11 @@ function slugify(text: string): string {
     .replace(/^-|-$/g, '')
 }
 
-function isDescendantOrSelf(candidateId: string, targetId: string, pages: Page[]): boolean {
+function isDescendantOrSelf(
+  candidateId: string,
+  targetId: string,
+  pages: Page[]
+): boolean {
   if (candidateId === targetId) return true
   const byParent = new Map<string, Page[]>()
   for (const p of pages) {
@@ -110,7 +114,10 @@ export const PageForm = ({
   onSubmit,
 }: PageFormProps) => {
   const { t, language } = usePagesTranslation()
-  const schema = useMemo(() => createPageSchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createPageSchema(t.validation, language),
+    [t.validation, language]
+  )
 
   const { data: pagesData } = usePagesForPicker()
   const { data: categoriesData } = useCategoriesForPagePicker()
@@ -126,8 +133,12 @@ export const PageForm = ({
   const [maxStep, setMaxStep] = useState(0)
 
   const emptyLocalized = useMemo(
-    () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
-    [],
+    () =>
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
+        Language,
+        string
+      >,
+    []
   )
 
   const {
@@ -176,7 +187,9 @@ export const PageForm = ({
   // Slug auto-suggested per language from that language's title (mirrors
   // services/portfolio), detaching a language once its slug is edited by hand.
   const detachedRef = useRef<Partial<Record<Language, boolean>>>(
-    Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, !!initialValues?.slug?.[l]?.trim()])),
+    Object.fromEntries(
+      SUPPORTED_LANGUAGES.map((l) => [l, !!initialValues?.slug?.[l]?.trim()])
+    )
   )
 
   useEffect(() => {
@@ -195,41 +208,67 @@ export const PageForm = ({
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '')
       .replace(/-+/g, '-')
-    setValue(`slug.${editingLanguage}`, cleaned, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+    setValue(`slug.${editingLanguage}`, cleaned, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
     detachedRef.current[editingLanguage] = !!cleaned
   }
 
   const availableParents = (pagesData ?? []).filter(
-    (p) => !pageId || !isDescendantOrSelf(p.id, pageId, pagesData ?? []),
+    (p) => !pageId || !isDescendantOrSelf(p.id, pageId, pagesData ?? [])
   )
   const parentOptions = [
     { value: '', label: t.form.noParent },
-    ...availableParents.map((p) => ({ value: p.id, label: p.title[language] || p.title.en })),
+    ...availableParents.map((p) => ({
+      value: p.id,
+      label: p.title[language] || p.title.en,
+    })),
   ]
 
   const selectedParent = availableParents.find((p) => p.id === parentIdValue)
-  const pathPreview = joinPath(selectedParent?.fullPath?.[editingLanguage] ?? '', slugValues?.[editingLanguage] ?? '')
+  const pathPreview = joinPath(
+    selectedParent?.fullPath?.[editingLanguage] ?? '',
+    slugValues?.[editingLanguage] ?? ''
+  )
 
   // Live Yoast-style metrics + social previews for the language being edited:
   // they fall back to title/description exactly like the public renderer does.
-  const liveTitle = (seoMetaTitleValues?.[editingLanguage] ?? '').trim() || (titleValues?.[editingLanguage] ?? '').trim()
+  const liveTitle =
+    (seoMetaTitleValues?.[editingLanguage] ?? '').trim() ||
+    (titleValues?.[editingLanguage] ?? '').trim()
   const liveDescription = (seoMetaDescValues?.[editingLanguage] ?? '').trim()
-  const metaTitleMetric = buildLengthMetric(liveTitle.length, META_TITLE_MIN, META_TITLE_MAX)
-  const metaDescriptionMetric = buildLengthMetric(liveDescription.length, META_DESCRIPTION_MIN, META_DESCRIPTION_MAX)
+  const metaTitleMetric = buildLengthMetric(
+    liveTitle.length,
+    META_TITLE_MIN,
+    META_TITLE_MAX
+  )
+  const metaDescriptionMetric = buildLengthMetric(
+    liveDescription.length,
+    META_DESCRIPTION_MIN,
+    META_DESCRIPTION_MAX
+  )
 
-  const coverPreviewUrl = useMemo(() => (pendingCover ? URL.createObjectURL(pendingCover) : ''), [pendingCover])
-  const ogPreviewUrl = useMemo(() => (pendingOgImage ? URL.createObjectURL(pendingOgImage) : ''), [pendingOgImage])
+  const coverPreviewUrl = useMemo(
+    () => (pendingCover ? URL.createObjectURL(pendingCover) : ''),
+    [pendingCover]
+  )
+  const ogPreviewUrl = useMemo(
+    () => (pendingOgImage ? URL.createObjectURL(pendingOgImage) : ''),
+    [pendingOgImage]
+  )
   useEffect(
     () => () => {
       if (coverPreviewUrl) URL.revokeObjectURL(coverPreviewUrl)
     },
-    [coverPreviewUrl],
+    [coverPreviewUrl]
   )
   useEffect(
     () => () => {
       if (ogPreviewUrl) URL.revokeObjectURL(ogPreviewUrl)
     },
-    [ogPreviewUrl],
+    [ogPreviewUrl]
   )
   const socialPreviewImage =
     ogPreviewUrl ||
@@ -246,7 +285,10 @@ export const PageForm = ({
     value: tag.id,
     label: tag.name[language] || tag.name.en,
   }))
-  const statusOptions = PAGE_STATUS_VALUES.map((s) => ({ value: s, label: t.status[s] }))
+  const statusOptions = PAGE_STATUS_VALUES.map((s) => ({
+    value: s,
+    label: t.status[s],
+  }))
 
   const hasContent = (lang: Language): boolean => !!titleValues?.[lang]?.trim()
   const hasError = (lang: Language): boolean => {
@@ -258,13 +300,32 @@ export const PageForm = ({
   const titleError = (errors.title as LangErrors)?.[editingLanguage]?.message
   const slugError = (errors.slug as LangErrors)?.[editingLanguage]?.message
 
-  const stepHasError = (step: StepId) => STEP_FIELDS[step].some((f) => f in errors)
+  const stepHasError = (step: StepId) =>
+    STEP_FIELDS[step].some((f) => f in errors)
 
   const steps: WizardStep[] = [
-    { id: 'general', label: t.form.sectionGeneral, error: stepHasError('general') },
-    { id: 'seo', label: t.form.sectionSeo, optional: true, error: stepHasError('seo') },
-    { id: 'organization', label: t.form.sectionOrganization, error: stepHasError('organization') },
-    { id: 'cover', label: t.form.sectionCover, optional: true, error: stepHasError('cover') },
+    {
+      id: 'general',
+      label: t.form.sectionGeneral,
+      error: stepHasError('general'),
+    },
+    {
+      id: 'seo',
+      label: t.form.sectionSeo,
+      optional: true,
+      error: stepHasError('seo'),
+    },
+    {
+      id: 'organization',
+      label: t.form.sectionOrganization,
+      error: stepHasError('organization'),
+    },
+    {
+      id: 'cover',
+      label: t.form.sectionCover,
+      optional: true,
+      error: stepHasError('cover'),
+    },
   ]
 
   const reachedIndex = mode === 'edit' ? steps.length - 1 : maxStep
@@ -286,9 +347,21 @@ export const PageForm = ({
   }
 
   const submit = handleSubmit(
-    (data) => onSubmit(data, pendingCover, removeCover, pendingOgImage, coverLibraryUrl ?? undefined),
+    (data) =>
+      onSubmit(
+        data,
+        pendingCover,
+        removeCover,
+        pendingOgImage,
+        coverLibraryUrl ?? undefined
+      ),
     (formErrors) => {
-      for (const step of ['general', 'seo', 'organization', 'cover'] as StepId[]) {
+      for (const step of [
+        'general',
+        'seo',
+        'organization',
+        'cover',
+      ] as StepId[]) {
         if (STEP_FIELDS[step].some((f) => f in formErrors)) {
           setActiveStep(step)
           break
@@ -299,7 +372,7 @@ export const PageForm = ({
         const errLang = SUPPORTED_LANGUAGES.find((l) => titleErrs[l])
         if (errLang) setEditingLanguage(errLang)
       }
-    },
+    }
   )
 
   return (
@@ -317,7 +390,7 @@ export const PageForm = ({
         />
       </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-        <div className="min-w-0 flex-1 rounded-xl border border-border bg-surface p-8">
+        <div className="border-border bg-surface min-w-0 flex-1 rounded-xl border p-8">
           <Wizard
             steps={steps}
             current={activeStep}
@@ -335,7 +408,10 @@ export const PageForm = ({
             optionalLabel={t.form.optional}
           >
             {/* Step 1 — General */}
-            <div hidden={activeStep !== 'general'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'general'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
@@ -361,12 +437,15 @@ export const PageForm = ({
                   onChange={handleSlugChange}
                 />
                 {!slugError && (
-                  <p className="mt-1 text-xs text-muted">
+                  <p className="text-muted mt-1 text-xs">
                     {t.form.slugHint}
                     {pathPreview && (
                       <>
                         {' — '}
-                        {t.form.fullPathPreview}: <span className="font-mono text-secondary">/{pathPreview}</span>
+                        {t.form.fullPathPreview}:{' '}
+                        <span className="text-secondary font-mono">
+                          /{pathPreview}
+                        </span>
                       </>
                     )}
                   </p>
@@ -378,13 +457,20 @@ export const PageForm = ({
                 value={parentIdValue ?? ''}
                 lang={language}
                 onChange={(e) =>
-                  setValue('parentId', e.target.value, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                  setValue('parentId', e.target.value, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
                 }
               />
             </div>
 
             {/* Step 2 — SEO (page content itself lives in the future builder) */}
-            <div hidden={activeStep !== 'seo'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'seo'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <div className="flex flex-col gap-1.5">
                 <InputField
                   label={
@@ -395,16 +481,24 @@ export const PageForm = ({
                   }
                   value={seoMetaTitleValues?.[editingLanguage] ?? ''}
                   onChange={(e) =>
-                    setValue(`seoMetaTitle.${editingLanguage}`, e.target.value, {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                      shouldTouch: true,
-                    })
+                    setValue(
+                      `seoMetaTitle.${editingLanguage}`,
+                      e.target.value,
+                      {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      }
+                    )
                   }
                 />
                 <SeoLengthBar
                   metric={metaTitleMetric}
-                  charsLabel={t.seo.charsCount(metaTitleMetric.length, metaTitleMetric.min, metaTitleMetric.max)}
+                  charsLabel={t.seo.charsCount(
+                    metaTitleMetric.length,
+                    metaTitleMetric.min,
+                    metaTitleMetric.max
+                  )}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -418,11 +512,15 @@ export const PageForm = ({
                   rows={2}
                   value={seoMetaDescValues?.[editingLanguage] ?? ''}
                   onChange={(e) =>
-                    setValue(`seoMetaDescription.${editingLanguage}`, e.target.value, {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                      shouldTouch: true,
-                    })
+                    setValue(
+                      `seoMetaDescription.${editingLanguage}`,
+                      e.target.value,
+                      {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      }
+                    )
                   }
                 />
                 <SeoLengthBar
@@ -430,7 +528,7 @@ export const PageForm = ({
                   charsLabel={t.seo.charsCount(
                     metaDescriptionMetric.length,
                     metaDescriptionMetric.min,
-                    metaDescriptionMetric.max,
+                    metaDescriptionMetric.max
                   )}
                 />
               </div>
@@ -454,7 +552,9 @@ export const PageForm = ({
               <div className="flex flex-col gap-3">
                 <SectionLabel>
                   {t.form.ogImage}{' '}
-                  <span className="text-xs font-normal normal-case tracking-normal text-muted">{t.form.optional}</span>
+                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
+                    {t.form.optional}
+                  </span>
                 </SectionLabel>
                 <CoverPicker
                   currentUrl={(seoOgImageValue ?? '').trim() || undefined}
@@ -469,24 +569,40 @@ export const PageForm = ({
                   onChange={(file) => setPendingOgImage(file)}
                   onRemove={() => {
                     setPendingOgImage(null)
-                    setValue('seoOgImage', '', { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                    setValue('seoOgImage', '', {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
                   }}
                   onSelectLibrary={(file: StorageFile) => {
                     setPendingOgImage(null)
-                    setValue('seoOgImage', file.original.url, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                    setValue('seoOgImage', file.original.url, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
                   }}
                   libraryTexts={t.builder.mediaLibrary}
                 />
               </div>
               <div>
-                <Button type="button" variant="secondary" size="small" onClick={() => setPreviewsOpen(true)}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="small"
+                  onClick={() => setPreviewsOpen(true)}
+                >
                   {t.seo.previewsTitle}
                 </Button>
               </div>
             </div>
 
             {/* Step 3 — Organization */}
-            <div hidden={activeStep !== 'organization'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'organization'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <Select
                 label={`${t.form.categoryIds} ${t.form.optional}`}
                 multiple
@@ -494,8 +610,14 @@ export const PageForm = ({
                 value={categoryIdsValue ?? []}
                 lang={language}
                 onChange={(e) => {
-                  const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
-                  setValue('categoryIds', selected, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                  const selected = Array.from(e.target.selectedOptions).map(
+                    (o) => o.value
+                  )
+                  setValue('categoryIds', selected, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
                 }}
               />
               <Select
@@ -505,8 +627,14 @@ export const PageForm = ({
                 value={tagIdsValue ?? []}
                 lang={language}
                 onChange={(e) => {
-                  const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
-                  setValue('tagIds', selected, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                  const selected = Array.from(e.target.selectedOptions).map(
+                    (o) => o.value
+                  )
+                  setValue('tagIds', selected, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
                 }}
               />
               <Select
@@ -530,7 +658,11 @@ export const PageForm = ({
                   errorMessage={errors.scheduledAt?.message}
                   value={scheduledAtValue ?? ''}
                   onChange={(e) =>
-                    setValue('scheduledAt', e.target.value, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+                    setValue('scheduledAt', e.target.value, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
                   }
                 />
               )}
@@ -540,7 +672,10 @@ export const PageForm = ({
             <div hidden={activeStep !== 'cover'} className="animate-tab-fade">
               <div className="flex flex-col gap-3">
                 <SectionLabel>
-                  {t.form.cover} <span className="text-xs font-normal normal-case tracking-normal text-muted">{t.form.optional}</span>
+                  {t.form.cover}{' '}
+                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
+                    {t.form.optional}
+                  </span>
                 </SectionLabel>
                 <CoverPicker
                   currentUrl={coverLibraryUrl ?? initialCoverUrl}
@@ -575,7 +710,12 @@ export const PageForm = ({
           </Wizard>
         </div>
 
-        <Modal isOpen={previewsOpen} onClose={() => setPreviewsOpen(false)} size="lg" title={t.seo.previewsTitle}>
+        <Modal
+          isOpen={previewsOpen}
+          onClose={() => setPreviewsOpen(false)}
+          size="lg"
+          title={t.seo.previewsTitle}
+        >
           <SeoSocialPreviews
             title={liveTitle}
             description={liveDescription}
@@ -584,7 +724,7 @@ export const PageForm = ({
           />
         </Modal>
 
-        <div className="hidden rounded-xl border border-border bg-surface p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
+        <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
           <LangSidebar
             editingLanguage={editingLanguage}
             userLanguage={language}

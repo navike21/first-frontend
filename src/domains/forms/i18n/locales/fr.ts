@@ -7,9 +7,11 @@ export const fr: FormsTranslations = {
     createTitle: 'Nouveau formulaire',
     createDescription: 'Créez un nouveau formulaire',
     editTitle: 'Modifier le formulaire',
-    editDescription: (name) => `Mettre à jour les champs et paramètres de ${name}`,
+    editDescription: (name) =>
+      `Mettre à jour les champs et paramètres de ${name}`,
     trashTitle: 'Corbeille des formulaires',
-    trashDescription: 'Formulaires déplacés vers la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Formulaires déplacés vers la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun formulaire dans la corbeille',
     trashEmptyDescription: 'Les formulaires supprimés apparaîtront ici.',
     submissionsTitle: (name) => `Réponses — ${name}`,
@@ -46,7 +48,8 @@ export const fr: FormsTranslations = {
     viewSubmission: 'Voir les détails',
     markRead: 'Marquer comme lu',
     deleteSubmission: 'Supprimer',
-    deleteSubmissionDescription: 'Supprimer cette réponse ? Vous pourrez la restaurer depuis la corbeille.',
+    deleteSubmissionDescription:
+      'Supprimer cette réponse ? Vous pourrez la restaurer depuis la corbeille.',
     restoreSubmission: 'Restaurer',
     purgeSubmission: 'Supprimer définitivement',
     prevPage: 'Précédent',
@@ -94,11 +97,13 @@ export const fr: FormsTranslations = {
     deleteDescription: (name) =>
       `Voulez-vous vraiment supprimer ${name} ? Ses réponses restent dans la corbeille et peuvent être restaurées.`,
     confirmDelete: 'Supprimer',
-    bulkDeleteDescription: (count) => `Supprimer ${count} formulaires ? Vous pourrez les restaurer depuis la corbeille.`,
+    bulkDeleteDescription: (count) =>
+      `Supprimer ${count} formulaires ? Vous pourrez les restaurer depuis la corbeille.`,
     restoreTitle: 'Restaurer le formulaire',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} formulaires dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} formulaires dans la liste active ?`,
     purgeTitle: 'Supprimer définitivement',
     purgeDescription: (name) =>
       `${name} et toutes ses réponses seront supprimés définitivement. Cette action est irréversible.`,
@@ -115,9 +120,10 @@ export const fr: FormsTranslations = {
     successMessage: 'Message de succès',
     status: 'Statut',
     notificationEmails: 'Notifier ces e-mails à chaque envoi',
-    notificationEmailsHint: 'Séparés par des virgules. Laissez vide pour désactiver les notifications.',
+    notificationEmailsHint:
+      'Séparés par des virgules. Laissez vide pour désactiver les notifications.',
     addField: 'Ajouter un champ',
-    noFields: 'Aucun champ pour l\'instant — ajoutez-en un pour commencer',
+    noFields: "Aucun champ pour l'instant — ajoutez-en un pour commencer",
     fieldLabel: 'Libellé',
     fieldPlaceholder: 'Texte indicatif',
     fieldType: 'Type de champ',
@@ -129,7 +135,7 @@ export const fr: FormsTranslations = {
     optionLabel: 'Libellé',
     dragField: 'Réordonner le champ',
     removeField: 'Supprimer le champ',
-    removeOption: 'Supprimer l\'option',
+    removeOption: "Supprimer l'option",
     save: 'Enregistrer les modifications',
     create: 'Créer le formulaire',
     cancel: 'Annuler',

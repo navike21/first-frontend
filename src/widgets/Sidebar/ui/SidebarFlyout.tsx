@@ -105,8 +105,8 @@ export const SidebarFlyout = ({
             onPointerEnter={openFlyout}
             onPointerLeave={scheduleClose}
           >
-            <div className="min-w-52 rounded-lg bg-surface p-2 shadow-lg ring-1 ring-border">
-              <p className="px-2 py-1 text-xs font-semibold tracking-wide text-secondary uppercase">
+            <div className="bg-surface ring-border min-w-52 rounded-lg p-2 shadow-lg ring-1">
+              <p className="text-secondary px-2 py-1 text-xs font-semibold tracking-wide uppercase">
                 {item.label}
               </p>
               <div className="mt-1 flex flex-col gap-0.5">

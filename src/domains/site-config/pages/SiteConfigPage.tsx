@@ -22,7 +22,8 @@ import { MapsConfigPanel } from '../components/MapsConfigPanel'
 
 type TabId = 'header' | 'footer' | 'content' | 'social' | 'maps'
 
-const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+const sameJson = (a: unknown, b: unknown) =>
+  JSON.stringify(a) === JSON.stringify(b)
 
 export const SiteConfigPage = () => {
   const { t, language } = useSiteConfigTranslation()
@@ -54,12 +55,18 @@ export const SiteConfigPage = () => {
   const patchMaps = (patch: Partial<MapsConfig>) =>
     setDraft((d) => (d ? { ...d, maps: { ...d.maps, ...patch } } : d))
 
-  const dirtyHeader = !!draft && !!serverNorm && !sameJson(draft.header, serverNorm.header)
-  const dirtyFooter = !!draft && !!serverNorm && !sameJson(draft.footer, serverNorm.footer)
-  const dirtyLayout = !!draft && !!serverNorm && !sameJson(draft.layout, serverNorm.layout)
-  const dirtySocial = !!draft && !!serverNorm && !sameJson(draft.social, serverNorm.social)
-  const dirtyMaps = !!draft && !!serverNorm && !sameJson(draft.maps, serverNorm.maps)
-  const dirty = dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial || dirtyMaps
+  const dirtyHeader =
+    !!draft && !!serverNorm && !sameJson(draft.header, serverNorm.header)
+  const dirtyFooter =
+    !!draft && !!serverNorm && !sameJson(draft.footer, serverNorm.footer)
+  const dirtyLayout =
+    !!draft && !!serverNorm && !sameJson(draft.layout, serverNorm.layout)
+  const dirtySocial =
+    !!draft && !!serverNorm && !sameJson(draft.social, serverNorm.social)
+  const dirtyMaps =
+    !!draft && !!serverNorm && !sameJson(draft.maps, serverNorm.maps)
+  const dirty =
+    dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial || dirtyMaps
 
   const handleSave = () => {
     if (!draft) return
@@ -95,7 +102,7 @@ export const SiteConfigPage = () => {
 
   return (
     <PageContent title={t.page.title} description={t.page.description}>
-      <div className="flex flex-col gap-6 rounded-xl border border-border bg-surface p-6">
+      <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
         <Tabs
           tabs={tabs}
           activeId={activeTab}
@@ -105,19 +112,42 @@ export const SiteConfigPage = () => {
         />
 
         {activeTab === 'header' && (
-          <HeaderConfigPanel value={draft.header} language={language} onChange={patchHeader} />
+          <HeaderConfigPanel
+            value={draft.header}
+            language={language}
+            onChange={patchHeader}
+          />
         )}
         {activeTab === 'footer' && (
-          <FooterConfigPanel value={draft.footer} language={language} onChange={patchFooter} />
+          <FooterConfigPanel
+            value={draft.footer}
+            language={language}
+            onChange={patchFooter}
+          />
         )}
-        {activeTab === 'content' && <ContentConfigPanel value={draft.layout} onChange={patchLayout} />}
-        {activeTab === 'social' && <SocialConfigPanel value={draft.social} onChange={patchSocial} />}
-        {activeTab === 'maps' && <MapsConfigPanel value={draft.maps} onChange={patchMaps} />}
+        {activeTab === 'content' && (
+          <ContentConfigPanel value={draft.layout} onChange={patchLayout} />
+        )}
+        {activeTab === 'social' && (
+          <SocialConfigPanel value={draft.social} onChange={patchSocial} />
+        )}
+        {activeTab === 'maps' && (
+          <MapsConfigPanel value={draft.maps} onChange={patchMaps} />
+        )}
 
         <Can anyOf={CAN.siteConfigUpdate}>
-          <div className="flex items-center justify-end gap-3 border-t border-border pt-4">
-            {dirty && <span className="text-xs text-amber-500">{t.actions.unsavedHint}</span>}
-            <Button variant="primary" disabled={!dirty} loading={updateConfig.isPending} onClick={handleSave}>
+          <div className="border-border flex items-center justify-end gap-3 border-t pt-4">
+            {dirty && (
+              <span className="text-xs text-amber-500">
+                {t.actions.unsavedHint}
+              </span>
+            )}
+            <Button
+              variant="primary"
+              disabled={!dirty}
+              loading={updateConfig.isPending}
+              onClick={handleSave}
+            >
               {t.actions.save}
             </Button>
           </div>

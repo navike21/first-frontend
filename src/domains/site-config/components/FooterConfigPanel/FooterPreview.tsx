@@ -43,7 +43,9 @@ const CTA_STYLE: CSSProperties = {
 
 const LogoBlock = () => <span style={LOGO_STYLE} />
 
-const Bar = ({ w, strong }: { w: number; strong?: boolean }) => <span style={barStyle(w, strong)} />
+const Bar = ({ w, strong }: { w: number; strong?: boolean }) => (
+  <span style={barStyle(w, strong)} />
+)
 
 const SocialDots = () => (
   <div className="flex items-center gap-1.5">
@@ -55,8 +57,19 @@ const SocialDots = () => (
 
 const NewsletterMock = () => (
   <div className="flex items-center gap-1.5">
-    <span className="rounded-md border border-border bg-surface" style={{ width: 112, height: 24 }} />
-    <span className="rounded-md" style={{ width: 32, height: 24, backgroundColor: 'var(--color-primary-600)', opacity: 0.85 }} />
+    <span
+      className="border-border bg-surface rounded-md border"
+      style={{ width: 112, height: 24 }}
+    />
+    <span
+      className="rounded-md"
+      style={{
+        width: 32,
+        height: 24,
+        backgroundColor: 'var(--color-primary-600)',
+        opacity: 0.85,
+      }}
+    />
   </div>
 )
 
@@ -72,7 +85,12 @@ const ColumnMock = ({ seed }: { seed: number }) => {
 }
 
 const ColumnsRow = ({ config }: { config: FooterConfig }) => (
-  <div className={clsx('grid gap-4 px-4 py-3', config.columns === 3 ? 'grid-cols-3' : 'grid-cols-4')}>
+  <div
+    className={clsx(
+      'grid gap-4 px-4 py-3',
+      config.columns === 3 ? 'grid-cols-3' : 'grid-cols-4'
+    )}
+  >
     <div className="flex flex-col gap-1.5">
       <LogoBlock />
       <Bar w={83} />
@@ -90,7 +108,7 @@ const ColumnsRow = ({ config }: { config: FooterConfig }) => (
 )
 
 const BottomBar = ({ config }: { config: FooterConfig }) => (
-  <div className="flex items-center justify-between border-t border-border px-4 py-2.5">
+  <div className="border-border flex items-center justify-between border-t px-4 py-2.5">
     <span style={{ ...barStyle(100), width: 96 }} />
     {config.showSocial && <SocialDots />}
   </div>
@@ -101,8 +119,10 @@ export const FooterPreview = ({ config }: FooterPreviewProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-xs font-semibold uppercase tracking-wide text-muted">{t.preview.title}</span>
-      <div className="overflow-hidden rounded-xl border border-border bg-surface">
+      <span className="text-muted text-xs font-semibold tracking-wide uppercase">
+        {t.preview.title}
+      </span>
+      <div className="border-border bg-surface overflow-hidden rounded-xl border">
         {config.variant === 'columns' && (
           <>
             <ColumnsRow config={config} />
@@ -135,8 +155,11 @@ export const FooterPreview = ({ config }: FooterPreviewProps) => {
         {config.variant === 'cta-columns' && (
           <>
             <div
-              className="flex items-center justify-between border-b border-border px-4 py-3"
-              style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-600) 10%, transparent)' }}
+              className="border-border flex items-center justify-between border-b px-4 py-3"
+              style={{
+                backgroundColor:
+                  'color-mix(in srgb, var(--color-primary-600) 10%, transparent)',
+              }}
             >
               <span style={{ ...barStyle(33, true) }} />
               <span style={CTA_STYLE} />
@@ -151,5 +174,11 @@ export const FooterPreview = ({ config }: FooterPreviewProps) => {
 }
 
 function pill(width: number): CSSProperties {
-  return { flexShrink: 0, width, height: 8, borderRadius: 9999, backgroundColor: 'var(--text-muted)' }
+  return {
+    flexShrink: 0,
+    width,
+    height: 8,
+    borderRadius: 9999,
+    backgroundColor: 'var(--text-muted)',
+  }
 }

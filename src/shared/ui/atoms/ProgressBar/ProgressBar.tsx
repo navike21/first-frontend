@@ -14,10 +14,13 @@ export const ProgressBar = ({ value, className }: ProgressBarProps) => {
       aria-valuenow={clamped}
       aria-valuemin={0}
       aria-valuemax={100}
-      className={clsx('h-1 overflow-hidden rounded-full bg-surface-subtle', className)}
+      className={clsx(
+        'bg-surface-subtle h-1 overflow-hidden rounded-full',
+        className
+      )}
     >
       <div
-        className="h-full rounded-full bg-primary-600 transition-[width] duration-200 ease-out"
+        className="bg-primary-600 h-full rounded-full transition-[width] duration-200 ease-out"
         style={{ width: `${clamped}%` }}
       />
     </div>

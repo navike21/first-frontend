@@ -83,12 +83,16 @@ export const EditServicePage = () => {
   return (
     <PageContent
       title={t.page.editTitle}
-      description={t.page.editDescription(service.name[language] || service.name.en)}
+      description={t.page.editDescription(
+        service.name[language] || service.name.en
+      )}
     >
       <ServiceForm
         mode="edit"
         initialValues={toFormValues(service)}
-        {...(service.coverImageUrl ? { initialCoverUrl: service.coverImageUrl } : {})}
+        {...(service.coverImageUrl
+          ? { initialCoverUrl: service.coverImageUrl }
+          : {})}
         {...(iconUrl ? { initialIconUrl: iconUrl } : {})}
         isSubmitting={updateService.isPending}
         submitError={updateService.error}

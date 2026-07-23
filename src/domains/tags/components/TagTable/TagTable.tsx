@@ -1,4 +1,11 @@
-import { Can, Chip, DataTable, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
+import {
+  Can,
+  Chip,
+  DataTable,
+  IconButton,
+  Tooltip,
+  type DataTableColumn,
+} from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { useTagsTranslation } from '../../i18n'
 import type { Tag } from '../../model/tag.types'
@@ -36,7 +43,11 @@ export const TagTable = ({
     {
       id: 'name',
       header: t.table.colName,
-      cell: (tag) => <span className="font-medium text-foreground">{tag.name[language] || tag.name.en}</span>,
+      cell: (tag) => (
+        <span className="text-foreground font-medium">
+          {tag.name[language] || tag.name.en}
+        </span>
+      ),
     },
     {
       id: 'slug',

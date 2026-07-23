@@ -40,13 +40,21 @@ const PreviewContent = ({
       )}
     />
     {!disabled && onRemove && (
-      <div className={clsx('flex items-center gap-2', isCompact ? 'mt-1' : 'mt-2 gap-3')}>
+      <div
+        className={clsx(
+          'flex items-center gap-2',
+          isCompact ? 'mt-1' : 'mt-2 gap-3'
+        )}
+      >
         <button
           type="button"
-          onClick={(e) => { e.stopPropagation(); openPicker() }}
+          onClick={(e) => {
+            e.stopPropagation()
+            openPicker()
+          }}
           className={clsx(
-            'flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5',
-            'text-xs font-medium text-secondary transition-colors',
+            'border-border bg-surface flex items-center gap-1.5 rounded-lg border px-3 py-1.5',
+            'text-secondary text-xs font-medium transition-colors',
             'hover:border-primary-600 hover:text-primary-600'
           )}
         >
@@ -55,11 +63,14 @@ const PreviewContent = ({
         </button>
         <button
           type="button"
-          onClick={(e) => { e.stopPropagation(); handleRemove() }}
+          onClick={(e) => {
+            e.stopPropagation()
+            handleRemove()
+          }}
           aria-label={removeLabel}
           className={clsx(
-            'flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5',
-            'text-xs font-medium text-secondary transition-colors',
+            'border-border bg-surface flex items-center gap-1.5 rounded-lg border px-3 py-1.5',
+            'text-secondary text-xs font-medium transition-colors',
             'hover:border-danger-600 hover:text-danger-600'
           )}
         >
@@ -94,51 +105,66 @@ const EmptyContent = ({
   displayError,
   openPicker,
 }: EmptyContentProps) => {
-  let dropIcon: 'RiDownloadLine' | 'RiErrorWarningLine' | 'RiImageAddLine' = 'RiImageAddLine'
+  let dropIcon: 'RiDownloadLine' | 'RiErrorWarningLine' | 'RiImageAddLine' =
+    'RiImageAddLine'
   if (isDragging) dropIcon = 'RiDownloadLine'
   else if (hasError) dropIcon = 'RiErrorWarningLine'
   return (
-  <>
-    <div
-      className={clsx(
-        'flex items-center justify-center rounded-xl',
-        isCompact ? 'h-10 w-10' : 'h-14 w-14',
-        'border transition-colors',
-        isDragging && 'border-primary-600 bg-surface text-primary-600',
-        hasError && !isDragging && 'border-danger-200 bg-surface text-danger-600',
-        !isDragging && !hasError && 'border-border bg-surface text-muted',
-      )}
-    >
-      <IconComponent
-        icon={dropIcon}
-        className={isCompact ? 'h-5 w-5' : 'h-7 w-7'}
-      />
-    </div>
-    <div className="text-center">
-      <p className={clsx(
-        'font-semibold',
-        isCompact ? 'text-xs' : 'text-sm',
-        hasError ? 'text-danger-600' : 'text-foreground',
-      )}>
-        {isDragging ? dragLabel : uploadLabel}
-      </p>
-      {!isDragging && (
-        <p className={clsx('mt-0.5 text-secondary', isCompact ? 'text-xs' : 'mt-1 text-sm')}>
-          {dragOrLabel}{' '}
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); openPicker() }}
-            className="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700"
-          >
-            {browseLabel}
-          </button>
+    <>
+      <div
+        className={clsx(
+          'flex items-center justify-center rounded-xl',
+          isCompact ? 'h-10 w-10' : 'h-14 w-14',
+          'border transition-colors',
+          isDragging && 'border-primary-600 bg-surface text-primary-600',
+          hasError &&
+            !isDragging &&
+            'border-danger-200 bg-surface text-danger-600',
+          !isDragging && !hasError && 'border-border bg-surface text-muted'
+        )}
+      >
+        <IconComponent
+          icon={dropIcon}
+          className={isCompact ? 'h-5 w-5' : 'h-7 w-7'}
+        />
+      </div>
+      <div className="text-center">
+        <p
+          className={clsx(
+            'font-semibold',
+            isCompact ? 'text-xs' : 'text-sm',
+            hasError ? 'text-danger-600' : 'text-foreground'
+          )}
+        >
+          {isDragging ? dragLabel : uploadLabel}
         </p>
-      )}
-      {displayError && (
-        <p className="mt-1.5 text-xs font-medium text-danger-600">{displayError}</p>
-      )}
-    </div>
-  </>
+        {!isDragging && (
+          <p
+            className={clsx(
+              'text-secondary mt-0.5',
+              isCompact ? 'text-xs' : 'mt-1 text-sm'
+            )}
+          >
+            {dragOrLabel}{' '}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                openPicker()
+              }}
+              className="text-primary-600 hover:text-primary-700 font-medium underline underline-offset-2"
+            >
+              {browseLabel}
+            </button>
+          </p>
+        )}
+        {displayError && (
+          <p className="text-danger-600 mt-1.5 text-xs font-medium">
+            {displayError}
+          </p>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -162,7 +188,13 @@ interface DropzoneClassNameArgs {
 
 // Extracted to keep the component's own cognitive complexity under the
 // sonar limit — this is pure class computation, no behavior.
-function dropzoneClassName({ isCompact, isDragging, hasError, disabled, isInteractive }: DropzoneClassNameArgs) {
+function dropzoneClassName({
+  isCompact,
+  isDragging,
+  hasError,
+  disabled,
+  isInteractive,
+}: DropzoneClassNameArgs) {
   return clsx(
     // Layout
     'relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl',
@@ -177,7 +209,7 @@ function dropzoneClassName({ isCompact, isDragging, hasError, disabled, isIntera
     !isDragging && !hasError && 'border-border-hover bg-surface',
     disabled && 'cursor-not-allowed opacity-50',
     isInteractive && !hasError && 'cursor-pointer hover:border-primary-600',
-    isInteractive && hasError && 'cursor-pointer hover:border-danger-600',
+    isInteractive && hasError && 'cursor-pointer hover:border-danger-600'
   )
 }
 
@@ -185,7 +217,12 @@ function dropzoneClassName({ isCompact, isDragging, hasError, disabled, isIntera
 // semantics — extracted so the component itself doesn't carry these branches.
 function dropzoneInteractionProps(isInteractive: boolean, onOpen: () => void) {
   if (!isInteractive) return {}
-  return { onClick: onOpen, role: 'button' as const, tabIndex: 0, onKeyDown: makeKeyHandler(onOpen) }
+  return {
+    onClick: onOpen,
+    role: 'button' as const,
+    tabIndex: 0,
+    onKeyDown: makeKeyHandler(onOpen),
+  }
 }
 
 // ─── Public component ─────────────────────────────────────────────────────────
@@ -230,7 +267,11 @@ export const CoverPicker = ({
   const isInteractive = !preview && !disabled
   const dragHandlers = disabled
     ? {}
-    : { onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop }
+    : {
+        onDragOver: handleDragOver,
+        onDragLeave: handleDragLeave,
+        onDrop: handleDrop,
+      }
 
   const displayError = error || errorMessage
   const hasError = !!displayError && !preview
@@ -240,7 +281,13 @@ export const CoverPicker = ({
       <div
         {...dragHandlers}
         {...dropzoneInteractionProps(isInteractive, openMain)}
-        className={dropzoneClassName({ isCompact, isDragging, hasError, disabled, isInteractive })}
+        className={dropzoneClassName({
+          isCompact,
+          isDragging,
+          hasError,
+          disabled,
+          isInteractive,
+        })}
         aria-label={uploadLabel}
       >
         {preview ? (
@@ -279,7 +326,7 @@ export const CoverPicker = ({
       />
 
       {formatsHint && !displayError && (
-        <p className="text-xs text-muted">{formatsHint}</p>
+        <p className="text-muted text-xs">{formatsHint}</p>
       )}
 
       {onSelectLibrary && libraryTexts && (

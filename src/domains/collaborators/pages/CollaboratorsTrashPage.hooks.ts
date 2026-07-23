@@ -9,7 +9,10 @@ import {
   useBulkPurgeCollaborators,
 } from '../api/collaborators.queries'
 import { useCollaboratorsTranslation } from '../i18n'
-import type { Collaborator, CollaboratorPaginationMeta } from '../model/collaborator.types'
+import type {
+  Collaborator,
+  CollaboratorPaginationMeta,
+} from '../model/collaborator.types'
 
 export function useCollaboratorsTrashPage() {
   const { t, language } = useCollaboratorsTranslation()

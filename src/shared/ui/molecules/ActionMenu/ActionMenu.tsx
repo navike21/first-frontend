@@ -16,7 +16,11 @@ const ITEM_HEIGHT = 36
 const MENU_PADDING = 8
 const MENU_GAP = 4
 
-export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) => {
+export const ActionMenu = ({
+  items,
+  triggerLabel,
+  disabled,
+}: ActionMenuProps) => {
   const triggerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<MenuPosition | null>(null)
@@ -31,7 +35,8 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
     const rect = triggerRef.current?.getBoundingClientRect()
     if (!rect) return
     const estimatedHeight = items.length * ITEM_HEIGHT + MENU_PADDING
-    const openAbove = rect.bottom + MENU_GAP + estimatedHeight > window.innerHeight
+    const openAbove =
+      rect.bottom + MENU_GAP + estimatedHeight > window.innerHeight
     setPosition({
       right: window.innerWidth - rect.right,
       openAbove,
@@ -46,7 +51,11 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
 
     const handlePointerDown = (e: MouseEvent) => {
       const target = e.target as Node
-      if (menuRef.current?.contains(target) || triggerRef.current?.contains(target)) return
+      if (
+        menuRef.current?.contains(target) ||
+        triggerRef.current?.contains(target)
+      )
+        return
       close()
     }
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -82,16 +91,22 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
           <motion.div
             ref={menuRef}
             role="menu"
-            initial={{ opacity: 0, scaleY: 0.95, y: position.openAbove ? 4 : -4 }}
+            initial={{
+              opacity: 0,
+              scaleY: 0.95,
+              y: position.openAbove ? 4 : -4,
+            }}
             animate={{ opacity: 1, scaleY: 1, y: 0 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             style={{
               transformOrigin: position.openAbove ? 'bottom' : 'top',
               position: 'fixed',
               right: position.right,
-              ...(position.openAbove ? { bottom: position.bottom } : { top: position.top }),
+              ...(position.openAbove
+                ? { bottom: position.bottom }
+                : { top: position.top }),
             }}
-            className="z-[9999] min-w-48 overflow-hidden rounded-xl bg-surface-panel py-1 shadow-menu-panel ring-1 ring-border-control"
+            className="bg-surface-panel shadow-menu-panel ring-border-control z-[9999] min-w-48 overflow-hidden rounded-xl py-1 ring-1"
           >
             {items.map((item) => (
               <button
@@ -107,8 +122,8 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
                   'text-left text-sm',
                   'transition-colors',
                   item.danger
-                    ? 'mt-1 border-t border-border-control text-danger-600 hover:bg-surface-hover-row'
-                    : 'text-foreground hover:bg-surface-hover-row',
+                    ? 'border-border-control text-danger-600 hover:bg-surface-hover-row mt-1 border-t'
+                    : 'text-foreground hover:bg-surface-hover-row'
                 )}
               >
                 <IconComponent icon={item.icon} className="h-4 w-4 shrink-0" />
@@ -116,7 +131,7 @@ export const ActionMenu = ({ items, triggerLabel, disabled }: ActionMenuProps) =
               </button>
             ))}
           </motion.div>,
-          document.body,
+          document.body
         )}
     </div>
   )

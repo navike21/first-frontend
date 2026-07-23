@@ -67,7 +67,7 @@ export const EditUserForm = (
               libraryTexts={t.mediaLibrary}
             />
             {!props.isProfile && (
-              <div className="w-full border-t border-border pt-4">
+              <div className="border-border w-full border-t pt-4">
                 <Switch
                   label={t.form.statusLabel}
                   helperText={t.form.statusDescription}
@@ -97,163 +97,165 @@ export const EditUserForm = (
               cancelLabel={t.form.cancelButton}
               optionalLabel={t.form.optional}
             >
+              {/* ── Personal details ─────────────────────────────────────────── */}
+              <div
+                hidden={activeTab !== 'personal'}
+                className="animate-tab-fade flex flex-col gap-y-6"
+              >
+                <FormGrid>
+                  <InputField
+                    label={t.form.firstName}
+                    autoComplete="given-name"
+                    variant={errors.firstName ? 'error' : undefined}
+                    errorMessage={errors.firstName?.message}
+                    {...register('firstName')}
+                  />
+                  <InputField
+                    label={t.form.lastName}
+                    autoComplete="family-name"
+                    variant={errors.lastName ? 'error' : undefined}
+                    errorMessage={errors.lastName?.message}
+                    {...register('lastName')}
+                  />
+                </FormGrid>
+                {/* Email is immutable on edit (read-only). */}
+                <InputField
+                  label={t.form.email}
+                  type="email"
+                  disabled
+                  defaultValue={props.defaultValues.email ?? ''}
+                />
+                <FormGrid>
+                  <Select
+                    label={t.form.gender}
+                    options={genderOptions}
+                    value={genderValue ?? ''}
+                    onChange={(e) => onGenderChange(e.target.value)}
+                    placeholder={t.form.genderPlaceholder}
+                    variant={errors.gender ? 'error' : 'default'}
+                    errorMessage={errors.gender?.message}
+                  />
+                  <InputDate
+                    label={t.form.dateOfBirth}
+                    mode="date"
+                    autoComplete="bday"
+                    variant={errors.dateOfBirth ? 'error' : 'default'}
+                    errorMessage={errors.dateOfBirth?.message}
+                    defaultValue={
+                      props.defaultValues.dateOfBirth?.slice(0, 10) ?? ''
+                    }
+                    {...register('dateOfBirth')}
+                  />
+                  <InputNumber
+                    label={t.form.phone}
+                    mask="+## ### ### ###"
+                    autoComplete="tel"
+                    variant={errors.phone ? 'error' : undefined}
+                    errorMessage={errors.phone?.message}
+                    {...register('phone')}
+                  />
+                </FormGrid>
 
-            {/* ── Personal details ─────────────────────────────────────────── */}
-            <div
-              hidden={activeTab !== 'personal'}
-              className="animate-tab-fade flex flex-col gap-y-6"
-            >
-              <FormGrid>
-                <InputField
-                  label={t.form.firstName}
-                  autoComplete="given-name"
-                  variant={errors.firstName ? 'error' : undefined}
-                  errorMessage={errors.firstName?.message}
-                  {...register('firstName')}
+                <p className="text-secondary text-sm font-medium">
+                  {t.form.addressSection}
+                </p>
+                <LocationSelect
+                  value={{
+                    countryCode: addressCountry,
+                    ubigeoCode: addressUbigeoCode,
+                    region: addressRegion,
+                    province: addressProvince,
+                    district: addressDistrict,
+                  }}
+                  onChange={onAddressChange}
+                  countryLabel={t.form.addressCountry}
+                  regionLabel={t.form.addressRegion}
+                  cityLabel={t.form.addressProvince}
+                  lang={language}
                 />
-                <InputField
-                  label={t.form.lastName}
-                  autoComplete="family-name"
-                  variant={errors.lastName ? 'error' : undefined}
-                  errorMessage={errors.lastName?.message}
-                  {...register('lastName')}
-                />
-              </FormGrid>
-              {/* Email is immutable on edit (read-only). */}
-              <InputField
-                label={t.form.email}
-                type="email"
-                disabled
-                defaultValue={props.defaultValues.email ?? ''}
-              />
-              <FormGrid>
-                <Select
-                  label={t.form.gender}
-                  options={genderOptions}
-                  value={genderValue ?? ''}
-                  onChange={(e) => onGenderChange(e.target.value)}
-                  placeholder={t.form.genderPlaceholder}
-                  variant={errors.gender ? 'error' : 'default'}
-                  errorMessage={errors.gender?.message}
-                />
-                <InputDate
-                  label={t.form.dateOfBirth}
-                  mode="date"
-                  autoComplete="bday"
-                  variant={errors.dateOfBirth ? 'error' : 'default'}
-                  errorMessage={errors.dateOfBirth?.message}
-                  defaultValue={
-                    props.defaultValues.dateOfBirth?.slice(0, 10) ?? ''
-                  }
-                  {...register('dateOfBirth')}
-                />
-                <InputNumber
-                  label={t.form.phone}
-                  mask="+## ### ### ###"
-                  autoComplete="tel"
-                  variant={errors.phone ? 'error' : undefined}
-                  errorMessage={errors.phone?.message}
-                  {...register('phone')}
-                />
-              </FormGrid>
+                <FormGrid>
+                  <InputField
+                    label={t.form.address}
+                    autoComplete="address-line1"
+                    variant={errors.address?.address ? 'error' : undefined}
+                    errorMessage={errors.address?.address?.message}
+                    {...register('address.address')}
+                  />
+                  <InputField
+                    label={t.form.addressNumber}
+                    autoComplete="off"
+                    variant={
+                      errors.address?.addressNumber ? 'error' : undefined
+                    }
+                    errorMessage={errors.address?.addressNumber?.message}
+                    {...register('address.addressNumber')}
+                  />
+                  <InputField
+                    label={t.form.addressInterior}
+                    // WHATWG's address-line2 is exactly "apartment, suite, unit,
+                    // building, floor" — without an explicit token here, this
+                    // field had no autofill hint at all, and a browser's address
+                    // autofill profile (name+address+email bundled together)
+                    // filled it with a saved EMAIL instead of an address line.
+                    // Confirmed live: a user created via this form ended up with
+                    // address.addressInterior === the logged-in admin's email.
+                    autoComplete="address-line2"
+                    variant={
+                      errors.address?.addressInterior ? 'error' : undefined
+                    }
+                    errorMessage={errors.address?.addressInterior?.message}
+                    {...register('address.addressInterior')}
+                  />
+                </FormGrid>
+              </div>
 
-              <p className="text-sm font-medium text-secondary">
-                {t.form.addressSection}
-              </p>
-              <LocationSelect
-                value={{
-                  countryCode: addressCountry,
-                  ubigeoCode: addressUbigeoCode,
-                  region: addressRegion,
-                  province: addressProvince,
-                  district: addressDistrict,
-                }}
-                onChange={onAddressChange}
-                countryLabel={t.form.addressCountry}
-                regionLabel={t.form.addressRegion}
-                cityLabel={t.form.addressProvince}
-                lang={language}
-              />
-              <FormGrid>
-                <InputField
-                  label={t.form.address}
-                  autoComplete="address-line1"
-                  variant={errors.address?.address ? 'error' : undefined}
-                  errorMessage={errors.address?.address?.message}
-                  {...register('address.address')}
-                />
-                <InputField
-                  label={t.form.addressNumber}
-                  autoComplete="off"
-                  variant={errors.address?.addressNumber ? 'error' : undefined}
-                  errorMessage={errors.address?.addressNumber?.message}
-                  {...register('address.addressNumber')}
-                />
-                <InputField
-                  label={t.form.addressInterior}
-                  // WHATWG's address-line2 is exactly "apartment, suite, unit,
-                  // building, floor" — without an explicit token here, this
-                  // field had no autofill hint at all, and a browser's address
-                  // autofill profile (name+address+email bundled together)
-                  // filled it with a saved EMAIL instead of an address line.
-                  // Confirmed live: a user created via this form ended up with
-                  // address.addressInterior === the logged-in admin's email.
-                  autoComplete="address-line2"
-                  variant={errors.address?.addressInterior ? 'error' : undefined}
-                  errorMessage={errors.address?.addressInterior?.message}
-                  {...register('address.addressInterior')}
-                />
-              </FormGrid>
-            </div>
-
-            {/* ── Account & access ─────────────────────────────────────────── */}
-            <div
-              hidden={activeTab !== 'account'}
-              className="animate-tab-fade flex flex-col gap-y-6"
-            >
-              <p className="text-sm font-medium text-secondary">
-                {t.form.authSection}
-              </p>
-              <FormGrid>
-                <InputField
-                  label={t.form.newPassword}
-                  type="password"
-                  autoComplete="new-password"
-                  helperText={t.form.passwordKeepHint}
-                  variant={errors.password ? 'error' : undefined}
-                  errorMessage={errors.password?.message}
-                  {...register('password')}
-                />
-                <InputField
-                  label={t.form.confirmPassword}
-                  type="password"
-                  autoComplete="new-password"
-                  variant={errors.confirmPassword ? 'error' : undefined}
-                  errorMessage={errors.confirmPassword?.message}
-                  {...register('confirmPassword')}
-                />
-              </FormGrid>
-              {!props.isProfile && (
-                <Select
-                  label={t.form.groupId}
-                  options={groupOptions}
-                  multiple
-                  search
-                  disabled={groupOptions.length === 0}
-                  value={groupIdsValue ?? []}
-                  onChange={(e) =>
-                    onGroupsChange(
-                      Array.from(e.target.selectedOptions, (o) => o.value)
-                    )
-                  }
-                  placeholder={t.form.groupIdPlaceholder}
-                  helperText={
-                    groupOptions.length === 0 ? t.form.groupsEmpty : undefined
-                  }
-                />
-              )}
-            </div>
-
+              {/* ── Account & access ─────────────────────────────────────────── */}
+              <div
+                hidden={activeTab !== 'account'}
+                className="animate-tab-fade flex flex-col gap-y-6"
+              >
+                <p className="text-secondary text-sm font-medium">
+                  {t.form.authSection}
+                </p>
+                <FormGrid>
+                  <InputField
+                    label={t.form.newPassword}
+                    type="password"
+                    autoComplete="new-password"
+                    helperText={t.form.passwordKeepHint}
+                    variant={errors.password ? 'error' : undefined}
+                    errorMessage={errors.password?.message}
+                    {...register('password')}
+                  />
+                  <InputField
+                    label={t.form.confirmPassword}
+                    type="password"
+                    autoComplete="new-password"
+                    variant={errors.confirmPassword ? 'error' : undefined}
+                    errorMessage={errors.confirmPassword?.message}
+                    {...register('confirmPassword')}
+                  />
+                </FormGrid>
+                {!props.isProfile && (
+                  <Select
+                    label={t.form.groupId}
+                    options={groupOptions}
+                    multiple
+                    search
+                    disabled={groupOptions.length === 0}
+                    value={groupIdsValue ?? []}
+                    onChange={(e) =>
+                      onGroupsChange(
+                        Array.from(e.target.selectedOptions, (o) => o.value)
+                      )
+                    }
+                    placeholder={t.form.groupIdPlaceholder}
+                    helperText={
+                      groupOptions.length === 0 ? t.form.groupsEmpty : undefined
+                    }
+                  />
+                )}
+              </div>
             </Wizard>
           </>
         }

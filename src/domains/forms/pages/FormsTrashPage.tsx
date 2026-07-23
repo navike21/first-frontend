@@ -1,7 +1,8 @@
 import {
   PageContent,
   DataTable,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -49,13 +50,18 @@ export const FormsTrashPage = () => {
     {
       id: 'title',
       header: t.table.colTitle,
-      cell: (form) => <span className="font-medium text-foreground">{formTitle(form)}</span>,
+      cell: (form) => (
+        <span className="text-foreground font-medium">{formTitle(form)}</span>
+      ),
     },
     {
       id: 'status',
       header: t.table.colStatus,
       cell: (form) => (
-        <Chip size="small" variant={form.status === 'active' ? 'success' : 'default'}>
+        <Chip
+          size="small"
+          variant={form.status === 'active' ? 'success' : 'default'}
+        >
           {t.status[form.status]}
         </Chip>
       ),
@@ -115,8 +121,8 @@ export const FormsTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -124,12 +130,20 @@ export const FormsTrashPage = () => {
                 {t.actions.clearSelection}
               </Button>
               <Can anyOf={CAN.formsUpdate}>
-                <Button variant="primary" size="small" onClick={() => setBulkAction('restore')}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkAction('restore')}
+                >
                   {t.actions.bulkRestore}
                 </Button>
               </Can>
               <Can anyOf={CAN.formsPurge}>
-                <Button variant="destructive" size="small" onClick={() => setBulkAction('purge')}>
+                <Button
+                  variant="destructive"
+                  size="small"
+                  onClick={() => setBulkAction('purge')}
+                >
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
@@ -165,13 +179,25 @@ export const FormsTrashPage = () => {
         onClose={() => setRestoring(null)}
         size="sm"
         title={t.actions.restoreTitle}
-        description={restoring ? t.actions.restoreDescription(formTitle(restoring)) : undefined}
+        description={
+          restoring
+            ? t.actions.restoreDescription(formTitle(restoring))
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setRestoring(null)} disabled={restore.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setRestoring(null)}
+              disabled={restore.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={restore.isPending} onClick={handleConfirmRestore}>
+            <Button
+              variant="primary"
+              loading={restore.isPending}
+              onClick={handleConfirmRestore}
+            >
               {t.actions.confirmRestore}
             </Button>
           </>
@@ -183,13 +209,23 @@ export const FormsTrashPage = () => {
         onClose={() => setPurging(null)}
         size="sm"
         title={t.actions.purgeTitle}
-        description={purging ? t.actions.purgeDescription(formTitle(purging)) : undefined}
+        description={
+          purging ? t.actions.purgeDescription(formTitle(purging)) : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setPurging(null)} disabled={purge.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setPurging(null)}
+              disabled={purge.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="destructive" loading={purge.isPending} onClick={handleConfirmPurge}>
+            <Button
+              variant="destructive"
+              loading={purge.isPending}
+              onClick={handleConfirmPurge}
+            >
               {t.actions.confirmPurge}
             </Button>
           </>
@@ -200,7 +236,11 @@ export const FormsTrashPage = () => {
         isOpen={!!bulkAction}
         onClose={() => setBulkAction(null)}
         size="sm"
-        title={bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle}
+        title={
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
+        }
         description={
           bulkAction === 'restore'
             ? t.actions.bulkRestoreDescription(selectedIds.length)
@@ -220,7 +260,9 @@ export const FormsTrashPage = () => {
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >
-              {bulkAction === 'restore' ? t.actions.confirmRestore : t.actions.confirmPurge}
+              {bulkAction === 'restore'
+                ? t.actions.confirmRestore
+                : t.actions.confirmPurge}
             </Button>
           </>
         }

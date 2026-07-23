@@ -6,7 +6,8 @@ import type { CreateServicePayload } from '../model/service.schema'
 export const serviceKeys = {
   all: ['services'] as const,
   lists: () => [...serviceKeys.all, 'list'] as const,
-  list: (params: ServiceListParams) => [...serviceKeys.lists(), params] as const,
+  list: (params: ServiceListParams) =>
+    [...serviceKeys.lists(), params] as const,
   details: () => [...serviceKeys.all, 'detail'] as const,
   detail: (slug: string) => [...serviceKeys.details(), slug] as const,
   trash: () => [...serviceKeys.all, 'trash'] as const,
@@ -57,8 +58,20 @@ export interface UpdateServiceVars {
 export const useCreateService = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, iconFile, coverLibraryUrl, iconLibraryUrl }: CreateServiceVars) =>
-      servicesApi.create(data, cover, iconFile, coverLibraryUrl, iconLibraryUrl),
+    mutationFn: ({
+      data,
+      cover,
+      iconFile,
+      coverLibraryUrl,
+      iconLibraryUrl,
+    }: CreateServiceVars) =>
+      servicesApi.create(
+        data,
+        cover,
+        iconFile,
+        coverLibraryUrl,
+        iconLibraryUrl
+      ),
     onSuccess: () => qc.invalidateQueries({ queryKey: serviceKeys.lists() }),
   })
 }
@@ -66,8 +79,25 @@ export const useCreateService = () => {
 export const useUpdateService = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, iconFile, removeCover, removeIcon, coverLibraryUrl, iconLibraryUrl }: UpdateServiceVars) =>
-      servicesApi.update(id, data, cover, iconFile, removeCover, removeIcon, coverLibraryUrl, iconLibraryUrl),
+    mutationFn: ({
+      data,
+      cover,
+      iconFile,
+      removeCover,
+      removeIcon,
+      coverLibraryUrl,
+      iconLibraryUrl,
+    }: UpdateServiceVars) =>
+      servicesApi.update(
+        id,
+        data,
+        cover,
+        iconFile,
+        removeCover,
+        removeIcon,
+        coverLibraryUrl,
+        iconLibraryUrl
+      ),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: serviceKeys.lists() })
       qc.invalidateQueries({ queryKey: serviceKeys.details() })
@@ -86,7 +116,9 @@ export const useSoftDeleteService = () => {
   })
 }
 
-export const useServicesTrash = (params: { page?: number; limit?: number } = {}) =>
+export const useServicesTrash = (
+  params: { page?: number; limit?: number } = {}
+) =>
   useQuery({
     queryKey: serviceKeys.trashList(params),
     queryFn: () => servicesApi.trash(params),

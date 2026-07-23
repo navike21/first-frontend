@@ -9,13 +9,23 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+  arrayMove,
+  useSortable,
+} from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Button, InputField, Modal, SortableItemActions } from '@/shared/ui'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type { BuilderStatItem, BuilderStatsElement, PageLocalizedString } from '../../model/page.types'
+import type {
+  BuilderStatItem,
+  BuilderStatsElement,
+  PageLocalizedString,
+} from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
 
@@ -29,7 +39,9 @@ export interface StatsElementCardProps {
 }
 
 const emptyLocalized = (): PageLocalizedString =>
-  Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as PageLocalizedString
+  Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, ''])
+  ) as PageLocalizedString
 
 const isLangComplete = (items: BuilderStatItem[], lang: Language): boolean =>
   items.length > 0 && items.every((i) => !!i.label[lang]?.trim())
@@ -55,15 +67,22 @@ const StatItemRow = ({
   onChange,
   onRemove,
 }: StatItemRowProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id })
 
   return (
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={clsx(
-        'flex flex-col gap-2 rounded-lg border border-border bg-surface-subtle p-3',
-        isDragging && 'opacity-50',
+        'border-border bg-surface-subtle flex flex-col gap-2 rounded-lg border p-3',
+        isDragging && 'opacity-50'
       )}
     >
       <SortableItemActions
@@ -73,11 +92,17 @@ const StatItemRow = ({
         listeners={listeners}
         onRemove={onRemove}
       />
-      <InputField label={valueLabel} value={item.value} onChange={(e) => onChange({ value: e.target.value })} />
+      <InputField
+        label={valueLabel}
+        value={item.value}
+        onChange={(e) => onChange({ value: e.target.value })}
+      />
       <InputField
         label={labelLabel}
         value={item.label[editing] ?? ''}
-        onChange={(e) => onChange({ label: { ...item.label, [editing]: e.target.value } })}
+        onChange={(e) =>
+          onChange({ label: { ...item.label, [editing]: e.target.value } })
+        }
       />
     </div>
   )
@@ -97,20 +122,30 @@ export const StatsElementCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
   const langChipValues = Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, isLangComplete(element.items, l) ? '1' : '']),
+    SUPPORTED_LANGUAGES.map((l) => [
+      l,
+      isLangComplete(element.items, l) ? '1' : '',
+    ])
   ) as PageLocalizedString
 
   const addItem = () => {
-    const item: BuilderStatItem = { id: crypto.randomUUID(), value: '', label: emptyLocalized() }
+    const item: BuilderStatItem = {
+      id: crypto.randomUUID(),
+      value: '',
+      label: emptyLocalized(),
+    }
     onChange({ items: [...element.items, item] })
   }
-  const removeItem = (id: string) => onChange({ items: element.items.filter((i) => i.id !== id) })
+  const removeItem = (id: string) =>
+    onChange({ items: element.items.filter((i) => i.id !== id) })
   const updateItem = (id: string, patch: Partial<BuilderStatItem>) =>
-    onChange({ items: element.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })
+    onChange({
+      items: element.items.map((i) => (i.id === id ? { ...i, ...patch } : i)),
+    })
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -138,14 +173,15 @@ export const StatsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full cursor-pointer flex-wrap gap-2 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
+          className="hover:bg-surface-subtle flex w-full cursor-pointer flex-wrap gap-2 rounded-md p-1 text-left transition-colors"
         >
           {element.items.map((item) => (
             <span
               key={item.id}
-              className="rounded-md bg-surface-subtle px-2 py-1 text-xs text-foreground ring-1 ring-border"
+              className="bg-surface-subtle text-foreground ring-border rounded-md px-2 py-1 text-xs ring-1"
             >
-              <strong>{item.value || '—'}</strong> {item.label[language] || item.label.en}
+              <strong>{item.value || '—'}</strong>{' '}
+              {item.label[language] || item.label.en}
             </span>
           ))}
         </button>
@@ -153,7 +189,7 @@ export const StatsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed text-xs transition-colors"
         >
           {t.builder.statsEmpty}
         </button>
@@ -171,11 +207,23 @@ export const StatsElementCard = ({
         }
       >
         <div className="flex flex-col gap-4">
-          <LangChips editing={editing} userLanguage={language} values={langChipValues} onChange={setEditing} />
+          <LangChips
+            editing={editing}
+            userLanguage={language}
+            values={langChipValues}
+            onChange={setEditing}
+          />
 
           {element.items.length > 0 && (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={element.items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={element.items.map((i) => i.id)}
+                strategy={verticalListSortingStrategy}
+              >
                 <div className="flex flex-col gap-3">
                   {element.items.map((item) => (
                     <StatItemRow

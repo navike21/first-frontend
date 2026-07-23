@@ -69,7 +69,9 @@ export const Button = ({
         // manual (bg #E3E8F0 / texto #9AA4B5, sin borde) — no es un fade de
         // opacidad sobre el color del variant. `text` queda fuera (no es
         // uno de los 4 botones del Design System).
-        disabled && variant !== 'text' && 'cursor-not-allowed bg-border-control text-muted',
+        disabled &&
+          variant !== 'text' &&
+          'bg-border-control text-muted cursor-not-allowed',
         disabled && variant === 'text' && 'cursor-not-allowed opacity-50',
         !disabled && [
           variantColorClasses[variant],
@@ -79,7 +81,7 @@ export const Button = ({
           loading && 'opacity-85',
         ],
         {
-          'before:duration-fast before:ease-out-expo before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-muted before:opacity-0 before:transition-all before:content-[""]':
+          'before:duration-fast before:ease-out-expo before:bg-muted before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:opacity-0 before:transition-all before:content-[""]':
             variant === 'text',
           'hover:before:w-full hover:before:opacity-100':
             variant === 'text' && !loading,

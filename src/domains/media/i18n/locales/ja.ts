@@ -5,7 +5,8 @@ export const ja: MediaTranslations = {
     listTitle: 'メディア',
     listDescription: 'サイトにアップロードされた画像や動画を管理します',
     trashTitle: 'メディアのごみ箱',
-    trashDescription: 'ごみ箱に移動したファイルです。復元するか完全に削除できます。',
+    trashDescription:
+      'ごみ箱に移動したファイルです。復元するか完全に削除できます。',
     trashEmpty: 'ごみ箱にファイルはありません',
     trashEmptyDescription: '削除されたファイルはここに表示されます。',
   },
@@ -36,17 +37,23 @@ export const ja: MediaTranslations = {
     bulkPurge: '完全に削除',
     viewItem: '詳細を見る',
     deleteTitle: 'ファイルを削除',
-    deleteDescription: (name) => `${name}を削除しますか？ごみ箱から復元できます。`,
+    deleteDescription: (name) =>
+      `${name}を削除しますか？ごみ箱から復元できます。`,
     confirmDelete: '削除',
-    bulkDeleteDescription: (count) => `${count}件のファイルを削除しますか？ごみ箱から復元できます。`,
+    bulkDeleteDescription: (count) =>
+      `${count}件のファイルを削除しますか？ごみ箱から復元できます。`,
     restoreTitle: 'ファイルを復元',
-    restoreDescription: (name) => `${name}をアクティブなライブラリに復元しますか？`,
+    restoreDescription: (name) =>
+      `${name}をアクティブなライブラリに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count}件のファイルをアクティブなライブラリに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count}件のファイルをアクティブなライブラリに復元しますか？`,
     purgeTitle: '完全に削除',
-    purgeDescription: (name) => `${name}は完全に削除されます。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name}は完全に削除されます。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count}件のファイルが完全に削除されます。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count}件のファイルが完全に削除されます。この操作は元に戻せません。`,
   },
   upload: {
     title: 'ファイルをアップロード',
@@ -67,7 +74,8 @@ export const ja: MediaTranslations = {
     tabUsage: '使用箇所',
     usageLoading: '使用箇所を検索中…',
     usageEmpty: 'サイト内の他の場所では見つかりませんでした',
-    usageEditorNote: 'リッチテキストのコンテンツ内で使われている場合は自動検出されないことがあります。',
+    usageEditorNote:
+      'リッチテキストのコンテンツ内で使われている場合は自動検出されないことがあります。',
     moduleClients: 'クライアント',
     moduleUsers: 'ユーザー',
     moduleCollaborators: 'コラボレーター',

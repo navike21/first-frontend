@@ -43,7 +43,8 @@ export function useCreateUserForm({
     () => createCreateUserFormSchema(t.validation),
     [t.validation]
   )
-  const { pendingFile, libraryUrl, onPickFile, onSelectLibrary } = usePhotoUpload()
+  const { pendingFile, libraryUrl, onPickFile, onSelectLibrary } =
+    usePhotoUpload()
   const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
   const [maxStep, setMaxStep] = useState(0)
 

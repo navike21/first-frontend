@@ -58,13 +58,21 @@ const normalize = (text: string): string =>
 const contains = (haystack: string, needle: string): boolean =>
   !!haystack && !!needle && normalize(haystack).includes(normalize(needle))
 
-function lengthStatus(length: number, min: number, max: number): SeoCheckStatus {
+function lengthStatus(
+  length: number,
+  min: number,
+  max: number
+): SeoCheckStatus {
   if (length === 0) return 'bad'
   if (length >= min && length <= max) return 'good'
   return 'warning'
 }
 
-export function buildLengthMetric(length: number, min: number, max: number): SeoLengthMetric {
+export function buildLengthMetric(
+  length: number,
+  min: number,
+  max: number
+): SeoLengthMetric {
   return { length, min, max, status: lengthStatus(length, min, max) }
 }
 
@@ -74,7 +82,11 @@ function lightFor(score: number): SeoLight {
   return 'red'
 }
 
-const STATUS_POINTS: Record<SeoCheckStatus, number> = { good: 1, warning: 0.5, bad: 0 }
+const STATUS_POINTS: Record<SeoCheckStatus, number> = {
+  good: 1,
+  warning: 0.5,
+  bad: 0,
+}
 
 interface SeoFields {
   title: string
@@ -109,8 +121,16 @@ function extractFields(page: Page, lang: Language): SeoFields {
     effectiveDescription,
     // `||` (no `??`): un ogImage guardado como '' debe caer a la portada.
     socialImageUrl: page.seo?.ogImage || page.coverImageUrl || '',
-    metaTitle: buildLengthMetric(effectiveTitle.length, META_TITLE_MIN, META_TITLE_MAX),
-    metaDescription: buildLengthMetric(effectiveDescription.length, META_DESCRIPTION_MIN, META_DESCRIPTION_MAX),
+    metaTitle: buildLengthMetric(
+      effectiveTitle.length,
+      META_TITLE_MIN,
+      META_TITLE_MAX
+    ),
+    metaDescription: buildLengthMetric(
+      effectiveDescription.length,
+      META_DESCRIPTION_MIN,
+      META_DESCRIPTION_MAX
+    ),
   }
 }
 
@@ -126,15 +146,24 @@ function buildChecks(fields: SeoFields): SeoCheck[] {
 
   if (fields.focusKeyword) {
     checks.push(
-      { id: 'keywordInTitle', status: contains(fields.effectiveTitle, fields.focusKeyword) ? 'good' : 'bad' },
+      {
+        id: 'keywordInTitle',
+        status: contains(fields.effectiveTitle, fields.focusKeyword)
+          ? 'good'
+          : 'bad',
+      },
       {
         id: 'keywordInDescription',
-        status: contains(fields.effectiveDescription, fields.focusKeyword) ? 'good' : 'warning',
+        status: contains(fields.effectiveDescription, fields.focusKeyword)
+          ? 'good'
+          : 'warning',
       },
       {
         id: 'keywordInSlug',
-        status: contains(fields.slug.replace(/-/g, ' '), fields.focusKeyword) ? 'good' : 'warning',
-      },
+        status: contains(fields.slug.replace(/-/g, ' '), fields.focusKeyword)
+          ? 'good'
+          : 'warning',
+      }
     )
   }
 
@@ -145,7 +174,10 @@ export function analyzePageSeo(page: Page, lang: Language): SeoAnalysis {
   const fields = extractFields(page, lang)
   const checks = buildChecks(fields)
 
-  const points = checks.reduce((sum, check) => sum + STATUS_POINTS[check.status], 0)
+  const points = checks.reduce(
+    (sum, check) => sum + STATUS_POINTS[check.status],
+    0
+  )
   const score = Math.round((points / checks.length) * 100)
 
   return {

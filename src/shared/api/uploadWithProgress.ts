@@ -1,5 +1,10 @@
 import { useSessionStore } from '@/shared/model'
-import { HttpError, getCurrentLanguage, parseErrorJson, type ApiErrorDetails } from './api.services'
+import {
+  HttpError,
+  getCurrentLanguage,
+  parseErrorJson,
+  type ApiErrorDetails,
+} from './api.services'
 
 export interface UploadProgress {
   loaded: number
@@ -34,7 +39,8 @@ export function uploadWithProgress<TResponse>({
   onProgress,
 }: UploadWithProgressConfig): Promise<TResponse> {
   return new Promise((resolve, reject) => {
-    const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
+    const baseUrl =
+      (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
     const token = useSessionStore.getState().token
     const lang = getCurrentLanguage()
 
@@ -67,9 +73,20 @@ export function uploadWithProgress<TResponse>({
       }
 
       const errPayload = parseErrorJson(
-        (parsedBody ?? {}) as { message?: string; error?: { code?: string; details?: ApiErrorDetails } }
+        (parsedBody ?? {}) as {
+          message?: string
+          error?: { code?: string; details?: ApiErrorDetails }
+        }
       )
-      reject(new HttpError(xhr.status, xhr.statusText, errPayload.message, errPayload.code, errPayload.details))
+      reject(
+        new HttpError(
+          xhr.status,
+          xhr.statusText,
+          errPayload.message,
+          errPayload.code,
+          errPayload.details
+        )
+      )
     }
 
     xhr.onerror = () => reject(new Error('Network error'))

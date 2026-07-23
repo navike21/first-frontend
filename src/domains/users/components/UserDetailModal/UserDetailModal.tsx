@@ -1,4 +1,12 @@
-import { Modal, Button, Avatar, Chip, CountryLabel, DetailField, SectionLabel } from '@/shared/ui'
+import {
+  Modal,
+  Button,
+  Avatar,
+  Chip,
+  CountryLabel,
+  DetailField,
+  SectionLabel,
+} from '@/shared/ui'
 import { formatDate } from '@/shared/lib'
 import { useConfigData, labelFor } from '@/shared/api/config'
 import { useUsersTranslation } from '../../i18n'
@@ -62,10 +70,10 @@ export const UserDetailModal = ({
               size="md"
             />
             <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">
+              <span className="text-foreground text-base font-bold">
                 {user.firstName} {user.lastName}
               </span>
-              <span className="text-sm text-secondary">{user.email}</span>
+              <span className="text-secondary text-sm">{user.email}</span>
               <div className="flex items-center gap-2">
                 <UserStatusBadge status={user.status} />
                 <Chip
@@ -86,7 +94,10 @@ export const UserDetailModal = ({
               label={t.form.dateOfBirth}
               value={formatDate(user.dateOfBirth) || dash}
             />
-            <DetailField label={t.form.gender} value={labelFor(config?.genders, user.gender) || dash} />
+            <DetailField
+              label={t.form.gender}
+              value={labelFor(config?.genders, user.gender) || dash}
+            />
             <DetailField
               label={t.detail.emailVerified}
               value={
@@ -109,7 +120,9 @@ export const UserDetailModal = ({
 
           {user.address && Object.values(user.address).some(Boolean) && (
             <div>
-              <SectionLabel className="mb-2">{t.form.addressSection}</SectionLabel>
+              <SectionLabel className="mb-2">
+                {t.form.addressSection}
+              </SectionLabel>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {user.address.country && (
                   <DetailField
@@ -117,12 +130,18 @@ export const UserDetailModal = ({
                     value={<CountryLabel code={user.address.country} />}
                   />
                 )}
-                <DetailField label={t.form.addressRegion} value={user.address.region} />
+                <DetailField
+                  label={t.form.addressRegion}
+                  value={user.address.region}
+                />
                 <DetailField
                   label={t.form.addressProvince}
                   value={user.address.province}
                 />
-                <DetailField label={t.form.address} value={user.address.address} />
+                <DetailField
+                  label={t.form.address}
+                  value={user.address.address}
+                />
                 <DetailField
                   label={t.form.addressNumber}
                   value={user.address.addressNumber}

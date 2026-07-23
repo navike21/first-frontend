@@ -4,7 +4,10 @@ import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
 import type { Language } from '@/shared/types/languages'
 
-const ProfilePage = lazyRouteComponent(() => import('@domains/users'), 'ProfilePage')
+const ProfilePage = lazyRouteComponent(
+  () => import('@domains/users'),
+  'ProfilePage'
+)
 
 function createProfileRouteTree(lang: Language) {
   return createRoute({

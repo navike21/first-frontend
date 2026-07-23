@@ -9,9 +9,11 @@ export const pt: CategoryTranslations = {
     editTitle: 'Editar categoria',
     editDescription: (name) => `Atualizar ${name}`,
     trashTitle: 'Lixeira de categorias',
-    trashDescription: 'Categorias movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
+    trashDescription:
+      'Categorias movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
     trashEmpty: 'Nenhuma categoria na lixeira',
-    trashEmptyDescription: 'Quando categorias forem excluídas, aparecerão aqui.',
+    trashEmptyDescription:
+      'Quando categorias forem excluídas, aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhuma categoria encontrada',
@@ -62,11 +64,14 @@ export const pt: CategoryTranslations = {
     restoreTitle: 'Restaurar categoria',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} categorias para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} categorias para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} categorias. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} categorias. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     tabTranslations: 'Traduções',

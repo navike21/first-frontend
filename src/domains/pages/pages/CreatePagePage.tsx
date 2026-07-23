@@ -38,12 +38,15 @@ export const CreatePagePage = () => {
           if (cover || ogImage) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.pages(language) as never })
         }),
-      },
+      }
     )
   }
 
   return (
-    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <PageForm
         mode="create"
         isSubmitting={createPage.isPending}

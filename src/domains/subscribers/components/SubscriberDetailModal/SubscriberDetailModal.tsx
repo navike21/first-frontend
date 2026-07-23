@@ -31,16 +31,18 @@ export const SubscriberDetailModal = ({
               size="md"
             />
             <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">
+              <span className="text-foreground text-base font-bold">
                 {subscriber.firstName} {subscriber.lastName}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-secondary">
+                <span className="text-secondary text-sm">
                   {subscriber.contactInformation.email}
                 </span>
                 <Chip
                   size="x-small"
-                  variant={subscriber.status === 'active' ? 'success' : 'default'}
+                  variant={
+                    subscriber.status === 'active' ? 'success' : 'default'
+                  }
                 >
                   {t.status[subscriber.status]}
                 </Chip>
@@ -66,18 +68,32 @@ export const SubscriberDetailModal = ({
               value={subscriber.contactInformation.phoneNumber}
             />
             {subscriber.location?.countryCode && (
-              <DetailField label={t.form.country} value={subscriber.location.countryCode} />
+              <DetailField
+                label={t.form.country}
+                value={subscriber.location.countryCode}
+              />
             )}
             {(subscriber.location?.region || subscriber.location?.province) && (
               <DetailField
                 label={t.form.region}
-                value={[subscriber.location.region, subscriber.location.province].filter(Boolean).join(' — ')}
+                value={[
+                  subscriber.location.region,
+                  subscriber.location.province,
+                ]
+                  .filter(Boolean)
+                  .join(' — ')}
               />
             )}
             {subscriber.location?.address && (
               <DetailField
                 label={t.form.addressStreet}
-                value={[subscriber.location.address, subscriber.location.addressNumber, subscriber.location.addressInterior].filter(Boolean).join(', ')}
+                value={[
+                  subscriber.location.address,
+                  subscriber.location.addressNumber,
+                  subscriber.location.addressInterior,
+                ]
+                  .filter(Boolean)
+                  .join(', ')}
               />
             )}
           </div>

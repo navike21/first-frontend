@@ -61,11 +61,9 @@ export const zh: PageTranslations = {
     bulkRestore: '恢复',
     bulkPurge: '永久删除',
     deleteTitle: '删除页面',
-    deleteDescription: (name) =>
-      `确定要删除${name}吗？可以从回收站恢复。`,
+    deleteDescription: (name) => `确定要删除${name}吗？可以从回收站恢复。`,
     confirmDelete: '删除',
-    bulkDeleteDescription: (count) =>
-      `删除${count}个页面？可以从回收站恢复。`,
+    bulkDeleteDescription: (count) => `删除${count}个页面？可以从回收站恢复。`,
     restoreTitle: '还原页面',
     restoreDescription: (name) => `将 ${name} 还原到活跃列表？`,
     confirmRestore: '还原',
@@ -73,7 +71,8 @@ export const zh: PageTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个页面。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个页面。此操作不可逆。`,
     purgeBlockedByChildren: '此页面有子页面,无法永久删除。',
   },
   form: {
@@ -321,7 +320,8 @@ export const zh: PageTranslations = {
     deleteElement: '删除元素',
     dragSection: '拖动章节',
     dragElement: '拖动元素',
-    unknownSection: (type) => `「${type}」章节 — 暂无可视化编辑器，将原样保留。`,
+    unknownSection: (type) =>
+      `「${type}」章节 — 暂无可视化编辑器，将原样保留。`,
     edit: '编辑',
     done: '完成',
     textEmpty: '点击编辑开始输入…',
@@ -344,7 +344,8 @@ export const zh: PageTranslations = {
     action: 'SEO 分析',
     colSeo: 'SEO',
     drawerTitle: 'SEO 分析',
-    summary: (good, warnings, problems) => `良好 ${good} · 可改进 ${warnings} · 问题 ${problems}`,
+    summary: (good, warnings, problems) =>
+      `良好 ${good} · 可改进 ${warnings} · 问题 ${problems}`,
     groupProblems: '问题',
     groupImprovements: '可改进项',
     groupGood: '良好',

@@ -11,7 +11,8 @@ export const ru: AuthTranslations = {
   },
   forgotPassword: {
     heading: 'Забыли пароль?',
-    subtitle: 'Мы отправим ссылку для восстановления на ваш зарегистрированный email.',
+    subtitle:
+      'Мы отправим ссылку для восстановления на ваш зарегистрированный email.',
     emailLabel: 'Электронная почта',
     submitButton: 'Отправить ссылку',
     backToLoginLink: '← Вернуться к входу',
@@ -26,7 +27,8 @@ export const ru: AuthTranslations = {
     successHeading: 'Пароль обновлён',
     backToLoginLink: 'Войти',
     invalidTokenHeading: 'Недействительная ссылка',
-    invalidTokenMessage: 'Эта ссылка недействительна или истёк срок её действия.',
+    invalidTokenMessage:
+      'Эта ссылка недействительна или истёк срок её действия.',
     requestNewLinkLink: 'Запросить новую ссылку',
   },
   validation: {

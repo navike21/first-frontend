@@ -9,7 +9,8 @@ export const es: PortfolioTranslations = {
     editTitle: 'Editar proyecto',
     editDescription: (name) => `Actualizar "${name}"`,
     trashTitle: 'Papelera de portafolio',
-    trashDescription: 'Proyectos que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashDescription:
+      'Proyectos que han sido movidos a la papelera. Restáuralos o elimínalos permanentemente.',
     trashEmpty: 'No hay proyectos en la papelera',
     trashEmptyDescription: 'Cuando se eliminen proyectos, aparecerán aquí.',
   },
@@ -56,17 +57,22 @@ export const es: PortfolioTranslations = {
     bulkRestore: 'Restaurar',
     bulkPurge: 'Eliminar permanentemente',
     deleteTitle: 'Eliminar proyecto',
-    deleteDescription: (name) => `¿Seguro que deseas eliminar "${name}"? Podrás restaurarlo desde la papelera.`,
+    deleteDescription: (name) =>
+      `¿Seguro que deseas eliminar "${name}"? Podrás restaurarlo desde la papelera.`,
     confirmDelete: 'Eliminar',
-    bulkDeleteDescription: (count) => `¿Eliminar ${count} proyectos? Podrás restaurarlos desde la papelera.`,
+    bulkDeleteDescription: (count) =>
+      `¿Eliminar ${count} proyectos? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar proyecto',
     restoreDescription: (name) => `¿Restaurar ${name} en la lista de activos?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} proyectos en la lista de activos?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} proyectos en la lista de activos?`,
     purgeTitle: 'Eliminar permanentemente',
-    purgeDescription: (name) => `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} proyectos. Esta acción es IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará permanentemente ${count} proyectos. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'General',
@@ -83,7 +89,8 @@ export const es: PortfolioTranslations = {
     technologies: 'Tecnologías',
     projectUrl: 'URL del proyecto',
     serviceIds: 'Servicios relacionados',
-    serviceIdsHint: 'Selecciona uno o más servicios a los que pertenece este proyecto',
+    serviceIdsHint:
+      'Selecciona uno o más servicios a los que pertenece este proyecto',
     serviceNoTranslation: 'Traducción no disponible',
     clientId: 'Cliente',
     clientNoOptions: 'No se encontraron clientes',

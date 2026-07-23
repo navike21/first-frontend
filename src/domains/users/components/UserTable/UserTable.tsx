@@ -51,7 +51,7 @@ export const UserTable = ({
             name={`${user.firstName} ${user.lastName}`}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {user.firstName} {user.lastName}
           </span>
         </div>

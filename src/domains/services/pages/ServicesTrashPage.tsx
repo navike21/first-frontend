@@ -2,7 +2,8 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -60,7 +61,7 @@ export const ServicesTrashPage = () => {
             name={svc.name[language] || svc.name.en}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {svc.name[language] || svc.name.en}
           </span>
         </div>
@@ -100,7 +101,11 @@ export const ServicesTrashPage = () => {
             />
           </Tooltip>
           <Can anyOf={CAN.servicesUpdate}>
-            <Tooltip heading={t.table.restoreService} position="top" size="small">
+            <Tooltip
+              heading={t.table.restoreService}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiArrowGoBackLine"
                 variant="text"
@@ -142,8 +147,8 @@ export const ServicesTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -236,7 +241,9 @@ export const ServicesTrashPage = () => {
         title={t.actions.purgeTitle}
         description={
           purging
-            ? t.actions.purgeDescription(purging.name[language] || purging.name.en)
+            ? t.actions.purgeDescription(
+                purging.name[language] || purging.name.en
+              )
             : undefined
         }
         footer={
@@ -264,7 +271,9 @@ export const ServicesTrashPage = () => {
         onClose={() => setBulkAction(null)}
         size="sm"
         title={
-          bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
         }
         description={
           bulkAction === 'restore'

@@ -13,7 +13,8 @@ export const tagsApi = {
     if (params.page) query.set('page', String(params.page))
     if (params.limit) query.set('limit', String(params.limit))
     if (params.search) query.set('search', params.search)
-    if (params.isActive !== undefined) query.set('isActive', String(params.isActive))
+    if (params.isActive !== undefined)
+      query.set('isActive', String(params.isActive))
     const qs = query.toString()
     return request<ApiResponse<Tag[]>>({
       api: qs ? `${BASE}/admin?${qs}` : `${BASE}/admin`,
@@ -25,10 +26,18 @@ export const tagsApi = {
     request<ApiResponse<Tag>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
   create: (body: CreateTagPayload) =>
-    request<ApiResponse<Tag>, CreateTagPayload>({ api: BASE, method: 'POST', body }),
+    request<ApiResponse<Tag>, CreateTagPayload>({
+      api: BASE,
+      method: 'POST',
+      body,
+    }),
 
   update: (id: string, body: Partial<CreateTagPayload>) =>
-    request<ApiResponse<Tag>, typeof body>({ api: `${BASE}/${id}`, method: 'PATCH', body }),
+    request<ApiResponse<Tag>, typeof body>({
+      api: `${BASE}/${id}`,
+      method: 'PATCH',
+      body,
+    }),
 
   softDelete: (id: string) =>
     request<ApiResponse<Tag>>({ api: `${BASE}/${id}`, method: 'DELETE' }),
@@ -45,17 +54,35 @@ export const tagsApi = {
   },
 
   restore: (id: string) =>
-    request<ApiResponse<Tag>>({ api: `${BASE}/${id}/restore`, method: 'PATCH' }),
+    request<ApiResponse<Tag>>({
+      api: `${BASE}/${id}/restore`,
+      method: 'PATCH',
+    }),
 
   purge: (id: string) =>
-    request<ApiResponse<null>>({ api: `${BASE}/${id}/permanent`, method: 'DELETE' }),
+    request<ApiResponse<null>>({
+      api: `${BASE}/${id}/permanent`,
+      method: 'DELETE',
+    }),
 
   bulkSoftDelete: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk`, method: 'DELETE', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 
   bulkRestore: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk/restore`, method: 'PATCH', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk/restore`,
+      method: 'PATCH',
+      body: { ids },
+    }),
 
   bulkPurge: (ids: string[]) =>
-    request<ApiResponse<BulkResult>, { ids: string[] }>({ api: `${BASE}/bulk/permanent`, method: 'DELETE', body: { ids } }),
+    request<ApiResponse<BulkResult>, { ids: string[] }>({
+      api: `${BASE}/bulk/permanent`,
+      method: 'DELETE',
+      body: { ids },
+    }),
 }

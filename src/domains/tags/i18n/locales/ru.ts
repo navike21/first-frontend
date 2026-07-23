@@ -9,7 +9,8 @@ export const ru: TagTranslations = {
     editTitle: 'Редактировать тег',
     editDescription: (name) => `Обновить ${name}`,
     trashTitle: 'Корзина тегов',
-    trashDescription: 'Теги, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Теги, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые теги будут отображаться здесь.',
   },
@@ -61,11 +62,14 @@ export const ru: TagTranslations = {
     restoreTitle: 'Восстановить тег',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} тегов в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} тегов в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} тегов. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} тегов. Действие НЕОБРАТИМО.`,
   },
   form: {
     tabTranslations: 'Переводы',

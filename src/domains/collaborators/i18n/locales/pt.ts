@@ -9,9 +9,11 @@ export const pt: CollaboratorTranslations = {
     editTitle: 'Editar colaborador',
     editDescription: (name) => `Atualize as informações de ${name}`,
     trashTitle: 'Lixeira de colaboradores',
-    trashDescription: 'Colaboradores movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Colaboradores movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum colaborador na lixeira',
-    trashEmptyDescription: 'Quando colaboradores forem excluídos, aparecerão aqui.',
+    trashEmptyDescription:
+      'Quando colaboradores forem excluídos, aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhum colaborador encontrado',
@@ -61,11 +63,14 @@ export const pt: CollaboratorTranslations = {
     restoreTitle: 'Restaurar colaborador',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} colaboradores para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} colaboradores para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} colaboradores. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} colaboradores. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     tabTranslations: 'Traduções',
@@ -86,7 +91,8 @@ export const pt: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Conta vinculada',
     linkedUser: 'Usuário do sistema',
-    linkedUserHint: 'Vincule este colaborador a uma conta de usuário existente (opcional)',
+    linkedUserHint:
+      'Vincule este colaborador a uma conta de usuário existente (opcional)',
     noLinkedUser: 'Não vinculado',
     select: 'Selecionar…',
     save: 'Salvar alterações',

@@ -75,7 +75,10 @@ describe('ForgotPasswordForm component', () => {
   it('should show a validation error when submitted with an invalid email', async () => {
     const user = userEvent.setup()
     render(<ForgotPasswordForm />, { wrapper })
-    await user.type(screen.getByLabelText(/correo electrónico/i), 'not-an-email')
+    await user.type(
+      screen.getByLabelText(/correo electrónico/i),
+      'not-an-email'
+    )
     await user.click(screen.getByRole('button', { name: /enviar enlace/i }))
     await waitFor(() => {
       expect(
@@ -114,6 +117,8 @@ describe('ForgotPasswordForm component', () => {
     expect(
       screen.getByText('Si el correo existe, te enviamos un enlace.')
     ).toBeInTheDocument()
-    expect(screen.queryByLabelText(/correo electrónico/i)).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText(/correo electrónico/i)
+    ).not.toBeInTheDocument()
   })
 })

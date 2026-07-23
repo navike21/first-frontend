@@ -9,9 +9,11 @@ export const en: CategoryTranslations = {
     editTitle: 'Edit category',
     editDescription: (name) => `Update ${name}`,
     trashTitle: 'Categories trash',
-    trashDescription: 'Categories that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Categories that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No categories in trash',
-    trashEmptyDescription: 'When categories are deleted, they will appear here.',
+    trashEmptyDescription:
+      'When categories are deleted, they will appear here.',
   },
   table: {
     noResults: 'No categories found',
@@ -62,11 +64,14 @@ export const en: CategoryTranslations = {
     restoreTitle: 'Restore category',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} categories to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} categories to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} categories. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} categories. This action is IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Translations',

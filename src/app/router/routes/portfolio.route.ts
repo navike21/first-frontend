@@ -1,4 +1,9 @@
-import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
+import {
+  createRoute,
+  lazyRouteComponent,
+  Outlet,
+  type AnyRoute,
+} from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
@@ -6,10 +11,22 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const PortfolioPage = lazyRouteComponent(() => import('@domains/portfolio/pages/PortfolioPage'), 'PortfolioPage')
-const CreatePortfolioPage = lazyRouteComponent(() => import('@domains/portfolio/pages/CreatePortfolioPage'), 'CreatePortfolioPage')
-const EditPortfolioPage = lazyRouteComponent(() => import('@domains/portfolio/pages/EditPortfolioPage'), 'EditPortfolioPage')
-const PortfolioTrashPage = lazyRouteComponent(() => import('@domains/portfolio/pages/PortfolioTrashPage'), 'PortfolioTrashPage')
+const PortfolioPage = lazyRouteComponent(
+  () => import('@domains/portfolio/pages/PortfolioPage'),
+  'PortfolioPage'
+)
+const CreatePortfolioPage = lazyRouteComponent(
+  () => import('@domains/portfolio/pages/CreatePortfolioPage'),
+  'CreatePortfolioPage'
+)
+const EditPortfolioPage = lazyRouteComponent(
+  () => import('@domains/portfolio/pages/EditPortfolioPage'),
+  'EditPortfolioPage'
+)
+const PortfolioTrashPage = lazyRouteComponent(
+  () => import('@domains/portfolio/pages/PortfolioTrashPage'),
+  'PortfolioTrashPage'
+)
 
 const parentSlugs = Array.from(
   new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.portfolio[l]))

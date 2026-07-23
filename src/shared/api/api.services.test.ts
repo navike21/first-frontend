@@ -41,7 +41,11 @@ describe('api.services', () => {
 
     it('should expose the raw backend message separately from the synthetic fallback', () => {
       // Arrange & Act
-      const withMessage = new HttpError(422, 'Unprocessable Entity', 'El archivo excede 4 MB')
+      const withMessage = new HttpError(
+        422,
+        'Unprocessable Entity',
+        'El archivo excede 4 MB'
+      )
       const withoutMessage = new HttpError(404, 'Not Found')
       // Assert
       expect(withMessage.backendMessage).toBe('El archivo excede 4 MB')

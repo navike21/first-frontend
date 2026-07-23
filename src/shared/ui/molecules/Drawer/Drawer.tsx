@@ -74,7 +74,8 @@ export const Drawer: React.FC<DrawerProps> = ({
           'bg-surface',
           'duration-normal ease-out-expo transition-[translate,width]',
           placement === 'left' ? 'shadow-drawer-right' : 'shadow-drawer-left',
-          isMobileOnly && 'md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none',
+          isMobileOnly &&
+            'md:relative md:z-auto md:!translate-x-0 md:!transform-none md:shadow-none',
           placement === 'left' ? 'left-0' : 'right-0',
           isOpen
             ? 'translate-x-0 delay-[50ms]'
@@ -89,7 +90,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         {title && (
           <div
             className={clsx(
-              'flex items-center justify-between border-b border-border-subtle p-4',
+              'border-border-subtle flex items-center justify-between border-b p-4',
               isMobileOnly && 'md:hidden'
             )}
           >
@@ -98,7 +99,7 @@ export const Drawer: React.FC<DrawerProps> = ({
               onClick={onClose}
               className={clsx(
                 'cursor-pointer p-1.5',
-                'rounded-md text-secondary',
+                'text-secondary rounded-md',
                 'duration-fast ease-out-expo transition-colors',
                 'hover:bg-surface-subtle hover:text-foreground',
                 'focus:outline-none'

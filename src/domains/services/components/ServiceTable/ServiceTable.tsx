@@ -52,7 +52,7 @@ export const ServiceTable = ({
             name={svc.name[language] || svc.name.en}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {svc.name[language] || svc.name.en}
           </span>
         </div>
@@ -109,7 +109,11 @@ export const ServiceTable = ({
             </Tooltip>
           </Can>
           <Can anyOf={CAN.servicesDelete}>
-            <Tooltip heading={t.table.deleteService} position="top" size="small">
+            <Tooltip
+              heading={t.table.deleteService}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"

@@ -9,9 +9,11 @@ export const pt: SubscribersTranslations = {
     editTitle: 'Editar assinante',
     editDescription: (name) => `Atualizar as informações de ${name}`,
     trashTitle: 'Lixeira de assinantes',
-    trashDescription: 'Assinantes movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Assinantes movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum assinante na lixeira',
-    trashEmptyDescription: 'Quando assinantes forem excluídos, aparecerão aqui.',
+    trashEmptyDescription:
+      'Quando assinantes forem excluídos, aparecerão aqui.',
   },
   table: {
     noResults: 'Nenhum assinante encontrado',
@@ -65,11 +67,14 @@ export const pt: SubscribersTranslations = {
     restoreTitle: 'Restaurar assinante',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} assinantes para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} assinantes para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} assinantes. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} assinantes. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     sectionPersonal: 'Informações pessoais',

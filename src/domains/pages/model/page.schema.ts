@@ -17,26 +17,39 @@ const slugLangField = z
 
 const optionalLocalizedField = z.object(
   Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, z.string().trim().optional().or(z.literal(''))]),
-  ) as unknown as Record<Language, z.ZodTypeAny>,
+    SUPPORTED_LANGUAGES.map((l) => [
+      l,
+      z.string().trim().optional().or(z.literal('')),
+    ])
+  ) as unknown as Record<Language, z.ZodTypeAny>
 )
 
 export function createPageSchema(v: V, primaryLang: Language = 'en') {
   const optionalText = z.string().trim().optional().or(z.literal(''))
   const langFields = Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, l === primaryLang ? z.string().trim().min(1, v.required) : optionalText]),
+    SUPPORTED_LANGUAGES.map((l) => [
+      l,
+      l === primaryLang ? z.string().trim().min(1, v.required) : optionalText,
+    ])
   ) as unknown as Record<Language, z.ZodTypeAny>
 
   return z
     .object({
       title: z.object(langFields),
       slug: z.object(
-        Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])) as Record<Language, typeof slugLangField>,
+        Object.fromEntries(
+          SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
+        ) as Record<Language, typeof slugLangField>
       ),
       seoMetaTitle: optionalLocalizedField,
       seoMetaDescription: optionalLocalizedField,
       seoKeywords: optionalLocalizedField,
-      seoOgImage: z.string().trim().url(v.urlInvalid).optional().or(z.literal('')),
+      seoOgImage: z
+        .string()
+        .trim()
+        .url(v.urlInvalid)
+        .optional()
+        .or(z.literal('')),
       parentId: z.string().trim().uuid().optional().or(z.literal('')),
       status: z.enum(PAGE_STATUS_VALUES).default('draft'),
       scheduledAt: z.string().optional().or(z.literal('')),
@@ -77,8 +90,12 @@ export interface CreatePagePayload {
   tagIds: string[]
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): PageLocalizedString {
-  return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])) as unknown as PageLocalizedString
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): PageLocalizedString {
+  return Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
+  ) as unknown as PageLocalizedString
 }
 
 function toIsoOrUndefined(value: string | undefined): string | undefined {
@@ -103,7 +120,10 @@ export function toPagePayload(data: PageFormData): CreatePagePayload {
     },
     parentId: data.parentId || undefined,
     status: data.status,
-    scheduledAt: data.status === 'scheduled' ? toIsoOrUndefined(data.scheduledAt) : undefined,
+    scheduledAt:
+      data.status === 'scheduled'
+        ? toIsoOrUndefined(data.scheduledAt)
+        : undefined,
     categoryIds: data.categoryIds,
     tagIds: data.tagIds,
   }

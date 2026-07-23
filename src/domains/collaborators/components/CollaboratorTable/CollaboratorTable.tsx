@@ -48,8 +48,15 @@ export const CollaboratorTable = ({
       header: t.table.colName,
       cell: (collaborator) => (
         <div className="flex items-center gap-3">
-          <Avatar alt={collaborator.name} src={collaborator.photoUrl} name={collaborator.name} size="sm" />
-          <span className="font-medium text-foreground">{collaborator.name}</span>
+          <Avatar
+            alt={collaborator.name}
+            src={collaborator.photoUrl}
+            name={collaborator.name}
+            size="sm"
+          />
+          <span className="text-foreground font-medium">
+            {collaborator.name}
+          </span>
         </div>
       ),
     },
@@ -57,13 +64,17 @@ export const CollaboratorTable = ({
       id: 'role',
       header: t.table.colRole,
       cellClassName: 'text-secondary',
-      cell: (collaborator) => labelFor(configData?.collaboratorRoles, collaborator.role),
+      cell: (collaborator) =>
+        labelFor(configData?.collaboratorRoles, collaborator.role),
     },
     {
       id: 'status',
       header: t.table.colStatus,
       cell: (collaborator) => (
-        <Chip size="small" variant={collaborator.isActive ? 'success' : 'default'}>
+        <Chip
+          size="small"
+          variant={collaborator.isActive ? 'success' : 'default'}
+        >
           {collaborator.isActive ? t.status.active : t.status.inactive}
         </Chip>
       ),
@@ -74,7 +85,11 @@ export const CollaboratorTable = ({
       align: 'right',
       cell: (collaborator) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip heading={t.table.viewCollaborator} position="top" size="small">
+          <Tooltip
+            heading={t.table.viewCollaborator}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiEyeLine"
               variant="text"
@@ -84,7 +99,11 @@ export const CollaboratorTable = ({
             />
           </Tooltip>
           <Can anyOf={CAN.collaboratorsUpdate}>
-            <Tooltip heading={t.table.editCollaborator} position="top" size="small">
+            <Tooltip
+              heading={t.table.editCollaborator}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiPencilLine"
                 variant="text"
@@ -95,7 +114,11 @@ export const CollaboratorTable = ({
             </Tooltip>
           </Can>
           <Can anyOf={CAN.collaboratorsDelete}>
-            <Tooltip heading={t.table.deleteCollaborator} position="top" size="small">
+            <Tooltip
+              heading={t.table.deleteCollaborator}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"

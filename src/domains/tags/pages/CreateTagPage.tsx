@@ -20,12 +20,17 @@ export const CreateTagPage = () => {
         notify.success(t.toasts.created)
         navigate({ to: navPaths.tags(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.tags(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.tags(language) as never })
+      ),
     })
   }
 
   return (
-    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <TagForm
         mode="create"
         isSubmitting={createTag.isPending}

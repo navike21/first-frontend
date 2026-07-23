@@ -1,7 +1,10 @@
 import { CoverPicker, Select, Switch } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import type { BackgroundImage, BackgroundPosition } from '../../model/page.types'
+import type {
+  BackgroundImage,
+  BackgroundPosition,
+} from '../../model/page.types'
 
 export interface BackgroundImageFieldsProps {
   config: BackgroundImage
@@ -10,7 +13,12 @@ export interface BackgroundImageFieldsProps {
   onSelectLibrary: (file: StorageFile) => void
 }
 
-export const BackgroundImageFields = ({ config, onChange, onPickFile, onSelectLibrary }: BackgroundImageFieldsProps) => {
+export const BackgroundImageFields = ({
+  config,
+  onChange,
+  onPickFile,
+  onSelectLibrary,
+}: BackgroundImageFieldsProps) => {
   const { t } = usePagesTranslation()
 
   const positionOptions = [
@@ -20,7 +28,7 @@ export const BackgroundImageFields = ({ config, onChange, onPickFile, onSelectLi
   ]
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-3">
+    <div className="border-border bg-surface-subtle flex flex-col gap-3 rounded-xl border p-3">
       <CoverPicker
         currentUrl={config.url}
         uploadLabel={t.builder.background.uploadLabel}
@@ -41,7 +49,9 @@ export const BackgroundImageFields = ({ config, onChange, onPickFile, onSelectLi
         label={t.builder.background.positionLabel}
         options={positionOptions}
         value={config.position}
-        onChange={(e) => onChange({ position: e.target.value as BackgroundPosition })}
+        onChange={(e) =>
+          onChange({ position: e.target.value as BackgroundPosition })
+        }
       />
 
       <Switch

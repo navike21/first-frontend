@@ -9,7 +9,8 @@ export const en: PageTranslations = {
     editTitle: 'Edit page',
     editDescription: (name) => `Update ${name}`,
     trashTitle: 'Pages trash',
-    trashDescription: 'Pages that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Pages that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No pages in trash',
     trashEmptyDescription: 'When pages are deleted, they will appear here.',
     builderTitle: 'Page builder',
@@ -69,12 +70,16 @@ export const en: PageTranslations = {
     restoreTitle: 'Restore page',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} pages to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} pages to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} pages. This action is IRREVERSIBLE.`,
-    purgeBlockedByChildren: 'This page has child pages and cannot be permanently deleted.',
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} pages. This action is IRREVERSIBLE.`,
+    purgeBlockedByChildren:
+      'This page has child pages and cannot be permanently deleted.',
   },
   form: {
     sectionGeneral: 'General',
@@ -133,7 +138,8 @@ export const en: PageTranslations = {
     fieldSections: 'Sections',
     sectionsCount: (count) => `${count} section${count === 1 ? '' : 's'}`,
     restoreTitle: 'Restore revision',
-    restoreDescription: (date) => `Restore the version saved on ${date}? This will overwrite the current content.`,
+    restoreDescription: (date) =>
+      `Restore the version saved on ${date}? This will overwrite the current content.`,
     confirmRestore: 'Restore',
     cancel: 'Cancel',
     restored: 'Revision restored',
@@ -315,14 +321,16 @@ export const en: PageTranslations = {
     mapLngLabel: 'Longitude (optional)',
     mapCaptionLabel: 'Caption (optional)',
     mapShowDirectionsLabel: 'Show "Get directions" buttons',
-    mapShowDirectionsHint: 'Adds buttons to open the address in Google Maps and Waze',
+    mapShowDirectionsHint:
+      'Adds buttons to open the address in Google Maps and Waze',
     mapEmpty: 'Click edit to set up the map',
     deleteSection: 'Delete section',
     deleteSectionConfirm: 'Delete this section and all its content?',
     deleteElement: 'Delete element',
     dragSection: 'Drag section',
     dragElement: 'Drag element',
-    unknownSection: (type) => `“${type}” section — no visual editor yet; kept as is.`,
+    unknownSection: (type) =>
+      `“${type}” section — no visual editor yet; kept as is.`,
     edit: 'Edit',
     done: 'Done',
     textEmpty: 'Click edit to start writing…',
@@ -345,13 +353,15 @@ export const en: PageTranslations = {
     action: 'SEO analysis',
     colSeo: 'SEO',
     drawerTitle: 'SEO analysis',
-    summary: (good, warnings, problems) => `${good} good · ${warnings} improvements · ${problems} problems`,
+    summary: (good, warnings, problems) =>
+      `${good} good · ${warnings} improvements · ${problems} problems`,
     groupProblems: 'Problems',
     groupImprovements: 'Improvements',
     groupGood: 'Good results',
     focusKeyword: 'Focus keyword',
     noKeyword: 'Not set — add keywords in the “SEO” step of the form',
-    charsCount: (count, min, max) => `${count} characters (ideal ${min}–${max})`,
+    charsCount: (count, min, max) =>
+      `${count} characters (ideal ${min}–${max})`,
     previewsTitle: 'Previews',
     previewGoogle: 'Google',
     previewFacebook: 'Facebook',

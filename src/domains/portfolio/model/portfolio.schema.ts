@@ -2,11 +2,18 @@ import { z } from 'zod'
 import type { PortfolioTranslations } from '../i18n/types'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
-import type { PortfolioLocalizedString, PortfolioStatus } from './portfolio.types'
+import type {
+  PortfolioLocalizedString,
+  PortfolioStatus,
+} from './portfolio.types'
 
 type V = PortfolioTranslations['validation']
 
-export const PORTFOLIO_STATUS_VALUES = ['draft', 'published', 'archived'] as const
+export const PORTFOLIO_STATUS_VALUES = [
+  'draft',
+  'published',
+  'archived',
+] as const
 
 const opt = z.string().trim().optional().or(z.literal(''))
 
@@ -31,7 +38,9 @@ export function createPortfolioSchema(v: V, primaryLang: Language = 'en') {
 
   return z.object({
     slug: z.object(
-      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])) as Record<Language, typeof slugLangField>
+      Object.fromEntries(
+        SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
+      ) as Record<Language, typeof slugLangField>
     ),
     name: localizedField(),
     shortDescription: localizedField(),
@@ -66,7 +75,8 @@ export interface PortfolioFormData {
   status: PortfolioStatus
 }
 
-export type GalleryOrderToken = { type: 'existing'; url: string } | { type: 'new'; index: number }
+export type GalleryOrderToken =
+  { type: 'existing'; url: string } | { type: 'new'; index: number }
 
 export interface CreatePortfolioPayload {
   slug?: string
@@ -85,14 +95,20 @@ export interface CreatePortfolioPayload {
   metrics: never[]
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): PortfolioLocalizedString {
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): PortfolioLocalizedString {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as PortfolioLocalizedString
 }
 
-export function toPortfolioPayload(data: PortfolioFormData, primaryLang: Language = 'en'): CreatePortfolioPayload {
-  const slug = data.slug[primaryLang]?.trim() || data.slug.en?.trim() || undefined
+export function toPortfolioPayload(
+  data: PortfolioFormData,
+  primaryLang: Language = 'en'
+): CreatePortfolioPayload {
+  const slug =
+    data.slug[primaryLang]?.trim() || data.slug.en?.trim() || undefined
   return {
     slug,
     name: fillLocalized(data.name),

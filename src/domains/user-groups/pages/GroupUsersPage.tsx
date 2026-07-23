@@ -1,7 +1,8 @@
 import {
   PageContent,
   InputField,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   Avatar,
   Chip,
   Spinner,
@@ -69,7 +70,7 @@ export const GroupUsersPage = () => {
             name={`${member.firstName} ${member.lastName}`}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {member.firstName} {member.lastName}
           </span>
         </div>
@@ -120,28 +121,27 @@ export const GroupUsersPage = () => {
         },
       ]}
     >
-
       {/* Add members */}
-      <div className="flex flex-col gap-2 rounded-xl border border-border bg-surface p-4">
+      <div className="border-border bg-surface flex flex-col gap-2 rounded-xl border p-4">
         <InputField
           label={t.members.searchLabel}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {hasSearchTerm && (
-          <div className="rounded-lg border border-border bg-surface-subtle">
+          <div className="border-border bg-surface-subtle rounded-lg border">
             {isSearching && (
               <div className="flex items-center justify-center py-6">
                 <Spinner size="small" />
               </div>
             )}
             {!isSearching && searchResults.length === 0 && (
-              <p className="px-4 py-4 text-sm text-muted">
+              <p className="text-muted px-4 py-4 text-sm">
                 {t.members.noSearchResults}
               </p>
             )}
             {!isSearching && searchResults.length > 0 && (
-              <ul className="divide-y divide-border-subtle">
+              <ul className="divide-border-subtle divide-y">
                 {searchResults.map((user) => (
                   <li
                     key={user.id}
@@ -155,10 +155,10 @@ export const GroupUsersPage = () => {
                         size="sm"
                       />
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-foreground">
+                        <span className="text-foreground text-sm font-medium">
                           {user.firstName} {user.lastName}
                         </span>
-                        <span className="text-xs text-secondary">
+                        <span className="text-secondary text-xs">
                           {user.email}
                         </span>
                       </div>
@@ -183,8 +183,8 @@ export const GroupUsersPage = () => {
       {/* Bulk toolbar */}
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.members.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>

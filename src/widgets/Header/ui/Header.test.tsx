@@ -75,9 +75,6 @@ vi.mock('@/shared/ui', async (importOriginal) => {
         aria-label={ariaLabel}
       />
     ),
-    LanguageSwitcher: ({ label }: { label?: string }) => (
-      <div data-testid="language-switcher">{label}</div>
-    ),
     UserMenu: ({
       name,
       email,
@@ -147,11 +144,6 @@ describe('Header component', () => {
     expect(logoutMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should render LanguageSwitcher', () => {
-    render(<Header />)
-    expect(screen.getByTestId('language-switcher')).toBeInTheDocument()
-  })
-
   it('should show expand-menu aria-label when sidebar is collapsed', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ isCollapsed: true }))
     render(<Header />)
@@ -196,12 +188,18 @@ describe('Header component', () => {
 
   it('should not pulse the brand mark when nothing is loading', () => {
     render(<Header />)
-    expect(screen.getByTestId('brand-mark')).toHaveAttribute('data-pulse', 'false')
+    expect(screen.getByTestId('brand-mark')).toHaveAttribute(
+      'data-pulse',
+      'false'
+    )
   })
 
   it('should pulse the brand mark when isLoading is true', () => {
     useHeaderMock.mockReturnValue(makeHeaderState({ isLoading: true }))
     render(<Header />)
-    expect(screen.getByTestId('brand-mark')).toHaveAttribute('data-pulse', 'true')
+    expect(screen.getByTestId('brand-mark')).toHaveAttribute(
+      'data-pulse',
+      'true'
+    )
   })
 })

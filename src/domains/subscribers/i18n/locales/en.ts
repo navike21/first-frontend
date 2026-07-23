@@ -9,9 +9,11 @@ export const en: SubscribersTranslations = {
     editTitle: 'Edit subscriber',
     editDescription: (name) => `Update information for ${name}`,
     trashTitle: 'Subscribers trash',
-    trashDescription: 'Subscribers that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Subscribers that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No subscribers in trash',
-    trashEmptyDescription: 'When subscribers are deleted, they will appear here.',
+    trashEmptyDescription:
+      'When subscribers are deleted, they will appear here.',
   },
   table: {
     noResults: 'No subscribers found',
@@ -68,11 +70,14 @@ export const en: SubscribersTranslations = {
     restoreTitle: 'Restore subscriber',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} subscribers to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} subscribers to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} subscribers. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} subscribers. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionPersonal: 'Personal information',
@@ -112,7 +117,7 @@ export const en: SubscribersTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
   },
   toasts: {
     created: 'Subscriber registered',

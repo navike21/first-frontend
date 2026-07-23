@@ -9,7 +9,8 @@ export const ja: PageTranslations = {
     editTitle: 'ページを編集',
     editDescription: (name) => `${name}を更新`,
     trashTitle: 'ページのゴミ箱',
-    trashDescription: 'ゴミ箱に移動されたページです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたページです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にページはありません',
     trashEmptyDescription: '削除されたページはここに表示されます。',
     builderTitle: 'ページビルダー',
@@ -69,12 +70,16 @@ export const ja: PageTranslations = {
     restoreTitle: 'ページを復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件のページを有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件のページを有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件のページを完全に削除します。この操作は元に戻せません。`,
-    purgeBlockedByChildren: 'このページには子ページがあるため完全に削除できません。',
+    bulkPurgeDescription: (count) =>
+      `${count} 件のページを完全に削除します。この操作は元に戻せません。`,
+    purgeBlockedByChildren:
+      'このページには子ページがあるため完全に削除できません。',
   },
   form: {
     sectionGeneral: '一般',
@@ -133,7 +138,8 @@ export const ja: PageTranslations = {
     fieldSections: 'セクション',
     sectionsCount: (count) => `${count} セクション`,
     restoreTitle: 'バージョンを復元',
-    restoreDescription: (date) => `${date}に保存されたバージョンを復元しますか？現在の内容は上書きされます。`,
+    restoreDescription: (date) =>
+      `${date}に保存されたバージョンを復元しますか？現在の内容は上書きされます。`,
     confirmRestore: '復元',
     cancel: 'キャンセル',
     restored: 'バージョンが復元されました',
@@ -198,7 +204,8 @@ export const ja: PageTranslations = {
       embedUrlHint: '外部でホストされている動画のリンクを貼り付けてください',
       formatMp4: 'MP4形式',
       formatWebm: 'WebM形式',
-      formatHint: 'ブラウザ互換性を最大にするため両方の形式をアップロードしてください',
+      formatHint:
+        'ブラウザ互換性を最大にするため両方の形式をアップロードしてください',
       uploadLabel: 'アップロード',
       replaceLabel: '変更',
       removeLabel: '削除',
@@ -322,7 +329,8 @@ export const ja: PageTranslations = {
     deleteElement: '要素を削除',
     dragSection: 'セクションをドラッグ',
     dragElement: '要素をドラッグ',
-    unknownSection: (type) => `「${type}」セクション — ビジュアルエディタ未対応のためそのまま保持されます。`,
+    unknownSection: (type) =>
+      `「${type}」セクション — ビジュアルエディタ未対応のためそのまま保持されます。`,
     edit: '編集',
     done: '完了',
     textEmpty: '編集をクリックして入力…',
@@ -345,12 +353,14 @@ export const ja: PageTranslations = {
     action: 'SEO分析',
     colSeo: 'SEO',
     drawerTitle: 'SEO分析',
-    summary: (good, warnings, problems) => `良好 ${good} · 改善可 ${warnings} · 問題 ${problems}`,
+    summary: (good, warnings, problems) =>
+      `良好 ${good} · 改善可 ${warnings} · 問題 ${problems}`,
     groupProblems: '問題',
     groupImprovements: '改善点',
     groupGood: '良好',
     focusKeyword: 'フォーカスキーワード',
-    noKeyword: '未設定 — フォームの「SEO」ステップでキーワードを追加してください',
+    noKeyword:
+      '未設定 — フォームの「SEO」ステップでキーワードを追加してください',
     charsCount: (count, min, max) => `${count} 文字（推奨 ${min}–${max}）`,
     previewsTitle: 'プレビュー',
     previewGoogle: 'Google',
@@ -368,7 +378,8 @@ export const ja: PageTranslations = {
       socialImage: 'ソーシャル画像',
       keywordDefined: 'フォーカスキーワードが設定されています',
       keywordInTitle: 'キーワードがメタタイトルに含まれています',
-      keywordInDescription: 'キーワードがメタディスクリプションに含まれています',
+      keywordInDescription:
+        'キーワードがメタディスクリプションに含まれています',
       keywordInSlug: 'キーワードがスラッグに含まれています',
     },
   },

@@ -22,7 +22,9 @@ function localizedSchema(v: V, primaryLang: Language, required: boolean) {
   const langFields = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [
       l,
-      required && l === primaryLang ? z.string().trim().min(1, v.required) : optionalText,
+      required && l === primaryLang
+        ? z.string().trim().min(1, v.required)
+        : optionalText,
     ])
   ) as unknown as Record<Language, z.ZodTypeAny>
   return z.object(langFields)
@@ -47,7 +49,10 @@ export function createFormSchema(v: V, primaryLang: Language = 'en') {
       maxLength: z.coerce.number().int().min(1).optional(),
     })
     .refine(
-      (field) => field.type !== 'select' && field.type !== 'radio' ? true : field.options.length >= 2,
+      (field) =>
+        field.type !== 'select' && field.type !== 'radio'
+          ? true
+          : field.options.length >= 2,
       { message: v.optionsRequired, path: ['options'] }
     )
 
@@ -99,7 +104,9 @@ export interface CreateFormPayload {
   }[]
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): FormFormLocalized {
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): FormFormLocalized {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as FormFormLocalized
@@ -123,7 +130,10 @@ export function toFormPayload(data: FormFormData): CreateFormPayload {
       required: field.required,
       options:
         field.type === 'select' || field.type === 'radio'
-          ? field.options.map((o) => ({ value: o.value, label: fillLocalized(o.label) }))
+          ? field.options.map((o) => ({
+              value: o.value,
+              label: fillLocalized(o.label),
+            }))
           : undefined,
       maxLength: field.maxLength,
     })),

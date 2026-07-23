@@ -46,7 +46,8 @@ export const zh: MediaTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除${count}个文件。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除${count}个文件。此操作不可逆。`,
   },
   upload: {
     title: '上传文件',

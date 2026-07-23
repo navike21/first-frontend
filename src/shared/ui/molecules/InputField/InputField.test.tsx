@@ -36,7 +36,7 @@ vi.mock('@Components/atoms/Label/Label', () => ({
   }) => (
     <label
       htmlFor={htmlFor}
-      className={`duration-fast ease-out-expo text-sm font-semibold transition-all ${disabled ? 'cursor-not-allowed text-secondary' : 'text-foreground'} ${className || ''}`}
+      className={`duration-fast ease-out-expo text-sm font-semibold transition-all ${disabled ? 'text-secondary cursor-not-allowed' : 'text-foreground'} ${className || ''}`}
     >
       {children}
     </label>
@@ -130,7 +130,9 @@ describe('InputField', () => {
     // Assert
     const input = screen.getByPlaceholderText('Enter password')
     expect(input).toHaveAttribute('type', 'password')
-    expect(screen.queryByTestId('icon-RiLockPasswordFill')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('icon-RiLockPasswordFill')
+    ).not.toBeInTheDocument()
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).toBeInTheDocument()
   })

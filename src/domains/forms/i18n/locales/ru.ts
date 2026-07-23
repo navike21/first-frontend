@@ -9,7 +9,8 @@ export const ru: FormsTranslations = {
     editTitle: 'Редактировать форму',
     editDescription: (name) => `Обновить поля и настройки для «${name}»`,
     trashTitle: 'Корзина форм',
-    trashDescription: 'Формы, перемещённые в корзину. Восстановите их или удалите навсегда.',
+    trashDescription:
+      'Формы, перемещённые в корзину. Восстановите их или удалите навсегда.',
     trashEmpty: 'В корзине нет форм',
     trashEmptyDescription: 'Удалённые формы будут отображаться здесь.',
     submissionsTitle: (name) => `Заявки — ${name}`,
@@ -46,7 +47,8 @@ export const ru: FormsTranslations = {
     viewSubmission: 'Подробнее',
     markRead: 'Отметить как прочитанное',
     deleteSubmission: 'Удалить',
-    deleteSubmissionDescription: 'Удалить эту заявку? Её можно будет восстановить из корзины.',
+    deleteSubmissionDescription:
+      'Удалить эту заявку? Её можно будет восстановить из корзины.',
     restoreSubmission: 'Восстановить',
     purgeSubmission: 'Удалить навсегда',
     prevPage: 'Назад',
@@ -94,11 +96,13 @@ export const ru: FormsTranslations = {
     deleteDescription: (name) =>
       `Удалить «${name}»? Заявки останутся в корзине и их можно будет восстановить.`,
     confirmDelete: 'Удалить',
-    bulkDeleteDescription: (count) => `Удалить ${count} форм(ы)? Их можно будет восстановить из корзины.`,
+    bulkDeleteDescription: (count) =>
+      `Удалить ${count} форм(ы)? Их можно будет восстановить из корзины.`,
     restoreTitle: 'Восстановить форму',
     restoreDescription: (name) => `Восстановить «${name}» в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} форм(ы) в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} форм(ы) в активный список?`,
     purgeTitle: 'Удалить навсегда',
     purgeDescription: (name) =>
       `«${name}» и все её заявки будут удалены навсегда. Это действие нельзя отменить.`,
@@ -115,7 +119,8 @@ export const ru: FormsTranslations = {
     successMessage: 'Сообщение об успехе',
     status: 'Статус',
     notificationEmails: 'Уведомлять эти адреса при отправке',
-    notificationEmailsHint: 'Через запятую. Оставьте пустым, чтобы отключить уведомления.',
+    notificationEmailsHint:
+      'Через запятую. Оставьте пустым, чтобы отключить уведомления.',
     addField: 'Добавить поле',
     noFields: 'Полей пока нет — добавьте первое, чтобы начать',
     fieldLabel: 'Подпись',

@@ -11,7 +11,10 @@ import {
 } from '@/shared/ui'
 import { CAN, useHasPermission } from '@/shared/lib/permissions'
 import { usePagesTranslation } from '../../i18n'
-import { useCategoriesForPagePicker, useTagsForPagePicker } from '../../api/pages.queries'
+import {
+  useCategoriesForPagePicker,
+  useTagsForPagePicker,
+} from '../../api/pages.queries'
 import { analyzePageSeo } from '../../model/page.seo'
 import type { SeoLight } from '../../model/page.seo'
 import type { Page, PageStatus } from '../../model/page.types'
@@ -32,7 +35,10 @@ interface PageTableProps {
   onSelectionChange?: (ids: string[]) => void
 }
 
-const STATUS_VARIANT: Record<PageStatus, 'success' | 'warning' | 'informative'> = {
+const STATUS_VARIANT: Record<
+  PageStatus,
+  'success' | 'warning' | 'informative'
+> = {
   published: 'success',
   scheduled: 'informative',
   draft: 'warning',
@@ -73,10 +79,27 @@ export const PageTable = ({
   // Hybrid action pattern: the most frequent action (edit) stays one click
   // away; the rest collapse into the "more actions" menu.
   const menuItemsFor = (item: Page): ActionMenuItem[] => [
-    { id: 'view', label: t.table.viewItem, icon: 'RiEyeLine', onClick: () => onView(item) },
-    { id: 'seo', label: t.seo.action, icon: 'RiSearchEyeLine', onClick: () => onSeo(item) },
+    {
+      id: 'view',
+      label: t.table.viewItem,
+      icon: 'RiEyeLine',
+      onClick: () => onView(item),
+    },
+    {
+      id: 'seo',
+      label: t.seo.action,
+      icon: 'RiSearchEyeLine',
+      onClick: () => onSeo(item),
+    },
     ...(canUpdate
-      ? [{ id: 'build', label: t.table.buildItem, icon: 'RiLayout4Line', onClick: () => onBuild(item) } as const]
+      ? [
+          {
+            id: 'build',
+            label: t.table.buildItem,
+            icon: 'RiLayout4Line',
+            onClick: () => onBuild(item),
+          } as const,
+        ]
       : []),
     ...(canDelete
       ? [
@@ -91,8 +114,10 @@ export const PageTable = ({
       : []),
   ]
 
-  const categoryLabel = (id: string) => categoriesData?.find((c) => c.id === id)?.name[language]
-  const tagLabel = (id: string) => tagsData?.find((tag) => tag.id === id)?.name[language]
+  const categoryLabel = (id: string) =>
+    categoriesData?.find((c) => c.id === id)?.name[language]
+  const tagLabel = (id: string) =>
+    tagsData?.find((tag) => tag.id === id)?.name[language]
 
   const columns: DataTableColumn<Page>[] = [
     {
@@ -101,9 +126,14 @@ export const PageTable = ({
       cell: (item) => {
         const depth = pathDepth(item.fullPath?.[language])
         return (
-          <div className="flex items-center gap-1" style={{ paddingLeft: depth * 16 }}>
+          <div
+            className="flex items-center gap-1"
+            style={{ paddingLeft: depth * 16 }}
+          >
             {depth > 0 && <span className="text-muted">└</span>}
-            <span className="font-medium text-foreground">{item.title[language] || item.title.en}</span>
+            <span className="text-foreground font-medium">
+              {item.title[language] || item.title.en}
+            </span>
           </div>
         )
       },
@@ -118,9 +148,15 @@ export const PageTable = ({
             <Chip size="small" variant={STATUS_VARIANT[effective]}>
               {t.status[effective]}
             </Chip>
-            {item.status === 'scheduled' && item.scheduledAt && effective === 'scheduled' && (
-              <span className="text-xs text-muted">{t.table.scheduledFor(new Date(item.scheduledAt).toLocaleString(language))}</span>
-            )}
+            {item.status === 'scheduled' &&
+              item.scheduledAt &&
+              effective === 'scheduled' && (
+                <span className="text-muted text-xs">
+                  {t.table.scheduledFor(
+                    new Date(item.scheduledAt).toLocaleString(language)
+                  )}
+                </span>
+              )}
           </div>
         )
       },
@@ -142,8 +178,13 @@ export const PageTable = ({
               onClick={() => onSeo(item)}
               className="flex cursor-pointer items-center gap-1.5"
             >
-              <span className={clsx('h-2.5 w-2.5 rounded-full', SEO_LIGHT_CLASS[analysis.light])} />
-              <span className="text-xs text-secondary">{analysis.score}%</span>
+              <span
+                className={clsx(
+                  'h-2.5 w-2.5 rounded-full',
+                  SEO_LIGHT_CLASS[analysis.light]
+                )}
+              />
+              <span className="text-secondary text-xs">{analysis.score}%</span>
             </button>
           </Tooltip>
         )
@@ -196,7 +237,10 @@ export const PageTable = ({
               />
             </Tooltip>
           </Can>
-          <ActionMenu items={menuItemsFor(item)} triggerLabel={t.table.moreActions} />
+          <ActionMenu
+            items={menuItemsFor(item)}
+            triggerLabel={t.table.moreActions}
+          />
         </div>
       ),
     },

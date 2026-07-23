@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { InputField, InputNumber, Switch, Button, ButtonGroup, FormGrid, SectionLabel, LangTabs } from '@/shared/ui'
+import {
+  InputField,
+  InputNumber,
+  Switch,
+  Button,
+  ButtonGroup,
+  FormGrid,
+  SectionLabel,
+  LangTabs,
+} from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
@@ -33,15 +42,29 @@ function slugify(text: string): string {
     .replace(/^-|-$/g, '')
 }
 
-export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCancel, onSubmit }: TagFormProps) => {
+export const TagForm = ({
+  mode,
+  initialValues,
+  isSubmitting,
+  submitError,
+  onCancel,
+  onSubmit,
+}: TagFormProps) => {
   const { t, language } = useTagsTranslation()
-  const schema = useMemo(() => createTagSchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createTagSchema(t.validation, language),
+    [t.validation, language]
+  )
 
   const [editingLanguage, setEditingLanguage] = useState<Language>(language)
 
   const emptyLocalized = useMemo(
-    () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
-    [],
+    () =>
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
+        Language,
+        string
+      >,
+    []
   )
 
   const {
@@ -78,7 +101,11 @@ export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCanc
 
   useEffect(() => {
     if (detachedRef.current) return
-    setValue('slug', slugify(currentNameValue), { shouldValidate: false, shouldDirty: false, shouldTouch: false })
+    setValue('slug', slugify(currentNameValue), {
+      shouldValidate: false,
+      shouldDirty: false,
+      shouldTouch: false,
+    })
   }, [currentNameValue, setValue])
 
   const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,19 +113,24 @@ export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCanc
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '')
       .replace(/-+/g, '-')
-    setValue('slug', cleaned, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+    setValue('slug', cleaned, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
     detachedRef.current = !!cleaned
   }
 
   const hasContent = (lang: Language): boolean => !!nameValues?.[lang]?.trim()
-  const hasError = (lang: Language): boolean => !!(errors.name as LangErrors)?.[lang]
+  const hasError = (lang: Language): boolean =>
+    !!(errors.name as LangErrors)?.[lang]
   const nameError = (errors.name as LangErrors)?.[editingLanguage]?.message
 
   const submit = handleSubmit((data) => onSubmit(data))
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-6 rounded-xl border border-border bg-surface p-6">
+      <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <SectionLabel>{t.form.tabTranslations}</SectionLabel>
@@ -133,13 +165,22 @@ export const TagForm = ({ mode, initialValues, isSubmitting, submitError, onCanc
           label={t.form.isActive}
           checked={isActiveValue}
           onChange={(e) =>
-            setValue('isActive', e.target.checked, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+            setValue('isActive', e.target.checked, {
+              shouldValidate: true,
+              shouldDirty: true,
+              shouldTouch: true,
+            })
           }
           disabled={isSubmitting}
         />
 
-        <ButtonGroup className="border-t border-border pt-4">
-          <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+        <ButtonGroup className="border-border border-t pt-4">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
             {t.form.cancel}
           </Button>
           <Button

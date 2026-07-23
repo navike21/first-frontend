@@ -1,4 +1,11 @@
-import { InputField, Select, Switch, FormGrid, SectionLabel, FadeCollapse } from '@/shared/ui'
+import {
+  InputField,
+  Select,
+  Switch,
+  FormGrid,
+  SectionLabel,
+  FadeCollapse,
+} from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { useSiteConfigTranslation } from '../../i18n'
 import { usePagesForCtaPicker } from '../../api/site-config.queries'
@@ -14,15 +21,23 @@ export interface HeaderConfigPanelProps {
   onChange: (patch: Partial<HeaderConfig>) => void
 }
 
-export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPanelProps) => {
+export const HeaderConfigPanel = ({
+  value,
+  language,
+  onChange,
+}: HeaderConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
   const { data: pagesData } = usePagesForCtaPicker()
 
-  const patchCta = (patch: Partial<HeaderConfig['cta']>) => onChange({ cta: { ...value.cta, ...patch } })
+  const patchCta = (patch: Partial<HeaderConfig['cta']>) =>
+    onChange({ cta: { ...value.cta, ...patch } })
 
   const pageOptions = [
     { value: '', label: t.header.ctaSelectPage },
-    ...(pagesData ?? []).map((p) => ({ value: p.id, label: p.title[language] || p.title.en || p.id })),
+    ...(pagesData ?? []).map((p) => ({
+      value: p.id,
+      label: p.title[language] || p.title.en || p.id,
+    })),
   ]
 
   const variantOptions = HEADER_VARIANTS.map((variant) => ({
@@ -61,7 +76,7 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
         />
       </FormGrid>
 
-      <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface-subtle p-4">
+      <div className="border-border bg-surface-subtle flex flex-col gap-4 rounded-xl border p-4">
         <Switch
           label={t.header.ctaEnabled}
           checked={value.cta.enabled}
@@ -78,7 +93,9 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
                 ]}
                 value={value.cta.linkType}
                 lang={language}
-                onChange={(e) => patchCta({ linkType: e.target.value as 'page' | 'url' })}
+                onChange={(e) =>
+                  patchCta({ linkType: e.target.value as 'page' | 'url' })
+                }
               />
               {value.cta.linkType === 'page' ? (
                 <Select
@@ -99,21 +116,31 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
 
             {/* Label source: reuse the linked page's localized title, or type a
                 custom label. URL destinations always need a custom label. */}
-            <FadeCollapse show={value.cta.linkType === 'page' && !!value.cta.pageId}>
+            <FadeCollapse
+              show={value.cta.linkType === 'page' && !!value.cta.pageId}
+            >
               <Switch
                 label={t.header.ctaUsePageTitle}
                 checked={value.cta.labelMode === 'page'}
-                onChange={(e) => patchCta({ labelMode: e.target.checked ? 'page' : 'custom' })}
+                onChange={(e) =>
+                  patchCta({ labelMode: e.target.checked ? 'page' : 'custom' })
+                }
               />
             </FadeCollapse>
             <FadeCollapse
-              show={value.cta.linkType === 'url' || !value.cta.pageId || value.cta.labelMode === 'custom'}
+              show={
+                value.cta.linkType === 'url' ||
+                !value.cta.pageId ||
+                value.cta.labelMode === 'custom'
+              }
             >
               <LocalizedField
                 label={t.header.ctaLabel}
                 value={value.cta.label}
                 userLanguage={language}
-                onChange={(lang, text) => patchCta({ label: { ...value.cta.label, [lang]: text } })}
+                onChange={(lang, text) =>
+                  patchCta({ label: { ...value.cta.label, [lang]: text } })
+                }
               />
             </FadeCollapse>
           </div>
@@ -129,7 +156,12 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
             value={value.mobile.logoPosition}
             lang={language}
             onChange={(e) =>
-              onChange({ mobile: { ...value.mobile, logoPosition: e.target.value as 'left' | 'center' } })
+              onChange({
+                mobile: {
+                  ...value.mobile,
+                  logoPosition: e.target.value as 'left' | 'center',
+                },
+              })
             }
           />
           <Select
@@ -138,7 +170,12 @@ export const HeaderConfigPanel = ({ value, language, onChange }: HeaderConfigPan
             value={value.mobile.menuIconPosition}
             lang={language}
             onChange={(e) =>
-              onChange({ mobile: { ...value.mobile, menuIconPosition: e.target.value as 'left' | 'right' } })
+              onChange({
+                mobile: {
+                  ...value.mobile,
+                  menuIconPosition: e.target.value as 'left' | 'right',
+                },
+              })
             }
           />
         </FormGrid>

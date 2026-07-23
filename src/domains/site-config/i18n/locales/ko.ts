@@ -3,7 +3,8 @@ import type { SiteConfigTranslations } from '../types'
 export const ko: SiteConfigTranslations = {
   page: {
     title: '웹사이트 설정',
-    description: '공개 사이트의 전체 레이아웃(헤더, 푸터, 콘텐츠 영역)을 정의합니다',
+    description:
+      '공개 사이트의 전체 레이아웃(헤더, 푸터, 콘텐츠 영역)을 정의합니다',
   },
   tabs: {
     header: '헤더',

@@ -1,9 +1,21 @@
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useQueryClient } from '@tanstack/react-query'
-import { Modal, Button, IconButton, IconComponent, ProgressBar } from '@/shared/ui'
-import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.queries'
-import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
+import {
+  Modal,
+  Button,
+  IconButton,
+  IconComponent,
+  ProgressBar,
+} from '@/shared/ui'
+import {
+  useUploadStorageImages,
+  storageKeys,
+} from '@/shared/api/storage.queries'
+import {
+  directUploadVideo,
+  attachVideoCoverWithRetry,
+} from '@/shared/api/storage'
 import type { UploadProgress } from '@/shared/api/storage'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { notify } from '@/shared/lib/notify'
@@ -35,7 +47,11 @@ interface QueuedFile {
 const isVideoFile = (file: File) => file.type.startsWith('video/')
 const isImageFile = (file: File) => file.type.startsWith('image/')
 
-export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadModalProps) => {
+export const MediaUploadModal = ({
+  isOpen,
+  onClose,
+  onUploaded,
+}: MediaUploadModalProps) => {
   const { t } = useMediaTranslation()
   const qc = useQueryClient()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -68,9 +84,15 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
   }
 
   const renderRowStatus = (q: QueuedFile, progress: number | undefined) => {
-    if (q.error) return <span className="shrink-0 text-xs text-danger-600">{q.error}</span>
-    if (progress !== undefined) return <span className="shrink-0 text-xs text-muted">{progress}%</span>
-    return <span className="shrink-0 text-xs text-muted">{formatFileSize(q.file.size)}</span>
+    if (q.error)
+      return <span className="text-danger-600 shrink-0 text-xs">{q.error}</span>
+    if (progress !== undefined)
+      return <span className="text-muted shrink-0 text-xs">{progress}%</span>
+    return (
+      <span className="text-muted shrink-0 text-xs">
+        {formatFileSize(q.file.size)}
+      </span>
+    )
   }
 
   // Checked client-side before a file ever reaches the network — otherwise
@@ -93,11 +115,15 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
   const addFiles = (fileList: FileList) => {
     setQueue((prev) => [
       ...prev,
-      ...Array.from(fileList).map((file) => ({ file, error: oversizedError(file) })),
+      ...Array.from(fileList).map((file) => ({
+        file,
+        error: oversizedError(file),
+      })),
     ])
   }
 
-  const removeFile = (index: number) => setQueue((prev) => prev.filter((_, i) => i !== index))
+  const removeFile = (index: number) =>
+    setQueue((prev) => prev.filter((_, i) => i !== index))
 
   const reset = () => {
     setQueue([])
@@ -122,12 +148,14 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     const uploadImageFile = (file: File) =>
       uploadImages.mutateAsync({
         files: [file],
-        onProgress: (progress) => updateFileProgress(file.name, progress.percentage),
+        onProgress: (progress) =>
+          updateFileProgress(file.name, progress.percentage),
       })
 
     const uploadVideoWithCover = async (file: File) => {
       const id = crypto.randomUUID()
-      const onProgress = (progress: UploadProgress) => updateFileProgress(file.name, progress.percentage)
+      const onProgress = (progress: UploadProgress) =>
+        updateFileProgress(file.name, progress.percentage)
       const result = await directUploadVideo(file, id, onProgress)
       captureVideoFrame(file).then((cover) => {
         if (cover) attachVideoCoverWithRetry(id, cover)
@@ -143,7 +171,11 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     // keeps every payload under the already-validated per-file limit, and as
     // a side benefit gives each image its own progress, like video already had.
     const results = await Promise.allSettled(
-      validQueue.map((q) => (isImageFile(q.file) ? uploadImageFile(q.file) : uploadVideoWithCover(q.file))),
+      validQueue.map((q) =>
+        isImageFile(q.file)
+          ? uploadImageFile(q.file)
+          : uploadVideoWithCover(q.file)
+      )
     )
 
     // Maps each failed file name to the *specific* reason it failed (the
@@ -151,15 +183,23 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     const failedMessages = new Map<string, string>()
     validQueue.forEach((q, i) => {
       const result = results[i]
-      if (result.status === 'rejected') failedMessages.set(q.file.name, notify.errorMessage(result.reason))
+      if (result.status === 'rejected')
+        failedMessages.set(q.file.name, notify.errorMessage(result.reason))
     })
 
-    const hasUploadedVideo = validQueue.some((q, i) => isVideoFile(q.file) && results[i].status === 'fulfilled')
+    const hasUploadedVideo = validQueue.some(
+      (q, i) => isVideoFile(q.file) && results[i].status === 'fulfilled'
+    )
     if (hasUploadedVideo) {
-      setTimeout(() => qc.invalidateQueries({ queryKey: storageKeys.all }), VIDEO_REGISTRATION_DELAY_MS)
+      setTimeout(
+        () => qc.invalidateQueries({ queryKey: storageKeys.all }),
+        VIDEO_REGISTRATION_DELAY_MS
+      )
     }
 
-    const hasRemainingErrors = queue.some((q) => q.error || failedMessages.has(q.file.name))
+    const hasRemainingErrors = queue.some(
+      (q) => q.error || failedMessages.has(q.file.name)
+    )
     if (!hasRemainingErrors) {
       reset()
       onUploaded()
@@ -171,7 +211,11 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
     setQueue((prev) =>
       prev
         .filter((q) => q.error || failedMessages.has(q.file.name))
-        .map((q) => (failedMessages.has(q.file.name) ? { ...q, error: failedMessages.get(q.file.name) } : q)),
+        .map((q) =>
+          failedMessages.has(q.file.name)
+            ? { ...q, error: failedMessages.get(q.file.name) }
+            : q
+        )
     )
     setUploading(false)
     if (succeededCount > 0) onUploaded()
@@ -185,10 +229,19 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
       title={t.upload.title}
       footer={
         <>
-          <Button variant="secondary" onClick={handleClose} disabled={uploading}>
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            disabled={uploading}
+          >
             {t.actions.cancel}
           </Button>
-          <Button variant="primary" loading={uploading} disabled={!hasUploadableFiles} onClick={handleUpload}>
+          <Button
+            variant="primary"
+            loading={uploading}
+            disabled={!hasUploadableFiles}
+            onClick={handleUpload}
+          >
             {uploading ? t.upload.uploadingLabel : t.upload.uploadButton}
           </Button>
         </>
@@ -210,19 +263,28 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
           onClick={() => inputRef.current?.click()}
           className={clsx(
             'flex min-h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors',
-            isDragging ? 'border-primary-600 bg-primary-700/5' : 'border-border bg-surface-subtle hover:border-primary-600/60',
+            isDragging
+              ? 'border-primary-600 bg-primary-700/5'
+              : 'border-border bg-surface-subtle hover:border-primary-600/60'
           )}
         >
           <IconComponent
             icon={isDragging ? 'RiDownloadLine' : 'RiUploadCloud2Line'}
-            className={clsx('h-7 w-7', isDragging ? 'text-primary-600' : 'text-muted')}
+            className={clsx(
+              'h-7 w-7',
+              isDragging ? 'text-primary-600' : 'text-muted'
+            )}
           />
-          <p className="text-sm font-semibold text-foreground">{t.upload.dragLabel}</p>
-          <p className="text-sm text-secondary">
-            {t.upload.dragOrLabel}{' '}
-            <span className="font-medium text-primary-600 underline underline-offset-2">{t.upload.browseLabel}</span>
+          <p className="text-foreground text-sm font-semibold">
+            {t.upload.dragLabel}
           </p>
-          <p className="text-xs text-muted">{t.upload.formatsHint}</p>
+          <p className="text-secondary text-sm">
+            {t.upload.dragOrLabel}{' '}
+            <span className="text-primary-600 font-medium underline underline-offset-2">
+              {t.upload.browseLabel}
+            </span>
+          </p>
+          <p className="text-muted text-xs">{t.upload.formatsHint}</p>
         </button>
 
         <input
@@ -245,10 +307,12 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
               return (
                 <li
                   key={`${q.file.name}-${i}`}
-                  className="flex flex-col gap-1.5 rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+                  className="border-border bg-surface flex flex-col gap-1.5 rounded-lg border px-3 py-2 text-sm"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="min-w-0 flex-1 truncate">{q.file.name}</span>
+                    <span className="min-w-0 flex-1 truncate">
+                      {q.file.name}
+                    </span>
                     {renderRowStatus(q, progress)}
                     <IconButton
                       icon="RiCloseLine"

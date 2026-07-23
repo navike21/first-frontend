@@ -11,7 +11,10 @@ describe('BrandMark component', () => {
 
   it('should mark the icon as decorative (aria-hidden)', () => {
     const { container } = render(<BrandMark />)
-    expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
+    expect(container.querySelector('svg')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
   })
 
   it('should apply the text size matching each size', () => {

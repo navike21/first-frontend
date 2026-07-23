@@ -9,7 +9,8 @@ export const fr: CollaboratorTranslations = {
     editTitle: 'Modifier le collaborateur',
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des collaborateurs',
-    trashDescription: 'Collaborateurs déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Collaborateurs déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun collaborateur dans la corbeille',
     trashEmptyDescription: 'Les collaborateurs supprimés apparaîtront ici.',
   },
@@ -61,11 +62,14 @@ export const fr: CollaboratorTranslations = {
     restoreTitle: 'Restaurer le collaborateur',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} collaborateurs dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} collaborateurs dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} collaborateurs. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} collaborateurs. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traductions',
@@ -86,7 +90,8 @@ export const fr: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Compte lié',
     linkedUser: 'Utilisateur système',
-    linkedUserHint: 'Lier ce collaborateur à un compte utilisateur existant (facultatif)',
+    linkedUserHint:
+      'Lier ce collaborateur à un compte utilisateur existant (facultatif)',
     noLinkedUser: 'Non lié',
     select: 'Sélectionner…',
     save: 'Enregistrer les modifications',

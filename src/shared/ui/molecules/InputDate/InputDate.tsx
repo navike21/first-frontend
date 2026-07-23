@@ -14,7 +14,8 @@ import { CalendarMonth } from './calendar/CalendarMonth'
 import { CalendarYear } from './calendar/CalendarYear'
 
 const VARIANT_RING: Record<InputDateVariant, string> = {
-  default: 'ring-border-control hover:ring-border-hover focus:ring-primary-600!',
+  default:
+    'ring-border-control hover:ring-border-hover focus:ring-primary-600!',
   success: 'ring-emerald-500',
   error: 'ring-danger-600',
   warning: 'ring-yellow-500',
@@ -208,11 +209,16 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             }
             if (e.key === 'Escape') toggleOpen()
           }}
-          className={getTriggerClass({ disabled, loading, variant, classInput })}
+          className={getTriggerClass({
+            disabled,
+            loading,
+            variant,
+            classInput,
+          })}
         >
           {/* Left slot */}
           {leftSlot && (
-            <div className="flex h-10 min-w-10 items-center justify-center px-3 text-foreground">
+            <div className="text-foreground flex h-10 min-w-10 items-center justify-center px-3">
               {leftSlot}
             </div>
           )}
@@ -222,7 +228,7 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
             <div className="flex h-10 min-w-10 items-center justify-center">
               <IconComponent
                 icon="RiCalendarLine"
-                className="size-5 text-secondary"
+                className="text-secondary size-5"
               />
             </div>
           )}
@@ -378,8 +384,8 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
                     }
               }
               className={clsx(
-                'overflow-hidden rounded-md bg-surface shadow-lg',
-                'ring-1 ring-border',
+                'bg-surface overflow-hidden rounded-md shadow-lg',
+                'ring-border ring-1',
                 'animate-dropdown-in'
               )}
             >
@@ -489,12 +495,12 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
 
               {/* Footer */}
               {(mode === 'date' || mode === 'month') && (
-                <div className="flex items-center justify-between border-t border-border-subtle px-3 py-2">
+                <div className="border-border-subtle flex items-center justify-between border-t px-3 py-2">
                   <button
                     type="button"
                     onClick={handleClear}
                     className={clsx(
-                      'rounded-sm px-2 py-1 text-xs text-secondary',
+                      'text-secondary rounded-sm px-2 py-1 text-xs',
                       'duration-fast ease-out-expo transition-all',
                       'hover:bg-surface-subtle hover:text-foreground',
                       'focus-visible:ring-primary-500 focus-visible:ring-2 focus-visible:outline-none'

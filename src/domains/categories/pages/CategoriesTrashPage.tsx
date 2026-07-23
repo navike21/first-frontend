@@ -1,7 +1,8 @@
 import {
   PageContent,
   DataTable,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -52,7 +53,9 @@ export const CategoriesTrashPage = () => {
       id: 'name',
       header: t.table.colName,
       cell: (category) => (
-        <span className="font-medium text-foreground">{category.name[language] || category.name.en}</span>
+        <span className="text-foreground font-medium">
+          {category.name[language] || category.name.en}
+        </span>
       ),
     },
     {
@@ -74,7 +77,8 @@ export const CategoriesTrashPage = () => {
       id: 'deletedAt',
       header: t.table.deletedAt,
       cellClassName: 'text-secondary',
-      cell: (category) => (category.deletedAt ? formatDate(category.deletedAt) : '—'),
+      cell: (category) =>
+        category.deletedAt ? formatDate(category.deletedAt) : '—',
     },
     {
       id: 'actions',
@@ -92,7 +96,11 @@ export const CategoriesTrashPage = () => {
             />
           </Tooltip>
           <Can anyOf={CAN.categoriesUpdate}>
-            <Tooltip heading={t.table.restoreCategory} position="top" size="small">
+            <Tooltip
+              heading={t.table.restoreCategory}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiArrowGoBackLine"
                 variant="text"
@@ -103,7 +111,11 @@ export const CategoriesTrashPage = () => {
             </Tooltip>
           </Can>
           <Can anyOf={CAN.categoriesPurge}>
-            <Tooltip heading={t.table.purgeCategory} position="top" size="small">
+            <Tooltip
+              heading={t.table.purgeCategory}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBin6Line"
                 variant="text"
@@ -134,8 +146,8 @@ export const CategoriesTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -143,12 +155,20 @@ export const CategoriesTrashPage = () => {
                 {t.actions.clearSelection}
               </Button>
               <Can anyOf={CAN.categoriesUpdate}>
-                <Button variant="primary" size="small" onClick={() => setBulkAction('restore')}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkAction('restore')}
+                >
                   {t.actions.bulkRestore}
                 </Button>
               </Can>
               <Can anyOf={CAN.categoriesPurge}>
-                <Button variant="destructive" size="small" onClick={() => setBulkAction('purge')}>
+                <Button
+                  variant="destructive"
+                  size="small"
+                  onClick={() => setBulkAction('purge')}
+                >
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
@@ -179,20 +199,37 @@ export const CategoriesTrashPage = () => {
         />
       </div>
 
-      <CategoryDetailModal category={viewing} onClose={() => setViewing(null)} />
+      <CategoryDetailModal
+        category={viewing}
+        onClose={() => setViewing(null)}
+      />
 
       <Modal
         isOpen={!!restoring}
         onClose={() => setRestoring(null)}
         size="sm"
         title={t.actions.restoreTitle}
-        description={restoring ? t.actions.restoreDescription(restoring.name[language] || restoring.name.en) : undefined}
+        description={
+          restoring
+            ? t.actions.restoreDescription(
+                restoring.name[language] || restoring.name.en
+              )
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setRestoring(null)} disabled={restore.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setRestoring(null)}
+              disabled={restore.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={restore.isPending} onClick={handleConfirmRestore}>
+            <Button
+              variant="primary"
+              loading={restore.isPending}
+              onClick={handleConfirmRestore}
+            >
               {t.actions.confirmRestore}
             </Button>
           </>
@@ -204,13 +241,27 @@ export const CategoriesTrashPage = () => {
         onClose={() => setPurging(null)}
         size="sm"
         title={t.actions.purgeTitle}
-        description={purging ? t.actions.purgeDescription(purging.name[language] || purging.name.en) : undefined}
+        description={
+          purging
+            ? t.actions.purgeDescription(
+                purging.name[language] || purging.name.en
+              )
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setPurging(null)} disabled={purge.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setPurging(null)}
+              disabled={purge.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="destructive" loading={purge.isPending} onClick={handleConfirmPurge}>
+            <Button
+              variant="destructive"
+              loading={purge.isPending}
+              onClick={handleConfirmPurge}
+            >
               {t.actions.confirmPurge}
             </Button>
           </>
@@ -221,7 +272,11 @@ export const CategoriesTrashPage = () => {
         isOpen={!!bulkAction}
         onClose={() => setBulkAction(null)}
         size="sm"
-        title={bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle}
+        title={
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
+        }
         description={
           bulkAction === 'restore'
             ? t.actions.bulkRestoreDescription(selectedIds.length)
@@ -241,7 +296,9 @@ export const CategoriesTrashPage = () => {
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >
-              {bulkAction === 'restore' ? t.actions.confirmRestore : t.actions.confirmPurge}
+              {bulkAction === 'restore'
+                ? t.actions.confirmRestore
+                : t.actions.confirmPurge}
             </Button>
           </>
         }

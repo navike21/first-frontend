@@ -18,14 +18,22 @@ export const PhotoPicker = ({
   onSelectLibrary,
   libraryTexts,
 }: PhotoPickerProps) => {
-  const { inputRef, preview, error, handleChange, handleFile, openPicker, handleRemove } =
-    usePhotoPicker({
-      currentUrl,
-      onChange,
-      onRemove,
-    })
+  const {
+    inputRef,
+    preview,
+    error,
+    handleChange,
+    handleFile,
+    openPicker,
+    handleRemove,
+  } = usePhotoPicker({
+    currentUrl,
+    onChange,
+    onRemove,
+  })
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
-  const openMain = onSelectLibrary && libraryTexts ? () => setIsLibraryOpen(true) : openPicker
+  const openMain =
+    onSelectLibrary && libraryTexts ? () => setIsLibraryOpen(true) : openPicker
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -40,7 +48,7 @@ export const PhotoPicker = ({
               // Layout
               'absolute top-0 right-0 z-10 flex h-7 w-7 items-center justify-center',
               // Visual base
-              'rounded-full bg-danger-600 text-white ring-2 ring-surface',
+              'bg-danger-600 ring-surface rounded-full text-white ring-2',
               // Transitions
               'transition-colors',
               // Hover
@@ -79,19 +87,19 @@ export const PhotoPicker = ({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-surface-subtle">
+              <div className="bg-surface-subtle flex h-full w-full flex-col items-center justify-center gap-1.5">
                 <IconComponent
                   icon="RiCameraLine"
-                  className="h-7 w-7 text-muted transition-colors group-hover:text-primary-600"
+                  className="text-muted group-hover:text-primary-600 h-7 w-7 transition-colors"
                 />
-                <span className="px-2 text-center text-xs leading-tight text-muted transition-colors group-hover:text-primary-600">
+                <span className="text-muted group-hover:text-primary-600 px-2 text-center text-xs leading-tight transition-colors">
                   {uploadLabel}
                 </span>
               </div>
             )}
           </div>
           {preview && (
-            <span className="absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-primary-600 text-white ring-2 ring-surface">
+            <span className="bg-primary-600 ring-surface absolute right-0 bottom-0 flex h-7 w-7 items-center justify-center rounded-full text-white ring-2">
               <IconComponent icon="RiCameraLine" className="h-3.5 w-3.5" />
             </span>
           )}
@@ -105,10 +113,10 @@ export const PhotoPicker = ({
         onChange={handleChange}
         disabled={disabled}
       />
-      <p className="text-center text-xs leading-snug text-secondary">
+      <p className="text-secondary text-center text-xs leading-snug">
         {formatsHint}
       </p>
-      {error && <p className="text-center text-xs text-danger-600">{error}</p>}
+      {error && <p className="text-danger-600 text-center text-xs">{error}</p>}
 
       {onSelectLibrary && libraryTexts && (
         <MediaLibraryModal

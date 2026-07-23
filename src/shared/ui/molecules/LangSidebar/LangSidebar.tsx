@@ -17,7 +17,9 @@ export const LangSidebar = ({
   onChange,
 }: LangSidebarProps) => (
   <div className="flex flex-col gap-1">
-    <span className="mb-1 text-xs font-medium tracking-wide text-muted uppercase">{label}</span>
+    <span className="text-muted mb-1 text-xs font-medium tracking-wide uppercase">
+      {label}
+    </span>
     {SUPPORTED_LANGUAGES.map((lang) => {
       const isActive = lang === editingLanguage
       const isUser = lang === userLanguage
@@ -31,17 +33,27 @@ export const LangSidebar = ({
           onClick={() => onChange(lang)}
           className={clsx(
             'flex w-full cursor-pointer items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors',
-            isActive ? 'bg-primary-700/10 ring-1 ring-primary-700/20' : 'hover:bg-surface-subtle',
+            isActive
+              ? 'bg-primary-700/10 ring-primary-700/20 ring-1'
+              : 'hover:bg-surface-subtle'
           )}
         >
           <LangBadge lang={lang} />
           <span
-            className={clsx('flex-1 truncate text-sm', isActive ? 'font-medium text-primary-600' : 'text-foreground')}
+            className={clsx(
+              'flex-1 truncate text-sm',
+              isActive ? 'text-primary-600 font-medium' : 'text-foreground'
+            )}
           >
             {NATIVE_LANGUAGE_NAMES[lang]}
           </span>
-          {isUser && <span className="text-[10px] text-primary-600">★</span>}
-          <span className={clsx('h-2 w-2 shrink-0 rounded-full', langDotClass(error, filled))} />
+          {isUser && <span className="text-primary-600 text-[10px]">★</span>}
+          <span
+            className={clsx(
+              'h-2 w-2 shrink-0 rounded-full',
+              langDotClass(error, filled)
+            )}
+          />
         </button>
       )
     })}

@@ -61,7 +61,7 @@ export function useGalleryPicker({
       }
       if (accepted.length) onItemsChange([...items, ...accepted])
     },
-    [items, maxItems, maxBytes, onItemsChange],
+    [items, maxItems, maxBytes, onItemsChange]
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +92,11 @@ export function useGalleryPicker({
     if (remaining <= 0) return
     const accepted: GalleryItem[] = files
       .slice(0, remaining)
-      .map((file) => ({ key: file.id, kind: 'existing', url: file.original.url }))
+      .map((file) => ({
+        key: file.id,
+        kind: 'existing',
+        url: file.original.url,
+      }))
     if (accepted.length) onItemsChange([...items, ...accepted])
   }
 

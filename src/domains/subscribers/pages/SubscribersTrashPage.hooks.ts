@@ -9,7 +9,10 @@ import {
   useBulkPurgeSubscribers,
 } from '../api/subscribers.queries'
 import { useSubscribersTranslation } from '../i18n'
-import type { Subscriber, SubscriberPaginationMeta } from '../model/subscriber.types'
+import type {
+  Subscriber,
+  SubscriberPaginationMeta,
+} from '../model/subscriber.types'
 
 export function useSubscribersTrashPage() {
   const { t, language } = useSubscribersTranslation()

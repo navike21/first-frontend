@@ -4,7 +4,12 @@ import { Modal, DetailField, Tabs, Spinner, IconComponent } from '@/shared/ui'
 import type { TabItem } from '@/shared/ui'
 import { formatDate } from '@/shared/lib/formatDate'
 import { navPaths } from '@/shared/router'
-import type { StorageFile, StorageFileUsage, StorageUsageModule, StorageUsageContext } from '@/shared/api/storage'
+import type {
+  StorageFile,
+  StorageFileUsage,
+  StorageUsageModule,
+  StorageUsageContext,
+} from '@/shared/api/storage'
 import { useStorageFileUsages } from '@/shared/api/storage.queries'
 import { useMediaTranslation } from '../../i18n'
 import { useUsersForMediaPicker } from '../../api/media.queries'
@@ -17,7 +22,10 @@ export interface MediaPreviewModalProps {
 
 type PreviewTab = 'details' | 'usage'
 
-export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => {
+export const MediaPreviewModal = ({
+  file,
+  onClose,
+}: MediaPreviewModalProps) => {
   const { t } = useMediaTranslation()
   const { data: usersData } = useUsersForMediaPicker()
   const [activeTab, setActiveTab] = useState<PreviewTab>('details')
@@ -33,7 +41,7 @@ export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => 
 
   const { data: usages, isLoading: usagesLoading } = useStorageFileUsages(
     file?.id ?? '',
-    activeTab === 'usage' && !!file,
+    activeTab === 'usage' && !!file
   )
 
   if (!file) return null
@@ -90,8 +98,13 @@ export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => 
   ]
 
   return (
-    <Modal isOpen={!!file} onClose={onClose} size="lg" title={file.originalName}>
-      <div className="-mx-6 -mt-5 mb-5 flex max-h-96 items-center justify-center overflow-hidden bg-surface-subtle">
+    <Modal
+      isOpen={!!file}
+      onClose={onClose}
+      size="lg"
+      title={file.originalName}
+    >
+      <div className="bg-surface-subtle -mx-6 -mt-5 mb-5 flex max-h-96 items-center justify-center overflow-hidden">
         {file.isImage ? (
           <img
             src={file.full?.url ?? file.original.url}
@@ -114,23 +127,29 @@ export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => 
       {activeTab === 'details' && (
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
           <DetailField label={t.preview.type} value={file.mimeType} />
-          <DetailField label={t.preview.size} value={formatFileSize(file.size)} />
+          <DetailField
+            label={t.preview.size}
+            value={formatFileSize(file.size)}
+          />
           <DetailField label={t.preview.uploadedBy} value={uploadedByName()} />
-          <DetailField label={t.preview.uploadedAt} value={formatDate(file.createdAt)} />
+          <DetailField
+            label={t.preview.uploadedAt}
+            value={formatDate(file.createdAt)}
+          />
         </div>
       )}
 
       {activeTab === 'usage' && (
         <div className="mt-4 flex flex-col gap-3">
           {usagesLoading && (
-            <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted">
+            <div className="text-muted flex items-center justify-center gap-2 py-8 text-sm">
               <Spinner size="small" />
               {t.preview.usageLoading}
             </div>
           )}
 
           {!usagesLoading && (!usages || usages.length === 0) && (
-            <div className="flex flex-col items-center justify-center gap-2 py-8 text-center text-muted">
+            <div className="text-muted flex flex-col items-center justify-center gap-2 py-8 text-center">
               <IconComponent icon="RiShieldCheckLine" className="h-8 w-8" />
               <p className="text-sm">{t.preview.usageEmpty}</p>
             </div>
@@ -143,19 +162,26 @@ export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => 
                 return (
                   <li
                     key={`${usage.module}-${usage.id}-${usage.context ?? ''}`}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+                    className="border-border bg-surface flex items-center justify-between gap-2 rounded-lg border px-3 py-2 text-sm"
                   >
                     <div className="min-w-0 truncate">
-                      <span className="font-medium text-foreground">{moduleLabels[usage.module]}</span>
-                      {usage.label && <span className="text-muted"> — {usage.label}</span>}
+                      <span className="text-foreground font-medium">
+                        {moduleLabels[usage.module]}
+                      </span>
+                      {usage.label && (
+                        <span className="text-muted"> — {usage.label}</span>
+                      )}
                       {usage.context && (
-                        <span className="text-xs text-muted"> ({contextLabels[usage.context]})</span>
+                        <span className="text-muted text-xs">
+                          {' '}
+                          ({contextLabels[usage.context]})
+                        </span>
                       )}
                     </div>
                     {link && (
                       <Link
                         to={link}
-                        className="shrink-0 text-xs font-medium text-primary-600 underline underline-offset-2"
+                        className="text-primary-600 shrink-0 text-xs font-medium underline underline-offset-2"
                       >
                         {t.actions.viewItem}
                       </Link>
@@ -166,7 +192,7 @@ export const MediaPreviewModal = ({ file, onClose }: MediaPreviewModalProps) => 
             </ul>
           )}
 
-          <p className="text-xs text-muted">{t.preview.usageEditorNote}</p>
+          <p className="text-muted text-xs">{t.preview.usageEditorNote}</p>
         </div>
       )}
     </Modal>

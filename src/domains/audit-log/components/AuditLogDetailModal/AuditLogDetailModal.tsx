@@ -11,9 +11,9 @@ interface AuditLogDetailModalProps {
 }
 
 const Row = ({ label, value }: { label: string; value: ReactNode }) => (
-  <div className="flex flex-col gap-1 border-b border-border-subtle py-2.5 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-    <span className="shrink-0 text-sm text-secondary">{label}</span>
-    <span className="text-left text-sm font-medium break-all text-foreground sm:text-right">
+  <div className="border-border-subtle flex flex-col gap-1 border-b py-2.5 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+    <span className="text-secondary shrink-0 text-sm">{label}</span>
+    <span className="text-foreground text-left text-sm font-medium break-all sm:text-right">
       {value}
     </span>
   </div>
@@ -86,10 +86,10 @@ export const AuditLogDetailModal = ({
 
           {log.metadata && Object.keys(log.metadata).length > 0 && (
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-foreground">
+              <span className="text-foreground text-sm font-semibold">
                 {t.detail.colMetadata}
               </span>
-              <pre className="max-h-48 overflow-y-auto rounded-lg border border-border bg-surface-subtle p-3 font-mono text-xs leading-relaxed text-secondary">
+              <pre className="border-border bg-surface-subtle text-secondary max-h-48 overflow-y-auto rounded-lg border p-3 font-mono text-xs leading-relaxed">
                 {JSON.stringify(log.metadata, null, 2)}
               </pre>
             </div>

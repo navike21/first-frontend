@@ -9,7 +9,8 @@ export const ko: ClientsTranslations = {
     editTitle: '클라이언트 편집',
     editDescription: (name) => `${name}의 정보를 업데이트합니다`,
     trashTitle: '클라이언트 휴지통',
-    trashDescription: '휴지통으로 이동된 클라이언트입니다. 복원하거나 영구 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 클라이언트입니다. 복원하거나 영구 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 클라이언트가 없습니다',
     trashEmptyDescription: '삭제된 클라이언트가 여기에 표시됩니다.',
   },
@@ -60,17 +61,23 @@ export const ko: ClientsTranslations = {
     bulkRestore: '복원',
     bulkPurge: '영구 삭제',
     deleteTitle: '클라이언트 삭제',
-    deleteDescription: (name) => `${name}을(를) 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
+    deleteDescription: (name) =>
+      `${name}을(를) 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     confirmDelete: '삭제',
-    bulkDeleteDescription: (count) => `${count}개의 클라이언트를 삭제하시겠습니까? 나중에 복원할 수 있습니다.`,
+    bulkDeleteDescription: (count) =>
+      `${count}개의 클라이언트를 삭제하시겠습니까? 나중에 복원할 수 있습니다.`,
     restoreTitle: '클라이언트 복원',
-    restoreDescription: (name) => `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `클라이언트 ${count}명을 활성 목록으로 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) =>
+      `클라이언트 ${count}명을 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmPurge: '삭제',
-    bulkPurgeDescription: (count) => `클라이언트 ${count}명을 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    bulkPurgeDescription: (count) =>
+      `클라이언트 ${count}명을 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
   },
   form: {
     sectionGeneral: '기본 정보',

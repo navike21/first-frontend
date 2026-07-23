@@ -9,7 +9,8 @@ export const ja: TagTranslations = {
     editTitle: 'タグを編集',
     editDescription: (name) => `${name}を更新`,
     trashTitle: 'タグのゴミ箱',
-    trashDescription: 'ゴミ箱に移動されたタグです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたタグです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にタグはありません',
     trashEmptyDescription: '削除されたタグはここに表示されます。',
   },
@@ -61,11 +62,14 @@ export const ja: TagTranslations = {
     restoreTitle: 'タグを復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件のタグを有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件のタグを有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件のタグを完全に削除します。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count} 件のタグを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     tabTranslations: '翻訳',

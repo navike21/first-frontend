@@ -38,7 +38,7 @@ export const DataTable = <T,>({
 
   if (rows.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-muted">
+      <div className="text-muted flex flex-col items-center justify-center gap-2 py-20">
         <IconComponent icon={emptyIcon} className="h-10 w-10" />
         <p className="text-sm">{emptyLabel}</p>
       </div>
@@ -124,16 +124,16 @@ export const DataTable = <T,>({
               </div>
 
               {bodyColumns.length > 0 && (
-                <dl className="mt-3 flex flex-col gap-2 border-t border-border-subtle pt-3">
+                <dl className="border-border-subtle mt-3 flex flex-col gap-2 border-t pt-3">
                   {bodyColumns.map((col) => (
                     <div
                       key={col.id}
                       className="flex items-center justify-between gap-3"
                     >
-                      <dt className="text-xs font-semibold tracking-wide text-secondary uppercase">
+                      <dt className="text-secondary text-xs font-semibold tracking-wide uppercase">
                         {col.header}
                       </dt>
-                      <dd className="min-w-0 text-right text-sm text-foreground">
+                      <dd className="text-foreground min-w-0 text-right text-sm">
                         {col.cell(row)}
                       </dd>
                     </div>
@@ -142,7 +142,7 @@ export const DataTable = <T,>({
               )}
 
               {footerColumns.length > 0 && (
-                <div className="mt-3 flex items-center justify-end gap-1 border-t border-border-subtle pt-2">
+                <div className="border-border-subtle mt-3 flex items-center justify-end gap-1 border-t pt-2">
                   {footerColumns.map((col) => (
                     <div key={col.id}>{col.cell(row)}</div>
                   ))}
@@ -154,13 +154,13 @@ export const DataTable = <T,>({
       </ul>
 
       {/* Desktop: classic table with horizontal scroll fallback. */}
-      <div className="hidden overflow-x-auto rounded-xl border border-border bg-surface md:block">
+      <div className="border-border bg-surface hidden overflow-x-auto rounded-xl border md:block">
         <table className="w-full text-sm">
           <thead>
             <tr
               className={clsx(
                 'text-left',
-                'border-b border-border-subtle bg-surface-subtle text-xs font-semibold tracking-wide text-secondary uppercase'
+                'border-border-subtle bg-surface-subtle text-secondary border-b text-xs font-semibold tracking-wide uppercase'
               )}
             >
               {selectable && (
@@ -187,7 +187,7 @@ export const DataTable = <T,>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-border-control">
+          <tbody className="divide-border-control divide-y">
             {rows.map((row) => {
               const key = getRowKey(row)
               const isSelected = selected.includes(key)
@@ -230,7 +230,7 @@ export const DataTable = <T,>({
       </div>
 
       {showFooter && (
-        <div className="flex items-center justify-between text-sm text-secondary">
+        <div className="text-secondary flex items-center justify-between text-sm">
           <span>{totalLabel}</span>
           {pagination && pagination.pages > 1 && (
             <div className="flex items-center gap-1">
@@ -242,7 +242,7 @@ export const DataTable = <T,>({
                 disabled={pagination.page <= 1}
                 onClick={() => pagination.onPageChange(pagination.page - 1)}
               />
-              <span className="px-2 font-medium text-foreground">
+              <span className="text-foreground px-2 font-medium">
                 {pagination.page} / {pagination.pages}
               </span>
               <IconButton

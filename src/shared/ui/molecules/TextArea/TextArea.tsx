@@ -79,7 +79,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
         <div
           className={clsx(
-            'flex w-full rounded-control',
+            'rounded-control flex w-full',
             'duration-fast ease-out-expo transition-all',
             'focus-within:ring-2',
             {
@@ -114,7 +114,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               'placeholder:text-muted',
               'focus:outline-none',
               {
-                'cursor-not-allowed text-muted': disabled,
+                'text-muted cursor-not-allowed': disabled,
                 'text-foreground': !disabled,
               }
             )}
@@ -138,7 +138,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               className={clsx('shrink-0 text-xs tabular-nums', {
                 'text-muted': !nearLimit && !atLimit,
                 'text-yellow-500': nearLimit,
-                'font-medium text-danger-600': atLimit,
+                'text-danger-600 font-medium': atLimit,
               })}
             >
               {length}/{maxLength}

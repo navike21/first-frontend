@@ -27,7 +27,7 @@ export const Header = () => {
       className={clsx(
         'z-40 flex w-full items-center justify-between gap-2',
         'px-4 py-3 md:px-6 md:py-4',
-        'border-b border-border bg-surface shadow-sm'
+        'border-border bg-surface border-b shadow-sm'
       )}
     >
       <div className="flex items-center gap-4">
@@ -36,7 +36,7 @@ export const Header = () => {
           onClick={toggleMobileSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-secondary',
+            'text-secondary rounded-md',
             'duration-fast ease-out-expo transition-colors',
             'hover:bg-surface-subtle hover:text-foreground',
             'focus:outline-none',
@@ -51,7 +51,7 @@ export const Header = () => {
           onClick={toggleSidebar}
           className={clsx(
             'cursor-pointer p-2',
-            'rounded-md text-secondary',
+            'text-secondary rounded-md',
             'duration-fast ease-out-expo transition-colors',
             'hover:bg-surface-subtle hover:text-foreground',
             'focus:outline-none',
@@ -77,7 +77,7 @@ export const Header = () => {
         <IconButton icon="RiNotification3Line" shape="circle" variant="text" />
 
         {/* User menu */}
-        <div className="ml-2 border-l border-border pl-3">
+        <div className="border-border ml-2 border-l pl-3">
           <UserMenu
             name={
               user ? `${user.firstName} ${user.lastName}`.trim() : t.guestName

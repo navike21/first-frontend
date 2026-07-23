@@ -1,4 +1,9 @@
-import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
+import {
+  render,
+  screen,
+  fireEvent,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { StorageFile } from '@/shared/api/storage'
 import { MediaLibraryModal } from './MediaLibraryModal'
@@ -37,7 +42,10 @@ const videoFile: StorageFile = {
   original: { pathname: 'clip.mp4', url: 'https://cdn.example.com/clip.mp4' },
   // thumb already set so MediaThumbnail takes the cheap <img> path and its
   // own async play/capture effects never run in this test.
-  thumb: { pathname: 'clip-thumb.webp', url: 'https://cdn.example.com/clip-thumb.webp' },
+  thumb: {
+    pathname: 'clip-thumb.webp',
+    url: 'https://cdn.example.com/clip-thumb.webp',
+  },
   uploadedBy: 'user-1',
   status: 'active',
   createdAt: '2026-01-01T00:00:00.000Z',
@@ -55,7 +63,10 @@ const imageFile: StorageFile = {
 describe('MediaLibraryModal video preview', () => {
   beforeEach(() => {
     mockUseStorageFiles.mockReturnValue({
-      data: { items: [videoFile], meta: { total: 1, page: 1, limit: 12, totalPages: 1 } },
+      data: {
+        items: [videoFile],
+        meta: { total: 1, page: 1, limit: 12, totalPages: 1 },
+      },
       isLoading: false,
       isFetching: false,
     })
@@ -63,17 +74,38 @@ describe('MediaLibraryModal video preview', () => {
 
   it('shows a preview trigger on video tiles but not image tiles', () => {
     mockUseStorageFiles.mockReturnValue({
-      data: { items: [imageFile], meta: { total: 1, page: 1, limit: 12, totalPages: 1 } },
+      data: {
+        items: [imageFile],
+        meta: { total: 1, page: 1, limit: 12, totalPages: 1 },
+      },
       isLoading: false,
       isFetching: false,
     })
-    render(<MediaLibraryModal isOpen kind="image" onSelect={vi.fn()} onClose={vi.fn()} texts={texts} />)
-    expect(screen.queryByLabelText(`Preview: ${imageFile.originalName}`)).not.toBeInTheDocument()
+    render(
+      <MediaLibraryModal
+        isOpen
+        kind="image"
+        onSelect={vi.fn()}
+        onClose={vi.fn()}
+        texts={texts}
+      />
+    )
+    expect(
+      screen.queryByLabelText(`Preview: ${imageFile.originalName}`)
+    ).not.toBeInTheDocument()
   })
 
   it('opens an in-place preview without selecting, on clicking the preview trigger', () => {
     const onSelect = vi.fn()
-    render(<MediaLibraryModal isOpen kind="video" onSelect={onSelect} onClose={vi.fn()} texts={texts} />)
+    render(
+      <MediaLibraryModal
+        isOpen
+        kind="video"
+        onSelect={onSelect}
+        onClose={vi.fn()}
+        texts={texts}
+      />
+    )
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
 
@@ -85,7 +117,15 @@ describe('MediaLibraryModal video preview', () => {
   it('single-select mode: the preview action button selects the file and closes the modal', () => {
     const onSelect = vi.fn()
     const onClose = vi.fn()
-    render(<MediaLibraryModal isOpen kind="video" onSelect={onSelect} onClose={onClose} texts={texts} />)
+    render(
+      <MediaLibraryModal
+        isOpen
+        kind="video"
+        onSelect={onSelect}
+        onClose={onClose}
+        texts={texts}
+      />
+    )
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
     fireEvent.click(screen.getByRole('button', { name: 'Select' }))
@@ -97,7 +137,14 @@ describe('MediaLibraryModal video preview', () => {
   it('multiple mode: the preview action button toggles selection and only closes the preview', async () => {
     const onClose = vi.fn()
     render(
-      <MediaLibraryModal isOpen kind="video" multiple onSelectMultiple={vi.fn()} onClose={onClose} texts={texts} />,
+      <MediaLibraryModal
+        isOpen
+        kind="video"
+        multiple
+        onSelectMultiple={vi.fn()}
+        onClose={onClose}
+        texts={texts}
+      />
     )
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
@@ -105,18 +152,32 @@ describe('MediaLibraryModal video preview', () => {
     // The preview panel slides out (AnimatePresence exit animation) rather
     // than unmounting instantly — wait for it instead of asserting it's gone
     // synchronously.
-    await waitForElementToBeRemoved(() => document.querySelector('video[autoplay]'))
+    await waitForElementToBeRemoved(() =>
+      document.querySelector('video[autoplay]')
+    )
 
     expect(onClose).not.toHaveBeenCalled()
-    expect(screen.getByRole('button', { name: `Add selected (1)` })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: `Add selected (1)` })
+    ).toBeInTheDocument()
   })
 
   it('closes the preview when clicking the close button', async () => {
-    render(<MediaLibraryModal isOpen kind="video" onSelect={vi.fn()} onClose={vi.fn()} texts={texts} />)
+    render(
+      <MediaLibraryModal
+        isOpen
+        kind="video"
+        onSelect={vi.fn()}
+        onClose={vi.fn()}
+        texts={texts}
+      />
+    )
 
     fireEvent.click(screen.getByLabelText(`Preview: ${videoFile.originalName}`))
     fireEvent.click(screen.getByLabelText('Close preview'))
 
-    await waitForElementToBeRemoved(() => document.querySelector('video[autoplay]'))
+    await waitForElementToBeRemoved(() =>
+      document.querySelector('video[autoplay]')
+    )
   })
 })

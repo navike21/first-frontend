@@ -85,7 +85,7 @@ export const AuditLogsPage = () => {
       id: 'occurredAt',
       header: t.table.colDate,
       cell: (row) => (
-        <span className="font-medium text-foreground">
+        <span className="text-foreground font-medium">
           {formatDateTime(row.occurredAt)}
         </span>
       ),
@@ -98,7 +98,7 @@ export const AuditLogsPage = () => {
           ? `${row.user.firstName} ${row.user.lastName}`
           : undefined
         return (
-          <span className="text-sm font-medium text-secondary">
+          <span className="text-secondary text-sm font-medium">
             {name ?? row.userId ?? '—'}
           </span>
         )
@@ -117,7 +117,7 @@ export const AuditLogsPage = () => {
       id: 'resource',
       header: t.table.colResource,
       cell: (row) => (
-        <span className="text-sm text-secondary">{row.resource}</span>
+        <span className="text-secondary text-sm">{row.resource}</span>
       ),
     },
     {
@@ -143,7 +143,6 @@ export const AuditLogsPage = () => {
   return (
     <Can anyOf={CAN.auditLogsView} fallback={<ForbiddenPage />}>
       <PageContent title={t.page.title} description={t.page.desc}>
-
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="w-full sm:w-52">
             <InputDate

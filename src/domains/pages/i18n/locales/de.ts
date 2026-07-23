@@ -9,7 +9,8 @@ export const de: PageTranslations = {
     editTitle: 'Seite bearbeiten',
     editDescription: (name) => `${name} aktualisieren`,
     trashTitle: 'Seiten-Papierkorb',
-    trashDescription: 'Seiten, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Seiten, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Seiten im Papierkorb',
     trashEmptyDescription: 'Gelöschte Seiten werden hier angezeigt.',
     builderTitle: 'Seiten-Baukasten',
@@ -67,14 +68,19 @@ export const de: PageTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Seiten löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Seite wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Seiten in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Seiten in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Seiten endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
-    purgeBlockedByChildren: 'Diese Seite hat untergeordnete Seiten und kann nicht endgültig gelöscht werden.',
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Seiten endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeBlockedByChildren:
+      'Diese Seite hat untergeordnete Seiten und kann nicht endgültig gelöscht werden.',
   },
   form: {
     sectionGeneral: 'Allgemein',
@@ -133,7 +139,8 @@ export const de: PageTranslations = {
     fieldSections: 'Abschnitte',
     sectionsCount: (count) => `${count} Abschnitt${count === 1 ? '' : 'e'}`,
     restoreTitle: 'Version wiederherstellen',
-    restoreDescription: (date) => `Die am ${date} gespeicherte Version wiederherstellen? Der aktuelle Inhalt wird überschrieben.`,
+    restoreDescription: (date) =>
+      `Die am ${date} gespeicherte Version wiederherstellen? Der aktuelle Inhalt wird überschrieben.`,
     confirmRestore: 'Wiederherstellen',
     cancel: 'Abbrechen',
     restored: 'Version wiederhergestellt',
@@ -154,7 +161,8 @@ export const de: PageTranslations = {
     required: 'Pflichtfeld',
     slugInvalid: 'Nur Kleinbuchstaben, Zahlen und Bindestriche sind erlaubt',
     urlInvalid: 'Ungültige URL',
-    scheduledAtRequired: 'Ein Veröffentlichungsdatum ist erforderlich, wenn der Status "Geplant" ist',
+    scheduledAtRequired:
+      'Ein Veröffentlichungsdatum ist erforderlich, wenn der Status "Geplant" ist',
   },
   builder: {
     palette: 'Abschnitte',
@@ -251,7 +259,8 @@ export const de: PageTranslations = {
     imageReplace: 'Bild ersetzen',
     imageAlt: 'Alternativtext',
     sliderEmpty: 'Folien hinzufügen',
-    sliderAddLabel: 'Bilder oder Videos hierher ziehen oder klicken zum Auswählen',
+    sliderAddLabel:
+      'Bilder oder Videos hierher ziehen oder klicken zum Auswählen',
     sliderDragLabel: 'Zum Hinzufügen ablegen',
     sliderFormatsHint: 'Bilder (JPEG, PNG, WebP) oder Video (MP4, WebM)',
     sliderRemoveLabel: 'Folie entfernen',
@@ -315,14 +324,17 @@ export const de: PageTranslations = {
     mapLngLabel: 'Längengrad (optional)',
     mapCaptionLabel: 'Beschreibung (optional)',
     mapShowDirectionsLabel: '"Route anzeigen"-Buttons anzeigen',
-    mapShowDirectionsHint: 'Fügt Buttons hinzu, um die Adresse in Google Maps und Waze zu öffnen',
+    mapShowDirectionsHint:
+      'Fügt Buttons hinzu, um die Adresse in Google Maps und Waze zu öffnen',
     mapEmpty: 'Zum Einrichten der Karte auf Bearbeiten klicken',
     deleteSection: 'Abschnitt löschen',
-    deleteSectionConfirm: 'Diesen Abschnitt und seinen gesamten Inhalt löschen?',
+    deleteSectionConfirm:
+      'Diesen Abschnitt und seinen gesamten Inhalt löschen?',
     deleteElement: 'Element löschen',
     dragSection: 'Abschnitt ziehen',
     dragElement: 'Element ziehen',
-    unknownSection: (type) => `Abschnitt „${type}“ — noch kein visueller Editor; bleibt unverändert.`,
+    unknownSection: (type) =>
+      `Abschnitt „${type}“ — noch kein visueller Editor; bleibt unverändert.`,
     edit: 'Bearbeiten',
     done: 'Fertig',
     textEmpty: 'Zum Schreiben auf Bearbeiten klicken…',
@@ -337,7 +349,8 @@ export const de: PageTranslations = {
     save: 'Seite speichern',
     saved: 'Seite gespeichert',
     unsaved: 'Du hast ungespeicherte Änderungen',
-    uploadError: 'Ein Bild konnte nicht hochgeladen werden. Bitte erneut versuchen.',
+    uploadError:
+      'Ein Bild konnte nicht hochgeladen werden. Bitte erneut versuchen.',
     cancel: 'Abbrechen',
     confirmDelete: 'Löschen',
   },
@@ -345,7 +358,8 @@ export const de: PageTranslations = {
     action: 'SEO-Analyse',
     colSeo: 'SEO',
     drawerTitle: 'SEO-Analyse',
-    summary: (good, warnings, problems) => `${good} gut · ${warnings} verbesserbar · ${problems} Probleme`,
+    summary: (good, warnings, problems) =>
+      `${good} gut · ${warnings} verbesserbar · ${problems} Probleme`,
     groupProblems: 'Probleme',
     groupImprovements: 'Verbesserungen',
     groupGood: 'In Ordnung',

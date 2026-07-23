@@ -63,20 +63,18 @@ export const Modal = ({
     <>
       {/* Header */}
       {hasHeader && (
-        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-border-subtle px-6 py-4">
+        <div className="border-border-subtle flex shrink-0 items-start justify-between gap-4 border-b px-6 py-4">
           <div>
             {title && (
               <h2
                 id="modal-title"
-                className="text-base font-semibold text-foreground"
+                className="text-foreground text-base font-semibold"
               >
                 {title}
               </h2>
             )}
             {description && (
-              <p className="mt-1 text-sm text-secondary">
-                {description}
-              </p>
+              <p className="text-secondary mt-1 text-sm">{description}</p>
             )}
           </div>
           {showCloseButton && (
@@ -84,7 +82,7 @@ export const Modal = ({
               onClick={onClose}
               className={clsx(
                 'shrink-0 cursor-pointer p-1.5',
-                'rounded-md text-muted',
+                'text-muted rounded-md',
                 'duration-fast ease-out-expo transition-colors',
                 'hover:bg-surface-subtle hover:text-foreground',
                 'focus:outline-none'
@@ -98,11 +96,13 @@ export const Modal = ({
       )}
 
       {/* Content */}
-      {children && <div className="min-h-0 overflow-y-auto px-6 py-5">{children}</div>}
+      {children && (
+        <div className="min-h-0 overflow-y-auto px-6 py-5">{children}</div>
+      )}
 
       {/* Footer */}
       {footer && (
-        <ButtonGroup className="shrink-0 border-t border-border-subtle px-6 py-4">
+        <ButtonGroup className="border-border-subtle shrink-0 border-t px-6 py-4">
           {footer}
         </ButtonGroup>
       )}
@@ -139,7 +139,7 @@ export const Modal = ({
           <div
             className={clsx(
               'relative flex max-h-[calc(100vh-2rem)] flex-col',
-              'rounded-xl bg-surface shadow-modal',
+              'bg-surface shadow-modal rounded-xl',
               sizeClasses[size],
               isOpen
                 ? {
@@ -201,7 +201,7 @@ export const Modal = ({
               exit="exit"
               className={clsx(
                 'relative flex max-h-[calc(100vh-2rem)] flex-col',
-                'rounded-xl bg-surface shadow-modal',
+                'bg-surface shadow-modal rounded-xl',
                 sizeClasses[size]
               )}
             >

@@ -43,11 +43,19 @@ export function symmetricSpan(count: BuilderColumnsCount): BuilderColumnSpan {
 }
 
 function isValidSpan(value: unknown): value is BuilderColumnSpan {
-  return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= BUILDER_GRID_COLUMNS
+  return (
+    typeof value === 'number' &&
+    Number.isInteger(value) &&
+    value >= 1 &&
+    value <= BUILDER_GRID_COLUMNS
+  )
 }
 
 /** Ancho efectivo de una columna: su span explícito, o el simétrico. */
-export function columnSpan(column: BuilderColumn, count: BuilderColumnsCount): BuilderColumnSpan {
+export function columnSpan(
+  column: BuilderColumn,
+  count: BuilderColumnsCount
+): BuilderColumnSpan {
   return column.span ?? symmetricSpan(count)
 }
 
@@ -62,7 +70,10 @@ export function sectionSpans(section: BuilderSection): BuilderColumnSpan[] {
 /** Distribuciones ofrecidas en el constructor, por nº de columnas. Cada una
  * suma 12. Deliberadamente acotadas a los layouts reales de una web (no toda
  * combinación posible): con 1 y 4 columnas solo existe el simétrico. */
-export const BUILDER_LAYOUT_PRESETS: Record<BuilderColumnsCount, BuilderColumnSpan[][]> = {
+export const BUILDER_LAYOUT_PRESETS: Record<
+  BuilderColumnsCount,
+  BuilderColumnSpan[][]
+> = {
   1: [[12]],
   2: [
     [6, 6],
@@ -97,7 +108,9 @@ function normalizeColumnSpans(columns: BuilderColumn[]): BuilderColumn[] {
 }
 
 function emptyLocalized(): PageLocalizedString {
-  return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as PageLocalizedString
+  return Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, ''])
+  ) as PageLocalizedString
 }
 
 function normalizeLocalized(input: unknown): PageLocalizedString {
@@ -116,13 +129,17 @@ export function isColumnsSection(section: BuilderSection): boolean {
 }
 
 export function clampColumns(count: unknown): BuilderColumnsCount {
-  const n = typeof count === 'number' && Number.isFinite(count) ? Math.round(count) : 1
+  const n =
+    typeof count === 'number' && Number.isFinite(count) ? Math.round(count) : 1
   return Math.min(MAX_BUILDER_COLUMNS, Math.max(1, n)) as BuilderColumnsCount
 }
 
 /** A diferencia de `clampColumns`, un valor ausente se queda ausente (sin
  * "sin definir" no hay override responsive: hereda el conteo de escritorio). */
-function clampOptionalColumns(value: unknown, max: BuilderColumnsCount): BuilderColumnsCount | undefined {
+function clampOptionalColumns(
+  value: unknown,
+  max: BuilderColumnsCount
+): BuilderColumnsCount | undefined {
   if (typeof value !== 'number' || !Number.isFinite(value)) return undefined
   return Math.min(max, Math.max(1, Math.round(value))) as BuilderColumnsCount
 }
@@ -135,8 +152,11 @@ function normalizeTextElement(el: Record<string, unknown>): BuilderTextElement {
   }
 }
 
-function normalizeImageElement(el: Record<string, unknown>): BuilderImageElement {
-  const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
+function normalizeImageElement(
+  el: Record<string, unknown>
+): BuilderImageElement {
+  const align =
+    el.align === 'left' || el.align === 'right' ? el.align : 'center'
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
     type: 'image',
@@ -156,12 +176,15 @@ function normalizeSliderSlide(raw: unknown): BuilderSliderSlide[] {
     {
       url: slide.url,
       kind: slide.kind === 'video' ? 'video' : 'image',
-      posterUrl: typeof slide.posterUrl === 'string' ? slide.posterUrl : undefined,
+      posterUrl:
+        typeof slide.posterUrl === 'string' ? slide.posterUrl : undefined,
     },
   ]
 }
 
-function normalizeSliderElement(el: Record<string, unknown>): BuilderSliderElement {
+function normalizeSliderElement(
+  el: Record<string, unknown>
+): BuilderSliderElement {
   const rawSlides = Array.isArray(el.slides) ? el.slides : []
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
@@ -170,11 +193,20 @@ function normalizeSliderElement(el: Record<string, unknown>): BuilderSliderEleme
   }
 }
 
-const BUTTON_VARIANTS: BuilderButtonElement['variant'][] = ['primary', 'secondary', 'outline']
+const BUTTON_VARIANTS: BuilderButtonElement['variant'][] = [
+  'primary',
+  'secondary',
+  'outline',
+]
 
-function normalizeButtonElement(el: Record<string, unknown>): BuilderButtonElement {
-  const align = el.align === 'left' || el.align === 'right' ? el.align : 'center'
-  const variant = BUTTON_VARIANTS.includes(el.variant as BuilderButtonElement['variant'])
+function normalizeButtonElement(
+  el: Record<string, unknown>
+): BuilderButtonElement {
+  const align =
+    el.align === 'left' || el.align === 'right' ? el.align : 'center'
+  const variant = BUTTON_VARIANTS.includes(
+    el.variant as BuilderButtonElement['variant']
+  )
     ? (el.variant as BuilderButtonElement['variant'])
     : 'primary'
   return {
@@ -195,7 +227,9 @@ function normalizeGalleryImage(raw: unknown): BuilderGalleryImage[] {
   return [{ url: img.url, alt: normalizeLocalized(img.alt) }]
 }
 
-function normalizeGalleryElement(el: Record<string, unknown>): BuilderGalleryElement {
+function normalizeGalleryElement(
+  el: Record<string, unknown>
+): BuilderGalleryElement {
   const rawImages = Array.isArray(el.images) ? el.images : []
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
@@ -217,7 +251,9 @@ function normalizeAccordionItem(raw: unknown): BuilderAccordionItem[] {
   ]
 }
 
-function normalizeAccordionElement(el: Record<string, unknown>): BuilderAccordionElement {
+function normalizeAccordionElement(
+  el: Record<string, unknown>
+): BuilderAccordionElement {
   const rawItems = Array.isArray(el.items) ? el.items : []
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
@@ -231,7 +267,9 @@ const TESTIMONIAL_RATING_VALUES: BuilderTestimonialRating[] = [1, 2, 3, 4, 5]
 function normalizeTestimonialItem(raw: unknown): BuilderTestimonialItem[] {
   if (!raw || typeof raw !== 'object') return []
   const item = raw as Record<string, unknown>
-  const rating = TESTIMONIAL_RATING_VALUES.includes(item.rating as BuilderTestimonialRating)
+  const rating = TESTIMONIAL_RATING_VALUES.includes(
+    item.rating as BuilderTestimonialRating
+  )
     ? (item.rating as BuilderTestimonialRating)
     : undefined
   return [
@@ -239,14 +277,19 @@ function normalizeTestimonialItem(raw: unknown): BuilderTestimonialItem[] {
       id: typeof item.id === 'string' ? item.id : newId(),
       name: typeof item.name === 'string' ? item.name : '',
       role: normalizeLocalized(item.role),
-      avatarUrl: typeof item.avatarUrl === 'string' && item.avatarUrl ? item.avatarUrl : undefined,
+      avatarUrl:
+        typeof item.avatarUrl === 'string' && item.avatarUrl
+          ? item.avatarUrl
+          : undefined,
       quote: normalizeLocalized(item.quote),
       rating,
     },
   ]
 }
 
-function normalizeTestimonialsElement(el: Record<string, unknown>): BuilderTestimonialsElement {
+function normalizeTestimonialsElement(
+  el: Record<string, unknown>
+): BuilderTestimonialsElement {
   const rawItems = Array.isArray(el.items) ? el.items : []
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
@@ -267,26 +310,40 @@ function normalizeStatItem(raw: unknown): BuilderStatItem[] {
   ]
 }
 
-function normalizeStatsElement(el: Record<string, unknown>): BuilderStatsElement {
+function normalizeStatsElement(
+  el: Record<string, unknown>
+): BuilderStatsElement {
   const rawItems = Array.isArray(el.items) ? el.items : []
-  return { id: typeof el.id === 'string' ? el.id : newId(), type: 'stats', items: rawItems.flatMap(normalizeStatItem) }
+  return {
+    id: typeof el.id === 'string' ? el.id : newId(),
+    type: 'stats',
+    items: rawItems.flatMap(normalizeStatItem),
+  }
 }
 
-function normalizeVideoElement(el: Record<string, unknown>): BuilderVideoElement {
+function normalizeVideoElement(
+  el: Record<string, unknown>
+): BuilderVideoElement {
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
     type: 'video',
     sourceKind: el.sourceKind === 'upload' ? 'upload' : 'embed',
     url: typeof el.url === 'string' ? el.url : '',
-    fileUrl: typeof el.fileUrl === 'string' && el.fileUrl ? el.fileUrl : undefined,
-    posterUrl: typeof el.posterUrl === 'string' && el.posterUrl ? el.posterUrl : undefined,
+    fileUrl:
+      typeof el.fileUrl === 'string' && el.fileUrl ? el.fileUrl : undefined,
+    posterUrl:
+      typeof el.posterUrl === 'string' && el.posterUrl
+        ? el.posterUrl
+        : undefined,
     caption: normalizeLocalized(el.caption),
   }
 }
 
 function normalizeMapElement(el: Record<string, unknown>): BuilderMapElement {
-  const lat = typeof el.lat === 'number' && Number.isFinite(el.lat) ? el.lat : undefined
-  const lng = typeof el.lng === 'number' && Number.isFinite(el.lng) ? el.lng : undefined
+  const lat =
+    typeof el.lat === 'number' && Number.isFinite(el.lat) ? el.lat : undefined
+  const lng =
+    typeof el.lng === 'number' && Number.isFinite(el.lng) ? el.lng : undefined
   return {
     id: typeof el.id === 'string' ? el.id : newId(),
     type: 'map',
@@ -315,11 +372,14 @@ function normalizeElement(raw: unknown): BuilderElement | null {
 }
 
 function normalizeColumn(raw: unknown): BuilderColumn {
-  const col = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
+  const col =
+    raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
   const elementsRaw = Array.isArray(col.elements) ? col.elements : []
   return {
     id: typeof col.id === 'string' ? col.id : newId(),
-    elements: elementsRaw.map(normalizeElement).filter((e): e is BuilderElement => e !== null),
+    elements: elementsRaw
+      .map(normalizeElement)
+      .filter((e): e is BuilderElement => e !== null),
     ...(isValidSpan(col.span) ? { span: col.span } : {}),
   }
 }
@@ -329,8 +389,13 @@ function normalizeColumn(raw: unknown): BuilderColumn {
  * columnas vacías o, al reducir, mueve los elementos sobrantes a la última
  * columna restante (nunca se pierde contenido).
  */
-export function reconcileColumns(columns: BuilderColumn[], count: BuilderColumnsCount): BuilderColumn[] {
-  const next = columns.slice(0, count).map((c) => ({ ...c, elements: [...c.elements] }))
+export function reconcileColumns(
+  columns: BuilderColumn[],
+  count: BuilderColumnsCount
+): BuilderColumn[] {
+  const next = columns
+    .slice(0, count)
+    .map((c) => ({ ...c, elements: [...c.elements] }))
   while (next.length < count) next.push({ id: newId(), elements: [] })
 
   const overflow = columns.slice(count).flatMap((c) => c.elements)
@@ -342,7 +407,9 @@ export function reconcileColumns(columns: BuilderColumn[], count: BuilderColumns
   // columna nueva no tendría cuál) — se vuelve a simétrico. Si el conteo no
   // cambió esto es un no-op, así que `normalizeSections` no pisa la
   // distribución guardada en cada carga.
-  return columns.length === count ? next : next.map((c) => ({ ...c, span: undefined }))
+  return columns.length === count
+    ? next
+    : next.map((c) => ({ ...c, span: undefined }))
 }
 
 /**
@@ -353,12 +420,18 @@ export function reconcileColumns(columns: BuilderColumn[], count: BuilderColumns
 export function normalizeSections(input?: unknown): BuilderSection[] {
   if (!Array.isArray(input)) return []
   return input
-    .filter((raw): raw is Record<string, unknown> => !!raw && typeof raw === 'object')
+    .filter(
+      (raw): raw is Record<string, unknown> => !!raw && typeof raw === 'object'
+    )
     .map((raw, index) => {
       const settings =
-        raw.settings && typeof raw.settings === 'object' ? { ...(raw.settings as Record<string, unknown>) } : {}
+        raw.settings && typeof raw.settings === 'object'
+          ? { ...(raw.settings as Record<string, unknown>) }
+          : {}
       const content =
-        raw.content && typeof raw.content === 'object' ? { ...(raw.content as Record<string, unknown>) } : {}
+        raw.content && typeof raw.content === 'object'
+          ? { ...(raw.content as Record<string, unknown>) }
+          : {}
       const section: BuilderSection = {
         sectionId: typeof raw.sectionId === 'string' ? raw.sectionId : newId(),
         type: typeof raw.type === 'string' ? raw.type : 'columns',
@@ -379,7 +452,9 @@ export function normalizeSections(input?: unknown): BuilderSection[] {
         }
         section.content = {
           ...content,
-          columns: normalizeColumnSpans(reconcileColumns(columnsRaw.map(normalizeColumn), count)),
+          columns: normalizeColumnSpans(
+            reconcileColumns(columnsRaw.map(normalizeColumn), count)
+          ),
         }
       }
       return section
@@ -390,14 +465,22 @@ export function normalizeSections(input?: unknown): BuilderSection[] {
  * queda undefined): así el estado de "todavía sin confirmar" vive en la
  * propia sección, no en un id externo que solo puede rastrear una a la vez
  * (crear una segunda sección pendiente no debe finalizar la primera). */
-export function createColumnsSection(columns?: BuilderColumnsCount): BuilderSection {
+export function createColumnsSection(
+  columns?: BuilderColumnsCount
+): BuilderSection {
   return {
     sectionId: newId(),
     type: 'columns',
     order: 0,
     settings: columns === undefined ? {} : { columns },
     content: {
-      columns: columns === undefined ? [] : Array.from({ length: columns }, () => ({ id: newId(), elements: [] })),
+      columns:
+        columns === undefined
+          ? []
+          : Array.from({ length: columns }, () => ({
+              id: newId(),
+              elements: [],
+            })),
     },
   }
 }
@@ -411,7 +494,15 @@ export function createTextElement(): BuilderTextElement {
 }
 
 export function createImageElement(): BuilderImageElement {
-  return { id: newId(), type: 'image', url: '', alt: emptyLocalized(), width: '', height: '', align: 'center' }
+  return {
+    id: newId(),
+    type: 'image',
+    url: '',
+    alt: emptyLocalized(),
+    width: '',
+    height: '',
+    align: 'center',
+  }
 }
 
 export function createSliderElement(): BuilderSliderElement {
@@ -419,7 +510,15 @@ export function createSliderElement(): BuilderSliderElement {
 }
 
 export function createButtonElement(): BuilderButtonElement {
-  return { id: newId(), type: 'button', label: emptyLocalized(), url: '', variant: 'primary', target: '_self', align: 'center' }
+  return {
+    id: newId(),
+    type: 'button',
+    label: emptyLocalized(),
+    url: '',
+    variant: 'primary',
+    target: '_self',
+    align: 'center',
+  }
 }
 
 export function createGalleryElement(): BuilderGalleryElement {
@@ -439,17 +538,34 @@ export function createStatsElement(): BuilderStatsElement {
 }
 
 export function createVideoElement(): BuilderVideoElement {
-  return { id: newId(), type: 'video', sourceKind: 'embed', url: '', caption: emptyLocalized() }
+  return {
+    id: newId(),
+    type: 'video',
+    sourceKind: 'embed',
+    url: '',
+    caption: emptyLocalized(),
+  }
 }
 
 export function createMapElement(): BuilderMapElement {
-  return { id: newId(), type: 'map', address: '', caption: emptyLocalized(), showDirectionsButtons: false }
+  return {
+    id: newId(),
+    type: 'map',
+    address: '',
+    caption: emptyLocalized(),
+    showDirectionsButtons: false,
+  }
 }
 
 /** Deep-link universal a Google Maps (no requiere API key) — usa lat/lng si
  * están disponibles, si no cae a la dirección de texto libre. */
-export function buildGoogleMapsDirectionsUrl(address: string, lat?: number, lng?: number): string {
-  const destination = lat !== undefined && lng !== undefined ? `${lat},${lng}` : address
+export function buildGoogleMapsDirectionsUrl(
+  address: string,
+  lat?: number,
+  lng?: number
+): string {
+  const destination =
+    lat !== undefined && lng !== undefined ? `${lat},${lng}` : address
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`
 }
 
@@ -467,7 +583,11 @@ function move<T>(arr: T[], from: number, to: number): T[] {
   return next
 }
 
-export function moveSection(sections: BuilderSection[], activeId: string, overId: string): BuilderSection[] {
+export function moveSection(
+  sections: BuilderSection[],
+  activeId: string,
+  overId: string
+): BuilderSection[] {
   const from = sections.findIndex((s) => s.sectionId === activeId)
   const to = sections.findIndex((s) => s.sectionId === overId)
   if (from < 0 || to < 0 || from === to) return sections
@@ -477,21 +597,31 @@ export function moveSection(sections: BuilderSection[], activeId: string, overId
 /** Inserta una sección nueva en `index` (clamp a los límites del array); sin
  * índice, o fuera de rango, se añade al final. Usado tanto por "clic para
  * añadir" (siempre al final) como por soltar la paleta sobre/entre secciones. */
-export function insertSection(sections: BuilderSection[], section: BuilderSection, index?: number): BuilderSection[] {
-  const at = index === undefined ? sections.length : Math.max(0, Math.min(index, sections.length))
+export function insertSection(
+  sections: BuilderSection[],
+  section: BuilderSection,
+  index?: number
+): BuilderSection[] {
+  const at =
+    index === undefined
+      ? sections.length
+      : Math.max(0, Math.min(index, sections.length))
   const next = [...sections]
   next.splice(at, 0, section)
   return next
 }
 
-export function removeSection(sections: BuilderSection[], sectionId: string): BuilderSection[] {
+export function removeSection(
+  sections: BuilderSection[],
+  sectionId: string
+): BuilderSection[] {
   return sections.filter((s) => s.sectionId !== sectionId)
 }
 
 export function setSectionColumns(
   sections: BuilderSection[],
   sectionId: string,
-  count: BuilderColumnsCount,
+  count: BuilderColumnsCount
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId || !isColumnsSection(s)) return s
@@ -522,14 +652,20 @@ export function setSectionColumns(
 export function setColumnSpans(
   sections: BuilderSection[],
   sectionId: string,
-  spans: BuilderColumnSpan[],
+  spans: BuilderColumnSpan[]
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId || !isColumnsSection(s)) return s
     const columns = s.content.columns ?? []
     if (spans.length !== columns.length) return s
     if (spans.reduce((sum, n) => sum + n, 0) !== BUILDER_GRID_COLUMNS) return s
-    return { ...s, content: { ...s.content, columns: columns.map((c, i) => ({ ...c, span: spans[i] })) } }
+    return {
+      ...s,
+      content: {
+        ...s.content,
+        columns: columns.map((c, i) => ({ ...c, span: spans[i] })),
+      },
+    }
   })
 }
 
@@ -543,16 +679,21 @@ export interface ResponsiveSectionSettings {
 export function setResponsiveSettings(
   sections: BuilderSection[],
   sectionId: string,
-  patch: ResponsiveSectionSettings,
+  patch: ResponsiveSectionSettings
 ): BuilderSection[] {
   return sections.map((s) =>
-    s.sectionId === sectionId ? { ...s, settings: { ...s.settings, ...patch } } : s,
+    s.sectionId === sectionId
+      ? { ...s, settings: { ...s.settings, ...patch } }
+      : s
   )
 }
 
 /** Sin config para ese breakpoint, se ve como "ninguno" (no hereda de otro
  * breakpoint). */
-export function getSectionBackground(section: BuilderSection, breakpoint: BackgroundBreakpoint): BackgroundConfig {
+export function getSectionBackground(
+  section: BuilderSection,
+  breakpoint: BackgroundBreakpoint
+): BackgroundConfig {
   return section.settings.background?.[breakpoint] ?? { type: 'none' }
 }
 
@@ -561,7 +702,7 @@ export function setSectionBackground(
   sections: BuilderSection[],
   sectionId: string,
   breakpoint: BackgroundBreakpoint,
-  config: BackgroundConfig,
+  config: BackgroundConfig
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId) return s
@@ -583,7 +724,7 @@ export function setBackgroundImageUrl(
   sections: BuilderSection[],
   sectionId: string,
   breakpoint: BackgroundBreakpoint,
-  url: string,
+  url: string
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId) return s
@@ -593,7 +734,10 @@ export function setBackgroundImageUrl(
       ...s,
       settings: {
         ...s.settings,
-        background: { ...s.settings.background, [breakpoint]: { ...current, url } },
+        background: {
+          ...s.settings.background,
+          [breakpoint]: { ...current, url },
+        },
       },
     }
   })
@@ -605,19 +749,27 @@ export function setBackgroundVideoFile(
   sections: BuilderSection[],
   sectionId: string,
   breakpoint: BackgroundBreakpoint,
-  file: BackgroundVideoFile,
+  file: BackgroundVideoFile
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId) return s
     const current = s.settings.background?.[breakpoint]
     const base: BackgroundVideo =
-      current?.type === 'video' ? current : { type: 'video', sourceKind: 'upload', files: [], parallax: false }
-    const files = [...base.files.filter((f) => f.mimeType !== file.mimeType), file].slice(0, 2)
+      current?.type === 'video'
+        ? current
+        : { type: 'video', sourceKind: 'upload', files: [], parallax: false }
+    const files = [
+      ...base.files.filter((f) => f.mimeType !== file.mimeType),
+      file,
+    ].slice(0, 2)
     return {
       ...s,
       settings: {
         ...s.settings,
-        background: { ...s.settings.background, [breakpoint]: { ...base, files } },
+        background: {
+          ...s.settings.background,
+          [breakpoint]: { ...base, files },
+        },
       },
     }
   })
@@ -627,11 +779,13 @@ function mapColumn(
   sections: BuilderSection[],
   sectionId: string,
   columnId: string,
-  fn: (column: BuilderColumn) => BuilderColumn,
+  fn: (column: BuilderColumn) => BuilderColumn
 ): BuilderSection[] {
   return sections.map((s) => {
     if (s.sectionId !== sectionId || !isColumnsSection(s)) return s
-    const columns = (s.content.columns ?? []).map((c) => (c.id === columnId ? fn(c) : c))
+    const columns = (s.content.columns ?? []).map((c) =>
+      c.id === columnId ? fn(c) : c
+    )
     return { ...s, content: { ...s.content, columns } }
   })
 }
@@ -640,9 +794,12 @@ export function addElement(
   sections: BuilderSection[],
   sectionId: string,
   columnId: string,
-  element: BuilderElement,
+  element: BuilderElement
 ): BuilderSection[] {
-  return mapColumn(sections, sectionId, columnId, (c) => ({ ...c, elements: [...c.elements, element] }))
+  return mapColumn(sections, sectionId, columnId, (c) => ({
+    ...c,
+    elements: [...c.elements, element],
+  }))
 }
 
 export function updateElement(
@@ -650,11 +807,13 @@ export function updateElement(
   sectionId: string,
   columnId: string,
   elementId: string,
-  patch: BuilderElementPatch,
+  patch: BuilderElementPatch
 ): BuilderSection[] {
   return mapColumn(sections, sectionId, columnId, (c) => ({
     ...c,
-    elements: c.elements.map((e) => (e.id === elementId ? ({ ...e, ...patch } as BuilderElement) : e)),
+    elements: c.elements.map((e) =>
+      e.id === elementId ? ({ ...e, ...patch } as BuilderElement) : e
+    ),
   }))
 }
 
@@ -662,7 +821,7 @@ export function removeElement(
   sections: BuilderSection[],
   sectionId: string,
   columnId: string,
-  elementId: string,
+  elementId: string
 ): BuilderSection[] {
   return mapColumn(sections, sectionId, columnId, (c) => ({
     ...c,
@@ -675,7 +834,7 @@ export function moveElement(
   sectionId: string,
   columnId: string,
   activeId: string,
-  overId: string,
+  overId: string
 ): BuilderSection[] {
   return mapColumn(sections, sectionId, columnId, (c) => {
     const from = c.elements.findIndex((e) => e.id === activeId)
@@ -700,22 +859,40 @@ export function moveElementAcross(
   elementId: string,
   source: ElementLocation,
   target: ElementLocation,
-  overElementId: string | null,
+  overElementId: string | null
 ): BuilderSection[] {
-  if (source.sectionId === target.sectionId && source.columnId === target.columnId) {
-    return overElementId ? moveElement(sections, source.sectionId, source.columnId, elementId, overElementId) : sections
+  if (
+    source.sectionId === target.sectionId &&
+    source.columnId === target.columnId
+  ) {
+    return overElementId
+      ? moveElement(
+          sections,
+          source.sectionId,
+          source.columnId,
+          elementId,
+          overElementId
+        )
+      : sections
   }
 
   let moved: BuilderElement | undefined
-  const without = mapColumn(sections, source.sectionId, source.columnId, (c) => {
-    moved = c.elements.find((e) => e.id === elementId)
-    return { ...c, elements: c.elements.filter((e) => e.id !== elementId) }
-  })
+  const without = mapColumn(
+    sections,
+    source.sectionId,
+    source.columnId,
+    (c) => {
+      moved = c.elements.find((e) => e.id === elementId)
+      return { ...c, elements: c.elements.filter((e) => e.id !== elementId) }
+    }
+  )
   if (!moved) return sections
 
   return mapColumn(without, target.sectionId, target.columnId, (c) => {
     const elements = [...c.elements]
-    const index = overElementId ? elements.findIndex((e) => e.id === overElementId) : -1
+    const index = overElementId
+      ? elements.findIndex((e) => e.id === overElementId)
+      : -1
     if (index >= 0) elements.splice(index, 0, moved as BuilderElement)
     else elements.push(moved as BuilderElement)
     return { ...c, elements }
@@ -729,7 +906,7 @@ export function setVideoFile(
   sections: BuilderSection[],
   elementId: string,
   fileUrl: string,
-  posterUrl?: string,
+  posterUrl?: string
 ): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
@@ -738,7 +915,7 @@ export function setVideoFile(
       elements: c.elements.map((e) =>
         e.id === elementId && e.type === 'video'
           ? { ...e, sourceKind: 'upload' as const, fileUrl, posterUrl }
-          : e,
+          : e
       ),
     }))
     return { ...s, content: { ...s.content, columns } }
@@ -746,12 +923,18 @@ export function setVideoFile(
 }
 
 /** Sustituye la URL de un elemento imagen (post-subida) esté donde esté. */
-export function replaceImageUrl(sections: BuilderSection[], elementId: string, url: string): BuilderSection[] {
+export function replaceImageUrl(
+  sections: BuilderSection[],
+  elementId: string,
+  url: string
+): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
-      elements: c.elements.map((e) => (e.id === elementId && e.type === 'image' ? { ...e, url } : e)),
+      elements: c.elements.map((e) =>
+        e.id === elementId && e.type === 'image' ? { ...e, url } : e
+      ),
     }))
     return { ...s, content: { ...s.content, columns } }
   })
@@ -762,11 +945,13 @@ function replaceSlideInElement(
   elementId: string,
   oldUrl: string,
   newUrl: string,
-  posterUrl?: string,
+  posterUrl?: string
 ): BuilderElement {
   if (e.id !== elementId || e.type !== 'slider') return e
   const slides = e.slides.map((slide) =>
-    slide.url === oldUrl ? { ...slide, url: newUrl, ...(posterUrl && { posterUrl }) } : slide,
+    slide.url === oldUrl
+      ? { ...slide, url: newUrl, ...(posterUrl && { posterUrl }) }
+      : slide
   )
   return { ...e, slides }
 }
@@ -780,21 +965,33 @@ export function replaceSliderSlideUrl(
   elementId: string,
   oldUrl: string,
   newUrl: string,
-  posterUrl?: string,
+  posterUrl?: string
 ): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
-      elements: c.elements.map((e) => replaceSlideInElement(e, elementId, oldUrl, newUrl, posterUrl)),
+      elements: c.elements.map((e) =>
+        replaceSlideInElement(e, elementId, oldUrl, newUrl, posterUrl)
+      ),
     }))
     return { ...s, content: { ...s.content, columns } }
   })
 }
 
-function replaceGalleryImageInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+function replaceGalleryImageInElement(
+  e: BuilderElement,
+  elementId: string,
+  oldUrl: string,
+  newUrl: string
+): BuilderElement {
   if (e.id !== elementId || e.type !== 'gallery') return e
-  return { ...e, images: e.images.map((img) => (img.url === oldUrl ? { ...img, url: newUrl } : img)) }
+  return {
+    ...e,
+    images: e.images.map((img) =>
+      img.url === oldUrl ? { ...img, url: newUrl } : img
+    ),
+  }
 }
 
 /** Sustituye la URL de una imagen puntual de la galería (post-subida) por su
@@ -804,21 +1001,33 @@ export function replaceGalleryImageUrl(
   sections: BuilderSection[],
   elementId: string,
   oldUrl: string,
-  newUrl: string,
+  newUrl: string
 ): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
-      elements: c.elements.map((e) => replaceGalleryImageInElement(e, elementId, oldUrl, newUrl)),
+      elements: c.elements.map((e) =>
+        replaceGalleryImageInElement(e, elementId, oldUrl, newUrl)
+      ),
     }))
     return { ...s, content: { ...s.content, columns } }
   })
 }
 
-function replaceTestimonialAvatarInElement(e: BuilderElement, elementId: string, oldUrl: string, newUrl: string): BuilderElement {
+function replaceTestimonialAvatarInElement(
+  e: BuilderElement,
+  elementId: string,
+  oldUrl: string,
+  newUrl: string
+): BuilderElement {
   if (e.id !== elementId || e.type !== 'testimonials') return e
-  return { ...e, items: e.items.map((item) => (item.avatarUrl === oldUrl ? { ...item, avatarUrl: newUrl } : item)) }
+  return {
+    ...e,
+    items: e.items.map((item) =>
+      item.avatarUrl === oldUrl ? { ...item, avatarUrl: newUrl } : item
+    ),
+  }
 }
 
 /** Sustituye el avatar de un testimonio puntual (post-subida) por su URL
@@ -828,13 +1037,15 @@ export function replaceTestimonialAvatarUrl(
   sections: BuilderSection[],
   elementId: string,
   oldUrl: string,
-  newUrl: string,
+  newUrl: string
 ): BuilderSection[] {
   return sections.map((s) => {
     if (!isColumnsSection(s)) return s
     const columns = (s.content.columns ?? []).map((c) => ({
       ...c,
-      elements: c.elements.map((e) => replaceTestimonialAvatarInElement(e, elementId, oldUrl, newUrl)),
+      elements: c.elements.map((e) =>
+        replaceTestimonialAvatarInElement(e, elementId, oldUrl, newUrl)
+      ),
     }))
     return { ...s, content: { ...s.content, columns } }
   })
@@ -842,13 +1053,13 @@ export function replaceTestimonialAvatarUrl(
 
 async function resolveLocalized(
   value: PageLocalizedString,
-  resolve: (html: string) => Promise<string>,
+  resolve: (html: string) => Promise<string>
 ): Promise<PageLocalizedString> {
   const next = { ...value }
   await Promise.all(
     SUPPORTED_LANGUAGES.map(async (lang) => {
       next[lang] = await resolve(value[lang] ?? '')
-    }),
+    })
   )
   return next
 }
@@ -865,7 +1076,7 @@ async function resolveLocalized(
  */
 export async function resolveSectionsRichTextImages(
   sections: BuilderSection[],
-  resolve: (html: string) => Promise<string>,
+  resolve: (html: string) => Promise<string>
 ): Promise<BuilderSection[]> {
   return Promise.all(
     sections.map(async (s) => {
@@ -873,24 +1084,29 @@ export async function resolveSectionsRichTextImages(
       const columns = await Promise.all(
         (s.content.columns ?? []).map(async (c) => ({
           ...c,
-          elements: await Promise.all(c.elements.map((e) => resolveElementRichTextImages(e, resolve))),
-        })),
+          elements: await Promise.all(
+            c.elements.map((e) => resolveElementRichTextImages(e, resolve))
+          ),
+        }))
       )
       return { ...s, content: { ...s.content, columns } }
-    }),
+    })
   )
 }
 
 async function resolveElementRichTextImages(
   element: BuilderElement,
-  resolve: (html: string) => Promise<string>,
+  resolve: (html: string) => Promise<string>
 ): Promise<BuilderElement> {
   if (element.type === 'text') {
     return { ...element, html: await resolveLocalized(element.html, resolve) }
   }
   if (element.type === 'accordion') {
     const items = await Promise.all(
-      element.items.map(async (item) => ({ ...item, answer: await resolveLocalized(item.answer, resolve) })),
+      element.items.map(async (item) => ({
+        ...item,
+        answer: await resolveLocalized(item.answer, resolve),
+      }))
     )
     return { ...element, items }
   }

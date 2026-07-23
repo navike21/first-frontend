@@ -1,4 +1,7 @@
-import type { AppLogoColor, AppLogoSize } from '../../atoms/AppLogo/AppLogo.types'
+import type {
+  AppLogoColor,
+  AppLogoSize,
+} from '../../atoms/AppLogo/AppLogo.types'
 
 export interface BrandMarkProps {
   size?: AppLogoSize

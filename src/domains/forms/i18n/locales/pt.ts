@@ -9,7 +9,8 @@ export const pt: FormsTranslations = {
     editTitle: 'Editar formulário',
     editDescription: (name) => `Atualize campos e configurações de ${name}`,
     trashTitle: 'Lixeira de formulários',
-    trashDescription: 'Formulários movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Formulários movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum formulário na lixeira',
     trashEmptyDescription: 'Formulários excluídos aparecerão aqui.',
     submissionsTitle: (name) => `Respostas — ${name}`,
@@ -46,7 +47,8 @@ export const pt: FormsTranslations = {
     viewSubmission: 'Ver detalhes',
     markRead: 'Marcar como lido',
     deleteSubmission: 'Excluir',
-    deleteSubmissionDescription: 'Excluir esta resposta? Você poderá restaurá-la da lixeira.',
+    deleteSubmissionDescription:
+      'Excluir esta resposta? Você poderá restaurá-la da lixeira.',
     restoreSubmission: 'Restaurar',
     purgeSubmission: 'Excluir permanentemente',
     prevPage: 'Anterior',
@@ -94,11 +96,13 @@ export const pt: FormsTranslations = {
     deleteDescription: (name) =>
       `Tem certeza que deseja excluir ${name}? As respostas permanecem na lixeira e podem ser restauradas.`,
     confirmDelete: 'Excluir',
-    bulkDeleteDescription: (count) => `Excluir ${count} formulários? Você poderá restaurá-los da lixeira.`,
+    bulkDeleteDescription: (count) =>
+      `Excluir ${count} formulários? Você poderá restaurá-los da lixeira.`,
     restoreTitle: 'Restaurar formulário',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} formulários para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} formulários para a lista ativa?`,
     purgeTitle: 'Excluir permanentemente',
     purgeDescription: (name) =>
       `Isso excluirá permanentemente ${name} e todas as suas respostas. Esta ação não pode ser desfeita.`,
@@ -115,7 +119,8 @@ export const pt: FormsTranslations = {
     successMessage: 'Mensagem de sucesso',
     status: 'Status',
     notificationEmails: 'Notificar estes e-mails a cada envio',
-    notificationEmailsHint: 'Separados por vírgula. Deixe vazio para desativar as notificações.',
+    notificationEmailsHint:
+      'Separados por vírgula. Deixe vazio para desativar as notificações.',
     addField: 'Adicionar campo',
     noFields: 'Ainda sem campos — adicione um para começar',
     fieldLabel: 'Rótulo',

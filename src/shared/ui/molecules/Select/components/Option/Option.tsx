@@ -46,7 +46,7 @@ export const Option = ({
     {showCheck && (
       <IconComponent
         icon="RiCheckLine"
-        className="h-4 w-4 shrink-0 text-foreground"
+        className="text-foreground h-4 w-4 shrink-0"
       />
     )}
   </button>

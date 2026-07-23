@@ -10,11 +10,23 @@ import {
   createColumnsSection,
   normalizeSections,
 } from './page.builder'
-import type { BuilderColumn, BuilderColumnSpan, BuilderColumnsCount, BuilderSection } from './page.types'
+import type {
+  BuilderColumn,
+  BuilderColumnSpan,
+  BuilderColumnsCount,
+  BuilderSection,
+} from './page.types'
 
-const col = (id: string, span?: BuilderColumnSpan): BuilderColumn => ({ id, elements: [], ...(span ? { span } : {}) })
+const col = (id: string, span?: BuilderColumnSpan): BuilderColumn => ({
+  id,
+  elements: [],
+  ...(span ? { span } : {}),
+})
 
-const columnsSection = (columns: BuilderColumn[], count: BuilderColumnsCount): BuilderSection => ({
+const columnsSection = (
+  columns: BuilderColumn[],
+  count: BuilderColumnsCount
+): BuilderSection => ({
   sectionId: 's1',
   type: 'columns',
   order: 0,
@@ -36,11 +48,15 @@ describe('symmetricSpan / columnSpan / sectionSpans', () => {
   })
 
   it('sectionSpans returns symmetric spans for an untouched section', () => {
-    expect(sectionSpans(columnsSection([col('a'), col('b')], 2))).toEqual([6, 6])
+    expect(sectionSpans(columnsSection([col('a'), col('b')], 2))).toEqual([
+      6, 6,
+    ])
   })
 
   it('sectionSpans returns explicit spans when present', () => {
-    expect(sectionSpans(columnsSection([col('a', 8), col('b', 4)], 2))).toEqual([8, 4])
+    expect(sectionSpans(columnsSection([col('a', 8), col('b', 4)], 2))).toEqual(
+      [8, 4]
+    )
   })
 })
 
@@ -71,19 +87,27 @@ describe('setColumnSpans', () => {
   it('ignores a preset whose length does not match the columns', () => {
     const sections = [columnsSection([col('a'), col('b')], 2)]
     const next = setColumnSpans(sections, 's1', [4, 4, 4])
-    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(
+      true
+    )
   })
 
   it('ignores a preset that does not sum to 12', () => {
     const sections = [columnsSection([col('a'), col('b')], 2)]
     const next = setColumnSpans(sections, 's1', [8, 8] as BuilderColumnSpan[])
-    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(
+      true
+    )
   })
 
   it('does not touch other sections', () => {
     const other = columnsSection([col('x'), col('y')], 2)
     other.sectionId = 's2'
-    const next = setColumnSpans([columnsSection([col('a'), col('b')], 2), other], 's1', [8, 4])
+    const next = setColumnSpans(
+      [columnsSection([col('a'), col('b')], 2), other],
+      's1',
+      [8, 4]
+    )
     expect(next[1]).toBe(other)
   })
 })
@@ -92,7 +116,9 @@ describe('setSectionColumns resets spans', () => {
   it('drops explicit spans when the desktop column count changes', () => {
     const sections = [columnsSection([col('a', 8), col('b', 4)], 2)]
     const next = setSectionColumns(sections, 's1', 3)
-    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(next[0].content.columns?.every((c) => c.span === undefined)).toBe(
+      true
+    )
   })
 })
 
@@ -119,7 +145,9 @@ describe('normalizeSections enforces the span invariant', () => {
       },
     ]
     const section = normalizeSections(raw)[0]
-    expect(section.content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(section.content.columns?.every((c) => c.span === undefined)).toBe(
+      true
+    )
     expect(sectionSpans(section)).toEqual([6, 6])
   })
 
@@ -132,12 +160,18 @@ describe('normalizeSections enforces the span invariant', () => {
         content: { columns: [col('a', 8), col('b')] },
       },
     ]
-    expect(normalizeSections(raw)[0].content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(
+      normalizeSections(raw)[0].content.columns?.every(
+        (c) => c.span === undefined
+      )
+    ).toBe(true)
   })
 
   it('leaves a fully symmetric section without spans', () => {
     const section = createColumnsSection(2)
     const normalized = normalizeSections([section])[0]
-    expect(normalized.content.columns?.every((c) => c.span === undefined)).toBe(true)
+    expect(normalized.content.columns?.every((c) => c.span === undefined)).toBe(
+      true
+    )
   })
 })

@@ -3,7 +3,8 @@ import {
   Select,
   InputField,
   Modal,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   IconComponent,
   Tooltip,
@@ -63,10 +64,26 @@ export const MediaPage = () => {
       description={t.page.listDescription}
       actions={[
         ...(canSeeTrash
-          ? [{ type: 'link' as const, label: t.actions.viewTrash, variant: 'secondary' as const, to: navPaths.mediaTrash(), size: 'small' as const }]
+          ? [
+              {
+                type: 'link' as const,
+                label: t.actions.viewTrash,
+                variant: 'secondary' as const,
+                to: navPaths.mediaTrash(),
+                size: 'small' as const,
+              },
+            ]
           : []),
         ...(canUpload
-          ? [{ type: 'button' as const, label: t.actions.uploadFiles, variant: 'primary' as const, size: 'small' as const, onClick: () => setUploadOpen(true) }]
+          ? [
+              {
+                type: 'button' as const,
+                label: t.actions.uploadFiles,
+                variant: 'primary' as const,
+                size: 'small' as const,
+                onClick: () => setUploadOpen(true),
+              },
+            ]
           : []),
       ]}
     >
@@ -84,7 +101,12 @@ export const MediaPage = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t.filters.searchPlaceholder}
-            leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
+            leftSlot={
+              <IconComponent
+                icon="RiSearchLine"
+                className="text-muted h-4 w-4"
+              />
+            }
           />
         </div>
       </div>
@@ -92,15 +114,23 @@ export const MediaPage = () => {
       <div>
         {canDelete && (
           <FadeCollapse show={selectedIds.length > 0}>
-            <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-              <span className="text-sm font-medium text-foreground">
+            <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+              <span className="text-foreground text-sm font-medium">
                 {t.actions.selectedCount(selectedIds.length)}
               </span>
               <ButtonGroup>
-                <Button variant="secondary" size="small" onClick={clearSelection}>
+                <Button
+                  variant="secondary"
+                  size="small"
+                  onClick={clearSelection}
+                >
                   {t.actions.clearSelection}
                 </Button>
-                <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkConfirmOpen(true)}
+                >
                   {t.actions.bulkDelete}
                 </Button>
               </ButtonGroup>
@@ -116,7 +146,13 @@ export const MediaPage = () => {
           emptyIcon="RiImage2Line"
           emptyLabel={t.grid.empty}
           totalLabel={t.grid.totalCount(total)}
-          pagination={{ page, pages, onPageChange: handlePageChange, prevLabel: t.grid.prevPage, nextLabel: t.grid.nextPage }}
+          pagination={{
+            page,
+            pages,
+            onPageChange: handlePageChange,
+            prevLabel: t.grid.prevPage,
+            nextLabel: t.grid.nextPage,
+          }}
           selectable={canDelete}
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
@@ -128,12 +164,32 @@ export const MediaPage = () => {
               caption={formatFileSize(file.size)}
               actions={
                 <>
-                  <Tooltip heading={t.actions.viewItem} position="top" size="small">
-                    <IconButton icon="RiEyeLine" variant="text" size="small" aria-label={t.actions.viewItem} onClick={() => handleView(file)} />
+                  <Tooltip
+                    heading={t.actions.viewItem}
+                    position="top"
+                    size="small"
+                  >
+                    <IconButton
+                      icon="RiEyeLine"
+                      variant="text"
+                      size="small"
+                      aria-label={t.actions.viewItem}
+                      onClick={() => handleView(file)}
+                    />
                   </Tooltip>
                   <Can anyOf={CAN.mediaDelete}>
-                    <Tooltip heading={t.actions.bulkDelete} position="top" size="small">
-                      <IconButton icon="RiDeleteBinLine" variant="text" size="small" aria-label={t.actions.bulkDelete} onClick={() => handleDelete(file)} />
+                    <Tooltip
+                      heading={t.actions.bulkDelete}
+                      position="top"
+                      size="small"
+                    >
+                      <IconButton
+                        icon="RiDeleteBinLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.actions.bulkDelete}
+                        onClick={() => handleDelete(file)}
+                      />
                     </Tooltip>
                   </Can>
                 </>
@@ -143,22 +199,41 @@ export const MediaPage = () => {
         />
       </div>
 
-      <MediaPreviewModal file={viewingItem} onClose={() => setViewingItem(null)} />
+      <MediaPreviewModal
+        file={viewingItem}
+        onClose={() => setViewingItem(null)}
+      />
 
-      <MediaUploadModal isOpen={uploadOpen} onClose={() => setUploadOpen(false)} onUploaded={handleUploaded} />
+      <MediaUploadModal
+        isOpen={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        onUploaded={handleUploaded}
+      />
 
       <Modal
         isOpen={!!deletingItem}
         onClose={() => setDeletingItem(null)}
         size="sm"
         title={t.actions.deleteTitle}
-        description={deletingItem ? t.actions.deleteDescription(deletingItem.originalName) : undefined}
+        description={
+          deletingItem
+            ? t.actions.deleteDescription(deletingItem.originalName)
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setDeletingItem(null)} disabled={softDelete.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setDeletingItem(null)}
+              disabled={softDelete.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={softDelete.isPending} onClick={handleConfirmDelete}>
+            <Button
+              variant="primary"
+              loading={softDelete.isPending}
+              onClick={handleConfirmDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>
@@ -173,10 +248,18 @@ export const MediaPage = () => {
         description={t.actions.bulkDeleteDescription(selectedIds.length)}
         footer={
           <>
-            <Button variant="secondary" onClick={() => setBulkConfirmOpen(false)} disabled={softDelete.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkConfirmOpen(false)}
+              disabled={softDelete.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={softDelete.isPending} onClick={handleConfirmBulkDelete}>
+            <Button
+              variant="primary"
+              loading={softDelete.isPending}
+              onClick={handleConfirmBulkDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>

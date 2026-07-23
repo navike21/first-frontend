@@ -6,7 +6,10 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const AuditLogsPage = lazyRouteComponent(() => import('@domains/audit-log'), 'AuditLogsPage')
+const AuditLogsPage = lazyRouteComponent(
+  () => import('@domains/audit-log'),
+  'AuditLogsPage'
+)
 
 function createAuditLogsRouteTree(lang: Language) {
   return createRoute({

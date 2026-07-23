@@ -8,7 +8,10 @@ interface CategoryDetailModalProps {
   onClose: () => void
 }
 
-export const CategoryDetailModal = ({ category, onClose }: CategoryDetailModalProps) => {
+export const CategoryDetailModal = ({
+  category,
+  onClose,
+}: CategoryDetailModalProps) => {
   const { t, language } = useCategoriesTranslation()
   const { data: allCategories } = useCategoriesForPicker()
 
@@ -19,15 +22,23 @@ export const CategoryDetailModal = ({ category, onClose }: CategoryDetailModalPr
   })()
 
   return (
-    <Modal isOpen={!!category} onClose={onClose} size="lg" title={t.table.viewCategory}>
+    <Modal
+      isOpen={!!category}
+      onClose={onClose}
+      size="lg"
+      title={t.table.viewCategory}
+    >
       {category && (
         <div className="space-y-5">
           <div className="flex items-center gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">
+              <span className="text-foreground text-base font-bold">
                 {category.name[language] || category.name.en}
               </span>
-              <Chip size="x-small" variant={category.isActive ? 'success' : 'default'}>
+              <Chip
+                size="x-small"
+                variant={category.isActive ? 'success' : 'default'}
+              >
                 {category.isActive ? t.status.active : t.status.inactive}
               </Chip>
             </div>
