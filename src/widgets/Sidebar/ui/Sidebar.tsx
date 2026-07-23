@@ -3,12 +3,7 @@ import { IconComponent, Accordion, Drawer, NavItem } from '@/shared/ui'
 import clsx from 'clsx'
 import { useSidebar } from './Sidebar.hooks'
 import { SidebarFlyout } from './SidebarFlyout'
-
-const TitleNode = (
-  <div className="flex items-center gap-2">
-    <span className="font-bold text-foreground">Menú</span>
-  </div>
-)
+import { getMenuTitle } from '../model/menu.config'
 
 export const Sidebar = () => {
   const {
@@ -19,14 +14,21 @@ export const Sidebar = () => {
     menuConfig,
     openMenuId,
     handleToggle,
+    language,
   } = useSidebar()
+
+  const titleNode = (
+    <div className="flex items-center gap-2">
+      <span className="text-foreground font-bold">{getMenuTitle(language)}</span>
+    </div>
+  )
 
   return (
     <Drawer
       isOpen={isOpenMobile}
       onClose={closeMobileSidebar}
       placement="left"
-      title={TitleNode}
+      title={titleNode}
       isMobileOnly
       className={clsx(
         {

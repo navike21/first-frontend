@@ -77,5 +77,6 @@ export function useSidebar() {
     menuConfig,
     openMenuId,
     handleToggle,
+    language,
   }
 }

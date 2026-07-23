@@ -25,6 +25,18 @@ export interface MenuItem {
 }
 
 const MENU_LABELS: Record<string, Record<Language, string>> = {
+  menuTitle: {
+    es: 'Menú',
+    en: 'Menu',
+    de: 'Menü',
+    fr: 'Menu',
+    pt: 'Menu',
+    it: 'Menu',
+    ja: 'メニュー',
+    ko: '메뉴',
+    zh: '菜单',
+    ru: 'Меню',
+  },
   dashboard: {
     es: 'Dashboard',
     en: 'Dashboard',
@@ -253,6 +265,10 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '应用设置',
     ru: 'Настройки',
   },
+}
+
+export function getMenuTitle(lang: Language): string {
+  return MENU_LABELS.menuTitle[lang]
 }
 
 export function getMenuConfig(lang: Language): MenuItem[] {
