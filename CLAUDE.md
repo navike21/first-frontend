@@ -670,6 +670,61 @@ mecanismos separados.
   usuario). `queryError` ahora prioriza `error.backendMessage ??
   HTTP_MESSAGES[lang][status] ?? error.message`.
 
+## Gotcha real: límite de tamaño de imagen desalineado con Vercel (causaba 500 "fantasma" en mobile)
+
+Reportado en producción: subir una foto de la galería del celular a un Service
+daba **"Error interno del servidor"** (500 genérico, sin razón) — a pesar del
+fix de transparencia de arriba. Investigado con `get_runtime_errors`/
+`get_runtime_logs` (MCP de Vercel) sobre `first-backend`: el `PATCH
+/api/v1/services/:id` fallaba con 500 pero **sin ningún stack trace en los
+logs de la app** — señal de que la función ni siquiera llegó a ejecutar el
+código de negocio.
+
+Causa real: `CoverPicker`/`GalleryPicker` (`shared/ui/molecules`) validaban el
+tamaño en el cliente contra un default de **5 MB** (`DEFAULT_MAX`/
+`DEFAULT_MAX_BYTES`), pero el backend acepta como máximo **4 MB**
+(`STORAGE_MAX_IMAGE_SIZE_BYTES`, ver `first-backend/CLAUDE.md`) — valor
+elegido a propósito ahí para quedar bajo el límite duro de body de Vercel
+(~4.5 MB). Ningún call-site real (`ServiceForm`, `PortfolioForm`, `PageForm`)
+pasaba `maxBytes` explícito, así que los tres heredaban el 5 MB por defecto.
+Una foto de celular entre 4 y 5 MB pasaba la validación del frontend como
+"está bien" y luego el request moría en la capa de plataforma de Vercel
+**antes** de llegar a Express/multer — por eso no hay stack trace: el backend
+nunca corrió, y `parseErrorBody` no tiene JSON que leer, así que
+`HttpError.backendMessage` queda `undefined` y `notify.queryError` cae
+(correctamente) al mensaje genérico de 500 — el fix de arriba funcionó como
+debía, el bug real estaba un nivel más abajo.
+
+Arreglado con una constante única `MAX_IMAGE_UPLOAD_BYTES` (`shared/lib/
+storageLimits.ts`, 4 MB, con comentario explicando el porqué) que ahora es el
+default de `CoverPicker`, `GalleryPicker` **y** `PhotoPicker` (que ya usaba un
+límite propio de 3 MB, más estricto y nunca causó este bug, pero quedaba
+como un tercer número mágico independiente sin relación explícita con el
+límite real del backend — unificado para que no vuelvan a desalinearse en
+silencio). Si se agrega un picker de imagen nuevo, usar esta constante como
+default en vez de inventar un número.
+
+También la usa `MediaUploadModal` (Multimedia): a diferencia de los otros
+tres, este NO validaba el tamaño en el cliente en absoluto — un archivo
+grande se encolaba sin ningún aviso, y solo fallaba (o no) al intentar
+subirlo de verdad. Ahora `addFiles` marca cada imagen que excede el límite
+con un error visible de inmediato, y `handleUpload` la excluye del request
+real (no tiene sentido intentar una subida que ya se sabe que va a fallar).
+
+**Gotcha de proceso (ya resuelto, no repetir): un commit pusheado después de
+mergear su PR nunca llega a `main`.** Este mismo fix de `MAX_IMAGE_UPLOAD_BYTES`
+se implementó y se dio por deployado en una sesión anterior, pero el commit
+(`f7fbb14`) se pusheó a la rama `fix/error-transparency-and-ui-cleanup`
+**después** de que su PR #52 ya estuviera mergeado — quedó huérfano en la
+rama (nunca en un PR, nunca en `main`) sin que nada lo señalara como error.
+El bug de 5 MB siguió en producción varios días pese al reporte de "ya
+arreglado". Encontrado por accidente al toparse con un `import` que
+referenciaba un archivo (`storageLimits.ts`) que no existía en el working
+tree de `main`. Recuperado con `git cherry-pick f7fbb14` sobre una rama
+nueva. **Verificar siempre el estado del PR (`gh pr view <n> --json state`)
+antes de pushear una nueva corrección a una rama ya usada** — si el PR ya
+está `MERGED`, hace falta una rama y un PR nuevos, no otro push a la vieja.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era

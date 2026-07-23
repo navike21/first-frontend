@@ -6,6 +6,7 @@ import { useUploadStorageImages, storageKeys } from '@/shared/api/storage.querie
 import { directUploadVideo, attachVideoCoverWithRetry } from '@/shared/api/storage'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { notify } from '@/shared/lib/notify'
+import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
 import { useMediaTranslation } from '../../i18n'
 import { formatFileSize } from '../../model/formatFileSize'
 
@@ -41,9 +42,22 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
   const [isDragging, setIsDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
   const uploadImages = useUploadStorageImages()
+  const hasUploadableFiles = queue.some((q) => !q.error)
 
   const addFiles = (fileList: FileList) => {
-    setQueue((prev) => [...prev, ...Array.from(fileList).map((file) => ({ file }))])
+    setQueue((prev) => [
+      ...prev,
+      ...Array.from(fileList).map((file) => ({
+        file,
+        // Checked client-side before the file ever reaches the network —
+        // otherwise an oversized image silently queues with no hint of why
+        // it'll fail, and only shows a reason once "Subir" is clicked.
+        error:
+          isImageFile(file) && file.size > MAX_IMAGE_UPLOAD_BYTES
+            ? `Max ${Math.round(MAX_IMAGE_UPLOAD_BYTES / 1024 / 1024)} MB`
+            : undefined,
+      })),
+    ])
   }
 
   const removeFile = (index: number) => setQueue((prev) => prev.filter((_, i) => i !== index))
@@ -62,8 +76,11 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
 
   const handleUpload = async () => {
     setUploading(true)
-    const images = queue.filter((q) => isImageFile(q.file))
-    const videos = queue.filter((q) => isVideoFile(q.file))
+    // Files already flagged (e.g. oversized) never get sent — no point
+    // attempting a request already known to fail.
+    const validQueue = queue.filter((q) => !q.error)
+    const images = validQueue.filter((q) => isImageFile(q.file))
+    const videos = validQueue.filter((q) => isVideoFile(q.file))
 
     const uploadVideoWithCover = async (file: File) => {
       const id = crypto.randomUUID()
@@ -100,21 +117,22 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
       setTimeout(() => qc.invalidateQueries({ queryKey: storageKeys.all }), VIDEO_REGISTRATION_DELAY_MS)
     }
 
-    if (failedMessages.size === 0) {
+    const hasRemainingErrors = queue.some((q) => q.error || failedMessages.has(q.file.name))
+    if (!hasRemainingErrors) {
       reset()
       onUploaded()
       onClose()
       return
     }
 
-    const hadSuccess = failedMessages.size < queue.length
+    const succeededCount = validQueue.length - failedMessages.size
     setQueue((prev) =>
       prev
-        .filter((q) => failedMessages.has(q.file.name))
-        .map((q) => ({ ...q, error: failedMessages.get(q.file.name) })),
+        .filter((q) => q.error || failedMessages.has(q.file.name))
+        .map((q) => (failedMessages.has(q.file.name) ? { ...q, error: failedMessages.get(q.file.name) } : q)),
     )
     setUploading(false)
-    if (hadSuccess) onUploaded()
+    if (succeededCount > 0) onUploaded()
   }
 
   return (
@@ -128,7 +146,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
           <Button variant="secondary" onClick={handleClose} disabled={uploading}>
             {t.actions.cancel}
           </Button>
-          <Button variant="primary" loading={uploading} disabled={queue.length === 0} onClick={handleUpload}>
+          <Button variant="primary" loading={uploading} disabled={!hasUploadableFiles} onClick={handleUpload}>
             {uploading ? t.upload.uploadingLabel : t.upload.uploadButton}
           </Button>
         </>
@@ -193,7 +211,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
               >
                 <span className="min-w-0 flex-1 truncate">{q.file.name}</span>
                 {q.error ? (
-                  <span className="shrink-0 text-xs text-red-500">{q.error}</span>
+                  <span className="shrink-0 text-xs text-danger-600">{q.error}</span>
                 ) : (
                   <span className="shrink-0 text-xs text-muted">{formatFileSize(q.file.size)}</span>
                 )}
