@@ -23,7 +23,7 @@ export function usePortfolioTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = usePortfolioTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = usePortfolioTrash({ page, limit: 20 })
   const restore = useRestorePortfolio()
   const purge = usePurgePortfolio()
   const bulkRestore = useBulkRestorePortfolio()
@@ -88,6 +88,7 @@ export function usePortfolioTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

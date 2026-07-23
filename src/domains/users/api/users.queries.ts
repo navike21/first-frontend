@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { usersApi } from './users.api'
 import { useSessionStore } from '@/shared/model'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
@@ -24,6 +29,7 @@ export const useUsers = (params: UserListParams = {}) =>
     queryKey: userKeys.list(params),
     queryFn: () => usersApi.list(params),
     select: (res) => res.data,
+    placeholderData: keepPreviousData,
   })
 
 /**
@@ -192,6 +198,7 @@ export const useUsersTrash = (params: { page?: number; limit?: number } = {}) =>
     queryKey: userKeys.trashList(params),
     queryFn: () => usersApi.trash(params),
     select: (res) => res.data,
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreUser = () => {

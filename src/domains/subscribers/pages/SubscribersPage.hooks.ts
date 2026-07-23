@@ -31,7 +31,7 @@ export function useSubscribersPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useSubscribers({
+  const { data, isLoading, isFetching } = useSubscribers({
     ...params,
     search: search || undefined,
   })
@@ -114,6 +114,7 @@ export function useSubscribersPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingSubscriber,
     viewingSubscriber,
     selectedIds,

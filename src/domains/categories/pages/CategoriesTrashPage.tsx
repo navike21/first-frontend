@@ -27,6 +27,7 @@ export const CategoriesTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -181,6 +182,7 @@ export const CategoriesTrashPage = () => {
           rows={categories}
           getRowKey={(category) => category.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

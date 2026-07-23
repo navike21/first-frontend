@@ -14,6 +14,7 @@ import type { Subscriber } from '../../model/subscriber.types'
 interface SubscriberTableProps {
   subscribers: Subscriber[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -28,6 +29,7 @@ interface SubscriberTableProps {
 export const SubscriberTable = ({
   subscribers,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -139,6 +141,7 @@ export const SubscriberTable = ({
       rows={subscribers}
       getRowKey={(sub) => sub.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiUserLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

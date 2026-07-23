@@ -25,6 +25,7 @@ export const CategoriesPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingCategory,
     viewingCategory,
     selectedIds,
@@ -127,6 +128,7 @@ export const CategoriesPage = () => {
         <CategoryTable
           categories={categories}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

@@ -13,6 +13,7 @@ import type { Tag } from '../../model/tag.types'
 interface TagTableProps {
   tags: Tag[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -27,6 +28,7 @@ interface TagTableProps {
 export const TagTable = ({
   tags,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -112,6 +114,7 @@ export const TagTable = ({
       rows={tags}
       getRowKey={(tag) => tag.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiPriceTag3Line"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

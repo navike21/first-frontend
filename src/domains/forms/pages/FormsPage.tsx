@@ -24,6 +24,7 @@ export const FormsPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingForm,
     selectedIds,
     bulkConfirmOpen,
@@ -127,6 +128,7 @@ export const FormsPage = () => {
         <FormTable
           forms={forms}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

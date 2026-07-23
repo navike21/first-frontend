@@ -28,6 +28,7 @@ export const PagesPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,
@@ -132,6 +133,7 @@ export const PagesPage = () => {
         <PageTable
           items={items}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

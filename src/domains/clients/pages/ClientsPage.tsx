@@ -25,6 +25,7 @@ export const ClientsPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingClient,
     viewingClient,
     selectedIds,
@@ -128,6 +129,7 @@ export const ClientsPage = () => {
         <ClientTable
           clients={clients}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

@@ -1,14 +1,15 @@
-import clsx from 'clsx'
 import {
   PageContent,
   Modal,
   Button,
   IconButton,
-  IconComponent,
   Tooltip,
+  DataTable,
+  type DataTableColumn,
 } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { useUserGroupsTrashPage } from './UserGroupsTrashPage.hooks'
+import type { UserGroup } from '..'
 
 export const UserGroupsTrashPage = () => {
   const {
@@ -17,6 +18,7 @@ export const UserGroupsTrashPage = () => {
     page,
     data,
     isLoading,
+    isFetching,
     restoringGroup,
     purgingGroup,
     canRestore,
@@ -34,6 +36,75 @@ export const UserGroupsTrashPage = () => {
   const total = data?.total ?? 0
   const pages = data?.pages ?? 1
 
+  const columns: DataTableColumn<UserGroup>[] = [
+    {
+      id: 'name',
+      header: t.table.colName,
+      cell: (group) => (
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-3 w-3 flex-shrink-0 rounded-full"
+            style={{ backgroundColor: group.color }}
+          />
+          <span className="text-foreground font-medium">{group.name}</span>
+        </div>
+      ),
+    },
+    {
+      id: 'permissions',
+      header: t.table.colPermissions,
+      cellClassName: 'text-secondary',
+      cell: (group) => t.table.permissionsCount(group.permissions.length),
+    },
+    {
+      id: 'deletedAt',
+      header: t.table.deletedAt,
+      cellClassName: 'text-secondary',
+      cell: (group) =>
+        group.deletedAt ? new Date(group.deletedAt).toLocaleDateString() : '—',
+    },
+    {
+      id: 'actions',
+      header: t.table.colActions,
+      align: 'right',
+      cell: (group) => (
+        <div className="flex items-center justify-end gap-1">
+          {canRestore && (
+            <Tooltip
+              heading={t.actions.restoreGroup}
+              position="top"
+              size="small"
+            >
+              <IconButton
+                icon="RiArrowGoBackLine"
+                variant="text"
+                size="small"
+                aria-label={t.actions.restoreGroup}
+                onClick={() => setRestoringGroup(group)}
+              />
+            </Tooltip>
+          )}
+          {canPurge && (
+            <Tooltip
+              heading={t.actions.purgeGroup}
+              subtitle={t.actions.purgeWarning}
+              position="top"
+              size="medium"
+            >
+              <IconButton
+                icon="RiDeleteBin2Line"
+                variant="text"
+                size="small"
+                aria-label={t.actions.purgeGroup}
+                onClick={() => setPurgingGroup(group)}
+              />
+            </Tooltip>
+          )}
+        </div>
+      ),
+    },
+  ]
+
   return (
     <PageContent
       title={t.page.trashTitle}
@@ -48,148 +119,23 @@ export const UserGroupsTrashPage = () => {
         },
       ]}
     >
-      {isLoading && (
-        <div className="flex items-center justify-center py-20">
-          <div
-            className={clsx(
-              'h-8 w-8',
-              'rounded-full border-2 border-slate-300 border-t-slate-700 dark:border-slate-600 dark:border-t-slate-300',
-              'animate-spin'
-            )}
-          />
-        </div>
-      )}
-      {!isLoading && groups.length === 0 && (
-        <div
-          className={clsx(
-            'flex flex-col items-center justify-center py-20',
-            'border-border bg-surface-subtle rounded-xl border border-dashed',
-            'text-center'
-          )}
-        >
-          <IconComponent
-            icon="RiDeleteBinLine"
-            className="text-disabled mb-3 h-10 w-10"
-          />
-          <p className="text-foreground text-lg font-semibold">
-            {t.page.trashEmpty}
-          </p>
-          <p className="text-muted mt-1 text-sm">
-            {t.page.trashEmptyDescription}
-          </p>
-        </div>
-      )}
-      {!isLoading && groups.length > 0 && (
-        <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-sm">
-          <table className="w-full text-sm">
-            <thead className="bg-surface-subtle text-secondary text-xs font-semibold tracking-wider uppercase">
-              <tr>
-                <th className="px-4 py-3 text-left">{t.table.colName}</th>
-                <th className="px-4 py-3 text-left">
-                  {t.table.colPermissions}
-                </th>
-                <th className="px-4 py-3 text-left">{t.table.deletedAt}</th>
-                <th className="px-4 py-3 text-right">{t.table.colActions}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-              {groups.map((group) => (
-                <tr
-                  key={group.id}
-                  className={clsx(
-                    'transition-colors',
-                    'hover:bg-surface-subtle'
-                  )}
-                >
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="inline-block h-3 w-3 flex-shrink-0 rounded-full"
-                        style={{ backgroundColor: group.color }}
-                      />
-                      <span className="text-foreground font-medium">
-                        {group.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="text-secondary px-4 py-3">
-                    {t.table.permissionsCount(group.permissions.length)}
-                  </td>
-                  <td className="text-secondary px-4 py-3">
-                    {group.deletedAt
-                      ? new Date(group.deletedAt).toLocaleDateString()
-                      : '—'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-1">
-                      {canRestore && (
-                        <Tooltip
-                          heading={t.actions.restoreGroup}
-                          position="top"
-                          size="small"
-                        >
-                          <IconButton
-                            icon="RiArrowGoBackLine"
-                            variant="text"
-                            size="small"
-                            aria-label={t.actions.restoreGroup}
-                            onClick={() => setRestoringGroup(group)}
-                          />
-                        </Tooltip>
-                      )}
-                      {canPurge && (
-                        <Tooltip
-                          heading={t.actions.purgeGroup}
-                          subtitle={t.actions.purgeWarning}
-                          position="top"
-                          size="medium"
-                        >
-                          <IconButton
-                            icon="RiDeleteBin2Line"
-                            variant="text"
-                            size="small"
-                            aria-label={t.actions.purgeGroup}
-                            onClick={() => setPurgingGroup(group)}
-                          />
-                        </Tooltip>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {pages > 1 && (
-            <div className="border-border-subtle flex items-center justify-between border-t px-4 py-3">
-              <span className="text-secondary text-sm">
-                {t.table.totalCount(total)}
-              </span>
-              <div className="flex items-center gap-1">
-                <IconButton
-                  icon="RiArrowLeftSLine"
-                  variant="text"
-                  size="small"
-                  aria-label={t.table.prevPage}
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => p - 1)}
-                />
-                <span className="text-secondary text-sm">
-                  {page} / {pages}
-                </span>
-                <IconButton
-                  icon="RiArrowRightSLine"
-                  variant="text"
-                  size="small"
-                  aria-label={t.table.nextPage}
-                  disabled={page >= pages}
-                  onClick={() => setPage((p) => p + 1)}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+      <DataTable
+        columns={columns}
+        rows={groups}
+        getRowKey={(group) => group.id}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        emptyIcon="RiDeleteBinLine"
+        emptyLabel={t.page.trashEmpty}
+        totalLabel={t.table.totalCount(total)}
+        pagination={{
+          page,
+          pages,
+          onPageChange: setPage,
+          prevLabel: t.table.prevPage,
+          nextLabel: t.table.nextPage,
+        }}
+      />
 
       {/* Restore confirmation modal */}
       <Modal

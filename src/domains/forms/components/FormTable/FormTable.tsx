@@ -13,6 +13,7 @@ import type { Form } from '../../model/form.types'
 interface FormTableProps {
   forms: Form[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -27,6 +28,7 @@ interface FormTableProps {
 export const FormTable = ({
   forms,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -119,6 +121,7 @@ export const FormTable = ({
       rows={forms}
       getRowKey={(form) => form.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiFileList3Line"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { servicesApi } from './services.api'
 import type { ServiceListParams } from '../model/service.types'
 import type { CreateServicePayload } from '../model/service.schema'
@@ -23,6 +28,7 @@ export const useServices = (
     queryKey: serviceKeys.list(params),
     queryFn: () => servicesApi.list(params),
     enabled: options?.enabled,
+    placeholderData: keepPreviousData,
   })
 
 export const useService = (slug: string) =>
@@ -126,6 +132,7 @@ export const useServicesTrash = (
   useQuery({
     queryKey: serviceKeys.trashList(params),
     queryFn: () => servicesApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreService = () => {

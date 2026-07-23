@@ -25,7 +25,7 @@ export function useClientsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useClients({
+  const { data, isLoading, isFetching } = useClients({
     ...params,
     search: search || undefined,
   })
@@ -106,6 +106,7 @@ export function useClientsPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingClient,
     viewingClient,
     selectedIds,

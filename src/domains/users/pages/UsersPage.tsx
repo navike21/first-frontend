@@ -24,6 +24,7 @@ export const UsersPage = () => {
     bulkConfirmOpen,
     data,
     isLoading,
+    isFetching,
     softDelete,
     bulkSoftDelete,
     statusOptions,
@@ -121,6 +122,7 @@ export const UsersPage = () => {
         <UserTable
           users={data?.items ?? []}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={data?.total ?? 0}
           page={data?.page ?? 1}
           pages={data?.pages ?? 1}

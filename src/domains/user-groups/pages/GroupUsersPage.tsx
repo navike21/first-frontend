@@ -36,6 +36,7 @@ export const GroupUsersPage = () => {
     group,
     data,
     isLoading,
+    isFetching,
     page,
     searchTerm,
     setSearchTerm,
@@ -212,6 +213,7 @@ export const GroupUsersPage = () => {
           rows={data?.items ?? []}
           getRowKey={(member) => member.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiGroupLine"
           emptyLabel={t.members.empty}
           totalLabel={t.members.totalCount(data?.total ?? 0)}

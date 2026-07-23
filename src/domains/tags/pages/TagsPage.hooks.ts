@@ -28,7 +28,7 @@ export function useTagsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useTags({
+  const { data, isLoading, isFetching } = useTags({
     ...params,
     search: search || undefined,
   })
@@ -111,6 +111,7 @@ export function useTagsPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingTag,
     viewingTag,
     selectedIds,

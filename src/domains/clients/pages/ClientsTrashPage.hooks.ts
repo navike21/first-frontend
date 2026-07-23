@@ -20,7 +20,7 @@ export function useClientsTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useClientsTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useClientsTrash({ page, limit: 20 })
   const restore = useRestoreClient()
   const purge = usePurgeClient()
   const bulkRestore = useBulkRestoreClients()
@@ -85,6 +85,7 @@ export function useClientsTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

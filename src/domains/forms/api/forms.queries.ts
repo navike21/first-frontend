@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { formsApi } from './forms.api'
 import type {
   FormListParams,
@@ -37,6 +42,7 @@ export const useForms = (params: FormListParams = {}) =>
   useQuery({
     queryKey: formKeys.list(params),
     queryFn: () => formsApi.list(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useForm = (id: string) =>
@@ -81,6 +87,7 @@ export const useFormsTrash = (params: { page?: number; limit?: number } = {}) =>
   useQuery({
     queryKey: formKeys.trashList(params),
     queryFn: () => formsApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreForm = () => {
@@ -142,6 +149,7 @@ export const useFormSubmissions = (
     queryKey: formSubmissionKeys.list(formId, params),
     queryFn: () => formsApi.submissions.list(formId, params),
     enabled: !!formId,
+    placeholderData: keepPreviousData,
   })
 
 export const useFormSubmissionsTrash = (
@@ -152,6 +160,7 @@ export const useFormSubmissionsTrash = (
     queryKey: formSubmissionKeys.trashList(formId, params),
     queryFn: () => formsApi.submissions.trash(formId, params),
     enabled: !!formId,
+    placeholderData: keepPreviousData,
   })
 
 export const useMarkFormSubmissionRead = (formId: string) => {

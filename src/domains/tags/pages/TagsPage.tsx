@@ -25,6 +25,7 @@ export const TagsPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingTag,
     viewingTag,
     selectedIds,
@@ -127,6 +128,7 @@ export const TagsPage = () => {
         <TagTable
           tags={tags}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

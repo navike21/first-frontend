@@ -14,6 +14,7 @@ import type { Category } from '../../model/category.types'
 interface CategoryTableProps {
   categories: Category[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -28,6 +29,7 @@ interface CategoryTableProps {
 export const CategoryTable = ({
   categories,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -130,6 +132,7 @@ export const CategoryTable = ({
       rows={categories}
       getRowKey={(category) => category.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiFolderLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

@@ -1,9 +1,133 @@
 import clsx from 'clsx'
 import { IconButton } from '../../atoms/IconButton'
 import { IconComponent } from '../../atoms/IconComponent/IconComponent'
+import { Skeleton } from '../../atoms/Skeleton'
 import { Spinner } from '../../atoms/Spinner'
 import { Checkbox } from '../Checkbox'
-import type { DataTableProps } from './DataTable.types'
+import type {
+  DataTableColumn,
+  DataTablePagination,
+  DataTableProps,
+} from './DataTable.types'
+
+const FALLBACK_SKELETON_ROWS = 5
+
+interface PaginationFooterProps {
+  totalLabel?: string
+  pagination?: DataTablePagination
+  /** Disables prev/next while a page change is already in flight. */
+  disabled?: boolean
+}
+
+const PaginationFooter = ({
+  totalLabel,
+  pagination,
+  disabled,
+}: PaginationFooterProps) => {
+  if (!totalLabel && !pagination) return null
+  return (
+    <div className="text-secondary flex items-center justify-between text-sm">
+      <span>{totalLabel}</span>
+      {pagination && pagination.pages > 1 && (
+        <div className="flex items-center gap-1">
+          <IconButton
+            icon="RiArrowLeftSLine"
+            variant="text"
+            size="small"
+            aria-label={pagination.prevLabel}
+            disabled={disabled || pagination.page <= 1}
+            onClick={() => pagination.onPageChange(pagination.page - 1)}
+          />
+          <span className="text-foreground px-2 font-medium">
+            {pagination.page} / {pagination.pages}
+          </span>
+          <IconButton
+            icon="RiArrowRightSLine"
+            variant="text"
+            size="small"
+            aria-label={pagination.nextLabel}
+            disabled={disabled || pagination.page >= pagination.pages}
+            onClick={() => pagination.onPageChange(pagination.page + 1)}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+interface DataTableSkeletonProps<T> {
+  columns: DataTableColumn<T>[]
+  rowCount: number
+  selectable: boolean
+  totalLabel?: string
+  pagination?: DataTablePagination
+  className?: string
+}
+
+const DataTableSkeleton = <T,>({
+  columns,
+  rowCount,
+  selectable,
+  totalLabel,
+  pagination,
+  className,
+}: DataTableSkeletonProps<T>) => (
+  <div className={clsx('flex flex-col gap-4', className)}>
+    <ul className="flex flex-col gap-3 md:hidden">
+      {Array.from({ length: rowCount }, (_, i) => (
+        <li
+          key={i}
+          className="border-border bg-surface rounded-xl border p-4"
+        >
+          <Skeleton variant="text" width="55%" />
+          <Skeleton variant="text" rows={2} className="mt-3" />
+        </li>
+      ))}
+    </ul>
+
+    <div className="border-border bg-surface hidden overflow-x-auto rounded-xl border md:block">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-border-subtle bg-surface-subtle text-secondary border-b text-xs font-semibold tracking-wide uppercase">
+            {selectable && <th className="w-px px-4 py-3" />}
+            {columns.map((col) => (
+              <th
+                key={col.id}
+                className={clsx(
+                  'px-4 py-3 text-left',
+                  col.align === 'right' && 'text-right'
+                )}
+              >
+                {col.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-border-control divide-y">
+          {Array.from({ length: rowCount }, (_, i) => (
+            <tr key={i}>
+              {selectable && (
+                <td className="px-4 py-3">
+                  <Skeleton variant="rect" width={18} height={18} />
+                </td>
+              )}
+              {columns.map((col) => (
+                <td key={col.id} className="px-4 py-3">
+                  <Skeleton
+                    variant="text"
+                    width={col.align === 'right' ? '40%' : '70%'}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <PaginationFooter totalLabel={totalLabel} pagination={pagination} disabled />
+  </div>
+)
 
 /**
  * Domain-agnostic table: pass `columns` (header + cell renderer) and `rows`.
@@ -17,6 +141,7 @@ export const DataTable = <T,>({
   rows,
   getRowKey,
   isLoading = false,
+  isFetching = false,
   emptyIcon,
   emptyLabel,
   totalLabel,
@@ -33,6 +158,24 @@ export const DataTable = <T,>({
       <div className="flex items-center justify-center py-20">
         <Spinner size="medium" />
       </div>
+    )
+  }
+
+  // A page/filter change re-fetches while `rows` still holds the previous
+  // page (kept via the query's placeholderData, so the table doesn't flash
+  // empty) — without this, the old page just sits there and then suddenly
+  // swaps once the new page lands. Skeleton rows make the in-between wait
+  // visible instead of looking stuck (same pattern as `MediaGrid`).
+  if (isFetching) {
+    return (
+      <DataTableSkeleton
+        columns={columns}
+        rowCount={rows.length || FALLBACK_SKELETON_ROWS}
+        selectable={selectable}
+        totalLabel={totalLabel}
+        pagination={pagination}
+        className={className}
+      />
     )
   }
 
@@ -70,8 +213,6 @@ export const DataTable = <T,>({
       onSelectionChange([...next])
     }
   }
-
-  const showFooter = Boolean(totalLabel) || Boolean(pagination)
 
   // Mobile (card) layout: classify columns by their `mobile` role, with
   // sensible fallbacks so tables work without extra config — the first column
@@ -229,34 +370,7 @@ export const DataTable = <T,>({
         </table>
       </div>
 
-      {showFooter && (
-        <div className="text-secondary flex items-center justify-between text-sm">
-          <span>{totalLabel}</span>
-          {pagination && pagination.pages > 1 && (
-            <div className="flex items-center gap-1">
-              <IconButton
-                icon="RiArrowLeftSLine"
-                variant="text"
-                size="small"
-                aria-label={pagination.prevLabel}
-                disabled={pagination.page <= 1}
-                onClick={() => pagination.onPageChange(pagination.page - 1)}
-              />
-              <span className="text-foreground px-2 font-medium">
-                {pagination.page} / {pagination.pages}
-              </span>
-              <IconButton
-                icon="RiArrowRightSLine"
-                variant="text"
-                size="small"
-                aria-label={pagination.nextLabel}
-                disabled={pagination.page >= pagination.pages}
-                onClick={() => pagination.onPageChange(pagination.page + 1)}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      <PaginationFooter totalLabel={totalLabel} pagination={pagination} />
     </div>
   )
 }

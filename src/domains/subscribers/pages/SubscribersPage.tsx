@@ -25,6 +25,7 @@ export const SubscribersPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingSubscriber,
     viewingSubscriber,
     selectedIds,
@@ -130,6 +131,7 @@ export const SubscribersPage = () => {
         <SubscriberTable
           subscribers={subscribers}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

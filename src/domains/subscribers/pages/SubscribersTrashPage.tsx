@@ -28,6 +28,7 @@ export const SubscribersTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -194,6 +195,7 @@ export const SubscribersTrashPage = () => {
           rows={subscribers}
           getRowKey={(sub) => sub.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

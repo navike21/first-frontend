@@ -23,7 +23,10 @@ export function useCollaboratorsTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useCollaboratorsTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useCollaboratorsTrash({
+    page,
+    limit: 20,
+  })
   const restore = useRestoreCollaborator()
   const purge = usePurgeCollaborator()
   const bulkRestore = useBulkRestoreCollaborators()
@@ -88,6 +91,7 @@ export function useCollaboratorsTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

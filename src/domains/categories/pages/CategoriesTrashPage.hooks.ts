@@ -20,7 +20,10 @@ export function useCategoriesTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useCategoriesTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useCategoriesTrash({
+    page,
+    limit: 20,
+  })
   const restore = useRestoreCategory()
   const purge = usePurgeCategory()
   const bulkRestore = useBulkRestoreCategories()
@@ -85,6 +88,7 @@ export function useCategoriesTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

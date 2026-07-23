@@ -23,7 +23,10 @@ export function useSubscribersTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useSubscribersTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useSubscribersTrash({
+    page,
+    limit: 20,
+  })
   const restore = useRestoreSubscriber()
   const purge = usePurgeSubscriber()
   const bulkRestore = useBulkRestoreSubscribers()
@@ -90,6 +93,7 @@ export function useSubscribersTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

@@ -15,6 +15,7 @@ import type { Collaborator } from '../../model/collaborator.types'
 interface CollaboratorTableProps {
   collaborators: Collaborator[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -29,6 +30,7 @@ interface CollaboratorTableProps {
 export const CollaboratorTable = ({
   collaborators,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -139,6 +141,7 @@ export const CollaboratorTable = ({
       rows={collaborators}
       getRowKey={(collaborator) => collaborator.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiTeamLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

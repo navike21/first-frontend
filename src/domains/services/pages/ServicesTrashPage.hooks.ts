@@ -20,7 +20,7 @@ export function useServicesTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useServicesTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useServicesTrash({ page, limit: 20 })
   const restore = useRestoreService()
   const purge = usePurgeService()
   const bulkRestore = useBulkRestoreServices()
@@ -85,6 +85,7 @@ export function useServicesTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

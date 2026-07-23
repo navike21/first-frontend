@@ -37,7 +37,7 @@ export function useCollaboratorsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useCollaborators({
+  const { data, isLoading, isFetching } = useCollaborators({
     ...params,
     search: search || undefined,
   })
@@ -125,6 +125,7 @@ export function useCollaboratorsPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingCollaborator,
     viewingCollaborator,
     selectedIds,

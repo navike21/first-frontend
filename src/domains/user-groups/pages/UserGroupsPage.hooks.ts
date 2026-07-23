@@ -18,7 +18,7 @@ export function useUserGroupsPage() {
   const [viewingGroup, setViewingGroup] = useState<UserGroup | null>(null)
   const [deletingGroup, setDeletingGroup] = useState<UserGroup | null>(null)
 
-  const { data, isLoading } = useUserGroups({
+  const { data, isLoading, isFetching } = useUserGroups({
     ...params,
     search: search || undefined,
   })
@@ -76,6 +76,7 @@ export function useUserGroupsPage() {
     deletingGroup,
     data,
     isLoading,
+    isFetching,
     softDelete,
     statusOptions,
     handleView,

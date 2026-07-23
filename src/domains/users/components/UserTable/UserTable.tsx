@@ -15,6 +15,7 @@ import type { User } from '../../model/user.types'
 interface UserTableProps {
   users: User[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -28,6 +29,7 @@ interface UserTableProps {
 export const UserTable = ({
   users,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -117,6 +119,7 @@ export const UserTable = ({
       rows={users}
       getRowKey={(user) => user.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiUser3Line"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

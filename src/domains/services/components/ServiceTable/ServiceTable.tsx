@@ -14,6 +14,7 @@ import type { Service } from '../../model/service.types'
 interface ServiceTableProps {
   services: Service[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -28,6 +29,7 @@ interface ServiceTableProps {
 export const ServiceTable = ({
   services,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -134,6 +136,7 @@ export const ServiceTable = ({
       rows={services}
       getRowKey={(svc) => svc.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiToolsLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

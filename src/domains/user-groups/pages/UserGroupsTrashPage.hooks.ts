@@ -21,7 +21,10 @@ export function useUserGroupsTrashPage() {
   // `:manage` does NOT grant it (matches the backend's purge gating).
   const canPurge = useHasPermission('user-groups:purge', '*:*')
 
-  const { data, isLoading } = useUserGroupsTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useUserGroupsTrash({
+    page,
+    limit: 20,
+  })
   const restore = useRestoreUserGroup()
   const purge = usePurgeUserGroup()
 
@@ -53,6 +56,7 @@ export function useUserGroupsTrashPage() {
     page,
     data,
     isLoading,
+    isFetching,
     restoringGroup,
     purgingGroup,
     canRestore,

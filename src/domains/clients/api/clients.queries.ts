@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { clientsApi } from './clients.api'
 import type { ClientListParams } from '../model/client.types'
 import type {
@@ -25,6 +30,7 @@ export const useClients = (
     queryKey: clientKeys.list(params),
     queryFn: () => clientsApi.list(params),
     enabled: options?.enabled,
+    placeholderData: keepPreviousData,
   })
 
 export const useClient = (id: string) =>
@@ -94,6 +100,7 @@ export const useClientsTrash = (
   useQuery({
     queryKey: clientKeys.trashList(params),
     queryFn: () => clientsApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreClient = () => {

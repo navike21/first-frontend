@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { portfolioApi } from './portfolio.api'
@@ -27,6 +32,7 @@ export const usePortfolioList = (params: PortfolioListParams = {}) =>
   useQuery({
     queryKey: portfolioKeys.list(params),
     queryFn: () => portfolioApi.listAdmin(params),
+    placeholderData: keepPreviousData,
   })
 
 export const usePortfolioById = (id: string) =>
@@ -43,6 +49,7 @@ export const usePortfolioTrash = (
   useQuery({
     queryKey: portfolioKeys.trashList(params),
     queryFn: () => portfolioApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 // Services picker — used in PortfolioForm to select associated services

@@ -21,6 +21,7 @@ export const UserGroupsPage = () => {
     deletingGroup,
     data,
     isLoading,
+    isFetching,
     softDelete,
     statusOptions,
     handleView,
@@ -99,6 +100,7 @@ export const UserGroupsPage = () => {
       <UserGroupTable
         groups={data?.items ?? []}
         isLoading={isLoading}
+        isFetching={isFetching}
         total={data?.total ?? 0}
         page={data?.page ?? 1}
         pages={data?.pages ?? 1}

@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { subscribersApi } from './subscribers.api'
 import type { SubscriberListParams } from '../model/subscriber.types'
 import type { CreateSubscriberPayload } from '../model/subscriber.schema'
@@ -19,6 +24,7 @@ export const useSubscribers = (params: SubscriberListParams = {}) =>
   useQuery({
     queryKey: subscriberKeys.list(params),
     queryFn: () => subscribersApi.list(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useSubscriber = (id: string) =>
@@ -77,6 +83,7 @@ export const useSubscribersTrash = (
   useQuery({
     queryKey: subscriberKeys.trashList(params),
     queryFn: () => subscribersApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreSubscriber = () => {

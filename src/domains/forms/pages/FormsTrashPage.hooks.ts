@@ -19,7 +19,7 @@ export function useFormsTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useFormsTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useFormsTrash({ page, limit: 20 })
   const restore = useRestoreForm()
   const purge = usePurgeForm()
   const bulkRestore = useBulkRestoreForms()
@@ -86,6 +86,7 @@ export function useFormsTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     restoring,
     purging,
     selectedIds,

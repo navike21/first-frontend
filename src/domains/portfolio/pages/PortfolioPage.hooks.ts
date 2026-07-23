@@ -27,7 +27,7 @@ export function usePortfolioPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = usePortfolioList(params)
+  const { data, isLoading, isFetching } = usePortfolioList(params)
   const softDelete = useSoftDeletePortfolio()
   const bulkSoftDelete = useBulkSoftDeletePortfolio()
 
@@ -100,6 +100,7 @@ export function usePortfolioPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,
