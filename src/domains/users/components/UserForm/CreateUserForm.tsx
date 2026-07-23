@@ -85,12 +85,14 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <FormGrid>
                 <InputField
                   label={t.form.firstName}
+                  autoComplete="given-name"
                   variant={errors.firstName ? 'error' : undefined}
                   errorMessage={errors.firstName?.message}
                   {...register('firstName')}
                 />
                 <InputField
                   label={t.form.lastName}
+                  autoComplete="family-name"
                   variant={errors.lastName ? 'error' : undefined}
                   errorMessage={errors.lastName?.message}
                   {...register('lastName')}
@@ -99,6 +101,10 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <InputField
                 label={t.form.email}
                 type="email"
+                // This is the new user's own email, not the logged-in admin's —
+                // browsers otherwise readily suggest the admin's own saved
+                // email here, and it's easy to submit unnoticed.
+                autoComplete="off"
                 variant={errors.email ? 'error' : undefined}
                 errorMessage={errors.email?.message}
                 {...register('email')}
@@ -116,6 +122,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputDate
                   label={t.form.dateOfBirth}
                   mode="date"
+                  autoComplete="bday"
                   variant={errors.dateOfBirth ? 'error' : 'default'}
                   errorMessage={errors.dateOfBirth?.message}
                   {...register('dateOfBirth')}
@@ -123,6 +130,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputNumber
                   label={t.form.phone}
                   mask="+## ### ### ###"
+                  autoComplete="tel"
                   variant={errors.phone ? 'error' : undefined}
                   errorMessage={errors.phone?.message}
                   {...register('phone')}
@@ -149,18 +157,28 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
               <FormGrid>
                 <InputField
                   label={t.form.address}
+                  autoComplete="address-line1"
                   variant={errors.address?.address ? 'error' : undefined}
                   errorMessage={errors.address?.address?.message}
                   {...register('address.address')}
                 />
                 <InputField
                   label={t.form.addressNumber}
+                  autoComplete="off"
                   variant={errors.address?.addressNumber ? 'error' : undefined}
                   errorMessage={errors.address?.addressNumber?.message}
                   {...register('address.addressNumber')}
                 />
                 <InputField
                   label={t.form.addressInterior}
+                  // WHATWG's address-line2 is exactly "apartment, suite, unit,
+                  // building, floor" — without an explicit token here, this
+                  // field had no autofill hint at all, and a browser's address
+                  // autofill profile (name+address+email bundled together)
+                  // filled it with a saved EMAIL instead of an address line.
+                  // Confirmed live: a user created via this form ended up with
+                  // address.addressInterior === the logged-in admin's email.
+                  autoComplete="address-line2"
                   variant={errors.address?.addressInterior ? 'error' : undefined}
                   errorMessage={errors.address?.addressInterior?.message}
                   {...register('address.addressInterior')}
@@ -180,6 +198,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputField
                   label={t.form.password}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.password ? 'error' : undefined}
                   errorMessage={errors.password?.message}
                   {...register('password')}
@@ -187,6 +206,7 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                 <InputField
                   label={t.form.confirmPassword}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.confirmPassword ? 'error' : undefined}
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}

@@ -106,12 +106,14 @@ export const EditUserForm = (
               <FormGrid>
                 <InputField
                   label={t.form.firstName}
+                  autoComplete="given-name"
                   variant={errors.firstName ? 'error' : undefined}
                   errorMessage={errors.firstName?.message}
                   {...register('firstName')}
                 />
                 <InputField
                   label={t.form.lastName}
+                  autoComplete="family-name"
                   variant={errors.lastName ? 'error' : undefined}
                   errorMessage={errors.lastName?.message}
                   {...register('lastName')}
@@ -137,6 +139,7 @@ export const EditUserForm = (
                 <InputDate
                   label={t.form.dateOfBirth}
                   mode="date"
+                  autoComplete="bday"
                   variant={errors.dateOfBirth ? 'error' : 'default'}
                   errorMessage={errors.dateOfBirth?.message}
                   defaultValue={
@@ -147,6 +150,7 @@ export const EditUserForm = (
                 <InputNumber
                   label={t.form.phone}
                   mask="+## ### ### ###"
+                  autoComplete="tel"
                   variant={errors.phone ? 'error' : undefined}
                   errorMessage={errors.phone?.message}
                   {...register('phone')}
@@ -173,18 +177,28 @@ export const EditUserForm = (
               <FormGrid>
                 <InputField
                   label={t.form.address}
+                  autoComplete="address-line1"
                   variant={errors.address?.address ? 'error' : undefined}
                   errorMessage={errors.address?.address?.message}
                   {...register('address.address')}
                 />
                 <InputField
                   label={t.form.addressNumber}
+                  autoComplete="off"
                   variant={errors.address?.addressNumber ? 'error' : undefined}
                   errorMessage={errors.address?.addressNumber?.message}
                   {...register('address.addressNumber')}
                 />
                 <InputField
                   label={t.form.addressInterior}
+                  // WHATWG's address-line2 is exactly "apartment, suite, unit,
+                  // building, floor" — without an explicit token here, this
+                  // field had no autofill hint at all, and a browser's address
+                  // autofill profile (name+address+email bundled together)
+                  // filled it with a saved EMAIL instead of an address line.
+                  // Confirmed live: a user created via this form ended up with
+                  // address.addressInterior === the logged-in admin's email.
+                  autoComplete="address-line2"
                   variant={errors.address?.addressInterior ? 'error' : undefined}
                   errorMessage={errors.address?.addressInterior?.message}
                   {...register('address.addressInterior')}
@@ -204,6 +218,7 @@ export const EditUserForm = (
                 <InputField
                   label={t.form.newPassword}
                   type="password"
+                  autoComplete="new-password"
                   helperText={t.form.passwordKeepHint}
                   variant={errors.password ? 'error' : undefined}
                   errorMessage={errors.password?.message}
@@ -212,6 +227,7 @@ export const EditUserForm = (
                 <InputField
                   label={t.form.confirmPassword}
                   type="password"
+                  autoComplete="new-password"
                   variant={errors.confirmPassword ? 'error' : undefined}
                   errorMessage={errors.confirmPassword?.message}
                   {...register('confirmPassword')}

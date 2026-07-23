@@ -226,16 +226,25 @@ export const SubscriberForm = ({
             />
             <InputField
               label={t.form.addressStreet}
+              autoComplete="address-line1"
               variant={errors.location?.address ? 'error' : undefined}
               errorMessage={errors.location?.address?.message}
               {...register('location.address')}
             />
             <InputField
               label={t.form.addressNumber}
+              autoComplete="off"
               {...register('location.addressNumber')}
             />
             <InputField
               label={t.form.addressInterior}
+              // WHATWG's address-line2 is exactly "apartment, suite, unit,
+              // building, floor" — without this hint, a browser's address
+              // autofill profile (name+address+email bundled together) can
+              // fill this with a saved EMAIL instead of an address line
+              // (confirmed happening on the equivalent Users form field —
+              // see CreateUserForm.tsx).
+              autoComplete="address-line2"
               {...register('location.addressInterior')}
             />
           </FormGrid>
