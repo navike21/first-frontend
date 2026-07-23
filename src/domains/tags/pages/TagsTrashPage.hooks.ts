@@ -20,7 +20,7 @@ export function useTagsTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = useTagsTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useTagsTrash({ page, limit: 20 })
   const restore = useRestoreTag()
   const purge = usePurgeTag()
   const bulkRestore = useBulkRestoreTags()
@@ -85,6 +85,7 @@ export function useTagsTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

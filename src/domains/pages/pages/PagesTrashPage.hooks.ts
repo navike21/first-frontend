@@ -21,7 +21,7 @@ export function usePagesTrashPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkAction, setBulkAction] = useState<'restore' | 'purge' | null>(null)
 
-  const { data, isLoading } = usePagesTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = usePagesTrash({ page, limit: 20 })
   const restore = useRestorePage()
   const purge = usePurgePage()
   const bulkRestore = useBulkRestorePages()
@@ -109,6 +109,7 @@ export function usePagesTrashPage() {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,

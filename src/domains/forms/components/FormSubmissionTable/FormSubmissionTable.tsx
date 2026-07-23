@@ -16,6 +16,7 @@ interface FormSubmissionTableProps {
   form: Form
   submissions: FormSubmission[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -44,6 +45,7 @@ export const FormSubmissionTable = ({
   form,
   submissions,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -127,6 +129,7 @@ export const FormSubmissionTable = ({
       rows={submissions}
       getRowKey={(submission) => submission.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiInboxLine"
       emptyLabel={t.submissionsTable.noResults}
       totalLabel={t.submissionsTable.totalCount(total)}

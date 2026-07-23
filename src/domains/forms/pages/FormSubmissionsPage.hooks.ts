@@ -25,7 +25,7 @@ export function useFormSubmissionsPage() {
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
   const isRead = readFilter === 'all' ? undefined : readFilter === 'read'
-  const { data, isLoading } = useFormSubmissions(formId, {
+  const { data, isLoading, isFetching } = useFormSubmissions(formId, {
     page,
     limit: 20,
     isRead,
@@ -99,6 +99,7 @@ export function useFormSubmissionsPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     viewing,
     deleting,
     selectedIds,

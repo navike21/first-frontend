@@ -22,6 +22,7 @@ export const PortfolioPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,
@@ -109,6 +110,7 @@ export const PortfolioPage = () => {
         <PortfolioTable
           items={items}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

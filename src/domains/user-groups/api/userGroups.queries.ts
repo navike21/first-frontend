@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { userGroupsApi } from './userGroups.api'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
 import type { UserGroup, UserGroupListParams } from '../model/userGroup.types'
@@ -25,6 +30,7 @@ export const useUserGroups = (params: UserGroupListParams = {}) =>
     queryKey: userGroupKeys.list(params),
     queryFn: () => userGroupsApi.list(params),
     select: (res) => res.data,
+    placeholderData: keepPreviousData,
   })
 
 export const useUserGroup = (id: string) =>
@@ -100,6 +106,7 @@ export const useUserGroupsTrash = (
     queryKey: userGroupKeys.trashList(params),
     queryFn: () => userGroupsApi.trash(params),
     select: (res) => res.data,
+    placeholderData: keepPreviousData,
   })
 
 export const useRestoreUserGroup = () => {

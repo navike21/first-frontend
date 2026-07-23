@@ -25,7 +25,7 @@ export function usePagesPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = usePages({
+  const { data, isLoading, isFetching } = usePages({
     ...params,
     search: search || undefined,
   })
@@ -109,6 +109,7 @@ export function usePagesPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingItem,
     viewingItem,
     selectedIds,

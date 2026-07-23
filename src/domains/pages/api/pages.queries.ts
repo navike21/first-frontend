@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { pagesApi } from './pages.api'
@@ -24,6 +29,7 @@ export const usePages = (params: PageListParams = {}) =>
   useQuery({
     queryKey: pageKeys.list(params),
     queryFn: () => pagesApi.listAdmin(params),
+    placeholderData: keepPreviousData,
   })
 
 export const usePage = (id: string) =>
@@ -38,6 +44,7 @@ export const usePagesTrash = (params: { page?: number; limit?: number } = {}) =>
   useQuery({
     queryKey: pageKeys.trashList(params),
     queryFn: () => pagesApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 // Full list used to build the parent-page picker and hierarchy/breadcrumb

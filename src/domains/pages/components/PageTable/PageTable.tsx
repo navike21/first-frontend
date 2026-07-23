@@ -22,6 +22,7 @@ import type { Page, PageStatus } from '../../model/page.types'
 interface PageTableProps {
   items: Page[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -58,6 +59,7 @@ function pathDepth(fullPath: string | undefined): number {
 export const PageTable = ({
   items,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -252,6 +254,7 @@ export const PageTable = ({
       rows={items}
       getRowKey={(item) => item.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiFileTextLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

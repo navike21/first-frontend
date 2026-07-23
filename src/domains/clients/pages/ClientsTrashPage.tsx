@@ -29,6 +29,7 @@ export const ClientsTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -194,6 +195,7 @@ export const ClientsTrashPage = () => {
           rows={clients}
           getRowKey={(client) => client.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

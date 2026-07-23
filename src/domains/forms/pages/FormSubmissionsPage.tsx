@@ -23,6 +23,7 @@ export const FormSubmissionsPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     viewing,
     deleting,
     selectedIds,
@@ -105,6 +106,7 @@ export const FormSubmissionsPage = () => {
           form={form}
           submissions={submissions}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

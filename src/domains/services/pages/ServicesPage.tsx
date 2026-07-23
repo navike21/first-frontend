@@ -25,6 +25,7 @@ export const ServicesPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingService,
     viewingService,
     selectedIds,
@@ -127,6 +128,7 @@ export const ServicesPage = () => {
         <ServiceTable
           services={services}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

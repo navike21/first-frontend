@@ -29,6 +29,7 @@ export const CollaboratorsTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -201,6 +202,7 @@ export const CollaboratorsTrashPage = () => {
           rows={collaborators}
           getRowKey={(collaborator) => collaborator.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

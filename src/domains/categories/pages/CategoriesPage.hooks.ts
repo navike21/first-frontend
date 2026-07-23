@@ -37,7 +37,7 @@ export function useCategoriesPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useCategories({
+  const { data, isLoading, isFetching } = useCategories({
     ...params,
     search: search || undefined,
   })
@@ -120,6 +120,7 @@ export function useCategoriesPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingCategory,
     viewingCategory,
     selectedIds,

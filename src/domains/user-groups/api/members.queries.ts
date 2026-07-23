@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { membersApi } from './members.api'
 import { userGroupKeys } from './userGroups.queries'
 import type { GroupMemberListParams } from '../model/userGroup.types'
@@ -20,6 +25,7 @@ export const useGroupMembers = (
     queryFn: () => membersApi.list(groupId, params),
     select: (res) => res.data,
     enabled: !!groupId,
+    placeholderData: keepPreviousData,
   })
 
 /** Searches users to add (only runs once a term is provided). */

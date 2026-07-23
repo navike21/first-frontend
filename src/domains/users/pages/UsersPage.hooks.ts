@@ -16,7 +16,7 @@ export function useUsersPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useUsers({
+  const { data, isLoading, isFetching } = useUsers({
     ...params,
     search: search || undefined,
   })
@@ -91,6 +91,7 @@ export function useUsersPage() {
     bulkConfirmOpen,
     data,
     isLoading,
+    isFetching,
     softDelete,
     bulkSoftDelete,
     statusOptions,

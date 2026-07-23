@@ -27,7 +27,7 @@ export function useUsersTrashPage() {
   // `:manage` does NOT grant it (matches the backend's purge gating).
   const canPurge = useHasPermission('users:purge', '*:*')
 
-  const { data, isLoading } = useUsersTrash({ page, limit: 20 })
+  const { data, isLoading, isFetching } = useUsersTrash({ page, limit: 20 })
   const restore = useRestoreUser()
   const purge = usePurgeUser()
   const bulkRestore = useBulkRestoreUsers()
@@ -96,6 +96,7 @@ export function useUsersTrashPage() {
     page,
     data,
     isLoading,
+    isFetching,
     restoringUser,
     purgingUser,
     viewingUser,

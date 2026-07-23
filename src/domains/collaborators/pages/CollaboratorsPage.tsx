@@ -25,6 +25,7 @@ export const CollaboratorsPage = () => {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingCollaborator,
     viewingCollaborator,
     selectedIds,
@@ -127,6 +128,7 @@ export const CollaboratorsPage = () => {
         <CollaboratorTable
           collaborators={collaborators}
           isLoading={isLoading}
+          isFetching={isFetching}
           total={total}
           page={page}
           pages={pages}

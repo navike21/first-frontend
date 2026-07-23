@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { auditLogApi } from './auditLog.api'
 import type { AuditLogsListParams } from './auditLog.api'
 
@@ -16,7 +16,7 @@ export const useAuditLogs = (
   useQuery({
     queryKey: auditLogKeys.list(params),
     queryFn: () => auditLogApi.list(params),
-    placeholderData: (prev) => prev,
+    placeholderData: keepPreviousData,
     staleTime: 0, // Always fetch fresh logs when navigating to the page
     enabled: options?.enabled,
   })

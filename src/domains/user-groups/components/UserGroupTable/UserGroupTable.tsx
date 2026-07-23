@@ -13,6 +13,7 @@ import type { UserGroup } from '../../model/userGroup.types'
 interface UserGroupTableProps {
   groups: UserGroup[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -26,6 +27,7 @@ interface UserGroupTableProps {
 export const UserGroupTable = ({
   groups,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -138,6 +140,7 @@ export const UserGroupTable = ({
       rows={groups}
       getRowKey={(group) => group.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiGroupLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

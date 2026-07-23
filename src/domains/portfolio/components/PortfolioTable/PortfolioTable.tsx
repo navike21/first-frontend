@@ -15,6 +15,7 @@ import type { Portfolio } from '../../model/portfolio.types'
 interface PortfolioTableProps {
   items: Portfolio[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -35,6 +36,7 @@ const STATUS_VARIANT = {
 export const PortfolioTable = ({
   items,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -147,6 +149,7 @@ export const PortfolioTable = ({
       rows={items}
       getRowKey={(item) => item.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiGalleryLine"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

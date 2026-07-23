@@ -34,7 +34,10 @@ export function useGroupUsersPage() {
     return () => clearTimeout(id)
   }, [searchTerm])
 
-  const { data, isLoading } = useGroupMembers(groupId, { page, limit: 10 })
+  const { data, isLoading, isFetching } = useGroupMembers(groupId, {
+    page,
+    limit: 10,
+  })
   const search = useUserSearch(debouncedTerm)
   const addMembers = useAddGroupMembers(groupId)
   const removeMember = useRemoveGroupMember(groupId)
@@ -97,6 +100,7 @@ export function useGroupUsersPage() {
     group,
     data,
     isLoading,
+    isFetching,
     page,
     searchTerm,
     setSearchTerm,

@@ -43,6 +43,12 @@ export interface DataTableProps<T> {
   /** Returns a stable key for each row. */
   getRowKey: (row: T) => string
   isLoading?: boolean
+  /**
+   * A page/filter change is re-fetching while `rows` still holds the previous
+   * page's data (via the query's `placeholderData`). Renders skeleton rows
+   * instead of the stale rows so the wait is visible, not "stuck".
+   */
+  isFetching?: boolean
   /** Icon shown in the empty state. */
   emptyIcon: IconName
   /** Label shown in the empty state. */

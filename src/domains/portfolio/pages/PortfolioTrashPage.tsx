@@ -34,6 +34,7 @@ export const PortfolioTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     viewing,
     restoring,
     purging,
@@ -181,6 +182,7 @@ export const PortfolioTrashPage = () => {
           rows={items}
           getRowKey={(item) => item.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

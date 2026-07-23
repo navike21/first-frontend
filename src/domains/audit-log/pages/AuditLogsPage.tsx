@@ -50,7 +50,7 @@ export const AuditLogsPage = () => {
   const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null)
   const limit = 10
 
-  const { data, isLoading } = useAuditLogs({
+  const { data, isLoading, isFetching } = useAuditLogs({
     page,
     limit,
     dateFrom: dateFrom || undefined,
@@ -170,6 +170,7 @@ export const AuditLogsPage = () => {
           rows={data?.data ?? []}
           getRowKey={(row) => row.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiFileListLine"
           emptyLabel={t.table.noResults}
           totalLabel={t.table.totalCount(total)}

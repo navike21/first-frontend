@@ -108,6 +108,42 @@ describe('DataTable component', () => {
     expect(screen.queryByText('Alice')).not.toBeInTheDocument()
   })
 
+  it('should show skeleton rows instead of stale data while isFetching', () => {
+    // Arrange & Act — rows still holds the previous page's data (via
+    // placeholderData), isFetching signals a background refetch in flight.
+    renderTable({ isFetching: true })
+    // Assert
+    expect(screen.queryByText('Alice')).not.toBeInTheDocument()
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument()
+    // Column headers stay visible so the shape of the table doesn't jump.
+    expect(screen.getByText('Name')).toBeInTheDocument()
+    expect(screen.getByText('Actions')).toBeInTheDocument()
+  })
+
+  it('should prioritize the initial-load spinner over the fetching skeleton', () => {
+    // Arrange & Act
+    renderTable({ isLoading: true, isFetching: true })
+    // Assert
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
+  })
+
+  it('should disable page controls while isFetching', () => {
+    // Arrange & Act
+    renderTable({
+      isFetching: true,
+      pagination: {
+        page: 2,
+        pages: 5,
+        onPageChange: vi.fn(),
+        prevLabel: 'prev',
+        nextLabel: 'next',
+      },
+    })
+    // Assert
+    expect(screen.getByLabelText('prev')).toBeDisabled()
+    expect(screen.getByLabelText('next')).toBeDisabled()
+  })
+
   it('should show the empty state when there are no rows', () => {
     // Arrange & Act
     renderTable({ rows: [] })

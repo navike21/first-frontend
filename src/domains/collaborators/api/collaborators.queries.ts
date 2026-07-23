@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { request } from '@/shared/api'
 import type { ApiResponse, PaginatedData } from '@/shared/api/types'
 import { collaboratorsApi } from './collaborators.api'
@@ -23,6 +28,7 @@ export const useCollaborators = (params: CollaboratorListParams = {}) =>
   useQuery({
     queryKey: collaboratorKeys.list(params),
     queryFn: () => collaboratorsApi.listAdmin(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useCollaborator = (id: string) =>
@@ -39,6 +45,7 @@ export const useCollaboratorsTrash = (
   useQuery({
     queryKey: collaboratorKeys.trashList(params),
     queryFn: () => collaboratorsApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 // Users picker — used in CollaboratorForm to optionally link a real user account

@@ -26,6 +26,7 @@ export const FormsTrashPage = () => {
     pages,
     page,
     isLoading,
+    isFetching,
     restoring,
     purging,
     selectedIds,
@@ -156,6 +157,7 @@ export const FormsTrashPage = () => {
           rows={forms}
           getRowKey={(form) => form.id}
           isLoading={isLoading}
+          isFetching={isFetching}
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.table.totalCount(total)}

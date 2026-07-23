@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { categoriesApi } from './categories.api'
 import type { CategoryListParams } from '../model/category.types'
 import type { CreateCategoryPayload } from '../model/category.schema'
@@ -22,6 +27,7 @@ export const useCategories = (params: CategoryListParams = {}) =>
   useQuery({
     queryKey: categoryKeys.list(params),
     queryFn: () => categoriesApi.listAdmin(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useCategory = (id: string) =>
@@ -38,6 +44,7 @@ export const useCategoriesTrash = (
   useQuery({
     queryKey: categoryKeys.trashList(params),
     queryFn: () => categoriesApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 // Full list (uncapped-ish) used to build the parent picker — options are

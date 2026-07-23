@@ -16,6 +16,7 @@ import type { Client } from '../../model/client.types'
 interface ClientTableProps {
   clients: Client[]
   isLoading: boolean
+  isFetching?: boolean
   total: number
   page: number
   pages: number
@@ -30,6 +31,7 @@ interface ClientTableProps {
 export const ClientTable = ({
   clients,
   isLoading,
+  isFetching,
   total,
   page,
   pages,
@@ -142,6 +144,7 @@ export const ClientTable = ({
       rows={clients}
       getRowKey={(client) => client.id}
       isLoading={isLoading}
+      isFetching={isFetching}
       emptyIcon="RiBuilding4Line"
       emptyLabel={t.table.noResults}
       totalLabel={t.table.totalCount(total)}

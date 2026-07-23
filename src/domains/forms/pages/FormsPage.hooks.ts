@@ -24,7 +24,7 @@ export function useFormsPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useForms({
+  const { data, isLoading, isFetching } = useForms({
     ...params,
     search: search || undefined,
   })
@@ -106,6 +106,7 @@ export function useFormsPage() {
     page,
     pages,
     isLoading,
+    isFetching,
     deletingForm,
     selectedIds,
     bulkConfirmOpen,

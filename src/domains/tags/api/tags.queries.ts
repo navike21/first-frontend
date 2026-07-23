@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from '@tanstack/react-query'
 import { tagsApi } from './tags.api'
 import type { TagListParams } from '../model/tag.types'
 import type { CreateTagPayload } from '../model/tag.schema'
@@ -20,6 +25,7 @@ export const useTags = (params: TagListParams = {}) =>
   useQuery({
     queryKey: tagKeys.list(params),
     queryFn: () => tagsApi.listAdmin(params),
+    placeholderData: keepPreviousData,
   })
 
 export const useTag = (id: string) =>
@@ -34,6 +40,7 @@ export const useTagsTrash = (params: { page?: number; limit?: number } = {}) =>
   useQuery({
     queryKey: tagKeys.trashList(params),
     queryFn: () => tagsApi.trash(params),
+    placeholderData: keepPreviousData,
   })
 
 // ─── Mutations ────────────────────────────────────────────────────────────────
