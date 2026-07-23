@@ -33,6 +33,7 @@ mutaciones · code-splitting por ruta · **0 `any`** en todo el repo.
 
 - [Empezar](#empezar)
 - [Variables de entorno](#variables-de-entorno)
+- [Ambientes](#ambientes)
 - [Stack técnico](#stack-técnico)
 - [Arquitectura](#arquitectura)
 - [Dominios de negocio](#dominios-de-negocio)
@@ -67,14 +68,39 @@ pnpm preview
 ## Variables de entorno
 
 Vite solo lee `.env` al arrancar — un cambio exige reiniciar `pnpm dev`.
+Copia `.env.example` a `.env` y ajusta si hace falta; los valores por
+defecto ya apuntan al ambiente correcto para desarrollo local (ver
+[Ambientes](#ambientes)).
 
 | Variable | Notas |
 |---|---|
-| `VITE_API_BASE_URL` | Base de la API del backend, ej. `https://first-backend-navike21.vercel.app/api/v1` |
-| `VITE_SOCKET_URL` | Base del servidor Socket.io (presencia) |
-| `VITE_AUTH_PROVIDER` | `api` en producción; `fake` solo disponible en dev (`import.meta.env.DEV`) — nunca cae a `fake` en build de producción aunque falte la variable |
+| `VITE_API_BASE_URL` | Base de la API del backend. En local/development **siempre** el backend de test (`https://first-backend-git-test-navike21.vercel.app/api/v1`), nunca producción |
+| `VITE_SOCKET_URL` | Base del servidor Socket.io (presencia) — mismo host que `VITE_API_BASE_URL`, sin `/api/v1` |
+| `VITE_AUTH_PROVIDER` | `api` en todos los ambientes reales; `fake` solo disponible en dev (`import.meta.env.DEV`) — nunca cae a `fake` en build de producción aunque falte la variable |
 | `VITE_FAKE_USERNAME` / `VITE_FAKE_PASSWORD` | Solo usadas por el provider `fake` en desarrollo |
 | `VITE_APP_VERSION` | Mostrada en la UI (footer/about) |
+
+## Ambientes
+
+Tres ambientes, cada uno con su propio backend (base de datos separada) —
+desarrollo local **nunca** toca datos de producción:
+
+| Ambiente | Frontend | Backend | Cuándo se usa |
+|---|---|---|---|
+| **Development** | Local (`pnpm dev`, `localhost:5176`) — no requiere backend local | `https://first-backend-git-test-navike21.vercel.app` | Día a día. Un solo proceso; el backend corre en Vercel, no en tu laptop |
+| **Test** | `https://first-frontend-git-test-navike21.vercel.app` | `https://first-backend-git-test-navike21.vercel.app` | Verificar una demo/feature completa (front + back) antes de mergear, sin arriesgar producción |
+| **Production** | `https://first-frontend-rose.vercel.app` | `https://first-backend-alpha.vercel.app` | Usuarios reales |
+
+**La rama `test`** (en ambos repos) es infraestructura, no una rama de
+feature — existe solo para que Vercel tenga dónde desplegar el ambiente de
+test de forma estable (ver `TEST_BRANCH.md`). Tiene un PR permanentemente
+abierto contra `main` (nunca se mergea ni se cierra) porque el proyecto solo
+auto-despliega ramas con un PR asociado. Para traer los últimos cambios de
+`main` al ambiente de test: `git checkout test && git merge main && git push`.
+
+Las URLs `-git-test-` quedan detrás del SSO de Vercel (protección de
+deployment por defecto para cualquier alias que no sea el dominio de
+producción) — accesibles para el equipo logueado en Vercel, no público.
 
 ## Stack técnico
 
@@ -332,9 +358,13 @@ recientes).
 
 ## Despliegue
 
-Vercel. `main` → Producción; `feature/*` → Preview. `vite.config.ts` incluye
-un proxy de `/api` hacia el mismo host de producción para desarrollo local
-contra datos reales.
+Vercel. `main` → Producción; `test` → ambiente de test persistente;
+cualquier otra rama (`feature/*`, `fix/*`) → Preview efímero por PR. Ver
+[Ambientes](#ambientes) para el detalle completo.
+
+`vite.config.ts` incluye un proxy de `/api` hacia el backend de **test**
+(nunca producción) — solo se usa si `VITE_API_BASE_URL` queda vacío; en
+uso normal la app llama a `VITE_API_BASE_URL` directamente.
 
 ```bash
 pnpm build
