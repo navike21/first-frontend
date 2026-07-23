@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { UserForm, useMyProfile, useUpdateProfile } from '..'
 import { useUsersTranslation } from '../i18n'
@@ -56,7 +56,7 @@ export const ProfilePage = () => {
           }
           navigate({ to: navPaths.home(language) as never })
         },
-        onError: onQueuedOr(() => {
+        onError: onQueuedOrFieldErrors(() => {
           if (avatar) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.home(language) as never })
         }),

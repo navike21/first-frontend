@@ -104,7 +104,7 @@ export const zh: PageTranslations = {
     coverDragLabel: '将图片拖到此处',
     coverDragOrLabel: '或',
     coverBrowseLabel: '浏览文件',
-    coverFormatsHint: 'JPEG、PNG 或 WebP — 最大5MB',
+    coverFormatsHint: 'JPEG、PNG 或 WebP — 最大4MB',
     coverRemoveLabel: '移除封面',
     select: '请选择…',
     save: '保存更改',

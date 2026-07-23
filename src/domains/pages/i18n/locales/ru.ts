@@ -110,7 +110,7 @@ export const ru: PageTranslations = {
     coverDragLabel: 'Перетащите изображение сюда',
     coverDragOrLabel: 'или',
     coverBrowseLabel: 'выбрать файлы',
-    coverFormatsHint: 'JPEG, PNG или WebP — макс. 5 МБ',
+    coverFormatsHint: 'JPEG, PNG или WebP — макс. 4 МБ',
     coverRemoveLabel: 'Удалить обложку',
     select: 'Выбрать…',
     save: 'Сохранить изменения',

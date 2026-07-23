@@ -3,7 +3,11 @@
 export { notify } from './notify'
 export { captureVideoFrame, drawVideoFrameToBlob } from './captureVideoFrame'
 export { formatDate } from './formatDate'
-export { isOfflineQueued, onQueuedOr } from './offline-queue/handleQueued'
+export {
+  isOfflineQueued,
+  onQueuedOr,
+  onQueuedOrFieldErrors,
+} from './offline-queue/handleQueued'
 export { useMounted } from './use-mounted'
 export { useNetworkStatus } from './useNetworkStatus'
 export { useSessionSync } from './useSessionSync'

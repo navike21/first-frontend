@@ -142,7 +142,7 @@ export const FormEditor = ({
           editingLanguage={editing}
           userLanguage={language}
           hasContent={(lang) => !!titleValue?.[lang]?.trim()}
-          hasError={(lang) => !!errors.title?.[lang] || !!errors.fields}
+          hasError={(lang) => !!errors.title?.[lang]}
           onChange={setEditing}
         />
       </div>
@@ -153,7 +153,7 @@ export const FormEditor = ({
             userLanguage={language}
             label={t.form.sectionGeneral}
             hasContent={(lang) => !!titleValue?.[lang]?.trim()}
-            hasError={(lang) => !!errors.title?.[lang] || !!errors.fields}
+            hasError={(lang) => !!errors.title?.[lang]}
             onChange={setEditing}
           />
         </div>
@@ -221,9 +221,9 @@ export const FormEditor = ({
               <SectionLabel>{t.form.sectionFields}</SectionLabel>
             </div>
 
-            {errors.fields?.root?.message && (
+            {errors.fields?.message && (
               <p className="text-error mb-3 text-sm">
-                {errors.fields.root.message}
+                {errors.fields.message}
               </p>
             )}
 

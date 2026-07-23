@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { UserForm, useUser, useUpdateUser } from '..'
 import { useUsersTranslation } from '../i18n'
@@ -41,7 +41,7 @@ export const EditUserPage = () => {
         },
         // Offline: the edit is queued (without the photo). Soft success — warn
         // the photo was skipped and go back to the list.
-        onError: onQueuedOr(() => {
+        onError: onQueuedOrFieldErrors(() => {
           if (avatar) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.users(language) as never })
         }),

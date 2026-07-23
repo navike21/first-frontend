@@ -111,7 +111,7 @@ export const de: PageTranslations = {
     coverDragLabel: 'Bild hierher ziehen',
     coverDragOrLabel: 'oder',
     coverBrowseLabel: 'Dateien durchsuchen',
-    coverFormatsHint: 'JPEG, PNG oder WebP — max. 5 MB',
+    coverFormatsHint: 'JPEG, PNG oder WebP — max. 4 MB',
     coverRemoveLabel: 'Titelbild entfernen',
     select: 'Auswählen…',
     save: 'Änderungen speichern',

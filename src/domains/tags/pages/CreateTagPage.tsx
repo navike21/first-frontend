@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { TagForm } from '../components/TagForm'
@@ -20,7 +20,7 @@ export const CreateTagPage = () => {
         notify.success(t.toasts.created)
         navigate({ to: navPaths.tags(language) as never })
       },
-      onError: onQueuedOr(() =>
+      onError: onQueuedOrFieldErrors(() =>
         navigate({ to: navPaths.tags(language) as never })
       ),
     })

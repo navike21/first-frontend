@@ -110,7 +110,7 @@ export const it: PageTranslations = {
     coverDragLabel: "Trascina un'immagine qui",
     coverDragOrLabel: 'oppure',
     coverBrowseLabel: 'sfoglia i file',
-    coverFormatsHint: 'JPEG, PNG o WebP — max 5 MB',
+    coverFormatsHint: 'JPEG, PNG o WebP — max 4 MB',
     coverRemoveLabel: 'Rimuovi copertina',
     select: 'Seleziona…',
     save: 'Salva modifiche',

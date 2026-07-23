@@ -111,7 +111,7 @@ export const ko: PageTranslations = {
     coverDragLabel: '여기에 이미지를 드래그하세요',
     coverDragOrLabel: '또는',
     coverBrowseLabel: '파일 찾아보기',
-    coverFormatsHint: 'JPEG, PNG 또는 WebP — 최대 5MB',
+    coverFormatsHint: 'JPEG, PNG 또는 WebP — 최대 4MB',
     coverRemoveLabel: '커버 제거',
     select: '선택…',
     save: '변경 사항 저장',

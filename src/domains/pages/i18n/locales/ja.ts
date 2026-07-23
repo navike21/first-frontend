@@ -110,7 +110,7 @@ export const ja: PageTranslations = {
     coverDragLabel: 'ここに画像をドラッグ',
     coverDragOrLabel: 'または',
     coverBrowseLabel: 'ファイルを参照',
-    coverFormatsHint: 'JPEG、PNG、WebP — 最大5MB',
+    coverFormatsHint: 'JPEG、PNG、WebP — 最大4MB',
     coverRemoveLabel: 'カバーを削除',
     select: '選択…',
     save: '変更を保存',
