@@ -86,6 +86,7 @@ vi.mock('@/shared/ui', () => ({
 
 // Mock menu config to include an item WITH children
 vi.mock('../model/menu.config', () => ({
+  getMenuTitle: () => 'Menú',
   getMenuConfig: () => [
     {
       id: 'manage',

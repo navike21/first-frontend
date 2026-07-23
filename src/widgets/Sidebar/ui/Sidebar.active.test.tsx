@@ -105,6 +105,7 @@ vi.mock('@/shared/ui', () => ({
 
 // Menu with: a direct item (href defined), an accordion item, and an item with no href (triggers ?? '/' fallback)
 vi.mock('../model/menu.config', () => ({
+  getMenuTitle: () => 'Menú',
   getMenuConfig: () => [
     {
       id: 'usuarios',
