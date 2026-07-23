@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { SubscriberForm } from '../components/SubscriberForm/SubscriberForm'
@@ -37,7 +37,7 @@ export const CreateSubscriberPage = () => {
           notify.success(t.toasts.created)
           navigate({ to: navPaths.subscribers(language) as never })
         },
-        onError: onQueuedOr(() =>
+        onError: onQueuedOrFieldErrors(() =>
           navigate({ to: navPaths.subscribers(language) as never })
         ),
       }

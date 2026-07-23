@@ -17,6 +17,25 @@ const DUPLICATE_MESSAGES: Record<Language, string> = {
 }
 
 /**
+ * True when `error` is shaped such that `applyServerFieldErrors` would mark at
+ * least one field inline (same `RESOURCE_DUPLICATE`/`VALIDATION_SCHEMA_ERROR`
+ * detection, without needing a `setError` — so a caller with no form in scope,
+ * e.g. a mutation's `onError`, can decide whether to skip a redundant generic
+ * toast before the form's own effect ever runs).
+ */
+export function hasServerFieldErrors(error: unknown): boolean {
+  if (!(error instanceof HttpError) || !error.details) return false
+
+  if (error.code === 'RESOURCE_DUPLICATE') return !!error.details.keys?.length
+
+  if (error.code === 'VALIDATION_SCHEMA_ERROR') {
+    return !!error.details.validation?.some((issue) => issue.path)
+  }
+
+  return false
+}
+
+/**
  * Maps a backend HttpError onto react-hook-form field errors so the offending
  * inputs highlight inline:
  * - `409 RESOURCE_DUPLICATE` → each `details.keys` field marked as "already exists".

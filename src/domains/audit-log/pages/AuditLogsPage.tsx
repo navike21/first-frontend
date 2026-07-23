@@ -11,31 +11,12 @@ import {
   type DataTableColumn,
 } from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
-import { formatDate } from '@/shared/lib/formatDate'
+import { formatDateTime } from '@/shared/lib/formatDateTime'
 import { ForbiddenPage } from '@domains/errors'
 import { useAuditLogs } from '../api/auditLog.queries'
 import { useAuditLogsTranslation } from '../i18n'
 import { AuditLogDetailModal } from '../components/AuditLogDetailModal/AuditLogDetailModal'
 import type { AuditLog, AuditLogPaginationMeta } from '../api/auditLog.api'
-
-const formatDateTime = (value?: string | Date | null): string => {
-  if (!value) return '—'
-  const dateStr = formatDate(value)
-  if (dateStr === '—') return '—'
-  try {
-    const d = new Date(value)
-    if (isNaN(d.getTime())) return dateStr
-    const timeStr = d.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    })
-    return `${dateStr} ${timeStr}`
-  } catch {
-    return dateStr
-  }
-}
 
 const getActionChipVariant = (action: string) => {
   const lower = action.toLowerCase()

@@ -1,11 +1,12 @@
 import { format } from 'date-fns'
 import { useSessionStore } from '@/shared/model'
 import { useDashboardTranslation } from '../i18n'
-import { KPI_CARDS, RECENT_ACTIVITY } from '../lib/dashboard.constants'
+import { useDashboardData } from './DashboardPage.hooks'
 
 export const DashboardPage = () => {
   const { firstName = '' } = useSessionStore((state) => state.user) ?? {}
   const { t } = useDashboardTranslation()
+  const { kpiCards, recentActivity } = useDashboardData()
 
   const today = format(new Date(), t.dateFormat, { locale: t.dateLocale })
 
@@ -26,7 +27,7 @@ export const DashboardPage = () => {
           {t.summary}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {KPI_CARDS.map((kpi) => (
+          {kpiCards.map((kpi) => (
             <div
               key={kpi.key}
               className="border-border-subtle bg-surface flex items-center gap-4 rounded-xl border p-5 shadow-sm"
@@ -49,12 +50,12 @@ export const DashboardPage = () => {
         >
           {t.recentActivity}
         </h2>
-        {RECENT_ACTIVITY.length === 0 ? (
+        {recentActivity.length === 0 ? (
           <p className="text-muted text-sm">{t.noRecentActivity}</p>
         ) : (
           <ul className="space-y-2">
-            {RECENT_ACTIVITY.map((item) => (
-              <li key={item.timestamp} className="text-secondary text-sm">
+            {recentActivity.map((item) => (
+              <li key={item.id} className="text-secondary text-sm">
                 <span className="text-muted mr-2">{item.timestamp}</span>
                 {item.text}
               </li>

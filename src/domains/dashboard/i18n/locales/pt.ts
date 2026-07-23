@@ -7,6 +7,7 @@ export const pt: DashboardTranslations = {
   recentActivity: 'Atividade recente',
   noRecentActivity: 'Nenhuma atividade recente.',
   kpi: { clients: 'Clientes', users: 'Usuários', services: 'Serviços' },
+  activityBy: (user, resource, verb) => `${user} — ${resource}: ${verb}`,
   dateFormat: "EEEE, d 'de' MMMM 'de' yyyy",
   dateLocale: ptBR,
 }

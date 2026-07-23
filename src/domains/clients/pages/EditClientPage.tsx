@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { ClientForm } from '../components/ClientForm/ClientForm'
@@ -58,7 +58,7 @@ export const EditClientPage = () => {
           }
           navigate({ to: navPaths.clients(language) as never })
         },
-        onError: onQueuedOr(() =>
+        onError: onQueuedOrFieldErrors(() =>
           navigate({ to: navPaths.clients(language) as never })
         ),
       }

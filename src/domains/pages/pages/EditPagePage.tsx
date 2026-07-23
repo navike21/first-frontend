@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner, DetailField } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { PageForm } from '../components/PageForm'
@@ -72,7 +72,7 @@ export const EditPagePage = () => {
         },
         // Offline: the edit is queued (without its images). Soft success —
         // warn the images were skipped and go back to the list.
-        onError: onQueuedOr(() => {
+        onError: onQueuedOrFieldErrors(() => {
           if (cover || ogImage) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.pages(language) as never })
         }),

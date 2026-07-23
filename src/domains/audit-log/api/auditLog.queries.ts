@@ -9,10 +9,14 @@ export const auditLogKeys = {
     [...auditLogKeys.lists(), params] as const,
 }
 
-export const useAuditLogs = (params: AuditLogsListParams = {}) =>
+export const useAuditLogs = (
+  params: AuditLogsListParams = {},
+  options?: { enabled?: boolean }
+) =>
   useQuery({
     queryKey: auditLogKeys.list(params),
     queryFn: () => auditLogApi.list(params),
     placeholderData: (prev) => prev,
     staleTime: 0, // Always fetch fresh logs when navigating to the page
+    enabled: options?.enabled,
   })

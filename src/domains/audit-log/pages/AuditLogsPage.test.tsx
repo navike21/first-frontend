@@ -15,10 +15,6 @@ vi.mock('@/shared/lib/permissions', () => ({
   },
 }))
 
-vi.mock('@/shared/lib/formatDate', () => ({
-  formatDate: vi.fn(() => '24/06/2026'),
-}))
-
 vi.mock('../api/auditLog.queries', () => ({
   useAuditLogs: vi.fn(),
 }))

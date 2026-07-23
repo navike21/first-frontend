@@ -7,6 +7,7 @@ export const fr: DashboardTranslations = {
   recentActivity: 'Activité récente',
   noRecentActivity: "Pas d'activité récente.",
   kpi: { clients: 'Clients', users: 'Utilisateurs', services: 'Services' },
+  activityBy: (user, resource, verb) => `${user} — ${resource} : ${verb}`,
   dateFormat: 'EEEE d MMMM yyyy',
   dateLocale: dateFnsFr,
 }

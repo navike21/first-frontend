@@ -110,7 +110,7 @@ export const pt: PageTranslations = {
     coverDragLabel: 'Arraste uma imagem aqui',
     coverDragOrLabel: 'ou',
     coverBrowseLabel: 'procurar arquivos',
-    coverFormatsHint: 'JPEG, PNG ou WebP — máx. 5 MB',
+    coverFormatsHint: 'JPEG, PNG ou WebP — máx. 4 MB',
     coverRemoveLabel: 'Remover capa',
     select: 'Selecionar…',
     save: 'Salvar alterações',

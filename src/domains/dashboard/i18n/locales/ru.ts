@@ -7,6 +7,7 @@ export const ru: DashboardTranslations = {
   recentActivity: 'Последние действия',
   noRecentActivity: 'Нет последних действий.',
   kpi: { clients: 'Клиенты', users: 'Пользователи', services: 'Услуги' },
+  activityBy: (user, resource, verb) => `${user} — ${resource}: ${verb}`,
   dateFormat: "EEEE, d MMMM yyyy 'г.'",
   dateLocale: dateFnsRu,
 }

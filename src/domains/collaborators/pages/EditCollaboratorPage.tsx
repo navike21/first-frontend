@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { CollaboratorForm } from '../components/CollaboratorForm'
@@ -67,7 +67,7 @@ export const EditCollaboratorPage = () => {
         },
         // Offline: the edit is queued (without the photo). Soft success —
         // warn the photo was skipped and go back to the list.
-        onError: onQueuedOr(() => {
+        onError: onQueuedOrFieldErrors(() => {
           if (photo) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.collaborators(language) as never })
         }),

@@ -4,6 +4,7 @@ export { UserStatusBadge } from './components/UserStatusBadge/UserStatusBadge'
 export { ProfilePage } from './pages/ProfilePage'
 export {
   useUsers,
+  useUsersMeta,
   useUser,
   useMyProfile,
   useCreateUser,

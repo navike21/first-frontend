@@ -3,18 +3,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSessionStore } from '@/shared/model'
 import type { AuthUser } from '@/shared/types'
 
-// Override constants to include recent activity items — covers line 55
-vi.mock('../lib/dashboard.constants', async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import('../lib/dashboard.constants')>()
-  return {
-    ...actual,
-    RECENT_ACTIVITY: [
-      { timestamp: '2024-01-01 10:00', text: 'Usuario creado' },
-      { timestamp: '2024-01-01 11:00', text: 'Configuración actualizada' },
-    ],
-  }
-})
+const { useDashboardDataMock } = vi.hoisted(() => ({
+  useDashboardDataMock: vi.fn(),
+}))
+
+vi.mock('./DashboardPage.hooks', () => ({
+  useDashboardData: useDashboardDataMock,
+}))
 
 import { DashboardPage } from './DashboardPage'
 
@@ -30,6 +25,14 @@ const makeUser = (overrides?: Partial<AuthUser>): AuthUser => ({
 describe('DashboardPage component', () => {
   beforeEach(() => {
     vi.resetAllMocks()
+    useDashboardDataMock.mockReturnValue({
+      kpiCards: [
+        { key: 'clients', value: '--', icon: 'RiBuilding4Line' },
+        { key: 'users', value: '--', icon: 'RiTeamLine' },
+        { key: 'services', value: '--', icon: 'RiBriefcaseLine' },
+      ],
+      recentActivity: [],
+    })
     useSessionStore.setState({
       isAuthenticated: false,
       token: null,
@@ -68,6 +71,19 @@ describe('DashboardPage component', () => {
     expect(screen.getByText('Servicios')).toBeInTheDocument()
   })
 
+  it('renders a real KPI count when the hook provides one', () => {
+    useDashboardDataMock.mockReturnValue({
+      kpiCards: [
+        { key: 'clients', value: 42, icon: 'RiBuilding4Line' },
+        { key: 'users', value: '--', icon: 'RiTeamLine' },
+        { key: 'services', value: '--', icon: 'RiBriefcaseLine' },
+      ],
+      recentActivity: [],
+    })
+    render(<DashboardPage />)
+    expect(screen.getByText('42')).toBeInTheDocument()
+  })
+
   it('renders the recent activity section', () => {
     render(<DashboardPage />)
     expect(
@@ -75,8 +91,27 @@ describe('DashboardPage component', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders no-recent-activity message when the hook returns no activity', () => {
+    render(<DashboardPage />)
+    expect(screen.getByText(/no hay actividad reciente/i)).toBeInTheDocument()
+  })
+
   it('renders recent activity items list', () => {
-    // Covers line 55: RECENT_ACTIVITY.map((item) => <li key={item.timestamp}>
+    useDashboardDataMock.mockReturnValue({
+      kpiCards: [
+        { key: 'clients', value: '--', icon: 'RiBuilding4Line' },
+        { key: 'users', value: '--', icon: 'RiTeamLine' },
+        { key: 'services', value: '--', icon: 'RiBriefcaseLine' },
+      ],
+      recentActivity: [
+        { id: 'log-1', timestamp: '2024-01-01 10:00:00', text: 'Usuario creado' },
+        {
+          id: 'log-2',
+          timestamp: '2024-01-01 11:00:00',
+          text: 'Configuración actualizada',
+        },
+      ],
+    })
     render(<DashboardPage />)
     expect(screen.getByText('Usuario creado')).toBeInTheDocument()
     expect(screen.getByText('Configuración actualizada')).toBeInTheDocument()
