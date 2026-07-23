@@ -23,6 +23,7 @@ export type {
   ClientType,
   DocumentType,
   ClientListParams,
+  ClientPaginationMeta,
 } from './model/client.types'
 export type {
   CreateClientFormData,

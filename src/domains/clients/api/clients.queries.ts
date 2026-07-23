@@ -17,10 +17,14 @@ export const clientKeys = {
     [...clientKeys.trash(), params] as const,
 }
 
-export const useClients = (params: ClientListParams = {}) =>
+export const useClients = (
+  params: ClientListParams = {},
+  options?: { enabled?: boolean }
+) =>
   useQuery({
     queryKey: clientKeys.list(params),
     queryFn: () => clientsApi.list(params),
+    enabled: options?.enabled,
   })
 
 export const useClient = (id: string) =>

@@ -7,6 +7,7 @@ export interface KpiCard {
 }
 
 export interface RecentActivity {
+  id: string
   text: string
   timestamp: string
 }

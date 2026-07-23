@@ -26,6 +26,21 @@ export const useUsers = (params: UserListParams = {}) =>
     select: (res) => res.data,
   })
 
+/**
+ * Same query/cache key as `useUsers` (dedupes with it when `params` match),
+ * without the `select` that strips `meta` — for callers that only need the
+ * pagination total (e.g. a KPI count), not the page's user records.
+ */
+export const useUsersMeta = (
+  params: UserListParams = {},
+  options?: { enabled?: boolean }
+) =>
+  useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => usersApi.list(params),
+    enabled: options?.enabled,
+  })
+
 export const useUser = (id: string) =>
   useQuery({
     queryKey: userKeys.detail(id),

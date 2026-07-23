@@ -3,6 +3,7 @@
 export { notify } from './notify'
 export { captureVideoFrame, drawVideoFrameToBlob } from './captureVideoFrame'
 export { formatDate } from './formatDate'
+export { formatDateTime } from './formatDateTime'
 export {
   isOfflineQueued,
   onQueuedOr,

@@ -15,10 +15,14 @@ export const serviceKeys = {
     [...serviceKeys.trash(), params] as const,
 }
 
-export const useServices = (params: ServiceListParams = {}) =>
+export const useServices = (
+  params: ServiceListParams = {},
+  options?: { enabled?: boolean }
+) =>
   useQuery({
     queryKey: serviceKeys.list(params),
     queryFn: () => servicesApi.list(params),
+    enabled: options?.enabled,
   })
 
 export const useService = (slug: string) =>
