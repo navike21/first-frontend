@@ -2,9 +2,10 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 import type { DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import type { StorageFile } from '@/shared/api/storage'
+import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
 import type { GalleryItem } from './GalleryPicker.types'
 
-const DEFAULT_MAX_BYTES = 5 * 1024 * 1024
+const DEFAULT_MAX_BYTES = MAX_IMAGE_UPLOAD_BYTES
 const DEFAULT_MAX_ITEMS = 10
 
 interface UseGalleryPickerProps {

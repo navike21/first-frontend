@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from 'react'
+import { MAX_IMAGE_UPLOAD_BYTES } from '@/shared/lib'
 
-const DEFAULT_MAX = 5 * 1024 * 1024
+const DEFAULT_MAX = MAX_IMAGE_UPLOAD_BYTES
 
 interface UseCoverPickerProps {
   currentUrl?: string

@@ -11,19 +11,67 @@ plataforma multipropósito (CRM + CMS). Es el par de `first-backend`
   eslint-plugin-sonarjs (cognitive complexity ≤15 y otros code smells).
   Los tres deben quedar en 0 antes de cerrar cualquier cambio.
 
+## Ambientes (development / test / production)
+
+Tres ambientes, cada uno con su propio backend (base de datos separada) —
+desarrollo local **nunca** toca datos de producción:
+
+| Ambiente | Frontend | Backend (`VITE_API_BASE_URL`) | Cuándo |
+|---|---|---|---|
+| **Development** | Local (`pnpm dev`, `localhost:5176`) — sin backend local | `https://first-backend-git-test-navike21.vercel.app` | Día a día. Un solo proceso — el backend corre en Vercel (ambiente Test), no en la laptop |
+| **Test** | `https://first-frontend-git-test-navike21.vercel.app` | `https://first-backend-git-test-navike21.vercel.app` | Staging persistente — verificar una feature completa (front+back) antes de mergear |
+| **Production** | `https://first-frontend-rose.vercel.app` | `https://first-backend-alpha.vercel.app` | Usuarios reales |
+
+**La rama `test` (en ambos repos) es infraestructura, no una rama de
+feature** (ver `TEST_BRANCH.md`) — existe solo para que Vercel tenga un
+branch estable donde desplegar Test. Tiene un PR permanentemente abierto
+contra `main` (PR #59 — **nunca mergear ni cerrar**) porque el proyecto
+**solo auto-despliega ramas con un PR asociado** (confirmado en vivo: un
+`git push` de `test` sin PR no generó ningún deployment; abrir el PR sí lo
+disparó de inmediato). Para traer los cambios de `main` a Test:
+`git checkout test && git merge main && git push`.
+
+Las URLs `-git-test-` quedan detrás del SSO de Vercel (protección de
+deployment por defecto para cualquier alias que no sea el dominio de
+producción, igual que cualquier otro Preview) — accesibles para el equipo
+logueado en Vercel, no público; esto es esperado, no un bug.
+
+### Gotcha real (ya resuelto, no reintroducir): `.env` local apuntaba a producción con URL absoluta, sin CORS
+`VITE_API_BASE_URL` local traía la URL de **producción** en texto plano,
+contradiciendo el propio comentario del archivo ("dejar vacío en local — el
+proxy de Vite reenvía"). Como el valor SÍ estaba seteado, el navegador
+llamaba directo (cross-origin) a producción en vez de pasar por el proxy —
+y `WHITELISTED_DOMAINS` de Production (Vercel) solo lista los dominios de
+Vercel desplegados, nunca `localhost` — así que el navegador bloqueaba la
+petición por CORS, mostrando "Failed to fetch" sin ninguna pista de la
+razón real. Confirmado pidiendo el valor real de `WHITELISTED_DOMAINS` de
+Production vía `vercel env pull`.
+
+Arreglado con el ambiente de **Test** de arriba: `.env` local ahora apunta
+`VITE_API_BASE_URL`/`VITE_SOCKET_URL` al backend de test (nunca producción),
+y ese backend tiene `WHITELISTED_DOMAINS` (scope Preview, rama `test`)
+seteado explícitamente para incluir `http://localhost:5176` — confirmado
+en vivo con `curl -H "Origin: http://localhost:5176"` devolviendo
+`Access-Control-Allow-Origin: http://localhost:5176`. El proxy de
+`vite.config.ts` (`/api` → ahora el backend de test, no producción) queda
+como respaldo de seguridad por si `VITE_API_BASE_URL` alguna vez se deja
+vacío por error — así ese error nunca termina mutando datos reales.
+
 ## Deploy (Vercel)
 Producción: `first-frontend-rose.vercel.app` (proyecto
 `prj_EKV3QfROHvQAUxsDvS0DWJ2OTp4H`, team `team_HlO61rBCXDgQTkK5byfxEoEk`).
-Auto-deploy por rama vía GitHub (`main`→Production). **El alias de
-producción no siempre sigue al deploy nuevo tras un merge** (visto en el
-merge de PR #55 — el deploy se construyó y quedó `READY`/`target:
-production`, pero `first-frontend-rose.vercel.app` seguía apuntando al
-anterior) — mismo síntoma ya documentado como recurrente en
-`first-backend/CLAUDE.md`; en el frontend solo se vio una vez hasta ahora,
-pero conviene verificar igual tras cada merge (`get_deployment` comparando
-`githubCommitSha` contra `git rev-parse main`, o `curl` simple) y corregir
-con `vercel alias set <url-del-deploy-nuevo> first-frontend-rose.vercel.app
---scope navike21` si no coincide.
+Auto-deploy por rama vía GitHub (`main`→Production, `test`→ambiente de test
+persistente, cualquier otra rama con PR abierto→Preview efímero). **El alias
+de producción no siempre sigue al deploy nuevo tras un merge** (visto en el
+merge de PR #55 y de nuevo en el de PR #58 — el deploy se construyó y quedó
+`READY`/`target: production`, pero `first-frontend-rose.vercel.app` seguía
+apuntando al anterior) — mismo síntoma ya documentado como recurrente en
+`first-backend/CLAUDE.md`; conviene verificar tras cada merge
+(`get_deployment` comparando `githubCommitSha` contra `git rev-parse main`,
+o `curl` simple) y corregir con `vercel alias set <url-del-deploy-nuevo>
+first-frontend-rose.vercel.app --scope navike21` si no coincide. El mismo
+comando aplica para re-apuntar `first-frontend-git-test-navike21.vercel.app`
+tras un deploy manual a Test.
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
@@ -621,6 +669,174 @@ mecanismos separados.
   compatibilidad/logging, pero ya no se usa para decidir qué mostrarle al
   usuario). `queryError` ahora prioriza `error.backendMessage ??
   HTTP_MESSAGES[lang][status] ?? error.message`.
+
+## Gotcha real: límite de tamaño de imagen desalineado con Vercel (causaba 500 "fantasma" en mobile)
+
+Reportado en producción: subir una foto de la galería del celular a un Service
+daba **"Error interno del servidor"** (500 genérico, sin razón) — a pesar del
+fix de transparencia de arriba. Investigado con `get_runtime_errors`/
+`get_runtime_logs` (MCP de Vercel) sobre `first-backend`: el `PATCH
+/api/v1/services/:id` fallaba con 500 pero **sin ningún stack trace en los
+logs de la app** — señal de que la función ni siquiera llegó a ejecutar el
+código de negocio.
+
+Causa real: `CoverPicker`/`GalleryPicker` (`shared/ui/molecules`) validaban el
+tamaño en el cliente contra un default de **5 MB** (`DEFAULT_MAX`/
+`DEFAULT_MAX_BYTES`), pero el backend acepta como máximo **4 MB**
+(`STORAGE_MAX_IMAGE_SIZE_BYTES`, ver `first-backend/CLAUDE.md`) — valor
+elegido a propósito ahí para quedar bajo el límite duro de body de Vercel
+(~4.5 MB). Ningún call-site real (`ServiceForm`, `PortfolioForm`, `PageForm`)
+pasaba `maxBytes` explícito, así que los tres heredaban el 5 MB por defecto.
+Una foto de celular entre 4 y 5 MB pasaba la validación del frontend como
+"está bien" y luego el request moría en la capa de plataforma de Vercel
+**antes** de llegar a Express/multer — por eso no hay stack trace: el backend
+nunca corrió, y `parseErrorBody` no tiene JSON que leer, así que
+`HttpError.backendMessage` queda `undefined` y `notify.queryError` cae
+(correctamente) al mensaje genérico de 500 — el fix de arriba funcionó como
+debía, el bug real estaba un nivel más abajo.
+
+Arreglado con una constante única `MAX_IMAGE_UPLOAD_BYTES` (`shared/lib/
+storageLimits.ts`, 4 MB, con comentario explicando el porqué) que ahora es el
+default de `CoverPicker`, `GalleryPicker` **y** `PhotoPicker` (que ya usaba un
+límite propio de 3 MB, más estricto y nunca causó este bug, pero quedaba
+como un tercer número mágico independiente sin relación explícita con el
+límite real del backend — unificado para que no vuelvan a desalinearse en
+silencio). Si se agrega un picker de imagen nuevo, usar esta constante como
+default en vez de inventar un número.
+
+También la usa `MediaUploadModal` (Multimedia): a diferencia de los otros
+tres, este NO validaba el tamaño en el cliente en absoluto — un archivo
+grande se encolaba sin ningún aviso, y solo fallaba (o no) al intentar
+subirlo de verdad. Ahora `addFiles` marca cada imagen que excede el límite
+con un error visible de inmediato, y `handleUpload` la excluye del request
+real (no tiene sentido intentar una subida que ya se sabe que va a fallar).
+
+**Gotcha de proceso (ya resuelto, no repetir): un commit pusheado después de
+mergear su PR nunca llega a `main`.** Este mismo fix de `MAX_IMAGE_UPLOAD_BYTES`
+se implementó y se dio por deployado en una sesión anterior, pero el commit
+(`f7fbb14`) se pusheó a la rama `fix/error-transparency-and-ui-cleanup`
+**después** de que su PR #52 ya estuviera mergeado — quedó huérfano en la
+rama (nunca en un PR, nunca en `main`) sin que nada lo señalara como error.
+El bug de 5 MB siguió en producción varios días pese al reporte de "ya
+arreglado". Encontrado por accidente al toparse con un `import` que
+referenciaba un archivo (`storageLimits.ts`) que no existía en el working
+tree de `main`. Recuperado con `git cherry-pick f7fbb14` sobre una rama
+nueva. **Verificar siempre el estado del PR (`gh pr view <n> --json state`)
+antes de pushear una nueva corrección a una rama ya usada** — si el PR ya
+está `MERGED`, hace falta una rama y un PR nuevos, no otro push a la vieja.
+
+## Barra de progreso al subir imágenes/videos (Multimedia)
+
+`MediaUploadModal` (Multimedia) muestra un `ProgressBar` (`shared/ui/atoms`,
+nuevo) por archivo mientras sube, con su porcentaje real — no una barra
+indeterminada. `fetch()` no expone progreso de subida (solo de descarga), así
+que las imágenes usan un `uploadWithProgress` nuevo (`shared/api`, basado en
+`XMLHttpRequest` y su evento `xhr.upload.onprogress`) en vez del `request()`
+compartido; el video ya subía directo a Vercel Blob (`directUploadVideo`), y
+`@vercel/blob/client`'s `upload()` expone `onUploadProgress` nativo, así que
+solo se reenvía en la misma forma `{loaded,total,percentage}`.
+
+**Cada archivo va como su propia request** (`handleUpload` en
+`MediaUploadModal.tsx` hace un `Promise.allSettled` de N uploads
+independientes, uno por archivo) — antes las imágenes iban todas juntas en un
+único `/storage/upload-bulk`. Se cambió al encontrar un bug real probando esta
+misma feature: 3 imágenes de ~3.9MB cada una (bajo el límite individual de 4MB,
+ver gotcha de arriba) combinadas en un solo request superaban el límite de
+body de la plataforma de Vercel (~4.5MB) y fallaban con un "Error de red"
+genérico, no con la razón específica del backend — el chequeo de
+`MAX_IMAGE_UPLOAD_BYTES` en `addFiles` solo mira cada archivo por separado,
+nunca la suma de los ya encolados. Verificado en vivo: el mismo lote de 3
+archivos, subido con esta versión (una request por archivo), llega a la red
+correctamente cada uno por su cuenta. Un archivo individual con contenido
+sintético inválido (bytes de cabecera JPEG reales pero cuerpo basura) sí puede
+seguir devolviendo un 500 genérico del backend (`INTERNAL_SERVER_ERROR`,
+probablemente una excepción no capturada al decodificar la imagen) — eso es un
+gap de robustez del *backend* frente a un body de imagen corrupto, no del
+batching; no se tocó en esta sesión.
+
+Como beneficio adicional de subir cada archivo por separado, cada imagen
+ahora tiene su propio porcentaje (antes todas las imágenes de un lote
+compartían un único valor de progreso, ya que iban en la misma request).
+
+**Pendiente, no implementado**: `CoverPicker`/`GalleryPicker`/`PhotoPicker`
+(Servicios/Portafolio/Páginas, etc.) no tienen barra de progreso — a
+diferencia de Multimedia, esos no suben el archivo por su cuenta; viaja
+junto con el JSON completo del formulario en el submit vía `request()`. Darles
+progreso real necesitaría un cambio más grande (plomería de progreso en cada
+función/hook de mutación de creación/edición de cada dominio, más pasar el
+callback a cada picker) — evaluar si vale la pena antes de encararlo.
+
+### Gotcha real: video sin validar tamaño en el cliente (subía por la red y fallaba con "Error de red" genérico)
+
+Reportado por el usuario probando un video de ~443MB: la app mostraba
+"Error de red. Verifica tu conexión e intenta nuevamente" — el mismo mensaje
+genérico de conectividad, aunque el problema real era de tamaño, no de red.
+Causa: `MediaUploadModal.addFiles` solo validaba tamaño de **imagen**
+(`MAX_IMAGE_UPLOAD_BYTES`) — nunca de video. `@vercel/blob/client` tampoco
+valida tamaño del lado del cliente por su cuenta: `directUpload.ts` (backend)
+pasa `maximumSizeInBytes: ENV.STORAGE_MAX_VIDEO_SIZE_BYTES` (50MB por
+default) a `handleUpload`, pero ese límite solo se aplica **del lado del
+servidor** — el SDK client-side (`dist/client.js`, revisado directamente, sin
+ningún chequeo de tamaño en su código) deja que la subida arranque igual.
+Con un archivo de cientos de MB, Vercel corta la conexión al ver el
+`Content-Length` declarado ya por encima del límite — desde la perspectiva
+del navegador eso es indistinguible de un corte de red real, así que
+`uploadWithProgress`/`directUploadVideo` terminan rechazando con un error que
+`notify.errorMessage` no puede distinguir de una desconexión genuina (no es
+una `HttpError`, cae al mensaje de red por defecto).
+
+Arreglado agregando `MAX_VIDEO_UPLOAD_BYTES` (`shared/lib/storageLimits.ts`,
+50MB, mismo patrón que `MAX_IMAGE_UPLOAD_BYTES`) y extendiendo el chequeo de
+`addFiles` para rechazar un video sobredimensionado de inmediato, antes de
+que la subida arranque — mismo principio que el chequeo de imagen: mejor
+nunca intentar una subida que ya se sabe que va a fallar. Verificado en vivo:
+un video sintético de 60MB se marca al instante con "Max 50 MB" sin ningún
+intento de red; uno de 10MB se encola normalmente.
+
+**Mismo gap, no tocado todavía**: el Page Builder (`VideoElementCard.tsx`,
+`SliderElementCard.tsx`, `BackgroundVideoFields.tsx`, todos en
+`domains/pages/components/builder`) también llama `directUploadVideo`
+directo, sin ningún chequeo de tamaño de video propio — mismo riesgo, no
+arreglado en esta sesión.
+
+### Gotcha real: seleccionar un segundo archivo con "buscar archivos" no lo agregaba a la cola
+
+Reportado por el usuario: adjuntaba un video y luego intentaba adjuntar
+también una foto en la misma carga — la foto simplemente no se agregaba a la
+cola. Reproducido de forma 100% consistente: en un `MediaUploadModal` recién
+abierto, la **primera** selección de archivo vía "buscar archivos" (el
+`<input type="file">` oculto) siempre funciona; **cualquier selección
+posterior** reutilizando ese mismo nodo `<input>` no dispara `addFiles` en
+absoluto, aunque el evento `change` nativo sí llega con el `FileList`
+correcto (confirmado interceptándolo con un listener en fase de captura
+antes de que React lo procese). Arrastrar-y-soltar un segundo archivo, en
+cambio, **sí** funcionaba siempre — que fue la pista clave: descarta que
+`addFiles`/`setQueue` estén rotos, y apunta puntualmente a reusar el mismo
+nodo DOM del `<input>` entre selecciones.
+
+El truco habitual para permitir re-seleccionar el **mismo** archivo dos
+veces (`e.target.value = ''` tras leer `e.target.files`) no alcanza para
+este caso — sea cual sea el mecanismo exacto (algo en cómo el navegador o
+React determinan si un evento `change` posterior "ya se procesó" para ese
+nodo), sigue fallando con archivos **distintos** en cada selección.
+Arreglado con el patrón robusto conocido para este tipo de bug: un estado
+`inputKey` que se incrementa en cada `onChange`, pasado como `key` del
+`<input>` — fuerza a React a **desmontar y montar un nodo `<input>` nuevo**
+después de cada selección, así que nunca hay un nodo reusado que pueda
+arrastrar un estado interno del navegador de una selección a la siguiente.
+Verificado en vivo con hasta 3 selecciones separadas seguidas (video, foto,
+foto) — las 3 se agregan correctamente a la cola.
+
+**Dropzone accesible**: el contenedor de arrastrar-y-soltar de este mismo
+modal era un `<div role="button" tabIndex={0}>` con su propio `onKeyDown`
+para Enter/Espacio — un linter de accesibilidad marcó el `role="button"`
+sobre un elemento no interactivo. Cambiado a un `<button type="button">`
+real (con `w-full` explícito, ya que un `<button>` no hereda el stretch
+automático de un `<div>` dentro del `flex-col` padre) — el foco/teclado
+(Enter y Espacio) y el estilo los da gratis el elemento nativo, así que se
+retiraron `role`, `tabIndex` y el `onKeyDown` manual. Drag-and-drop y el
+click para abrir el selector de archivos siguen funcionando igual sobre un
+`<button>` (verificado en vivo).
 
 ## Header — ícono de configuración retirado
 
