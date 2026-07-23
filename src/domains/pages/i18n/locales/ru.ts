@@ -9,7 +9,8 @@ export const ru: PageTranslations = {
     editTitle: 'Редактировать страницу',
     editDescription: (name) => `Обновить ${name}`,
     trashTitle: 'Корзина страниц',
-    trashDescription: 'Страницы, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Страницы, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые страницы будут отображаться здесь.',
     builderTitle: 'Конструктор страниц',
@@ -69,12 +70,16 @@ export const ru: PageTranslations = {
     restoreTitle: 'Восстановить страницу',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} страниц в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} страниц в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалена навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} страниц. Действие НЕОБРАТИМО.`,
-    purgeBlockedByChildren: 'У этой страницы есть дочерние страницы, её нельзя удалить безвозвратно.',
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} страниц. Действие НЕОБРАТИМО.`,
+    purgeBlockedByChildren:
+      'У этой страницы есть дочерние страницы, её нельзя удалить безвозвратно.',
   },
   form: {
     sectionGeneral: 'Общее',
@@ -133,7 +138,8 @@ export const ru: PageTranslations = {
     fieldSections: 'Секции',
     sectionsCount: (count) => `Секций: ${count}`,
     restoreTitle: 'Восстановить версию',
-    restoreDescription: (date) => `Восстановить версию, сохранённую ${date}? Это перезапишет текущее содержимое.`,
+    restoreDescription: (date) =>
+      `Восстановить версию, сохранённую ${date}? Это перезапишет текущее содержимое.`,
     confirmRestore: 'Восстановить',
     cancel: 'Отмена',
     restored: 'Версия восстановлена',
@@ -198,7 +204,8 @@ export const ru: PageTranslations = {
       embedUrlHint: 'Вставьте ссылку на видео, размещённое на внешнем сервисе',
       formatMp4: 'Формат MP4',
       formatWebm: 'Формат WebM',
-      formatHint: 'Загрузите оба формата для максимальной совместимости с браузерами',
+      formatHint:
+        'Загрузите оба формата для максимальной совместимости с браузерами',
       uploadLabel: 'Загрузить',
       replaceLabel: 'Заменить',
       removeLabel: 'Удалить',
@@ -251,7 +258,8 @@ export const ru: PageTranslations = {
     imageReplace: 'Заменить изображение',
     imageAlt: 'Альтернативный текст',
     sliderEmpty: 'Добавить слайды',
-    sliderAddLabel: 'Перетащите изображения или видео сюда, или нажмите, чтобы выбрать',
+    sliderAddLabel:
+      'Перетащите изображения или видео сюда, или нажмите, чтобы выбрать',
     sliderDragLabel: 'Отпустите, чтобы добавить',
     sliderFormatsHint: 'Изображения (JPEG, PNG, WebP) или видео (MP4, WebM)',
     sliderRemoveLabel: 'Удалить слайд',
@@ -315,14 +323,16 @@ export const ru: PageTranslations = {
     mapLngLabel: 'Долгота (необязательно)',
     mapCaptionLabel: 'Описание (необязательно)',
     mapShowDirectionsLabel: 'Показывать кнопки «Проложить маршрут»',
-    mapShowDirectionsHint: 'Добавляет кнопки для открытия адреса в Google Maps и Waze',
+    mapShowDirectionsHint:
+      'Добавляет кнопки для открытия адреса в Google Maps и Waze',
     mapEmpty: 'Нажмите «редактировать», чтобы настроить карту',
     deleteSection: 'Удалить секцию',
     deleteSectionConfirm: 'Удалить эту секцию и всё её содержимое?',
     deleteElement: 'Удалить элемент',
     dragSection: 'Перетащить секцию',
     dragElement: 'Перетащить элемент',
-    unknownSection: (type) => `Секция «${type}» — визуального редактора пока нет; сохраняется как есть.`,
+    unknownSection: (type) =>
+      `Секция «${type}» — визуального редактора пока нет; сохраняется как есть.`,
     edit: 'Редактировать',
     done: 'Готово',
     textEmpty: 'Нажмите «Редактировать», чтобы писать…',
@@ -345,13 +355,15 @@ export const ru: PageTranslations = {
     action: 'SEO-анализ',
     colSeo: 'SEO',
     drawerTitle: 'SEO-анализ',
-    summary: (good, warnings, problems) => `Хорошо: ${good} · Можно улучшить: ${warnings} · Проблемы: ${problems}`,
+    summary: (good, warnings, problems) =>
+      `Хорошо: ${good} · Можно улучшить: ${warnings} · Проблемы: ${problems}`,
     groupProblems: 'Проблемы',
     groupImprovements: 'Возможные улучшения',
     groupGood: 'Хорошо',
     focusKeyword: 'Ключевое слово',
     noKeyword: 'Не задано — добавьте ключевые слова на шаге «SEO» формы',
-    charsCount: (count, min, max) => `${count} символов (идеально ${min}–${max})`,
+    charsCount: (count, min, max) =>
+      `${count} символов (идеально ${min}–${max})`,
     previewsTitle: 'Предпросмотр',
     previewGoogle: 'Google',
     previewFacebook: 'Facebook',

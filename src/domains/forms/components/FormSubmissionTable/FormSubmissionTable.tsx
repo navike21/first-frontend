@@ -1,4 +1,11 @@
-import { Can, Chip, DataTable, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
+import {
+  Can,
+  Chip,
+  DataTable,
+  IconButton,
+  Tooltip,
+  type DataTableColumn,
+} from '@/shared/ui'
 import { formatDate } from '@/shared/lib/formatDate'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/i18n'
@@ -19,7 +26,11 @@ interface FormSubmissionTableProps {
   onSelectionChange?: (ids: string[]) => void
 }
 
-function previewValue(form: Form, data: Record<string, unknown>, language: Language): string {
+function previewValue(
+  form: Form,
+  data: Record<string, unknown>,
+  language: Language
+): string {
   for (const field of form.fields) {
     const value = data[field.fieldId ?? '']
     if (value === undefined || value === null || value === '') continue
@@ -55,7 +66,9 @@ export const FormSubmissionTable = ({
       id: 'preview',
       header: t.submissionsTable.colPreview,
       cell: (submission) => (
-        <span className="line-clamp-1 text-foreground">{previewValue(form, submission.data, language)}</span>
+        <span className="text-foreground line-clamp-1">
+          {previewValue(form, submission.data, language)}
+        </span>
       ),
     },
     {
@@ -63,7 +76,9 @@ export const FormSubmissionTable = ({
       header: t.submissionsTable.colStatus,
       cell: (submission) => (
         <Chip size="small" variant={submission.isRead ? 'default' : 'success'}>
-          {submission.isRead ? t.submissionsTable.statusRead : t.submissionsTable.statusUnread}
+          {submission.isRead
+            ? t.submissionsTable.statusRead
+            : t.submissionsTable.statusUnread}
         </Chip>
       ),
     },
@@ -73,7 +88,11 @@ export const FormSubmissionTable = ({
       align: 'right',
       cell: (submission) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip heading={t.submissionsTable.viewSubmission} position="top" size="small">
+          <Tooltip
+            heading={t.submissionsTable.viewSubmission}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiEyeLine"
               variant="text"
@@ -83,7 +102,11 @@ export const FormSubmissionTable = ({
             />
           </Tooltip>
           <Can anyOf={CAN.formSubmissionsDelete}>
-            <Tooltip heading={t.submissionsTable.deleteSubmission} position="top" size="small">
+            <Tooltip
+              heading={t.submissionsTable.deleteSubmission}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"

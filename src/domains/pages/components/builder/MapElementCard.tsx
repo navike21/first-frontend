@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Button, IconComponent, InputField, InputNumber, Modal, Switch } from '@/shared/ui'
+import {
+  Button,
+  IconComponent,
+  InputField,
+  InputNumber,
+  Modal,
+  Switch,
+} from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type { BuilderMapElement } from '../../model/page.types'
@@ -24,7 +31,14 @@ const parseCoord = (raw: string): number | undefined => {
   return Number.isFinite(n) ? n : undefined
 }
 
-export const MapElementCard = ({ element, sectionId, columnId, language, onChange, onDelete }: MapElementCardProps) => {
+export const MapElementCard = ({
+  element,
+  sectionId,
+  columnId,
+  language,
+  onChange,
+  onDelete,
+}: MapElementCardProps) => {
   const { t } = usePagesTranslation()
   const [editing, setEditing] = useState<Language>(language)
   const [open, setOpen] = useState(false)
@@ -45,13 +59,18 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors hover:bg-surface-subtle"
+        className="hover:bg-surface-subtle flex w-full cursor-pointer items-center gap-2 rounded-md p-2 text-left transition-colors"
       >
-        <IconComponent icon="RiMapPin2Line" className="h-5 w-5 shrink-0 text-muted" />
+        <IconComponent
+          icon="RiMapPin2Line"
+          className="text-muted h-5 w-5 shrink-0"
+        />
         {element.address ? (
-          <span className="truncate text-xs text-foreground">{element.address}</span>
+          <span className="text-foreground truncate text-xs">
+            {element.address}
+          </span>
         ) : (
-          <span className="text-xs text-muted">{t.builder.mapEmpty}</span>
+          <span className="text-muted text-xs">{t.builder.mapEmpty}</span>
         )}
       </button>
 
@@ -77,30 +96,45 @@ export const MapElementCard = ({ element, sectionId, columnId, language, onChang
               label={t.builder.mapLatLabel}
               allowNegative
               decimals={COORD_DECIMALS}
-              defaultValue={element.lat !== undefined ? String(element.lat) : ''}
+              defaultValue={
+                element.lat !== undefined ? String(element.lat) : ''
+              }
               onChange={(e) => onChange({ lat: parseCoord(e.target.value) })}
             />
             <InputNumber
               label={t.builder.mapLngLabel}
               allowNegative
               decimals={COORD_DECIMALS}
-              defaultValue={element.lng !== undefined ? String(element.lng) : ''}
+              defaultValue={
+                element.lng !== undefined ? String(element.lng) : ''
+              }
               onChange={(e) => onChange({ lng: parseCoord(e.target.value) })}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <LangChips editing={editing} userLanguage={language} values={element.caption} onChange={setEditing} />
+            <LangChips
+              editing={editing}
+              userLanguage={language}
+              values={element.caption}
+              onChange={setEditing}
+            />
             <InputField
               label={t.builder.mapCaptionLabel}
               value={element.caption[editing] ?? ''}
-              onChange={(e) => onChange({ caption: { ...element.caption, [editing]: e.target.value } })}
+              onChange={(e) =>
+                onChange({
+                  caption: { ...element.caption, [editing]: e.target.value },
+                })
+              }
             />
           </div>
           <Switch
             label={t.builder.mapShowDirectionsLabel}
             helperText={t.builder.mapShowDirectionsHint}
             checked={element.showDirectionsButtons}
-            onChange={(e) => onChange({ showDirectionsButtons: e.target.checked })}
+            onChange={(e) =>
+              onChange({ showDirectionsButtons: e.target.checked })
+            }
           />
         </div>
       </Modal>

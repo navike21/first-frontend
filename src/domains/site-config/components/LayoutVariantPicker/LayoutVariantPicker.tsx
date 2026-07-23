@@ -22,7 +22,9 @@ export function LayoutVariantPicker<V extends string>({
 }: LayoutVariantPickerProps<V>) {
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</span>
+      <span className="text-muted text-xs font-semibold tracking-wide uppercase">
+        {label}
+      </span>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {options.map((option) => {
           const active = option.value === value
@@ -36,12 +38,17 @@ export function LayoutVariantPicker<V extends string>({
                 'flex cursor-pointer flex-col gap-2 rounded-xl border p-3 text-left',
                 'transition-colors',
                 active
-                  ? 'border-primary-600 bg-primary-700/10 ring-1 ring-primary-700/20'
-                  : 'border-border bg-surface hover:border-primary-600/40',
+                  ? 'border-primary-600 bg-primary-700/10 ring-primary-700/20 ring-1'
+                  : 'border-border bg-surface hover:border-primary-600/40'
               )}
             >
               {option.wireframe}
-              <span className={clsx('text-xs font-medium', active ? 'text-primary-600' : 'text-secondary')}>
+              <span
+                className={clsx(
+                  'text-xs font-medium',
+                  active ? 'text-primary-600' : 'text-secondary'
+                )}
+              >
                 {option.label}
               </span>
             </button>

@@ -1,9 +1,21 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { IconButton, IconComponent, InputField, MediaLibraryModal, Select, Switch, Tooltip } from '@/shared/ui'
+import {
+  IconButton,
+  IconComponent,
+  InputField,
+  MediaLibraryModal,
+  Select,
+  Switch,
+  Tooltip,
+} from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import type { BackgroundSourceKind, BackgroundVideo, BackgroundVideoFile } from '../../model/page.types'
+import type {
+  BackgroundSourceKind,
+  BackgroundVideo,
+  BackgroundVideoFile,
+} from '../../model/page.types'
 
 export interface BackgroundVideoFieldsProps {
   config: BackgroundVideo
@@ -21,26 +33,49 @@ interface VideoFormatSlotProps {
   onRemove: () => void
 }
 
-const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onSelectLibrary, onRemove }: VideoFormatSlotProps) => {
+const VideoFormatSlot = ({
+  label,
+  mimeType,
+  file,
+  onPickFile,
+  onSelectLibrary,
+  onRemove,
+}: VideoFormatSlotProps) => {
   const { t } = usePagesTranslation()
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface p-2">
+    <div className="border-border bg-surface flex flex-col gap-2 rounded-lg border p-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-foreground">{label}</span>
+        <span className="text-foreground text-xs font-medium">{label}</span>
         <div className="flex items-center gap-1">
-          <Tooltip heading={file ? t.builder.background.replaceLabel : t.builder.background.uploadLabel} position="top" size="small">
+          <Tooltip
+            heading={
+              file
+                ? t.builder.background.replaceLabel
+                : t.builder.background.uploadLabel
+            }
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiFolderVideoLine"
               variant="text"
               size="small"
-              aria-label={file ? t.builder.background.replaceLabel : t.builder.background.uploadLabel}
+              aria-label={
+                file
+                  ? t.builder.background.replaceLabel
+                  : t.builder.background.uploadLabel
+              }
               onClick={() => setIsLibraryOpen(true)}
             />
           </Tooltip>
           {file && (
-            <Tooltip heading={t.builder.background.removeLabel} position="top" size="small">
+            <Tooltip
+              heading={t.builder.background.removeLabel}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"
@@ -54,10 +89,19 @@ const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onSelectLibrary, o
       </div>
 
       {file ? (
-        <video src={file.url} controls muted className="h-24 w-full rounded-md bg-black object-contain" />
+        <video
+          src={file.url}
+          controls
+          muted
+          className="h-24 w-full rounded-md bg-black object-contain"
+        />
       ) : (
-        <div className={clsx('flex h-24 items-center justify-center rounded-md border border-dashed border-border bg-surface-subtle')}>
-          <IconComponent icon="RiVideoAddLine" className="h-6 w-6 text-muted" />
+        <div
+          className={clsx(
+            'border-border bg-surface-subtle flex h-24 items-center justify-center rounded-md border border-dashed'
+          )}
+        >
+          <IconComponent icon="RiVideoAddLine" className="text-muted h-6 w-6" />
         </div>
       )}
 
@@ -74,7 +118,12 @@ const VideoFormatSlot = ({ label, mimeType, file, onPickFile, onSelectLibrary, o
   )
 }
 
-export const BackgroundVideoFields = ({ config, onChange, onPickFile, onSelectLibrary }: BackgroundVideoFieldsProps) => {
+export const BackgroundVideoFields = ({
+  config,
+  onChange,
+  onPickFile,
+  onSelectLibrary,
+}: BackgroundVideoFieldsProps) => {
   const { t } = usePagesTranslation()
 
   const sourceOptions = [
@@ -90,12 +139,14 @@ export const BackgroundVideoFields = ({ config, onChange, onPickFile, onSelectLi
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface-subtle p-3">
+    <div className="border-border bg-surface-subtle flex flex-col gap-3 rounded-xl border p-3">
       <Select
         label={t.builder.background.sourceKindLabel}
         options={sourceOptions}
         value={config.sourceKind}
-        onChange={(e) => onChange({ sourceKind: e.target.value as BackgroundSourceKind })}
+        onChange={(e) =>
+          onChange({ sourceKind: e.target.value as BackgroundSourceKind })
+        }
       />
 
       {config.sourceKind === 'upload' && (
@@ -118,7 +169,9 @@ export const BackgroundVideoFields = ({ config, onChange, onPickFile, onSelectLi
           />
         </div>
       )}
-      {config.sourceKind === 'upload' && <p className="text-xs text-muted">{t.builder.background.formatHint}</p>}
+      {config.sourceKind === 'upload' && (
+        <p className="text-muted text-xs">{t.builder.background.formatHint}</p>
+      )}
 
       {config.sourceKind === 'embed' && (
         <InputField

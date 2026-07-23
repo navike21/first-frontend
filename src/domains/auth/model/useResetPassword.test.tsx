@@ -69,7 +69,12 @@ describe('useResetPassword', () => {
 
   it('should set isInvalidToken and suppress errorMessage for an INVALID_TOKEN failure', async () => {
     resetPasswordApiMock.mockRejectedValueOnce(
-      new HttpError(401, 'Unauthorized', 'Token inválido o expirado', 'INVALID_TOKEN')
+      new HttpError(
+        401,
+        'Unauthorized',
+        'Token inválido o expirado',
+        'INVALID_TOKEN'
+      )
     )
     const wrapper = createWrapper()
     const { result } = renderHook(() => useResetPassword('bad-token'), {

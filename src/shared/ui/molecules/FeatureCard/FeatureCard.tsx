@@ -39,14 +39,14 @@ export const FeatureCard = ({
             <h3
               className={clsx(
                 'mb-1',
-                'text-base leading-snug font-bold text-foreground',
+                'text-foreground text-base leading-snug font-bold',
                 'transition-colors',
                 'group-hover:text-primary-600 dark:group-hover:text-primary-400'
               )}
             >
               {title}
             </h3>
-            <p className="text-xs leading-relaxed text-secondary">
+            <p className="text-secondary text-xs leading-relaxed">
               {description}
             </p>
           </div>

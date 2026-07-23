@@ -9,7 +9,8 @@ export const ko: PageTranslations = {
     editTitle: '페이지 편집',
     editDescription: (name) => `${name} 업데이트`,
     trashTitle: '페이지 휴지통',
-    trashDescription: '휴지통으로 이동된 페이지입니다. 복원하거나 영구 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 페이지입니다. 복원하거나 영구 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 페이지가 없습니다',
     trashEmptyDescription: '삭제된 페이지가 여기에 표시됩니다.',
     builderTitle: '페이지 빌더',
@@ -67,14 +68,19 @@ export const ko: PageTranslations = {
     bulkDeleteDescription: (count) =>
       `${count}개의 페이지를 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     restoreTitle: '페이지 복원',
-    restoreDescription: (name) => `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `페이지 ${count}개를 활성 목록으로 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) =>
+      `페이지 ${count}개를 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `${name}을(를) 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmPurge: '삭제',
-    bulkPurgeDescription: (count) => `페이지 ${count}개를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
-    purgeBlockedByChildren: '이 페이지에는 하위 페이지가 있어 영구적으로 삭제할 수 없습니다.',
+    bulkPurgeDescription: (count) =>
+      `페이지 ${count}개를 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeBlockedByChildren:
+      '이 페이지에는 하위 페이지가 있어 영구적으로 삭제할 수 없습니다.',
   },
   form: {
     sectionGeneral: '일반',
@@ -133,7 +139,8 @@ export const ko: PageTranslations = {
     fieldSections: '섹션',
     sectionsCount: (count) => `섹션 ${count}개`,
     restoreTitle: '버전 복원',
-    restoreDescription: (date) => `${date}에 저장된 버전을 복원하시겠습니까? 현재 내용이 덮어씌워집니다.`,
+    restoreDescription: (date) =>
+      `${date}에 저장된 버전을 복원하시겠습니까? 현재 내용이 덮어씌워집니다.`,
     confirmRestore: '복원',
     cancel: '취소',
     restored: '버전이 복원되었습니다',
@@ -315,14 +322,16 @@ export const ko: PageTranslations = {
     mapLngLabel: '경도 (선택 사항)',
     mapCaptionLabel: '설명 (선택 사항)',
     mapShowDirectionsLabel: '"길찾기" 버튼 표시',
-    mapShowDirectionsHint: 'Google 지도와 Waze에서 주소를 여는 버튼을 추가합니다',
+    mapShowDirectionsHint:
+      'Google 지도와 Waze에서 주소를 여는 버튼을 추가합니다',
     mapEmpty: '편집을 클릭하여 지도를 설정하세요',
     deleteSection: '섹션 삭제',
     deleteSectionConfirm: '이 섹션과 모든 내용을 삭제하시겠습니까?',
     deleteElement: '요소 삭제',
     dragSection: '섹션 드래그',
     dragElement: '요소 드래그',
-    unknownSection: (type) => `«${type}» 섹션 — 아직 비주얼 에디터가 없어 그대로 유지됩니다.`,
+    unknownSection: (type) =>
+      `«${type}» 섹션 — 아직 비주얼 에디터가 없어 그대로 유지됩니다.`,
     edit: '편집',
     done: '완료',
     textEmpty: '편집을 클릭해 작성하세요…',
@@ -345,7 +354,8 @@ export const ko: PageTranslations = {
     action: 'SEO 분석',
     colSeo: 'SEO',
     drawerTitle: 'SEO 분석',
-    summary: (good, warnings, problems) => `좋음 ${good} · 개선 가능 ${warnings} · 문제 ${problems}`,
+    summary: (good, warnings, problems) =>
+      `좋음 ${good} · 개선 가능 ${warnings} · 문제 ${problems}`,
     groupProblems: '문제',
     groupImprovements: '개선 사항',
     groupGood: '좋음',

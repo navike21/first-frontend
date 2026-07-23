@@ -1,6 +1,9 @@
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
-import type { Subscriber, SubscriberListParams } from '../model/subscriber.types'
+import type {
+  Subscriber,
+  SubscriberListParams,
+} from '../model/subscriber.types'
 import type { CreateSubscriberPayload } from '../model/subscriber.schema'
 
 const BASE = '/subscriber'
@@ -45,7 +48,11 @@ export const subscribersApi = {
     })
   },
 
-  update: (id: string, body: Partial<CreateSubscriberPayload>, photo?: File | null) => {
+  update: (
+    id: string,
+    body: Partial<CreateSubscriberPayload>,
+    photo?: File | null
+  ) => {
     if (photo && navigator.onLine) {
       const fd = new FormData()
       fd.append('data', JSON.stringify(body))

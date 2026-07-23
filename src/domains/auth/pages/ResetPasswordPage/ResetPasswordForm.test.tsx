@@ -103,7 +103,9 @@ describe('ResetPasswordForm component', () => {
       screen.getByRole('button', { name: /guardar contraseña/i })
     )
     await waitFor(() => {
-      expect(screen.getByText('Las contraseñas no coinciden')).toBeInTheDocument()
+      expect(
+        screen.getByText('Las contraseñas no coinciden')
+      ).toBeInTheDocument()
     })
   })
 

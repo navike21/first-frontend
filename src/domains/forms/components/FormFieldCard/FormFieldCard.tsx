@@ -1,7 +1,15 @@
 import clsx from 'clsx'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { InputField, InputNumber, Select, Switch, Button, IconButton, SortableItemActions } from '@/shared/ui'
+import {
+  InputField,
+  InputNumber,
+  Select,
+  Switch,
+  Button,
+  IconButton,
+  SortableItemActions,
+} from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import { useFormsTranslation } from '../../i18n'
 import { FORM_FIELD_TYPES } from '../../model/form.schema'
@@ -32,7 +40,14 @@ export const FormFieldCard = ({
   errorMessage,
 }: FormFieldCardProps) => {
   const { t } = useFormsTranslation()
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
 
   const typeOptions = FORM_FIELD_TYPES.map((type) => ({
     value: type,
@@ -42,19 +57,26 @@ export const FormFieldCard = ({
   const isChoiceType = CHOICE_TYPES.includes(field.type)
   const showMaxLength = LENGTH_TYPES.includes(field.type)
 
-  const updateOption = (index: number, patch: Partial<{ value: string; label: Record<Language, string> }>) => {
-    const options = field.options.map((o, i) => (i === index ? { ...o, ...patch } : o))
+  const updateOption = (
+    index: number,
+    patch: Partial<{ value: string; label: Record<Language, string> }>
+  ) => {
+    const options = field.options.map((o, i) =>
+      i === index ? { ...o, ...patch } : o
+    )
     onChange({ options })
   }
-  const addOption = () => onChange({ options: [...field.options, emptyOption()] })
-  const removeOption = (index: number) => onChange({ options: field.options.filter((_, i) => i !== index) })
+  const addOption = () =>
+    onChange({ options: [...field.options, emptyOption()] })
+  const removeOption = (index: number) =>
+    onChange({ options: field.options.filter((_, i) => i !== index) })
 
   return (
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={clsx(
-        'flex flex-col gap-3 rounded-lg border border-border bg-surface-subtle p-4',
+        'border-border bg-surface-subtle flex flex-col gap-3 rounded-lg border p-4',
         isDragging && 'opacity-50'
       )}
     >
@@ -76,13 +98,24 @@ export const FormFieldCard = ({
         <InputField
           label={t.form.fieldLabel}
           value={field.label[editingLanguage] ?? ''}
-          onChange={(e) => onChange({ label: { ...field.label, [editingLanguage]: e.target.value } })}
+          onChange={(e) =>
+            onChange({
+              label: { ...field.label, [editingLanguage]: e.target.value },
+            })
+          }
           errorMessage={errorMessage}
         />
         <InputField
           label={t.form.fieldPlaceholder}
           value={field.placeholder[editingLanguage] ?? ''}
-          onChange={(e) => onChange({ placeholder: { ...field.placeholder, [editingLanguage]: e.target.value } })}
+          onChange={(e) =>
+            onChange({
+              placeholder: {
+                ...field.placeholder,
+                [editingLanguage]: e.target.value,
+              },
+            })
+          }
         />
         {showMaxLength && (
           <InputNumber
@@ -104,8 +137,10 @@ export const FormFieldCard = ({
       />
 
       {isChoiceType && (
-        <div className="flex flex-col gap-2 rounded-md border border-border bg-surface p-3">
-          <span className="text-sm font-medium text-foreground">{t.form.fieldOptions}</span>
+        <div className="border-border bg-surface flex flex-col gap-2 rounded-md border p-3">
+          <span className="text-foreground text-sm font-medium">
+            {t.form.fieldOptions}
+          </span>
           {field.options.map((option, index) => (
             <div key={index} className="flex items-end gap-2">
               <InputField
@@ -117,7 +152,12 @@ export const FormFieldCard = ({
                 label={t.form.optionLabel}
                 value={option.label[editingLanguage] ?? ''}
                 onChange={(e) =>
-                  updateOption(index, { label: { ...option.label, [editingLanguage]: e.target.value } })
+                  updateOption(index, {
+                    label: {
+                      ...option.label,
+                      [editingLanguage]: e.target.value,
+                    },
+                  })
                 }
               />
               <IconButton

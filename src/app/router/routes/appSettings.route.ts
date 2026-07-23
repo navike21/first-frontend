@@ -6,7 +6,10 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const AppSettingsPage = lazyRouteComponent(() => import('@domains/app-settings'), 'AppSettingsPage')
+const AppSettingsPage = lazyRouteComponent(
+  () => import('@domains/app-settings'),
+  'AppSettingsPage'
+)
 
 function createAppSettingsRouteTree(lang: Language) {
   return createRoute({

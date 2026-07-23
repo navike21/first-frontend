@@ -3,16 +3,21 @@ import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
 import { portfolioApi } from './portfolio.api'
 import type { PortfolioListParams } from '../model/portfolio.types'
-import type { CreatePortfolioPayload, GalleryOrderToken } from '../model/portfolio.schema'
+import type {
+  CreatePortfolioPayload,
+  GalleryOrderToken,
+} from '../model/portfolio.schema'
 
 export const portfolioKeys = {
   all: ['portfolio'] as const,
   lists: () => [...portfolioKeys.all, 'list'] as const,
-  list: (params: PortfolioListParams) => [...portfolioKeys.lists(), params] as const,
+  list: (params: PortfolioListParams) =>
+    [...portfolioKeys.lists(), params] as const,
   details: () => [...portfolioKeys.all, 'detail'] as const,
   detail: (id: string) => [...portfolioKeys.details(), id] as const,
   trash: () => [...portfolioKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...portfolioKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...portfolioKeys.trash(), params] as const,
   picker: () => [...portfolioKeys.all, 'picker'] as const,
 }
 
@@ -32,7 +37,9 @@ export const usePortfolioById = (id: string) =>
     enabled: !!id,
   })
 
-export const usePortfolioTrash = (params: { page?: number; limit?: number } = {}) =>
+export const usePortfolioTrash = (
+  params: { page?: number; limit?: number } = {}
+) =>
   useQuery({
     queryKey: portfolioKeys.trashList(params),
     queryFn: () => portfolioApi.trash(params),
@@ -48,7 +55,10 @@ export const useServicesForPortfolioPicker = () =>
   useQuery({
     queryKey: ['services', 'picker-for-portfolio'],
     queryFn: () =>
-      request<ApiResponse<ServicePickerItem[]>>({ api: '/services/admin?limit=100', method: 'GET' }),
+      request<ApiResponse<ServicePickerItem[]>>({
+        api: '/services/admin?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data ?? [],
     staleTime: 5 * 60 * 1000,
   })
@@ -63,7 +73,10 @@ export const useClientsForPortfolioPicker = () =>
   useQuery({
     queryKey: ['clients', 'picker-for-portfolio'],
     queryFn: () =>
-      request<ApiResponse<ClientPickerItem[]>>({ api: '/clients?limit=100', method: 'GET' }),
+      request<ApiResponse<ClientPickerItem[]>>({
+        api: '/clients?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data ?? [],
     staleTime: 5 * 60 * 1000,
   })
@@ -89,7 +102,12 @@ export interface UpdatePortfolioVars {
 export const useCreatePortfolio = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, galleryFiles, coverLibraryUrl }: CreatePortfolioVars) =>
+    mutationFn: ({
+      data,
+      cover,
+      galleryFiles,
+      coverLibraryUrl,
+    }: CreatePortfolioVars) =>
       portfolioApi.create(data, cover, galleryFiles, coverLibraryUrl),
     onSuccess: () => qc.invalidateQueries({ queryKey: portfolioKeys.lists() }),
   })
@@ -98,8 +116,23 @@ export const useCreatePortfolio = () => {
 export const useUpdatePortfolio = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl }: UpdatePortfolioVars) =>
-      portfolioApi.update(id, data, cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl),
+    mutationFn: ({
+      data,
+      cover,
+      removeCover,
+      galleryFiles,
+      galleryOrder,
+      coverLibraryUrl,
+    }: UpdatePortfolioVars) =>
+      portfolioApi.update(
+        id,
+        data,
+        cover,
+        removeCover,
+        galleryFiles,
+        galleryOrder,
+        coverLibraryUrl
+      ),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: portfolioKeys.lists() })
       qc.invalidateQueries({ queryKey: portfolioKeys.details() })

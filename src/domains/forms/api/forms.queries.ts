@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { formsApi } from './forms.api'
-import type { FormListParams, FormSubmissionListParams } from '../model/form.types'
+import type {
+  FormListParams,
+  FormSubmissionListParams,
+} from '../model/form.types'
 import type { CreateFormPayload } from '../model/form.schema'
 
 export const formKeys = {
@@ -16,12 +19,16 @@ export const formKeys = {
 
 export const formSubmissionKeys = {
   all: (formId: string) => ['forms', formId, 'submissions'] as const,
-  lists: (formId: string) => [...formSubmissionKeys.all(formId), 'list'] as const,
+  lists: (formId: string) =>
+    [...formSubmissionKeys.all(formId), 'list'] as const,
   list: (formId: string, params: FormSubmissionListParams) =>
     [...formSubmissionKeys.lists(formId), params] as const,
-  details: (formId: string) => [...formSubmissionKeys.all(formId), 'detail'] as const,
-  detail: (formId: string, id: string) => [...formSubmissionKeys.details(formId), id] as const,
-  trash: (formId: string) => [...formSubmissionKeys.all(formId), 'trash'] as const,
+  details: (formId: string) =>
+    [...formSubmissionKeys.all(formId), 'detail'] as const,
+  detail: (formId: string, id: string) =>
+    [...formSubmissionKeys.details(formId), id] as const,
+  trash: (formId: string) =>
+    [...formSubmissionKeys.all(formId), 'trash'] as const,
   trashList: (formId: string, params: { page?: number; limit?: number }) =>
     [...formSubmissionKeys.trash(formId), params] as const,
 }
@@ -127,7 +134,10 @@ export const useBulkPurgeForms = () => {
 
 // --- Submissions ---
 
-export const useFormSubmissions = (formId: string, params: FormSubmissionListParams = {}) =>
+export const useFormSubmissions = (
+  formId: string,
+  params: FormSubmissionListParams = {}
+) =>
   useQuery({
     queryKey: formSubmissionKeys.list(formId, params),
     queryFn: () => formsApi.submissions.list(formId, params),
@@ -148,7 +158,8 @@ export const useMarkFormSubmissionRead = (formId: string) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: string) => formsApi.submissions.markRead(formId, id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: formSubmissionKeys.lists(formId) }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: formSubmissionKeys.lists(formId) }),
   })
 }
 
@@ -178,14 +189,16 @@ export const usePurgeFormSubmission = (formId: string) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: string) => formsApi.submissions.purge(formId, id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) }),
   })
 }
 
 export const useBulkSoftDeleteFormSubmissions = (formId: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (ids: string[]) => formsApi.submissions.bulkSoftDelete(formId, ids),
+    mutationFn: (ids: string[]) =>
+      formsApi.submissions.bulkSoftDelete(formId, ids),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: formSubmissionKeys.lists(formId) })
       qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) })
@@ -196,7 +209,8 @@ export const useBulkSoftDeleteFormSubmissions = (formId: string) => {
 export const useBulkRestoreFormSubmissions = (formId: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (ids: string[]) => formsApi.submissions.bulkRestore(formId, ids),
+    mutationFn: (ids: string[]) =>
+      formsApi.submissions.bulkRestore(formId, ids),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) })
       qc.invalidateQueries({ queryKey: formSubmissionKeys.lists(formId) })
@@ -208,6 +222,7 @@ export const useBulkPurgeFormSubmissions = (formId: string) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (ids: string[]) => formsApi.submissions.bulkPurge(formId, ids),
-    onSuccess: () => qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: formSubmissionKeys.trash(formId) }),
   })
 }

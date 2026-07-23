@@ -28,7 +28,9 @@ describe('resetPasswordSchema', () => {
     expect(result.success).toBe(false)
     if (!result.success) {
       const issue = result.error.issues.find((i) => i.path[0] === 'password')
-      expect(issue?.message).toBe('La contraseña debe tener al menos 8 caracteres')
+      expect(issue?.message).toBe(
+        'La contraseña debe tener al menos 8 caracteres'
+      )
     }
   })
 

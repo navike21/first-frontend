@@ -104,25 +104,36 @@ interface ToolbarBtnProps {
   disabled?: boolean
 }
 
-const ToolbarBtn = ({ icon, title, onClick, active, disabled }: ToolbarBtnProps) => (
+const ToolbarBtn = ({
+  icon,
+  title,
+  onClick,
+  active,
+  disabled,
+}: ToolbarBtnProps) => (
   <button
     type="button"
     title={title}
     disabled={disabled}
-    onMouseDown={(e) => { e.preventDefault(); onClick() }}
+    onMouseDown={(e) => {
+      e.preventDefault()
+      onClick()
+    }}
     className={clsx(
       'flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors',
       'disabled:cursor-not-allowed disabled:opacity-40',
       active
         ? 'bg-primary-700/10 text-primary-600'
-        : 'text-muted hover:bg-surface-subtle hover:text-foreground',
+        : 'text-muted hover:bg-surface-subtle hover:text-foreground'
     )}
   >
     <IconComponent icon={icon} className="h-3.5 w-3.5" />
   </button>
 )
 
-const Divider = () => <div className="mx-0.5 h-3.5 w-px shrink-0 bg-border-control" />
+const Divider = () => (
+  <div className="bg-border-control mx-0.5 h-3.5 w-px shrink-0" />
+)
 
 // ─── ToolbarSelect (block type) ───────────────────────────────────────────────
 
@@ -134,30 +145,37 @@ interface ToolbarSelectProps {
 
 const ToolbarSelect = ({ value, onChange, disabled }: ToolbarSelectProps) => {
   const { open, setOpen, ref } = useDropdown()
-  const currentLabel = BLOCK_OPTIONS.find((o) => o.value === value)?.label ?? 'Paragraph'
+  const currentLabel =
+    BLOCK_OPTIONS.find((o) => o.value === value)?.label ?? 'Paragraph'
 
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
         disabled={disabled}
-        onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
+        onMouseDown={(e) => {
+          e.preventDefault()
+          setOpen((v) => !v)
+        }}
         className={clsx(
           'flex h-6 cursor-pointer items-center gap-1 rounded-sm px-1.5 transition-colors',
-          'ring-1 ring-inset bg-surface text-[11px] font-medium text-foreground',
+          'bg-surface text-foreground text-[11px] font-medium ring-1 ring-inset',
           open ? 'ring-primary-600' : 'ring-border hover:ring-primary-600/40',
-          'disabled:cursor-not-allowed disabled:opacity-40',
+          'disabled:cursor-not-allowed disabled:opacity-40'
         )}
       >
         {currentLabel}
         <IconComponent
           icon="RiArrowDownSLine"
-          className={clsx('h-3 w-3 text-muted transition-transform', open && 'rotate-180')}
+          className={clsx(
+            'text-muted h-3 w-3 transition-transform',
+            open && 'rotate-180'
+          )}
         />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-0.5 min-w-[7.5rem] overflow-hidden rounded-sm border border-border bg-surface shadow-md">
+        <div className="border-border bg-surface absolute top-full left-0 z-50 mt-0.5 min-w-[7.5rem] overflow-hidden rounded-sm border shadow-md">
           {BLOCK_OPTIONS.map((opt) => (
             <button
               key={opt.value}
@@ -170,8 +188,8 @@ const ToolbarSelect = ({ value, onChange, disabled }: ToolbarSelectProps) => {
               className={clsx(
                 'flex w-full cursor-pointer items-center px-2.5 py-1.5 text-left text-xs transition-colors',
                 value === opt.value
-                  ? 'bg-primary-700/10 font-medium text-primary-600'
-                  : 'text-foreground hover:bg-surface-subtle',
+                  ? 'bg-primary-700/10 text-primary-600 font-medium'
+                  : 'text-foreground hover:bg-surface-subtle'
               )}
             >
               {opt.label}
@@ -185,9 +203,16 @@ const ToolbarSelect = ({ value, onChange, disabled }: ToolbarSelectProps) => {
 
 // ─── ColorDropdown ────────────────────────────────────────────────────────────
 
-const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?: boolean }) => {
+const ColorDropdown = ({
+  editor,
+  disabled,
+}: {
+  editor: Editor | null
+  disabled?: boolean
+}) => {
   const { open, setOpen, ref } = useDropdown()
-  const currentColor = editor?.getAttributes('textStyle').color as string | undefined
+  const currentColor = editor?.getAttributes('textStyle').color as
+    string | undefined
 
   return (
     <div ref={ref} className="relative">
@@ -195,13 +220,16 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
         type="button"
         disabled={disabled}
         title="Text color"
-        onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
+        onMouseDown={(e) => {
+          e.preventDefault()
+          setOpen((v) => !v)
+        }}
         className={clsx(
           'flex h-6 w-6 cursor-pointer flex-col items-center justify-center gap-px rounded transition-colors',
           'disabled:cursor-not-allowed disabled:opacity-40',
           open
             ? 'bg-primary-700/10 text-primary-600'
-            : 'text-muted hover:bg-surface-subtle hover:text-foreground',
+            : 'text-muted hover:bg-surface-subtle hover:text-foreground'
         )}
       >
         <IconComponent icon="RiFontColor" className="h-3.5 w-3.5" />
@@ -212,13 +240,17 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-0.5 rounded-sm border border-border bg-surface p-1.5 shadow-md">
+        <div className="border-border bg-surface absolute top-full left-0 z-50 mt-0.5 rounded-sm border p-1.5 shadow-md">
           <div className="mb-1 flex items-center justify-between gap-4">
-            <span className="text-[10px] text-muted">Color</span>
+            <span className="text-muted text-[10px]">Color</span>
             <button
               type="button"
-              onMouseDown={(e) => { e.preventDefault(); editor?.chain().focus().unsetColor().run(); setOpen(false) }}
-              className="cursor-pointer text-[10px] text-muted hover:text-foreground"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                editor?.chain().focus().unsetColor().run()
+                setOpen(false)
+              }}
+              className="text-muted hover:text-foreground cursor-pointer text-[10px]"
             >
               Reset
             </button>
@@ -236,7 +268,9 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
                 }}
                 className={clsx(
                   'h-5 w-5 cursor-pointer rounded-sm border-2 transition-transform hover:scale-110',
-                  currentColor === value ? 'border-primary-600 scale-110' : 'border-transparent',
+                  currentColor === value
+                    ? 'border-primary-600 scale-110'
+                    : 'border-transparent'
                 )}
                 style={{ backgroundColor: value }}
               />
@@ -250,9 +284,16 @@ const ColorDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?:
 
 // ─── HighlightDropdown ────────────────────────────────────────────────────────
 
-const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabled?: boolean }) => {
+const HighlightDropdown = ({
+  editor,
+  disabled,
+}: {
+  editor: Editor | null
+  disabled?: boolean
+}) => {
   const { open, setOpen, ref } = useDropdown()
-  const currentHighlight = editor?.getAttributes('highlight').color as string | undefined
+  const currentHighlight = editor?.getAttributes('highlight').color as
+    string | undefined
 
   return (
     <div ref={ref} className="relative">
@@ -260,27 +301,38 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
         type="button"
         disabled={disabled}
         title="Highlight"
-        onMouseDown={(e) => { e.preventDefault(); setOpen((v) => !v) }}
+        onMouseDown={(e) => {
+          e.preventDefault()
+          setOpen((v) => !v)
+        }}
         className={clsx(
           'flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors',
           'disabled:cursor-not-allowed disabled:opacity-40',
           open || currentHighlight
             ? 'bg-primary-700/10 text-primary-600'
-            : 'text-muted hover:bg-surface-subtle hover:text-foreground',
+            : 'text-muted hover:bg-surface-subtle hover:text-foreground'
         )}
-        style={currentHighlight ? { backgroundColor: `${currentHighlight}60` } : undefined}
+        style={
+          currentHighlight
+            ? { backgroundColor: `${currentHighlight}60` }
+            : undefined
+        }
       >
         <IconComponent icon="RiMarkPenLine" className="h-3.5 w-3.5" />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-0.5 rounded-sm border border-border bg-surface p-1.5 shadow-md">
+        <div className="border-border bg-surface absolute top-full left-0 z-50 mt-0.5 rounded-sm border p-1.5 shadow-md">
           <div className="mb-1 flex items-center justify-between gap-4">
-            <span className="text-[10px] text-muted">Highlight</span>
+            <span className="text-muted text-[10px]">Highlight</span>
             <button
               type="button"
-              onMouseDown={(e) => { e.preventDefault(); editor?.chain().focus().unsetHighlight().run(); setOpen(false) }}
-              className="cursor-pointer text-[10px] text-muted hover:text-foreground"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                editor?.chain().focus().unsetHighlight().run()
+                setOpen(false)
+              }}
+              className="text-muted hover:text-foreground cursor-pointer text-[10px]"
             >
               Remove
             </button>
@@ -298,7 +350,9 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
                 }}
                 className={clsx(
                   'h-5 w-5 cursor-pointer rounded-sm border-2 transition-transform hover:scale-110',
-                  currentHighlight === value ? 'border-primary-600 scale-110' : 'border-border',
+                  currentHighlight === value
+                    ? 'border-primary-600 scale-110'
+                    : 'border-border'
                 )}
                 style={{ backgroundColor: value }}
               />
@@ -312,7 +366,13 @@ const HighlightDropdown = ({ editor, disabled }: { editor: Editor | null; disabl
 
 // ─── TablePicker ──────────────────────────────────────────────────────────────
 
-const TablePicker = ({ editor, disabled }: { editor: Editor | null; disabled?: boolean }) => {
+const TablePicker = ({
+  editor,
+  disabled,
+}: {
+  editor: Editor | null
+  disabled?: boolean
+}) => {
   const { open, setOpen, ref } = useDropdown()
   const [hover, setHover] = useState({ rows: 0, cols: 0 })
 
@@ -327,8 +387,8 @@ const TablePicker = ({ editor, disabled }: { editor: Editor | null; disabled?: b
       />
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-0.5 rounded-sm border border-border bg-surface p-2 shadow-md">
-          <p className="mb-1.5 text-center text-[10px] font-medium text-foreground">
+        <div className="border-border bg-surface absolute top-full left-0 z-50 mt-0.5 rounded-sm border p-2 shadow-md">
+          <p className="text-foreground mb-1.5 text-center text-[10px] font-medium">
             {hover.rows > 0 ? `${hover.rows} × ${hover.cols}` : 'Choose size'}
           </p>
           <div
@@ -340,14 +400,20 @@ const TablePicker = ({ editor, disabled }: { editor: Editor | null; disabled?: b
                 <button
                   key={`${row}-${col}`}
                   type="button"
-                  onMouseEnter={() => setHover({ rows: row + 1, cols: col + 1 })}
+                  onMouseEnter={() =>
+                    setHover({ rows: row + 1, cols: col + 1 })
+                  }
                   onMouseLeave={() => setHover({ rows: 0, cols: 0 })}
                   onMouseDown={(e) => {
                     e.preventDefault()
                     editor
                       ?.chain()
                       .focus()
-                      .insertTable({ rows: row + 1, cols: col + 1, withHeaderRow: true })
+                      .insertTable({
+                        rows: row + 1,
+                        cols: col + 1,
+                        withHeaderRow: true,
+                      })
                       .run()
                     setOpen(false)
                     setHover({ rows: 0, cols: 0 })
@@ -356,10 +422,10 @@ const TablePicker = ({ editor, disabled }: { editor: Editor | null; disabled?: b
                     'h-4 w-4 cursor-pointer rounded-sm border transition-colors',
                     row < hover.rows && col < hover.cols
                       ? 'border-primary-600 bg-primary-700/20'
-                      : 'border-border bg-surface-subtle',
+                      : 'border-border bg-surface-subtle'
                   )}
                 />
-              )),
+              ))
             )}
           </div>
         </div>
@@ -490,13 +556,19 @@ export const RichTextArea = ({
 
   const handleLink = () => {
     if (!editor) return
-    setLinkInput((editor.getAttributes('link').href as string | undefined) ?? '')
+    setLinkInput(
+      (editor.getAttributes('link').href as string | undefined) ?? ''
+    )
   }
 
   const applyLink = () => {
     if (!editor || linkInput === null) return
     if (linkInput.trim()) {
-      editor.chain().focus().setLink({ href: linkInput.trim(), target: '_blank' }).run()
+      editor
+        .chain()
+        .focus()
+        .setLink({ href: linkInput.trim(), target: '_blank' })
+        .run()
     } else {
       editor.chain().focus().unsetLink().run()
     }
@@ -513,26 +585,36 @@ export const RichTextArea = ({
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <div className="text-xs font-medium tracking-wide text-secondary uppercase">
+        <div className="text-secondary text-xs font-medium tracking-wide uppercase">
           {label}
         </div>
       )}
 
       <div
         className={clsx(
-          'flex flex-col rounded-select border bg-surface-input transition-colors',
+          'rounded-select bg-surface-input flex flex-col border transition-colors',
           hasError
             ? 'border-danger-600 focus-within:border-danger-600'
             : 'border-border-control hover:border-border-hover focus-within:border-primary-600! focus-within:shadow-focus-ring',
           fullscreen && 'fixed inset-0 z-50 rounded-none',
-          disabled && 'opacity-60',
+          disabled && 'opacity-60'
         )}
       >
         {/* ── Main toolbar ──────────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-border-control bg-surface-subtle px-2 py-1.5">
+        <div className="border-border-control bg-surface-subtle flex flex-wrap items-center gap-0.5 border-b px-2 py-1.5">
           {/* History */}
-          <ToolbarBtn icon="RiArrowGoBackLine" title="Undo" disabled={disabled || !editor?.can().undo()} onClick={() => editor?.chain().focus().undo().run()} />
-          <ToolbarBtn icon="RiArrowGoForwardLine" title="Redo" disabled={disabled || !editor?.can().redo()} onClick={() => editor?.chain().focus().redo().run()} />
+          <ToolbarBtn
+            icon="RiArrowGoBackLine"
+            title="Undo"
+            disabled={disabled || !editor?.can().undo()}
+            onClick={() => editor?.chain().focus().undo().run()}
+          />
+          <ToolbarBtn
+            icon="RiArrowGoForwardLine"
+            title="Redo"
+            disabled={disabled || !editor?.can().redo()}
+            onClick={() => editor?.chain().focus().redo().run()}
+          />
 
           <Divider />
 
@@ -541,8 +623,16 @@ export const RichTextArea = ({
             value={getBlockType()}
             onChange={(type) => {
               if (!editor) return
-              if (type === 'paragraph') editor.chain().focus().setParagraph().run()
-              else editor.chain().focus().toggleHeading({ level: parseInt(type.slice(1)) as 1 | 2 | 3 | 4 }).run()
+              if (type === 'paragraph')
+                editor.chain().focus().setParagraph().run()
+              else
+                editor
+                  .chain()
+                  .focus()
+                  .toggleHeading({
+                    level: parseInt(type.slice(1)) as 1 | 2 | 3 | 4,
+                  })
+                  .run()
             }}
             disabled={disabled || !editor}
           />
@@ -550,10 +640,34 @@ export const RichTextArea = ({
           <Divider />
 
           {/* Inline marks */}
-          <ToolbarBtn icon="RiBold" title="Bold" active={editor?.isActive('bold')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBold().run()} />
-          <ToolbarBtn icon="RiItalic" title="Italic" active={editor?.isActive('italic')} disabled={disabled} onClick={() => editor?.chain().focus().toggleItalic().run()} />
-          <ToolbarBtn icon="RiUnderline" title="Underline" active={editor?.isActive('underline')} disabled={disabled} onClick={() => editor?.chain().focus().toggleUnderline().run()} />
-          <ToolbarBtn icon="RiStrikethrough" title="Strikethrough" active={editor?.isActive('strike')} disabled={disabled} onClick={() => editor?.chain().focus().toggleStrike().run()} />
+          <ToolbarBtn
+            icon="RiBold"
+            title="Bold"
+            active={editor?.isActive('bold')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleBold().run()}
+          />
+          <ToolbarBtn
+            icon="RiItalic"
+            title="Italic"
+            active={editor?.isActive('italic')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
+          />
+          <ToolbarBtn
+            icon="RiUnderline"
+            title="Underline"
+            active={editor?.isActive('underline')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleUnderline().run()}
+          />
+          <ToolbarBtn
+            icon="RiStrikethrough"
+            title="Strikethrough"
+            active={editor?.isActive('strike')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleStrike().run()}
+          />
 
           <Divider />
 
@@ -564,26 +678,86 @@ export const RichTextArea = ({
           <Divider />
 
           {/* Lists */}
-          <ToolbarBtn icon="RiListUnordered" title="Bullet list" active={editor?.isActive('bulletList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleBulletList().run()} />
-          <ToolbarBtn icon="RiListOrdered" title="Ordered list" active={editor?.isActive('orderedList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleOrderedList().run()} />
-          <ToolbarBtn icon="RiListCheck2" title="Task list" active={editor?.isActive('taskList')} disabled={disabled} onClick={() => editor?.chain().focus().toggleTaskList().run()} />
+          <ToolbarBtn
+            icon="RiListUnordered"
+            title="Bullet list"
+            active={editor?.isActive('bulletList')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+          />
+          <ToolbarBtn
+            icon="RiListOrdered"
+            title="Ordered list"
+            active={editor?.isActive('orderedList')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+          />
+          <ToolbarBtn
+            icon="RiListCheck2"
+            title="Task list"
+            active={editor?.isActive('taskList')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleTaskList().run()}
+          />
 
           <Divider />
 
           {/* Alignment */}
-          <ToolbarBtn icon="RiAlignLeft" title="Align left" active={editor?.isActive({ textAlign: 'left' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('left').run()} />
-          <ToolbarBtn icon="RiAlignCenter" title="Align center" active={editor?.isActive({ textAlign: 'center' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('center').run()} />
-          <ToolbarBtn icon="RiAlignRight" title="Align right" active={editor?.isActive({ textAlign: 'right' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('right').run()} />
-          <ToolbarBtn icon="RiAlignJustify" title="Justify" active={editor?.isActive({ textAlign: 'justify' })} disabled={disabled} onClick={() => editor?.chain().focus().setTextAlign('justify').run()} />
+          <ToolbarBtn
+            icon="RiAlignLeft"
+            title="Align left"
+            active={editor?.isActive({ textAlign: 'left' })}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().setTextAlign('left').run()}
+          />
+          <ToolbarBtn
+            icon="RiAlignCenter"
+            title="Align center"
+            active={editor?.isActive({ textAlign: 'center' })}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().setTextAlign('center').run()}
+          />
+          <ToolbarBtn
+            icon="RiAlignRight"
+            title="Align right"
+            active={editor?.isActive({ textAlign: 'right' })}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().setTextAlign('right').run()}
+          />
+          <ToolbarBtn
+            icon="RiAlignJustify"
+            title="Justify"
+            active={editor?.isActive({ textAlign: 'justify' })}
+            disabled={disabled}
+            onClick={() =>
+              editor?.chain().focus().setTextAlign('justify').run()
+            }
+          />
 
           <Divider />
 
           {/* Link */}
-          <ToolbarBtn icon="RiLink" title="Add link" active={editor?.isActive('link')} disabled={disabled} onClick={handleLink} />
-          <ToolbarBtn icon="RiLinkUnlink" title="Remove link" disabled={disabled || !editor?.isActive('link')} onClick={() => editor?.chain().focus().unsetLink().run()} />
+          <ToolbarBtn
+            icon="RiLink"
+            title="Add link"
+            active={editor?.isActive('link')}
+            disabled={disabled}
+            onClick={handleLink}
+          />
+          <ToolbarBtn
+            icon="RiLinkUnlink"
+            title="Remove link"
+            disabled={disabled || !editor?.isActive('link')}
+            onClick={() => editor?.chain().focus().unsetLink().run()}
+          />
 
           {/* Image */}
-          <ToolbarBtn icon="RiImageLine" title="Insert image" disabled={disabled} onClick={() => fileInputRef.current?.click()} />
+          <ToolbarBtn
+            icon="RiImageLine"
+            title="Insert image"
+            disabled={disabled}
+            onClick={() => fileInputRef.current?.click()}
+          />
           <input
             ref={fileInputRef}
             type="file"
@@ -599,14 +773,32 @@ export const RichTextArea = ({
           <Divider />
 
           {/* Code / HR / Table */}
-          <ToolbarBtn icon="RiCodeBoxLine" title="Code block" active={editor?.isActive('codeBlock')} disabled={disabled} onClick={() => editor?.chain().focus().toggleCodeBlock().run()} />
-          <ToolbarBtn icon="RiSeparator" title="Horizontal rule" disabled={disabled} onClick={() => editor?.chain().focus().setHorizontalRule().run()} />
+          <ToolbarBtn
+            icon="RiCodeBoxLine"
+            title="Code block"
+            active={editor?.isActive('codeBlock')}
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
+          />
+          <ToolbarBtn
+            icon="RiSeparator"
+            title="Horizontal rule"
+            disabled={disabled}
+            onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+          />
           <TablePicker editor={editor} disabled={disabled} />
 
           <Divider />
 
           {/* Format clear / Fullscreen */}
-          <ToolbarBtn icon="RiFormatClear" title="Clear formatting" disabled={disabled} onClick={() => editor?.chain().focus().clearNodes().unsetAllMarks().run()} />
+          <ToolbarBtn
+            icon="RiFormatClear"
+            title="Clear formatting"
+            disabled={disabled}
+            onClick={() =>
+              editor?.chain().focus().clearNodes().unsetAllMarks().run()
+            }
+          />
           <ToolbarBtn
             icon={fullscreen ? 'RiFullscreenExitLine' : 'RiFullscreenLine'}
             title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
@@ -616,23 +808,34 @@ export const RichTextArea = ({
 
         {/* ── Context: link input ──────────────────────────── */}
         {linkInput !== null && (
-          <div className="flex items-center gap-2 border-b border-border-control bg-surface-subtle px-3 py-1.5">
+          <div className="border-border-control bg-surface-subtle flex items-center gap-2 border-b px-3 py-1.5">
             <input
               autoFocus
               type="url"
               value={linkInput}
               onChange={(e) => setLinkInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') { e.preventDefault(); applyLink() }
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  applyLink()
+                }
                 if (e.key === 'Escape') setLinkInput(null)
               }}
               placeholder="https://..."
-              className="min-w-0 flex-1 rounded border border-border bg-surface px-2 py-1 text-xs text-foreground outline-none focus:border-primary-600"
+              className="border-border bg-surface text-foreground focus:border-primary-600 min-w-0 flex-1 rounded border px-2 py-1 text-xs outline-none"
             />
-            <button type="button" onClick={applyLink} className="cursor-pointer rounded bg-primary-700/10 px-2.5 py-1 text-xs font-medium text-primary-600 hover:bg-primary-700/20">
+            <button
+              type="button"
+              onClick={applyLink}
+              className="bg-primary-700/10 text-primary-600 hover:bg-primary-700/20 cursor-pointer rounded px-2.5 py-1 text-xs font-medium"
+            >
               Apply
             </button>
-            <button type="button" onClick={() => setLinkInput(null)} className="cursor-pointer text-xs text-muted hover:text-foreground">
+            <button
+              type="button"
+              onClick={() => setLinkInput(null)}
+              className="text-muted hover:text-foreground cursor-pointer text-xs"
+            >
               Cancel
             </button>
           </div>
@@ -640,36 +843,96 @@ export const RichTextArea = ({
 
         {/* ── Context: table management ────────────────────── */}
         {isInTable && (
-          <div className="flex flex-wrap items-center gap-0.5 border-b border-border-control bg-surface-subtle px-2 py-1">
-            <span className="mr-1 text-[10px] font-medium text-muted uppercase">Table</span>
-            <ToolbarBtn icon="RiInsertRowTop" title="Add row before" disabled={disabled} onClick={() => editor?.chain().focus().addRowBefore().run()} />
-            <ToolbarBtn icon="RiInsertRowBottom" title="Add row after" disabled={disabled} onClick={() => editor?.chain().focus().addRowAfter().run()} />
-            <ToolbarBtn icon="RiDeleteRow" title="Delete row" disabled={disabled} onClick={() => editor?.chain().focus().deleteRow().run()} />
+          <div className="border-border-control bg-surface-subtle flex flex-wrap items-center gap-0.5 border-b px-2 py-1">
+            <span className="text-muted mr-1 text-[10px] font-medium uppercase">
+              Table
+            </span>
+            <ToolbarBtn
+              icon="RiInsertRowTop"
+              title="Add row before"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().addRowBefore().run()}
+            />
+            <ToolbarBtn
+              icon="RiInsertRowBottom"
+              title="Add row after"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().addRowAfter().run()}
+            />
+            <ToolbarBtn
+              icon="RiDeleteRow"
+              title="Delete row"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().deleteRow().run()}
+            />
             <Divider />
-            <ToolbarBtn icon="RiInsertColumnLeft" title="Add column before" disabled={disabled} onClick={() => editor?.chain().focus().addColumnBefore().run()} />
-            <ToolbarBtn icon="RiInsertColumnRight" title="Add column after" disabled={disabled} onClick={() => editor?.chain().focus().addColumnAfter().run()} />
-            <ToolbarBtn icon="RiDeleteColumn" title="Delete column" disabled={disabled} onClick={() => editor?.chain().focus().deleteColumn().run()} />
+            <ToolbarBtn
+              icon="RiInsertColumnLeft"
+              title="Add column before"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().addColumnBefore().run()}
+            />
+            <ToolbarBtn
+              icon="RiInsertColumnRight"
+              title="Add column after"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().addColumnAfter().run()}
+            />
+            <ToolbarBtn
+              icon="RiDeleteColumn"
+              title="Delete column"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().deleteColumn().run()}
+            />
             <Divider />
-            <ToolbarBtn icon="RiMergeCellsHorizontal" title="Merge cells" disabled={disabled} onClick={() => editor?.chain().focus().mergeCells().run()} />
-            <ToolbarBtn icon="RiSplitCellsHorizontal" title="Split cell" disabled={disabled} onClick={() => editor?.chain().focus().splitCell().run()} />
+            <ToolbarBtn
+              icon="RiMergeCellsHorizontal"
+              title="Merge cells"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().mergeCells().run()}
+            />
+            <ToolbarBtn
+              icon="RiSplitCellsHorizontal"
+              title="Split cell"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().splitCell().run()}
+            />
             <Divider />
-            <ToolbarBtn icon="RiDeleteBinLine" title="Delete table" disabled={disabled} onClick={() => editor?.chain().focus().deleteTable().run()} />
+            <ToolbarBtn
+              icon="RiDeleteBinLine"
+              title="Delete table"
+              disabled={disabled}
+              onClick={() => editor?.chain().focus().deleteTable().run()}
+            />
           </div>
         )}
 
         {/* ── Context: code block language ─────────────────── */}
         {isInCodeBlock && (
-          <div className="flex items-center gap-2 border-b border-border-control bg-surface-subtle px-3 py-1.5">
-            <span className="text-[10px] font-medium text-muted uppercase">Language</span>
+          <div className="border-border-control bg-surface-subtle flex items-center gap-2 border-b px-3 py-1.5">
+            <span className="text-muted text-[10px] font-medium uppercase">
+              Language
+            </span>
             <select
-              value={(editor?.getAttributes('codeBlock').language as string | undefined) ?? ''}
-              onChange={(e) =>
-                editor?.chain().focus().updateAttributes('codeBlock', { language: e.target.value || null }).run()
+              value={
+                (editor?.getAttributes('codeBlock').language as
+                  string | undefined) ?? ''
               }
-              className="h-5 rounded border border-border bg-surface px-1.5 text-[11px] text-foreground outline-none focus:border-primary-600"
+              onChange={(e) =>
+                editor
+                  ?.chain()
+                  .focus()
+                  .updateAttributes('codeBlock', {
+                    language: e.target.value || null,
+                  })
+                  .run()
+              }
+              className="border-border bg-surface text-foreground focus:border-primary-600 h-5 rounded border px-1.5 text-[11px] outline-none"
             >
               {CODE_LANGS.map((l) => (
-                <option key={l.value} value={l.value}>{l.label}</option>
+                <option key={l.value} value={l.value}>
+                  {l.label}
+                </option>
               ))}
             </select>
           </div>
@@ -680,8 +943,8 @@ export const RichTextArea = ({
           editor={editor}
           style={contentMinHeight}
           className={clsx(
-            'flex-1 cursor-text px-4 py-3 text-sm text-foreground',
-            fullscreen && 'overflow-y-auto',
+            'text-foreground flex-1 cursor-text px-4 py-3 text-sm',
+            fullscreen && 'overflow-y-auto'
           )}
           onClick={() => editor?.commands.focus()}
         />
@@ -690,17 +953,24 @@ export const RichTextArea = ({
         {(showCount || maxLength !== undefined) && (
           <div
             className={clsx(
-              'flex justify-end border-t border-border-control px-3 py-1 text-[11px]',
-              isOverLimit ? 'text-danger-600' : 'text-muted',
+              'border-border-control flex justify-end border-t px-3 py-1 text-[11px]',
+              isOverLimit ? 'text-danger-600' : 'text-muted'
             )}
           >
-            {maxLength !== undefined ? `${textLength} / ${maxLength}` : textLength}
+            {maxLength !== undefined
+              ? `${textLength} / ${maxLength}`
+              : textLength}
           </div>
         )}
       </div>
 
       {(helperText || errorMessage) && (
-        <p className={clsx('text-xs', errorMessage ? 'text-danger-600' : 'text-muted')}>
+        <p
+          className={clsx(
+            'text-xs',
+            errorMessage ? 'text-danger-600' : 'text-muted'
+          )}
+        >
           {errorMessage ?? helperText}
         </p>
       )}

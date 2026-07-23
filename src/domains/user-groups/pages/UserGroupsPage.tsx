@@ -71,7 +71,6 @@ export const UserGroupsPage = () => {
           : []),
       ]}
     >
-
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
           <InputField
@@ -80,7 +79,7 @@ export const UserGroupsPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-muted">
+              <span className="text-muted px-3">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }

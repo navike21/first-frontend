@@ -26,9 +26,18 @@ import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePortfolioTranslation } from '../../i18n'
-import { useServicesForPortfolioPicker, useClientsForPortfolioPicker } from '../../api/portfolio.queries'
-import { createPortfolioSchema, PORTFOLIO_STATUS_VALUES } from '../../model/portfolio.schema'
-import type { PortfolioFormData, GalleryOrderToken } from '../../model/portfolio.schema'
+import {
+  useServicesForPortfolioPicker,
+  useClientsForPortfolioPicker,
+} from '../../api/portfolio.queries'
+import {
+  createPortfolioSchema,
+  PORTFOLIO_STATUS_VALUES,
+} from '../../model/portfolio.schema'
+import type {
+  PortfolioFormData,
+  GalleryOrderToken,
+} from '../../model/portfolio.schema'
 
 function stepHasMediaError(step: StepId, coverMissing: boolean): boolean {
   return step === 'media' && coverMissing
@@ -37,18 +46,23 @@ function stepHasMediaError(step: StepId, coverMissing: boolean): boolean {
 function coverPickerMessages(
   coverMissing: boolean,
   formatsHint: string,
-  requiredMessage: string,
+  requiredMessage: string
 ): { formatsHint?: string; errorMessage?: string } {
-  return coverMissing
-    ? { errorMessage: requiredMessage }
-    : { formatsHint }
+  return coverMissing ? { errorMessage: requiredMessage } : { formatsHint }
 }
 
 function toGalleryItems(urls: string[] | undefined): GalleryItem[] {
-  return (urls ?? []).map((url) => ({ key: url, kind: 'existing' as const, url }))
+  return (urls ?? []).map((url) => ({
+    key: url,
+    kind: 'existing' as const,
+    url,
+  }))
 }
 
-function deriveGalleryPayload(items: GalleryItem[]): { galleryFiles: File[]; galleryOrder: GalleryOrderToken[] } {
+function deriveGalleryPayload(items: GalleryItem[]): {
+  galleryFiles: File[]
+  galleryOrder: GalleryOrderToken[]
+} {
   const galleryFiles: File[] = []
   const galleryOrder: GalleryOrderToken[] = items.map((item) => {
     if (item.kind === 'existing') return { type: 'existing', url: item.url }
@@ -84,7 +98,7 @@ export interface PortfolioFormProps {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
-    coverLibraryUrl?: string,
+    coverLibraryUrl?: string
   ) => void
 }
 
@@ -93,7 +107,15 @@ type StepId = 'general' | 'content' | 'relations' | 'media'
 const STEP_FIELDS: Record<StepId, (keyof PortfolioFormData)[]> = {
   general: ['name', 'shortDescription', 'slug'],
   content: ['description'],
-  relations: ['serviceIds', 'clientId', 'technologies', 'projectUrl', 'startDate', 'endDate', 'featured'],
+  relations: [
+    'serviceIds',
+    'clientId',
+    'technologies',
+    'projectUrl',
+    'startDate',
+    'endDate',
+    'featured',
+  ],
   media: ['status', 'order'],
 }
 
@@ -110,7 +132,10 @@ export const PortfolioForm = ({
   onSubmit,
 }: PortfolioFormProps) => {
   const { t, language } = usePortfolioTranslation()
-  const schema = useMemo(() => createPortfolioSchema(t.validation, language), [t.validation, language])
+  const schema = useMemo(
+    () => createPortfolioSchema(t.validation, language),
+    [t.validation, language]
+  )
 
   const { data: servicesData } = useServicesForPortfolioPicker()
   const { data: clientsData } = useClientsForPortfolioPicker()
@@ -121,19 +146,26 @@ export const PortfolioForm = ({
   const [removeCover, setRemoveCover] = useState(false)
   const [coverLibraryUrl, setCoverLibraryUrl] = useState<string | null>(null)
   const [coverTouched, setCoverTouched] = useState(false)
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => toGalleryItems(initialGalleryUrls))
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() =>
+    toGalleryItems(initialGalleryUrls)
+  )
   const [activeStep, setActiveStep] = useState<StepId>('general')
   const [maxStep, setMaxStep] = useState(0)
 
   // Whether a cover will actually be persisted after this submit — accounts
   // for a newly picked file, a library pick, the existing one, and an
   // explicit removal.
-  const willHaveCover = !!pendingCover || !!coverLibraryUrl || (!!initialCoverUrl && !removeCover)
+  const willHaveCover =
+    !!pendingCover || !!coverLibraryUrl || (!!initialCoverUrl && !removeCover)
   const coverMissing = coverTouched && !willHaveCover
 
   const emptyLocalized = useMemo(
-    () => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>,
-    [],
+    () =>
+      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
+        Language,
+        string
+      >,
+    []
   )
 
   const {
@@ -181,7 +213,9 @@ export const PortfolioForm = ({
 
   // Per-language slug detach — mirrors services behavior
   const detachedRef = useRef<Set<Language>>(
-    new Set(SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim()))
+    new Set(
+      SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim())
+    )
   )
 
   const currentNameValue = nameValues?.[editingLanguage] ?? ''
@@ -225,7 +259,7 @@ export const PortfolioForm = ({
           icon: hasTranslation ? undefined : ('RiAlertLine' as const),
         }
       }),
-    [servicesData, language, t.form.serviceNoTranslation],
+    [servicesData, language, t.form.serviceNoTranslation]
   )
 
   // Client options
@@ -235,13 +269,17 @@ export const PortfolioForm = ({
         value: c.id,
         label: c.businessName,
       })),
-    [clientsData],
+    [clientsData]
   )
 
   // Technologies options from config API
   const techOptions = useMemo(
-    () => (configData?.technologies ?? []).map((o) => ({ value: o.value, label: o.label })),
-    [configData],
+    () =>
+      (configData?.technologies ?? []).map((o) => ({
+        value: o.value,
+        label: o.label,
+      })),
+    [configData]
   )
 
   const statusOptions = PORTFOLIO_STATUS_VALUES.map((s) => ({
@@ -262,23 +300,46 @@ export const PortfolioForm = ({
   }
 
   const nameError = (errors.name as LangErrors)?.[editingLanguage]?.message
-  const sdError = (errors.shortDescription as LangErrors)?.[editingLanguage]?.message
-  const descError = (errors.description as LangErrors)?.[editingLanguage]?.message
+  const sdError = (errors.shortDescription as LangErrors)?.[editingLanguage]
+    ?.message
+  const descError = (errors.description as LangErrors)?.[editingLanguage]
+    ?.message
 
   const stepHasError = (step: StepId) =>
-    STEP_FIELDS[step].some((f) => f in errors) || stepHasMediaError(step, coverMissing)
+    STEP_FIELDS[step].some((f) => f in errors) ||
+    stepHasMediaError(step, coverMissing)
 
   const steps: WizardStep[] = [
-    { id: 'general', label: t.form.sectionGeneral, error: stepHasError('general') },
-    { id: 'content', label: t.form.sectionContent, optional: true, error: stepHasError('content') },
-    { id: 'relations', label: t.form.sectionRelations, error: stepHasError('relations') },
-    { id: 'media', label: t.form.sectionMedia, optional: true, error: stepHasError('media') },
+    {
+      id: 'general',
+      label: t.form.sectionGeneral,
+      error: stepHasError('general'),
+    },
+    {
+      id: 'content',
+      label: t.form.sectionContent,
+      optional: true,
+      error: stepHasError('content'),
+    },
+    {
+      id: 'relations',
+      label: t.form.sectionRelations,
+      error: stepHasError('relations'),
+    },
+    {
+      id: 'media',
+      label: t.form.sectionMedia,
+      optional: true,
+      error: stepHasError('media'),
+    },
   ]
 
   const reachedIndex = mode === 'edit' ? steps.length - 1 : maxStep
 
   const handleNext = async () => {
-    const ok = await trigger(STEP_FIELDS[activeStep] as (keyof PortfolioFormData)[])
+    const ok = await trigger(
+      STEP_FIELDS[activeStep] as (keyof PortfolioFormData)[]
+    )
     if (!ok) return
     const i = steps.findIndex((s) => s.id === activeStep)
     if (i < steps.length - 1) {
@@ -304,9 +365,12 @@ export const PortfolioForm = ({
       await Promise.all(
         SUPPORTED_LANGUAGES.map(async (lang) => {
           if (resolvedDesc[lang]) {
-            resolvedDesc[lang] = await resolveRichTextImages(resolvedDesc[lang], uploadEditorImage)
+            resolvedDesc[lang] = await resolveRichTextImages(
+              resolvedDesc[lang],
+              uploadEditorImage
+            )
           }
-        }),
+        })
       )
       const { galleryFiles, galleryOrder } = deriveGalleryPayload(galleryItems)
       onSubmit(
@@ -315,12 +379,17 @@ export const PortfolioForm = ({
         removeCover,
         galleryFiles,
         galleryOrder,
-        coverLibraryUrl ?? undefined,
+        coverLibraryUrl ?? undefined
       )
     },
     (formErrors) => {
       setCoverTouched(true)
-      for (const step of ['general', 'content', 'relations', 'media'] as StepId[]) {
+      for (const step of [
+        'general',
+        'content',
+        'relations',
+        'media',
+      ] as StepId[]) {
         if (STEP_FIELDS[step].some((f) => f in formErrors)) {
           setActiveStep(step)
           break
@@ -331,7 +400,7 @@ export const PortfolioForm = ({
         const errLang = SUPPORTED_LANGUAGES.find((l) => nameErrs[l])
         if (errLang) setEditingLanguage(errLang)
       }
-    },
+    }
   )
 
   return (
@@ -347,7 +416,7 @@ export const PortfolioForm = ({
       </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {/* ── Main form ──────────────────────────────────── */}
-        <div className="min-w-0 flex-1 rounded-xl border border-border bg-surface p-8">
+        <div className="border-border bg-surface min-w-0 flex-1 rounded-xl border p-8">
           <Wizard
             steps={steps}
             current={activeStep}
@@ -365,14 +434,19 @@ export const PortfolioForm = ({
             optionalLabel={t.form.optional}
           >
             {/* Step 1 — General (translated fields + per-lang slug) */}
-            <div hidden={activeStep !== 'general'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'general'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
                     {t.form.name} <span className="text-red-500">*</span>
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
-                  <span className="text-xs text-muted">{NATIVE_LANGUAGE_NAMES[editingLanguage]}</span>
+                  <span className="text-muted text-xs">
+                    {NATIVE_LANGUAGE_NAMES[editingLanguage]}
+                  </span>
                 </div>
                 <InputField
                   variant={nameError ? 'error' : undefined}
@@ -383,7 +457,8 @@ export const PortfolioForm = ({
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
-                    {t.form.shortDescription} <span className="text-red-500">*</span>
+                    {t.form.shortDescription}{' '}
+                    <span className="text-red-500">*</span>
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
                 </div>
@@ -400,8 +475,14 @@ export const PortfolioForm = ({
                 </div>
                 <InputField
                   helperText={t.form.slugHint}
-                  variant={(errors.slug as LangErrors)?.[editingLanguage] ? 'error' : undefined}
-                  errorMessage={(errors.slug as LangErrors)?.[editingLanguage]?.message}
+                  variant={
+                    (errors.slug as LangErrors)?.[editingLanguage]
+                      ? 'error'
+                      : undefined
+                  }
+                  errorMessage={
+                    (errors.slug as LangErrors)?.[editingLanguage]?.message
+                  }
                   value={slugValues?.[editingLanguage] ?? ''}
                   onChange={handleSlugChange}
                 />
@@ -409,13 +490,16 @@ export const PortfolioForm = ({
             </div>
 
             {/* Step 2 — Content (description, translated) */}
-            <div hidden={activeStep !== 'content'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'content'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <RichTextArea
                 label={
                   <span className="flex items-center gap-2">
                     {t.form.description}
                     <LangBadge lang={editingLanguage} />
-                    <span className="text-xs font-normal normal-case tracking-normal text-muted">
+                    <span className="text-muted text-xs font-normal tracking-normal normal-case">
                       {NATIVE_LANGUAGE_NAMES[editingLanguage]}
                     </span>
                   </span>
@@ -436,7 +520,10 @@ export const PortfolioForm = ({
             </div>
 
             {/* Step 3 — Relations (cross-language: services, client, technologies, url, dates) */}
-            <div hidden={activeStep !== 'relations'} className="animate-tab-fade flex flex-col gap-6">
+            <div
+              hidden={activeStep !== 'relations'}
+              className="animate-tab-fade flex flex-col gap-6"
+            >
               <Select
                 label={
                   <>
@@ -451,7 +538,9 @@ export const PortfolioForm = ({
                 variant={errors.serviceIds ? 'error' : undefined}
                 errorMessage={errors.serviceIds?.message}
                 onChange={(e) => {
-                  const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
+                  const selected = Array.from(e.target.selectedOptions).map(
+                    (o) => o.value
+                  )
                   setValue('serviceIds', selected, {
                     shouldValidate: true,
                     shouldDirty: true,
@@ -461,7 +550,10 @@ export const PortfolioForm = ({
               />
               <Select
                 label={`${t.form.clientId} ${t.form.optional}`}
-                options={[{ value: '', label: t.form.select }, ...clientOptions]}
+                options={[
+                  { value: '', label: t.form.select },
+                  ...clientOptions,
+                ]}
                 value={clientIdValue ?? ''}
                 lang={language}
                 texts={{ noOptionsFound: t.form.clientNoOptions }}
@@ -484,7 +576,9 @@ export const PortfolioForm = ({
                   value={technologiesValue ?? []}
                   lang={language}
                   onChange={(e) => {
-                    const selected = Array.from(e.target.selectedOptions).map((o) => o.value)
+                    const selected = Array.from(e.target.selectedOptions).map(
+                      (o) => o.value
+                    )
                     setValue('technologies', selected, {
                       shouldValidate: true,
                       shouldDirty: true,
@@ -546,7 +640,11 @@ export const PortfolioForm = ({
                     dragLabel={t.form.coverDragLabel}
                     dragOrLabel={t.form.coverDragOrLabel}
                     browseLabel={t.form.coverBrowseLabel}
-                    {...coverPickerMessages(coverMissing, t.form.coverFormatsHint, t.form.coverRequired)}
+                    {...coverPickerMessages(
+                      coverMissing,
+                      t.form.coverFormatsHint,
+                      t.form.coverRequired
+                    )}
                     removeLabel={t.form.coverRemoveLabel}
                     disabled={isSubmitting}
                     onChange={(file) => {
@@ -583,12 +681,19 @@ export const PortfolioForm = ({
                       })
                     }
                   />
-                  <InputNumber label={t.form.order} min={0} {...register('order')} />
+                  <InputNumber
+                    label={t.form.order}
+                    min={0}
+                    {...register('order')}
+                  />
                 </div>
               </div>
               <div className="mt-6 flex flex-col gap-3">
                 <SectionLabel>
-                  {t.form.gallery} <span className="text-xs font-normal normal-case tracking-normal text-muted">{t.form.optional}</span>
+                  {t.form.gallery}{' '}
+                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
+                    {t.form.optional}
+                  </span>
                 </SectionLabel>
                 <GalleryPicker
                   items={galleryItems}
@@ -608,7 +713,7 @@ export const PortfolioForm = ({
         </div>
 
         {/* ── Language sidebar ──────────────────────────────────── */}
-        <div className="hidden rounded-xl border border-border bg-surface p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
+        <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
           <LangSidebar
             editingLanguage={editingLanguage}
             userLanguage={language}

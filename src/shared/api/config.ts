@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 import { request } from '@/shared/api'
 import type { ApiResponse } from '@/shared/api/types'
-import { useConfigCacheStore, CONFIG_CACHE_TTL_MS } from '@/shared/model/configCache.store'
+import {
+  useConfigCacheStore,
+  CONFIG_CACHE_TTL_MS,
+} from '@/shared/model/configCache.store'
 
 export interface ConfigOption {
   value: string
@@ -43,7 +46,10 @@ export function labelFor(
   return options?.find((o) => o.value === value)?.label ?? value
 }
 
-const fetchGroups = (lang: string, groups: ConfigGroup[]): Promise<Partial<ConfigData>> =>
+const fetchGroups = (
+  lang: string,
+  groups: ConfigGroup[]
+): Promise<Partial<ConfigData>> =>
   request<ApiResponse<ConfigData>>({
     api: `/config?groups=${groups.join(',')}&lang=${lang}`,
     method: 'GET',
@@ -63,15 +69,16 @@ export const useConfigData = (groups: ConfigGroup[], lang: string) => {
   useEffect(() => {
     const { cache: current, merge } = useConfigCacheStore.getState()
     const entry = current[lang]
-    const isExpired = !!entry && Date.now() - entry.fetchedAt >= CONFIG_CACHE_TTL_MS
+    const isExpired =
+      !!entry && Date.now() - entry.fetchedAt >= CONFIG_CACHE_TTL_MS
 
     // Groups that need fetching: expired ones are re-fetched, missing ones fetched for the first time
-    const toFetch = isExpired
-      ? groups
-      : groups.filter((g) => !entry?.data[g])
+    const toFetch = isExpired ? groups : groups.filter((g) => !entry?.data[g])
 
     if (toFetch.length === 0) return
-    fetchGroups(lang, toFetch).then((data) => merge(lang, data)).catch(() => {})
+    fetchGroups(lang, toFetch)
+      .then((data) => merge(lang, data))
+      .catch(() => {})
     // groupsKey is a serialized dep for `groups` — exhaustive-deps false positive
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang, groupsKey])

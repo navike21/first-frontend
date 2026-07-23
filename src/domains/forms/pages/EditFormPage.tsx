@@ -46,7 +46,9 @@ export const EditFormPage = () => {
         notify.success(t.toasts.updated)
         navigate({ to: navPaths.forms(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.forms(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.forms(language) as never })
+      ),
     })
   }
 
@@ -61,7 +63,12 @@ export const EditFormPage = () => {
   }
 
   return (
-    <PageContent title={t.page.editTitle} description={t.page.editDescription(form.title[language] || form.title.en)}>
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(
+        form.title[language] || form.title.en
+      )}
+    >
       <FormEditor
         mode="edit"
         initialValues={toFormValues(form)}

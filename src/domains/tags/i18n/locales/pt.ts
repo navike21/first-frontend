@@ -9,7 +9,8 @@ export const pt: TagTranslations = {
     editTitle: 'Editar etiqueta',
     editDescription: (name) => `Atualizar ${name}`,
     trashTitle: 'Lixeira de etiquetas',
-    trashDescription: 'Etiquetas movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
+    trashDescription:
+      'Etiquetas movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
     trashEmpty: 'Nenhuma etiqueta na lixeira',
     trashEmptyDescription: 'Quando etiquetas forem excluídas, aparecerão aqui.',
   },
@@ -61,11 +62,14 @@ export const pt: TagTranslations = {
     restoreTitle: 'Restaurar etiqueta',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} etiquetas para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} etiquetas para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} etiquetas. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} etiquetas. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     tabTranslations: 'Traduções',

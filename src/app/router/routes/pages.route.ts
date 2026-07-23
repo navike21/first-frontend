@@ -1,4 +1,9 @@
-import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
+import {
+  createRoute,
+  lazyRouteComponent,
+  Outlet,
+  type AnyRoute,
+} from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
@@ -6,16 +11,35 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const PagesPage = lazyRouteComponent(() => import('@domains/pages/pages/PagesPage'), 'PagesPage')
-const CreatePagePage = lazyRouteComponent(() => import('@domains/pages/pages/CreatePagePage'), 'CreatePagePage')
-const EditPagePage = lazyRouteComponent(() => import('@domains/pages/pages/EditPagePage'), 'EditPagePage')
-const PagesTrashPage = lazyRouteComponent(() => import('@domains/pages/pages/PagesTrashPage'), 'PagesTrashPage')
-const PageBuilderPage = lazyRouteComponent(() => import('@domains/pages/pages/PageBuilderPage'), 'PageBuilderPage')
+const PagesPage = lazyRouteComponent(
+  () => import('@domains/pages/pages/PagesPage'),
+  'PagesPage'
+)
+const CreatePagePage = lazyRouteComponent(
+  () => import('@domains/pages/pages/CreatePagePage'),
+  'CreatePagePage'
+)
+const EditPagePage = lazyRouteComponent(
+  () => import('@domains/pages/pages/EditPagePage'),
+  'EditPagePage'
+)
+const PagesTrashPage = lazyRouteComponent(
+  () => import('@domains/pages/pages/PagesTrashPage'),
+  'PagesTrashPage'
+)
+const PageBuilderPage = lazyRouteComponent(
+  () => import('@domains/pages/pages/PageBuilderPage'),
+  'PageBuilderPage'
+)
 
-const parentSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.pages[l])))
+const parentSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.pages[l]))
+)
 
 export const allPagesRouteTrees = parentSlugs.map((parentSlug) => {
-  const langs = SUPPORTED_LANGUAGES.filter((l: Language) => ROUTE_SLUGS.pages[l] === parentSlug)
+  const langs = SUPPORTED_LANGUAGES.filter(
+    (l: Language) => ROUTE_SLUGS.pages[l] === parentSlug
+  )
 
   const layout = createRoute({
     getParentRoute: () => privateLayout,

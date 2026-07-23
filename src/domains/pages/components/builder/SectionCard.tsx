@@ -6,7 +6,12 @@ import { IconButton, IconComponent, Tooltip } from '@/shared/ui'
 import type { Language } from '@/shared/i18n'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import { isColumnsSection, isPendingColumnsChoice, MAX_BUILDER_COLUMNS, sectionSpans } from '../../model/page.builder'
+import {
+  isColumnsSection,
+  isPendingColumnsChoice,
+  MAX_BUILDER_COLUMNS,
+  sectionSpans,
+} from '../../model/page.builder'
 import type { ResponsiveSectionSettings } from '../../model/page.builder'
 import type {
   BackgroundBreakpoint,
@@ -29,9 +34,20 @@ export interface SectionCardProps {
   onColumnsChange: (count: BuilderColumnsCount) => void
   onLayoutChange: (spans: BuilderColumnSpan[]) => void
   onResponsiveChange: (patch: ResponsiveSectionSettings) => void
-  onBackgroundChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
-  onPickBackgroundFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
-  onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
+  onBackgroundChange: (
+    breakpoint: BackgroundBreakpoint,
+    config: BackgroundConfig
+  ) => void
+  onPickBackgroundFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: File
+  ) => void
+  onPickLibraryFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: StorageFile
+  ) => void
   onDeleteRequest: () => void
   onAddText: (columnId: string) => void
   onAddImage: (columnId: string) => void
@@ -43,21 +59,37 @@ export interface SectionCardProps {
   onAddStats: (columnId: string) => void
   onAddVideo: (columnId: string) => void
   onAddMap: (columnId: string) => void
-  onElementChange: (columnId: string, elementId: string, patch: BuilderElementPatch) => void
+  onElementChange: (
+    columnId: string,
+    elementId: string,
+    patch: BuilderElementPatch
+  ) => void
   onElementDelete: (columnId: string, elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
-  onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
+  onPickSliderFile: (
+    elementId: string,
+    url: string,
+    file: File,
+    kind: 'image' | 'video'
+  ) => void
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
-  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onPickTestimonialAvatarFile: (
+    elementId: string,
+    url: string,
+    file: File
+  ) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
   onPickVideoFile: (elementId: string, url: string, file: File) => void
   onRemoveVideoFile: (url: string) => void
 }
 
-const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i + 1) as BuilderColumnsCount)
+const COLUMN_OPTIONS = Array.from(
+  { length: MAX_BUILDER_COLUMNS },
+  (_, i) => (i + 1) as BuilderColumnsCount
+)
 
 export const SectionCard = ({
   section,
@@ -95,7 +127,14 @@ export const SectionCard = ({
   onRemoveVideoFile,
 }: SectionCardProps) => {
   const { t } = usePagesTranslation()
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: section.sectionId,
     data: { kind: 'section' },
   })
@@ -114,23 +153,28 @@ export const SectionCard = ({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={clsx(
-        'flex flex-col gap-3 rounded-xl border border-border bg-surface p-3',
-        isDragging && 'opacity-60 ring-1 ring-primary-700/30',
+        'border-border bg-surface flex flex-col gap-3 rounded-xl border p-3',
+        isDragging && 'ring-primary-700/30 opacity-60 ring-1'
       )}
     >
       <div className="flex items-center gap-2">
         <button
           type="button"
           aria-label={t.builder.dragSection}
-          className="cursor-grab rounded p-1 text-muted hover:text-foreground active:cursor-grabbing"
+          className="text-muted hover:text-foreground cursor-grab rounded p-1 active:cursor-grabbing"
           {...attributes}
           {...listeners}
         >
           <IconComponent icon="RiDraggable" className="h-4 w-4" />
         </button>
-        <IconComponent icon="RiLayoutColumnLine" className="h-4 w-4 text-secondary" />
-        <span className="flex-1 truncate text-xs font-semibold uppercase tracking-wide text-muted">
-          {editable ? t.builder.paletteColumns : t.builder.unknownSection(section.type)}
+        <IconComponent
+          icon="RiLayoutColumnLine"
+          className="text-secondary h-4 w-4"
+        />
+        <span className="text-muted flex-1 truncate text-xs font-semibold tracking-wide uppercase">
+          {editable
+            ? t.builder.paletteColumns
+            : t.builder.unknownSection(section.type)}
         </span>
 
         {editable && !pendingChoice && (
@@ -145,8 +189,8 @@ export const SectionCard = ({
                 className={clsx(
                   'h-6 w-6 rounded-md text-xs font-semibold transition-colors',
                   columnsCount === n
-                    ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-                    : 'bg-surface-subtle text-muted hover:text-foreground',
+                    ? 'bg-primary-700/10 text-primary-600 ring-primary-700/20 ring-1'
+                    : 'bg-surface-subtle text-muted hover:text-foreground'
                 )}
               >
                 {n}
@@ -156,7 +200,11 @@ export const SectionCard = ({
         )}
 
         {editable && !pendingChoice && (
-          <Tooltip heading={t.builder.sectionSettings} position="top" size="small">
+          <Tooltip
+            heading={t.builder.sectionSettings}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiSettings3Line"
               variant="text"
@@ -179,15 +227,17 @@ export const SectionCard = ({
       </div>
 
       {editable && pendingChoice && (
-        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-primary-600/40 bg-primary-700/10 px-4 py-6">
-          <span className="text-sm font-medium text-foreground">{t.builder.chooseColumns}</span>
+        <div className="border-primary-600/40 bg-primary-700/10 flex flex-col items-center gap-3 rounded-lg border border-dashed px-4 py-6">
+          <span className="text-foreground text-sm font-medium">
+            {t.builder.chooseColumns}
+          </span>
           <div className="flex items-center gap-2">
             {COLUMN_OPTIONS.map((n) => (
               <button
                 key={n}
                 type="button"
                 onClick={() => onChooseColumns(n)}
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-sm font-bold text-foreground transition-colors hover:border-primary-600 hover:text-primary-600"
+                className="border-border bg-surface text-foreground hover:border-primary-600 hover:text-primary-600 flex h-10 w-10 items-center justify-center rounded-lg border text-sm font-bold transition-colors"
               >
                 {n}
               </button>
@@ -208,7 +258,11 @@ export const SectionCard = ({
         // manteniendo el mínimo por columna.
         <div
           className="grid gap-3 overflow-x-auto pb-1"
-          style={{ gridTemplateColumns: sectionSpans(section).map((s) => `minmax(12rem, ${s}fr)`).join(' ') }}
+          style={{
+            gridTemplateColumns: sectionSpans(section)
+              .map((s) => `minmax(12rem, ${s}fr)`)
+              .join(' '),
+          }}
         >
           {columns.map((column) => (
             <ColumnZone
@@ -227,8 +281,12 @@ export const SectionCard = ({
               onAddStats={() => onAddStats(column.id)}
               onAddVideo={() => onAddVideo(column.id)}
               onAddMap={() => onAddMap(column.id)}
-              onElementChange={(elementId, patch) => onElementChange(column.id, elementId, patch)}
-              onElementDelete={(elementId) => onElementDelete(column.id, elementId)}
+              onElementChange={(elementId, patch) =>
+                onElementChange(column.id, elementId, patch)
+              }
+              onElementDelete={(elementId) =>
+                onElementDelete(column.id, elementId)
+              }
               onPickFile={onPickFile}
               onSelectImageLibrary={onSelectImageLibrary}
               onPickSliderFile={onPickSliderFile}
@@ -245,7 +303,7 @@ export const SectionCard = ({
       )}
 
       {!editable && (
-        <p className="rounded-lg border border-dashed border-border bg-surface-subtle px-3 py-4 text-center text-xs text-muted">
+        <p className="border-border bg-surface-subtle text-muted rounded-lg border border-dashed px-3 py-4 text-center text-xs">
           {t.builder.unknownSection(section.type)}
         </p>
       )}
@@ -258,8 +316,10 @@ export const SectionCard = ({
           spans={sectionSpans(section)}
           onLayoutChange={onLayoutChange}
           settings={{
-            tabletColumns: section.settings.tabletColumns as BuilderColumnsCount | undefined,
-            mobileColumns: section.settings.mobileColumns as BuilderColumnsCount | undefined,
+            tabletColumns: section.settings.tabletColumns as
+              BuilderColumnsCount | undefined,
+            mobileColumns: section.settings.mobileColumns as
+              BuilderColumnsCount | undefined,
             hiddenOnTablet: section.settings.hiddenOnTablet,
             hiddenOnMobile: section.settings.hiddenOnMobile,
           }}

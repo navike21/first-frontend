@@ -9,19 +9,32 @@ import {
   useBulkSoftDeleteSubscribers,
 } from '../api/subscribers.queries'
 import { useSubscribersTranslation } from '../i18n'
-import type { Subscriber, SubscriberListParams, SubscriberPaginationMeta } from '../model/subscriber.types'
+import type {
+  Subscriber,
+  SubscriberListParams,
+  SubscriberPaginationMeta,
+} from '../model/subscriber.types'
 
 export function useSubscribersPage() {
   const navigate = useNavigate()
   const { t, language } = useSubscribersTranslation()
-  const [params, setParams] = useState<SubscriberListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<SubscriberListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [search, setSearch] = useState('')
-  const [deletingSubscriber, setDeletingSubscriber] = useState<Subscriber | null>(null)
-  const [viewingSubscriber, setViewingSubscriber] = useState<Subscriber | null>(null)
+  const [deletingSubscriber, setDeletingSubscriber] =
+    useState<Subscriber | null>(null)
+  const [viewingSubscriber, setViewingSubscriber] = useState<Subscriber | null>(
+    null
+  )
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false)
 
-  const { data, isLoading } = useSubscribers({ ...params, search: search || undefined })
+  const { data, isLoading } = useSubscribers({
+    ...params,
+    search: search || undefined,
+  })
   const softDelete = useSoftDeleteSubscriber()
   const bulkSoftDelete = useBulkSoftDeleteSubscribers()
 
@@ -33,10 +46,12 @@ export function useSubscribersPage() {
 
   const clearSelection = () => setSelectedIds([])
 
-  const handleView = (subscriber: Subscriber) => setViewingSubscriber(subscriber)
+  const handleView = (subscriber: Subscriber) =>
+    setViewingSubscriber(subscriber)
   const handleEdit = (subscriber: Subscriber) =>
     navigate({ to: navPaths.subscriberEdit(subscriber.id, language) as never })
-  const handleDelete = (subscriber: Subscriber) => setDeletingSubscriber(subscriber)
+  const handleDelete = (subscriber: Subscriber) =>
+    setDeletingSubscriber(subscriber)
 
   const handleConfirmDelete = () => {
     if (!deletingSubscriber) return

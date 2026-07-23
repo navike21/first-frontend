@@ -23,9 +23,9 @@ export const AppSettingsPage = () => {
 
   return (
     <PageContent title={t.title} description={t.desc}>
-      <div className="rounded-xl border border-border bg-surface p-8 text-center text-secondary">
+      <div className="border-border bg-surface text-secondary rounded-xl border p-8 text-center">
         <p className="text-lg font-medium">{t.construction}</p>
-        <p className="mt-2 text-sm text-muted">{t.sub}</p>
+        <p className="text-muted mt-2 text-sm">{t.sub}</p>
       </div>
     </PageContent>
   )

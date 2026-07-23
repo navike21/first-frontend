@@ -22,7 +22,11 @@ const DEFAULT_UPLOAD_ACCEPT: Record<'image' | 'video', string> = {
 // (a fixed min-height is the simplest way to keep the transition steady
 // regardless of which panel — grid or preview — happens to be shorter).
 const CONTENT_MIN_HEIGHT = 'min-h-[26rem]'
-const SLIDE_TRANSITION = { type: 'tween', duration: 0.25, ease: 'easeOut' } as const
+const SLIDE_TRANSITION = {
+  type: 'tween',
+  duration: 0.25,
+  ease: 'easeOut',
+} as const
 
 export const MediaLibraryModal = ({
   isOpen,
@@ -41,7 +45,9 @@ export const MediaLibraryModal = ({
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   // Selected files accumulate across pages/searches (keyed by id) so confirming
   // a multi-page selection doesn't lose files no longer in the current `items`.
-  const [selectedFiles, setSelectedFiles] = useState<Map<string, StorageFile>>(new Map())
+  const [selectedFiles, setSelectedFiles] = useState<Map<string, StorageFile>>(
+    new Map()
+  )
   // Video-only: an in-place preview overlay (inside this same modal, not a
   // stacked one) so picking a video doesn't mean guessing from a thumbnail.
   const [previewFile, setPreviewFile] = useState<StorageFile | null>(null)
@@ -71,7 +77,12 @@ export const MediaLibraryModal = ({
     return () => clearTimeout(timer)
   }, [searchInput])
 
-  const { data, isLoading, isFetching } = useStorageFiles({ kind, search: search || undefined, page, limit: PAGE_SIZE })
+  const { data, isLoading, isFetching } = useStorageFiles({
+    kind,
+    search: search || undefined,
+    page,
+    limit: PAGE_SIZE,
+  })
   const items = data?.items ?? []
   const meta = data?.meta
 
@@ -81,7 +92,11 @@ export const MediaLibraryModal = ({
   }
 
   const toggleSelected = (file: StorageFile) => {
-    setSelectedIds((ids) => (ids.includes(file.id) ? ids.filter((id) => id !== file.id) : [...ids, file.id]))
+    setSelectedIds((ids) =>
+      ids.includes(file.id)
+        ? ids.filter((id) => id !== file.id)
+        : [...ids, file.id]
+    )
     setSelectedFiles((prev) => {
       const next = new Map(prev)
       if (next.has(file.id)) next.delete(file.id)
@@ -110,9 +125,14 @@ export const MediaLibraryModal = ({
     onClose()
   }
 
-  const isPreviewSelected = previewFile ? selectedIds.includes(previewFile.id) : false
+  const isPreviewSelected = previewFile
+    ? selectedIds.includes(previewFile.id)
+    : false
   let previewActionLabel: string | undefined = texts.selectLabel
-  if (multiple) previewActionLabel = isPreviewSelected ? texts.removeFromSelectionLabel : texts.addToSelectionLabel
+  if (multiple)
+    previewActionLabel = isPreviewSelected
+      ? texts.removeFromSelectionLabel
+      : texts.addToSelectionLabel
 
   const handlePreviewAction = () => {
     if (!previewFile) return
@@ -140,7 +160,11 @@ export const MediaLibraryModal = ({
       title={kind === 'image' ? texts.titleImage : texts.titleVideo}
       footer={
         multiple ? (
-          <Button variant="primary" disabled={selectedIds.length === 0} onClick={handleConfirmMultiple}>
+          <Button
+            variant="primary"
+            disabled={selectedIds.length === 0}
+            onClick={handleConfirmMultiple}
+          >
             {texts.addSelectedLabel} ({selectedIds.length})
           </Button>
         ) : undefined
@@ -155,7 +179,7 @@ export const MediaLibraryModal = ({
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={SLIDE_TRANSITION}
-              className="absolute inset-0 flex flex-col gap-3 overflow-y-auto bg-surface"
+              className="bg-surface absolute inset-0 flex flex-col gap-3 overflow-y-auto"
             >
               <div className="flex items-center gap-2">
                 <IconButton
@@ -165,7 +189,9 @@ export const MediaLibraryModal = ({
                   aria-label={texts.closePreviewLabel}
                   onClick={() => setPreviewFile(null)}
                 />
-                <span className="truncate text-sm font-medium text-foreground">{previewFile.originalName}</span>
+                <span className="text-foreground truncate text-sm font-medium">
+                  {previewFile.originalName}
+                </span>
               </div>
               <video
                 src={previewFile.original.url}
@@ -173,7 +199,11 @@ export const MediaLibraryModal = ({
                 autoPlay
                 className="max-h-[50vh] w-full shrink-0 rounded-md bg-black object-contain"
               />
-              <Button variant="primary" onClick={handlePreviewAction} className="self-center">
+              <Button
+                variant="primary"
+                onClick={handlePreviewAction}
+                className="self-center"
+              >
                 {previewActionLabel}
               </Button>
             </motion.div>
@@ -184,13 +214,18 @@ export const MediaLibraryModal = ({
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={SLIDE_TRANSITION}
-              className="absolute inset-0 flex flex-col gap-4 overflow-y-auto bg-surface"
+              className="bg-surface absolute inset-0 flex flex-col gap-4 overflow-y-auto"
             >
               <InputField
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder={texts.searchPlaceholder}
-                leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
+                leftSlot={
+                  <IconComponent
+                    icon="RiSearchLine"
+                    className="text-muted h-4 w-4"
+                  />
+                }
               />
 
               {onUploadNew && (
@@ -198,12 +233,19 @@ export const MediaLibraryModal = ({
                   <button
                     type="button"
                     onClick={() => uploadInputRef.current?.click()}
-                    className="flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border bg-surface-subtle px-3 py-2.5 text-sm font-medium text-secondary transition-colors hover:border-primary-600/60 hover:text-primary-600"
+                    className="border-border bg-surface-subtle text-secondary hover:border-primary-600/60 hover:text-primary-600 flex items-center justify-center gap-2 rounded-lg border-2 border-dashed px-3 py-2.5 text-sm font-medium transition-colors"
                   >
-                    <IconComponent icon="RiUploadCloud2Line" className="h-4 w-4" />
+                    <IconComponent
+                      icon="RiUploadCloud2Line"
+                      className="h-4 w-4"
+                    />
                     {texts.uploadNewLabel}
                   </button>
-                  {texts.uploadNewHint && <p className="-mt-2 text-center text-xs text-muted">{texts.uploadNewHint}</p>}
+                  {texts.uploadNewHint && (
+                    <p className="text-muted -mt-2 text-center text-xs">
+                      {texts.uploadNewHint}
+                    </p>
+                  )}
                   <input
                     ref={uploadInputRef}
                     type="file"
@@ -223,7 +265,13 @@ export const MediaLibraryModal = ({
                 emptyLabel={texts.empty}
                 pagination={
                   meta && meta.totalPages > 1
-                    ? { page, pages: meta.totalPages, onPageChange: setPage, prevLabel: texts.prevPage, nextLabel: texts.nextPage }
+                    ? {
+                        page,
+                        pages: meta.totalPages,
+                        onPageChange: setPage,
+                        prevLabel: texts.prevPage,
+                        nextLabel: texts.nextPage,
+                      }
                     : undefined
                 }
                 selectable={multiple}
@@ -235,7 +283,9 @@ export const MediaLibraryModal = ({
                   <div
                     role="button"
                     tabIndex={0}
-                    onClick={() => (multiple ? toggleSelected(file) : handleSelect(file))}
+                    onClick={() =>
+                      multiple ? toggleSelected(file) : handleSelect(file)
+                    }
                     onKeyDown={(e) => {
                       if (e.key !== 'Enter' && e.key !== ' ') return
                       e.preventDefault()
@@ -243,13 +293,23 @@ export const MediaLibraryModal = ({
                       else handleSelect(file)
                     }}
                     aria-label={`${texts.selectLabel}: ${file.originalName}`}
-                    className="group flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border border-border bg-surface p-2 text-left transition-colors hover:border-primary-600"
+                    className="group border-border bg-surface hover:border-primary-600 flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border p-2 text-left transition-colors"
                   >
-                    <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md bg-surface-subtle">
+                    <div className="bg-surface-subtle relative flex aspect-square items-center justify-center overflow-hidden rounded-md">
                       <MediaThumbnail
-                        src={file.isImage ? (file.thumb?.url ?? file.full?.url ?? file.original.url) : file.original.url}
+                        src={
+                          file.isImage
+                            ? (file.thumb?.url ??
+                              file.full?.url ??
+                              file.original.url)
+                            : file.original.url
+                        }
                         kind={file.isImage ? 'image' : 'video'}
-                        posterSrc={file.isImage ? undefined : (file.thumb?.url ?? file.full?.url)}
+                        posterSrc={
+                          file.isImage
+                            ? undefined
+                            : (file.thumb?.url ?? file.full?.url)
+                        }
                         entityId={file.id}
                         alt={file.originalName}
                         className="h-full w-full object-cover"
@@ -271,11 +331,16 @@ export const MediaLibraryModal = ({
                           // hover to ever reveal it — before this fix).
                           className="absolute inset-0 flex items-center justify-center bg-black/20 text-white transition-opacity sm:bg-black/0 sm:opacity-0 sm:group-hover:bg-black/30 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
                         >
-                          <IconComponent icon="RiPlayCircleLine" className="h-8 w-8 drop-shadow" />
+                          <IconComponent
+                            icon="RiPlayCircleLine"
+                            className="h-8 w-8 drop-shadow"
+                          />
                         </button>
                       )}
                     </div>
-                    <span className="truncate text-[11px] text-muted">{file.originalName}</span>
+                    <span className="text-muted truncate text-[11px]">
+                      {file.originalName}
+                    </span>
                   </div>
                 )}
               />

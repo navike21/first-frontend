@@ -6,10 +6,22 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const UsersPage = lazyRouteComponent(() => import('@domains/users/pages/UsersPage'), 'UsersPage')
-const CreateUserPage = lazyRouteComponent(() => import('@domains/users/pages/CreateUserPage'), 'CreateUserPage')
-const EditUserPage = lazyRouteComponent(() => import('@domains/users/pages/EditUserPage'), 'EditUserPage')
-const UsersTrashPage = lazyRouteComponent(() => import('@domains/users/pages/UsersTrashPage'), 'UsersTrashPage')
+const UsersPage = lazyRouteComponent(
+  () => import('@domains/users/pages/UsersPage'),
+  'UsersPage'
+)
+const CreateUserPage = lazyRouteComponent(
+  () => import('@domains/users/pages/CreateUserPage'),
+  'CreateUserPage'
+)
+const EditUserPage = lazyRouteComponent(
+  () => import('@domains/users/pages/EditUserPage'),
+  'EditUserPage'
+)
+const UsersTrashPage = lazyRouteComponent(
+  () => import('@domains/users/pages/UsersTrashPage'),
+  'UsersTrashPage'
+)
 
 function createUsersRouteTree(lang: Language) {
   // Viewing the Users section requires read (or manage / *:*); deeper routes

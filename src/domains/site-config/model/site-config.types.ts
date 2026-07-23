@@ -11,7 +11,12 @@ export const HEADER_VARIANTS = [
 ] as const
 export type HeaderVariant = (typeof HEADER_VARIANTS)[number]
 
-export const FOOTER_VARIANTS = ['columns', 'centered', 'minimal', 'cta-columns'] as const
+export const FOOTER_VARIANTS = [
+  'columns',
+  'centered',
+  'minimal',
+  'cta-columns',
+] as const
 export type FooterVariant = (typeof FOOTER_VARIANTS)[number]
 
 export const CONTENT_WIDTHS = ['boxed', 'full'] as const
@@ -91,7 +96,9 @@ export type SiteConfigUpdatePayload = Partial<SiteConfigData>
 // trabaja sobre la config fusionada con estos defaults.
 
 function emptyLocalized(): SiteLocalizedString {
-  return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as SiteLocalizedString
+  return Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, ''])
+  ) as SiteLocalizedString
 }
 
 function emptySocial(): SocialConfig {
@@ -104,7 +111,14 @@ export function siteConfigFallback(): SiteConfigData {
       variant: 'logo-left-menu-right',
       sticky: true,
       transparent: false,
-      cta: { enabled: false, labelMode: 'page', label: emptyLocalized(), linkType: 'page', pageId: null, url: '' },
+      cta: {
+        enabled: false,
+        labelMode: 'page',
+        label: emptyLocalized(),
+        linkType: 'page',
+        pageId: null,
+        url: '',
+      },
       mobile: { logoPosition: 'left', menuIconPosition: 'right' },
     },
     footer: {
@@ -120,9 +134,13 @@ export function siteConfigFallback(): SiteConfigData {
   }
 }
 
-type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] }
+type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
+}
 
-export function normalizeSiteConfig(input?: DeepPartial<SiteConfigData> | null): SiteConfigData {
+export function normalizeSiteConfig(
+  input?: DeepPartial<SiteConfigData> | null
+): SiteConfigData {
   const base = siteConfigFallback()
   return {
     header: {

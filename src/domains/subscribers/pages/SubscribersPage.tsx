@@ -3,7 +3,8 @@ import {
   InputField,
   Select,
   Modal,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconComponent,
   FadeCollapse,
 } from '@/shared/ui'
@@ -88,7 +89,7 @@ export const SubscribersPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-muted">
+              <span className="text-muted px-3">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }
@@ -107,8 +108,8 @@ export const SubscribersPage = () => {
 
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>

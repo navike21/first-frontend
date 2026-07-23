@@ -21,9 +21,7 @@ export const CountryLabel = ({ code, flagOnly }: CountryLabelProps) => {
 
   return (
     <span className="inline-flex items-center gap-2">
-      {Flag && (
-        <Flag title={name} className="h-3.5 w-5 shrink-0 rounded-sm" />
-      )}
+      {Flag && <Flag title={name} className="h-3.5 w-5 shrink-0 rounded-sm" />}
       {!flagOnly && <span>{name}</span>}
     </span>
   )

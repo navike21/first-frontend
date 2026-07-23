@@ -9,7 +9,13 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+  arrayMove,
+  useSortable,
+} from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
   Button,
@@ -26,7 +32,12 @@ import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
-import type { BuilderTestimonialItem, BuilderTestimonialRating, BuilderTestimonialsElement, PageLocalizedString } from '../../model/page.types'
+import type {
+  BuilderTestimonialItem,
+  BuilderTestimonialRating,
+  BuilderTestimonialsElement,
+  PageLocalizedString,
+} from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
 
@@ -46,10 +57,14 @@ export interface TestimonialsElementCardProps {
 }
 
 const emptyLocalized = (): PageLocalizedString =>
-  Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as PageLocalizedString
+  Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, ''])
+  ) as PageLocalizedString
 
-const isLangComplete = (items: BuilderTestimonialItem[], lang: Language): boolean =>
-  items.length > 0 && items.every((i) => !!i.quote[lang]?.trim())
+const isLangComplete = (
+  items: BuilderTestimonialItem[],
+  lang: Language
+): boolean => items.length > 0 && items.every((i) => !!i.quote[lang]?.trim())
 
 interface TestimonialItemRowProps {
   item: BuilderTestimonialItem
@@ -80,15 +95,22 @@ const TestimonialItemRow = ({
   onRemove,
   onPickAvatar,
 }: TestimonialItemRowProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id })
 
   return (
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={clsx(
-        'flex flex-col gap-3 rounded-lg border border-border bg-surface-subtle p-3',
-        isDragging && 'opacity-50',
+        'border-border bg-surface-subtle flex flex-col gap-3 rounded-lg border p-3',
+        isDragging && 'opacity-50'
       )}
     >
       <SortableItemActions
@@ -104,20 +126,30 @@ const TestimonialItemRow = ({
           type="button"
           onClick={onPickAvatar}
           aria-label={avatarLabel}
-          className="flex h-16 w-16 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-surface ring-1 ring-border transition-colors hover:ring-primary-600/50"
+          className="bg-surface ring-border hover:ring-primary-600/50 flex h-16 w-16 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full ring-1 transition-colors"
         >
           {item.avatarUrl ? (
-            <MediaThumbnail src={item.avatarUrl} kind="image" className="h-full w-full object-cover" />
+            <MediaThumbnail
+              src={item.avatarUrl}
+              kind="image"
+              className="h-full w-full object-cover"
+            />
           ) : (
-            <IconComponent icon="RiUserLine" className="h-6 w-6 text-muted" />
+            <IconComponent icon="RiUserLine" className="text-muted h-6 w-6" />
           )}
         </button>
         <div className="flex flex-1 flex-col gap-2">
-          <InputField label={nameLabel} value={item.name} onChange={(e) => onChange({ name: e.target.value })} />
+          <InputField
+            label={nameLabel}
+            value={item.name}
+            onChange={(e) => onChange({ name: e.target.value })}
+          />
           <InputField
             label={roleLabel}
             value={item.role[editing] ?? ''}
-            onChange={(e) => onChange({ role: { ...item.role, [editing]: e.target.value } })}
+            onChange={(e) =>
+              onChange({ role: { ...item.role, [editing]: e.target.value } })
+            }
           />
         </div>
       </div>
@@ -125,14 +157,20 @@ const TestimonialItemRow = ({
       <TextArea
         label={quoteLabel}
         value={item.quote[editing] ?? ''}
-        onChange={(e) => onChange({ quote: { ...item.quote, [editing]: e.target.value } })}
+        onChange={(e) =>
+          onChange({ quote: { ...item.quote, [editing]: e.target.value } })
+        }
       />
 
       <Select
         options={ratingOptions}
         value={item.rating !== undefined ? String(item.rating) : ''}
         onChange={(e) =>
-          onChange({ rating: e.target.value ? (Number(e.target.value) as BuilderTestimonialRating) : undefined })
+          onChange({
+            rating: e.target.value
+              ? (Number(e.target.value) as BuilderTestimonialRating)
+              : undefined,
+          })
         }
       />
     </div>
@@ -157,25 +195,39 @@ export const TestimonialsElementCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
   const langChipValues = Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, isLangComplete(element.items, l) ? '1' : '']),
+    SUPPORTED_LANGUAGES.map((l) => [
+      l,
+      isLangComplete(element.items, l) ? '1' : '',
+    ])
   ) as PageLocalizedString
 
   const ratingOptions = [
     { value: '', label: t.builder.testimonialsRatingNone },
-    ...([1, 2, 3, 4, 5] as const).map((n) => ({ value: String(n), label: '★'.repeat(n) })),
+    ...([1, 2, 3, 4, 5] as const).map((n) => ({
+      value: String(n),
+      label: '★'.repeat(n),
+    })),
   ]
 
   const addItem = () => {
-    const item: BuilderTestimonialItem = { id: crypto.randomUUID(), name: '', role: emptyLocalized(), quote: emptyLocalized() }
+    const item: BuilderTestimonialItem = {
+      id: crypto.randomUUID(),
+      name: '',
+      role: emptyLocalized(),
+      quote: emptyLocalized(),
+    }
     onChange({ items: [...element.items, item] })
   }
-  const removeItem = (id: string) => onChange({ items: element.items.filter((i) => i.id !== id) })
+  const removeItem = (id: string) =>
+    onChange({ items: element.items.filter((i) => i.id !== id) })
   const updateItem = (id: string, patch: Partial<BuilderTestimonialItem>) =>
-    onChange({ items: element.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })
+    onChange({
+      items: element.items.map((i) => (i.id === id ? { ...i, ...patch } : i)),
+    })
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -218,11 +270,14 @@ export const TestimonialsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full cursor-pointer flex-col gap-1 rounded-md p-1 text-left transition-colors hover:bg-surface-subtle"
+          className="hover:bg-surface-subtle flex w-full cursor-pointer flex-col gap-1 rounded-md p-1 text-left transition-colors"
         >
           {element.items.map((item) => (
-            <p key={item.id} className="truncate text-xs text-foreground">
-              {item.name || '—'} — {item.quote[language] || item.quote.en || t.builder.testimonialsEmpty}
+            <p key={item.id} className="text-foreground truncate text-xs">
+              {item.name || '—'} —{' '}
+              {item.quote[language] ||
+                item.quote.en ||
+                t.builder.testimonialsEmpty}
             </p>
           ))}
         </button>
@@ -230,7 +285,7 @@ export const TestimonialsElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed text-xs transition-colors"
         >
           {t.builder.testimonialsEmpty}
         </button>
@@ -248,11 +303,23 @@ export const TestimonialsElementCard = ({
         }
       >
         <div className="flex flex-col gap-4">
-          <LangChips editing={editing} userLanguage={language} values={langChipValues} onChange={setEditing} />
+          <LangChips
+            editing={editing}
+            userLanguage={language}
+            values={langChipValues}
+            onChange={setEditing}
+          />
 
           {element.items.length > 0 && (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={element.items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={element.items.map((i) => i.id)}
+                strategy={verticalListSortingStrategy}
+              >
                 <div className="flex flex-col gap-3">
                   {element.items.map((item) => (
                     <TestimonialItemRow

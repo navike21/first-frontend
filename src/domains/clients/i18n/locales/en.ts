@@ -9,7 +9,8 @@ export const en: ClientsTranslations = {
     editTitle: 'Edit client',
     editDescription: (name) => `Update ${name}'s information`,
     trashTitle: 'Clients trash',
-    trashDescription: 'Clients that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Clients that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No clients in trash',
     trashEmptyDescription: 'When clients are deleted, they will appear here.',
   },
@@ -60,17 +61,22 @@ export const en: ClientsTranslations = {
     bulkRestore: 'Restore',
     bulkPurge: 'Delete permanently',
     deleteTitle: 'Delete client',
-    deleteDescription: (name) => `Delete ${name}? You can restore it from the trash.`,
+    deleteDescription: (name) =>
+      `Delete ${name}? You can restore it from the trash.`,
     confirmDelete: 'Delete',
-    bulkDeleteDescription: (count) => `Delete ${count} clients? You can restore them from the trash.`,
+    bulkDeleteDescription: (count) =>
+      `Delete ${count} clients? You can restore them from the trash.`,
     restoreTitle: 'Restore client',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} clients to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} clients to the active list?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `This will permanently delete ${name}. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} clients. This action is IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} clients. This action is IRREVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'General information',
@@ -124,7 +130,7 @@ export const en: ClientsTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
   },
   toasts: {
     created: 'Client created',

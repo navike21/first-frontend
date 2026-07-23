@@ -42,7 +42,9 @@ export interface CreateTagPayload {
   isActive: boolean
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): TagLocalizedString {
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): TagLocalizedString {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as TagLocalizedString

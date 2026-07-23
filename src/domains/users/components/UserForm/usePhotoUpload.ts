@@ -23,5 +23,12 @@ export function usePhotoUpload() {
     setPendingFile(null)
   }
 
-  return { pendingFile, setPendingFile, libraryUrl, setLibraryUrl, onPickFile, onSelectLibrary }
+  return {
+    pendingFile,
+    setPendingFile,
+    libraryUrl,
+    setLibraryUrl,
+    onPickFile,
+    onSelectLibrary,
+  }
 }

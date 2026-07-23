@@ -33,7 +33,9 @@ export const EditCategoryPage = () => {
         notify.success(t.toasts.updated)
         navigate({ to: navPaths.categories(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.categories(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.categories(language) as never })
+      ),
     })
   }
 
@@ -48,14 +50,21 @@ export const EditCategoryPage = () => {
   }
 
   return (
-    <PageContent title={t.page.editTitle} description={t.page.editDescription(category.name[language] || category.name.en)}>
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(
+        category.name[language] || category.name.en
+      )}
+    >
       <CategoryForm
         mode="edit"
         categoryId={category.id}
         initialValues={toFormValues(category)}
         isSubmitting={updateCategory.isPending}
         submitError={updateCategory.error}
-        onCancel={() => navigate({ to: navPaths.categories(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.categories(language) as never })
+        }
         onSubmit={handleUpdate}
       />
     </PageContent>

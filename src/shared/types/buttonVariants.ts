@@ -19,8 +19,7 @@ export const variantColorClasses: Record<ButtonVariant, string> = {
   text: 'text-foreground bg-transparent',
   // DESTRUCTIVE del Design System: blanco/neutro con borde y texto danger,
   // no rojo sólido — para acciones irreversibles (purgar/eliminar).
-  destructive:
-    'text-danger-600 bg-surface ring-1 ring-danger-200 ring-inset',
+  destructive: 'text-danger-600 bg-surface ring-1 ring-danger-200 ring-inset',
 }
 
 export const variantHoverClasses: Record<ButtonVariant, string> = {

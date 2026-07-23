@@ -37,11 +37,20 @@ export interface ColumnZoneProps {
   onElementDelete: (elementId: string) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
-  onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
+  onPickSliderFile: (
+    elementId: string,
+    url: string,
+    file: File,
+    kind: 'image' | 'video'
+  ) => void
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
-  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onPickTestimonialAvatarFile: (
+    elementId: string,
+    url: string,
+    file: File
+  ) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
   onPickVideoFile: (elementId: string, url: string, file: File) => void
   onRemoveVideoFile: (url: string) => void
@@ -94,10 +103,13 @@ export const ColumnZone = ({
         isOver && elementDragActive
           ? 'border-primary-600 bg-primary-700/10'
           : 'border-border bg-surface-subtle',
-        !isOver && elementDragActive && 'border-primary-600/40',
+        !isOver && elementDragActive && 'border-primary-600/40'
       )}
     >
-      <SortableContext items={column.elements.map((e) => e.id)} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={column.elements.map((e) => e.id)}
+        strategy={verticalListSortingStrategy}
+      >
         {column.elements.map((element) => {
           if (element.type === 'text') {
             return (
@@ -122,7 +134,9 @@ export const ColumnZone = ({
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickFile={(file) => onPickFile(element.id, file)}
-                onSelectLibrary={(file) => onSelectImageLibrary(element.id, file)}
+                onSelectLibrary={(file) =>
+                  onSelectImageLibrary(element.id, file)
+                }
                 onDelete={() => onElementDelete(element.id)}
               />
             )
@@ -135,7 +149,9 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 onChange={(patch) => onElementChange(element.id, patch)}
-                onPickFile={(url, file, kind) => onPickSliderFile(element.id, url, file, kind)}
+                onPickFile={(url, file, kind) =>
+                  onPickSliderFile(element.id, url, file, kind)
+                }
                 onRemoveSlide={onRemoveSliderFile}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -163,7 +179,9 @@ export const ColumnZone = ({
                 columnId={column.id}
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
-                onPickFile={(url, file) => onPickGalleryFile(element.id, url, file)}
+                onPickFile={(url, file) =>
+                  onPickGalleryFile(element.id, url, file)
+                }
                 onRemoveImage={onRemoveGalleryFile}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -191,7 +209,9 @@ export const ColumnZone = ({
                 columnId={column.id}
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
-                onPickAvatarFile={(url, file) => onPickTestimonialAvatarFile(element.id, url, file)}
+                onPickAvatarFile={(url, file) =>
+                  onPickTestimonialAvatarFile(element.id, url, file)
+                }
                 onRemoveAvatarFile={onRemoveTestimonialAvatarFile}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -219,7 +239,9 @@ export const ColumnZone = ({
                 columnId={column.id}
                 language={language}
                 onChange={(patch) => onElementChange(element.id, patch)}
-                onPickFile={(url, file) => onPickVideoFile(element.id, url, file)}
+                onPickFile={(url, file) =>
+                  onPickVideoFile(element.id, url, file)
+                }
                 onRemoveFile={onRemoveVideoFile}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -241,7 +263,13 @@ export const ColumnZone = ({
 
       <div className="mt-auto flex items-center justify-center gap-1 pt-1">
         <Tooltip heading={t.builder.addText} position="top" size="small">
-          <IconButton icon="RiText" variant="text" size="small" aria-label={t.builder.addText} onClick={onAddText} />
+          <IconButton
+            icon="RiText"
+            variant="text"
+            size="small"
+            aria-label={t.builder.addText}
+            onClick={onAddText}
+          />
         </Tooltip>
         <Tooltip heading={t.builder.addImage} position="top" size="small">
           <IconButton
@@ -288,7 +316,11 @@ export const ColumnZone = ({
             onClick={onAddAccordion}
           />
         </Tooltip>
-        <Tooltip heading={t.builder.addTestimonials} position="top" size="small">
+        <Tooltip
+          heading={t.builder.addTestimonials}
+          position="top"
+          size="small"
+        >
           <IconButton
             icon="RiDoubleQuotesL"
             variant="text"

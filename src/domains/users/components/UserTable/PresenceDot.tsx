@@ -16,6 +16,6 @@ interface PresenceDotProps {
 export const PresenceDot = ({ status, label }: PresenceDotProps) => (
   <div className="flex items-center gap-1.5">
     <span className={clsx('h-2 w-2 rounded-full', presenceColor[status])} />
-    <span className="text-xs text-secondary">{label}</span>
+    <span className="text-secondary text-xs">{label}</span>
   </div>
 )

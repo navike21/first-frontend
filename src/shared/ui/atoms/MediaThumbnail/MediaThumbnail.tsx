@@ -13,7 +13,8 @@ const THUMBNAIL_SEEK_SECONDS = 0.3
  * fixed delay on browsers that don't support it. */
 function waitForFramePaint(video: HTMLVideoElement): Promise<void> {
   return new Promise((resolve) => {
-    if (typeof video.requestVideoFrameCallback === 'function') video.requestVideoFrameCallback(() => resolve())
+    if (typeof video.requestVideoFrameCallback === 'function')
+      video.requestVideoFrameCallback(() => resolve())
     else setTimeout(resolve, 300)
   })
 }
@@ -26,8 +27,14 @@ function waitForFramePaint(video: HTMLVideoElement): Promise<void> {
  * frame is composited). Playing from a small offset until a frame is
  * actually presented, then pausing, forces that paint with no poster/
  * backend support needed. */
-async function paintVideoFrame(video: HTMLVideoElement, isCancelled: () => boolean): Promise<void> {
-  video.currentTime = Math.min(THUMBNAIL_SEEK_SECONDS, video.duration || THUMBNAIL_SEEK_SECONDS)
+async function paintVideoFrame(
+  video: HTMLVideoElement,
+  isCancelled: () => boolean
+): Promise<void> {
+  video.currentTime = Math.min(
+    THUMBNAIL_SEEK_SECONDS,
+    video.duration || THUMBNAIL_SEEK_SECONDS
+  )
   try {
     await video.play()
   } catch {
@@ -40,7 +47,11 @@ async function paintVideoFrame(video: HTMLVideoElement, isCancelled: () => boole
 /** One-time self-heal for legacy videos with no cover yet: the frame already
  * being painted for the fallback preview is captured and persisted, so this
  * video never needs the expensive path again anywhere it's rendered. */
-async function backfillCover(video: HTMLVideoElement, entityId: string, isCancelled: () => boolean): Promise<void> {
+async function backfillCover(
+  video: HTMLVideoElement,
+  entityId: string,
+  isCancelled: () => boolean
+): Promise<void> {
   const blob = await drawVideoFrameToBlob(video)
   if (!blob || isCancelled()) return
   await attachVideoCoverWithRetry(entityId, blob)
@@ -49,13 +60,21 @@ async function backfillCover(video: HTMLVideoElement, entityId: string, isCancel
 async function paintAndBackfill(
   video: HTMLVideoElement,
   entityId: string | undefined,
-  isCancelled: () => boolean,
+  isCancelled: () => boolean
 ): Promise<void> {
   await paintVideoFrame(video, isCancelled)
-  if (entityId && !isCancelled()) await backfillCover(video, entityId, isCancelled)
+  if (entityId && !isCancelled())
+    await backfillCover(video, entityId, isCancelled)
 }
 
-export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', className }: MediaThumbnailProps) => {
+export const MediaThumbnail = ({
+  src,
+  kind,
+  posterSrc,
+  entityId,
+  alt = '',
+  className,
+}: MediaThumbnailProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const isVideoFallback = kind === 'video' && !posterSrc
 
@@ -95,6 +114,14 @@ export const MediaThumbnail = ({ src, kind, posterSrc, entityId, alt = '', class
   // catch, so the cover upload never happened despite everything else
   // working. Storage (Vercel Blob) already serves permissive CORS headers.
   return (
-    <video ref={videoRef} src={src} muted playsInline preload="metadata" crossOrigin="anonymous" className={className} />
+    <video
+      ref={videoRef}
+      src={src}
+      muted
+      playsInline
+      preload="metadata"
+      crossOrigin="anonymous"
+      className={className}
+    />
   )
 }

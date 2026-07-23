@@ -25,7 +25,11 @@ interface PagePickerItem {
 export const usePagesForCtaPicker = () =>
   useQuery({
     queryKey: ['pages', 'picker-for-site-config'],
-    queryFn: () => request<ApiResponse<PagePickerItem[]>>({ api: '/pages/admin?limit=100', method: 'GET' }),
+    queryFn: () =>
+      request<ApiResponse<PagePickerItem[]>>({
+        api: '/pages/admin?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data ?? [],
     staleTime: 60 * 1000,
   })
@@ -33,7 +37,8 @@ export const usePagesForCtaPicker = () =>
 export const useUpdateSiteConfig = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (payload: SiteConfigUpdatePayload) => siteConfigApi.update(payload),
+    mutationFn: (payload: SiteConfigUpdatePayload) =>
+      siteConfigApi.update(payload),
     onSuccess: () => qc.invalidateQueries({ queryKey: siteConfigKeys.all }),
   })
 }

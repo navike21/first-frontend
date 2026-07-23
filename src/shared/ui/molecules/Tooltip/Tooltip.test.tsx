@@ -117,7 +117,10 @@ describe('Tooltip component', () => {
     // Act
     await user.hover(screen.getByTestId('tooltip-wrapper'))
     // Assert
-    expect(screen.getByRole('tooltip')).toHaveClass('bg-tooltip-bg', 'text-tooltip-text')
+    expect(screen.getByRole('tooltip')).toHaveClass(
+      'bg-tooltip-bg',
+      'text-tooltip-text'
+    )
   })
 
   it('should apply light variant classes', async () => {

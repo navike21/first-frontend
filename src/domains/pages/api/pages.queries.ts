@@ -12,7 +12,8 @@ export const pageKeys = {
   details: () => [...pageKeys.all, 'detail'] as const,
   detail: (id: string) => [...pageKeys.details(), id] as const,
   trash: () => [...pageKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...pageKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...pageKeys.trash(), params] as const,
   picker: () => [...pageKeys.all, 'picker'] as const,
   revisions: (id: string) => [...pageKeys.all, 'revisions', id] as const,
 }
@@ -68,7 +69,10 @@ export const useCategoriesForPagePicker = () =>
   useQuery({
     queryKey: ['categories', 'picker-for-page'],
     queryFn: () =>
-      request<ApiResponse<CategoryPickerItem[]>>({ api: '/categories/admin?limit=100', method: 'GET' }),
+      request<ApiResponse<CategoryPickerItem[]>>({
+        api: '/categories/admin?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data ?? [],
     staleTime: 5 * 60 * 1000,
   })
@@ -82,7 +86,11 @@ interface TagPickerItem {
 export const useTagsForPagePicker = () =>
   useQuery({
     queryKey: ['tags', 'picker-for-page'],
-    queryFn: () => request<ApiResponse<TagPickerItem[]>>({ api: '/tags/admin?limit=100', method: 'GET' }),
+    queryFn: () =>
+      request<ApiResponse<TagPickerItem[]>>({
+        api: '/tags/admin?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data ?? [],
     staleTime: 5 * 60 * 1000,
   })
@@ -99,7 +107,11 @@ interface UserPickerItem {
 export const useUsersForPagePicker = () =>
   useQuery({
     queryKey: ['users', 'picker-for-page'],
-    queryFn: () => request<ApiResponse<{ items: UserPickerItem[] }>>({ api: '/users?limit=100', method: 'GET' }),
+    queryFn: () =>
+      request<ApiResponse<{ items: UserPickerItem[] }>>({
+        api: '/users?limit=100',
+        method: 'GET',
+      }),
     select: (res) => res.data.items ?? [],
     staleTime: 5 * 60 * 1000,
   })
@@ -136,8 +148,20 @@ export const useCreatePage = () => {
 export const useUpdatePage = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, cover, ogImage, removeCover, coverLibraryUrl }: UpdatePageVars) =>
-      pagesApi.update(id, data, { cover, ogImage }, removeCover, coverLibraryUrl),
+    mutationFn: ({
+      data,
+      cover,
+      ogImage,
+      removeCover,
+      coverLibraryUrl,
+    }: UpdatePageVars) =>
+      pagesApi.update(
+        id,
+        data,
+        { cover, ogImage },
+        removeCover,
+        coverLibraryUrl
+      ),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: pageKeys.lists() })
       qc.invalidateQueries({ queryKey: pageKeys.detail(id) })
@@ -212,7 +236,8 @@ export const useBulkPurgePages = () => {
 export const useReplaceSections = (pageId: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (sections: BuilderSection[]) => pagesApi.replaceSections(pageId, sections),
+    mutationFn: (sections: BuilderSection[]) =>
+      pagesApi.replaceSections(pageId, sections),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: pageKeys.detail(pageId) })
       qc.invalidateQueries({ queryKey: pageKeys.revisions(pageId) })
@@ -224,7 +249,8 @@ export const useReplaceSections = (pageId: string) => {
 export const useRestorePageRevision = (pageId: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (revisionId: string) => pagesApi.restoreRevision(pageId, revisionId),
+    mutationFn: (revisionId: string) =>
+      pagesApi.restoreRevision(pageId, revisionId),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: pageKeys.detail(pageId) })
       qc.invalidateQueries({ queryKey: pageKeys.revisions(pageId) })

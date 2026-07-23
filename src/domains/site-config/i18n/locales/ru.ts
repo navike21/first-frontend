@@ -3,7 +3,8 @@ import type { SiteConfigTranslations } from '../types'
 export const ru: SiteConfigTranslations = {
   page: {
     title: 'Конфигурация сайта',
-    description: 'Определите глобальный макет публичного сайта: шапка, подвал и область контента',
+    description:
+      'Определите глобальный макет публичного сайта: шапка, подвал и область контента',
   },
   tabs: {
     header: 'Шапка',

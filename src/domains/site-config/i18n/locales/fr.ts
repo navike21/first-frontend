@@ -3,7 +3,8 @@ import type { SiteConfigTranslations } from '../types'
 export const fr: SiteConfigTranslations = {
   page: {
     title: 'Configuration du site web',
-    description: 'Définissez le layout global du site public : header, footer et zone de contenu',
+    description:
+      'Définissez le layout global du site public : header, footer et zone de contenu',
   },
   tabs: {
     header: 'Header',

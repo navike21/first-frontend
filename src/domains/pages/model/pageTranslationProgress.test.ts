@@ -14,11 +14,16 @@ import type {
   BuilderVideoElement,
   BuilderMapElement,
 } from './page.types'
-import { isEmptyHtml, isLocalizedFilled, computeTranslationProgress } from './pageTranslationProgress'
+import {
+  isEmptyHtml,
+  isLocalizedFilled,
+  computeTranslationProgress,
+} from './pageTranslationProgress'
 
 const LANGS = ['es', 'en'] as Language[]
 
-const localized = (es?: string, en?: string): Record<Language, string> => ({ es: es ?? '', en: en ?? '' }) as Record<Language, string>
+const localized = (es?: string, en?: string): Record<Language, string> =>
+  ({ es: es ?? '', en: en ?? '' }) as Record<Language, string>
 
 const textElement = (es?: string, en?: string): BuilderTextElement => ({
   id: 'text-1',
@@ -52,7 +57,9 @@ const buttonElement = (es?: string, en?: string): BuilderButtonElement => ({
   align: 'center',
 })
 
-const galleryElement = (images: { url: string; es?: string; en?: string }[]): BuilderGalleryElement => ({
+const galleryElement = (
+  images: { url: string; es?: string; en?: string }[]
+): BuilderGalleryElement => ({
   id: 'gallery-1',
   type: 'gallery',
   columns: 3,
@@ -60,7 +67,7 @@ const galleryElement = (images: { url: string; es?: string; en?: string }[]): Bu
 })
 
 const accordionElement = (
-  items: { qEs?: string; qEn?: string; aEs?: string; aEn?: string }[],
+  items: { qEs?: string; qEn?: string; aEs?: string; aEn?: string }[]
 ): BuilderAccordionElement => ({
   id: 'accordion-1',
   type: 'accordion',
@@ -72,7 +79,13 @@ const accordionElement = (
 })
 
 const testimonialsElement = (
-  items: { name?: string; roleEs?: string; roleEn?: string; quoteEs?: string; quoteEn?: string }[],
+  items: {
+    name?: string
+    roleEs?: string
+    roleEn?: string
+    quoteEs?: string
+    quoteEn?: string
+  }[]
 ): BuilderTestimonialsElement => ({
   id: 'testimonials-1',
   type: 'testimonials',
@@ -84,10 +97,16 @@ const testimonialsElement = (
   })),
 })
 
-const statsElement = (items: { value?: string; es?: string; en?: string }[]): BuilderStatsElement => ({
+const statsElement = (
+  items: { value?: string; es?: string; en?: string }[]
+): BuilderStatsElement => ({
   id: 'stats-1',
   type: 'stats',
-  items: items.map((i, idx) => ({ id: `item-${idx}`, value: i.value ?? '', label: localized(i.es, i.en) })),
+  items: items.map((i, idx) => ({
+    id: `item-${idx}`,
+    value: i.value ?? '',
+    label: localized(i.es, i.en),
+  })),
 })
 
 const videoElement = (es?: string, en?: string): BuilderVideoElement => ({
@@ -149,7 +168,13 @@ describe('computeTranslationProgress', () => {
   })
 
   it('counts text html and image alt per language, ignoring sliders', () => {
-    const sections = [columnsSection([textElement('Hola', ''), imageElement('Perro', ''), sliderElement()])]
+    const sections = [
+      columnsSection([
+        textElement('Hola', ''),
+        imageElement('Perro', ''),
+        sliderElement(),
+      ]),
+    ]
     const progress = computeTranslationProgress(sections, LANGS)
     expect(progress.es).toEqual({ filled: 2, total: 2 })
     expect(progress.en).toEqual({ filled: 0, total: 2 })
@@ -163,7 +188,13 @@ describe('computeTranslationProgress', () => {
 
   it('ignores sections that are not the columns type', () => {
     const sections: BuilderSection[] = [
-      { sectionId: 'hero-1', type: 'hero', order: 0, settings: {}, content: {} },
+      {
+        sectionId: 'hero-1',
+        type: 'hero',
+        order: 0,
+        settings: {},
+        content: {},
+      },
     ]
     const progress = computeTranslationProgress(sections, LANGS)
     expect(progress.es).toEqual({ filled: 0, total: 0 })
@@ -192,7 +223,11 @@ describe('computeTranslationProgress', () => {
 
   it('counts 2 fields per accordion item per language', () => {
     const sections = [
-      columnsSection([accordionElement([{ qEs: '¿Precio?', aEs: '<p>10 soles</p>', qEn: '', aEn: '<p></p>' }])]),
+      columnsSection([
+        accordionElement([
+          { qEs: '¿Precio?', aEs: '<p>10 soles</p>', qEn: '', aEn: '<p></p>' },
+        ]),
+      ]),
     ]
     const progress = computeTranslationProgress(sections, LANGS)
     expect(progress.es).toEqual({ filled: 2, total: 2 })
@@ -202,7 +237,15 @@ describe('computeTranslationProgress', () => {
   it('counts role+quote per testimonial item, ignoring name/avatar/rating', () => {
     const sections = [
       columnsSection([
-        testimonialsElement([{ name: 'Ana', roleEs: 'Gerenta', roleEn: '', quoteEs: 'Excelente', quoteEn: '' }]),
+        testimonialsElement([
+          {
+            name: 'Ana',
+            roleEs: 'Gerenta',
+            roleEn: '',
+            quoteEs: 'Excelente',
+            quoteEn: '',
+          },
+        ]),
       ]),
     ]
     const progress = computeTranslationProgress(sections, LANGS)

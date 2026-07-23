@@ -20,17 +20,24 @@ export const CreateCategoryPage = () => {
         notify.success(t.toasts.created)
         navigate({ to: navPaths.categories(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.categories(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.categories(language) as never })
+      ),
     })
   }
 
   return (
-    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <CategoryForm
         mode="create"
         isSubmitting={createCategory.isPending}
         submitError={createCategory.error}
-        onCancel={() => navigate({ to: navPaths.categories(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.categories(language) as never })
+        }
         onSubmit={handleCreate}
       />
     </PageContent>

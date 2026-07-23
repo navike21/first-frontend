@@ -3,13 +3,15 @@ import type { CollaboratorTranslations } from '../types'
 export const de: CollaboratorTranslations = {
   page: {
     listTitle: 'Mitarbeiter',
-    listDescription: 'Team verwalten, das auf der öffentlichen Website angezeigt wird',
+    listDescription:
+      'Team verwalten, das auf der öffentlichen Website angezeigt wird',
     createTitle: 'Neuer Mitarbeiter',
     createDescription: 'Ein neues Teammitglied registrieren',
     editTitle: 'Mitarbeiter bearbeiten',
     editDescription: (name) => `Informationen für ${name} aktualisieren`,
     trashTitle: 'Papierkorb Mitarbeiter',
-    trashDescription: 'Mitarbeiter, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Mitarbeiter, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Mitarbeiter im Papierkorb',
     trashEmptyDescription: 'Gelöschte Mitarbeiter werden hier angezeigt.',
   },
@@ -59,13 +61,17 @@ export const de: CollaboratorTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Mitarbeiter löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Mitarbeiter wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Mitarbeiter in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Mitarbeiter in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Mitarbeiter endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Mitarbeiter endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     tabTranslations: 'Übersetzungen',
@@ -86,7 +92,8 @@ export const de: CollaboratorTranslations = {
     instagram: 'Instagram',
     sectionAccount: 'Verknüpftes Konto',
     linkedUser: 'Systembenutzer',
-    linkedUserHint: 'Diesen Mitarbeiter mit einem bestehenden Benutzerkonto verknüpfen (optional)',
+    linkedUserHint:
+      'Diesen Mitarbeiter mit einem bestehenden Benutzerkonto verknüpfen (optional)',
     noLinkedUser: 'Nicht verknüpft',
     select: 'Auswählen…',
     save: 'Änderungen speichern',

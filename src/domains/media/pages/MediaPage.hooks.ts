@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { useStorageFiles, useSoftDeleteStorageFiles, storageKeys } from '@/shared/api/storage.queries'
+import {
+  useStorageFiles,
+  useSoftDeleteStorageFiles,
+  storageKeys,
+} from '@/shared/api/storage.queries'
 import type { StorageFile, StorageListParams } from '@/shared/api/storage'
 import { useMediaTranslation } from '../i18n'
 
@@ -11,7 +15,10 @@ const SEARCH_DEBOUNCE_MS = 300
 export function useMediaPage() {
   const qc = useQueryClient()
   const { t } = useMediaTranslation()
-  const [params, setParams] = useState<StorageListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<StorageListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [searchInput, setSearchInput] = useState('')
   const [deletingItem, setDeletingItem] = useState<StorageFile | null>(null)
   const [viewingItem, setViewingItem] = useState<StorageFile | null>(null)
@@ -66,7 +73,11 @@ export function useMediaPage() {
   }
 
   const handleKindChange = (value: string) => {
-    setParams((p) => ({ ...p, page: 1, kind: value === 'all' ? undefined : (value as 'image' | 'video') }))
+    setParams((p) => ({
+      ...p,
+      page: 1,
+      kind: value === 'all' ? undefined : (value as 'image' | 'video'),
+    }))
     clearSelection()
   }
 

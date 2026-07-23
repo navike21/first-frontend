@@ -9,7 +9,8 @@ export const ja: ClientsTranslations = {
     editTitle: 'クライアント編集',
     editDescription: (name) => `${name} の情報を更新する`,
     trashTitle: 'クライアントのゴミ箱',
-    trashDescription: 'ゴミ箱に移動されたクライアントです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたクライアントです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にクライアントはいません',
     trashEmptyDescription: '削除されたクライアントはここに表示されます。',
   },
@@ -60,17 +61,22 @@ export const ja: ClientsTranslations = {
     bulkRestore: '復元',
     bulkPurge: '完全削除',
     deleteTitle: 'クライアントの削除',
-    deleteDescription: (name) => `${name} を削除しますか？ゴミ箱から復元できます。`,
+    deleteDescription: (name) =>
+      `${name} を削除しますか？ゴミ箱から復元できます。`,
     confirmDelete: '削除',
-    bulkDeleteDescription: (count) => `${count} 件のクライアントを削除しますか？後で復元できます。`,
+    bulkDeleteDescription: (count) =>
+      `${count} 件のクライアントを削除しますか？後で復元できます。`,
     restoreTitle: 'クライアントを復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件のクライアントを有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件のクライアントを有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件のクライアントを完全に削除します。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count} 件のクライアントを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     sectionGeneral: '基本情報',

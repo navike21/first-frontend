@@ -1,9 +1,21 @@
 import { useState } from 'react'
-import { Avatar, Button, IconButton, Modal, SectionLabel, Spinner, Tooltip } from '@/shared/ui'
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Modal,
+  SectionLabel,
+  Spinner,
+  Tooltip,
+} from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
 import { usePagesTranslation } from '../../i18n'
-import { usePageRevisions, useRestorePageRevision, useUsersForPagePicker } from '../../api/pages.queries'
+import {
+  usePageRevisions,
+  useRestorePageRevision,
+  useUsersForPagePicker,
+} from '../../api/pages.queries'
 import { PageRevisionCompareModal } from '../PageRevisionCompareModal'
 import type { PageRevision } from '../../model/page.types'
 
@@ -22,7 +34,8 @@ export const PageRevisionsPanel = ({ pageId }: PageRevisionsPanelProps) => {
   const [restoring, setRestoring] = useState<PageRevision | null>(null)
   const [previewing, setPreviewing] = useState<PageRevision | null>(null)
 
-  const userOf = (id: string | undefined) => (id ? usersData?.find((u) => u.id === id) : undefined)
+  const userOf = (id: string | undefined) =>
+    id ? usersData?.find((u) => u.id === id) : undefined
   const userName = (id: string | undefined) => {
     const user = userOf(id)
     return user ? `${user.firstName} ${user.lastName}` : t.form.unknownUser
@@ -40,7 +53,7 @@ export const PageRevisionsPanel = ({ pageId }: PageRevisionsPanelProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-6">
+    <div className="border-border bg-surface flex flex-col gap-3 rounded-xl border p-6">
       <SectionLabel>{t.revisions.title}</SectionLabel>
 
       {isLoading && (
@@ -49,28 +62,45 @@ export const PageRevisionsPanel = ({ pageId }: PageRevisionsPanelProps) => {
         </div>
       )}
 
-      {!isLoading && pastRevisions.length === 0 && <p className="text-sm text-secondary">{t.revisions.empty}</p>}
+      {!isLoading && pastRevisions.length === 0 && (
+        <p className="text-secondary text-sm">{t.revisions.empty}</p>
+      )}
 
       {!isLoading && pastRevisions.length > 0 && (
-        <ul className="flex flex-col divide-y divide-border">
+        <ul className="divide-border flex flex-col divide-y">
           {pastRevisions.map((revision) => {
             const date = new Date(revision.createdAt).toLocaleString(language)
             const author = userOf(revision.createdBy)
             const authorName = userName(revision.createdBy)
             return (
-              <li key={revision.id} className="flex items-center justify-between gap-3 py-3">
+              <li
+                key={revision.id}
+                className="flex items-center justify-between gap-3 py-3"
+              >
                 <div className="flex min-w-0 items-center gap-3">
-                  <Tooltip heading={t.revisions.by(authorName)} position="top" size="small">
+                  <Tooltip
+                    heading={t.revisions.by(authorName)}
+                    position="top"
+                    size="small"
+                  >
                     <Avatar
                       size="sm"
                       name={authorName}
-                      {...(author?.profilePictureUrl && { src: author.profilePictureUrl })}
+                      {...(author?.profilePictureUrl && {
+                        src: author.profilePictureUrl,
+                      })}
                     />
                   </Tooltip>
-                  <p className="truncate text-sm font-medium text-foreground">{t.revisions.restoredAt(date)}</p>
+                  <p className="text-foreground truncate text-sm font-medium">
+                    {t.revisions.restoredAt(date)}
+                  </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
-                  <Tooltip heading={t.revisions.preview} position="top" size="small">
+                  <Tooltip
+                    heading={t.revisions.preview}
+                    position="top"
+                    size="small"
+                  >
                     <IconButton
                       icon="RiEyeLine"
                       variant="text"
@@ -79,7 +109,11 @@ export const PageRevisionsPanel = ({ pageId }: PageRevisionsPanelProps) => {
                       onClick={() => setPreviewing(revision)}
                     />
                   </Tooltip>
-                  <Button variant="secondary" size="small" onClick={() => setRestoring(revision)}>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    onClick={() => setRestoring(revision)}
+                  >
                     {t.revisions.restore}
                   </Button>
                 </div>
@@ -105,14 +139,26 @@ export const PageRevisionsPanel = ({ pageId }: PageRevisionsPanelProps) => {
         size="sm"
         title={t.revisions.restoreTitle}
         description={
-          restoring ? t.revisions.restoreDescription(new Date(restoring.createdAt).toLocaleString(language)) : undefined
+          restoring
+            ? t.revisions.restoreDescription(
+                new Date(restoring.createdAt).toLocaleString(language)
+              )
+            : undefined
         }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setRestoring(null)} disabled={restoreRevision.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setRestoring(null)}
+              disabled={restoreRevision.isPending}
+            >
               {t.revisions.cancel}
             </Button>
-            <Button variant="primary" loading={restoreRevision.isPending} onClick={handleConfirmRestore}>
+            <Button
+              variant="primary"
+              loading={restoreRevision.isPending}
+              onClick={handleConfirmRestore}
+            >
               {t.revisions.confirmRestore}
             </Button>
           </>

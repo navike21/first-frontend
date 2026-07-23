@@ -9,7 +9,8 @@ export const it: CategoryTranslations = {
     editTitle: 'Modifica categoria',
     editDescription: (name) => `Aggiorna ${name}`,
     trashTitle: 'Cestino delle categorie',
-    trashDescription: 'Categorie spostate nel cestino. Ripristinale o eliminale definitivamente.',
+    trashDescription:
+      'Categorie spostate nel cestino. Ripristinale o eliminale definitivamente.',
     trashEmpty: 'Nessuna categoria nel cestino',
     trashEmptyDescription: 'Le categorie eliminate appariranno qui.',
   },
@@ -62,11 +63,14 @@ export const it: CategoryTranslations = {
     restoreTitle: 'Ripristina categoria',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} categorie nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} categorie nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminata definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminata definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} categorie. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} categorie. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     tabTranslations: 'Traduzioni',

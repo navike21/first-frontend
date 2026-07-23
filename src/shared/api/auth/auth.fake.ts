@@ -33,7 +33,8 @@ export const fakeAuthService: IAuthService = {
   forgotPassword: (): Promise<MessageResult> =>
     new Promise((resolve) => {
       setTimeout(
-        () => resolve({ message: 'Si el correo existe, te enviamos un enlace.' }),
+        () =>
+          resolve({ message: 'Si el correo existe, te enviamos un enlace.' }),
         FAKE_DELAY_MS
       )
     }),
@@ -45,7 +46,12 @@ export const fakeAuthService: IAuthService = {
           resolve({ message: 'Contraseña actualizada correctamente.' })
         } else {
           reject(
-            new HttpError(401, 'Unauthorized', 'Token inválido o expirado', 'INVALID_TOKEN')
+            new HttpError(
+              401,
+              'Unauthorized',
+              'Token inválido o expirado',
+              'INVALID_TOKEN'
+            )
           )
         }
       }, FAKE_DELAY_MS)

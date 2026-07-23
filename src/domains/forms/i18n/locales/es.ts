@@ -9,7 +9,8 @@ export const es: FormsTranslations = {
     editTitle: 'Editar formulario',
     editDescription: (name) => `Actualiza los campos y ajustes de ${name}`,
     trashTitle: 'Papelera de formularios',
-    trashDescription: 'Formularios movidos a la papelera. Restáuralos o elimínalos permanentemente.',
+    trashDescription:
+      'Formularios movidos a la papelera. Restáuralos o elimínalos permanentemente.',
     trashEmpty: 'No hay formularios en la papelera',
     trashEmptyDescription: 'Cuando elimines formularios, aparecerán aquí.',
     submissionsTitle: (name) => `Respuestas — ${name}`,
@@ -46,7 +47,8 @@ export const es: FormsTranslations = {
     viewSubmission: 'Ver detalle',
     markRead: 'Marcar como leído',
     deleteSubmission: 'Eliminar',
-    deleteSubmissionDescription: '¿Eliminar esta respuesta? Podrás restaurarla desde la papelera.',
+    deleteSubmissionDescription:
+      '¿Eliminar esta respuesta? Podrás restaurarla desde la papelera.',
     restoreSubmission: 'Restaurar',
     purgeSubmission: 'Eliminar permanentemente',
     prevPage: 'Anterior',
@@ -94,11 +96,13 @@ export const es: FormsTranslations = {
     deleteDescription: (name) =>
       `¿Seguro que quieres eliminar ${name}? Sus respuestas siguen en la papelera y se pueden restaurar.`,
     confirmDelete: 'Eliminar',
-    bulkDeleteDescription: (count) => `¿Eliminar ${count} formularios? Podrás restaurarlos desde la papelera.`,
+    bulkDeleteDescription: (count) =>
+      `¿Eliminar ${count} formularios? Podrás restaurarlos desde la papelera.`,
     restoreTitle: 'Restaurar formulario',
     restoreDescription: (name) => `¿Restaurar ${name} a la lista activa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} formularios a la lista activa?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} formularios a la lista activa?`,
     purgeTitle: 'Eliminar permanentemente',
     purgeDescription: (name) =>
       `Esto eliminará permanentemente ${name} y todas sus respuestas. Esta acción no se puede deshacer.`,
@@ -115,7 +119,8 @@ export const es: FormsTranslations = {
     successMessage: 'Mensaje de éxito',
     status: 'Estado',
     notificationEmails: 'Notificar a estos correos al recibir una respuesta',
-    notificationEmailsHint: 'Separados por coma. Déjalo vacío para desactivar las notificaciones.',
+    notificationEmailsHint:
+      'Separados por coma. Déjalo vacío para desactivar las notificaciones.',
     addField: 'Agregar campo',
     noFields: 'Todavía no hay campos — agrega uno para empezar',
     fieldLabel: 'Etiqueta',

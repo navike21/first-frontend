@@ -22,7 +22,8 @@ export const useResetPassword = (token: string): UseResetPasswordReturn => {
       resetPasswordApi({ token, password: formData.password }),
   })
 
-  const isInvalidToken = error instanceof HttpError && error.code === 'INVALID_TOKEN'
+  const isInvalidToken =
+    error instanceof HttpError && error.code === 'INVALID_TOKEN'
 
   return {
     resetPassword: mutate,

@@ -6,11 +6,13 @@ import type { CreateCategoryPayload } from '../model/category.schema'
 export const categoryKeys = {
   all: ['categories'] as const,
   lists: () => [...categoryKeys.all, 'list'] as const,
-  list: (params: CategoryListParams) => [...categoryKeys.lists(), params] as const,
+  list: (params: CategoryListParams) =>
+    [...categoryKeys.lists(), params] as const,
   details: () => [...categoryKeys.all, 'detail'] as const,
   detail: (id: string) => [...categoryKeys.details(), id] as const,
   trash: () => [...categoryKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...categoryKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...categoryKeys.trash(), params] as const,
   picker: () => [...categoryKeys.all, 'picker'] as const,
 }
 
@@ -30,7 +32,9 @@ export const useCategory = (id: string) =>
     enabled: !!id,
   })
 
-export const useCategoriesTrash = (params: { page?: number; limit?: number } = {}) =>
+export const useCategoriesTrash = (
+  params: { page?: number; limit?: number } = {}
+) =>
   useQuery({
     queryKey: categoryKeys.trashList(params),
     queryFn: () => categoriesApi.trash(params),
@@ -59,7 +63,8 @@ export const useCreateCategory = () => {
 export const useUpdateCategory = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: Partial<CreateCategoryPayload>) => categoriesApi.update(id, data),
+    mutationFn: (data: Partial<CreateCategoryPayload>) =>
+      categoriesApi.update(id, data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: categoryKeys.lists() })
       qc.invalidateQueries({ queryKey: categoryKeys.detail(id) })

@@ -7,6 +7,7 @@ plataforma multipropósito (CRM + CMS). Es el par de `first-backend`
 (DDD modular), que tiene su propio `CLAUDE.md`.
 
 ## Comandos
+
 - `pnpm typecheck` — `tsc -b`. `pnpm lint` — eslint. `pnpm lint:sonar` —
   eslint-plugin-sonarjs (cognitive complexity ≤15 y otros code smells).
   Los tres deben quedar en 0 antes de cerrar cualquier cambio.
@@ -37,6 +38,7 @@ producción, igual que cualquier otro Preview) — accesibles para el equipo
 logueado en Vercel, no público; esto es esperado, no un bug.
 
 ### Gotcha real (ya resuelto, no reintroducir): `.env` local apuntaba a producción con URL absoluta, sin CORS
+
 `VITE_API_BASE_URL` local traía la URL de **producción** en texto plano,
 contradiciendo el propio comentario del archivo ("dejar vacío en local — el
 proxy de Vite reenvía"). Como el valor SÍ estaba seteado, el navegador
@@ -58,6 +60,7 @@ como respaldo de seguridad por si `VITE_API_BASE_URL` alguna vez se deja
 vacío por error — así ese error nunca termina mutando datos reales.
 
 ## Deploy (Vercel)
+
 Producción: `first-frontend-rose.vercel.app` (proyecto
 `prj_EKV3QfROHvQAUxsDvS0DWJ2OTp4H`, team `team_HlO61rBCXDgQTkK5byfxEoEk`).
 Auto-deploy por rama vía GitHub (`main`→Production, `test`→ambiente de test
@@ -72,10 +75,12 @@ o `curl` simple) y corregir con `vercel alias set <url-del-deploy-nuevo>
 first-frontend-rose.vercel.app --scope navike21` si no coincide. El mismo
 comando aplica para re-apuntar `first-frontend-git-test-navike21.vercel.app`
 tras un deploy manual a Test.
+
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
 ### Gotcha real (ya resuelto, no reintroducir): el service worker (PWA) podía dejar a un usuario varios deploys atrás sin avisar
+
 `vite-plugin-pwa` con `registerType: 'autoUpdate'` **no activa la nueva
 service worker por su cuenta** — se verificó leyendo el código generado
 (`node_modules/vite-plugin-pwa/dist/client/build/react.js`): en modo `auto`
@@ -97,6 +102,7 @@ vez** (al registrarse) — una pestaña abierta por un rato nunca se entera de
 deploys posteriores sin un chequeo repetido.
 
 Arreglado en dos partes:
+
 - `vite.config.ts`: `registerType` pasó de `'autoUpdate'` a `'prompt'` — el
   modo que sí conecta `messageSkipWaiting()` cuando el código de la app lo
   pide explícitamente (`auto=false` habilita esa rama).
@@ -129,6 +135,7 @@ versión realmente tome control.
 
 Ejemplos canónicos de este patrón (creados para eliminar duplicación real
 entre 6+ formularios de negocio):
+
 - `LangSidebar` / `LangTabs` (`shared/ui/molecules`) — selector de idioma
   para formularios con campos traducibles (sidebar con badge+nombre vs.
   fila compacta de chips). `LangBadge` (`shared/ui/atoms`) es el badge de
@@ -169,6 +176,7 @@ documento alfanumérico) — esos siguen usando `InputField` plano.
 El color y las tipografías están **fijos a la marca** — no hay selector de tema
 de color (se eliminó el `ColorPicker` + el `primaryColor` por usuario). Todo
 vive en `src/app/styles/index.css`:
+
 - **Color**: un único acento **Azul First `#4C86FF`** = `--color-primary-600`.
   Los CTAs sólidos (Button primary, etc.) usan `primary-600` con hover
   **`--color-primary-hover`** (#3E6FE0 — token propio, **no** `primary-700`);

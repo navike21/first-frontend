@@ -1,4 +1,9 @@
-import { createRoute, lazyRouteComponent, Outlet, type AnyRoute } from '@tanstack/react-router'
+import {
+  createRoute,
+  lazyRouteComponent,
+  Outlet,
+  type AnyRoute,
+} from '@tanstack/react-router'
 import { privateLayout } from '../layouts'
 import { SUPPORTED_LANGUAGES } from '@/shared/types/languages'
 import { ROUTE_SLUGS } from '@/shared/router/route-slugs'
@@ -6,19 +11,35 @@ import { requirePermission } from '@/shared/router'
 import { CAN } from '@/shared/lib/permissions'
 import type { Language } from '@/shared/types/languages'
 
-const FormsPage = lazyRouteComponent(() => import('@domains/forms/pages/FormsPage'), 'FormsPage')
-const CreateFormPage = lazyRouteComponent(() => import('@domains/forms/pages/CreateFormPage'), 'CreateFormPage')
-const EditFormPage = lazyRouteComponent(() => import('@domains/forms/pages/EditFormPage'), 'EditFormPage')
-const FormsTrashPage = lazyRouteComponent(() => import('@domains/forms/pages/FormsTrashPage'), 'FormsTrashPage')
+const FormsPage = lazyRouteComponent(
+  () => import('@domains/forms/pages/FormsPage'),
+  'FormsPage'
+)
+const CreateFormPage = lazyRouteComponent(
+  () => import('@domains/forms/pages/CreateFormPage'),
+  'CreateFormPage'
+)
+const EditFormPage = lazyRouteComponent(
+  () => import('@domains/forms/pages/EditFormPage'),
+  'EditFormPage'
+)
+const FormsTrashPage = lazyRouteComponent(
+  () => import('@domains/forms/pages/FormsTrashPage'),
+  'FormsTrashPage'
+)
 const FormSubmissionsPage = lazyRouteComponent(
   () => import('@domains/forms/pages/FormSubmissionsPage'),
   'FormSubmissionsPage'
 )
 
-const parentSlugs = Array.from(new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.forms[l])))
+const parentSlugs = Array.from(
+  new Set(SUPPORTED_LANGUAGES.map((l) => ROUTE_SLUGS.forms[l]))
+)
 
 export const allFormsRouteTrees = parentSlugs.map((parentSlug) => {
-  const langs = SUPPORTED_LANGUAGES.filter((l: Language) => ROUTE_SLUGS.forms[l] === parentSlug)
+  const langs = SUPPORTED_LANGUAGES.filter(
+    (l: Language) => ROUTE_SLUGS.forms[l] === parentSlug
+  )
 
   const layout = createRoute({
     getParentRoute: () => privateLayout,

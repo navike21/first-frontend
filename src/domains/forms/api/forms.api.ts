@@ -14,7 +14,9 @@ type BulkResult = { processedIds: string[]; notFoundIds: string[] }
 
 function toQuery(params: object): string {
   const query = new URLSearchParams()
-  for (const [key, value] of Object.entries(params as Record<string, unknown>)) {
+  for (const [key, value] of Object.entries(
+    params as Record<string, unknown>
+  )) {
     if (value !== undefined && value !== '') query.set(key, String(value))
   }
   const qs = query.toString()

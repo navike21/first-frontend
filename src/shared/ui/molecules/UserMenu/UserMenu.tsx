@@ -18,8 +18,7 @@ export const UserMenu = ({
   onPreferencesClick,
   onLogoutClick,
 }: UserMenuProps) => {
-  const { triggerRef, menuRef, position, isOpen, toggle, close } =
-    useUserMenu()
+  const { triggerRef, menuRef, position, isOpen, toggle, close } = useUserMenu()
   const theme = useTheme()
   const toggleTheme = useToggleTheme()
 
@@ -33,10 +32,10 @@ export const UserMenu = ({
         aria-expanded={isOpen}
         aria-label={labels.ariaLabel}
         className={clsx(
-          'flex items-center gap-2.5 rounded-full pl-1.5 pr-3.5 py-1.5',
-          'bg-surface ring-1 ring-inset ring-border-control',
+          'flex items-center gap-2.5 rounded-full py-1.5 pr-3.5 pl-1.5',
+          'bg-surface ring-border-control ring-1 ring-inset',
           'duration-fast ease-out-expo transition-all',
-          'cursor-pointer hover:ring-border-hover',
+          'hover:ring-border-hover cursor-pointer',
           isOpen && 'ring-primary-600 shadow-trigger-active'
         )}
       >
@@ -48,15 +47,15 @@ export const UserMenu = ({
           status={avatarStatus}
         />
         <span className="hidden flex-col items-start leading-tight md:flex">
-          <span className="text-[13px] font-semibold text-foreground">
+          <span className="text-foreground text-[13px] font-semibold">
             {name}
           </span>
         </span>
         <IconComponent
           icon="RiArrowDownSLine"
           className={clsx(
-            'size-3.5 text-secondary transition-transform duration-fast',
-            isOpen && 'rotate-180 text-primary-600'
+            'text-secondary duration-fast size-3.5 transition-transform',
+            isOpen && 'text-primary-600 rotate-180'
           )}
         />
       </button>
@@ -83,15 +82,15 @@ export const UserMenu = ({
             }}
             className={clsx(
               'z-[9999] w-[230px] overflow-hidden rounded-xl',
-              'bg-surface-panel ring-1 ring-border-control',
+              'bg-surface-panel ring-border-control ring-1',
               'shadow-menu-panel'
             )}
           >
-            <div className="border-b border-border-control px-4 py-3 pb-2">
-              <p className="truncate text-[13px] font-semibold text-foreground">
+            <div className="border-border-control border-b px-4 py-3 pb-2">
+              <p className="text-foreground truncate text-[13px] font-semibold">
                 {name}
               </p>
-              <p className="truncate text-[11.5px] text-secondary">{email}</p>
+              <p className="text-secondary truncate text-[11.5px]">{email}</p>
             </div>
 
             <Link
@@ -100,11 +99,14 @@ export const UserMenu = ({
               onClick={close}
               className={clsx(
                 'flex items-center gap-2.5 px-4 py-2.5',
-                'text-[13px] text-foreground',
+                'text-foreground text-[13px]',
                 'hover:bg-surface-hover-row'
               )}
             >
-              <IconComponent icon="RiUserLine" className="size-[15px] text-secondary" />
+              <IconComponent
+                icon="RiUserLine"
+                className="text-secondary size-[15px]"
+              />
               {labels.profile}
             </Link>
 
@@ -117,13 +119,13 @@ export const UserMenu = ({
               }}
               className={clsx(
                 'flex w-full items-center gap-2.5 px-4 py-2.5',
-                'text-left text-[13px] text-foreground',
+                'text-foreground text-left text-[13px]',
                 'hover:bg-surface-hover-row'
               )}
             >
               <IconComponent
                 icon="RiSettings3Line"
-                className="size-[15px] text-secondary"
+                className="text-secondary size-[15px]"
               />
               {labels.preferences}
             </button>
@@ -136,18 +138,18 @@ export const UserMenu = ({
               }}
               className={clsx(
                 'flex w-full items-center gap-2.5 px-4 py-2.5',
-                'text-left text-[13px] text-foreground',
+                'text-foreground text-left text-[13px]',
                 'hover:bg-surface-hover-row'
               )}
             >
               <IconComponent
                 icon={theme === 'dark' ? 'RiSunLine' : 'RiMoonLine'}
-                className="size-[15px] text-secondary"
+                className="text-secondary size-[15px]"
               />
               {theme === 'dark' ? labels.themeLight : labels.themeDark}
             </button>
 
-            <div className="h-px bg-border-control" />
+            <div className="bg-border-control h-px" />
 
             <button
               type="button"
@@ -158,7 +160,7 @@ export const UserMenu = ({
               }}
               className={clsx(
                 'flex w-full items-center gap-2.5 px-4 py-2.5',
-                'text-left text-[13px] text-danger-600',
+                'text-danger-600 text-left text-[13px]',
                 'hover:bg-surface-hover-row'
               )}
             >

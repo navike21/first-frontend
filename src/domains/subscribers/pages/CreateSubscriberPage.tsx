@@ -22,7 +22,13 @@ export const CreateSubscriberPage = () => {
   ) => {
     const base = toSubscriberPayload(data)
     const payload = photoLibraryUrl
-      ? { ...base, personalInformation: { ...base.personalInformation, profilePictureUrl: photoLibraryUrl } }
+      ? {
+          ...base,
+          personalInformation: {
+            ...base.personalInformation,
+            profilePictureUrl: photoLibraryUrl,
+          },
+        }
       : base
     registerSubscriber.mutate(
       { data: payload, photo },
@@ -47,7 +53,9 @@ export const CreateSubscriberPage = () => {
         mode="create"
         isSubmitting={registerSubscriber.isPending}
         submitError={registerSubscriber.error}
-        onCancel={() => navigate({ to: navPaths.subscribers(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.subscribers(language) as never })
+        }
         onSubmit={handleCreate}
       />
     </PageContent>

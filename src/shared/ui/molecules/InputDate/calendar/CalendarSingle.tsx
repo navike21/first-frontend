@@ -51,7 +51,7 @@ export const CalendarSingle = ({
                   {monthLabel}
                 </button>
               ) : (
-                <span className="px-1.5 py-0.5 text-sm font-semibold text-foreground">
+                <span className="text-foreground px-1.5 py-0.5 text-sm font-semibold">
                   {monthLabel}
                 </span>
               )}
@@ -64,7 +64,7 @@ export const CalendarSingle = ({
                   {yearLabel}
                 </button>
               ) : (
-                <span className="px-1.5 py-0.5 text-sm font-semibold text-foreground">
+                <span className="text-foreground px-1.5 py-0.5 text-sm font-semibold">
                   {yearLabel}
                 </span>
               )}

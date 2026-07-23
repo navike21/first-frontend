@@ -7,7 +7,9 @@ const DEFAULT_SEEK_SECONDS = 0.3
  * (an already-live, already-seeked `<video>` — no need to load anything twice).
  * Resolves `null` if the canvas context is unavailable.
  */
-export function drawVideoFrameToBlob(video: HTMLVideoElement): Promise<Blob | null> {
+export function drawVideoFrameToBlob(
+  video: HTMLVideoElement
+): Promise<Blob | null> {
   return new Promise((resolve) => {
     const canvas = document.createElement('canvas')
     canvas.width = video.videoWidth
@@ -31,7 +33,10 @@ export function drawVideoFrameToBlob(video: HTMLVideoElement): Promise<Blob | nu
  * which many videos open with. Never throws — resolves `null` on failure so
  * callers can treat the cover as a best-effort nicety.
  */
-export function captureVideoFrame(file: File, seekSeconds = DEFAULT_SEEK_SECONDS): Promise<Blob | null> {
+export function captureVideoFrame(
+  file: File,
+  seekSeconds = DEFAULT_SEEK_SECONDS
+): Promise<Blob | null> {
   return new Promise((resolve) => {
     const url = URL.createObjectURL(file)
     const video = document.createElement('video')

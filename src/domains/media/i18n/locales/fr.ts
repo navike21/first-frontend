@@ -5,7 +5,8 @@ export const fr: MediaTranslations = {
     listTitle: 'Multimédia',
     listDescription: 'Gérez les images et vidéos téléchargées sur le site',
     trashTitle: 'Corbeille multimédia',
-    trashDescription: 'Fichiers déplacés vers la corbeille. Vous pouvez les restaurer ou les supprimer définitivement.',
+    trashDescription:
+      'Fichiers déplacés vers la corbeille. Vous pouvez les restaurer ou les supprimer définitivement.',
     trashEmpty: 'Aucun fichier dans la corbeille',
     trashEmptyDescription: 'Les fichiers supprimés apparaîtront ici.',
   },
@@ -36,17 +37,23 @@ export const fr: MediaTranslations = {
     bulkPurge: 'Supprimer définitivement',
     viewItem: 'Voir les détails',
     deleteTitle: 'Supprimer le fichier',
-    deleteDescription: (name) => `Supprimer ${name} ? Vous pourrez le restaurer depuis la corbeille.`,
+    deleteDescription: (name) =>
+      `Supprimer ${name} ? Vous pourrez le restaurer depuis la corbeille.`,
     confirmDelete: 'Supprimer',
-    bulkDeleteDescription: (count) => `Supprimer ${count} fichiers ? Vous pourrez les restaurer depuis la corbeille.`,
+    bulkDeleteDescription: (count) =>
+      `Supprimer ${count} fichiers ? Vous pourrez les restaurer depuis la corbeille.`,
     restoreTitle: 'Restaurer le fichier',
-    restoreDescription: (name) => `Restaurer ${name} dans la bibliothèque active ?`,
+    restoreDescription: (name) =>
+      `Restaurer ${name} dans la bibliothèque active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} fichiers dans la bibliothèque active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} fichiers dans la bibliothèque active ?`,
     purgeTitle: 'Supprimer définitivement',
-    purgeDescription: (name) => `${name} sera supprimé pour toujours. Cette action est irréversible.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé pour toujours. Cette action est irréversible.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Cela supprimera définitivement ${count} fichiers. Cette action est irréversible.`,
+    bulkPurgeDescription: (count) =>
+      `Cela supprimera définitivement ${count} fichiers. Cette action est irréversible.`,
   },
   upload: {
     title: 'Téléverser des fichiers',
@@ -67,7 +74,8 @@ export const fr: MediaTranslations = {
     tabUsage: 'Utilisation',
     usageLoading: 'Recherche des emplacements d’utilisation…',
     usageEmpty: 'Introuvable ailleurs sur le site',
-    usageEditorNote: 'Il peut y avoir d’autres utilisations dans du contenu enrichi que nous ne détectons pas automatiquement.',
+    usageEditorNote:
+      'Il peut y avoir d’autres utilisations dans du contenu enrichi que nous ne détectons pas automatiquement.',
     moduleClients: 'Client',
     moduleUsers: 'Utilisateur',
     moduleCollaborators: 'Collaborateur',

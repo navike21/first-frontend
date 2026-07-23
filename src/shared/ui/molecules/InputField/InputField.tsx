@@ -58,12 +58,13 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             'placeholder:text-muted',
             'focus:border-transparent focus:ring-0 focus:outline-none',
             {
-              'py-[11px] px-[14px]': !leftSlot && !rightSlot && type !== 'password',
-              'py-[11px] pl-[14px] pr-1': !leftSlot && type === 'password',
+              'px-[14px] py-[11px]':
+                !leftSlot && !rightSlot && type !== 'password',
+              'py-[11px] pr-1 pl-[14px]': !leftSlot && type === 'password',
               'pr-[14px]': leftSlot && !rightSlot && type !== 'password',
               'pr-1': leftSlot && type === 'password',
               'pl-[14px]': rightSlot && !leftSlot,
-              'cursor-not-allowed text-muted': disabled,
+              'text-muted cursor-not-allowed': disabled,
               'text-foreground': !disabled,
               'pointer-events-none': loading,
             }
@@ -81,7 +82,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
               'duration-fast ease-out-expo transition-all',
               'active:scale-90',
               {
-                'cursor-pointer hover:bg-surface-subtle': !disabled,
+                'hover:bg-surface-subtle cursor-pointer': !disabled,
                 'cursor-not-allowed': disabled,
               }
             )}
@@ -90,7 +91,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           >
             <IconComponent
               icon={showPassword ? 'RiEyeOffFill' : 'RiEyeFill'}
-              className="size-4 text-secondary"
+              className="text-secondary size-4"
             />
           </motion.button>
         )}

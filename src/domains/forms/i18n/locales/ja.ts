@@ -9,7 +9,8 @@ export const ja: FormsTranslations = {
     editTitle: 'フォームを編集',
     editDescription: (name) => `${name}のフィールドと設定を更新`,
     trashTitle: 'フォームのゴミ箱',
-    trashDescription: 'ゴミ箱に移動したフォームです。復元するか完全に削除できます。',
+    trashDescription:
+      'ゴミ箱に移動したフォームです。復元するか完全に削除できます。',
     trashEmpty: 'ゴミ箱にフォームはありません',
     trashEmptyDescription: '削除されたフォームはここに表示されます。',
     submissionsTitle: (name) => `送信内容 — ${name}`,
@@ -46,7 +47,8 @@ export const ja: FormsTranslations = {
     viewSubmission: '詳細を見る',
     markRead: '既読にする',
     deleteSubmission: '削除',
-    deleteSubmissionDescription: 'この送信内容を削除しますか？ゴミ箱から復元できます。',
+    deleteSubmissionDescription:
+      'この送信内容を削除しますか？ゴミ箱から復元できます。',
     restoreSubmission: '復元',
     purgeSubmission: '完全に削除',
     prevPage: '前へ',
@@ -91,15 +93,19 @@ export const ja: FormsTranslations = {
     bulkRestore: '復元',
     bulkPurge: '完全に削除',
     deleteTitle: 'フォームを削除',
-    deleteDescription: (name) => `${name}を削除しますか？送信内容はゴミ箱に残り、復元できます。`,
+    deleteDescription: (name) =>
+      `${name}を削除しますか？送信内容はゴミ箱に残り、復元できます。`,
     confirmDelete: '削除',
-    bulkDeleteDescription: (count) => `${count}件のフォームを削除しますか？ゴミ箱から復元できます。`,
+    bulkDeleteDescription: (count) =>
+      `${count}件のフォームを削除しますか？ゴミ箱から復元できます。`,
     restoreTitle: 'フォームを復元',
     restoreDescription: (name) => `${name}を有効なリストに戻しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count}件のフォームを有効なリストに戻しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count}件のフォームを有効なリストに戻しますか？`,
     purgeTitle: '完全に削除',
-    purgeDescription: (name) => `${name}とそのすべての送信内容が完全に削除されます。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name}とそのすべての送信内容が完全に削除されます。この操作は元に戻せません。`,
     confirmPurge: '削除',
     bulkPurgeDescription: (count) =>
       `${count}件のフォームとそのすべての送信内容が完全に削除されます。この操作は取り消せません。`,

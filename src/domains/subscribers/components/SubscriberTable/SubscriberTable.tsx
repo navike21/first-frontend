@@ -54,7 +54,7 @@ export const SubscriberTable = ({
               name={fullName}
               size="sm"
             />
-            <span className="font-medium text-foreground">{fullName}</span>
+            <span className="text-foreground font-medium">{fullName}</span>
           </div>
         )
       },
@@ -99,7 +99,11 @@ export const SubscriberTable = ({
             />
           </Tooltip>
           <Can anyOf={CAN.subscribersUpdate}>
-            <Tooltip heading={t.table.editSubscriber} position="top" size="small">
+            <Tooltip
+              heading={t.table.editSubscriber}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiPencilLine"
                 variant="text"
@@ -110,7 +114,11 @@ export const SubscriberTable = ({
             </Tooltip>
           </Can>
           <Can anyOf={CAN.subscribersDelete}>
-            <Tooltip heading={t.table.deleteSubscriber} position="top" size="small">
+            <Tooltip
+              heading={t.table.deleteSubscriber}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"

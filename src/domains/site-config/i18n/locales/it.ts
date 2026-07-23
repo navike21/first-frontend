@@ -3,7 +3,8 @@ import type { SiteConfigTranslations } from '../types'
 export const it: SiteConfigTranslations = {
   page: {
     title: 'Configurazione del sito web',
-    description: "Definisci il layout globale del sito pubblico: header, footer e area contenuti",
+    description:
+      'Definisci il layout globale del sito pubblico: header, footer e area contenuti',
   },
   tabs: {
     header: 'Header',
@@ -69,7 +70,8 @@ export const it: SiteConfigTranslations = {
   content: {
     widthLabel: 'Larghezza dell’area contenuti',
     boxed: 'Boxed',
-    boxedHint: 'Il contenuto è centrato con una larghezza massima (consigliato)',
+    boxedHint:
+      'Il contenuto è centrato con una larghezza massima (consigliato)',
     full: 'Larghezza piena',
     fullHint: 'Il contenuto occupa tutta la larghezza dello schermo',
     boxedMaxWidth: 'Larghezza massima (px)',

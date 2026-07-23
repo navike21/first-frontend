@@ -9,16 +9,22 @@ import { PortfolioForm } from '../components/PortfolioForm'
 import { usePortfolioById, useUpdatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
 import { toPortfolioPayload } from '../model/portfolio.schema'
-import type { PortfolioFormData, GalleryOrderToken } from '../model/portfolio.schema'
+import type {
+  PortfolioFormData,
+  GalleryOrderToken,
+} from '../model/portfolio.schema'
 import type { Portfolio } from '../model/portfolio.types'
 
-const EMPTY_LANGS = Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<Language, string>
+const EMPTY_LANGS = Object.fromEntries(
+  SUPPORTED_LANGUAGES.map((l) => [l, ''])
+) as Record<Language, string>
 
 function toFormValues(item: Portfolio): Partial<PortfolioFormData> {
   const existingSlug = typeof item.slug === 'string' ? item.slug : ''
-  const slugByLang = typeof item.slug === 'object'
-    ? (item.slug as Record<Language, string>)
-    : { ...EMPTY_LANGS, en: existingSlug }
+  const slugByLang =
+    typeof item.slug === 'object'
+      ? (item.slug as Record<Language, string>)
+      : { ...EMPTY_LANGS, en: existingSlug }
   return {
     slug: slugByLang,
     name: item.name,
@@ -39,7 +45,9 @@ function toFormValues(item: Portfolio): Partial<PortfolioFormData> {
 export const EditPortfolioPage = () => {
   const navigate = useNavigate()
   const { t, language } = usePortfolioTranslation()
-  const { portfolioId } = useParams({ strict: false }) as { portfolioId: string }
+  const { portfolioId } = useParams({ strict: false }) as {
+    portfolioId: string
+  }
   const { data: item, isLoading } = usePortfolioById(portfolioId)
   const updatePortfolio = useUpdatePortfolio(item?.id ?? '')
 
@@ -49,10 +57,17 @@ export const EditPortfolioPage = () => {
     removeCover?: boolean,
     galleryFiles?: File[],
     galleryOrder?: GalleryOrderToken[],
-    coverLibraryUrl?: string,
+    coverLibraryUrl?: string
   ) => {
     updatePortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover, removeCover, galleryFiles, galleryOrder, coverLibraryUrl },
+      {
+        data: toPortfolioPayload(data, language),
+        cover,
+        removeCover,
+        galleryFiles,
+        galleryOrder,
+        coverLibraryUrl,
+      },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.updated)
@@ -65,10 +80,11 @@ export const EditPortfolioPage = () => {
         // Offline: the edit is queued (without its images). Soft success —
         // warn the images were skipped and go back to the list.
         onError: onQueuedOr(() => {
-          if (cover || galleryFiles?.length) notify.warning(t.toasts.offlinePhotoSkipped)
+          if (cover || galleryFiles?.length)
+            notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.portfolio(language) as never })
         }),
-      },
+      }
     )
   }
 

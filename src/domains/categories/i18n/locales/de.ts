@@ -9,7 +9,8 @@ export const de: CategoryTranslations = {
     editTitle: 'Kategorie bearbeiten',
     editDescription: (name) => `${name} aktualisieren`,
     trashTitle: 'Kategorien-Papierkorb',
-    trashDescription: 'Kategorien, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Kategorien, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Kategorien im Papierkorb',
     trashEmptyDescription: 'Gelöschte Kategorien werden hier angezeigt.',
   },
@@ -60,13 +61,17 @@ export const de: CategoryTranslations = {
     bulkDeleteDescription: (count) =>
       `${count} Kategorien löschen? Sie können sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Kategorie wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Kategorien in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Kategorien in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Kategorien endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Kategorien endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     tabTranslations: 'Übersetzungen',

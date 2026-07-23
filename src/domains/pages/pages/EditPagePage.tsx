@@ -5,7 +5,11 @@ import { PageContent, Spinner, DetailField } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { PageForm } from '../components/PageForm'
 import { PageRevisionsPanel } from '../components/PageRevisionsPanel'
-import { usePage, useUpdatePage, useUsersForPagePicker } from '../api/pages.queries'
+import {
+  usePage,
+  useUpdatePage,
+  useUsersForPagePicker,
+} from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
 import { toPagePayload } from '../model/page.schema'
 import type { PageFormData } from '../model/page.schema'
@@ -50,7 +54,13 @@ export const EditPagePage = () => {
     coverLibraryUrl?: string
   ) => {
     updatePage.mutate(
-      { data: toPagePayload(data), cover, removeCover, ogImage, coverLibraryUrl },
+      {
+        data: toPagePayload(data),
+        cover,
+        removeCover,
+        ogImage,
+        coverLibraryUrl,
+      },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.updated)
@@ -66,7 +76,7 @@ export const EditPagePage = () => {
           if (cover || ogImage) notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.pages(language) as never })
         }),
-      },
+      }
     )
   }
 
@@ -87,10 +97,21 @@ export const EditPagePage = () => {
   }
 
   return (
-    <PageContent title={t.page.editTitle} description={t.page.editDescription(item.title[language] || item.title.en)}>
-      <div className="mb-4 grid grid-cols-1 gap-4 rounded-xl border border-border bg-surface p-4 sm:grid-cols-2">
-        <DetailField label={t.form.createdBy} value={userName(item.createdBy)} />
-        <DetailField label={t.form.updatedBy} value={userName(item.updatedBy)} />
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(
+        item.title[language] || item.title.en
+      )}
+    >
+      <div className="border-border bg-surface mb-4 grid grid-cols-1 gap-4 rounded-xl border p-4 sm:grid-cols-2">
+        <DetailField
+          label={t.form.createdBy}
+          value={userName(item.createdBy)}
+        />
+        <DetailField
+          label={t.form.updatedBy}
+          value={userName(item.updatedBy)}
+        />
       </div>
 
       <PageForm

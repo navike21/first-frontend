@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { Button, IconButton, InputField, MediaLibraryModal, Modal, Select, Tooltip } from '@/shared/ui'
+import {
+  Button,
+  IconButton,
+  InputField,
+  MediaLibraryModal,
+  Modal,
+  Select,
+  Tooltip,
+} from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
@@ -42,11 +50,12 @@ export const ImageElementCard = ({
   const [open, setOpen] = useState(false)
   const [isLibraryOpen, setIsLibraryOpen] = useState(false)
 
-  const alignOptions: { value: BuilderImageElement['align']; label: string }[] = [
-    { value: 'left', label: t.builder.alignLeft },
-    { value: 'center', label: t.builder.alignCenter },
-    { value: 'right', label: t.builder.alignRight },
-  ]
+  const alignOptions: { value: BuilderImageElement['align']; label: string }[] =
+    [
+      { value: 'left', label: t.builder.alignLeft },
+      { value: 'center', label: t.builder.alignCenter },
+      { value: 'right', label: t.builder.alignRight },
+    ]
 
   return (
     <ElementShell
@@ -65,7 +74,10 @@ export const ImageElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={clsx('flex w-full cursor-pointer rounded-md transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
+          className={clsx(
+            'hover:bg-surface-subtle flex w-full cursor-pointer rounded-md transition-colors',
+            ALIGN_CLASS[element.align]
+          )}
         >
           <img
             src={element.url}
@@ -81,7 +93,7 @@ export const ImageElementCard = ({
         <button
           type="button"
           onClick={() => setIsLibraryOpen(true)}
-          className="flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-20 w-full cursor-pointer items-center justify-center rounded-md border border-dashed text-xs transition-colors"
         >
           {t.builder.imageSelect}
         </button>
@@ -104,8 +116,8 @@ export const ImageElementCard = ({
             {element.url ? (
               <div
                 className={clsx(
-                  'flex min-h-48 rounded-lg border border-border bg-surface-subtle p-2',
-                  ALIGN_CLASS[element.align],
+                  'border-border bg-surface-subtle flex min-h-48 rounded-lg border p-2',
+                  ALIGN_CLASS[element.align]
                 )}
               >
                 <img
@@ -122,15 +134,19 @@ export const ImageElementCard = ({
               <button
                 type="button"
                 onClick={() => setIsLibraryOpen(true)}
-                className="flex h-48 w-full cursor-pointer items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+                className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-48 w-full cursor-pointer items-center justify-center rounded-lg border border-dashed text-xs transition-colors"
               >
                 {t.builder.imageSelect}
               </button>
             )}
             {element.url && (
-              <div className="absolute right-4 top-4">
-                <Tooltip heading={t.builder.imageReplace} position="top" size="small">
-                  <span className="inline-flex rounded-full bg-surface shadow-md ring-1 ring-border">
+              <div className="absolute top-4 right-4">
+                <Tooltip
+                  heading={t.builder.imageReplace}
+                  position="top"
+                  size="small"
+                >
+                  <span className="bg-surface ring-border inline-flex rounded-full shadow-md ring-1">
                     <IconButton
                       icon="RiImageEditLine"
                       variant="text"
@@ -152,7 +168,7 @@ export const ImageElementCard = ({
                   value={element.width}
                   onChange={(e) => onChange({ width: e.target.value.trim() })}
                 />
-                <p className="text-xs text-muted">{t.builder.sizeHint}</p>
+                <p className="text-muted text-xs">{t.builder.sizeHint}</p>
               </div>
               <div className="flex flex-col gap-1">
                 <InputField
@@ -160,7 +176,7 @@ export const ImageElementCard = ({
                   value={element.height}
                   onChange={(e) => onChange({ height: e.target.value.trim() })}
                 />
-                <p className="text-xs text-muted">{t.builder.sizeHint}</p>
+                <p className="text-muted text-xs">{t.builder.sizeHint}</p>
               </div>
             </div>
             <Select
@@ -168,14 +184,27 @@ export const ImageElementCard = ({
               options={alignOptions}
               value={element.align}
               lang={language}
-              onChange={(e) => onChange({ align: e.target.value as BuilderImageElement['align'] })}
+              onChange={(e) =>
+                onChange({
+                  align: e.target.value as BuilderImageElement['align'],
+                })
+              }
             />
             <div className="flex flex-col gap-2">
-              <LangChips editing={editing} userLanguage={language} values={element.alt} onChange={setEditing} />
+              <LangChips
+                editing={editing}
+                userLanguage={language}
+                values={element.alt}
+                onChange={setEditing}
+              />
               <InputField
                 label={t.builder.imageAlt}
                 value={element.alt[editing] ?? ''}
-                onChange={(e) => onChange({ alt: { ...element.alt, [editing]: e.target.value } })}
+                onChange={(e) =>
+                  onChange({
+                    alt: { ...element.alt, [editing]: e.target.value },
+                  })
+                }
               />
             </div>
           </div>

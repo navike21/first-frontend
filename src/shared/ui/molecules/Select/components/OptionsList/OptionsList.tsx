@@ -19,9 +19,7 @@ export const OptionsList = memo(
 
     if (options.length === 0) {
       return (
-        <div className="px-3 py-2 text-sm text-muted">
-          {noOptionsFound}
-        </div>
+        <div className="text-muted px-3 py-2 text-sm">{noOptionsFound}</div>
       )
     }
     // Pre-compute enabled index map once per render — O(n) instead of O(n²)

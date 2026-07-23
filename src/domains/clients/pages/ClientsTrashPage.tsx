@@ -2,7 +2,8 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   CountryLabel,
   IconButton,
   Tooltip,
@@ -49,7 +50,10 @@ export const ClientsTrashPage = () => {
     handlePageChange,
   } = useClientsTrashPage()
 
-  const { data: config } = useConfigData(['industries', 'clientTypes'], language)
+  const { data: config } = useConfigData(
+    ['industries', 'clientTypes'],
+    language
+  )
 
   const columns: DataTableColumn<Client>[] = [
     {
@@ -63,7 +67,7 @@ export const ClientsTrashPage = () => {
             name={client.businessName}
             size="sm"
           />
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {client.businessName}
           </span>
         </div>
@@ -109,7 +113,11 @@ export const ClientsTrashPage = () => {
             />
           </Tooltip>
           <Can anyOf={CAN.clientsUpdate}>
-            <Tooltip heading={t.table.restoreClient} position="top" size="small">
+            <Tooltip
+              heading={t.table.restoreClient}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiArrowGoBackLine"
                 variant="text"
@@ -151,8 +159,8 @@ export const ClientsTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>

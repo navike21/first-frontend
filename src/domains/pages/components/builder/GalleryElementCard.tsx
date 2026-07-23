@@ -9,19 +9,42 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
-import { Button, IconButton, IconComponent, InputField, MediaLibraryModal, MediaThumbnail, Modal, SortableMediaTile, Tooltip } from '@/shared/ui'
+import {
+  SortableContext,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import {
+  Button,
+  IconButton,
+  IconComponent,
+  InputField,
+  MediaLibraryModal,
+  MediaThumbnail,
+  Modal,
+  SortableMediaTile,
+  Tooltip,
+} from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import { MAX_BUILDER_COLUMNS } from '../../model/page.builder'
-import type { BuilderColumnsCount, BuilderGalleryElement, BuilderGalleryImage, PageLocalizedString } from '../../model/page.types'
+import type {
+  BuilderColumnsCount,
+  BuilderGalleryElement,
+  BuilderGalleryImage,
+  PageLocalizedString,
+} from '../../model/page.types'
 import { LangChips } from './LangChips'
 import { ElementShell } from './ElementShell'
 
 const ACCEPTED = 'image/jpeg,image/png,image/webp'
-const COLUMN_OPTIONS = Array.from({ length: MAX_BUILDER_COLUMNS }, (_, i) => (i + 1) as BuilderColumnsCount)
+const COLUMN_OPTIONS = Array.from(
+  { length: MAX_BUILDER_COLUMNS },
+  (_, i) => (i + 1) as BuilderColumnsCount
+)
 
 export interface GalleryElementCardProps {
   element: BuilderGalleryElement
@@ -36,9 +59,11 @@ export interface GalleryElementCardProps {
   onDelete: () => void
 }
 
-const isLangComplete = (images: BuilderGalleryImage[], lang: Language): boolean =>
+const isLangComplete = (
+  images: BuilderGalleryImage[],
+  lang: Language
+): boolean =>
   images.length > 0 && images.every((img) => !!img.alt[lang]?.trim())
-
 
 export const GalleryElementCard = ({
   element,
@@ -59,10 +84,13 @@ export const GalleryElementCard = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
-  const emptyAlt = (): PageLocalizedString => Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as PageLocalizedString
+  const emptyAlt = (): PageLocalizedString =>
+    Object.fromEntries(
+      SUPPORTED_LANGUAGES.map((l) => [l, ''])
+    ) as PageLocalizedString
 
   const addFiles = (files: FileList | File[]) => {
     const newImages: BuilderGalleryImage[] = []
@@ -71,14 +99,18 @@ export const GalleryElementCard = ({
       newImages.push({ url, alt: emptyAlt() })
       onPickFile(url, file)
     })
-    if (newImages.length > 0) onChange({ images: [...element.images, ...newImages] })
+    if (newImages.length > 0)
+      onChange({ images: [...element.images, ...newImages] })
   }
 
   // Ya tienen URL real (vienen de la biblioteca): se agregan directo, sin
   // pasar por `pendingGalleryFiles` — no hay nada que subir al guardar.
   const addLibraryFiles = (files: StorageFile[]) => {
     if (files.length === 0) return
-    const newImages = files.map((file) => ({ url: file.original.url, alt: emptyAlt() }))
+    const newImages = files.map((file) => ({
+      url: file.original.url,
+      alt: emptyAlt(),
+    }))
     onChange({ images: [...element.images, ...newImages] })
   }
 
@@ -88,7 +120,13 @@ export const GalleryElementCard = ({
   }
 
   const updateAlt = (url: string, value: string) => {
-    onChange({ images: element.images.map((img) => (img.url === url ? { ...img, alt: { ...img.alt, [editing]: value } } : img)) })
+    onChange({
+      images: element.images.map((img) =>
+        img.url === url
+          ? { ...img, alt: { ...img.alt, [editing]: value } }
+          : img
+      ),
+    })
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -101,7 +139,10 @@ export const GalleryElementCard = ({
   }
 
   const langChipValues = Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((l) => [l, isLangComplete(element.images, l) ? '1' : '']),
+    SUPPORTED_LANGUAGES.map((l) => [
+      l,
+      isLangComplete(element.images, l) ? '1' : '',
+    ])
   ) as PageLocalizedString
 
   return (
@@ -133,14 +174,18 @@ export const GalleryElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full gap-1 overflow-x-auto rounded-md p-0.5 transition-colors hover:bg-surface-subtle"
+          className="hover:bg-surface-subtle flex w-full gap-1 overflow-x-auto rounded-md p-0.5 transition-colors"
         >
           {element.images.map((image) => (
             <span
               key={image.url}
-              className="flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-subtle"
+              className="bg-surface-subtle flex aspect-square h-16 shrink-0 items-center justify-center overflow-hidden rounded-md"
             >
-              <MediaThumbnail src={image.url} kind="image" className="h-full w-full object-cover" />
+              <MediaThumbnail
+                src={image.url}
+                kind="image"
+                className="h-full w-full object-cover"
+              />
             </span>
           ))}
         </button>
@@ -148,7 +193,7 @@ export const GalleryElementCard = ({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex h-20 w-full items-center justify-center rounded-md border border-dashed border-border text-xs text-muted transition-colors hover:border-primary-600/50 hover:text-foreground"
+          className="border-border text-muted hover:border-primary-600/50 hover:text-foreground flex h-20 w-full items-center justify-center rounded-md border border-dashed text-xs transition-colors"
         >
           {t.builder.galleryEmpty}
         </button>
@@ -175,7 +220,8 @@ export const GalleryElementCard = ({
             onDrop={(e) => {
               e.preventDefault()
               setIsDragging(false)
-              if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files)
+              if (e.dataTransfer.files.length > 0)
+                addFiles(e.dataTransfer.files)
             }}
             onClick={() => inputRef.current?.click()}
             role="button"
@@ -188,20 +234,35 @@ export const GalleryElementCard = ({
             }}
             className={clsx(
               'flex min-h-24 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed p-4 text-center transition-colors',
-              isDragging ? 'border-primary-600 bg-primary-700/5' : 'border-border bg-surface-subtle hover:border-primary-600/60',
+              isDragging
+                ? 'border-primary-600 bg-primary-700/5'
+                : 'border-border bg-surface-subtle hover:border-primary-600/60'
             )}
           >
             <IconComponent
               icon={isDragging ? 'RiDownloadLine' : 'RiUploadCloud2Line'}
-              className={clsx('h-6 w-6', isDragging ? 'text-primary-600' : 'text-muted')}
+              className={clsx(
+                'h-6 w-6',
+                isDragging ? 'text-primary-600' : 'text-muted'
+              )}
             />
-            <span className="text-sm font-medium text-foreground">
-              {isDragging ? t.builder.galleryDragLabel : t.builder.galleryAddLabel}
+            <span className="text-foreground text-sm font-medium">
+              {isDragging
+                ? t.builder.galleryDragLabel
+                : t.builder.galleryAddLabel}
             </span>
-            {!isDragging && <span className="text-xs text-muted">{t.builder.galleryFormatsHint}</span>}
+            {!isDragging && (
+              <span className="text-muted text-xs">
+                {t.builder.galleryFormatsHint}
+              </span>
+            )}
           </div>
 
-          <Tooltip heading={t.builder.galleryLibraryLabel} position="top" size="small">
+          <Tooltip
+            heading={t.builder.galleryLibraryLabel}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiFolderImageLine"
               variant="text"
@@ -222,8 +283,8 @@ export const GalleryElementCard = ({
                 className={clsx(
                   'h-6 w-6 rounded-md text-xs font-semibold transition-colors',
                   element.columns === n
-                    ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-                    : 'bg-surface-subtle text-muted hover:text-foreground',
+                    ? 'bg-primary-700/10 text-primary-600 ring-primary-700/20 ring-1'
+                    : 'bg-surface-subtle text-muted hover:text-foreground'
                 )}
               >
                 {n}
@@ -231,11 +292,23 @@ export const GalleryElementCard = ({
             ))}
           </div>
 
-          <LangChips editing={editing} userLanguage={language} values={langChipValues} onChange={setEditing} />
+          <LangChips
+            editing={editing}
+            userLanguage={language}
+            values={langChipValues}
+            onChange={setEditing}
+          />
 
           {element.images.length > 0 && (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={element.images.map((img) => img.url)} strategy={rectSortingStrategy}>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={element.images.map((img) => img.url)}
+                strategy={rectSortingStrategy}
+              >
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {element.images.map((image) => (
                     <SortableMediaTile

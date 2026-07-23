@@ -135,7 +135,10 @@ describe('LoginForm component', () => {
     render(<LoginForm />, { wrapper })
     // Assert
     const link = screen.getByText(/olvidaste tu contraseña/i)
-    expect(link.closest('a')).toHaveAttribute('href', '/es/recuperar-contrasena')
+    expect(link.closest('a')).toHaveAttribute(
+      'href',
+      '/es/recuperar-contrasena'
+    )
   })
 
   it('should display errorMessage when login fails', () => {

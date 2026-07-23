@@ -14,7 +14,10 @@ const SEARCH_DEBOUNCE_MS = 300
 
 export function useMediaTrashPage() {
   const { t } = useMediaTranslation()
-  const [params, setParams] = useState<StorageListParams>({ page: 1, limit: 20 })
+  const [params, setParams] = useState<StorageListParams>({
+    page: 1,
+    limit: 20,
+  })
   const [searchInput, setSearchInput] = useState('')
   const [viewing, setViewing] = useState<StorageFile | null>(null)
   const [restoring, setRestoring] = useState<StorageFile | null>(null)
@@ -44,7 +47,11 @@ export function useMediaTrashPage() {
   const clearSelection = () => setSelectedIds([])
 
   const handleKindChange = (value: string) => {
-    setParams((p) => ({ ...p, page: 1, kind: value === 'all' ? undefined : (value as 'image' | 'video') }))
+    setParams((p) => ({
+      ...p,
+      page: 1,
+      kind: value === 'all' ? undefined : (value as 'image' | 'video'),
+    }))
     clearSelection()
   }
 

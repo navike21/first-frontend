@@ -11,17 +11,22 @@ export interface MapsConfigPanelProps {
 export const MapsConfigPanel = ({ value, onChange }: MapsConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
 
-  const options = MAP_PROVIDERS.map((provider) => ({ value: provider, label: t.maps.providers[provider] }))
+  const options = MAP_PROVIDERS.map((provider) => ({
+    value: provider,
+    label: t.maps.providers[provider],
+  }))
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-xs text-muted">{t.maps.hint}</p>
+      <p className="text-muted text-xs">{t.maps.hint}</p>
       <div className="max-w-xs">
         <Select
           label={t.maps.providerLabel}
           options={options}
           value={value.provider}
-          onChange={(e) => onChange({ provider: e.target.value as MapProvider })}
+          onChange={(e) =>
+            onChange({ provider: e.target.value as MapProvider })
+          }
         />
       </div>
     </div>

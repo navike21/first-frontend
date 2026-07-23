@@ -1,4 +1,13 @@
-import { PageContent, InputField, Select, Modal, Button, ButtonGroup, IconComponent, FadeCollapse } from '@/shared/ui'
+import {
+  PageContent,
+  InputField,
+  Select,
+  Modal,
+  Button,
+  ButtonGroup,
+  IconComponent,
+  FadeCollapse,
+} from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import { FormTable } from '../components/FormTable'
@@ -38,7 +47,8 @@ export const FormsPage = () => {
   const canSeeTrash = useHasPermission(...CAN.formsTrash)
   const canCreate = useHasPermission(...CAN.formsCreate)
 
-  const formTitle = (f: typeof deletingForm) => (f ? f.title[language] || f.title.en : '')
+  const formTitle = (f: typeof deletingForm) =>
+    f ? f.title[language] || f.title.en : ''
 
   return (
     <PageContent
@@ -76,7 +86,7 @@ export const FormsPage = () => {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             leftSlot={
-              <span className="px-3 text-muted">
+              <span className="text-muted px-3">
                 <IconComponent icon="RiSearchLine" className="h-4 w-4" />
               </span>
             }
@@ -95,15 +105,19 @@ export const FormsPage = () => {
 
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
               <Button variant="secondary" size="small" onClick={clearSelection}>
                 {t.actions.clearSelection}
               </Button>
-              <Button variant="primary" size="small" onClick={() => setBulkConfirmOpen(true)}>
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setBulkConfirmOpen(true)}
+              >
                 {t.actions.bulkDelete}
               </Button>
             </ButtonGroup>
@@ -130,13 +144,25 @@ export const FormsPage = () => {
         onClose={() => setDeletingForm(null)}
         size="sm"
         title={t.actions.deleteTitle}
-        description={deletingForm ? t.actions.deleteDescription(formTitle(deletingForm)) : undefined}
+        description={
+          deletingForm
+            ? t.actions.deleteDescription(formTitle(deletingForm))
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setDeletingForm(null)} disabled={softDelete.isPending}>
+            <Button
+              variant="secondary"
+              onClick={() => setDeletingForm(null)}
+              disabled={softDelete.isPending}
+            >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={softDelete.isPending} onClick={handleConfirmDelete}>
+            <Button
+              variant="primary"
+              loading={softDelete.isPending}
+              onClick={handleConfirmDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>
@@ -158,7 +184,11 @@ export const FormsPage = () => {
             >
               {t.actions.cancel}
             </Button>
-            <Button variant="primary" loading={bulkSoftDelete.isPending} onClick={handleConfirmBulkDelete}>
+            <Button
+              variant="primary"
+              loading={bulkSoftDelete.isPending}
+              onClick={handleConfirmBulkDelete}
+            >
               {t.actions.confirmDelete}
             </Button>
           </>

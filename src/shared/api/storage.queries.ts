@@ -1,4 +1,9 @@
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import {
   listStorageFiles,
   listDeletedStorageFiles,
@@ -13,9 +18,11 @@ import type { StorageListParams, UploadProgress } from './storage'
 
 export const storageKeys = {
   all: ['storage'] as const,
-  files: (params: StorageListParams) => [...storageKeys.all, 'files', params] as const,
+  files: (params: StorageListParams) =>
+    [...storageKeys.all, 'files', params] as const,
   trash: () => [...storageKeys.all, 'trash'] as const,
-  trashList: (params: StorageListParams) => [...storageKeys.trash(), params] as const,
+  trashList: (params: StorageListParams) =>
+    [...storageKeys.trash(), params] as const,
   usages: (id: string) => [...storageKeys.all, 'usages', id] as const,
 }
 

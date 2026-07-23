@@ -8,7 +8,7 @@ interface SettingsDrawerProps {
 }
 
 const SectionLabel = ({ children }: { children: string }) => (
-  <p className="mb-3 text-xs font-semibold tracking-widest text-muted uppercase">
+  <p className="text-muted mb-3 text-xs font-semibold tracking-widest uppercase">
     {children}
   </p>
 )
@@ -24,7 +24,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
       onClose={onClose}
       placement="right"
       title={
-        <span className="text-sm font-semibold text-foreground">
+        <span className="text-foreground text-sm font-semibold">
           {t.settingsDrawer.title}
         </span>
       }

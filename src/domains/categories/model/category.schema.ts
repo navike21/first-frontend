@@ -45,13 +45,17 @@ export interface CreateCategoryPayload {
   isActive: boolean
 }
 
-function fillLocalized(input: Partial<Record<Language, string>>): CategoryLocalizedString {
+function fillLocalized(
+  input: Partial<Record<Language, string>>
+): CategoryLocalizedString {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])
   ) as unknown as CategoryLocalizedString
 }
 
-export function toCategoryPayload(data: CategoryFormData): CreateCategoryPayload {
+export function toCategoryPayload(
+  data: CategoryFormData
+): CreateCategoryPayload {
   return {
     name: fillLocalized(data.name),
     slug: data.slug,

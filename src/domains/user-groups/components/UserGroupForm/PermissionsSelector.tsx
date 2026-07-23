@@ -79,7 +79,7 @@ export const PermissionsSelector = ({
 
   if (resources.length === 0) {
     return (
-      <div className="rounded-lg border border-border bg-surface-subtle p-4 text-sm text-muted">
+      <div className="border-border bg-surface-subtle text-muted rounded-lg border p-4 text-sm">
         {t.permissionCatalog.noneAvailable}
       </div>
     )
@@ -97,13 +97,13 @@ export const PermissionsSelector = ({
         return (
           <div
             key={resource}
-            className="rounded-lg border border-border bg-surface p-3"
+            className="border-border bg-surface rounded-lg border p-3"
           >
             {/* Resource header */}
             <div className="pb-2">
               <Checkbox
                 label={
-                  <span className="text-sm font-semibold text-foreground">
+                  <span className="text-foreground text-sm font-semibold">
                     {resourceLabel(resource)}
                   </span>
                 }
@@ -114,14 +114,14 @@ export const PermissionsSelector = ({
               />
             </div>
             {/* Action checkboxes */}
-            <div className="flex flex-col gap-1 border-t border-border-subtle pt-2">
+            <div className="border-border-subtle flex flex-col gap-1 border-t pt-2">
               {actions.map((action) => {
                 const perm = `${resource}:${action}`
                 return (
                   <Checkbox
                     key={action}
                     label={
-                      <span className="text-xs text-secondary">
+                      <span className="text-secondary text-xs">
                         {actionLabel(action)}
                       </span>
                     }

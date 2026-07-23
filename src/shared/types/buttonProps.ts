@@ -12,11 +12,7 @@ import type { LinkProps } from '@tanstack/react-router'
  * React's DOM handler types clash with Motion's pan/animation types.
  */
 export type MotionConflictingHandlers =
-  | 'onDrag'
-  | 'onDragStart'
-  | 'onDragEnd'
-  | 'onAnimationStart'
-  | 'onAnimationEnd'
+  'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart' | 'onAnimationEnd'
 
 export interface ButtonBaseProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'text' | 'destructive'
@@ -27,7 +23,8 @@ export interface ButtonBaseProps {
 }
 
 export interface ButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, MotionConflictingHandlers>,
+  extends
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, MotionConflictingHandlers>,
     ButtonBaseProps {
   children: ReactNode
 }

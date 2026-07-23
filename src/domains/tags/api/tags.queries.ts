@@ -10,7 +10,8 @@ export const tagKeys = {
   details: () => [...tagKeys.all, 'detail'] as const,
   detail: (id: string) => [...tagKeys.details(), id] as const,
   trash: () => [...tagKeys.all, 'trash'] as const,
-  trashList: (params: { page?: number; limit?: number }) => [...tagKeys.trash(), params] as const,
+  trashList: (params: { page?: number; limit?: number }) =>
+    [...tagKeys.trash(), params] as const,
 }
 
 // ─── Data fetching ────────────────────────────────────────────────────────────

@@ -9,7 +9,8 @@ export const pt: ClientsTranslations = {
     editTitle: 'Editar cliente',
     editDescription: (name) => `Atualizar as informações de ${name}`,
     trashTitle: 'Lixeira de clientes',
-    trashDescription: 'Clientes movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Clientes movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum cliente na lixeira',
     trashEmptyDescription: 'Quando clientes forem excluídos, aparecerão aqui.',
   },
@@ -60,17 +61,22 @@ export const pt: ClientsTranslations = {
     bulkRestore: 'Restaurar',
     bulkPurge: 'Excluir permanentemente',
     deleteTitle: 'Excluir cliente',
-    deleteDescription: (name) => `Excluir ${name}? Você poderá restaurá-lo da lixeira.`,
+    deleteDescription: (name) =>
+      `Excluir ${name}? Você poderá restaurá-lo da lixeira.`,
     confirmDelete: 'Excluir',
-    bulkDeleteDescription: (count) => `Excluir ${count} cliente${count !== 1 ? 's' : ''}? Você poderá restaurá-los.`,
+    bulkDeleteDescription: (count) =>
+      `Excluir ${count} cliente${count !== 1 ? 's' : ''}? Você poderá restaurá-los.`,
     restoreTitle: 'Restaurar cliente',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} clientes para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} clientes para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} clientes. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} clientes. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     sectionGeneral: 'Informações gerais',

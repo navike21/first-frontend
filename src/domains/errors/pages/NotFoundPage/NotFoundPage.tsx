@@ -6,27 +6,27 @@ export const NotFoundPage = () => {
     useNotFoundPage()
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center gap-6 bg-surface px-4 py-6">
+    <div className="bg-surface relative flex min-h-dvh flex-col items-center justify-center gap-6 px-4 py-6">
       <div className="fixed top-4 right-4 z-20">
         <LanguageSwitcher />
       </div>
       <BrandMark size="small" animateIn />
 
       <div className="flex flex-col items-center gap-3 text-center">
-        <span className="font-display text-6xl font-bold text-foreground">404</span>
-        <h1 className="text-2xl font-semibold text-foreground">
+        <span className="font-display text-foreground text-6xl font-bold">
+          404
+        </span>
+        <h1 className="text-foreground text-2xl font-semibold">
           {t.notFound.heading}
         </h1>
 
         {brokenPath && (
-          <code className="mt-1 max-w-sm rounded bg-surface-subtle px-3 py-1.5 font-mono text-sm break-all text-secondary">
+          <code className="bg-surface-subtle text-secondary mt-1 max-w-sm rounded px-3 py-1.5 font-mono text-sm break-all">
             {brokenPath}
           </code>
         )}
 
-        <p className="max-w-sm text-sm text-secondary">
-          {t.notFound.message}
-        </p>
+        <p className="text-secondary max-w-sm text-sm">{t.notFound.message}</p>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-3">

@@ -1,4 +1,11 @@
-import { Can, Chip, DataTable, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
+import {
+  Can,
+  Chip,
+  DataTable,
+  IconButton,
+  Tooltip,
+  type DataTableColumn,
+} from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { useFormsTranslation } from '../../i18n'
 import type { Form } from '../../model/form.types'
@@ -37,14 +44,19 @@ export const FormTable = ({
       id: 'title',
       header: t.table.colTitle,
       cell: (form) => (
-        <span className="font-medium text-foreground">{form.title[language] || form.title.en}</span>
+        <span className="text-foreground font-medium">
+          {form.title[language] || form.title.en}
+        </span>
       ),
     },
     {
       id: 'status',
       header: t.table.colStatus,
       cell: (form) => (
-        <Chip size="small" variant={form.status === 'active' ? 'success' : 'default'}>
+        <Chip
+          size="small"
+          variant={form.status === 'active' ? 'success' : 'default'}
+        >
           {t.status[form.status]}
         </Chip>
       ),
@@ -61,7 +73,11 @@ export const FormTable = ({
       align: 'right',
       cell: (form) => (
         <div className="flex items-center justify-end gap-1">
-          <Tooltip heading={t.table.viewSubmissions} position="top" size="small">
+          <Tooltip
+            heading={t.table.viewSubmissions}
+            position="top"
+            size="small"
+          >
             <IconButton
               icon="RiInboxLine"
               variant="text"

@@ -8,13 +8,19 @@ import type { SortableItemActionsProps } from './SortableItemActions.types'
  * cuyo drag-handle vive en una fila propia (no superpuesto sobre una
  * miniatura — ver `GalleryElementCard`'s `GalleryTile` para ese otro
  * patrón, que no usa este componente). */
-export const SortableItemActions = ({ dragLabel, removeLabel, attributes, listeners, onRemove }: SortableItemActionsProps) => (
+export const SortableItemActions = ({
+  dragLabel,
+  removeLabel,
+  attributes,
+  listeners,
+  onRemove,
+}: SortableItemActionsProps) => (
   <div className="flex items-center gap-1">
     <Tooltip heading={dragLabel} position="top" size="small">
       <button
         type="button"
         aria-label={dragLabel}
-        className="cursor-grab rounded p-0.5 text-muted hover:text-foreground active:cursor-grabbing"
+        className="text-muted hover:text-foreground cursor-grab rounded p-0.5 active:cursor-grabbing"
         {...attributes}
         {...listeners}
       >
@@ -23,7 +29,13 @@ export const SortableItemActions = ({ dragLabel, removeLabel, attributes, listen
     </Tooltip>
     <span className="flex-1" />
     <Tooltip heading={removeLabel} position="top" size="small">
-      <IconButton icon="RiDeleteBinLine" variant="text" size="small" aria-label={removeLabel} onClick={onRemove} />
+      <IconButton
+        icon="RiDeleteBinLine"
+        variant="text"
+        size="small"
+        aria-label={removeLabel}
+        onClick={onRemove}
+      />
     </Tooltip>
   </div>
 )

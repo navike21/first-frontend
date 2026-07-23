@@ -60,11 +60,13 @@ export const PortfolioTable = ({
             size="sm"
           />
           <div className="min-w-0">
-            <span className="block truncate font-medium text-foreground">
+            <span className="text-foreground block truncate font-medium">
               {item.name[language] || item.name.en}
             </span>
             {item.featured && (
-              <span className="text-[11px] font-medium text-primary-600">★ Featured</span>
+              <span className="text-primary-600 text-[11px] font-medium">
+                ★ Featured
+              </span>
             )}
           </div>
         </div>

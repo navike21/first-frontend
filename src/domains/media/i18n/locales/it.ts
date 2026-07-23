@@ -5,7 +5,8 @@ export const it: MediaTranslations = {
     listTitle: 'Multimedia',
     listDescription: 'Gestisci le immagini e i video caricati sul sito',
     trashTitle: 'Cestino multimedia',
-    trashDescription: 'File spostati nel cestino. Puoi ripristinarli o eliminarli definitivamente.',
+    trashDescription:
+      'File spostati nel cestino. Puoi ripristinarli o eliminarli definitivamente.',
     trashEmpty: 'Nessun file nel cestino',
     trashEmptyDescription: 'I file eliminati verranno visualizzati qui.',
   },
@@ -36,17 +37,22 @@ export const it: MediaTranslations = {
     bulkPurge: 'Elimina definitivamente',
     viewItem: 'Vedi dettagli',
     deleteTitle: 'Elimina file',
-    deleteDescription: (name) => `Eliminare ${name}? Potrai ripristinarlo dal cestino.`,
+    deleteDescription: (name) =>
+      `Eliminare ${name}? Potrai ripristinarlo dal cestino.`,
     confirmDelete: 'Elimina',
-    bulkDeleteDescription: (count) => `Eliminare ${count} file? Potrai ripristinarli dal cestino.`,
+    bulkDeleteDescription: (count) =>
+      `Eliminare ${count} file? Potrai ripristinarli dal cestino.`,
     restoreTitle: 'Ripristina file',
     restoreDescription: (name) => `Ripristinare ${name} nella libreria attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} file nella libreria attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} file nella libreria attiva?`,
     purgeTitle: 'Elimina definitivamente',
-    purgeDescription: (name) => `${name} verrà eliminato per sempre. Questa azione non può essere annullata.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato per sempre. Questa azione non può essere annullata.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} file. Questa azione non può essere annullata.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} file. Questa azione non può essere annullata.`,
   },
   upload: {
     title: 'Carica file',
@@ -67,7 +73,8 @@ export const it: MediaTranslations = {
     tabUsage: 'Utilizzo',
     usageLoading: 'Ricerca di dove viene utilizzato…',
     usageEmpty: 'Non trovato in nessun altro punto del sito',
-    usageEditorNote: 'Potrebbero esserci altri utilizzi all’interno di contenuti di testo formattato che non rileviamo automaticamente.',
+    usageEditorNote:
+      'Potrebbero esserci altri utilizzi all’interno di contenuti di testo formattato che non rileviamo automaticamente.',
     moduleClients: 'Cliente',
     moduleUsers: 'Utente',
     moduleCollaborators: 'Collaboratore',

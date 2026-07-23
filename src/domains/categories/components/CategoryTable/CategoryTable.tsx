@@ -1,4 +1,11 @@
-import { Can, Chip, DataTable, IconButton, Tooltip, type DataTableColumn } from '@/shared/ui'
+import {
+  Can,
+  Chip,
+  DataTable,
+  IconButton,
+  Tooltip,
+  type DataTableColumn,
+} from '@/shared/ui'
 import { CAN } from '@/shared/lib/permissions'
 import { useCategoriesTranslation } from '../../i18n'
 import { useCategoriesForPicker } from '../../api/categories.queries'
@@ -45,7 +52,9 @@ export const CategoryTable = ({
       id: 'name',
       header: t.table.colName,
       cell: (category) => (
-        <span className="font-medium text-foreground">{category.name[language] || category.name.en}</span>
+        <span className="text-foreground font-medium">
+          {category.name[language] || category.name.en}
+        </span>
       ),
     },
     {
@@ -96,7 +105,11 @@ export const CategoryTable = ({
             </Tooltip>
           </Can>
           <Can anyOf={CAN.categoriesDelete}>
-            <Tooltip heading={t.table.deleteCategory} position="top" size="small">
+            <Tooltip
+              heading={t.table.deleteCategory}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBinLine"
                 variant="text"

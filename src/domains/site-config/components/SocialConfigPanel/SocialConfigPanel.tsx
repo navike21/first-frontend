@@ -23,12 +23,15 @@ const NETWORK_META: Record<SocialNetwork, { label: string; icon: IconName }> = {
   github: { label: 'GitHub', icon: 'RiGithubFill' },
 }
 
-export const SocialConfigPanel = ({ value, onChange }: SocialConfigPanelProps) => {
+export const SocialConfigPanel = ({
+  value,
+  onChange,
+}: SocialConfigPanelProps) => {
   const { t } = useSiteConfigTranslation()
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-xs text-muted">{t.social.hint}</p>
+      <p className="text-muted text-xs">{t.social.hint}</p>
       <FormGrid className="lg:grid-cols-2">
         {SOCIAL_NETWORKS.map((network) => {
           const meta = NETWORK_META[network]
@@ -38,7 +41,7 @@ export const SocialConfigPanel = ({ value, onChange }: SocialConfigPanelProps) =
               label={meta.label}
               value={value[network] ?? ''}
               leftSlot={
-                <span className="px-3 text-secondary">
+                <span className="text-secondary px-3">
                   <IconComponent icon={meta.icon} className="h-4 w-4" />
                 </span>
               }

@@ -21,7 +21,7 @@ export const Tabs = ({
       {/* Outer wrapper: border stretches full width, content scrolls inside */}
       <div
         className={clsx(
-          'overflow-x-auto overflow-y-hidden border-b border-border-control',
+          'border-border-control overflow-x-auto overflow-y-hidden border-b',
           className
         )}
       >

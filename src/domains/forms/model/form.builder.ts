@@ -3,7 +3,9 @@ import type { FormFieldType } from './form.types'
 import type { FormFormField, FormFormLocalized } from './form.schema'
 
 export function emptyLocalized(): FormFormLocalized {
-  return Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as unknown as FormFormLocalized
+  return Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((l) => [l, ''])
+  ) as unknown as FormFormLocalized
 }
 
 /** Sensible per-type defaults for a newly-added field — select/radio start with
@@ -38,11 +40,15 @@ export function createField(type: FormFieldType): FormFormField {
 
 /** Called when a field's type changes in the editor — drops type-specific data
  * (e.g. `options`) that no longer applies, so it doesn't linger unused. */
-export function resetFieldForType(field: FormFormField, type: FormFieldType): FormFormField {
+export function resetFieldForType(
+  field: FormFormField,
+  type: FormFieldType
+): FormFormField {
   const isChoiceType = type === 'select' || type === 'radio'
   let options: FormFormField['options'] = []
   if (isChoiceType) {
-    options = field.options.length >= 2 ? field.options : createField(type).options
+    options =
+      field.options.length >= 2 ? field.options : createField(type).options
   }
   return { ...field, type, options }
 }

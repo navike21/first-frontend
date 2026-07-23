@@ -59,8 +59,7 @@ export const zh: ServicesTranslations = {
     bulkRestore: '还原',
     bulkPurge: '永久删除',
     deleteTitle: '删除服务',
-    deleteDescription: (name) =>
-      `确定要删除"${name}"吗？您可以从回收站还原。`,
+    deleteDescription: (name) => `确定要删除"${name}"吗？您可以从回收站还原。`,
     confirmDelete: '删除',
     bulkDeleteDescription: (count) =>
       `删除 ${count} 个服务？您可以从回收站还原。`,
@@ -71,7 +70,8 @@ export const zh: ServicesTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个服务。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个服务。此操作不可逆。`,
   },
   form: {
     sectionGeneral: '基本信息',

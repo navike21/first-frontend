@@ -9,7 +9,8 @@ export const fr: PageTranslations = {
     editTitle: 'Modifier la page',
     editDescription: (name) => `Mettre à jour ${name}`,
     trashTitle: 'Corbeille des pages',
-    trashDescription: 'Pages déplacées dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Pages déplacées dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucune page dans la corbeille',
     trashEmptyDescription: 'Les pages supprimées apparaîtront ici.',
     builderTitle: 'Constructeur de pages',
@@ -69,12 +70,16 @@ export const fr: PageTranslations = {
     restoreTitle: 'Restaurer la page',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} pages dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} pages dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimée définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimée définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} pages. Cette action est IRRÉVERSIBLE.`,
-    purgeBlockedByChildren: 'Cette page a des pages enfants et ne peut pas être supprimée définitivement.',
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} pages. Cette action est IRRÉVERSIBLE.`,
+    purgeBlockedByChildren:
+      'Cette page a des pages enfants et ne peut pas être supprimée définitivement.',
   },
   form: {
     sectionGeneral: 'Général',
@@ -133,7 +138,8 @@ export const fr: PageTranslations = {
     fieldSections: 'Sections',
     sectionsCount: (count) => `${count} section${count === 1 ? '' : 's'}`,
     restoreTitle: 'Restaurer la version',
-    restoreDescription: (date) => `Restaurer la version enregistrée le ${date} ? Cela écrasera le contenu actuel.`,
+    restoreDescription: (date) =>
+      `Restaurer la version enregistrée le ${date} ? Cela écrasera le contenu actuel.`,
     confirmRestore: 'Restaurer',
     cancel: 'Annuler',
     restored: 'Version restaurée',
@@ -152,9 +158,11 @@ export const fr: PageTranslations = {
   },
   validation: {
     required: 'Champ obligatoire',
-    slugInvalid: 'Seules les minuscules, les chiffres et les tirets sont autorisés',
+    slugInvalid:
+      'Seules les minuscules, les chiffres et les tirets sont autorisés',
     urlInvalid: 'URL invalide',
-    scheduledAtRequired: 'Une date de publication est requise lorsque le statut est programmée',
+    scheduledAtRequired:
+      'Une date de publication est requise lorsque le statut est programmée',
   },
   builder: {
     palette: 'Sections',
@@ -198,7 +206,8 @@ export const fr: PageTranslations = {
       embedUrlHint: 'Collez le lien de la vidéo hébergée en externe',
       formatMp4: 'Format MP4',
       formatWebm: 'Format WebM',
-      formatHint: 'Téléversez les deux formats pour une compatibilité maximale entre navigateurs',
+      formatHint:
+        'Téléversez les deux formats pour une compatibilité maximale entre navigateurs',
       uploadLabel: 'Téléverser',
       replaceLabel: 'Remplacer',
       removeLabel: 'Retirer',
@@ -315,14 +324,16 @@ export const fr: PageTranslations = {
     mapLngLabel: 'Longitude (facultatif)',
     mapCaptionLabel: 'Légende (facultatif)',
     mapShowDirectionsLabel: 'Afficher les boutons "Itinéraire"',
-    mapShowDirectionsHint: "Ajoute des boutons pour ouvrir l'adresse dans Google Maps et Waze",
+    mapShowDirectionsHint:
+      "Ajoute des boutons pour ouvrir l'adresse dans Google Maps et Waze",
     mapEmpty: 'Cliquez sur modifier pour configurer la carte',
     deleteSection: 'Supprimer la section',
     deleteSectionConfirm: 'Supprimer cette section et tout son contenu ?',
     deleteElement: "Supprimer l'élément",
     dragSection: 'Glisser la section',
     dragElement: "Glisser l'élément",
-    unknownSection: (type) => `Section « ${type} » — pas encore d’éditeur visuel ; conservée telle quelle.`,
+    unknownSection: (type) =>
+      `Section « ${type} » — pas encore d’éditeur visuel ; conservée telle quelle.`,
     edit: 'Modifier',
     done: 'Terminé',
     textEmpty: 'Cliquez sur modifier pour écrire…',
@@ -345,13 +356,16 @@ export const fr: PageTranslations = {
     action: 'Analyse SEO',
     colSeo: 'SEO',
     drawerTitle: 'Analyse SEO',
-    summary: (good, warnings, problems) => `${good} bons · ${warnings} à améliorer · ${problems} problèmes`,
+    summary: (good, warnings, problems) =>
+      `${good} bons · ${warnings} à améliorer · ${problems} problèmes`,
     groupProblems: 'Problèmes',
     groupImprovements: 'Améliorations',
     groupGood: 'Bons résultats',
     focusKeyword: 'Mot-clé principal',
-    noKeyword: 'Non défini — ajoutez des mots-clés à l’étape « SEO » du formulaire',
-    charsCount: (count, min, max) => `${count} caractères (idéal ${min}–${max})`,
+    noKeyword:
+      'Non défini — ajoutez des mots-clés à l’étape « SEO » du formulaire',
+    charsCount: (count, min, max) =>
+      `${count} caractères (idéal ${min}–${max})`,
     previewsTitle: 'Aperçus',
     previewGoogle: 'Google',
     previewFacebook: 'Facebook',

@@ -1,4 +1,11 @@
-import { Modal, Avatar, Chip, CountryLabel, DetailField, SectionLabel } from '@/shared/ui'
+import {
+  Modal,
+  Avatar,
+  Chip,
+  CountryLabel,
+  DetailField,
+  SectionLabel,
+} from '@/shared/ui'
 import { useConfigData, labelFor } from '@/shared/api/config'
 import { useClientsTranslation } from '../../i18n'
 import type { Client } from '../../model/client.types'
@@ -35,11 +42,11 @@ export const ClientDetailModal = ({
               size="md"
             />
             <div className="flex flex-col gap-1">
-              <span className="text-base font-bold text-foreground">
+              <span className="text-foreground text-base font-bold">
                 {client.businessName}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-secondary">
+                <span className="text-secondary text-sm">
                   {labelFor(config?.clientTypes, client.clientType)}
                 </span>
                 <Chip
@@ -69,7 +76,10 @@ export const ClientDetailModal = ({
             <DetailField label={t.form.province} value={client.province} />
             <DetailField label={t.form.district} value={client.district} />
             <DetailField label={t.form.address} value={client.address} />
-            <DetailField label={t.form.addressNumber} value={client.addressNumber} />
+            <DetailField
+              label={t.form.addressNumber}
+              value={client.addressNumber}
+            />
             <DetailField
               label={t.form.addressInterior}
               value={client.addressInterior}
@@ -86,7 +96,7 @@ export const ClientDetailModal = ({
                     href={client.website}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-primary-600 hover:underline dark:text-primary-400"
+                    className="text-primary-600 dark:text-primary-400 hover:underline"
                   >
                     {client.website}
                   </a>
@@ -107,7 +117,9 @@ export const ClientDetailModal = ({
 
           {client.primaryContact && (
             <div>
-              <SectionLabel className="mb-2">{t.form.sectionContact}</SectionLabel>
+              <SectionLabel className="mb-2">
+                {t.form.sectionContact}
+              </SectionLabel>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <DetailField
                   label={t.form.contactFirstName}

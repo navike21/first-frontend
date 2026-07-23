@@ -41,7 +41,9 @@ export function createServiceSchema(v: V, primaryLang: Language = 'en') {
     shortDescription: localizedField(),
     description: localizedField(),
     slug: z.object(
-      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])) as Record<Language, typeof slugLangField>
+      Object.fromEntries(
+        SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
+      ) as Record<Language, typeof slugLangField>
     ),
     pillars: z.array(z.enum(PILLAR_VALUES)).default([]),
     tags: z.string().trim().optional().or(z.literal('')),
@@ -79,7 +81,7 @@ export interface CreateServicePayload {
 }
 
 export function fillLocalized(
-  input: Partial<Record<Language, string>>,
+  input: Partial<Record<Language, string>>
 ): ServiceLocalizedString {
   return Object.fromEntries(
     SUPPORTED_LANGUAGES.map((l) => [l, input[l]?.trim() ?? ''])

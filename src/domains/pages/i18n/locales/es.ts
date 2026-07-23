@@ -9,7 +9,8 @@ export const es: PageTranslations = {
     editTitle: 'Editar página',
     editDescription: (name) => `Actualizar ${name}`,
     trashTitle: 'Papelera de páginas',
-    trashDescription: 'Páginas que han sido movidas a la papelera. Restáuralas o elimínalas permanentemente.',
+    trashDescription:
+      'Páginas que han sido movidas a la papelera. Restáuralas o elimínalas permanentemente.',
     trashEmpty: 'No hay páginas en la papelera',
     trashEmptyDescription: 'Cuando se eliminen páginas, aparecerán aquí.',
     builderTitle: 'Constructor de páginas',
@@ -69,12 +70,16 @@ export const es: PageTranslations = {
     restoreTitle: 'Restaurar página',
     restoreDescription: (name) => `¿Restaurar ${name} en la lista de activas?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} páginas en la lista de activas?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} páginas en la lista de activas?`,
     purgeTitle: 'Eliminar permanentemente',
-    purgeDescription: (name) => `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} páginas. Esta acción es IRREVERSIBLE.`,
-    purgeBlockedByChildren: 'Esta página tiene páginas hijas y no puede eliminarse permanentemente.',
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará permanentemente ${count} páginas. Esta acción es IRREVERSIBLE.`,
+    purgeBlockedByChildren:
+      'Esta página tiene páginas hijas y no puede eliminarse permanentemente.',
   },
   form: {
     sectionGeneral: 'General',
@@ -131,9 +136,11 @@ export const es: PageTranslations = {
     noChanges: 'Esta versión es idéntica a la versión actual.',
     changesCount: (count) => `Cambios (${count})`,
     fieldSections: 'Secciones',
-    sectionsCount: (count) => `${count} ${count === 1 ? 'sección' : 'secciones'}`,
+    sectionsCount: (count) =>
+      `${count} ${count === 1 ? 'sección' : 'secciones'}`,
     restoreTitle: 'Restaurar versión',
-    restoreDescription: (date) => `¿Restaurar la versión guardada el ${date}? Esto sobrescribirá el contenido actual.`,
+    restoreDescription: (date) =>
+      `¿Restaurar la versión guardada el ${date}? Esto sobrescribirá el contenido actual.`,
     confirmRestore: 'Restaurar',
     cancel: 'Cancelar',
     restored: 'Versión restaurada',
@@ -154,7 +161,8 @@ export const es: PageTranslations = {
     required: 'Campo obligatorio',
     slugInvalid: 'Solo se permiten minúsculas, números y guiones',
     urlInvalid: 'URL inválida',
-    scheduledAtRequired: 'Se requiere una fecha de publicación cuando el estado es programada',
+    scheduledAtRequired:
+      'Se requiere una fecha de publicación cuando el estado es programada',
   },
   builder: {
     palette: 'Secciones',
@@ -198,7 +206,8 @@ export const es: PageTranslations = {
       embedUrlHint: 'Pega el enlace del video alojado externamente',
       formatMp4: 'Formato MP4',
       formatWebm: 'Formato WebM',
-      formatHint: 'Sube ambos formatos para máxima compatibilidad entre navegadores',
+      formatHint:
+        'Sube ambos formatos para máxima compatibilidad entre navegadores',
       uploadLabel: 'Subir',
       replaceLabel: 'Cambiar',
       removeLabel: 'Quitar',
@@ -315,14 +324,16 @@ export const es: PageTranslations = {
     mapLngLabel: 'Longitud (opcional)',
     mapCaptionLabel: 'Descripción (opcional)',
     mapShowDirectionsLabel: 'Mostrar botones "Cómo llegar"',
-    mapShowDirectionsHint: 'Agrega botones para abrir la dirección en Google Maps y Waze',
+    mapShowDirectionsHint:
+      'Agrega botones para abrir la dirección en Google Maps y Waze',
     mapEmpty: 'Haz clic en editar para configurar el mapa',
     deleteSection: 'Eliminar sección',
     deleteSectionConfirm: '¿Eliminar esta sección y todo su contenido?',
     deleteElement: 'Eliminar elemento',
     dragSection: 'Arrastrar sección',
     dragElement: 'Arrastrar elemento',
-    unknownSection: (type) => `Sección «${type}» — aún sin editor visual; se conserva tal cual.`,
+    unknownSection: (type) =>
+      `Sección «${type}» — aún sin editor visual; se conserva tal cual.`,
     edit: 'Editar',
     done: 'Listo',
     textEmpty: 'Haz clic en editar para escribir…',
@@ -345,13 +356,16 @@ export const es: PageTranslations = {
     action: 'Análisis SEO',
     colSeo: 'SEO',
     drawerTitle: 'Análisis SEO',
-    summary: (good, warnings, problems) => `${good} bien · ${warnings} mejorables · ${problems} problemas`,
+    summary: (good, warnings, problems) =>
+      `${good} bien · ${warnings} mejorables · ${problems} problemas`,
     groupProblems: 'Problemas',
     groupImprovements: 'Mejoras posibles',
     groupGood: 'Correcto',
     focusKeyword: 'Palabra clave objetivo',
-    noKeyword: 'Sin definir — añade palabras clave en el paso «SEO» del formulario',
-    charsCount: (count, min, max) => `${count} caracteres (ideal ${min}–${max})`,
+    noKeyword:
+      'Sin definir — añade palabras clave en el paso «SEO» del formulario',
+    charsCount: (count, min, max) =>
+      `${count} caracteres (ideal ${min}–${max})`,
     previewsTitle: 'Vistas previas',
     previewGoogle: 'Google',
     previewFacebook: 'Facebook',

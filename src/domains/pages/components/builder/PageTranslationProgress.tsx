@@ -45,7 +45,7 @@ export const PageTranslationProgress = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-xs font-semibold uppercase tracking-wide text-muted">
+      <span className="text-muted text-xs font-semibold tracking-wide uppercase">
         {t.builder.translationProgress.heading}
       </span>
       <div className="flex flex-wrap gap-2">
@@ -61,14 +61,21 @@ export const PageTranslationProgress = ({
               className={clsx(
                 'flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors',
                 active
-                  ? 'bg-primary-700/10 text-primary-600 ring-1 ring-primary-700/20'
-                  : 'bg-surface-subtle text-secondary hover:text-foreground',
+                  ? 'bg-primary-700/10 text-primary-600 ring-primary-700/20 ring-1'
+                  : 'bg-surface-subtle text-secondary hover:text-foreground'
               )}
             >
-              <span className={clsx('h-2 w-2 shrink-0 rounded-full', dotClass(percent))} />
-              <span className="uppercase tracking-wide">{lang}</span>
-              {lang === nativeLanguage && <span className="text-primary-600">★</span>}
-              <span className="tabular-nums text-muted">{percent}%</span>
+              <span
+                className={clsx(
+                  'h-2 w-2 shrink-0 rounded-full',
+                  dotClass(percent)
+                )}
+              />
+              <span className="tracking-wide uppercase">{lang}</span>
+              {lang === nativeLanguage && (
+                <span className="text-primary-600">★</span>
+              )}
+              <span className="text-muted tabular-nums">{percent}%</span>
             </button>
           )
         })}

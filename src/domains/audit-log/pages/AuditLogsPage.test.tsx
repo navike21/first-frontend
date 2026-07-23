@@ -65,9 +65,8 @@ vi.mock('@domains/errors', () => ({
 
 // We need to render actual Can component to test conditional rendering
 vi.mock('@/shared/ui', async () => {
-  const actual = await vi.importActual<typeof import('@/shared/ui')>(
-    '@/shared/ui'
-  )
+  const actual =
+    await vi.importActual<typeof import('@/shared/ui')>('@/shared/ui')
   return {
     ...actual,
     PageContent: ({

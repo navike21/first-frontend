@@ -47,7 +47,13 @@ export function useEditUserForm({
     () => createUpdateUserFormSchema(t.validation),
     [t.validation]
   )
-  const { pendingFile, libraryUrl, setLibraryUrl, onPickFile, onSelectLibrary } = usePhotoUpload()
+  const {
+    pendingFile,
+    libraryUrl,
+    setLibraryUrl,
+    onPickFile,
+    onSelectLibrary,
+  } = usePhotoUpload()
   const [removeAvatar, setRemoveAvatar] = useState(false)
   const [activeTab, setActiveTab] = useState<UserFormTab>('personal')
 

@@ -4,13 +4,18 @@ import { onQueuedOr } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
 import { CollaboratorForm } from '../components/CollaboratorForm'
-import { useCollaborator, useUpdateCollaborator } from '../api/collaborators.queries'
+import {
+  useCollaborator,
+  useUpdateCollaborator,
+} from '../api/collaborators.queries'
 import { useCollaboratorsTranslation } from '../i18n'
 import { toCollaboratorPayload } from '../model/collaborator.schema'
 import type { CollaboratorFormData } from '../model/collaborator.schema'
 import type { Collaborator } from '../model/collaborator.types'
 
-function toFormValues(collaborator: Collaborator): Partial<CollaboratorFormData> {
+function toFormValues(
+  collaborator: Collaborator
+): Partial<CollaboratorFormData> {
   return {
     name: collaborator.name,
     role: collaborator.role,
@@ -32,7 +37,9 @@ function toFormValues(collaborator: Collaborator): Partial<CollaboratorFormData>
 export const EditCollaboratorPage = () => {
   const navigate = useNavigate()
   const { t, language } = useCollaboratorsTranslation()
-  const { collaboratorId } = useParams({ strict: false }) as { collaboratorId: string }
+  const { collaboratorId } = useParams({ strict: false }) as {
+    collaboratorId: string
+  }
   const { data: collaborator, isLoading } = useCollaborator(collaboratorId)
   const updateCollaborator = useUpdateCollaborator(collaboratorId)
 
@@ -44,7 +51,8 @@ export const EditCollaboratorPage = () => {
   ) => {
     let payload = toCollaboratorPayload(data)
     if (removePhoto) payload = { ...payload, photoUrl: '' }
-    else if (photoLibraryUrl) payload = { ...payload, photoUrl: photoLibraryUrl }
+    else if (photoLibraryUrl)
+      payload = { ...payload, photoUrl: photoLibraryUrl }
 
     updateCollaborator.mutate(
       { data: payload, photo },
@@ -88,7 +96,9 @@ export const EditCollaboratorPage = () => {
         currentPhotoUrl={collaborator.photoUrl}
         isSubmitting={updateCollaborator.isPending}
         submitError={updateCollaborator.error}
-        onCancel={() => navigate({ to: navPaths.collaborators(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.collaborators(language) as never })
+        }
         onSubmit={handleUpdate}
       />
     </PageContent>

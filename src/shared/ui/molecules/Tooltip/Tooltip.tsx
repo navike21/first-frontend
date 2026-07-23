@@ -118,7 +118,7 @@ export const Tooltip = ({
                   {subtitle && (
                     <span
                       className={clsx(
-                        'leading-snug text-xs font-normal',
+                        'text-xs leading-snug font-normal',
                         variant === 'dark'
                           ? 'text-tooltip-text/70'
                           : 'text-slate-500 dark:text-slate-400'

@@ -9,7 +9,8 @@ export const pt: ServicesTranslations = {
     editTitle: 'Editar serviço',
     editDescription: (name) => `Atualizar as informações de ${name}`,
     trashTitle: 'Lixeira de serviços',
-    trashDescription: 'Serviços movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
+    trashDescription:
+      'Serviços movidos para a lixeira. Restaure-os ou exclua-os permanentemente.',
     trashEmpty: 'Nenhum serviço na lixeira',
     trashEmptyDescription: 'Quando serviços forem excluídos, aparecerão aqui.',
   },
@@ -67,11 +68,14 @@ export const pt: ServicesTranslations = {
     restoreTitle: 'Restaurar serviço',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} serviços para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} serviços para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluído permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} serviços. Esta ação é IRREVERSÍVEL.`,
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} serviços. Esta ação é IRREVERSÍVEL.`,
   },
   form: {
     sectionGeneral: 'Geral',

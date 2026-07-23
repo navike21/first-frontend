@@ -9,7 +9,8 @@ export const fr: SubscribersTranslations = {
     editTitle: "Modifier l'abonné",
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des abonnés',
-    trashDescription: 'Abonnés déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Abonnés déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun abonné dans la corbeille',
     trashEmptyDescription: 'Les abonnés supprimés apparaîtront ici.',
   },
@@ -65,11 +66,14 @@ export const fr: SubscribersTranslations = {
     restoreTitle: "Restaurer l'abonné",
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} abonnés dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} abonnés dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} abonnés. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} abonnés. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     sectionPersonal: 'Informations personnelles',

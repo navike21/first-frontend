@@ -5,7 +5,8 @@ export const ru: MediaTranslations = {
     listTitle: 'Медиа',
     listDescription: 'Управляйте изображениями и видео, загруженными на сайт',
     trashTitle: 'Корзина медиафайлов',
-    trashDescription: 'Файлы, перемещённые в корзину. Их можно восстановить или удалить навсегда.',
+    trashDescription:
+      'Файлы, перемещённые в корзину. Их можно восстановить или удалить навсегда.',
     trashEmpty: 'В корзине нет файлов',
     trashEmptyDescription: 'Удалённые файлы будут отображаться здесь.',
   },
@@ -36,17 +37,22 @@ export const ru: MediaTranslations = {
     bulkPurge: 'Удалить навсегда',
     viewItem: 'Просмотреть детали',
     deleteTitle: 'Удалить файл',
-    deleteDescription: (name) => `Удалить ${name}? Вы сможете восстановить его из корзины.`,
+    deleteDescription: (name) =>
+      `Удалить ${name}? Вы сможете восстановить его из корзины.`,
     confirmDelete: 'Удалить',
-    bulkDeleteDescription: (count) => `Удалить файлов: ${count}? Вы сможете восстановить их из корзины.`,
+    bulkDeleteDescription: (count) =>
+      `Удалить файлов: ${count}? Вы сможете восстановить их из корзины.`,
     restoreTitle: 'Восстановить файл',
     restoreDescription: (name) => `Восстановить ${name} в активную библиотеку?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} файлов в активную библиотеку?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} файлов в активную библиотеку?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие необратимо.`,
+    purgeDescription: (name) =>
+      `${name} будет удалён навсегда. Это действие необратимо.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} файлов. Действие необратимо.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} файлов. Действие необратимо.`,
   },
   upload: {
     title: 'Загрузить файлы',
@@ -67,7 +73,8 @@ export const ru: MediaTranslations = {
     tabUsage: 'Использование',
     usageLoading: 'Ищем, где используется…',
     usageEmpty: 'Больше нигде на сайте не найдено',
-    usageEditorNote: 'Могут быть дополнительные использования внутри форматированного текста, которые мы не определяем автоматически.',
+    usageEditorNote:
+      'Могут быть дополнительные использования внутри форматированного текста, которые мы не определяем автоматически.',
     moduleClients: 'Клиент',
     moduleUsers: 'Пользователь',
     moduleCollaborators: 'Сотрудник',

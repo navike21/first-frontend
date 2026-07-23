@@ -5,7 +5,8 @@ export const en: MediaTranslations = {
     listTitle: 'Media',
     listDescription: 'Manage the images and videos uploaded to the site',
     trashTitle: 'Media trash',
-    trashDescription: 'Files moved to trash. You can restore or permanently delete them.',
+    trashDescription:
+      'Files moved to trash. You can restore or permanently delete them.',
     trashEmpty: 'No files in the trash',
     trashEmptyDescription: 'Deleted files will show up here.',
   },
@@ -36,17 +37,22 @@ export const en: MediaTranslations = {
     bulkPurge: 'Delete permanently',
     viewItem: 'View details',
     deleteTitle: 'Delete file',
-    deleteDescription: (name) => `Delete ${name}? You can restore it from the trash.`,
+    deleteDescription: (name) =>
+      `Delete ${name}? You can restore it from the trash.`,
     confirmDelete: 'Delete',
-    bulkDeleteDescription: (count) => `Delete ${count} files? You can restore them from the trash.`,
+    bulkDeleteDescription: (count) =>
+      `Delete ${count} files? You can restore them from the trash.`,
     restoreTitle: 'Restore file',
     restoreDescription: (name) => `Restore ${name} to the active library?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} files to the active library?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} files to the active library?`,
     purgeTitle: 'Delete permanently',
-    purgeDescription: (name) => `${name} will be deleted forever. This action cannot be undone.`,
+    purgeDescription: (name) =>
+      `${name} will be deleted forever. This action cannot be undone.`,
     confirmPurge: 'Delete',
-    bulkPurgeDescription: (count) => `This will permanently delete ${count} files. This action cannot be undone.`,
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} files. This action cannot be undone.`,
   },
   upload: {
     title: 'Upload files',
@@ -67,7 +73,8 @@ export const en: MediaTranslations = {
     tabUsage: 'Usage',
     usageLoading: 'Looking for where it is used…',
     usageEmpty: 'Not found anywhere else on the site',
-    usageEditorNote: 'There may be additional uses inside rich-text content that we don’t detect automatically.',
+    usageEditorNote:
+      'There may be additional uses inside rich-text content that we don’t detect automatically.',
     moduleClients: 'Client',
     moduleUsers: 'User',
     moduleCollaborators: 'Collaborator',

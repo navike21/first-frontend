@@ -9,7 +9,8 @@ export const de: ClientsTranslations = {
     editTitle: 'Kunde bearbeiten',
     editDescription: (name) => `Informationen von ${name} aktualisieren`,
     trashTitle: 'Kunden-Papierkorb',
-    trashDescription: 'Kunden, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Kunden, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Kunden im Papierkorb',
     trashEmptyDescription: 'Gelöschte Kunden werden hier angezeigt.',
   },
@@ -60,17 +61,23 @@ export const de: ClientsTranslations = {
     bulkRestore: 'Wiederherstellen',
     bulkPurge: 'Endgültig löschen',
     deleteTitle: 'Kunde löschen',
-    deleteDescription: (name) => `${name} löschen? Du kannst ihn aus dem Papierkorb wiederherstellen.`,
+    deleteDescription: (name) =>
+      `${name} löschen? Du kannst ihn aus dem Papierkorb wiederherstellen.`,
     confirmDelete: 'Löschen',
-    bulkDeleteDescription: (count) => `${count} Kunden löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
+    bulkDeleteDescription: (count) =>
+      `${count} Kunden löschen? Du kannst sie aus dem Papierkorb wiederherstellen.`,
     restoreTitle: 'Kunde wiederherstellen',
-    restoreDescription: (name) => `${name} in die aktive Liste wiederherstellen?`,
+    restoreDescription: (name) =>
+      `${name} in die aktive Liste wiederherstellen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Kunden in die aktive Liste wiederherstellen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Kunden in die aktive Liste wiederherstellen?`,
     purgeTitle: 'Endgültig löschen',
-    purgeDescription: (name) => `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
+    purgeDescription: (name) =>
+      `${name} wird endgültig gelöscht. Diese Aktion ist UNWIDERRUFLICH.`,
     confirmPurge: 'Löschen',
-    bulkPurgeDescription: (count) => `Dies löscht ${count} Kunden endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
+    bulkPurgeDescription: (count) =>
+      `Dies löscht ${count} Kunden endgültig. Diese Aktion ist UNWIDERRUFLICH.`,
   },
   form: {
     sectionGeneral: 'Allgemeine Informationen',

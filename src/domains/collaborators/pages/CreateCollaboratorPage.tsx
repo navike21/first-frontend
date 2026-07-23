@@ -21,7 +21,9 @@ export const CreateCollaboratorPage = () => {
     photoLibraryUrl?: string
   ) => {
     const base = toCollaboratorPayload(data)
-    const payload = photoLibraryUrl ? { ...base, photoUrl: photoLibraryUrl } : base
+    const payload = photoLibraryUrl
+      ? { ...base, photoUrl: photoLibraryUrl }
+      : base
     createCollaborator.mutate(
       { data: payload, photo },
       {
@@ -52,7 +54,9 @@ export const CreateCollaboratorPage = () => {
         mode="create"
         isSubmitting={createCollaborator.isPending}
         submitError={createCollaborator.error}
-        onCancel={() => navigate({ to: navPaths.collaborators(language) as never })}
+        onCancel={() =>
+          navigate({ to: navPaths.collaborators(language) as never })
+        }
         onSubmit={handleCreate}
       />
     </PageContent>

@@ -9,7 +9,8 @@ export const pt: PageTranslations = {
     editTitle: 'Editar página',
     editDescription: (name) => `Atualizar ${name}`,
     trashTitle: 'Lixeira de páginas',
-    trashDescription: 'Páginas movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
+    trashDescription:
+      'Páginas movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
     trashEmpty: 'Nenhuma página na lixeira',
     trashEmptyDescription: 'Quando páginas forem excluídas, aparecerão aqui.',
     builderTitle: 'Construtor de páginas',
@@ -69,12 +70,16 @@ export const pt: PageTranslations = {
     restoreTitle: 'Restaurar página',
     restoreDescription: (name) => `Restaurar ${name} para a lista ativa?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `Restaurar ${count} páginas para a lista ativa?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurar ${count} páginas para a lista ativa?`,
     purgeTitle: 'Exclusão permanente',
-    purgeDescription: (name) => `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
+    purgeDescription: (name) =>
+      `${name} será excluída permanentemente. Esta ação é IRREVERSÍVEL.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Isto excluirá permanentemente ${count} páginas. Esta ação é IRREVERSÍVEL.`,
-    purgeBlockedByChildren: 'Esta página possui páginas filhas e não pode ser excluída permanentemente.',
+    bulkPurgeDescription: (count) =>
+      `Isto excluirá permanentemente ${count} páginas. Esta ação é IRREVERSÍVEL.`,
+    purgeBlockedByChildren:
+      'Esta página possui páginas filhas e não pode ser excluída permanentemente.',
   },
   form: {
     sectionGeneral: 'Geral',
@@ -133,7 +138,8 @@ export const pt: PageTranslations = {
     fieldSections: 'Seções',
     sectionsCount: (count) => `${count} ${count === 1 ? 'seção' : 'seções'}`,
     restoreTitle: 'Restaurar versão',
-    restoreDescription: (date) => `Restaurar a versão salva em ${date}? Isso substituirá o conteúdo atual.`,
+    restoreDescription: (date) =>
+      `Restaurar a versão salva em ${date}? Isso substituirá o conteúdo atual.`,
     confirmRestore: 'Restaurar',
     cancel: 'Cancelar',
     restored: 'Versão restaurada',
@@ -154,7 +160,8 @@ export const pt: PageTranslations = {
     required: 'Campo obrigatório',
     slugInvalid: 'Apenas letras minúsculas, números e hifens são permitidos',
     urlInvalid: 'URL inválida',
-    scheduledAtRequired: 'Uma data de publicação é obrigatória quando o status é agendada',
+    scheduledAtRequired:
+      'Uma data de publicação é obrigatória quando o status é agendada',
   },
   builder: {
     palette: 'Seções',
@@ -198,7 +205,8 @@ export const pt: PageTranslations = {
       embedUrlHint: 'Cole o link do vídeo hospedado externamente',
       formatMp4: 'Formato MP4',
       formatWebm: 'Formato WebM',
-      formatHint: 'Envie os dois formatos para máxima compatibilidade entre navegadores',
+      formatHint:
+        'Envie os dois formatos para máxima compatibilidade entre navegadores',
       uploadLabel: 'Enviar',
       replaceLabel: 'Substituir',
       removeLabel: 'Remover',
@@ -315,14 +323,16 @@ export const pt: PageTranslations = {
     mapLngLabel: 'Longitude (opcional)',
     mapCaptionLabel: 'Descrição (opcional)',
     mapShowDirectionsLabel: 'Mostrar botões "Como chegar"',
-    mapShowDirectionsHint: 'Adiciona botões para abrir o endereço no Google Maps e Waze',
+    mapShowDirectionsHint:
+      'Adiciona botões para abrir o endereço no Google Maps e Waze',
     mapEmpty: 'Clique em editar para configurar o mapa',
     deleteSection: 'Excluir seção',
     deleteSectionConfirm: 'Excluir esta seção e todo o seu conteúdo?',
     deleteElement: 'Excluir elemento',
     dragSection: 'Arrastar seção',
     dragElement: 'Arrastar elemento',
-    unknownSection: (type) => `Seção «${type}» — ainda sem editor visual; mantida como está.`,
+    unknownSection: (type) =>
+      `Seção «${type}» — ainda sem editor visual; mantida como está.`,
     edit: 'Editar',
     done: 'Concluído',
     textEmpty: 'Clique em editar para escrever…',
@@ -345,13 +355,16 @@ export const pt: PageTranslations = {
     action: 'Análise de SEO',
     colSeo: 'SEO',
     drawerTitle: 'Análise de SEO',
-    summary: (good, warnings, problems) => `${good} bons · ${warnings} melhoráveis · ${problems} problemas`,
+    summary: (good, warnings, problems) =>
+      `${good} bons · ${warnings} melhoráveis · ${problems} problemas`,
     groupProblems: 'Problemas',
     groupImprovements: 'Melhorias',
     groupGood: 'Resultados bons',
     focusKeyword: 'Palavra-chave principal',
-    noKeyword: 'Não definida — adicione palavras-chave na etapa «SEO» do formulário',
-    charsCount: (count, min, max) => `${count} caracteres (ideal ${min}–${max})`,
+    noKeyword:
+      'Não definida — adicione palavras-chave na etapa «SEO» do formulário',
+    charsCount: (count, min, max) =>
+      `${count} caracteres (ideal ${min}–${max})`,
     previewsTitle: 'Pré-visualizações',
     previewGoogle: 'Google',
     previewFacebook: 'Facebook',

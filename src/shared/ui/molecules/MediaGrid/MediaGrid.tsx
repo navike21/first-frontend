@@ -15,10 +15,14 @@ interface PaginationFooterProps {
   disabled?: boolean
 }
 
-const PaginationFooter = ({ totalLabel, pagination, disabled }: PaginationFooterProps) => {
+const PaginationFooter = ({
+  totalLabel,
+  pagination,
+  disabled,
+}: PaginationFooterProps) => {
   if (!totalLabel && !pagination) return null
   return (
-    <div className="flex items-center justify-between text-sm text-secondary">
+    <div className="text-secondary flex items-center justify-between text-sm">
       <span>{totalLabel}</span>
       {pagination && pagination.pages > 1 && (
         <div className="flex items-center gap-1">
@@ -30,7 +34,7 @@ const PaginationFooter = ({ totalLabel, pagination, disabled }: PaginationFooter
             disabled={disabled || pagination.page <= 1}
             onClick={() => pagination.onPageChange(pagination.page - 1)}
           />
-          <span className="px-2 font-medium text-foreground">
+          <span className="text-foreground px-2 font-medium">
             {pagination.page} / {pagination.pages}
           </span>
           <IconButton
@@ -86,18 +90,29 @@ export const MediaGrid = <T,>({
     return (
       <div className={clsx('flex flex-col gap-4', className)}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {Array.from({ length: items.length || FALLBACK_SKELETON_COUNT }, (_, i) => (
-            <Skeleton key={i} variant="rect" className="aspect-square w-full" />
-          ))}
+          {Array.from(
+            { length: items.length || FALLBACK_SKELETON_COUNT },
+            (_, i) => (
+              <Skeleton
+                key={i}
+                variant="rect"
+                className="aspect-square w-full"
+              />
+            )
+          )}
         </div>
-        <PaginationFooter totalLabel={totalLabel} pagination={pagination} disabled />
+        <PaginationFooter
+          totalLabel={totalLabel}
+          pagination={pagination}
+          disabled
+        />
       </div>
     )
   }
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 py-20 text-muted">
+      <div className="text-muted flex flex-col items-center justify-center gap-2 py-20">
         <IconComponent icon={emptyIcon} className="h-10 w-10" />
         <p className="text-sm">{emptyLabel}</p>
       </div>
@@ -106,13 +121,17 @@ export const MediaGrid = <T,>({
 
   const selected = selectedIds ?? []
   const itemKeys = items.map(getItemKey)
-  const allSelected = itemKeys.length > 0 && itemKeys.every((k) => selected.includes(k))
-  const someSelected = !allSelected && itemKeys.some((k) => selected.includes(k))
+  const allSelected =
+    itemKeys.length > 0 && itemKeys.every((k) => selected.includes(k))
+  const someSelected =
+    !allSelected && itemKeys.some((k) => selected.includes(k))
 
   const toggleItem = (key: string) => {
     if (!onSelectionChange) return
     onSelectionChange(
-      selected.includes(key) ? selected.filter((k) => k !== key) : [...selected, key],
+      selected.includes(key)
+        ? selected.filter((k) => k !== key)
+        : [...selected, key]
     )
   }
 
@@ -137,7 +156,7 @@ export const MediaGrid = <T,>({
             onChange={toggleAll}
             aria-label={selectAllLabel}
           />
-          <span className="text-xs text-muted">{selectAllLabel}</span>
+          <span className="text-muted text-xs">{selectAllLabel}</span>
         </div>
       )}
 

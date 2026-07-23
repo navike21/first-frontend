@@ -70,7 +70,8 @@ export const zh: ClientsTranslations = {
     purgeTitle: '永久删除',
     purgeDescription: (name) => `将永久删除 ${name}。此操作不可撤销。`,
     confirmPurge: '删除',
-    bulkPurgeDescription: (count) => `这将永久删除 ${count} 个客户。此操作不可逆。`,
+    bulkPurgeDescription: (count) =>
+      `这将永久删除 ${count} 个客户。此操作不可逆。`,
   },
   form: {
     sectionGeneral: '基本信息',

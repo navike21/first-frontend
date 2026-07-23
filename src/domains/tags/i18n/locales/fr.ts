@@ -9,7 +9,8 @@ export const fr: TagTranslations = {
     editTitle: 'Modifier le mot-clé',
     editDescription: (name) => `Mettre à jour ${name}`,
     trashTitle: 'Corbeille des mots-clés',
-    trashDescription: 'Mots-clés déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Mots-clés déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun mot-clé dans la corbeille',
     trashEmptyDescription: 'Les mots-clés supprimés apparaîtront ici.',
   },
@@ -61,11 +62,14 @@ export const fr: TagTranslations = {
     restoreTitle: 'Restaurer le mot-clé',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} mots-clés dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} mots-clés dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} mots-clés. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} mots-clés. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traductions',
@@ -89,6 +93,7 @@ export const fr: TagTranslations = {
   },
   validation: {
     required: 'Champ obligatoire',
-    slugInvalid: 'Seules les minuscules, les chiffres et les tirets sont autorisés',
+    slugInvalid:
+      'Seules les minuscules, les chiffres et les tirets sont autorisés',
   },
 }

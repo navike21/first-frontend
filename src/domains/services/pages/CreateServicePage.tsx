@@ -24,7 +24,13 @@ export const CreateServicePage = () => {
     iconLibraryUrl?: string
   ) => {
     createService.mutate(
-      { data: toServicePayload(data), cover, iconFile, coverLibraryUrl, iconLibraryUrl },
+      {
+        data: toServicePayload(data),
+        cover,
+        iconFile,
+        coverLibraryUrl,
+        iconLibraryUrl,
+      },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.created)

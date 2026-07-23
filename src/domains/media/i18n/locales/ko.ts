@@ -5,7 +5,8 @@ export const ko: MediaTranslations = {
     listTitle: '미디어',
     listDescription: '사이트에 업로드된 이미지와 동영상을 관리합니다',
     trashTitle: '미디어 휴지통',
-    trashDescription: '휴지통으로 이동된 파일입니다. 복원하거나 영구적으로 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 파일입니다. 복원하거나 영구적으로 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 파일이 없습니다',
     trashEmptyDescription: '삭제된 파일이 여기에 표시됩니다.',
   },
@@ -36,17 +37,23 @@ export const ko: MediaTranslations = {
     bulkPurge: '영구 삭제',
     viewItem: '상세 보기',
     deleteTitle: '파일 삭제',
-    deleteDescription: (name) => `${name}을(를) 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
+    deleteDescription: (name) =>
+      `${name}을(를) 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     confirmDelete: '삭제',
-    bulkDeleteDescription: (count) => `${count}개 파일을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
+    bulkDeleteDescription: (count) =>
+      `${count}개 파일을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     restoreTitle: '파일 복원',
-    restoreDescription: (name) => `${name}을(를) 활성 라이브러리로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `${name}을(를) 활성 라이브러리로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `${count}개 파일을 활성 라이브러리로 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) =>
+      `${count}개 파일을 활성 라이브러리로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `${name}이(가) 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `${name}이(가) 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmPurge: '삭제',
-    bulkPurgeDescription: (count) => `${count}개 파일이 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
+    bulkPurgeDescription: (count) =>
+      `${count}개 파일이 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
   },
   upload: {
     title: '파일 업로드',
@@ -67,7 +74,8 @@ export const ko: MediaTranslations = {
     tabUsage: '사용처',
     usageLoading: '사용처를 찾는 중…',
     usageEmpty: '사이트의 다른 곳에서는 발견되지 않았습니다',
-    usageEditorNote: '자동으로 감지되지 않는 리치 텍스트 콘텐츠 내 추가 사용처가 있을 수 있습니다.',
+    usageEditorNote:
+      '자동으로 감지되지 않는 리치 텍스트 콘텐츠 내 추가 사용처가 있을 수 있습니다.',
     moduleClients: '클라이언트',
     moduleUsers: '사용자',
     moduleCollaborators: '협력자',

@@ -2,8 +2,7 @@ import type { TextareaHTMLAttributes, ReactNode } from 'react'
 
 export type TextAreaVariant = 'default' | 'success' | 'error' | 'warning'
 
-export interface TextAreaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: ReactNode
   helperText?: ReactNode
   errorMessage?: ReactNode

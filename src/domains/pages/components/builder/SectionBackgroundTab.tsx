@@ -17,8 +17,16 @@ import { BackgroundVideoFields } from './BackgroundVideoFields'
 export interface SectionBackgroundTabProps {
   background: SectionBackground
   onChange: (breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
-  onPickFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: File) => void
-  onPickLibraryFile: (breakpoint: BackgroundBreakpoint, slot: BackgroundFileSlot, file: StorageFile) => void
+  onPickFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: File
+  ) => void
+  onPickLibraryFile: (
+    breakpoint: BackgroundBreakpoint,
+    slot: BackgroundFileSlot,
+    file: StorageFile
+  ) => void
 }
 
 const BREAKPOINT_ICONS: Record<BackgroundBreakpoint, IconName> = {
@@ -27,22 +35,49 @@ const BREAKPOINT_ICONS: Record<BackgroundBreakpoint, IconName> = {
   mobile: 'RiSmartphoneLine',
 }
 
-const defaultImage = (): BackgroundImage => ({ type: 'image', position: 'center', fullScreen: false, parallax: false })
-const defaultVideo = (): BackgroundVideo => ({ type: 'video', sourceKind: 'upload', files: [], parallax: false })
+const defaultImage = (): BackgroundImage => ({
+  type: 'image',
+  position: 'center',
+  fullScreen: false,
+  parallax: false,
+})
+const defaultVideo = (): BackgroundVideo => ({
+  type: 'video',
+  sourceKind: 'upload',
+  files: [],
+  parallax: false,
+})
 
 /** Un solo panel compartido (no un bloque por breakpoint): el selector decide
  * QUÉ config se edita, evitando triplicar cada campo futuro por desktop/
  * tablet/móvil. */
-export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickLibraryFile }: SectionBackgroundTabProps) => {
+export const SectionBackgroundTab = ({
+  background,
+  onChange,
+  onPickFile,
+  onPickLibraryFile,
+}: SectionBackgroundTabProps) => {
   const { t } = usePagesTranslation()
   const [breakpoint, setBreakpoint] = useState<BackgroundBreakpoint>('desktop')
 
   const config: BackgroundConfig = background[breakpoint] ?? { type: 'none' }
 
   const breakpointOptions = [
-    { value: 'desktop', label: t.builder.breakpoint.desktop, icon: BREAKPOINT_ICONS.desktop },
-    { value: 'tablet', label: t.builder.breakpoint.tablet, icon: BREAKPOINT_ICONS.tablet },
-    { value: 'mobile', label: t.builder.breakpoint.mobile, icon: BREAKPOINT_ICONS.mobile },
+    {
+      value: 'desktop',
+      label: t.builder.breakpoint.desktop,
+      icon: BREAKPOINT_ICONS.desktop,
+    },
+    {
+      value: 'tablet',
+      label: t.builder.breakpoint.tablet,
+      icon: BREAKPOINT_ICONS.tablet,
+    },
+    {
+      value: 'mobile',
+      label: t.builder.breakpoint.mobile,
+      icon: BREAKPOINT_ICONS.mobile,
+    },
   ]
 
   const typeOptions = [
@@ -64,7 +99,9 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
           label={t.builder.breakpoint.label}
           options={breakpointOptions}
           value={breakpoint}
-          onChange={(e) => setBreakpoint(e.target.value as BackgroundBreakpoint)}
+          onChange={(e) =>
+            setBreakpoint(e.target.value as BackgroundBreakpoint)
+          }
         />
         <Select
           label={t.builder.background.typeLabel}
@@ -79,7 +116,9 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
           config={config}
           onChange={(patch) => onChange(breakpoint, { ...config, ...patch })}
           onPickFile={(file) => onPickFile(breakpoint, 'image', file)}
-          onSelectLibrary={(file) => onPickLibraryFile(breakpoint, 'image', file)}
+          onSelectLibrary={(file) =>
+            onPickLibraryFile(breakpoint, 'image', file)
+          }
         />
       )}
 
@@ -88,7 +127,9 @@ export const SectionBackgroundTab = ({ background, onChange, onPickFile, onPickL
           config={config}
           onChange={(patch) => onChange(breakpoint, { ...config, ...patch })}
           onPickFile={(slot, file) => onPickFile(breakpoint, slot, file)}
-          onSelectLibrary={(slot, file) => onPickLibraryFile(breakpoint, slot, file)}
+          onSelectLibrary={(slot, file) =>
+            onPickLibraryFile(breakpoint, slot, file)
+          }
         />
       )}
     </div>

@@ -46,7 +46,10 @@ export const SubscriberForm = ({
   onSubmit,
 }: SubscriberFormProps) => {
   const { t, language } = useSubscribersTranslation()
-  const schema = useMemo(() => createSubscriberSchema(t.validation), [t.validation])
+  const schema = useMemo(
+    () => createSubscriberSchema(t.validation),
+    [t.validation]
+  )
 
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [removePhoto, setRemovePhoto] = useState(false)
@@ -90,7 +93,10 @@ export const SubscriberForm = ({
   }, [submitError, setError])
 
   const genderValue = useWatch({ control, name: 'personalInformation.gender' })
-  const dateOfBirthValue = useWatch({ control, name: 'personalInformation.dateOfBirth' })
+  const dateOfBirthValue = useWatch({
+    control,
+    name: 'personalInformation.dateOfBirth',
+  })
   const locationValue = useWatch({ control, name: 'location' })
 
   const genderOptions = [
@@ -100,7 +106,10 @@ export const SubscriberForm = ({
     { value: 'prefer_not_to_say', label: t.genders.prefer_not_to_say },
   ]
 
-  const currentDisplayUrl = removePhoto || pendingFile ? undefined : (photoLibraryUrl ?? currentPhotoUrl)
+  const currentDisplayUrl =
+    removePhoto || pendingFile
+      ? undefined
+      : (photoLibraryUrl ?? currentPhotoUrl)
 
   const handlePhotoChange = (file: File | null) => {
     setPendingFile(file)
@@ -128,12 +137,13 @@ export const SubscriberForm = ({
     setValue('location.district', v.district ?? '')
   }
 
-  const submit = handleSubmit((data) => onSubmit(data, pendingFile, removePhoto, photoLibraryUrl ?? undefined))
+  const submit = handleSubmit((data) =>
+    onSubmit(data, pendingFile, removePhoto, photoLibraryUrl ?? undefined)
+  )
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="rounded-xl border border-border bg-surface p-6 flex flex-col gap-6">
-
+      <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
         {/* Photo — top, centered */}
         <div className="flex justify-center">
           <PhotoPicker
@@ -141,7 +151,9 @@ export const SubscriberForm = ({
             uploadLabel={t.form.uploadPhoto}
             formatsHint={t.form.uploadFormats}
             onChange={handlePhotoChange}
-            onRemove={currentPhotoUrl || pendingFile ? handleRemovePhoto : undefined}
+            onRemove={
+              currentPhotoUrl || pendingFile ? handleRemovePhoto : undefined
+            }
             removeLabel={t.form.removePhoto}
             onSelectLibrary={handleSelectPhotoLibrary}
             libraryTexts={t.mediaLibrary}
@@ -172,7 +184,8 @@ export const SubscriberForm = ({
             onChange={(e) =>
               setValue(
                 'personalInformation.gender',
-                e.target.value as SubscriberFormData['personalInformation']['gender'],
+                e.target
+                  .value as SubscriberFormData['personalInformation']['gender']
               )
             }
           />
@@ -181,7 +194,9 @@ export const SubscriberForm = ({
             mode="date"
             lang={language}
             value={dateOfBirthValue ?? ''}
-            variant={errors.personalInformation?.dateOfBirth ? 'error' : 'default'}
+            variant={
+              errors.personalInformation?.dateOfBirth ? 'error' : 'default'
+            }
             errorMessage={errors.personalInformation?.dateOfBirth?.message}
             {...register('personalInformation.dateOfBirth')}
           />
@@ -199,7 +214,9 @@ export const SubscriberForm = ({
           <InputNumber
             label={t.form.phoneNumber}
             mask="+## ### ### ###"
-            variant={errors.contactInformation?.phoneNumber ? 'error' : undefined}
+            variant={
+              errors.contactInformation?.phoneNumber ? 'error' : undefined
+            }
             errorMessage={errors.contactInformation?.phoneNumber?.message}
             {...register('contactInformation.phoneNumber')}
           />
@@ -251,7 +268,7 @@ export const SubscriberForm = ({
         </div>
 
         {/* Footer */}
-        <ButtonGroup className="border-t border-border pt-4">
+        <ButtonGroup className="border-border border-t pt-4">
           <Button
             type="button"
             variant="secondary"
@@ -264,7 +281,9 @@ export const SubscriberForm = ({
             type="button"
             variant="primary"
             loading={isSubmitting}
-            onClick={() => { void submit() }}
+            onClick={() => {
+              void submit()
+            }}
           >
             {mode === 'create' ? t.form.create : t.form.save}
           </Button>

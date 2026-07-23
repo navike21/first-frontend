@@ -75,9 +75,7 @@ export const EditClientPage = () => {
     )
   }
 
-  const logoProps = client.logoUrl
-    ? { initialLogoUrl: client.logoUrl }
-    : {}
+  const logoProps = client.logoUrl ? { initialLogoUrl: client.logoUrl } : {}
 
   return (
     <PageContent

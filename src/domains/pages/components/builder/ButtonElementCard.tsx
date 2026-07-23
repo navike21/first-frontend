@@ -36,17 +36,26 @@ export const ButtonElementCard = ({
 
   const label = element.label[language] || element.label.en
 
-  const variantOptions: { value: BuilderButtonElement['variant']; label: string }[] = [
+  const variantOptions: {
+    value: BuilderButtonElement['variant']
+    label: string
+  }[] = [
     { value: 'primary', label: t.builder.buttonVariant.primary },
     { value: 'secondary', label: t.builder.buttonVariant.secondary },
     { value: 'outline', label: t.builder.buttonVariant.outline },
   ]
-  const alignOptions: { value: BuilderButtonElement['align']; label: string }[] = [
+  const alignOptions: {
+    value: BuilderButtonElement['align']
+    label: string
+  }[] = [
     { value: 'left', label: t.builder.alignLeft },
     { value: 'center', label: t.builder.alignCenter },
     { value: 'right', label: t.builder.alignRight },
   ]
-  const targetOptions: { value: BuilderButtonElement['target']; label: string }[] = [
+  const targetOptions: {
+    value: BuilderButtonElement['target']
+    label: string
+  }[] = [
     { value: '_self', label: t.builder.buttonTargetSelf },
     { value: '_blank', label: t.builder.buttonTargetBlank },
   ]
@@ -67,21 +76,28 @@ export const ButtonElementCard = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={clsx('flex w-full cursor-pointer rounded-md p-1 transition-colors hover:bg-surface-subtle', ALIGN_CLASS[element.align])}
+        className={clsx(
+          'hover:bg-surface-subtle flex w-full cursor-pointer rounded-md p-1 transition-colors',
+          ALIGN_CLASS[element.align]
+        )}
       >
         {label ? (
           <span
             className={clsx(
               'inline-flex items-center rounded-md px-4 py-2 text-xs font-medium',
               element.variant === 'primary' && 'bg-primary-600 text-white',
-              element.variant === 'secondary' && 'text-primary-700 ring-1 ring-primary-700 ring-inset',
-              element.variant === 'outline' && 'text-primary-700 ring-1 ring-primary-700 ring-inset',
+              element.variant === 'secondary' &&
+                'text-primary-700 ring-primary-700 ring-1 ring-inset',
+              element.variant === 'outline' &&
+                'text-primary-700 ring-primary-700 ring-1 ring-inset'
             )}
           >
             {label}
           </span>
         ) : (
-          <span className="px-1 py-2 text-xs text-muted">{t.builder.buttonEmpty}</span>
+          <span className="text-muted px-1 py-2 text-xs">
+            {t.builder.buttonEmpty}
+          </span>
         )}
       </button>
 
@@ -98,11 +114,20 @@ export const ButtonElementCard = ({
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <LangChips editing={editing} userLanguage={language} values={element.label} onChange={setEditing} />
+            <LangChips
+              editing={editing}
+              userLanguage={language}
+              values={element.label}
+              onChange={setEditing}
+            />
             <InputField
               label={t.builder.buttonLabel}
               value={element.label[editing] ?? ''}
-              onChange={(e) => onChange({ label: { ...element.label, [editing]: e.target.value } })}
+              onChange={(e) =>
+                onChange({
+                  label: { ...element.label, [editing]: e.target.value },
+                })
+              }
             />
           </div>
           <InputField
@@ -116,21 +141,33 @@ export const ButtonElementCard = ({
               options={variantOptions}
               value={element.variant}
               lang={language}
-              onChange={(e) => onChange({ variant: e.target.value as BuilderButtonElement['variant'] })}
+              onChange={(e) =>
+                onChange({
+                  variant: e.target.value as BuilderButtonElement['variant'],
+                })
+              }
             />
             <Select
               label={t.builder.alignLabel}
               options={alignOptions}
               value={element.align}
               lang={language}
-              onChange={(e) => onChange({ align: e.target.value as BuilderButtonElement['align'] })}
+              onChange={(e) =>
+                onChange({
+                  align: e.target.value as BuilderButtonElement['align'],
+                })
+              }
             />
             <Select
               label={t.builder.buttonTargetLabel}
               options={targetOptions}
               value={element.target}
               lang={language}
-              onChange={(e) => onChange({ target: e.target.value as BuilderButtonElement['target'] })}
+              onChange={(e) =>
+                onChange({
+                  target: e.target.value as BuilderButtonElement['target'],
+                })
+              }
             />
           </div>
         </div>

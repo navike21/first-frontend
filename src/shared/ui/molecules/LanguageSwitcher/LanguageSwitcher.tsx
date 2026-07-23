@@ -14,7 +14,10 @@ const OPTIONS = SUPPORTED_LANGUAGES.map((lang) => ({
   ),
 }))
 
-export const LanguageSwitcher = ({ label, className }: LanguageSwitcherProps) => {
+export const LanguageSwitcher = ({
+  label,
+  className,
+}: LanguageSwitcherProps) => {
   const { language, handleChange } = useLanguageSwitcher()
 
   return (

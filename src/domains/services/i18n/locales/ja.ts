@@ -9,7 +9,8 @@ export const ja: ServicesTranslations = {
     editTitle: 'サービスを編集',
     editDescription: (name) => `${name}の情報を更新する`,
     trashTitle: 'サービスのゴミ箱',
-    trashDescription: 'ゴミ箱に移動されたサービスです。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動されたサービスです。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱にサービスはありません',
     trashEmptyDescription: '削除されたサービスはここに表示されます。',
   },
@@ -67,11 +68,14 @@ export const ja: ServicesTranslations = {
     restoreTitle: 'サービスを復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件のサービスを有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件のサービスを有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件のサービスを完全に削除します。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count} 件のサービスを完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     sectionGeneral: '基本情報',

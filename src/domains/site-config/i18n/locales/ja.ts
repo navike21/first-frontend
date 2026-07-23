@@ -3,7 +3,8 @@ import type { SiteConfigTranslations } from '../types'
 export const ja: SiteConfigTranslations = {
   page: {
     title: 'ウェブサイト設定',
-    description: '公開サイトの全体レイアウト（ヘッダー・フッター・コンテンツ領域）を定義します',
+    description:
+      '公開サイトの全体レイアウト（ヘッダー・フッター・コンテンツ領域）を定義します',
   },
   tabs: {
     header: 'ヘッダー',

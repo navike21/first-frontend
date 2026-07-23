@@ -14,14 +14,22 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import type { CollisionDetection, DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core'
+import type {
+  CollisionDetection,
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+} from '@dnd-kit/core'
 import clsx from 'clsx'
 import { IconComponent } from '@/shared/ui'
 import type { IconName } from '@/shared/types/icons'
 import type { Language } from '@/shared/i18n'
 import type { StorageFile } from '@/shared/api/storage'
 import { usePagesTranslation } from '../../i18n'
-import type { ElementLocation, ResponsiveSectionSettings } from '../../model/page.builder'
+import type {
+  ElementLocation,
+  ResponsiveSectionSettings,
+} from '../../model/page.builder'
 import type {
   BackgroundBreakpoint,
   BackgroundConfig,
@@ -53,19 +61,26 @@ export interface BuilderCanvasProps {
   onChooseColumns: (sectionId: string, count: BuilderColumnsCount) => void
   onColumnsChange: (sectionId: string, count: BuilderColumnsCount) => void
   onLayoutChange: (sectionId: string, spans: BuilderColumnSpan[]) => void
-  onResponsiveChange: (sectionId: string, patch: ResponsiveSectionSettings) => void
-  onBackgroundChange: (sectionId: string, breakpoint: BackgroundBreakpoint, config: BackgroundConfig) => void
+  onResponsiveChange: (
+    sectionId: string,
+    patch: ResponsiveSectionSettings
+  ) => void
+  onBackgroundChange: (
+    sectionId: string,
+    breakpoint: BackgroundBreakpoint,
+    config: BackgroundConfig
+  ) => void
   onPickBackgroundFile: (
     sectionId: string,
     breakpoint: BackgroundBreakpoint,
     slot: BackgroundFileSlot,
-    file: File,
+    file: File
   ) => void
   onPickLibraryFile: (
     sectionId: string,
     breakpoint: BackgroundBreakpoint,
     slot: BackgroundFileSlot,
-    file: StorageFile,
+    file: StorageFile
   ) => void
   onDeleteRequest: (sectionId: string) => void
   onAddText: (sectionId: string, columnId: string) => void
@@ -78,16 +93,39 @@ export interface BuilderCanvasProps {
   onAddStats: (sectionId: string, columnId: string) => void
   onAddVideo: (sectionId: string, columnId: string) => void
   onAddMap: (sectionId: string, columnId: string) => void
-  onElementChange: (sectionId: string, columnId: string, elementId: string, patch: BuilderElementPatch) => void
-  onElementDelete: (sectionId: string, columnId: string, elementId: string) => void
-  onElementMove: (elementId: string, source: ElementLocation, target: ElementLocation, overElementId: string | null) => void
+  onElementChange: (
+    sectionId: string,
+    columnId: string,
+    elementId: string,
+    patch: BuilderElementPatch
+  ) => void
+  onElementDelete: (
+    sectionId: string,
+    columnId: string,
+    elementId: string
+  ) => void
+  onElementMove: (
+    elementId: string,
+    source: ElementLocation,
+    target: ElementLocation,
+    overElementId: string | null
+  ) => void
   onPickFile: (elementId: string, file: File) => void
   onSelectImageLibrary: (elementId: string, file: StorageFile) => void
-  onPickSliderFile: (elementId: string, url: string, file: File, kind: 'image' | 'video') => void
+  onPickSliderFile: (
+    elementId: string,
+    url: string,
+    file: File,
+    kind: 'image' | 'video'
+  ) => void
   onRemoveSliderFile: (url: string) => void
   onPickGalleryFile: (elementId: string, url: string, file: File) => void
   onRemoveGalleryFile: (url: string) => void
-  onPickTestimonialAvatarFile: (elementId: string, url: string, file: File) => void
+  onPickTestimonialAvatarFile: (
+    elementId: string,
+    url: string,
+    file: File
+  ) => void
   onRemoveTestimonialAvatarFile: (url: string) => void
   onPickVideoFile: (elementId: string, url: string, file: File) => void
   onRemoveVideoFile: (url: string) => void
@@ -104,7 +142,7 @@ export interface BuilderCanvasProps {
 function computePaletteCollision(
   args: Parameters<CollisionDetection>[0],
   sections: BuilderSection[],
-  insertIndexRef: MutableRefObject<number | null>,
+  insertIndexRef: MutableRefObject<number | null>
 ): ReturnType<CollisionDetection> {
   const containers = args.droppableContainers.filter((c) => {
     const k = (c.data.current as DragData | undefined)?.kind
@@ -150,17 +188,18 @@ function computePaletteCollision(
 function collideByKind(
   args: Parameters<CollisionDetection>[0],
   sections: BuilderSection[],
-  insertIndexRef: MutableRefObject<number | null>,
+  insertIndexRef: MutableRefObject<number | null>
 ): ReturnType<CollisionDetection> {
   const kind = (args.active.data.current as DragData | undefined)?.kind
 
-  if (kind === 'palette') return computePaletteCollision(args, sections, insertIndexRef)
+  if (kind === 'palette')
+    return computePaletteCollision(args, sections, insertIndexRef)
 
   if (kind === 'section') {
     return closestCenter({
       ...args,
       droppableContainers: args.droppableContainers.filter(
-        (c) => (c.data.current as DragData | undefined)?.kind === 'section',
+        (c) => (c.data.current as DragData | undefined)?.kind === 'section'
       ),
     })
   }
@@ -182,7 +221,7 @@ function handleElementDrop(
   active: DragEndEvent['active'],
   over: NonNullable<DragEndEvent['over']>,
   aData: DragData,
-  onElementMove: BuilderCanvasProps['onElementMove'],
+  onElementMove: BuilderCanvasProps['onElementMove']
 ): void {
   if (!aData.sectionId || !aData.columnId) return
   const oData = over.data.current as DragData | undefined
@@ -193,7 +232,7 @@ function handleElementDrop(
     String(active.id),
     { sectionId: aData.sectionId, columnId: aData.columnId },
     { sectionId: oData.sectionId, columnId: oData.columnId },
-    overElementId,
+    overElementId
   )
 }
 
@@ -206,7 +245,12 @@ interface PaletteCardProps {
   suppressClickRef: { current: boolean }
 }
 
-const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProps) => {
+const PaletteCard = ({
+  label,
+  hint,
+  onClick,
+  suppressClickRef,
+}: PaletteCardProps) => {
   // Sin `transform`: la tarjeta original se queda quieta en su sitio durante
   // el arrastre (solo se atenúa); lo único que "viaja" es el chip flotante
   // del DragOverlay.
@@ -233,16 +277,16 @@ const PaletteCard = ({ label, hint, onClick, suppressClickRef }: PaletteCardProp
         if (e.key === 'Enter' || e.key === ' ') handleActivate()
       }}
       className={clsx(
-        'flex cursor-grab flex-col gap-2 rounded-xl border border-border bg-surface p-3 text-left transition-opacity active:cursor-grabbing',
-        isDragging && 'opacity-40',
+        'border-border bg-surface flex cursor-grab flex-col gap-2 rounded-xl border p-3 text-left transition-opacity active:cursor-grabbing',
+        isDragging && 'opacity-40'
       )}
     >
-      <div className="flex h-12 w-full items-center justify-center gap-1.5 rounded-md border border-border bg-surface-subtle">
-        <span className="h-6 w-1/4 rounded-sm border border-dashed border-border bg-surface" />
-        <span className="h-6 w-1/4 rounded-sm border border-dashed border-border bg-surface" />
+      <div className="border-border bg-surface-subtle flex h-12 w-full items-center justify-center gap-1.5 rounded-md border">
+        <span className="border-border bg-surface h-6 w-1/4 rounded-sm border border-dashed" />
+        <span className="border-border bg-surface h-6 w-1/4 rounded-sm border border-dashed" />
       </div>
-      <span className="text-xs font-medium text-foreground">{label}</span>
-      <span className="text-[10px] leading-snug text-muted">{hint}</span>
+      <span className="text-foreground text-xs font-medium">{label}</span>
+      <span className="text-muted text-[10px] leading-snug">{hint}</span>
     </div>
   )
 }
@@ -265,7 +309,7 @@ function elementDragIcon(elementType: string | undefined): IconName {
 
 function elementDragLabel(
   elementType: string | undefined,
-  t: ReturnType<typeof usePagesTranslation>['t'],
+  t: ReturnType<typeof usePagesTranslation>['t']
 ): string {
   const labels: Record<string, string> = {
     image: t.builder.imageElement,
@@ -282,15 +326,17 @@ function elementDragLabel(
 }
 
 const OverlayChip = ({ icon, label }: { icon: IconName; label: string }) => (
-  <div className="flex items-center gap-2 rounded-lg border border-primary-600 bg-surface px-3 py-2 shadow-lg">
-    <IconComponent icon={icon} className="h-4 w-4 text-primary-600" />
-    <span className="text-xs font-medium text-foreground">{label}</span>
+  <div className="border-primary-600 bg-surface flex items-center gap-2 rounded-lg border px-3 py-2 shadow-lg">
+    <IconComponent icon={icon} className="text-primary-600 h-4 w-4" />
+    <span className="text-foreground text-xs font-medium">{label}</span>
   </div>
 )
 
 /** Marca dónde quedaría la sección si se soltara ahora: arriba, entre dos
  * existentes, o al final. */
-const InsertionLine = () => <div className="h-1 shrink-0 rounded-full bg-primary-600" />
+const InsertionLine = () => (
+  <div className="bg-primary-600 h-1 shrink-0 rounded-full" />
+)
 
 interface BuilderCanvasBodyProps extends BuilderCanvasProps {
   paletteDragging: boolean
@@ -318,15 +364,20 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
   // arrastre en curso" — así, alejar el cursor visualmente "arma" la
   // cancelación antes de soltar.
   const canvasArmed = props.paletteDragging && props.insertIndex !== null
-  const showInsertionLines = props.paletteDragging && props.sections.length > 0 && props.insertIndex !== null
+  const showInsertionLines =
+    props.paletteDragging &&
+    props.sections.length > 0 &&
+    props.insertIndex !== null
 
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {/* Paleta */}
         <aside className="w-full shrink-0 lg:sticky lg:top-4 lg:w-52">
-          <div className="flex flex-col gap-2 rounded-xl border border-border bg-surface p-3">
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted">{t.builder.palette}</span>
+          <div className="border-border bg-surface flex flex-col gap-2 rounded-xl border p-3">
+            <span className="text-muted text-xs font-semibold tracking-wide uppercase">
+              {t.builder.palette}
+            </span>
             <PaletteCard
               label={t.builder.paletteColumns}
               hint={t.builder.paletteHint}
@@ -341,22 +392,35 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
           ref={setCanvasRef}
           className={clsx(
             'flex min-h-64 flex-1 flex-col gap-3 rounded-xl border-2 border-dashed p-3 transition-colors',
-            canvasArmed ? 'border-primary-600 bg-primary-700/10' : 'border-border bg-surface-subtle',
+            canvasArmed
+              ? 'border-primary-600 bg-primary-700/10'
+              : 'border-border bg-surface-subtle'
           )}
         >
           {props.sections.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center gap-2 py-16 text-center">
               <IconComponent
                 icon="RiDragDropLine"
-                className={clsx('h-8 w-8', canvasArmed ? 'text-primary-600' : 'text-muted')}
+                className={clsx(
+                  'h-8 w-8',
+                  canvasArmed ? 'text-primary-600' : 'text-muted'
+                )}
               />
-              <p className={clsx('text-sm', canvasArmed ? 'font-medium text-primary-600' : 'text-muted')}>
+              <p
+                className={clsx(
+                  'text-sm',
+                  canvasArmed ? 'text-primary-600 font-medium' : 'text-muted'
+                )}
+              >
                 {t.builder.empty}
               </p>
             </div>
           )}
 
-          <SortableContext items={props.sections.map((s) => s.sectionId)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={props.sections.map((s) => s.sectionId)}
+            strategy={verticalListSortingStrategy}
+          >
             {showInsertionLines && props.insertIndex === 0 && <InsertionLine />}
             {props.sections.map((section, index) => (
               <Fragment key={section.sectionId}>
@@ -364,33 +428,88 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   section={section}
                   language={props.language}
                   elementDragActive={props.elementDragging}
-                  onChooseColumns={(count) => props.onChooseColumns(section.sectionId, count)}
-                  onColumnsChange={(count) => props.onColumnsChange(section.sectionId, count)}
-                  onLayoutChange={(spans) => props.onLayoutChange(section.sectionId, spans)}
-                  onResponsiveChange={(patch) => props.onResponsiveChange(section.sectionId, patch)}
-                  onBackgroundChange={(breakpoint, config) => props.onBackgroundChange(section.sectionId, breakpoint, config)}
+                  onChooseColumns={(count) =>
+                    props.onChooseColumns(section.sectionId, count)
+                  }
+                  onColumnsChange={(count) =>
+                    props.onColumnsChange(section.sectionId, count)
+                  }
+                  onLayoutChange={(spans) =>
+                    props.onLayoutChange(section.sectionId, spans)
+                  }
+                  onResponsiveChange={(patch) =>
+                    props.onResponsiveChange(section.sectionId, patch)
+                  }
+                  onBackgroundChange={(breakpoint, config) =>
+                    props.onBackgroundChange(
+                      section.sectionId,
+                      breakpoint,
+                      config
+                    )
+                  }
                   onPickBackgroundFile={(breakpoint, slot, file) =>
-                    props.onPickBackgroundFile(section.sectionId, breakpoint, slot, file)
+                    props.onPickBackgroundFile(
+                      section.sectionId,
+                      breakpoint,
+                      slot,
+                      file
+                    )
                   }
                   onPickLibraryFile={(breakpoint, slot, file) =>
-                    props.onPickLibraryFile(section.sectionId, breakpoint, slot, file)
+                    props.onPickLibraryFile(
+                      section.sectionId,
+                      breakpoint,
+                      slot,
+                      file
+                    )
                   }
-                  onDeleteRequest={() => props.onDeleteRequest(section.sectionId)}
-                  onAddText={(columnId) => props.onAddText(section.sectionId, columnId)}
-                  onAddImage={(columnId) => props.onAddImage(section.sectionId, columnId)}
-                  onAddSlider={(columnId) => props.onAddSlider(section.sectionId, columnId)}
-                  onAddButton={(columnId) => props.onAddButton(section.sectionId, columnId)}
-                  onAddGallery={(columnId) => props.onAddGallery(section.sectionId, columnId)}
-                  onAddAccordion={(columnId) => props.onAddAccordion(section.sectionId, columnId)}
-                  onAddTestimonials={(columnId) => props.onAddTestimonials(section.sectionId, columnId)}
-                  onAddStats={(columnId) => props.onAddStats(section.sectionId, columnId)}
-                  onAddVideo={(columnId) => props.onAddVideo(section.sectionId, columnId)}
-                  onAddMap={(columnId) => props.onAddMap(section.sectionId, columnId)}
+                  onDeleteRequest={() =>
+                    props.onDeleteRequest(section.sectionId)
+                  }
+                  onAddText={(columnId) =>
+                    props.onAddText(section.sectionId, columnId)
+                  }
+                  onAddImage={(columnId) =>
+                    props.onAddImage(section.sectionId, columnId)
+                  }
+                  onAddSlider={(columnId) =>
+                    props.onAddSlider(section.sectionId, columnId)
+                  }
+                  onAddButton={(columnId) =>
+                    props.onAddButton(section.sectionId, columnId)
+                  }
+                  onAddGallery={(columnId) =>
+                    props.onAddGallery(section.sectionId, columnId)
+                  }
+                  onAddAccordion={(columnId) =>
+                    props.onAddAccordion(section.sectionId, columnId)
+                  }
+                  onAddTestimonials={(columnId) =>
+                    props.onAddTestimonials(section.sectionId, columnId)
+                  }
+                  onAddStats={(columnId) =>
+                    props.onAddStats(section.sectionId, columnId)
+                  }
+                  onAddVideo={(columnId) =>
+                    props.onAddVideo(section.sectionId, columnId)
+                  }
+                  onAddMap={(columnId) =>
+                    props.onAddMap(section.sectionId, columnId)
+                  }
                   onElementChange={(columnId, elementId, patch) =>
-                    props.onElementChange(section.sectionId, columnId, elementId, patch)
+                    props.onElementChange(
+                      section.sectionId,
+                      columnId,
+                      elementId,
+                      patch
+                    )
                   }
                   onElementDelete={(columnId, elementId) =>
-                    props.onElementDelete(section.sectionId, columnId, elementId)
+                    props.onElementDelete(
+                      section.sectionId,
+                      columnId,
+                      elementId
+                    )
                   }
                   onPickFile={props.onPickFile}
                   onSelectImageLibrary={props.onSelectImageLibrary}
@@ -398,12 +517,18 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                   onRemoveSliderFile={props.onRemoveSliderFile}
                   onPickGalleryFile={props.onPickGalleryFile}
                   onRemoveGalleryFile={props.onRemoveGalleryFile}
-                  onPickTestimonialAvatarFile={props.onPickTestimonialAvatarFile}
-                  onRemoveTestimonialAvatarFile={props.onRemoveTestimonialAvatarFile}
+                  onPickTestimonialAvatarFile={
+                    props.onPickTestimonialAvatarFile
+                  }
+                  onRemoveTestimonialAvatarFile={
+                    props.onRemoveTestimonialAvatarFile
+                  }
                   onPickVideoFile={props.onPickVideoFile}
                   onRemoveVideoFile={props.onRemoveVideoFile}
                 />
-                {showInsertionLines && props.insertIndex === index + 1 && <InsertionLine />}
+                {showInsertionLines && props.insertIndex === index + 1 && (
+                  <InsertionLine />
+                )}
               </Fragment>
             ))}
           </SortableContext>
@@ -415,12 +540,20 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
           overlay — el chip se dibujaría lejos del cursor. */}
       {createPortal(
         <DragOverlay>
-          {props.paletteDragging && <OverlayChip icon="RiLayoutColumnLine" label={t.builder.paletteColumns} />}
+          {props.paletteDragging && (
+            <OverlayChip
+              icon="RiLayoutColumnLine"
+              label={t.builder.paletteColumns}
+            />
+          )}
           {props.elementDragging && (
-            <OverlayChip icon={elementDragIcon(props.elementType)} label={elementDragLabel(props.elementType, t)} />
+            <OverlayChip
+              icon={elementDragIcon(props.elementType)}
+              label={elementDragLabel(props.elementType, t)}
+            />
           )}
         </DragOverlay>,
-        document.body,
+        document.body
       )}
     </>
   )
@@ -428,7 +561,9 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
 
 export const BuilderCanvas = (props: BuilderCanvasProps) => {
   const { sections, onAddSection, onSectionMove, onElementMove } = props
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
+  )
   const insertIndexRef = useRef<number | null>(null)
   // El ref solo se lee/escribe dentro del callback (nunca durante el
   // render): dnd-kit lo invoca de forma asíncrona en cada paso del arrastre,
@@ -437,9 +572,12 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
   // `computePaletteCollision`).
   const collisionDetection = useCallback<CollisionDetection>(
     (args) => collideByKind(args, sections, insertIndexRef),
-    [sections],
+    [sections]
   )
-  const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; elementType?: string } | null>(null)
+  const [activeDrag, setActiveDrag] = useState<{
+    kind: DragKind
+    elementType?: string
+  } | null>(null)
   const [insertIndex, setInsertIndex] = useState<number | null>(null)
   const suppressPaletteClickRef = useRef(false)
 
@@ -470,7 +608,8 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
       onSectionMove(String(active.id), String(over.id))
       return
     }
-    if (aData?.kind === 'element') handleElementDrop(active, over, aData, onElementMove)
+    if (aData?.kind === 'element')
+      handleElementDrop(active, over, aData, onElementMove)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -493,10 +632,12 @@ export const BuilderCanvas = (props: BuilderCanvasProps) => {
     }
     if (!over) return
     if (aData?.kind === 'section') {
-      if (active.id !== over.id) onSectionMove(String(active.id), String(over.id))
+      if (active.id !== over.id)
+        onSectionMove(String(active.id), String(over.id))
       return
     }
-    if (aData?.kind === 'element') handleElementDrop(active, over, aData, onElementMove)
+    if (aData?.kind === 'element')
+      handleElementDrop(active, over, aData, onElementMove)
   }
 
   return (

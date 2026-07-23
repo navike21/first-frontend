@@ -12,7 +12,7 @@ export const Card = ({
     <div
       className={clsx(
         // Visual base — el manual no muestra sombra en ninguna card
-        'rounded-xl border border-border bg-surface',
+        'border-border bg-surface rounded-xl border',
         // Transitions
         'duration-fast ease-out-expo transition-all',
         // Sizing

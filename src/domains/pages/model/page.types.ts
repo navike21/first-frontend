@@ -232,7 +232,8 @@ export interface BackgroundVideo {
   parallax: boolean
 }
 
-export type BackgroundConfig = BackgroundNone | BackgroundImage | BackgroundVideo
+export type BackgroundConfig =
+  BackgroundNone | BackgroundImage | BackgroundVideo
 
 /** Cada breakpoint es independiente: no hereda del anterior. */
 export interface SectionBackground {

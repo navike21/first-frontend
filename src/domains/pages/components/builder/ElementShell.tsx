@@ -34,7 +34,14 @@ export const ElementShell = ({
   onDelete,
   children,
 }: ElementShellProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
     data: { kind: 'element', sectionId, columnId },
   })
@@ -44,8 +51,8 @@ export const ElementShell = ({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={clsx(
-        'group flex flex-col gap-1.5 rounded-lg border border-border bg-surface p-2',
-        isDragging && 'opacity-60 ring-1 ring-primary-700/30',
+        'group border-border bg-surface flex flex-col gap-1.5 rounded-lg border p-2',
+        isDragging && 'ring-primary-700/30 opacity-60 ring-1'
       )}
     >
       <div className="flex items-center gap-1">
@@ -53,20 +60,34 @@ export const ElementShell = ({
           <button
             type="button"
             aria-label={dragLabel}
-            className="cursor-grab rounded p-0.5 text-muted hover:text-foreground active:cursor-grabbing"
+            className="text-muted hover:text-foreground cursor-grab rounded p-0.5 active:cursor-grabbing"
             {...attributes}
             {...listeners}
           >
             <IconComponent icon="RiDraggable" className="h-3.5 w-3.5" />
           </button>
         </Tooltip>
-        <IconComponent icon={icon} className="h-3.5 w-3.5 text-secondary" />
-        <span className="flex-1 text-[10px] font-medium uppercase tracking-wide text-muted">{label}</span>
+        <IconComponent icon={icon} className="text-secondary h-3.5 w-3.5" />
+        <span className="text-muted flex-1 text-[10px] font-medium tracking-wide uppercase">
+          {label}
+        </span>
         <Tooltip heading={editLabel} position="top" size="small">
-          <IconButton icon="RiPencilLine" variant="text" size="small" aria-label={editLabel} onClick={onEdit} />
+          <IconButton
+            icon="RiPencilLine"
+            variant="text"
+            size="small"
+            aria-label={editLabel}
+            onClick={onEdit}
+          />
         </Tooltip>
         <Tooltip heading={deleteLabel} position="top" size="small">
-          <IconButton icon="RiDeleteBinLine" variant="text" size="small" aria-label={deleteLabel} onClick={onDelete} />
+          <IconButton
+            icon="RiDeleteBinLine"
+            variant="text"
+            size="small"
+            aria-label={deleteLabel}
+            onClick={onDelete}
+          />
         </Tooltip>
       </div>
       {children}

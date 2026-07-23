@@ -6,7 +6,8 @@ import {
   IconComponent,
   Tooltip,
   Modal,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   FadeCollapse,
   Can,
   MediaGrid,
@@ -57,7 +58,15 @@ export const MediaTrashPage = () => {
     <PageContent
       title={t.page.trashTitle}
       description={t.page.trashDescription}
-      actions={[{ type: 'link', label: t.actions.cancel, variant: 'secondary', to: navPaths.media(), size: 'small' }]}
+      actions={[
+        {
+          type: 'link',
+          label: t.actions.cancel,
+          variant: 'secondary',
+          to: navPaths.media(),
+          size: 'small',
+        },
+      ]}
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="w-full sm:w-52">
@@ -73,15 +82,20 @@ export const MediaTrashPage = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder={t.filters.searchPlaceholder}
-            leftSlot={<IconComponent icon="RiSearchLine" className="h-4 w-4 text-muted" />}
+            leftSlot={
+              <IconComponent
+                icon="RiSearchLine"
+                className="text-muted h-4 w-4"
+              />
+            }
           />
         </div>
       </div>
 
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -89,12 +103,20 @@ export const MediaTrashPage = () => {
                 {t.actions.clearSelection}
               </Button>
               <Can anyOf={CAN.mediaTrash}>
-                <Button variant="primary" size="small" onClick={() => setBulkAction('restore')}>
+                <Button
+                  variant="primary"
+                  size="small"
+                  onClick={() => setBulkAction('restore')}
+                >
                   {t.actions.bulkRestore}
                 </Button>
               </Can>
               <Can anyOf={CAN.mediaPurge}>
-                <Button variant="destructive" size="small" onClick={() => setBulkAction('purge')}>
+                <Button
+                  variant="destructive"
+                  size="small"
+                  onClick={() => setBulkAction('purge')}
+                >
                   {t.actions.bulkPurge}
                 </Button>
               </Can>
@@ -110,7 +132,13 @@ export const MediaTrashPage = () => {
           emptyIcon="RiDeleteBinLine"
           emptyLabel={t.page.trashEmpty}
           totalLabel={t.grid.totalCount(total)}
-          pagination={{ page, pages, onPageChange: handlePageChange, prevLabel: t.grid.prevPage, nextLabel: t.grid.nextPage }}
+          pagination={{
+            page,
+            pages,
+            onPageChange: handlePageChange,
+            prevLabel: t.grid.prevPage,
+            nextLabel: t.grid.nextPage,
+          }}
           selectable
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
@@ -122,17 +150,47 @@ export const MediaTrashPage = () => {
               caption={`${t.grid.deletedAtLabel}: ${formatDate(file.deletedAt)}`}
               actions={
                 <>
-                  <Tooltip heading={t.actions.viewItem} position="top" size="small">
-                    <IconButton icon="RiEyeLine" variant="text" size="small" aria-label={t.actions.viewItem} onClick={() => setViewing(file)} />
+                  <Tooltip
+                    heading={t.actions.viewItem}
+                    position="top"
+                    size="small"
+                  >
+                    <IconButton
+                      icon="RiEyeLine"
+                      variant="text"
+                      size="small"
+                      aria-label={t.actions.viewItem}
+                      onClick={() => setViewing(file)}
+                    />
                   </Tooltip>
                   <Can anyOf={CAN.mediaTrash}>
-                    <Tooltip heading={t.actions.bulkRestore} position="top" size="small">
-                      <IconButton icon="RiArrowGoBackLine" variant="text" size="small" aria-label={t.actions.bulkRestore} onClick={() => setRestoring(file)} />
+                    <Tooltip
+                      heading={t.actions.bulkRestore}
+                      position="top"
+                      size="small"
+                    >
+                      <IconButton
+                        icon="RiArrowGoBackLine"
+                        variant="text"
+                        size="small"
+                        aria-label={t.actions.bulkRestore}
+                        onClick={() => setRestoring(file)}
+                      />
                     </Tooltip>
                   </Can>
                   <Can anyOf={CAN.mediaPurge}>
-                    <Tooltip heading={t.actions.bulkPurge} position="top" size="small">
-                      <IconButton icon="RiDeleteBin6Line" variant="text" size="small" aria-label={t.actions.bulkPurge} onClick={() => setPurging(file)} />
+                    <Tooltip
+                      heading={t.actions.bulkPurge}
+                      position="top"
+                      size="small"
+                    >
+                      <IconButton
+                        icon="RiDeleteBin6Line"
+                        variant="text"
+                        size="small"
+                        aria-label={t.actions.bulkPurge}
+                        onClick={() => setPurging(file)}
+                      />
                     </Tooltip>
                   </Can>
                 </>
@@ -149,11 +207,27 @@ export const MediaTrashPage = () => {
         onClose={() => setRestoring(null)}
         size="sm"
         title={t.actions.restoreTitle}
-        description={restoring ? t.actions.restoreDescription(restoring.originalName) : undefined}
+        description={
+          restoring
+            ? t.actions.restoreDescription(restoring.originalName)
+            : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setRestoring(null)} disabled={restore.isPending}>{t.actions.cancel}</Button>
-            <Button variant="primary" loading={restore.isPending} onClick={handleConfirmRestore}>{t.actions.confirmRestore}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setRestoring(null)}
+              disabled={restore.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="primary"
+              loading={restore.isPending}
+              onClick={handleConfirmRestore}
+            >
+              {t.actions.confirmRestore}
+            </Button>
           </>
         }
       />
@@ -163,11 +237,25 @@ export const MediaTrashPage = () => {
         onClose={() => setPurging(null)}
         size="sm"
         title={t.actions.purgeTitle}
-        description={purging ? t.actions.purgeDescription(purging.originalName) : undefined}
+        description={
+          purging ? t.actions.purgeDescription(purging.originalName) : undefined
+        }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setPurging(null)} disabled={purge.isPending}>{t.actions.cancel}</Button>
-            <Button variant="destructive" loading={purge.isPending} onClick={handleConfirmPurge}>{t.actions.confirmPurge}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPurging(null)}
+              disabled={purge.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
+            <Button
+              variant="destructive"
+              loading={purge.isPending}
+              onClick={handleConfirmPurge}
+            >
+              {t.actions.confirmPurge}
+            </Button>
           </>
         }
       />
@@ -176,7 +264,11 @@ export const MediaTrashPage = () => {
         isOpen={!!bulkAction}
         onClose={() => setBulkAction(null)}
         size="sm"
-        title={bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle}
+        title={
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
+        }
         description={
           bulkAction === 'restore'
             ? t.actions.bulkRestoreDescription(selectedIds.length)
@@ -184,13 +276,21 @@ export const MediaTrashPage = () => {
         }
         footer={
           <>
-            <Button variant="secondary" onClick={() => setBulkAction(null)} disabled={bulkRestore.isPending || bulkPurge.isPending}>{t.actions.cancel}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setBulkAction(null)}
+              disabled={bulkRestore.isPending || bulkPurge.isPending}
+            >
+              {t.actions.cancel}
+            </Button>
             <Button
               variant={bulkAction === 'restore' ? 'primary' : 'destructive'}
               loading={bulkRestore.isPending || bulkPurge.isPending}
               onClick={handleConfirmBulk}
             >
-              {bulkAction === 'restore' ? t.actions.confirmRestore : t.actions.confirmPurge}
+              {bulkAction === 'restore'
+                ? t.actions.confirmRestore
+                : t.actions.confirmPurge}
             </Button>
           </>
         }

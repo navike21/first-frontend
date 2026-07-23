@@ -81,12 +81,10 @@ export const UserGroupDetailModal = ({
           {/* Identity */}
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className="h-3.5 w-3.5 shrink-0 rounded-full border border-border"
+              className="border-border h-3.5 w-3.5 shrink-0 rounded-full border"
               style={{ backgroundColor: group.color }}
             />
-            <span className="font-semibold text-foreground">
-              {group.name}
-            </span>
+            <span className="text-foreground font-semibold">{group.name}</span>
             {group.isSystem && (
               <Chip variant="default" size="small">
                 {t.table.systemBadge}
@@ -103,16 +101,18 @@ export const UserGroupDetailModal = ({
           {/* Description */}
           {group.description && (
             <div>
-              <SectionLabel className="mb-1">{t.detail.descriptionLabel}</SectionLabel>
-              <p className="text-sm text-foreground">
-                {group.description}
-              </p>
+              <SectionLabel className="mb-1">
+                {t.detail.descriptionLabel}
+              </SectionLabel>
+              <p className="text-foreground text-sm">{group.description}</p>
             </div>
           )}
 
           {/* Permissions */}
           <div>
-            <SectionLabel className="mb-2">{t.detail.permissionsLabel}</SectionLabel>
+            <SectionLabel className="mb-2">
+              {t.detail.permissionsLabel}
+            </SectionLabel>
 
             {superadmin && (
               <div className="flex items-start gap-2 rounded-lg bg-blue-50 px-3 py-2.5 text-sm text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
@@ -124,9 +124,7 @@ export const UserGroupDetailModal = ({
               </div>
             )}
             {!superadmin && group.permissions.length === 0 && (
-              <p className="text-sm text-muted">
-                {t.detail.noPermissions}
-              </p>
+              <p className="text-muted text-sm">{t.detail.noPermissions}</p>
             )}
             {!superadmin && group.permissions.length > 0 && (
               <div className="space-y-2">
@@ -135,7 +133,7 @@ export const UserGroupDetailModal = ({
                     key={resource}
                     className="flex flex-wrap items-start gap-2"
                   >
-                    <span className="w-28 shrink-0 pt-0.5 text-xs font-medium text-secondary">
+                    <span className="text-secondary w-28 shrink-0 pt-0.5 text-xs font-medium">
                       {resourceLabel(resource)}
                     </span>
                     <div className="flex flex-wrap gap-1">
@@ -155,7 +153,7 @@ export const UserGroupDetailModal = ({
           </div>
 
           {/* Metadata */}
-          <div className="flex gap-6 border-t border-border-subtle pt-3 text-xs text-muted">
+          <div className="border-border-subtle text-muted flex gap-6 border-t pt-3 text-xs">
             <span>
               {t.detail.createdAt}: {formatDate(group.createdAt)}
             </span>

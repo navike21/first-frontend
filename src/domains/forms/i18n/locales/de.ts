@@ -7,9 +7,11 @@ export const de: FormsTranslations = {
     createTitle: 'Neues Formular',
     createDescription: 'Erstelle ein neues Formular',
     editTitle: 'Formular bearbeiten',
-    editDescription: (name) => `Felder und Einstellungen für ${name} aktualisieren`,
+    editDescription: (name) =>
+      `Felder und Einstellungen für ${name} aktualisieren`,
     trashTitle: 'Formular-Papierkorb',
-    trashDescription: 'Formulare, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
+    trashDescription:
+      'Formulare, die in den Papierkorb verschoben wurden. Wiederherstellen oder endgültig löschen.',
     trashEmpty: 'Keine Formulare im Papierkorb',
     trashEmptyDescription: 'Gelöschte Formulare erscheinen hier.',
     submissionsTitle: (name) => `Einsendungen — ${name}`,
@@ -46,7 +48,8 @@ export const de: FormsTranslations = {
     viewSubmission: 'Details ansehen',
     markRead: 'Als gelesen markieren',
     deleteSubmission: 'Löschen',
-    deleteSubmissionDescription: 'Diese Einsendung löschen? Sie kann aus dem Papierkorb wiederhergestellt werden.',
+    deleteSubmissionDescription:
+      'Diese Einsendung löschen? Sie kann aus dem Papierkorb wiederhergestellt werden.',
     restoreSubmission: 'Wiederherstellen',
     purgeSubmission: 'Endgültig löschen',
     prevPage: 'Zurück',
@@ -94,11 +97,13 @@ export const de: FormsTranslations = {
     deleteDescription: (name) =>
       `${name} wirklich löschen? Die Einsendungen bleiben im Papierkorb und können wiederhergestellt werden.`,
     confirmDelete: 'Löschen',
-    bulkDeleteDescription: (count) => `${count} Formulare löschen? Sie können aus dem Papierkorb wiederhergestellt werden.`,
+    bulkDeleteDescription: (count) =>
+      `${count} Formulare löschen? Sie können aus dem Papierkorb wiederhergestellt werden.`,
     restoreTitle: 'Formular wiederherstellen',
     restoreDescription: (name) => `${name} in die aktive Liste zurückholen?`,
     confirmRestore: 'Wiederherstellen',
-    bulkRestoreDescription: (count) => `${count} Formulare in die aktive Liste zurückholen?`,
+    bulkRestoreDescription: (count) =>
+      `${count} Formulare in die aktive Liste zurückholen?`,
     purgeTitle: 'Endgültig löschen',
     purgeDescription: (name) =>
       `${name} und alle zugehörigen Einsendungen werden endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
@@ -115,7 +120,8 @@ export const de: FormsTranslations = {
     successMessage: 'Erfolgsmeldung',
     status: 'Status',
     notificationEmails: 'Diese E-Mails bei Einsendung benachrichtigen',
-    notificationEmailsHint: 'Durch Komma getrennt. Leer lassen, um Benachrichtigungen zu deaktivieren.',
+    notificationEmailsHint:
+      'Durch Komma getrennt. Leer lassen, um Benachrichtigungen zu deaktivieren.',
     addField: 'Feld hinzufügen',
     noFields: 'Noch keine Felder — füge eins hinzu, um zu starten',
     fieldLabel: 'Beschriftung',

@@ -9,7 +9,10 @@ import {
   useBulkPurgePortfolio,
 } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
-import type { Portfolio, PortfolioPaginationMeta } from '../model/portfolio.types'
+import type {
+  Portfolio,
+  PortfolioPaginationMeta,
+} from '../model/portfolio.types'
 
 export function usePortfolioTrashPage() {
   const { t, language } = usePortfolioTranslation()
@@ -36,7 +39,10 @@ export function usePortfolioTrashPage() {
   const handleConfirmRestore = () => {
     if (!restoring) return
     restore.mutate(restoring.id, {
-      onSuccess: () => { notify.success(t.toasts.restored); setRestoring(null) },
+      onSuccess: () => {
+        notify.success(t.toasts.restored)
+        setRestoring(null)
+      },
       onError: onQueuedOr(() => setRestoring(null)),
     })
   }
@@ -44,21 +50,35 @@ export function usePortfolioTrashPage() {
   const handleConfirmPurge = () => {
     if (!purging) return
     purge.mutate(purging.id, {
-      onSuccess: () => { notify.success(t.toasts.purged); setPurging(null) },
+      onSuccess: () => {
+        notify.success(t.toasts.purged)
+        setPurging(null)
+      },
       onError: onQueuedOr(() => setPurging(null)),
     })
   }
 
   const handleConfirmBulk = () => {
     const mutation = bulkAction === 'restore' ? bulkRestore : bulkPurge
-    const toastMsg = bulkAction === 'restore' ? t.toasts.bulkRestored : t.toasts.bulkPurged
+    const toastMsg =
+      bulkAction === 'restore' ? t.toasts.bulkRestored : t.toasts.bulkPurged
     mutation.mutate(selectedIds, {
-      onSuccess: () => { notify.success(toastMsg); clearSelection(); setBulkAction(null) },
-      onError: onQueuedOr(() => { clearSelection(); setBulkAction(null) }),
+      onSuccess: () => {
+        notify.success(toastMsg)
+        clearSelection()
+        setBulkAction(null)
+      },
+      onError: onQueuedOr(() => {
+        clearSelection()
+        setBulkAction(null)
+      }),
     })
   }
 
-  const handlePageChange = (next: number) => { setPage(next); clearSelection() }
+  const handlePageChange = (next: number) => {
+    setPage(next)
+    clearSelection()
+  }
 
   return {
     t,

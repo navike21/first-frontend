@@ -9,7 +9,8 @@ export const ru: ClientsTranslations = {
     editTitle: 'Редактировать клиента',
     editDescription: (name) => `Обновить информацию о ${name}`,
     trashTitle: 'Корзина клиентов',
-    trashDescription: 'Клиенты, перемещённые в корзину. Восстановите или удалите их навсегда.',
+    trashDescription:
+      'Клиенты, перемещённые в корзину. Восстановите или удалите их навсегда.',
     trashEmpty: 'Корзина пуста',
     trashEmptyDescription: 'Удалённые клиенты будут отображаться здесь.',
   },
@@ -60,17 +61,22 @@ export const ru: ClientsTranslations = {
     bulkRestore: 'Восстановить',
     bulkPurge: 'Удалить окончательно',
     deleteTitle: 'Удалить клиента',
-    deleteDescription: (name) => `Удалить ${name}? Вы сможете восстановить его из корзины.`,
+    deleteDescription: (name) =>
+      `Удалить ${name}? Вы сможете восстановить его из корзины.`,
     confirmDelete: 'Удалить',
-    bulkDeleteDescription: (count) => `Удалить ${count} клиент${getClientSuffix(count)}? Их можно будет восстановить.`,
+    bulkDeleteDescription: (count) =>
+      `Удалить ${count} клиент${getClientSuffix(count)}? Их можно будет восстановить.`,
     restoreTitle: 'Восстановить клиента',
     restoreDescription: (name) => `Восстановить ${name} в активный список?`,
     confirmRestore: 'Восстановить',
-    bulkRestoreDescription: (count) => `Восстановить ${count} клиентов в активный список?`,
+    bulkRestoreDescription: (count) =>
+      `Восстановить ${count} клиентов в активный список?`,
     purgeTitle: 'Удаление навсегда',
-    purgeDescription: (name) => `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
+    purgeDescription: (name) =>
+      `${name} будет удалён навсегда. Это действие НЕОБРАТИМО.`,
     confirmPurge: 'Удалить',
-    bulkPurgeDescription: (count) => `Это навсегда удалит ${count} клиентов. Действие НЕОБРАТИМО.`,
+    bulkPurgeDescription: (count) =>
+      `Это навсегда удалит ${count} клиентов. Действие НЕОБРАТИМО.`,
   },
   form: {
     sectionGeneral: 'Основная информация',

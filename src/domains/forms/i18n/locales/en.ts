@@ -9,7 +9,8 @@ export const en: FormsTranslations = {
     editTitle: 'Edit form',
     editDescription: (name) => `Update fields and settings for ${name}`,
     trashTitle: 'Forms trash',
-    trashDescription: 'Forms that have been moved to trash. Restore or permanently delete them.',
+    trashDescription:
+      'Forms that have been moved to trash. Restore or permanently delete them.',
     trashEmpty: 'No forms in trash',
     trashEmptyDescription: 'When forms are deleted, they will appear here.',
     submissionsTitle: (name) => `Submissions — ${name}`,
@@ -46,7 +47,8 @@ export const en: FormsTranslations = {
     viewSubmission: 'View details',
     markRead: 'Mark as read',
     deleteSubmission: 'Delete',
-    deleteSubmissionDescription: 'Delete this submission? You can restore it from the trash.',
+    deleteSubmissionDescription:
+      'Delete this submission? You can restore it from the trash.',
     restoreSubmission: 'Restore',
     purgeSubmission: 'Permanently delete',
     prevPage: 'Previous',
@@ -94,11 +96,13 @@ export const en: FormsTranslations = {
     deleteDescription: (name) =>
       `Are you sure you want to delete ${name}? Its submissions stay in trash and can be restored.`,
     confirmDelete: 'Delete',
-    bulkDeleteDescription: (count) => `Delete ${count} forms? You can restore them from the trash.`,
+    bulkDeleteDescription: (count) =>
+      `Delete ${count} forms? You can restore them from the trash.`,
     restoreTitle: 'Restore form',
     restoreDescription: (name) => `Restore ${name} to the active list?`,
     confirmRestore: 'Restore',
-    bulkRestoreDescription: (count) => `Restore ${count} forms to the active list?`,
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} forms to the active list?`,
     purgeTitle: 'Delete permanently',
     purgeDescription: (name) =>
       `This will permanently delete ${name} and all of its submissions. This action cannot be undone.`,
@@ -115,7 +119,8 @@ export const en: FormsTranslations = {
     successMessage: 'Success message',
     status: 'Status',
     notificationEmails: 'Notify these emails on submission',
-    notificationEmailsHint: 'Comma-separated. Leave empty to disable email notifications.',
+    notificationEmailsHint:
+      'Comma-separated. Leave empty to disable email notifications.',
     addField: 'Add field',
     noFields: 'No fields yet — add one to get started',
     fieldLabel: 'Label',

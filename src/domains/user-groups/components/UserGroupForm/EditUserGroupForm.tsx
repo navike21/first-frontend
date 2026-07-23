@@ -1,5 +1,11 @@
 import clsx from 'clsx'
-import { Button, ButtonGroup, InputField, Switch, HexColorInput } from '@/shared/ui'
+import {
+  Button,
+  ButtonGroup,
+  InputField,
+  Switch,
+  HexColorInput,
+} from '@/shared/ui'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useEditUserGroupForm } from './EditUserGroupForm.hooks'
 import type { UseEditUserGroupFormProps } from './EditUserGroupForm.hooks'
@@ -24,7 +30,7 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-6">
+      <div className="border-border bg-surface flex flex-col gap-4 rounded-xl border p-6">
         {isSystem && (
           <div
             className={clsx(
@@ -71,12 +77,10 @@ export const EditUserGroupForm = (props: UseEditUserGroupFormProps) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-foreground">
+          <label className="text-foreground text-sm font-medium">
             {t.form.permissions}
           </label>
-          <p className="text-xs text-muted">
-            {t.form.permissionsHint}
-          </p>
+          <p className="text-muted text-xs">{t.form.permissionsHint}</p>
           <PermissionsSelector
             value={permissionsValue ?? []}
             onChange={setPermissionsValue}

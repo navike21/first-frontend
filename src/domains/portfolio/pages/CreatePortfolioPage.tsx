@@ -7,7 +7,10 @@ import { PortfolioForm } from '../components/PortfolioForm'
 import { useCreatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
 import { toPortfolioPayload } from '../model/portfolio.schema'
-import type { PortfolioFormData, GalleryOrderToken } from '../model/portfolio.schema'
+import type {
+  PortfolioFormData,
+  GalleryOrderToken,
+} from '../model/portfolio.schema'
 
 export const CreatePortfolioPage = () => {
   const navigate = useNavigate()
@@ -20,10 +23,15 @@ export const CreatePortfolioPage = () => {
     _removeCover?: boolean,
     galleryFiles?: File[],
     _galleryOrder?: GalleryOrderToken[],
-    coverLibraryUrl?: string,
+    coverLibraryUrl?: string
   ) => {
     createPortfolio.mutate(
-      { data: toPortfolioPayload(data, language), cover, galleryFiles, coverLibraryUrl },
+      {
+        data: toPortfolioPayload(data, language),
+        cover,
+        galleryFiles,
+        coverLibraryUrl,
+      },
       {
         onSuccess: (res) => {
           notify.success(t.toasts.created)
@@ -36,15 +44,19 @@ export const CreatePortfolioPage = () => {
         // Offline: the portfolio item is queued (without its images). Soft
         // success — warn the images were skipped and go back to the list.
         onError: onQueuedOr(() => {
-          if (cover || galleryFiles?.length) notify.warning(t.toasts.offlinePhotoSkipped)
+          if (cover || galleryFiles?.length)
+            notify.warning(t.toasts.offlinePhotoSkipped)
           navigate({ to: navPaths.portfolio(language) as never })
         }),
-      },
+      }
     )
   }
 
   return (
-    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <PortfolioForm
         mode="create"
         isSubmitting={createPortfolio.isPending}

@@ -13,13 +13,17 @@ import type {
  * recién creado (o borrado) contaría como lleno. */
 export function isEmptyHtml(html: string | undefined): boolean {
   if (!html) return true
-  const text = new DOMParser().parseFromString(html, 'text/html').body.textContent ?? ''
+  const text =
+    new DOMParser().parseFromString(html, 'text/html').body.textContent ?? ''
   return !text.trim()
 }
 
 /** `'html'` usa `isEmptyHtml` (contenido de un editor TipTap); `'text'` usa
  * un trim plano (texto simple, p. ej. el alt de una imagen). */
-export function isLocalizedFilled(value: string | undefined, kind: 'html' | 'text'): boolean {
+export function isLocalizedFilled(
+  value: string | undefined,
+  kind: 'html' | 'text'
+): boolean {
   return kind === 'html' ? !isEmptyHtml(value) : !!value?.trim()
 }
 
@@ -32,7 +36,7 @@ function accumulateLocalizedField(
   progress: Record<Language, LanguageProgress>,
   value: Record<Language, string>,
   kind: 'html' | 'text',
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
   for (const lang of languages) {
     progress[lang].total += 1
@@ -43,15 +47,16 @@ function accumulateLocalizedField(
 function accumulateGalleryElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderGalleryElement,
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
-  for (const image of element.images) accumulateLocalizedField(progress, image.alt, 'text', languages)
+  for (const image of element.images)
+    accumulateLocalizedField(progress, image.alt, 'text', languages)
 }
 
 function accumulateAccordionElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderAccordionElement,
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
   for (const item of element.items) {
     accumulateLocalizedField(progress, item.question, 'text', languages)
@@ -62,7 +67,7 @@ function accumulateAccordionElement(
 function accumulateTestimonialsElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderTestimonialsElement,
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
   for (const item of element.items) {
     accumulateLocalizedField(progress, item.role, 'text', languages)
@@ -73,26 +78,46 @@ function accumulateTestimonialsElement(
 function accumulateStatsElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderStatsElement,
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
-  for (const item of element.items) accumulateLocalizedField(progress, item.label, 'text', languages)
+  for (const item of element.items)
+    accumulateLocalizedField(progress, item.label, 'text', languages)
 }
 
 function accumulateElement(
   progress: Record<Language, LanguageProgress>,
   element: BuilderElement,
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): void {
   if (element.type === 'slider') return
-  if (element.type === 'text') return accumulateLocalizedField(progress, element.html, 'html', languages)
-  if (element.type === 'image') return accumulateLocalizedField(progress, element.alt, 'text', languages)
-  if (element.type === 'button') return accumulateLocalizedField(progress, element.label, 'text', languages)
-  if (element.type === 'video') return accumulateLocalizedField(progress, element.caption, 'text', languages)
-  if (element.type === 'map') return accumulateLocalizedField(progress, element.caption, 'text', languages)
-  if (element.type === 'gallery') return accumulateGalleryElement(progress, element, languages)
-  if (element.type === 'accordion') return accumulateAccordionElement(progress, element, languages)
-  if (element.type === 'testimonials') return accumulateTestimonialsElement(progress, element, languages)
-  if (element.type === 'stats') return accumulateStatsElement(progress, element, languages)
+  if (element.type === 'text')
+    return accumulateLocalizedField(progress, element.html, 'html', languages)
+  if (element.type === 'image')
+    return accumulateLocalizedField(progress, element.alt, 'text', languages)
+  if (element.type === 'button')
+    return accumulateLocalizedField(progress, element.label, 'text', languages)
+  if (element.type === 'video')
+    return accumulateLocalizedField(
+      progress,
+      element.caption,
+      'text',
+      languages
+    )
+  if (element.type === 'map')
+    return accumulateLocalizedField(
+      progress,
+      element.caption,
+      'text',
+      languages
+    )
+  if (element.type === 'gallery')
+    return accumulateGalleryElement(progress, element, languages)
+  if (element.type === 'accordion')
+    return accumulateAccordionElement(progress, element, languages)
+  if (element.type === 'testimonials')
+    return accumulateTestimonialsElement(progress, element, languages)
+  if (element.type === 'stats')
+    return accumulateStatsElement(progress, element, languages)
   const _exhaustive: never = element
   return _exhaustive
 }
@@ -110,12 +135,11 @@ function accumulateElement(
  */
 export function computeTranslationProgress(
   sections: BuilderSection[],
-  languages: readonly Language[],
+  languages: readonly Language[]
 ): Record<Language, LanguageProgress> {
-  const progress = Object.fromEntries(languages.map((lang) => [lang, { filled: 0, total: 0 }])) as Record<
-    Language,
-    LanguageProgress
-  >
+  const progress = Object.fromEntries(
+    languages.map((lang) => [lang, { filled: 0, total: 0 }])
+  ) as Record<Language, LanguageProgress>
 
   for (const section of sections) {
     if (!isColumnsSection(section)) continue

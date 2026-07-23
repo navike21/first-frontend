@@ -48,7 +48,6 @@ export const UserGroupsTrashPage = () => {
         },
       ]}
     >
-
       {isLoading && (
         <div className="flex items-center justify-center py-20">
           <div
@@ -64,26 +63,26 @@ export const UserGroupsTrashPage = () => {
         <div
           className={clsx(
             'flex flex-col items-center justify-center py-20',
-            'rounded-xl border border-dashed border-border bg-surface-subtle',
+            'border-border bg-surface-subtle rounded-xl border border-dashed',
             'text-center'
           )}
         >
           <IconComponent
             icon="RiDeleteBinLine"
-            className="mb-3 h-10 w-10 text-disabled"
+            className="text-disabled mb-3 h-10 w-10"
           />
-          <p className="text-lg font-semibold text-foreground">
+          <p className="text-foreground text-lg font-semibold">
             {t.page.trashEmpty}
           </p>
-          <p className="mt-1 text-sm text-muted">
+          <p className="text-muted mt-1 text-sm">
             {t.page.trashEmptyDescription}
           </p>
         </div>
       )}
       {!isLoading && groups.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+        <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-sm">
           <table className="w-full text-sm">
-            <thead className="bg-surface-subtle text-xs font-semibold tracking-wider text-secondary uppercase">
+            <thead className="bg-surface-subtle text-secondary text-xs font-semibold tracking-wider uppercase">
               <tr>
                 <th className="px-4 py-3 text-left">{t.table.colName}</th>
                 <th className="px-4 py-3 text-left">
@@ -108,15 +107,15 @@ export const UserGroupsTrashPage = () => {
                         className="inline-block h-3 w-3 flex-shrink-0 rounded-full"
                         style={{ backgroundColor: group.color }}
                       />
-                      <span className="font-medium text-foreground">
+                      <span className="text-foreground font-medium">
                         {group.name}
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-secondary">
+                  <td className="text-secondary px-4 py-3">
                     {t.table.permissionsCount(group.permissions.length)}
                   </td>
-                  <td className="px-4 py-3 text-secondary">
+                  <td className="text-secondary px-4 py-3">
                     {group.deletedAt
                       ? new Date(group.deletedAt).toLocaleDateString()
                       : '—'}
@@ -162,8 +161,8 @@ export const UserGroupsTrashPage = () => {
           </table>
 
           {pages > 1 && (
-            <div className="flex items-center justify-between border-t border-border-subtle px-4 py-3">
-              <span className="text-sm text-secondary">
+            <div className="border-border-subtle flex items-center justify-between border-t px-4 py-3">
+              <span className="text-secondary text-sm">
                 {t.table.totalCount(total)}
               </span>
               <div className="flex items-center gap-1">
@@ -175,7 +174,7 @@ export const UserGroupsTrashPage = () => {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 />
-                <span className="text-sm text-secondary">
+                <span className="text-secondary text-sm">
                   {page} / {pages}
                 </span>
                 <IconButton

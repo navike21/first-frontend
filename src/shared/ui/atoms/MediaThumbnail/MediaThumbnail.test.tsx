@@ -6,7 +6,9 @@ vi.mock('@/shared/api/storage', () => ({
   attachVideoCoverWithRetry: vi.fn().mockResolvedValue(undefined),
 }))
 vi.mock('@/shared/lib/captureVideoFrame', () => ({
-  drawVideoFrameToBlob: vi.fn().mockResolvedValue(new Blob(['frame'], { type: 'image/jpeg' })),
+  drawVideoFrameToBlob: vi
+    .fn()
+    .mockResolvedValue(new Blob(['frame'], { type: 'image/jpeg' })),
 }))
 
 import { attachVideoCoverWithRetry } from '@/shared/api/storage'
@@ -19,14 +21,18 @@ describe('MediaThumbnail', () => {
   })
 
   it('renders a plain img for images', () => {
-    const { container } = render(<MediaThumbnail src="photo.jpg" kind="image" />)
+    const { container } = render(
+      <MediaThumbnail src="photo.jpg" kind="image" />
+    )
     const img = container.querySelector('img')
     expect(img).toHaveAttribute('src', 'photo.jpg')
     expect(container.querySelector('video')).not.toBeInTheDocument()
   })
 
   it('renders the poster image directly for video when posterSrc is present — no video element at all', () => {
-    const { container } = render(<MediaThumbnail src="clip.mp4" kind="video" posterSrc="cover.jpg" />)
+    const { container } = render(
+      <MediaThumbnail src="clip.mp4" kind="video" posterSrc="cover.jpg" />
+    )
     const img = container.querySelector('img')
     expect(img).toHaveAttribute('src', 'cover.jpg')
     expect(container.querySelector('video')).not.toBeInTheDocument()
@@ -40,12 +46,19 @@ describe('MediaThumbnail', () => {
   })
 
   it('backfills a cover once the fallback frame paints, when entityId is provided', async () => {
-    const { container } = render(<MediaThumbnail src="clip.mp4" kind="video" entityId="file-1" />)
+    const { container } = render(
+      <MediaThumbnail src="clip.mp4" kind="video" entityId="file-1" />
+    )
     const video = container.querySelector('video') as HTMLVideoElement
     Object.defineProperty(video, 'readyState', { value: 1, configurable: true })
     video.dispatchEvent(new Event('loadedmetadata'))
 
-    await vi.waitFor(() => expect(attachVideoCoverWithRetry).toHaveBeenCalledWith('file-1', expect.any(Blob)))
+    await vi.waitFor(() =>
+      expect(attachVideoCoverWithRetry).toHaveBeenCalledWith(
+        'file-1',
+        expect.any(Blob)
+      )
+    )
   })
 
   it('does not attempt a backfill when entityId is absent', async () => {

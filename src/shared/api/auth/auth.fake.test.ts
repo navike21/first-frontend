@@ -71,7 +71,10 @@ describe('fakeAuthService.resetPassword', () => {
   })
 
   it('resolves for the fake reset token', async () => {
-    const promise = fakeAuthService.resetPassword('fake-reset-token', 'Password1')
+    const promise = fakeAuthService.resetPassword(
+      'fake-reset-token',
+      'Password1'
+    )
     vi.advanceTimersByTime(900)
     const result = await promise
     expect(result.message).toBeTruthy()

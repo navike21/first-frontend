@@ -58,7 +58,9 @@ describe('UserMenu', () => {
 
   it('should render the trigger with the user name', () => {
     renderMenu()
-    expect(screen.getByRole('button', { name: 'User menu' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'User menu' })
+    ).toBeInTheDocument()
     expect(screen.getByText('Ana Nuñez')).toBeInTheDocument()
   })
 
@@ -74,13 +76,18 @@ describe('UserMenu', () => {
 
     expect(screen.getByRole('menu')).toBeInTheDocument()
     expect(screen.getByText('ana@navike21.com')).toBeInTheDocument()
-    expect(screen.getByRole('menuitem', { name: /My profile/ })).toHaveAttribute(
-      'href',
-      '/es/perfil'
-    )
-    expect(screen.getByRole('menuitem', { name: /Preferences/ })).toBeInTheDocument()
-    expect(screen.getByRole('menuitem', { name: /Dark theme/ })).toBeInTheDocument()
-    expect(screen.getByRole('menuitem', { name: /Sign out/ })).toBeInTheDocument()
+    expect(
+      screen.getByRole('menuitem', { name: /My profile/ })
+    ).toHaveAttribute('href', '/es/perfil')
+    expect(
+      screen.getByRole('menuitem', { name: /Preferences/ })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('menuitem', { name: /Dark theme/ })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('menuitem', { name: /Sign out/ })
+    ).toBeInTheDocument()
   })
 
   it('should show "Light theme" as the toggle label when the theme is dark', async () => {
@@ -89,7 +96,9 @@ describe('UserMenu', () => {
     renderMenu()
     await user.click(screen.getByRole('button', { name: 'User menu' }))
 
-    expect(screen.getByRole('menuitem', { name: /Light theme/ })).toBeInTheDocument()
+    expect(
+      screen.getByRole('menuitem', { name: /Light theme/ })
+    ).toBeInTheDocument()
   })
 
   it('should call useToggleTheme when the theme item is clicked', async () => {

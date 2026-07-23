@@ -47,12 +47,12 @@ export const SelectDropdownPortal = ({
       }}
       className={clsx(
         'z-[9999] flex max-h-60 flex-col',
-        'rounded-select bg-surface-panel ring-1 ring-border-control',
+        'rounded-select bg-surface-panel ring-border-control ring-1',
         dropdownStyle.openAbove ? 'shadow-panel-up' : 'shadow-panel-down'
       )}
     >
       {search && (
-        <div className="shrink-0 border-b border-border-subtle p-2">
+        <div className="border-border-subtle shrink-0 border-b p-2">
           <input
             ref={searchInputRef}
             type="text"
@@ -62,8 +62,8 @@ export const SelectDropdownPortal = ({
             aria-label={searchAriaLabel}
             className={clsx(
               'h-8 w-full px-3',
-              'rounded-control border border-border-control bg-surface-input text-sm outline-none',
-              'focus:ring-1 focus:ring-border-control',
+              'rounded-control border-border-control bg-surface-input border text-sm outline-none',
+              'focus:ring-border-control focus:ring-1',
               'placeholder:text-muted'
             )}
           />

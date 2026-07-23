@@ -139,7 +139,7 @@ export const en: UsersTranslations = {
     prevPage: 'Previous',
     nextPage: 'Next',
     uploadNewLabel: 'Upload new',
-    uploadNewHint: 'Can\'t find it? Upload a new file',
+    uploadNewHint: "Can't find it? Upload a new file",
   },
   toasts: {
     bulkDeactivated: 'Users deleted',

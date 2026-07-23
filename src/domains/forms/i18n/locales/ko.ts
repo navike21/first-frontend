@@ -9,7 +9,8 @@ export const ko: FormsTranslations = {
     editTitle: '양식 편집',
     editDescription: (name) => `${name}의 필드와 설정을 업데이트`,
     trashTitle: '양식 휴지통',
-    trashDescription: '휴지통으로 이동된 양식입니다. 복원하거나 영구적으로 삭제할 수 있습니다.',
+    trashDescription:
+      '휴지통으로 이동된 양식입니다. 복원하거나 영구적으로 삭제할 수 있습니다.',
     trashEmpty: '휴지통에 양식이 없습니다',
     trashEmptyDescription: '삭제된 양식이 여기에 표시됩니다.',
     submissionsTitle: (name) => `응답 — ${name}`,
@@ -46,7 +47,8 @@ export const ko: FormsTranslations = {
     viewSubmission: '상세 보기',
     markRead: '읽음으로 표시',
     deleteSubmission: '삭제',
-    deleteSubmissionDescription: '이 응답을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.',
+    deleteSubmissionDescription:
+      '이 응답을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.',
     restoreSubmission: '복원',
     purgeSubmission: '영구 삭제',
     prevPage: '이전',
@@ -91,15 +93,20 @@ export const ko: FormsTranslations = {
     bulkRestore: '복원',
     bulkPurge: '영구 삭제',
     deleteTitle: '양식 삭제',
-    deleteDescription: (name) => `${name}을(를) 삭제하시겠습니까? 응답은 휴지통에 남아 복원할 수 있습니다.`,
+    deleteDescription: (name) =>
+      `${name}을(를) 삭제하시겠습니까? 응답은 휴지통에 남아 복원할 수 있습니다.`,
     confirmDelete: '삭제',
-    bulkDeleteDescription: (count) => `${count}개의 양식을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
+    bulkDeleteDescription: (count) =>
+      `${count}개의 양식을 삭제하시겠습니까? 휴지통에서 복원할 수 있습니다.`,
     restoreTitle: '양식 복원',
-    restoreDescription: (name) => `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
+    restoreDescription: (name) =>
+      `${name}을(를) 활성 목록으로 복원하시겠습니까?`,
     confirmRestore: '복원',
-    bulkRestoreDescription: (count) => `${count}개의 양식을 활성 목록으로 복원하시겠습니까?`,
+    bulkRestoreDescription: (count) =>
+      `${count}개의 양식을 활성 목록으로 복원하시겠습니까?`,
     purgeTitle: '영구 삭제',
-    purgeDescription: (name) => `${name}과(와) 모든 응답이 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
+    purgeDescription: (name) =>
+      `${name}과(와) 모든 응답이 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.`,
     confirmPurge: '삭제',
     bulkPurgeDescription: (count) =>
       `${count}개의 양식과 모든 응답이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.`,

@@ -38,10 +38,7 @@ describe('Label', () => {
     // Assert
     const label = screen.getByText('Test Label')
     expect(label).toHaveClass('text-foreground')
-    expect(label).not.toHaveClass(
-      'text-disabled',
-      'cursor-not-allowed'
-    )
+    expect(label).not.toHaveClass('text-disabled', 'cursor-not-allowed')
   })
 
   it('should not apply default text color when className has text color', () => {

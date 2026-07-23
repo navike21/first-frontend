@@ -6,7 +6,8 @@ import type { CreateSubscriberPayload } from '../model/subscriber.schema'
 export const subscriberKeys = {
   all: ['subscribers'] as const,
   lists: () => [...subscriberKeys.all, 'list'] as const,
-  list: (params: SubscriberListParams) => [...subscriberKeys.lists(), params] as const,
+  list: (params: SubscriberListParams) =>
+    [...subscriberKeys.lists(), params] as const,
   details: () => [...subscriberKeys.all, 'detail'] as const,
   detail: (id: string) => [...subscriberKeys.details(), id] as const,
   trash: () => [...subscriberKeys.all, 'trash'] as const,
@@ -31,8 +32,13 @@ export const useSubscriber = (id: string) =>
 export const useRegisterSubscriber = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, photo }: { data: CreateSubscriberPayload; photo?: File | null }) =>
-      subscribersApi.register(data, photo),
+    mutationFn: ({
+      data,
+      photo,
+    }: {
+      data: CreateSubscriberPayload
+      photo?: File | null
+    }) => subscribersApi.register(data, photo),
     onSuccess: () => qc.invalidateQueries({ queryKey: subscriberKeys.lists() }),
   })
 }
@@ -40,8 +46,13 @@ export const useRegisterSubscriber = () => {
 export const useUpdateSubscriber = (id: string) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ data, photo }: { data: Partial<CreateSubscriberPayload>; photo?: File | null }) =>
-      subscribersApi.update(id, data, photo),
+    mutationFn: ({
+      data,
+      photo,
+    }: {
+      data: Partial<CreateSubscriberPayload>
+      photo?: File | null
+    }) => subscribersApi.update(id, data, photo),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: subscriberKeys.lists() })
       qc.invalidateQueries({ queryKey: subscriberKeys.detail(id) })
@@ -60,7 +71,9 @@ export const useSoftDeleteSubscriber = () => {
   })
 }
 
-export const useSubscribersTrash = (params: { page?: number; limit?: number } = {}) =>
+export const useSubscribersTrash = (
+  params: { page?: number; limit?: number } = {}
+) =>
   useQuery({
     queryKey: subscriberKeys.trashList(params),
     queryFn: () => subscribersApi.trash(params),

@@ -44,7 +44,10 @@ export const InputLayout = ({
           'rounded-control',
           'duration-fast ease-out-expo transition-all',
           'focus-within:ring-2',
-          { 'focus-within:shadow-focus-ring': variant === 'default' && !disabled },
+          {
+            'focus-within:shadow-focus-ring':
+              variant === 'default' && !disabled,
+          },
           {
             'bg-surface-subtle': disabled,
             'bg-surface-input ring-1 ring-inset': !disabled,
@@ -75,7 +78,7 @@ export const InputLayout = ({
         {variant === 'error' && !loading && (
           <IconComponent
             icon="RiErrorWarningFill"
-            className="mr-3 size-5 text-danger-600"
+            className="text-danger-600 mr-3 size-5"
           />
         )}
         {variant === 'warning' && !loading && (

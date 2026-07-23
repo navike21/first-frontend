@@ -9,7 +9,8 @@ export const it: SubscribersTranslations = {
     editTitle: "Modifica l'iscritto",
     editDescription: (name) => `Aggiorna le informazioni di ${name}`,
     trashTitle: 'Cestino iscritti',
-    trashDescription: 'Iscritti spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Iscritti spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun iscritto nel cestino',
     trashEmptyDescription: 'Gli iscritti eliminati appariranno qui.',
   },
@@ -65,11 +66,14 @@ export const it: SubscribersTranslations = {
     restoreTitle: 'Ripristina iscritto',
     restoreDescription: (name) => `Ripristinare ${name} nella lista attiva?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} iscritti nella lista attiva?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} iscritti nella lista attiva?`,
     purgeTitle: 'Eliminazione definitiva',
-    purgeDescription: (name) => `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
+    purgeDescription: (name) =>
+      `${name} verrà eliminato definitivamente. Questa azione è IRREVERSIBILE.`,
     confirmPurge: 'Elimina',
-    bulkPurgeDescription: (count) => `Questo eliminerà definitivamente ${count} iscritti. Questa azione è IRREVERSIBILE.`,
+    bulkPurgeDescription: (count) =>
+      `Questo eliminerà definitivamente ${count} iscritti. Questa azione è IRREVERSIBILE.`,
   },
   form: {
     sectionPersonal: 'Informazioni personali',

@@ -38,7 +38,11 @@ export const usersApi = {
   getById: (id: string) =>
     request<ApiResponse<User>>({ api: `${BASE}/${id}`, method: 'GET' }),
 
-  create: (body: CreateUserFormData, avatar?: File | null, avatarLibraryUrl?: string) => {
+  create: (
+    body: CreateUserFormData,
+    avatar?: File | null,
+    avatarLibraryUrl?: string
+  ) => {
     type Created = ApiResponse<
       Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>
     >
@@ -51,7 +55,9 @@ export const usersApi = {
       fd.append('avatar', avatar)
       return request<Created, FormData>({ api: BASE, method: 'POST', body: fd })
     }
-    const payload = avatarLibraryUrl ? { ...body, profilePictureUrl: avatarLibraryUrl } : body
+    const payload = avatarLibraryUrl
+      ? { ...body, profilePictureUrl: avatarLibraryUrl }
+      : body
     return request<Created, typeof payload>({
       api: BASE,
       method: 'POST',
@@ -80,9 +86,11 @@ export const usersApi = {
     }
     // Empty profilePictureUrl tells the backend to clear the existing avatar;
     // a library pick sets it directly.
-    let payload: typeof body | (typeof body & { profilePictureUrl: string }) = body
+    let payload: typeof body | (typeof body & { profilePictureUrl: string }) =
+      body
     if (removeAvatar) payload = { ...body, profilePictureUrl: '' }
-    else if (avatarLibraryUrl) payload = { ...body, profilePictureUrl: avatarLibraryUrl }
+    else if (avatarLibraryUrl)
+      payload = { ...body, profilePictureUrl: avatarLibraryUrl }
     return request<ApiResponse<User>, typeof payload>({
       api: `${BASE}/${id}`,
       method: 'PATCH',
@@ -165,9 +173,11 @@ export const usersApi = {
         body: fd,
       })
     }
-    let payload: typeof body | (typeof body & { profilePictureUrl: string }) = body
+    let payload: typeof body | (typeof body & { profilePictureUrl: string }) =
+      body
     if (removeAvatar) payload = { ...body, profilePictureUrl: '' }
-    else if (avatarLibraryUrl) payload = { ...body, profilePictureUrl: avatarLibraryUrl }
+    else if (avatarLibraryUrl)
+      payload = { ...body, profilePictureUrl: avatarLibraryUrl }
     return request<ApiResponse<User>, typeof payload>({
       api: `${BASE}/me`,
       method: 'PATCH',

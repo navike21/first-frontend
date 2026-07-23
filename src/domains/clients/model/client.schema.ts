@@ -59,7 +59,12 @@ export function createClientSchema(
           position: optional,
         })
         .optional(),
-      notes: z.string().trim().max(2000, v.notesMax).optional().or(z.literal('')),
+      notes: z
+        .string()
+        .trim()
+        .max(2000, v.notesMax)
+        .optional()
+        .or(z.literal('')),
       status: z.enum(['active', 'inactive']).default('active'),
     })
     .superRefine((d, ctx) => {
@@ -110,5 +115,7 @@ export function createUpdateClientSchema(
   return createClientSchema(v, documentTypes)
 }
 
-export type CreateClientFormData = z.infer<ReturnType<typeof createClientSchema>>
+export type CreateClientFormData = z.infer<
+  ReturnType<typeof createClientSchema>
+>
 export type UpdateClientFormData = Partial<CreateClientFormData>

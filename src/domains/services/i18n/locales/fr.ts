@@ -9,7 +9,8 @@ export const fr: ServicesTranslations = {
     editTitle: 'Modifier le service',
     editDescription: (name) => `Mettre à jour les informations de ${name}`,
     trashTitle: 'Corbeille des services',
-    trashDescription: 'Services déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
+    trashDescription:
+      'Services déplacés dans la corbeille. Restaurez-les ou supprimez-les définitivement.',
     trashEmpty: 'Aucun service dans la corbeille',
     trashEmptyDescription: 'Les services supprimés apparaîtront ici.',
   },
@@ -67,11 +68,14 @@ export const fr: ServicesTranslations = {
     restoreTitle: 'Restaurer le service',
     restoreDescription: (name) => `Restaurer ${name} dans la liste active ?`,
     confirmRestore: 'Restaurer',
-    bulkRestoreDescription: (count) => `Restaurer ${count} services dans la liste active ?`,
+    bulkRestoreDescription: (count) =>
+      `Restaurer ${count} services dans la liste active ?`,
     purgeTitle: 'Suppression définitive',
-    purgeDescription: (name) => `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
+    purgeDescription: (name) =>
+      `${name} sera supprimé définitivement. Cette action est IRRÉVERSIBLE.`,
     confirmPurge: 'Supprimer',
-    bulkPurgeDescription: (count) => `Ceci supprimera définitivement ${count} services. Cette action est IRRÉVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Ceci supprimera définitivement ${count} services. Cette action est IRRÉVERSIBLE.`,
   },
   form: {
     sectionGeneral: 'Général',
@@ -98,7 +102,7 @@ export const fr: ServicesTranslations = {
     coverFormatsHint: 'JPG, PNG, WebP ou SVG',
     coverRemoveLabel: 'Supprimer la couverture',
     icon: 'Icône',
-    iconUploadLabel: "Déposer ou sélectionner une icône",
+    iconUploadLabel: 'Déposer ou sélectionner une icône',
     iconDragLabel: 'Déposer pour télécharger',
     iconDragOrLabel: 'Déposer ici ou',
     iconBrowseLabel: 'parcourir',

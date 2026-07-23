@@ -32,7 +32,11 @@ interface SkeletonBlockProps {
 }
 
 const SkeletonBlock = ({ className, style }: SkeletonBlockProps) => (
-  <div aria-hidden="true" className={clsx('relative overflow-hidden bg-border-subtle', className)} style={style}>
+  <div
+    aria-hidden="true"
+    className={clsx('bg-border-subtle relative overflow-hidden', className)}
+    style={style}
+  >
     <Pulse />
   </div>
 )
@@ -62,5 +66,10 @@ export const Skeleton = ({
     )
   }
 
-  return <SkeletonBlock className={clsx(variantClass[variant], className)} style={sizeStyle} />
+  return (
+    <SkeletonBlock
+      className={clsx(variantClass[variant], className)}
+      style={sizeStyle}
+    />
+  )
 }

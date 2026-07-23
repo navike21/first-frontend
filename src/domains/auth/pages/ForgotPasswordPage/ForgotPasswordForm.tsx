@@ -18,11 +18,11 @@ export const ForgotPasswordForm = () => {
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center gap-4 text-center">
-        <h2 className="text-base font-semibold text-foreground">
+        <h2 className="text-foreground text-base font-semibold">
           {t.forgotPassword.successHeading}
         </h2>
         {successMessage && (
-          <p className="text-sm text-secondary">{successMessage}</p>
+          <p className="text-secondary text-sm">{successMessage}</p>
         )}
         <LinkButton variant="secondary" href={navPaths.login()}>
           {t.forgotPassword.backToLoginLink}
@@ -37,7 +37,7 @@ export const ForgotPasswordForm = () => {
       onSubmit={onSubmit}
       noValidate
     >
-      <h2 className="mb-2 text-base font-semibold text-foreground">
+      <h2 className="text-foreground mb-2 text-base font-semibold">
         {t.forgotPassword.heading}
       </h2>
       <InputField
@@ -58,7 +58,11 @@ export const ForgotPasswordForm = () => {
       >
         {t.forgotPassword.submitButton}
       </Button>
-      <LinkButton variant="text" href={navPaths.login()} className="text-center">
+      <LinkButton
+        variant="text"
+        href={navPaths.login()}
+        className="text-center"
+      >
         {t.forgotPassword.backToLoginLink}
       </LinkButton>
     </form>

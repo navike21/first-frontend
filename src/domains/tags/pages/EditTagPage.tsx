@@ -32,7 +32,9 @@ export const EditTagPage = () => {
         notify.success(t.toasts.updated)
         navigate({ to: navPaths.tags(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.tags(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.tags(language) as never })
+      ),
     })
   }
 
@@ -47,7 +49,10 @@ export const EditTagPage = () => {
   }
 
   return (
-    <PageContent title={t.page.editTitle} description={t.page.editDescription(tag.name[language] || tag.name.en)}>
+    <PageContent
+      title={t.page.editTitle}
+      description={t.page.editDescription(tag.name[language] || tag.name.en)}
+    >
       <TagForm
         mode="edit"
         initialValues={toFormValues(tag)}

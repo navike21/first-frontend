@@ -1,6 +1,10 @@
 import clsx from 'clsx'
 import type { CSSProperties } from 'react'
-import type { HeaderVariant, FooterVariant, ContentWidth } from '../../model/site-config.types'
+import type {
+  HeaderVariant,
+  FooterVariant,
+  ContentWidth,
+} from '../../model/site-config.types'
 
 // Tiny abstract diagrams used inside the variant picker cards. The mock
 // blocks are painted with inline styles over theme CSS variables (always
@@ -20,11 +24,24 @@ const LOGO_STYLE: CSSProperties = block({
   backgroundColor: 'var(--color-primary-600)',
 })
 
-const MENU_STYLE: CSSProperties = block({ width: 16, height: 6, backgroundColor: 'var(--text-muted)' })
+const MENU_STYLE: CSSProperties = block({
+  width: 16,
+  height: 6,
+  backgroundColor: 'var(--text-muted)',
+})
 
-const CTA_STYLE: CSSProperties = block({ width: 20, height: 10, backgroundColor: 'var(--color-primary-600)', opacity: 0.7 })
+const CTA_STYLE: CSSProperties = block({
+  width: 20,
+  height: 10,
+  backgroundColor: 'var(--color-primary-600)',
+  opacity: 0.7,
+})
 
-const DOT_STYLE: CSSProperties = block({ width: 6, height: 6, backgroundColor: 'var(--text-muted)' })
+const DOT_STYLE: CSSProperties = block({
+  width: 6,
+  height: 6,
+  backgroundColor: 'var(--text-muted)',
+})
 
 const lineStyle = (widthPct: number): CSSProperties => ({
   height: 4,
@@ -44,7 +61,9 @@ const frame = 'w-full rounded-md border border-border bg-surface-subtle'
 export const HeaderWireframe = ({ variant }: { variant: HeaderVariant }) => {
   if (variant === 'logo-left-menu-right') {
     return (
-      <div className={clsx(frame, 'flex h-12 items-center justify-between px-2')}>
+      <div
+        className={clsx(frame, 'flex h-12 items-center justify-between px-2')}
+      >
         <Logo />
         <div className="flex items-center gap-1.5">
           <MenuItem />
@@ -56,7 +75,9 @@ export const HeaderWireframe = ({ variant }: { variant: HeaderVariant }) => {
   }
   if (variant === 'logo-left-menu-center') {
     return (
-      <div className={clsx(frame, 'flex h-12 items-center justify-between px-2')}>
+      <div
+        className={clsx(frame, 'flex h-12 items-center justify-between px-2')}
+      >
         <Logo />
         <div className="flex items-center gap-1.5">
           <MenuItem />
@@ -69,7 +90,12 @@ export const HeaderWireframe = ({ variant }: { variant: HeaderVariant }) => {
   }
   if (variant === 'logo-center-split') {
     return (
-      <div className={clsx(frame, 'flex h-12 items-center justify-center gap-2 px-2')}>
+      <div
+        className={clsx(
+          frame,
+          'flex h-12 items-center justify-center gap-2 px-2'
+        )}
+      >
         <MenuItem />
         <MenuItem />
         <Logo />
@@ -80,7 +106,12 @@ export const HeaderWireframe = ({ variant }: { variant: HeaderVariant }) => {
   }
   // logo-center-stacked
   return (
-    <div className={clsx(frame, 'flex h-12 flex-col items-center justify-center gap-1.5 px-2')}>
+    <div
+      className={clsx(
+        frame,
+        'flex h-12 flex-col items-center justify-center gap-1.5 px-2'
+      )}
+    >
       <Logo />
       <div className="flex items-center gap-1.5">
         <MenuItem />
@@ -103,12 +134,20 @@ const FooterColumns = ({ count }: { count: number }) => (
   </div>
 )
 
-export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; columns: number }) => {
+export const FooterWireframe = ({
+  variant,
+  columns,
+}: {
+  variant: FooterVariant
+  columns: number
+}) => {
   if (variant === 'columns') {
     return (
-      <div className={clsx(frame, 'flex h-16 flex-col justify-center gap-2 py-2')}>
+      <div
+        className={clsx(frame, 'flex h-16 flex-col justify-center gap-2 py-2')}
+      >
         <FooterColumns count={columns} />
-        <div className="mx-2 flex flex-col border-t border-border pt-1">
+        <div className="border-border mx-2 flex flex-col border-t pt-1">
           <TextLine w={33} />
         </div>
       </div>
@@ -116,7 +155,12 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   }
   if (variant === 'centered') {
     return (
-      <div className={clsx(frame, 'flex h-16 flex-col items-center justify-center gap-1.5')}>
+      <div
+        className={clsx(
+          frame,
+          'flex h-16 flex-col items-center justify-center gap-1.5'
+        )}
+      >
         <Logo />
         <div className="flex items-center gap-1.5">
           <MenuItem />
@@ -133,7 +177,9 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   }
   if (variant === 'minimal') {
     return (
-      <div className={clsx(frame, 'flex h-16 items-center justify-between px-2')}>
+      <div
+        className={clsx(frame, 'flex h-16 items-center justify-between px-2')}
+      >
         <span style={lineStyle(33)} className="max-w-16" />
         <div className="flex items-center gap-1">
           <Dot />
@@ -145,8 +191,10 @@ export const FooterWireframe = ({ variant, columns }: { variant: FooterVariant; 
   }
   // cta-columns
   return (
-    <div className={clsx(frame, 'flex h-16 flex-col justify-center gap-1.5 py-2')}>
-      <div className="mx-2 flex items-center justify-between border-b border-border pb-1.5">
+    <div
+      className={clsx(frame, 'flex h-16 flex-col justify-center gap-1.5 py-2')}
+    >
+      <div className="border-border mx-2 flex items-center justify-between border-b pb-1.5">
         <span style={lineStyle(33)} />
         <CtaPill />
       </div>
@@ -161,10 +209,15 @@ export interface ContentWireframeProps {
   boxedMaxWidth?: number
 }
 
-export const ContentWireframe = ({ width, boxedMaxWidth }: ContentWireframeProps) => {
+export const ContentWireframe = ({
+  width,
+  boxedMaxWidth,
+}: ContentWireframeProps) => {
   const boxed = width === 'boxed'
   // Map the configured max width onto the mini viewport (1920 px = full).
-  const pct = boxed ? Math.min(92, Math.max(30, ((boxedMaxWidth ?? 1200) / 1920) * 100)) : 100
+  const pct = boxed
+    ? Math.min(92, Math.max(30, ((boxedMaxWidth ?? 1200) / 1920) * 100))
+    : 100
   const innerStyle: CSSProperties = boxed
     ? {
         width: `${pct}%`,
@@ -174,8 +227,17 @@ export const ContentWireframe = ({ width, boxedMaxWidth }: ContentWireframeProps
       }
     : { width: '100%', height: '100%' }
   return (
-    <div className={clsx(frame, 'flex h-16 justify-center overflow-hidden', boxed && 'py-2')}>
-      <div className="flex flex-col justify-center gap-1 bg-primary-700/10 p-1.5" style={innerStyle}>
+    <div
+      className={clsx(
+        frame,
+        'flex h-16 justify-center overflow-hidden',
+        boxed && 'py-2'
+      )}
+    >
+      <div
+        className="bg-primary-700/10 flex flex-col justify-center gap-1 p-1.5"
+        style={innerStyle}
+      >
         <TextLine w={50} />
         <TextLine w={100} />
         <TextLine w={83} />

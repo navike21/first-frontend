@@ -20,12 +20,17 @@ export const CreateFormPage = () => {
         notify.success(t.toasts.created)
         navigate({ to: navPaths.forms(language) as never })
       },
-      onError: onQueuedOr(() => navigate({ to: navPaths.forms(language) as never })),
+      onError: onQueuedOr(() =>
+        navigate({ to: navPaths.forms(language) as never })
+      ),
     })
   }
 
   return (
-    <PageContent title={t.page.createTitle} description={t.page.createDescription}>
+    <PageContent
+      title={t.page.createTitle}
+      description={t.page.createDescription}
+    >
       <FormEditor
         mode="create"
         isSubmitting={createForm.isPending}

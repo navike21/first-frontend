@@ -110,7 +110,10 @@ export const CAN = {
   // Separate from forms* on purpose (matches the backend split): lets a
   // sales/support role triage submissions without editing the form itself.
   formSubmissionsView: ['forms-submissions:read', 'forms-submissions:manage'],
-  formSubmissionsDelete: ['forms-submissions:delete', 'forms-submissions:manage'],
+  formSubmissionsDelete: [
+    'forms-submissions:delete',
+    'forms-submissions:manage',
+  ],
   formSubmissionsPurge: ['forms-submissions:purge'],
   mediaView: ['storage:read', 'storage:manage'],
   mediaUpload: ['storage:upload', 'storage:manage'],

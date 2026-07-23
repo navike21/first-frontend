@@ -9,7 +9,8 @@ export const it: FormsTranslations = {
     editTitle: 'Modifica modulo',
     editDescription: (name) => `Aggiorna campi e impostazioni di ${name}`,
     trashTitle: 'Cestino dei moduli',
-    trashDescription: 'Moduli spostati nel cestino. Ripristinali o eliminali definitivamente.',
+    trashDescription:
+      'Moduli spostati nel cestino. Ripristinali o eliminali definitivamente.',
     trashEmpty: 'Nessun modulo nel cestino',
     trashEmptyDescription: 'I moduli eliminati appariranno qui.',
     submissionsTitle: (name) => `Risposte — ${name}`,
@@ -46,7 +47,8 @@ export const it: FormsTranslations = {
     viewSubmission: 'Visualizza dettagli',
     markRead: 'Segna come letto',
     deleteSubmission: 'Elimina',
-    deleteSubmissionDescription: 'Eliminare questa risposta? Potrai ripristinarla dal cestino.',
+    deleteSubmissionDescription:
+      'Eliminare questa risposta? Potrai ripristinarla dal cestino.',
     restoreSubmission: 'Ripristina',
     purgeSubmission: 'Elimina definitivamente',
     prevPage: 'Precedente',
@@ -94,11 +96,13 @@ export const it: FormsTranslations = {
     deleteDescription: (name) =>
       `Vuoi davvero eliminare ${name}? Le sue risposte restano nel cestino e possono essere ripristinate.`,
     confirmDelete: 'Elimina',
-    bulkDeleteDescription: (count) => `Eliminare ${count} moduli? Potrai ripristinarli dal cestino.`,
+    bulkDeleteDescription: (count) =>
+      `Eliminare ${count} moduli? Potrai ripristinarli dal cestino.`,
     restoreTitle: 'Ripristina modulo',
     restoreDescription: (name) => `Ripristinare ${name} nell'elenco attivo?`,
     confirmRestore: 'Ripristina',
-    bulkRestoreDescription: (count) => `Ripristinare ${count} moduli nell'elenco attivo?`,
+    bulkRestoreDescription: (count) =>
+      `Ripristinare ${count} moduli nell'elenco attivo?`,
     purgeTitle: 'Elimina definitivamente',
     purgeDescription: (name) =>
       `Questo eliminerà definitivamente ${name} e tutte le sue risposte. Questa azione non può essere annullata.`,
@@ -115,7 +119,8 @@ export const it: FormsTranslations = {
     successMessage: 'Messaggio di successo',
     status: 'Stato',
     notificationEmails: 'Notifica queste email a ogni invio',
-    notificationEmailsHint: 'Separate da virgola. Lascia vuoto per disattivare le notifiche.',
+    notificationEmailsHint:
+      'Separate da virgola. Lascia vuoto per disattivare le notifiche.',
     addField: 'Aggiungi campo',
     noFields: 'Ancora nessun campo — aggiungine uno per iniziare',
     fieldLabel: 'Etichetta',

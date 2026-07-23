@@ -72,7 +72,9 @@ const TAB_FIELDS: Record<ClientFormTab, string[]> = {
 }
 
 /** Returns the tab that holds the first invalid field (for tab switching). */
-function tabForErrors(errors: FieldErrors<CreateClientFormData>): ClientFormTab {
+function tabForErrors(
+  errors: FieldErrors<CreateClientFormData>
+): ClientFormTab {
   const keys = Object.keys(errors)
   const tabs: ClientFormTab[] = ['general', 'location', 'contact']
   for (const tab of tabs) {
@@ -163,11 +165,17 @@ export const ClientForm = ({
   ]
   const industryOptions = [
     none,
-    ...(config?.industries ?? []).map((i) => ({ value: i.value, label: i.label })),
+    ...(config?.industries ?? []).map((i) => ({
+      value: i.value,
+      label: i.label,
+    })),
   ]
   const languageOptions = [
     none,
-    ...(config?.languages ?? []).map((l) => ({ value: l.value, label: l.label })),
+    ...(config?.languages ?? []).map((l) => ({
+      value: l.value,
+      label: l.label,
+    })),
   ]
   const selectedDocType = documentTypes?.find((d) => d.value === documentType)
 
@@ -249,7 +257,9 @@ export const ClientForm = ({
               }
             }}
             disabled={isSubmitting}
-            {...(logoLibraryUrl ?? initialLogoUrl ? { currentUrl: logoLibraryUrl ?? initialLogoUrl } : {})}
+            {...((logoLibraryUrl ?? initialLogoUrl)
+              ? { currentUrl: logoLibraryUrl ?? initialLogoUrl }
+              : {})}
             onRemove={() => {
               setPendingLogo(null)
               setRemoveLogo(true)
@@ -297,7 +307,10 @@ export const ClientForm = ({
                   value={clientType ?? 'company'}
                   lang={language}
                   onChange={(e) =>
-                    setValue('clientType', e.target.value as 'person' | 'company')
+                    setValue(
+                      'clientType',
+                      e.target.value as 'person' | 'company'
+                    )
                   }
                 />
                 <Select
@@ -384,7 +397,13 @@ export const ClientForm = ({
             >
               <FormGrid>
                 <LocationSelect
-                  value={{ countryCode: country, ubigeoCode, region, province, district }}
+                  value={{
+                    countryCode: country,
+                    ubigeoCode,
+                    region,
+                    province,
+                    district,
+                  }}
                   onChange={(v) => {
                     setValue('country', v.countryCode ?? '')
                     setValue('ubigeoCode', v.ubigeoCode)
@@ -431,13 +450,17 @@ export const ClientForm = ({
               <FormGrid>
                 <InputField
                   label={t.form.contactFirstName}
-                  variant={errors.primaryContact?.firstName ? 'error' : undefined}
+                  variant={
+                    errors.primaryContact?.firstName ? 'error' : undefined
+                  }
                   errorMessage={errors.primaryContact?.firstName?.message}
                   {...register('primaryContact.firstName')}
                 />
                 <InputField
                   label={t.form.contactLastName}
-                  variant={errors.primaryContact?.lastName ? 'error' : undefined}
+                  variant={
+                    errors.primaryContact?.lastName ? 'error' : undefined
+                  }
                   errorMessage={errors.primaryContact?.lastName?.message}
                   {...register('primaryContact.lastName')}
                 />

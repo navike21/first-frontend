@@ -2,7 +2,8 @@ import {
   PageContent,
   DataTable,
   Avatar,
-  Button, ButtonGroup,
+  Button,
+  ButtonGroup,
   IconButton,
   Tooltip,
   Modal,
@@ -63,7 +64,7 @@ export const SubscribersTrashPage = () => {
               name={fullName}
               size="sm"
             />
-            <span className="font-medium text-foreground">{fullName}</span>
+            <span className="text-foreground font-medium">{fullName}</span>
           </div>
         )
       },
@@ -108,7 +109,11 @@ export const SubscribersTrashPage = () => {
             />
           </Tooltip>
           <Can anyOf={CAN.subscribersUpdate}>
-            <Tooltip heading={t.table.restoreSubscriber} position="top" size="small">
+            <Tooltip
+              heading={t.table.restoreSubscriber}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiArrowGoBackLine"
                 variant="text"
@@ -119,7 +124,11 @@ export const SubscribersTrashPage = () => {
             </Tooltip>
           </Can>
           <Can anyOf={CAN.subscribersPurge}>
-            <Tooltip heading={t.table.purgeSubscriber} position="top" size="small">
+            <Tooltip
+              heading={t.table.purgeSubscriber}
+              position="top"
+              size="small"
+            >
               <IconButton
                 icon="RiDeleteBin6Line"
                 variant="text"
@@ -150,8 +159,8 @@ export const SubscribersTrashPage = () => {
     >
       <div>
         <FadeCollapse show={selectedIds.length > 0}>
-          <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface-subtle px-4 py-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="border-border bg-surface-subtle mb-6 flex items-center justify-between gap-3 rounded-lg border px-4 py-2">
+            <span className="text-foreground text-sm font-medium">
               {t.actions.selectedCount(selectedIds.length)}
             </span>
             <ButtonGroup>
@@ -203,7 +212,10 @@ export const SubscribersTrashPage = () => {
         />
       </div>
 
-      <SubscriberDetailModal subscriber={viewing} onClose={() => setViewing(null)} />
+      <SubscriberDetailModal
+        subscriber={viewing}
+        onClose={() => setViewing(null)}
+      />
 
       <Modal
         isOpen={!!restoring}
@@ -211,7 +223,9 @@ export const SubscribersTrashPage = () => {
         size="sm"
         title={t.actions.restoreTitle}
         description={
-          restoring ? t.actions.restoreDescription(subName(restoring)) : undefined
+          restoring
+            ? t.actions.restoreDescription(subName(restoring))
+            : undefined
         }
         footer={
           <>
@@ -266,7 +280,9 @@ export const SubscribersTrashPage = () => {
         onClose={() => setBulkAction(null)}
         size="sm"
         title={
-          bulkAction === 'restore' ? t.actions.restoreTitle : t.actions.purgeTitle
+          bulkAction === 'restore'
+            ? t.actions.restoreTitle
+            : t.actions.purgeTitle
         }
         description={
           bulkAction === 'restore'

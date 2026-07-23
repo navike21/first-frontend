@@ -236,7 +236,9 @@ function getLang(): Language {
 function resolveErrorMessage(error: unknown): string {
   const lang = getLang()
   if (error instanceof HttpError) {
-    return error.backendMessage ?? HTTP_MESSAGES[lang][error.status] ?? error.message
+    return (
+      error.backendMessage ?? HTTP_MESSAGES[lang][error.status] ?? error.message
+    )
   }
   return NETWORK_MESSAGES[lang]
 }

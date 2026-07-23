@@ -1,7 +1,12 @@
 import type { UserGroupsTranslations } from '../types'
 
 /** Russian plural suffix: `one` for 1, `few` for 2–4, `many` otherwise. */
-const ruPlural = (n: number, one: string, few: string, many: string): string => {
+const ruPlural = (
+  n: number,
+  one: string,
+  few: string,
+  many: string
+): string => {
   if (n === 1) return one
   if (n < 5) return few
   return many

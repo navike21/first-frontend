@@ -3,13 +3,15 @@ import type { CategoryTranslations } from '../types'
 export const es: CategoryTranslations = {
   page: {
     listTitle: 'Categorías',
-    listDescription: 'Gestiona las categorías usadas para organizar las páginas',
+    listDescription:
+      'Gestiona las categorías usadas para organizar las páginas',
     createTitle: 'Nueva categoría',
     createDescription: 'Registrar una nueva categoría',
     editTitle: 'Editar categoría',
     editDescription: (name) => `Actualizar ${name}`,
     trashTitle: 'Papelera de categorías',
-    trashDescription: 'Categorías que han sido movidas a la papelera. Restáuralas o elimínalas permanentemente.',
+    trashDescription:
+      'Categorías que han sido movidas a la papelera. Restáuralas o elimínalas permanentemente.',
     trashEmpty: 'No hay categorías en la papelera',
     trashEmptyDescription: 'Cuando se eliminen categorías, aparecerán aquí.',
   },
@@ -62,11 +64,14 @@ export const es: CategoryTranslations = {
     restoreTitle: 'Restaurar categoría',
     restoreDescription: (name) => `¿Restaurar ${name} en la lista de activas?`,
     confirmRestore: 'Restaurar',
-    bulkRestoreDescription: (count) => `¿Restaurar ${count} categorías en la lista de activas?`,
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} categorías en la lista de activas?`,
     purgeTitle: 'Eliminar permanentemente',
-    purgeDescription: (name) => `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
     confirmPurge: 'Eliminar',
-    bulkPurgeDescription: (count) => `Esto eliminará permanentemente ${count} categorías. Esta acción es IRREVERSIBLE.`,
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará permanentemente ${count} categorías. Esta acción es IRREVERSIBLE.`,
   },
   form: {
     tabTranslations: 'Traducciones',

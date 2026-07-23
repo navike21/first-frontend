@@ -9,7 +9,8 @@ export const ja: SubscribersTranslations = {
     editTitle: '購読者を編集',
     editDescription: (name) => `${name}の情報を更新する`,
     trashTitle: '購読者のゴミ箱',
-    trashDescription: 'ゴミ箱に移動された購読者です。復元または完全削除できます。',
+    trashDescription:
+      'ゴミ箱に移動された購読者です。復元または完全削除できます。',
     trashEmpty: 'ゴミ箱に購読者はいません',
     trashEmptyDescription: '削除された購読者はここに表示されます。',
   },
@@ -65,11 +66,14 @@ export const ja: SubscribersTranslations = {
     restoreTitle: '購読者を復元',
     restoreDescription: (name) => `${name} をアクティブリストに復元しますか？`,
     confirmRestore: '復元',
-    bulkRestoreDescription: (count) => `${count} 件の購読者を有効リストに復元しますか？`,
+    bulkRestoreDescription: (count) =>
+      `${count} 件の購読者を有効リストに復元しますか？`,
     purgeTitle: '完全削除',
-    purgeDescription: (name) => `${name} を完全削除します。この操作は元に戻せません。`,
+    purgeDescription: (name) =>
+      `${name} を完全削除します。この操作は元に戻せません。`,
     confirmPurge: '削除',
-    bulkPurgeDescription: (count) => `${count} 件の購読者を完全に削除します。この操作は元に戻せません。`,
+    bulkPurgeDescription: (count) =>
+      `${count} 件の購読者を完全に削除します。この操作は元に戻せません。`,
   },
   form: {
     sectionPersonal: '個人情報',
