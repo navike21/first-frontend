@@ -677,6 +677,47 @@ nueva. **Verificar siempre el estado del PR (`gh pr view <n> --json state`)
 antes de pushear una nueva corrección a una rama ya usada** — si el PR ya
 está `MERGED`, hace falta una rama y un PR nuevos, no otro push a la vieja.
 
+## Barra de progreso al subir imágenes/videos (Multimedia)
+
+`MediaUploadModal` (Multimedia) muestra un `ProgressBar` (`shared/ui/atoms`,
+nuevo) por archivo mientras sube, con su porcentaje real — no una barra
+indeterminada. `fetch()` no expone progreso de subida (solo de descarga), así
+que las imágenes usan un `uploadWithProgress` nuevo (`shared/api`, basado en
+`XMLHttpRequest` y su evento `xhr.upload.onprogress`) en vez del `request()`
+compartido; el video ya subía directo a Vercel Blob (`directUploadVideo`), y
+`@vercel/blob/client`'s `upload()` expone `onUploadProgress` nativo, así que
+solo se reenvía en la misma forma `{loaded,total,percentage}`.
+
+**Cada archivo va como su propia request** (`handleUpload` en
+`MediaUploadModal.tsx` hace un `Promise.allSettled` de N uploads
+independientes, uno por archivo) — antes las imágenes iban todas juntas en un
+único `/storage/upload-bulk`. Se cambió al encontrar un bug real probando esta
+misma feature: 3 imágenes de ~3.9MB cada una (bajo el límite individual de 4MB,
+ver gotcha de arriba) combinadas en un solo request superaban el límite de
+body de la plataforma de Vercel (~4.5MB) y fallaban con un "Error de red"
+genérico, no con la razón específica del backend — el chequeo de
+`MAX_IMAGE_UPLOAD_BYTES` en `addFiles` solo mira cada archivo por separado,
+nunca la suma de los ya encolados. Verificado en vivo: el mismo lote de 3
+archivos, subido con esta versión (una request por archivo), llega a la red
+correctamente cada uno por su cuenta. Un archivo individual con contenido
+sintético inválido (bytes de cabecera JPEG reales pero cuerpo basura) sí puede
+seguir devolviendo un 500 genérico del backend (`INTERNAL_SERVER_ERROR`,
+probablemente una excepción no capturada al decodificar la imagen) — eso es un
+gap de robustez del *backend* frente a un body de imagen corrupto, no del
+batching; no se tocó en esta sesión.
+
+Como beneficio adicional de subir cada archivo por separado, cada imagen
+ahora tiene su propio porcentaje (antes todas las imágenes de un lote
+compartían un único valor de progreso, ya que iban en la misma request).
+
+**Pendiente, no implementado**: `CoverPicker`/`GalleryPicker`/`PhotoPicker`
+(Servicios/Portafolio/Páginas, etc.) no tienen barra de progreso — a
+diferencia de Multimedia, esos no suben el archivo por su cuenta; viaja
+junto con el JSON completo del formulario en el submit vía `request()`. Darles
+progreso real necesitaría un cambio más grande (plomería de progreso en cada
+función/hook de mutación de creación/edición de cada dominio, más pasar el
+callback a cada picker) — evaluar si vale la pena antes de encararlo.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
