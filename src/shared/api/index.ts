@@ -11,6 +11,8 @@ export type {
   ApiErrorDetails,
   ValidationIssue,
 } from './api.services'
+export { uploadWithProgress } from './uploadWithProgress'
+export type { UploadProgress, UploadWithProgressConfig } from './uploadWithProgress'
 export { registerUnauthorizedHandler } from './unauthorized'
 export { authService } from './auth'
 export type { IAuthService, SignInResult } from './auth'

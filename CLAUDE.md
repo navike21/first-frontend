@@ -725,6 +725,119 @@ nueva. **Verificar siempre el estado del PR (`gh pr view <n> --json state`)
 antes de pushear una nueva corrección a una rama ya usada** — si el PR ya
 está `MERGED`, hace falta una rama y un PR nuevos, no otro push a la vieja.
 
+## Barra de progreso al subir imágenes/videos (Multimedia)
+
+`MediaUploadModal` (Multimedia) muestra un `ProgressBar` (`shared/ui/atoms`,
+nuevo) por archivo mientras sube, con su porcentaje real — no una barra
+indeterminada. `fetch()` no expone progreso de subida (solo de descarga), así
+que las imágenes usan un `uploadWithProgress` nuevo (`shared/api`, basado en
+`XMLHttpRequest` y su evento `xhr.upload.onprogress`) en vez del `request()`
+compartido; el video ya subía directo a Vercel Blob (`directUploadVideo`), y
+`@vercel/blob/client`'s `upload()` expone `onUploadProgress` nativo, así que
+solo se reenvía en la misma forma `{loaded,total,percentage}`.
+
+**Cada archivo va como su propia request** (`handleUpload` en
+`MediaUploadModal.tsx` hace un `Promise.allSettled` de N uploads
+independientes, uno por archivo) — antes las imágenes iban todas juntas en un
+único `/storage/upload-bulk`. Se cambió al encontrar un bug real probando esta
+misma feature: 3 imágenes de ~3.9MB cada una (bajo el límite individual de 4MB,
+ver gotcha de arriba) combinadas en un solo request superaban el límite de
+body de la plataforma de Vercel (~4.5MB) y fallaban con un "Error de red"
+genérico, no con la razón específica del backend — el chequeo de
+`MAX_IMAGE_UPLOAD_BYTES` en `addFiles` solo mira cada archivo por separado,
+nunca la suma de los ya encolados. Verificado en vivo: el mismo lote de 3
+archivos, subido con esta versión (una request por archivo), llega a la red
+correctamente cada uno por su cuenta. Un archivo individual con contenido
+sintético inválido (bytes de cabecera JPEG reales pero cuerpo basura) sí puede
+seguir devolviendo un 500 genérico del backend (`INTERNAL_SERVER_ERROR`,
+probablemente una excepción no capturada al decodificar la imagen) — eso es un
+gap de robustez del *backend* frente a un body de imagen corrupto, no del
+batching; no se tocó en esta sesión.
+
+Como beneficio adicional de subir cada archivo por separado, cada imagen
+ahora tiene su propio porcentaje (antes todas las imágenes de un lote
+compartían un único valor de progreso, ya que iban en la misma request).
+
+**Pendiente, no implementado**: `CoverPicker`/`GalleryPicker`/`PhotoPicker`
+(Servicios/Portafolio/Páginas, etc.) no tienen barra de progreso — a
+diferencia de Multimedia, esos no suben el archivo por su cuenta; viaja
+junto con el JSON completo del formulario en el submit vía `request()`. Darles
+progreso real necesitaría un cambio más grande (plomería de progreso en cada
+función/hook de mutación de creación/edición de cada dominio, más pasar el
+callback a cada picker) — evaluar si vale la pena antes de encararlo.
+
+### Gotcha real: video sin validar tamaño en el cliente (subía por la red y fallaba con "Error de red" genérico)
+
+Reportado por el usuario probando un video de ~443MB: la app mostraba
+"Error de red. Verifica tu conexión e intenta nuevamente" — el mismo mensaje
+genérico de conectividad, aunque el problema real era de tamaño, no de red.
+Causa: `MediaUploadModal.addFiles` solo validaba tamaño de **imagen**
+(`MAX_IMAGE_UPLOAD_BYTES`) — nunca de video. `@vercel/blob/client` tampoco
+valida tamaño del lado del cliente por su cuenta: `directUpload.ts` (backend)
+pasa `maximumSizeInBytes: ENV.STORAGE_MAX_VIDEO_SIZE_BYTES` (50MB por
+default) a `handleUpload`, pero ese límite solo se aplica **del lado del
+servidor** — el SDK client-side (`dist/client.js`, revisado directamente, sin
+ningún chequeo de tamaño en su código) deja que la subida arranque igual.
+Con un archivo de cientos de MB, Vercel corta la conexión al ver el
+`Content-Length` declarado ya por encima del límite — desde la perspectiva
+del navegador eso es indistinguible de un corte de red real, así que
+`uploadWithProgress`/`directUploadVideo` terminan rechazando con un error que
+`notify.errorMessage` no puede distinguir de una desconexión genuina (no es
+una `HttpError`, cae al mensaje de red por defecto).
+
+Arreglado agregando `MAX_VIDEO_UPLOAD_BYTES` (`shared/lib/storageLimits.ts`,
+50MB, mismo patrón que `MAX_IMAGE_UPLOAD_BYTES`) y extendiendo el chequeo de
+`addFiles` para rechazar un video sobredimensionado de inmediato, antes de
+que la subida arranque — mismo principio que el chequeo de imagen: mejor
+nunca intentar una subida que ya se sabe que va a fallar. Verificado en vivo:
+un video sintético de 60MB se marca al instante con "Max 50 MB" sin ningún
+intento de red; uno de 10MB se encola normalmente.
+
+**Mismo gap, no tocado todavía**: el Page Builder (`VideoElementCard.tsx`,
+`SliderElementCard.tsx`, `BackgroundVideoFields.tsx`, todos en
+`domains/pages/components/builder`) también llama `directUploadVideo`
+directo, sin ningún chequeo de tamaño de video propio — mismo riesgo, no
+arreglado en esta sesión.
+
+### Gotcha real: seleccionar un segundo archivo con "buscar archivos" no lo agregaba a la cola
+
+Reportado por el usuario: adjuntaba un video y luego intentaba adjuntar
+también una foto en la misma carga — la foto simplemente no se agregaba a la
+cola. Reproducido de forma 100% consistente: en un `MediaUploadModal` recién
+abierto, la **primera** selección de archivo vía "buscar archivos" (el
+`<input type="file">` oculto) siempre funciona; **cualquier selección
+posterior** reutilizando ese mismo nodo `<input>` no dispara `addFiles` en
+absoluto, aunque el evento `change` nativo sí llega con el `FileList`
+correcto (confirmado interceptándolo con un listener en fase de captura
+antes de que React lo procese). Arrastrar-y-soltar un segundo archivo, en
+cambio, **sí** funcionaba siempre — que fue la pista clave: descarta que
+`addFiles`/`setQueue` estén rotos, y apunta puntualmente a reusar el mismo
+nodo DOM del `<input>` entre selecciones.
+
+El truco habitual para permitir re-seleccionar el **mismo** archivo dos
+veces (`e.target.value = ''` tras leer `e.target.files`) no alcanza para
+este caso — sea cual sea el mecanismo exacto (algo en cómo el navegador o
+React determinan si un evento `change` posterior "ya se procesó" para ese
+nodo), sigue fallando con archivos **distintos** en cada selección.
+Arreglado con el patrón robusto conocido para este tipo de bug: un estado
+`inputKey` que se incrementa en cada `onChange`, pasado como `key` del
+`<input>` — fuerza a React a **desmontar y montar un nodo `<input>` nuevo**
+después de cada selección, así que nunca hay un nodo reusado que pueda
+arrastrar un estado interno del navegador de una selección a la siguiente.
+Verificado en vivo con hasta 3 selecciones separadas seguidas (video, foto,
+foto) — las 3 se agregan correctamente a la cola.
+
+**Dropzone accesible**: el contenedor de arrastrar-y-soltar de este mismo
+modal era un `<div role="button" tabIndex={0}>` con su propio `onKeyDown`
+para Enter/Espacio — un linter de accesibilidad marcó el `role="button"`
+sobre un elemento no interactivo. Cambiado a un `<button type="button">`
+real (con `w-full` explícito, ya que un `<button>` no hereda el stretch
+automático de un `<div>` dentro del `flex-col` padre) — el foco/teclado
+(Enter y Espacio) y el estilo los da gratis el elemento nativo, así que se
+retiraron `role`, `tabIndex` y el `onKeyDown` manual. Drag-and-drop y el
+click para abrir el selector de archivos siguen funcionando igual sobre un
+`<button>` (verificado en vivo).
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era

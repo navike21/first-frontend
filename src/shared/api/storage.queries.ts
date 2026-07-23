@@ -9,7 +9,7 @@ import {
   purgeStorageFiles,
   getStorageFileUsages,
 } from './storage'
-import type { StorageListParams } from './storage'
+import type { StorageListParams, UploadProgress } from './storage'
 
 export const storageKeys = {
   all: ['storage'] as const,
@@ -46,7 +46,13 @@ export const useStorageFileUsages = (id: string, enabled: boolean) =>
 export const useUploadStorageImages = () => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (files: File[]) => uploadStorageImages(files),
+    mutationFn: ({
+      files,
+      onProgress,
+    }: {
+      files: File[]
+      onProgress?: (progress: UploadProgress) => void
+    }) => uploadStorageImages(files, undefined, onProgress),
     onSuccess: () => qc.invalidateQueries({ queryKey: storageKeys.all }),
   })
 }
