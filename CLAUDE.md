@@ -718,6 +718,39 @@ progreso real necesitaría un cambio más grande (plomería de progreso en cada
 función/hook de mutación de creación/edición de cada dominio, más pasar el
 callback a cada picker) — evaluar si vale la pena antes de encararlo.
 
+### Gotcha real: video sin validar tamaño en el cliente (subía por la red y fallaba con "Error de red" genérico)
+
+Reportado por el usuario probando un video de ~443MB: la app mostraba
+"Error de red. Verifica tu conexión e intenta nuevamente" — el mismo mensaje
+genérico de conectividad, aunque el problema real era de tamaño, no de red.
+Causa: `MediaUploadModal.addFiles` solo validaba tamaño de **imagen**
+(`MAX_IMAGE_UPLOAD_BYTES`) — nunca de video. `@vercel/blob/client` tampoco
+valida tamaño del lado del cliente por su cuenta: `directUpload.ts` (backend)
+pasa `maximumSizeInBytes: ENV.STORAGE_MAX_VIDEO_SIZE_BYTES` (50MB por
+default) a `handleUpload`, pero ese límite solo se aplica **del lado del
+servidor** — el SDK client-side (`dist/client.js`, revisado directamente, sin
+ningún chequeo de tamaño en su código) deja que la subida arranque igual.
+Con un archivo de cientos de MB, Vercel corta la conexión al ver el
+`Content-Length` declarado ya por encima del límite — desde la perspectiva
+del navegador eso es indistinguible de un corte de red real, así que
+`uploadWithProgress`/`directUploadVideo` terminan rechazando con un error que
+`notify.errorMessage` no puede distinguir de una desconexión genuina (no es
+una `HttpError`, cae al mensaje de red por defecto).
+
+Arreglado agregando `MAX_VIDEO_UPLOAD_BYTES` (`shared/lib/storageLimits.ts`,
+50MB, mismo patrón que `MAX_IMAGE_UPLOAD_BYTES`) y extendiendo el chequeo de
+`addFiles` para rechazar un video sobredimensionado de inmediato, antes de
+que la subida arranque — mismo principio que el chequeo de imagen: mejor
+nunca intentar una subida que ya se sabe que va a fallar. Verificado en vivo:
+un video sintético de 60MB se marca al instante con "Max 50 MB" sin ningún
+intento de red; uno de 10MB se encola normalmente.
+
+**Mismo gap, no tocado todavía**: el Page Builder (`VideoElementCard.tsx`,
+`SliderElementCard.tsx`, `BackgroundVideoFields.tsx`, todos en
+`domains/pages/components/builder`) también llama `directUploadVideo`
+directo, sin ningún chequeo de tamaño de video propio — mismo riesgo, no
+arreglado en esta sesión.
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
