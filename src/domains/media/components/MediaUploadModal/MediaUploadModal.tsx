@@ -195,7 +195,8 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
       }
     >
       <div className="flex flex-col gap-4">
-        <div
+        <button
+          type="button"
           onDragOver={(e) => {
             e.preventDefault()
             setIsDragging(true)
@@ -207,16 +208,8 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
             if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files)
           }}
           onClick={() => inputRef.current?.click()}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault()
-              inputRef.current?.click()
-            }
-          }}
           className={clsx(
-            'flex min-h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors',
+            'flex min-h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors',
             isDragging ? 'border-primary-600 bg-primary-700/5' : 'border-border bg-surface-subtle hover:border-primary-600/60',
           )}
         >
@@ -230,7 +223,7 @@ export const MediaUploadModal = ({ isOpen, onClose, onUploaded }: MediaUploadMod
             <span className="font-medium text-primary-600 underline underline-offset-2">{t.upload.browseLabel}</span>
           </p>
           <p className="text-xs text-muted">{t.upload.formatsHint}</p>
-        </div>
+        </button>
 
         <input
           key={inputKey}

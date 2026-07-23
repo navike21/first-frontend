@@ -779,6 +779,17 @@ arrastrar un estado interno del navegador de una selección a la siguiente.
 Verificado en vivo con hasta 3 selecciones separadas seguidas (video, foto,
 foto) — las 3 se agregan correctamente a la cola.
 
+**Dropzone accesible**: el contenedor de arrastrar-y-soltar de este mismo
+modal era un `<div role="button" tabIndex={0}>` con su propio `onKeyDown`
+para Enter/Espacio — un linter de accesibilidad marcó el `role="button"`
+sobre un elemento no interactivo. Cambiado a un `<button type="button">`
+real (con `w-full` explícito, ya que un `<button>` no hereda el stretch
+automático de un `<div>` dentro del `flex-col` padre) — el foco/teclado
+(Enter y Espacio) y el estilo los da gratis el elemento nativo, así que se
+retiraron `role`, `tabIndex` y el `onKeyDown` manual. Drag-and-drop y el
+click para abrir el selector de archivos siguen funcionando igual sobre un
+`<button>` (verificado en vivo).
+
 ## Header — ícono de configuración retirado
 
 El engranaje de `Header.tsx` que abría `SettingsDrawer` se **eliminó** — era
