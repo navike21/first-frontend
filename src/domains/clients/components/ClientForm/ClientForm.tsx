@@ -8,7 +8,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   InputField,
-  InputNumber,
+  InputPhone,
   Select,
   PhotoPicker,
   TextArea,
@@ -358,11 +358,7 @@ export const ClientForm = ({
                   errorMessage={errors.email?.message}
                   {...register('email')}
                 />
-                <InputNumber
-                  label={t.form.phone}
-                  mask="### ### ###"
-                  {...register('phone')}
-                />
+                <InputPhone label={t.form.phone} {...register('phone')} />
                 <Select
                   label={t.form.language}
                   options={languageOptions}
@@ -470,9 +466,8 @@ export const ClientForm = ({
                   errorMessage={errors.primaryContact?.email?.message}
                   {...register('primaryContact.email')}
                 />
-                <InputNumber
+                <InputPhone
                   label={t.form.contactPhone}
-                  mask="### ### ###"
                   {...register('primaryContact.phone')}
                 />
                 <InputField

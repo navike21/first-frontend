@@ -1,6 +1,6 @@
 import {
   InputField,
-  InputNumber,
+  InputPhone,
   InputDate,
   Select,
   PhotoPicker,
@@ -146,9 +146,8 @@ export const EditUserForm = (
                     }
                     {...register('dateOfBirth')}
                   />
-                  <InputNumber
+                  <InputPhone
                     label={t.form.phone}
-                    mask="+## ### ### ###"
                     autoComplete="tel"
                     variant={errors.phone ? 'error' : undefined}
                     errorMessage={errors.phone?.message}

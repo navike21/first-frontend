@@ -3,7 +3,7 @@ import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   InputField,
-  InputNumber,
+  InputPhone,
   InputDate,
   Select,
   PhotoPicker,
@@ -211,9 +211,8 @@ export const SubscriberForm = ({
             errorMessage={errors.contactInformation?.email?.message}
             {...register('contactInformation.email')}
           />
-          <InputNumber
+          <InputPhone
             label={t.form.phoneNumber}
-            mask="+## ### ### ###"
             variant={
               errors.contactInformation?.phoneNumber ? 'error' : undefined
             }
