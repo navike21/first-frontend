@@ -64,6 +64,7 @@ export {
   type variantInput,
 } from './molecules/InputField'
 export { InputNumber, type InputNumberProps } from './molecules/InputNumber'
+export { InputPhone, type InputPhoneProps } from './molecules/InputPhone'
 export {
   TextArea,
   type TextAreaProps,
