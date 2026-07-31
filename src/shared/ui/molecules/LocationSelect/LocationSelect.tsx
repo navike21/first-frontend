@@ -1,9 +1,14 @@
 import { useState } from 'react'
+import { useController, type FieldValues } from 'react-hook-form'
 import { Select } from '../Select/Select'
 import { InputField } from '../InputField/InputField'
+import { FormGrid } from '../FormGrid/FormGrid'
 import { useCountries, useDivisions } from '@/shared/api/geo'
 import type { Language } from '@/shared/types/languages'
-import type { LocationSelectProps, LocationValue } from './LocationSelect.types'
+import type {
+  LocationSelectProps,
+  LocationValue,
+} from './LocationSelect.types'
 
 interface PathItem {
   code: string
@@ -95,23 +100,49 @@ const DivisionLevel = ({
   )
 }
 
-export const LocationSelect = ({
-  value,
-  onChange,
+export function LocationSelect<T extends FieldValues>({
+  control,
+  names,
   countryLabel,
   regionLabel,
   cityLabel,
   lang,
   disabled,
-}: LocationSelectProps) => {
+}: LocationSelectProps<T>) {
   const { data: countries } = useCountries(lang)
-  const [path, setPath] = useState<PathItem[]>(() => buildInitialPath(value))
+  const { field: countryField } = useController({
+    control,
+    name: names.countryCode,
+  })
+  const { field: ubigeoField } = useController({
+    control,
+    name: names.ubigeoCode,
+  })
+  const { field: regionField } = useController({ control, name: names.region })
+  const { field: provinceField } = useController({
+    control,
+    name: names.province,
+  })
+  const { field: districtField } = useController({
+    control,
+    name: names.district,
+  })
 
-  const country = countries?.find((c) => c.code === value.countryCode)
+  const countryCode = (countryField.value as string | undefined) ?? ''
+  const ubigeoCode = ubigeoField.value as string | undefined
+  const region = regionField.value as string | undefined
+  const province = provinceField.value as string | undefined
+  const district = districtField.value as string | undefined
+
+  const [path, setPath] = useState<PathItem[]>(() =>
+    buildInitialPath({ countryCode, ubigeoCode, region, province, district })
+  )
+
+  const country = countries?.find((c) => c.code === countryCode)
   const isDivisionsCountry = country?.hasDivisions
   // Show the cascade up front (locked) even before a country is chosen; a
   // selected country without divisions falls back to free-text region/city.
-  const showDivisions = !value.countryCode || !!isDivisionsCountry
+  const showDivisions = !countryCode || !!isDivisionsCountry
   const levels = country?.divisionLevels ?? DEFAULT_DIVISION_LEVELS
 
   const countryOptions = [
@@ -121,7 +152,11 @@ export const LocationSelect = ({
 
   const handleCountry = (code: string) => {
     setPath([])
-    onChange({ countryCode: code || undefined })
+    countryField.onChange(code || '')
+    ubigeoField.onChange(undefined)
+    regionField.onChange(undefined)
+    provinceField.onChange(undefined)
+    districtField.onChange(undefined)
   }
 
   const handleLevelSelect = (
@@ -133,21 +168,18 @@ export const LocationSelect = ({
     const next = path.slice(0, level)
     if (code) next[level] = { code, name, hasChildren }
     setPath(next)
-    onChange({
-      countryCode: value.countryCode,
-      ubigeoCode: next.length ? next[next.length - 1].code : undefined,
-      region: next[0]?.name,
-      province: next[1]?.name,
-      district: next[2]?.name,
-    })
+    ubigeoField.onChange(next.length ? next[next.length - 1].code : undefined)
+    regionField.onChange(next[0]?.name)
+    provinceField.onChange(next[1]?.name)
+    districtField.onChange(next[2]?.name)
   }
 
   return (
-    <>
+    <FormGrid>
       <Select
         label={countryLabel}
         options={countryOptions}
-        value={value.countryCode ?? ''}
+        value={countryCode}
         lang={lang}
         disabled={disabled}
         onChange={(e) => handleCountry(e.target.value)}
@@ -157,7 +189,7 @@ export const LocationSelect = ({
         levels.map((label, i) => (
           <DivisionLevel
             key={label}
-            country={value.countryCode ?? ''}
+            country={countryCode}
             parentCode={i === 0 ? undefined : path[i - 1]?.code}
             label={label}
             selectedCode={path[i]?.code}
@@ -169,22 +201,22 @@ export const LocationSelect = ({
           />
         ))}
 
-      {value.countryCode && !isDivisionsCountry && (
+      {countryCode && !isDivisionsCountry && (
         <>
           <InputField
             label={regionLabel}
-            value={value.region ?? ''}
+            value={region ?? ''}
             disabled={disabled}
-            onChange={(e) => onChange({ ...value, region: e.target.value })}
+            onChange={(e) => regionField.onChange(e.target.value)}
           />
           <InputField
             label={cityLabel}
-            value={value.province ?? ''}
+            value={province ?? ''}
             disabled={disabled}
-            onChange={(e) => onChange({ ...value, province: e.target.value })}
+            onChange={(e) => provinceField.onChange(e.target.value)}
           />
         </>
       )}
-    </>
+    </FormGrid>
   )
 }

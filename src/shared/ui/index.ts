@@ -72,6 +72,7 @@ export {
 } from './molecules/TextArea'
 export {
   LocationSelect,
+  type LocationSelectNames,
   type LocationSelectProps,
   type LocationValue,
 } from './molecules/LocationSelect'

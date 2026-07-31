@@ -19,7 +19,6 @@ import type { StorageFile } from '@/shared/api/storage'
 import { useSubscribersTranslation } from '../../i18n'
 import { createSubscriberSchema } from '../../model/subscriber.schema'
 import type { SubscriberFormData } from '../../model/subscriber.schema'
-import type { LocationValue } from '@/shared/ui'
 
 export interface SubscriberFormProps {
   mode: 'create' | 'edit'
@@ -97,7 +96,6 @@ export const SubscriberForm = ({
     control,
     name: 'personalInformation.dateOfBirth',
   })
-  const locationValue = useWatch({ control, name: 'location' })
 
   const genderOptions = [
     { value: 'male', label: t.genders.male },
@@ -127,14 +125,6 @@ export const SubscriberForm = ({
     setPhotoLibraryUrl(file.original.url)
     setPendingFile(null)
     setRemovePhoto(false)
-  }
-
-  const handleLocationChange = (v: LocationValue) => {
-    setValue('location.countryCode', v.countryCode ?? '')
-    setValue('location.ubigeoCode', v.ubigeoCode ?? '')
-    setValue('location.region', v.region ?? '')
-    setValue('location.province', v.province ?? '')
-    setValue('location.district', v.district ?? '')
   }
 
   const submit = handleSubmit((data) =>
@@ -224,22 +214,22 @@ export const SubscriberForm = ({
         {/* Location */}
         <div className="flex flex-col gap-3">
           <SectionLabel>{t.form.country}</SectionLabel>
+          <LocationSelect
+            control={control}
+            names={{
+              countryCode: 'location.countryCode',
+              ubigeoCode: 'location.ubigeoCode',
+              region: 'location.region',
+              province: 'location.province',
+              district: 'location.district',
+            }}
+            countryLabel={t.form.country}
+            regionLabel={t.form.region}
+            cityLabel={t.form.province}
+            lang={language}
+            disabled={isSubmitting}
+          />
           <FormGrid>
-            <LocationSelect
-              value={{
-                countryCode: locationValue?.countryCode ?? '',
-                ubigeoCode: locationValue?.ubigeoCode ?? '',
-                region: locationValue?.region ?? '',
-                province: locationValue?.province ?? '',
-                district: locationValue?.district ?? '',
-              }}
-              onChange={handleLocationChange}
-              countryLabel={t.form.country}
-              regionLabel={t.form.region}
-              cityLabel={t.form.province}
-              lang={language}
-              disabled={isSubmitting}
-            />
             <InputField
               label={t.form.addressStreet}
               autoComplete="address-line1"

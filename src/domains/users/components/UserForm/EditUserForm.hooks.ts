@@ -119,11 +119,6 @@ export function useEditUserForm({
   const genderValue = useWatch({ control, name: 'gender' })
   const groupIdsValue = useWatch({ control, name: 'groupIds' })
   const statusValue = useWatch({ control, name: 'status' })
-  const addressCountry = useWatch({ control, name: 'address.country' })
-  const addressUbigeoCode = useWatch({ control, name: 'address.ubigeoCode' })
-  const addressRegion = useWatch({ control, name: 'address.region' })
-  const addressProvince = useWatch({ control, name: 'address.province' })
-  const addressDistrict = useWatch({ control, name: 'address.district' })
   const busy = isSubmitting
 
   const genderOptions = config?.genders ?? []
@@ -191,33 +186,16 @@ export function useEditUserForm({
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
   const onStatusToggle = () =>
     setValue('status', statusValue === 'active' ? 'inactive' : 'active')
-  const onAddressChange = (v: {
-    countryCode?: string
-    ubigeoCode?: string
-    region?: string
-    province?: string
-    district?: string
-  }) => {
-    setValue('address.country', v.countryCode ?? '')
-    setValue('address.ubigeoCode', v.ubigeoCode)
-    setValue('address.region', v.region)
-    setValue('address.province', v.province)
-    setValue('address.district', v.district)
-  }
 
   return {
     t,
     language,
     register,
     errors,
+    control,
     genderValue,
     groupIdsValue,
     statusValue,
-    addressCountry,
-    addressUbigeoCode,
-    addressRegion,
-    addressProvince,
-    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -230,7 +208,6 @@ export function useEditUserForm({
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
-    onAddressChange,
     activeTab,
     steps,
     reachedIndex,

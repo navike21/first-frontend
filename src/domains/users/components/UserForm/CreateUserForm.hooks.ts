@@ -74,11 +74,6 @@ export function useCreateUserForm({
 
   const genderValue = useWatch({ control, name: 'gender' })
   const groupIdsValue = useWatch({ control, name: 'groupIds' })
-  const addressCountry = useWatch({ control, name: 'address.country' })
-  const addressUbigeoCode = useWatch({ control, name: 'address.ubigeoCode' })
-  const addressRegion = useWatch({ control, name: 'address.region' })
-  const addressProvince = useWatch({ control, name: 'address.province' })
-  const addressDistrict = useWatch({ control, name: 'address.district' })
   const busy = isSubmitting
 
   const genderOptions = config?.genders ?? []
@@ -143,32 +138,15 @@ export function useCreateUserForm({
   const onGenderChange = (v: string) =>
     setValue('gender', v as CreateUserFormData['gender'])
   const onGroupsChange = (v: string[]) => setValue('groupIds', v)
-  const onAddressChange = (v: {
-    countryCode?: string
-    ubigeoCode?: string
-    region?: string
-    province?: string
-    district?: string
-  }) => {
-    setValue('address.country', v.countryCode ?? '')
-    setValue('address.ubigeoCode', v.ubigeoCode)
-    setValue('address.region', v.region)
-    setValue('address.province', v.province)
-    setValue('address.district', v.district)
-  }
 
   return {
     t,
     language,
     register,
     errors,
+    control,
     genderValue,
     groupIdsValue,
-    addressCountry,
-    addressUbigeoCode,
-    addressRegion,
-    addressProvince,
-    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -179,7 +157,6 @@ export function useCreateUserForm({
     libraryUrl,
     onGenderChange,
     onGroupsChange,
-    onAddressChange,
     activeTab,
     setActiveTab,
     steps,
