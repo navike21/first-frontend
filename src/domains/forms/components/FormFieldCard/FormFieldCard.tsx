@@ -106,7 +106,7 @@ export const FormFieldCard = ({
           errorMessage={errorMessage}
         />
         <InputField
-          label={t.form.fieldPlaceholder}
+          label={`${t.form.fieldPlaceholder} ${t.form.optional}`}
           value={field.placeholder[editingLanguage] ?? ''}
           onChange={(e) =>
             onChange({
@@ -119,7 +119,7 @@ export const FormFieldCard = ({
         />
         {showMaxLength && (
           <InputNumber
-            label={t.form.fieldMaxLength}
+            label={`${t.form.fieldMaxLength} ${t.form.optional}`}
             min={1}
             defaultValue={field.maxLength ? String(field.maxLength) : ''}
             onBlur={(e) => {

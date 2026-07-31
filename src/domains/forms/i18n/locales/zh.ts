@@ -124,6 +124,7 @@ export const zh: FormsTranslations = {
     fieldType: '字段类型',
     fieldRequired: '必填',
     fieldMaxLength: '最大长度',
+    optional: '（可选）',
     fieldOptions: '选项',
     addOption: '添加选项',
     optionValue: '值',

@@ -128,6 +128,7 @@ export const ru: FormsTranslations = {
     fieldType: 'Тип поля',
     fieldRequired: 'Обязательное',
     fieldMaxLength: 'Максимальная длина',
+    optional: '(необязательно)',
     fieldOptions: 'Варианты',
     addOption: 'Добавить вариант',
     optionValue: 'Значение',

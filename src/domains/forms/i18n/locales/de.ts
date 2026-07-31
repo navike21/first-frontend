@@ -129,6 +129,7 @@ export const de: FormsTranslations = {
     fieldType: 'Feldtyp',
     fieldRequired: 'Erforderlich',
     fieldMaxLength: 'Maximale Länge',
+    optional: '(optional)',
     fieldOptions: 'Optionen',
     addOption: 'Option hinzufügen',
     optionValue: 'Wert',

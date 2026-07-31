@@ -220,7 +220,7 @@ export const CollaboratorForm = ({
         <div className="flex flex-col gap-3">
           <SectionLabel>{t.form.sectionAccount}</SectionLabel>
           <Select
-            label={`${t.form.linkedUser} ${t.form.optional}`}
+            label={t.form.linkedUser}
             helperText={t.form.linkedUserHint}
             options={userOptions}
             value={userIdValue ?? ''}
@@ -280,7 +280,7 @@ export const CollaboratorForm = ({
             }
           />
           <Select
-            label={`${t.form.level} ${t.form.optional}`}
+            label={t.form.level}
             options={[{ value: '', label: t.form.select }, ...levelOptions]}
             value={levelValue ?? ''}
             lang={language}

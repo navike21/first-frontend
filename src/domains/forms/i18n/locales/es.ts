@@ -128,6 +128,7 @@ export const es: FormsTranslations = {
     fieldType: 'Tipo de campo',
     fieldRequired: 'Obligatorio',
     fieldMaxLength: 'Longitud máxima',
+    optional: '(opcional)',
     fieldOptions: 'Opciones',
     addOption: 'Agregar opción',
     optionValue: 'Valor',

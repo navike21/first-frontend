@@ -16,6 +16,7 @@ import {
   type WizardStep,
 } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
+import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -414,9 +415,7 @@ export const PageForm = ({
             >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
-                  <SectionLabel>
-                    {t.form.title} <span className="text-red-500">*</span>
-                  </SectionLabel>
+                  <SectionLabel>{requiredLabel(t.form.title)}</SectionLabel>
                   <LangBadge lang={editingLanguage} />
                 </div>
                 <InputField
@@ -452,7 +451,7 @@ export const PageForm = ({
                 )}
               </div>
               <Select
-                label={`${t.form.parent} ${t.form.optional}`}
+                label={t.form.parent}
                 options={parentOptions}
                 value={parentIdValue ?? ''}
                 lang={language}
@@ -550,12 +549,7 @@ export const PageForm = ({
                 }
               />
               <div className="flex flex-col gap-3">
-                <SectionLabel>
-                  {t.form.ogImage}{' '}
-                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
-                    {t.form.optional}
-                  </span>
-                </SectionLabel>
+                <SectionLabel>{t.form.ogImage}</SectionLabel>
                 <CoverPicker
                   currentUrl={(seoOgImageValue ?? '').trim() || undefined}
                   uploadLabel={t.form.ogImageUploadLabel}
@@ -604,7 +598,7 @@ export const PageForm = ({
               className="animate-tab-fade flex flex-col gap-6"
             >
               <Select
-                label={`${t.form.categoryIds} ${t.form.optional}`}
+                label={t.form.categoryIds}
                 multiple
                 options={categoryOptions}
                 value={categoryIdsValue ?? []}
@@ -621,7 +615,7 @@ export const PageForm = ({
                 }}
               />
               <Select
-                label={`${t.form.tagIds} ${t.form.optional}`}
+                label={t.form.tagIds}
                 multiple
                 options={tagOptions}
                 value={tagIdsValue ?? []}
@@ -653,7 +647,7 @@ export const PageForm = ({
               {statusValue === 'scheduled' && (
                 <InputField
                   type="datetime-local"
-                  label={t.form.scheduledAt}
+                  label={requiredLabel(t.form.scheduledAt)}
                   variant={errors.scheduledAt ? 'error' : undefined}
                   errorMessage={errors.scheduledAt?.message}
                   value={scheduledAtValue ?? ''}
@@ -671,12 +665,7 @@ export const PageForm = ({
             {/* Step 4 — Cover */}
             <div hidden={activeStep !== 'cover'} className="animate-tab-fade">
               <div className="flex flex-col gap-3">
-                <SectionLabel>
-                  {t.form.cover}{' '}
-                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
-                    {t.form.optional}
-                  </span>
-                </SectionLabel>
+                <SectionLabel>{t.form.cover}</SectionLabel>
                 <CoverPicker
                   currentUrl={coverLibraryUrl ?? initialCoverUrl}
                   uploadLabel={t.form.coverUploadLabel}

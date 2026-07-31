@@ -118,6 +118,7 @@ export interface FormsTranslations {
     fieldType: string
     fieldRequired: string
     fieldMaxLength: string
+    optional: string
     fieldOptions: string
     addOption: string
     optionValue: string

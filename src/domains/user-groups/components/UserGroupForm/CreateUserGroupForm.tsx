@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, InputField, HexColorInput } from '@/shared/ui'
+import { requiredLabel } from '@/shared/lib'
 import { PermissionsSelector } from './PermissionsSelector'
 import { useCreateUserGroupForm } from './CreateUserGroupForm.hooks'
 import type { UseCreateUserGroupFormProps } from './CreateUserGroupForm.hooks'
@@ -23,7 +24,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
       <div className="border-border bg-surface flex flex-col gap-4 rounded-xl border p-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <InputField
-            label={t.form.name}
+            label={requiredLabel(t.form.name)}
             variant={errors.name ? 'error' : undefined}
             errorMessage={errors.name?.message}
             disabled={busy}
@@ -37,7 +38,7 @@ export const CreateUserGroupForm = (props: UseCreateUserGroupFormProps) => {
             {...register('description')}
           />
           <HexColorInput
-            label={t.form.color}
+            label={requiredLabel(t.form.color)}
             value={colorValue}
             onChange={setColor}
             disabled={busy}
