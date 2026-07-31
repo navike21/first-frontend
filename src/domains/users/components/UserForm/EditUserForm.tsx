@@ -21,14 +21,10 @@ export const EditUserForm = (
     language,
     register,
     errors,
+    control,
     genderValue,
     groupIdsValue,
     statusValue,
-    addressCountry,
-    addressUbigeoCode,
-    addressRegion,
-    addressProvince,
-    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -41,7 +37,6 @@ export const EditUserForm = (
     onGenderChange,
     onGroupsChange,
     onStatusToggle,
-    onAddressChange,
     activeTab,
     steps,
     reachedIndex,
@@ -159,14 +154,14 @@ export const EditUserForm = (
                   {t.form.addressSection}
                 </p>
                 <LocationSelect
-                  value={{
-                    countryCode: addressCountry,
-                    ubigeoCode: addressUbigeoCode,
-                    region: addressRegion,
-                    province: addressProvince,
-                    district: addressDistrict,
+                  control={control}
+                  names={{
+                    countryCode: 'address.country',
+                    ubigeoCode: 'address.ubigeoCode',
+                    region: 'address.region',
+                    province: 'address.province',
+                    district: 'address.district',
                   }}
-                  onChange={onAddressChange}
                   countryLabel={t.form.addressCountry}
                   regionLabel={t.form.addressRegion}
                   cityLabel={t.form.addressProvince}

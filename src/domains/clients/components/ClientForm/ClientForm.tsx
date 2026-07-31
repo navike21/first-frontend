@@ -144,11 +144,6 @@ export const ClientForm = ({
   const industry = useWatch({ control, name: 'industry' })
   const currency = useWatch({ control, name: 'currency' })
   const clientLanguage = useWatch({ control, name: 'language' })
-  const country = useWatch({ control, name: 'country' })
-  const ubigeoCode = useWatch({ control, name: 'ubigeoCode' })
-  const region = useWatch({ control, name: 'region' })
-  const province = useWatch({ control, name: 'province' })
-  const district = useWatch({ control, name: 'district' })
 
   const none = { value: '', label: t.form.select }
   const clientTypeOptions = config?.clientTypes ?? []
@@ -391,27 +386,24 @@ export const ClientForm = ({
               hidden={activeTab !== 'location'}
               className="animate-tab-fade flex flex-col gap-6"
             >
+              <LocationSelect
+                control={control}
+                names={{
+                  countryCode: 'country',
+                  ubigeoCode: 'ubigeoCode',
+                  region: 'region',
+                  province: 'province',
+                  district: 'district',
+                }}
+                countryLabel={requiredLabel(t.form.country)}
+                regionLabel={t.form.region}
+                cityLabel={t.form.province}
+                lang={language}
+              />
+              {errors.country && (
+                <p className="text-sm text-red-500">{errors.country.message}</p>
+              )}
               <FormGrid>
-                <LocationSelect
-                  value={{
-                    countryCode: country,
-                    ubigeoCode,
-                    region,
-                    province,
-                    district,
-                  }}
-                  onChange={(v) => {
-                    setValue('country', v.countryCode ?? '')
-                    setValue('ubigeoCode', v.ubigeoCode)
-                    setValue('region', v.region)
-                    setValue('province', v.province)
-                    setValue('district', v.district)
-                  }}
-                  countryLabel={requiredLabel(t.form.country)}
-                  regionLabel={t.form.region}
-                  cityLabel={t.form.province}
-                  lang={language}
-                />
                 <InputField
                   label={t.form.address}
                   autoComplete="address-line1"
@@ -434,9 +426,6 @@ export const ClientForm = ({
                   {...register('addressInterior')}
                 />
               </FormGrid>
-              {errors.country && (
-                <p className="text-sm text-red-500">{errors.country.message}</p>
-              )}
             </div>
 
             <div

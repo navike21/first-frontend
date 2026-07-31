@@ -18,13 +18,9 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     language,
     register,
     errors,
+    control,
     genderValue,
     groupIdsValue,
-    addressCountry,
-    addressUbigeoCode,
-    addressRegion,
-    addressProvince,
-    addressDistrict,
     genderOptions,
     groupOptions,
     busy,
@@ -35,7 +31,6 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
     libraryUrl,
     onGenderChange,
     onGroupsChange,
-    onAddressChange,
     activeTab,
     steps,
     reachedIndex,
@@ -139,14 +134,14 @@ export const CreateUserForm = (props: UseCreateUserFormProps) => {
                   {t.form.addressSection}
                 </p>
                 <LocationSelect
-                  value={{
-                    countryCode: addressCountry,
-                    ubigeoCode: addressUbigeoCode,
-                    region: addressRegion,
-                    province: addressProvince,
-                    district: addressDistrict,
+                  control={control}
+                  names={{
+                    countryCode: 'address.country',
+                    ubigeoCode: 'address.ubigeoCode',
+                    region: 'address.region',
+                    province: 'address.province',
+                    district: 'address.district',
                   }}
-                  onChange={onAddressChange}
                   countryLabel={t.form.addressCountry}
                   regionLabel={t.form.addressRegion}
                   cityLabel={t.form.addressProvince}
