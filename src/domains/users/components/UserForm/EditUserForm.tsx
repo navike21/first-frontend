@@ -10,6 +10,7 @@ import {
   FormGrid,
   PanelLayout,
 } from '@/shared/ui'
+import { requiredLabel } from '@/shared/lib'
 import { useEditUserForm } from './EditUserForm.hooks'
 import type { UseEditUserFormProps } from './EditUserForm.hooks'
 
@@ -99,14 +100,14 @@ export const EditUserForm = (
               >
                 <FormGrid>
                   <InputField
-                    label={t.form.firstName}
+                    label={requiredLabel(t.form.firstName)}
                     autoComplete="given-name"
                     variant={errors.firstName ? 'error' : undefined}
                     errorMessage={errors.firstName?.message}
                     {...register('firstName')}
                   />
                   <InputField
-                    label={t.form.lastName}
+                    label={requiredLabel(t.form.lastName)}
                     autoComplete="family-name"
                     variant={errors.lastName ? 'error' : undefined}
                     errorMessage={errors.lastName?.message}
@@ -122,7 +123,7 @@ export const EditUserForm = (
                 />
                 <FormGrid>
                   <Select
-                    label={t.form.gender}
+                    label={requiredLabel(t.form.gender)}
                     options={genderOptions}
                     value={genderValue ?? ''}
                     onChange={(e) => onGenderChange(e.target.value)}

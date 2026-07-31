@@ -297,7 +297,7 @@ export const ClientForm = ({
                   {...register('businessName')}
                 />
                 <Select
-                  label={t.form.clientType}
+                  label={requiredLabel(t.form.clientType)}
                   options={clientTypeOptions}
                   value={clientType ?? 'company'}
                   lang={language}

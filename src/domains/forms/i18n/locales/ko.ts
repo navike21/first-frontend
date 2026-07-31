@@ -128,6 +128,7 @@ export const ko: FormsTranslations = {
     fieldType: '필드 유형',
     fieldRequired: '필수',
     fieldMaxLength: '최대 길이',
+    optional: '(선택)',
     fieldOptions: '옵션',
     addOption: '옵션 추가',
     optionValue: '값',

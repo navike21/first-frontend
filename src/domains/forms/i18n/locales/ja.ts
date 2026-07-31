@@ -127,6 +127,7 @@ export const ja: FormsTranslations = {
     fieldType: 'フィールドタイプ',
     fieldRequired: '必須',
     fieldMaxLength: '最大文字数',
+    optional: '（任意）',
     fieldOptions: '選択肢',
     addOption: '選択肢を追加',
     optionValue: '値',

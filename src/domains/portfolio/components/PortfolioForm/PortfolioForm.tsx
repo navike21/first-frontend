@@ -22,6 +22,7 @@ import {
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
 import { useConfigData } from '@/shared/api/config'
+import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -440,9 +441,7 @@ export const PortfolioForm = ({
             >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
-                  <SectionLabel>
-                    {t.form.name} <span className="text-red-500">*</span>
-                  </SectionLabel>
+                  <SectionLabel>{requiredLabel(t.form.name)}</SectionLabel>
                   <LangBadge lang={editingLanguage} />
                   <span className="text-muted text-xs">
                     {NATIVE_LANGUAGE_NAMES[editingLanguage]}
@@ -457,8 +456,7 @@ export const PortfolioForm = ({
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
-                    {t.form.shortDescription}{' '}
-                    <span className="text-red-500">*</span>
+                    {requiredLabel(t.form.shortDescription)}
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
                 </div>
@@ -497,7 +495,7 @@ export const PortfolioForm = ({
               <RichTextArea
                 label={
                   <span className="flex items-center gap-2">
-                    {t.form.description}
+                    {requiredLabel(t.form.description)}
                     <LangBadge lang={editingLanguage} />
                     <span className="text-muted text-xs font-normal tracking-normal normal-case">
                       {NATIVE_LANGUAGE_NAMES[editingLanguage]}
@@ -525,11 +523,7 @@ export const PortfolioForm = ({
               className="animate-tab-fade flex flex-col gap-6"
             >
               <Select
-                label={
-                  <>
-                    {t.form.serviceIds} <span className="text-red-500">*</span>
-                  </>
-                }
+                label={requiredLabel(t.form.serviceIds)}
                 multiple
                 options={serviceOptions}
                 value={serviceIdsValue ?? []}
@@ -549,7 +543,7 @@ export const PortfolioForm = ({
                 }}
               />
               <Select
-                label={`${t.form.clientId} ${t.form.optional}`}
+                label={t.form.clientId}
                 options={[
                   { value: '', label: t.form.select },
                   ...clientOptions,
@@ -570,7 +564,7 @@ export const PortfolioForm = ({
               <SectionDivider label={t.form.sectionGlobal} />
               <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                 <Select
-                  label={`${t.form.technologies} ${t.form.optional}`}
+                  label={t.form.technologies}
                   multiple
                   options={techOptions}
                   value={technologiesValue ?? []}
@@ -587,7 +581,7 @@ export const PortfolioForm = ({
                   }}
                 />
                 <InputField
-                  label={`${t.form.projectUrl} ${t.form.optional}`}
+                  label={t.form.projectUrl}
                   variant={errors.projectUrl ? 'error' : undefined}
                   errorMessage={errors.projectUrl?.message}
                   {...register('projectUrl')}
@@ -595,18 +589,14 @@ export const PortfolioForm = ({
               </div>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <InputDate
-                  label={
-                    <>
-                      {t.form.startDate} <span className="text-red-500">*</span>
-                    </>
-                  }
+                  label={requiredLabel(t.form.startDate)}
                   lang={language}
                   variant={errors.startDate ? 'error' : 'default'}
                   errorMessage={errors.startDate?.message}
                   {...register('startDate')}
                 />
                 <InputDate
-                  label={`${t.form.endDate} ${t.form.optional}`}
+                  label={t.form.endDate}
                   lang={language}
                   variant={errors.endDate ? 'error' : 'default'}
                   errorMessage={errors.endDate?.message}
@@ -631,9 +621,7 @@ export const PortfolioForm = ({
             <div hidden={activeStep !== 'media'} className="animate-tab-fade">
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <div className="flex flex-col gap-3 lg:col-span-2">
-                  <SectionLabel>
-                    {t.form.cover} <span className="text-red-500">*</span>
-                  </SectionLabel>
+                  <SectionLabel>{requiredLabel(t.form.cover)}</SectionLabel>
                   <CoverPicker
                     currentUrl={coverLibraryUrl ?? initialCoverUrl}
                     uploadLabel={t.form.coverUploadLabel}
@@ -689,12 +677,7 @@ export const PortfolioForm = ({
                 </div>
               </div>
               <div className="mt-6 flex flex-col gap-3">
-                <SectionLabel>
-                  {t.form.gallery}{' '}
-                  <span className="text-muted text-xs font-normal tracking-normal normal-case">
-                    {t.form.optional}
-                  </span>
-                </SectionLabel>
+                <SectionLabel>{t.form.gallery}</SectionLabel>
                 <GalleryPicker
                   items={galleryItems}
                   onItemsChange={setGalleryItems}

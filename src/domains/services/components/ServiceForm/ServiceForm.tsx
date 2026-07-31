@@ -18,6 +18,7 @@ import {
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
+import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -315,9 +316,7 @@ export const ServiceForm = ({
             >
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
-                  <SectionLabel>
-                    {t.form.name} <span className="text-red-500">*</span>
-                  </SectionLabel>
+                  <SectionLabel>{requiredLabel(t.form.name)}</SectionLabel>
                   <LangBadge lang={editingLanguage} />
                   <span className="text-muted text-xs">
                     {NATIVE_LANGUAGE_NAMES[editingLanguage]}
@@ -332,8 +331,7 @@ export const ServiceForm = ({
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <SectionLabel>
-                    {t.form.shortDescription}{' '}
-                    <span className="text-red-500">*</span>
+                    {requiredLabel(t.form.shortDescription)}
                   </SectionLabel>
                   <LangBadge lang={editingLanguage} />
                 </div>
@@ -372,7 +370,7 @@ export const ServiceForm = ({
               <RichTextArea
                 label={
                   <span className="flex items-center gap-2">
-                    {t.form.description} <span className="text-red-500">*</span>
+                    {requiredLabel(t.form.description)}
                     <LangBadge lang={editingLanguage} />
                     <span className="text-muted text-xs font-normal tracking-normal normal-case">
                       {NATIVE_LANGUAGE_NAMES[editingLanguage]}

@@ -202,7 +202,7 @@ export const CategoryForm = ({
         </FormGrid>
 
         <Select
-          label={`${t.form.parent} ${t.form.optional}`}
+          label={t.form.parent}
           options={parentOptions}
           value={parentIdValue ?? ''}
           lang={language}
