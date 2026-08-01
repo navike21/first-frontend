@@ -64,14 +64,54 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,ico,woff,woff2,png}'],
+        // `html` dropped on purpose — `navigateFallback` (below) used to be the
+        // only thing referencing the precached index.html; without it the
+        // precached copy would just be dead weight (see the runtimeCaching
+        // note on why navigateFallback was replaced with a NetworkFirst rule).
+        globPatterns: ['**/*.{js,css,svg,ico,woff,woff2,png}'],
         // The main bundle is currently ~3.4 MB; raise the precache size cap so
         // the shell is fully cached for offline. (TODO perf: code-split routes.)
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/api/],
+        // vite-plugin-pwa defaults `navigateFallback` to `"index.html"` even
+        // when this key is simply omitted here — its own default silently wins
+        // over an absent key, registering a cache-first NavigationRoute ahead
+        // of the NetworkFirst rule below (confirmed by grepping the built
+        // dist/sw.js: both routes were present, and Workbox's router matches
+        // in registration order, so the old one always won). Must be set to
+        // `undefined` explicitly, not just left out, to actually disable it.
+        navigateFallback: undefined,
         cleanupOutdatedCaches: true,
         runtimeCaching: [
+          {
+            // Page shell (any client-route navigation): NetworkFirst, not the
+            // precached-instant `navigateFallback` this replaced. `generateSW`'s
+            // navigateFallback always serves the PRECACHED shell instantly and
+            // unconditionally for every navigation — a real user could load the
+            // page, glance at it, and leave well before the background
+            // detect-new-SW → precache (~3.4 MB) → activate → auto-reload cycle
+            // in main.tsx finished, so they'd see stale content with no visible
+            // sign anything was wrong (confirmed live: a deployed skeleton-
+            // loading feature didn't show up on a normal page load, only a hard
+            // reload — Ctrl+Shift+R bypasses the active SW entirely in Chrome —
+            // forced it to appear). NetworkFirst tries the network first on
+            // every navigation, so an online user always gets the latest shell;
+            // it only falls back to this cache if the network request fails or
+            // exceeds networkTimeoutSeconds.
+            // Known trade-off, accepted: this caches per exact URL, not a
+            // single shared shell entry like navigateFallback did — a route the
+            // user never successfully loaded while online has no offline
+            // fallback. Reaching full offline coverage again needs a hand-
+            // written service worker (`injectManifest`, not `generateSW`) so
+            // NetworkFirst can still resolve to one shared cached shell
+            // regardless of the requested path — not done here, kept as a
+            // deliberately smaller fix.
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pages-cache',
+              networkTimeoutSeconds: 5,
+            },
+          },
           {
             urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
             handler: 'StaleWhileRevalidate',
