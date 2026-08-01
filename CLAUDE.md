@@ -132,6 +132,45 @@ Si se toca este mecanismo de nuevo, verificar en vivo con
 `.active`) — un `pnpm build` o `pnpm test` en verde no revisan que la nueva
 versión realmente tome control.
 
+### Gotcha real (ya resuelto, no reintroducir): el `navigateFallback` precacheado servía el shell viejo instantáneo, sin avisar
+
+Aun con el fix de arriba, un usuario reportó ver contenido desactualizado (el
+skeleton de carga de las tablas, ya deployado) en una visita normal —
+`Ctrl+Shift+R` (hard reload, que en Chrome **bypassea** el service worker
+activo) sí mostraba el cambio, un reload normal no. Causa: `navigateFallback:
+'/index.html'` en `generateSW` crea una `NavigationRoute` que sirve el shell
+**precacheado** de forma instantánea y cache-first para **toda** navegación,
+sin importar si ya hay una versión más nueva en el servidor — el ciclo de
+detectar-SW-nuevo → precachear (~3.4 MB) → activar → recargar solo (el
+mecanismo de arriba) corre en paralelo, pero de fondo, y puede tardar varios
+segundos; un usuario que mira la página 2-3 segundos y se va nunca ve el
+reload automático que iba a pasar.
+
+Arreglado reemplazando `navigateFallback` por una regla `runtimeCaching` con
+`handler: 'NetworkFirst'` sobre `request.mode === 'navigate'`
+(`cacheName: 'pages-cache'`, `networkTimeoutSeconds: 5`) — con red disponible,
+toda navegación pide el shell más nuevo primero; solo cae al caché si la red
+falla o tarda más de 5s. **Trade-off aceptado a propósito** (decisión
+explícita del usuario, entre 3 opciones planteadas): esto cachea por URL
+exacta, no un único shell compartido como hacía `navigateFallback` — una ruta
+que el usuario nunca cargó estando online no tiene fallback offline. Lograr
+NetworkFirst con cobertura offline completa (fallback a un shell único sin
+importar la ruta) necesitaría un service worker propio (`injectManifest` en
+vez de `generateSW`) — no se hizo, es un cambio bastante más grande.
+
+**Gotcha de config (ya resuelto, no reintroducir):** simplemente **omitir**
+`navigateFallback` en el objeto `workbox` de `vite.config.ts` **no lo
+deshabilita** — `vite-plugin-pwa` tiene su propio default
+(`navigateFallback: "index.html"`, ver
+`node_modules/vite-plugin-pwa/dist/index.js`) que gana cuando la clave está
+ausente, y sigue registrando la `NavigationRoute` vieja (confirmado grepeando
+`dist/sw.js`: aparecían **las dos** rutas, y el router de Workbox aplica la
+primera que matchea en orden de registro — la vieja seguía ganando). Hace
+falta poner `navigateFallback: undefined` **explícito** en la config. Si se
+toca este mecanismo de nuevo, verificar grepeando el `dist/sw.js` generado
+(`NavigationRoute`, `NetworkFirst`, `pages-cache`) — un build en verde no
+avisa si quedó una ruta vieja compitiendo con la nueva.
+
 ## Regla crítica: reutilización de componentes
 
 **Ningún componente potencialmente reutilizable se define dentro de un
