@@ -1,11 +1,16 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useSessionStore } from '@/shared/model'
 import type { StorageFile } from './storage'
 
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
 
-import { uploadFile } from './storage'
+const mockUpload = vi.fn()
+vi.mock('@vercel/blob/client', () => ({
+  upload: (...args: unknown[]) => mockUpload(...args),
+}))
+
+import { uploadFile, directUploadVideo } from './storage'
 
 const makeStorageFile = (): StorageFile => ({
   id: 'file-1',
@@ -147,5 +152,112 @@ describe('uploadFile', () => {
     const [, options] = mockFetch.mock.calls[0] as [string, RequestInit]
     const body = options.body as FormData
     expect(body.get('quality')).toBe('60')
+  })
+})
+
+interface MockUploadOptions {
+  abortSignal: AbortSignal
+  onUploadProgress: (event: {
+    loaded: number
+    total: number
+    percentage: number
+  }) => void
+}
+
+describe('directUploadVideo', () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+    vi.stubEnv('VITE_API_BASE_URL', '')
+    useSessionStore.setState({
+      isAuthenticated: false,
+      token: null,
+      user: null,
+    })
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('resolves with the uploaded url/mimeType and forwards progress', async () => {
+    mockUpload.mockImplementation(
+      async (_name: string, _file: File, options: MockUploadOptions) => {
+        options.onUploadProgress({ loaded: 50, total: 100, percentage: 50 })
+        return { url: 'https://blob.example/video.mp4', contentType: 'video/mp4' }
+      }
+    )
+    const onProgress = vi.fn()
+    const file = new File(['x'], 'video.mp4', { type: 'video/mp4' })
+
+    const result = await directUploadVideo(file, 'id-1', onProgress)
+
+    expect(result).toEqual({
+      url: 'https://blob.example/video.mp4',
+      mimeType: 'video/mp4',
+    })
+    expect(onProgress).toHaveBeenCalledWith({
+      loaded: 50,
+      total: 100,
+      percentage: 50,
+    })
+  })
+
+  it('aborts a stalled upload (no progress at all) once the stall timeout elapses', async () => {
+    vi.useFakeTimers()
+    let capturedSignal: AbortSignal | undefined
+    mockUpload.mockImplementation(
+      (_name: string, _file: File, options: MockUploadOptions) =>
+        new Promise((_resolve, reject) => {
+          capturedSignal = options.abortSignal
+          options.abortSignal.addEventListener('abort', () => {
+            reject(new DOMException('Aborted', 'AbortError'))
+          })
+        })
+    )
+    const file = new File(['x'], 'video.mp4', { type: 'video/mp4' })
+
+    const promise = directUploadVideo(file, 'id-2')
+    const assertion = expect(promise).rejects.toThrow()
+    await vi.advanceTimersByTimeAsync(90_000)
+    await assertion
+
+    expect(capturedSignal?.aborted).toBe(true)
+  })
+
+  it('does not abort while progress keeps ticking within the stall window', async () => {
+    vi.useFakeTimers()
+    mockUpload.mockImplementation(
+      (_name: string, _file: File, options: MockUploadOptions) =>
+        new Promise((resolve) => {
+          let ticks = 0
+          const interval = setInterval(() => {
+            ticks++
+            options.onUploadProgress({
+              loaded: ticks,
+              total: 3,
+              percentage: ticks * 33,
+            })
+            if (ticks === 3) {
+              clearInterval(interval)
+              resolve({
+                url: 'https://blob.example/video.mp4',
+                contentType: 'video/mp4',
+              })
+            }
+            // Each tick lands well inside the 90s stall window, but the total
+            // (180s) comfortably exceeds it — proving progress resets the timer
+            // instead of the upload getting killed by the overall duration.
+          }, 60_000)
+        })
+    )
+    const file = new File(['x'], 'video.mp4', { type: 'video/mp4' })
+
+    const promise = directUploadVideo(file, 'id-3')
+    await vi.advanceTimersByTimeAsync(180_000)
+
+    await expect(promise).resolves.toEqual({
+      url: 'https://blob.example/video.mp4',
+      mimeType: 'video/mp4',
+    })
   })
 })

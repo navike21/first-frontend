@@ -114,6 +114,14 @@ export interface DirectUploadResult {
   mimeType: string
 }
 
+// No progress at all for this long → treat the upload as stalled and abort it
+// (reported live: a video upload from an Android phone hung indefinitely with
+// no error — no backend logs for /storage/direct-upload at all, so the hang
+// happens client-side, most likely a backgrounded tab/OS throttling a
+// long-running mobile upload). Reset on every progress tick, so a large file
+// that's merely slow-but-active is never killed — only a genuinely stuck one.
+const UPLOAD_STALL_TIMEOUT_MS = 90 * 1000
+
 /**
  * Uploads directly from the browser to blob storage (bypasses Express
  * entirely) — needed for video, which can easily exceed the ~4.5MB body
@@ -133,28 +141,47 @@ export async function directUploadVideo(
   const baseUrl =
     (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
   const token = useSessionStore.getState().token
-  const blob = await upload(file.name, file, {
-    access: 'public',
-    handleUploadUrl: `${baseUrl}/storage/direct-upload`,
-    clientPayload: JSON.stringify({
-      originalName: file.name,
-      size: file.size,
-      id,
-    }),
-    ...(token && { headers: { Authorization: `Bearer ${token}` } }),
+  const abortController = new AbortController()
+  let stallTimer = setTimeout(
+    () => abortController.abort(),
+    UPLOAD_STALL_TIMEOUT_MS
+  )
+  const resetStallTimer = () => {
+    clearTimeout(stallTimer)
+    stallTimer = setTimeout(
+      () => abortController.abort(),
+      UPLOAD_STALL_TIMEOUT_MS
+    )
+  }
+  try {
     // @vercel/blob's client upload() already tracks upload progress natively
     // (unlike fetch-based uploadWithProgress, needed for the /storage
-    // endpoints) — just forward it in the same {loaded,total,percentage} shape.
-    ...(onProgress && {
-      onUploadProgress: (event: UploadProgress) =>
-        onProgress({
+    // endpoints) — forward it in the same {loaded,total,percentage} shape, and
+    // always wire it (even without a caller-provided onProgress) so the stall
+    // watchdog above gets reset regardless of who's calling this.
+    const blob = await upload(file.name, file, {
+      access: 'public',
+      handleUploadUrl: `${baseUrl}/storage/direct-upload`,
+      clientPayload: JSON.stringify({
+        originalName: file.name,
+        size: file.size,
+        id,
+      }),
+      abortSignal: abortController.signal,
+      ...(token && { headers: { Authorization: `Bearer ${token}` } }),
+      onUploadProgress: (event: UploadProgress) => {
+        resetStallTimer()
+        onProgress?.({
           loaded: event.loaded,
           total: event.total,
           percentage: Math.round(event.percentage),
-        }),
-    }),
-  })
-  return { url: blob.url, mimeType: blob.contentType }
+        })
+      },
+    })
+    return { url: blob.url, mimeType: blob.contentType }
+  } finally {
+    clearTimeout(stallTimer)
+  }
 }
 
 /**
