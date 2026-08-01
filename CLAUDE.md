@@ -860,6 +860,58 @@ intento de red; uno de 10MB se encola normalmente.
 directo, sin ningún chequeo de tamaño de video propio — mismo riesgo, no
 arreglado en esta sesión.
 
+### Gotcha real (ya resuelto, no reintroducir): subida de video colgada para siempre — CSP bloqueaba la conexión a Vercel Blob Storage
+
+Reportado por el usuario: subir un video (probado desde un celular Android,
+pero el bug no era específico de mobile) dejaba la barra de progreso sin
+avanzar, indefinidamente, sin error ni éxito. Las imágenes sí subían bien
+desde el mismo dispositivo — esa fue la pista clave, porque **imagen y video
+usan rutas de subida fundamentalmente distintas**: imagen sube al backend
+propio (`/storage/upload-bulk`), que internamente reenvía a blob storage
+*servidor a servidor*; video usa `directUploadVideo` → `@vercel/blob/client`,
+que sube **directo desde el navegador** a `https://<store>.public.blob.vercel-storage.com`,
+sin pasar por nuestro backend salvo para pedir el token inicial.
+
+Primero se agregó un watchdog de 90s en `directUploadVideo` (aborta si no
+hay ningún progreso en ese lapso — ver `shared/api/storage.ts`), que sí
+mitigó el síntoma (ahora al menos sale un error en vez de colgarse para
+siempre) pero **no era la causa raíz**. Investigando con `get_runtime_logs`
+de Vercel sobre `first-backend`: la petición de token
+(`POST /storage/direct-upload`) SÍ llegaba y devolvía 200 — dos veces,
+sin ningún callback `blob.upload-completed` después de ninguna de las dos.
+Es decir, el problema estaba en el segundo paso (el PUT directo del
+navegador a blob storage), invisible en nuestros propios logs por ser un
+dominio externo.
+
+Causa real: el `Content-Security-Policy` de `vercel.json` tenía
+`connect-src 'self' https://*.vercel.app` — **sin incluir el dominio real
+de Vercel Blob Storage** (`*.vercel-storage.com`, un dominio distinto a
+`*.vercel.app`). El navegador bloqueaba la conexión por CSP en cada
+intento. Confirmado leyendo el código de `@vercel/blob`
+(`dist/chunk-CIIQSN42.js`): un fetch bloqueado por CSP rechaza con
+`TypeError: "Failed to fetch"` (el mensaje exacto de Chrome), que el SDK
+clasifica como **error de red** (`isNetworkError()` — el mismo set de
+mensajes incluye "Failed to fetch", "Load failed" de Safari, etc.) y por
+lo tanto **reintenta automáticamente hasta 10 veces con backoff**, sin
+mostrar ningún error mientras tanto — de ahí la apariencia de "colgado"
+(en vez de un fallo inmediato y visible).
+
+Arreglado agregando `https://*.vercel-storage.com` al `connect-src` del
+CSP. El watchdog de 90s sigue en pie como red de seguridad genérica para
+otras causas de estancamiento real (no se retiró), pero ya no debería
+dispararse en el caso normal — con el CSP corregido, la subida de video
+debería progresar y completarse con normalidad.
+
+Si se agrega cualquier subida **directa navegador→servicio externo** nueva
+(no servidor-a-servidor), verificar el CSP `connect-src` contra el dominio
+real de ese servicio ANTES de asumir que un fallo es de red/dispositivo —
+un CSP bloqueando la conexión, combinado con una librería que clasifica
+"Failed to fetch" como error de red y reintenta en silencio, es
+indistinguible de un problema de conectividad real hasta que se lee el
+código fuente de la librería o se inspecciona la consola del navegador
+(un CSP violation SÍ aparece ahí, como `Refused to connect to '...' because
+it violates the following Content Security Policy directive...`).
+
 ### Gotcha real: seleccionar un segundo archivo con "buscar archivos" no lo agregaba a la cola
 
 Reportado por el usuario: adjuntaba un video y luego intentaba adjuntar
