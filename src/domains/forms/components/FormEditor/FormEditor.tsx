@@ -210,6 +210,8 @@ export const FormEditor = ({
             <FormGrid>
               <InputField
                 label={t.form.notificationEmails}
+                type="email"
+                multiple
                 helperText={t.form.notificationEmailsHint}
                 {...register('notificationEmails')}
               />

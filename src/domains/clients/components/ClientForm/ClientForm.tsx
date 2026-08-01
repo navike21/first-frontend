@@ -349,6 +349,7 @@ export const ClientForm = ({
                 />
                 <InputField
                   label={t.form.email}
+                  type="email"
                   variant={errors.email ? 'error' : undefined}
                   errorMessage={errors.email?.message}
                   {...register('email')}
@@ -451,6 +452,7 @@ export const ClientForm = ({
                 />
                 <InputField
                   label={t.form.contactEmail}
+                  type="email"
                   variant={errors.primaryContact?.email ? 'error' : undefined}
                   errorMessage={errors.primaryContact?.email?.message}
                   {...register('primaryContact.email')}
