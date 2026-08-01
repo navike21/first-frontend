@@ -884,33 +884,56 @@ navegador a blob storage), invisible en nuestros propios logs por ser un
 dominio externo.
 
 Causa real: el `Content-Security-Policy` de `vercel.json` tenía
-`connect-src 'self' https://*.vercel.app` — **sin incluir el dominio real
-de Vercel Blob Storage** (`*.vercel-storage.com`, un dominio distinto a
-`*.vercel.app`). El navegador bloqueaba la conexión por CSP en cada
-intento. Confirmado leyendo el código de `@vercel/blob`
-(`dist/chunk-CIIQSN42.js`): un fetch bloqueado por CSP rechaza con
-`TypeError: "Failed to fetch"` (el mensaje exacto de Chrome), que el SDK
-clasifica como **error de red** (`isNetworkError()` — el mismo set de
-mensajes incluye "Failed to fetch", "Load failed" de Safari, etc.) y por
-lo tanto **reintenta automáticamente hasta 10 veces con backoff**, sin
-mostrar ningún error mientras tanto — de ahí la apariencia de "colgado"
-(en vez de un fallo inmediato y visible).
+`connect-src 'self' https://*.vercel.app` — sin el dominio de Vercel Blob
+Storage. El navegador bloqueaba la conexión por CSP en cada intento.
+Confirmado leyendo el código de `@vercel/blob` (`dist/chunk-CIIQSN42.js`):
+un fetch bloqueado por CSP rechaza con `TypeError: "Failed to fetch"` (el
+mensaje exacto de Chrome), que el SDK clasifica como **error de red**
+(`isNetworkError()` — el mismo set de mensajes incluye "Failed to fetch",
+"Load failed" de Safari, etc.) y por lo tanto **reintenta automáticamente
+hasta 10 veces con backoff**, sin mostrar ningún error mientras tanto — de
+ahí la apariencia de "colgado" (en vez de un fallo inmediato y visible).
 
-Arreglado agregando `https://*.vercel-storage.com` al `connect-src` del
-CSP. El watchdog de 90s sigue en pie como red de seguridad genérica para
-otras causas de estancamiento real (no se retiró), pero ya no debería
-dispararse en el caso normal — con el CSP corregido, la subida de video
-debería progresar y completarse con normalidad.
+**Primer intento de fix, incompleto (`https://*.vercel-storage.com`
+agregado a `connect-src`) — no resolvió el problema.** Ese es el dominio
+donde queda el archivo YA subido, servido por el CDN público para lectura
+(`<storeId>.public.blob.vercel-storage.com`, confirmado pidiendo
+`GET /api/v1/services` a `first-backend` y mirando un `coverImageUrl`
+real) — **no** es el dominio al que se manda el PUT de la subida en sí.
+Verificado leyendo `@vercel/blob` a fondo (`getApiUrl()` en
+`dist/chunk-CIIQSN42.js`): el PUT real de `createPutMethod` (usado tanto
+por `put()` como por `upload()`) va a
+`` `${VERCEL_BLOB_API_URL ?? 'https://vercel.com/api/blob'}${pathname}` ``
+— es decir, **`https://vercel.com`**, un dominio totalmente distinto (ni
+`*.vercel.app` ni `*.vercel-storage.com` lo cubren). Con el primer fix
+"aplicado", el navegador seguía bloqueando el PUT real por CSP exactamente
+igual — confirmado en vivo probando `fetch()` contra
+`*.vercel-storage.com` desde la consola (sin violación CSP, la conexión
+sí estaba permitida) y encontrando el request real hacia `vercel.com` recién
+al leer el SDK con cuidado.
+
+Arreglado agregando **`https://vercel.com`** (el dominio real del PUT) al
+`connect-src`, y de paso `media-src 'self' https://*.vercel-storage.com`
+(el CSP no tenía `media-src` en absoluto, cayendo al fallback de
+`default-src 'self'` — habría bloqueado también la sola *reproducción* de
+un video ya subido en cualquier `<video>` de la app: `MediaPreviewModal`,
+`MediaLibraryModal`, `VideoElementCard`, `BackgroundVideoFields`,
+`PageBuilderPage`). El watchdog de 90s sigue en pie como red de seguridad
+genérica para otras causas de estancamiento real (no se retiró), pero ya
+no debería dispararse en el caso normal.
 
 Si se agrega cualquier subida **directa navegador→servicio externo** nueva
-(no servidor-a-servidor), verificar el CSP `connect-src` contra el dominio
-real de ese servicio ANTES de asumir que un fallo es de red/dispositivo —
-un CSP bloqueando la conexión, combinado con una librería que clasifica
+(no servidor-a-servidor), verificar el CSP `connect-src`/`media-src`
+contra el dominio **real** al que efectivamente viaja cada request — **no
+asumir que el dominio público/de lectura de un servicio es el mismo que el
+de escritura/subida** (con `@vercel/blob` específicamente NO lo es). Un
+CSP bloqueando la conexión, combinado con una librería que clasifica
 "Failed to fetch" como error de red y reintenta en silencio, es
 indistinguible de un problema de conectividad real hasta que se lee el
 código fuente de la librería o se inspecciona la consola del navegador
 (un CSP violation SÍ aparece ahí, como `Refused to connect to '...' because
-it violates the following Content Security Policy directive...`).
+it violates the following Content Security Policy directive...` —
+revisar eso primero, antes que suponer un problema de dispositivo/red).
 
 ### Gotcha real: seleccionar un segundo archivo con "buscar archivos" no lo agregaba a la cola
 
