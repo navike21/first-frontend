@@ -179,6 +179,23 @@ describe('directUploadVideo', () => {
     vi.useRealTimers()
   })
 
+  it('uploads under a uuid-based pathname, never the raw original filename', async () => {
+    mockUpload.mockResolvedValue({
+      url: 'https://blob.example/id-1.mp4',
+      contentType: 'video/mp4',
+    })
+    const file = new File(
+      ['x'],
+      'Hola, Te invito a celebrar 6 años Lupe.mp4',
+      { type: 'video/mp4' }
+    )
+
+    await directUploadVideo(file, 'id-1')
+
+    const [pathname] = mockUpload.mock.calls[0] as [string]
+    expect(pathname).toBe('id-1.mp4')
+  })
+
   it('resolves with the uploaded url/mimeType and forwards progress', async () => {
     mockUpload.mockImplementation(
       async (_name: string, _file: File, options: MockUploadOptions) => {
