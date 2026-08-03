@@ -14,11 +14,13 @@ import {
   LangSidebar,
   LangTabs,
   LangBadge,
+  TranslateSuggestButton,
   type WizardStep,
 } from '@/shared/ui'
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
-import { requiredLabel } from '@/shared/lib'
+import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -197,6 +199,59 @@ export const ServiceForm = ({
   const descError = (errors.description as LangErrors)?.[editingLanguage]
     ?.message
 
+  // AI translation suggestion — the source is always the editor's own
+  // current UI language (`language`, never a fixed one like Spanish), the
+  // target is whichever tab they're currently viewing. No button at all
+  // (not just disabled) when there's nothing to translate from, or when
+  // viewing the source language's own tab.
+  const translation = useTranslationSuggestion<{
+    name: string
+    shortDescription: string
+    description: string
+  }>('services')
+  const canTranslate = editingLanguage !== language && hasContent(language)
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: editingLanguage,
+        fields: {
+          name: nameValues?.[language] ?? '',
+          shortDescription: sdValues?.[language] ?? '',
+          description: descValues?.[language] ?? '',
+        },
+      },
+      {
+        onSuccess: (result) => {
+          setValue(`name.${editingLanguage}`, result.fields.name, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          })
+          setValue(
+            `shortDescription.${editingLanguage}`,
+            result.fields.shortDescription,
+            { shouldValidate: true, shouldDirty: true, shouldTouch: true }
+          )
+          setValue(`description.${editingLanguage}`, result.fields.description, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          })
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
+
   const stepHasError = (step: StepId) =>
     STEP_FIELDS[step].some((f) => f in errors)
 
@@ -288,6 +343,7 @@ export const ServiceForm = ({
           hasContent={hasContent}
           hasError={hasError}
           onChange={setEditingLanguage}
+          extra={translateButton}
         />
       </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
@@ -513,6 +569,7 @@ export const ServiceForm = ({
             hasError={hasError}
             label={t.form.tabTranslations}
             onChange={setEditingLanguage}
+            extra={translateButton}
           />
         </div>
       </div>

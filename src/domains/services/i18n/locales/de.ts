@@ -116,6 +116,7 @@ export const de: ServicesTranslations = {
     back: 'Zurück',
     next: 'Weiter',
     optional: '(optional)',
+    suggestTranslation: 'Übersetzung vorschlagen',
   },
   mediaLibrary: {
     titleImage: 'Bild auswählen',
@@ -139,6 +140,8 @@ export const de: ServicesTranslations = {
     bulkPurged: 'Dienste endgültig gelöscht',
     offlinePhotoSkipped:
       'Bilder werden offline nicht gespeichert; fügen Sie sie bei erneuter Verbindung hinzu.',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern überprüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

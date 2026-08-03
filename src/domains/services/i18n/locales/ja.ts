@@ -115,6 +115,7 @@ export const ja: ServicesTranslations = {
     back: '戻る',
     next: '次へ',
     optional: '（任意）',
+    suggestTranslation: '翻訳を提案',
   },
   mediaLibrary: {
     titleImage: '画像を選択',
@@ -138,6 +139,7 @@ export const ja: ServicesTranslations = {
     bulkPurged: 'サービスを完全に削除しました',
     offlinePhotoSkipped:
       '画像はオフラインでは保存されません。再接続時に追加してください。',
+    translationApplied: '翻訳の提案を適用しました — 保存前に内容を確認してください。',
   },
   validation: {
     required: '必須フィールド',

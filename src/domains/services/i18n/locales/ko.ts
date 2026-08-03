@@ -116,6 +116,7 @@ export const ko: ServicesTranslations = {
     back: '이전',
     next: '다음',
     optional: '(선택 사항)',
+    suggestTranslation: '번역 제안',
   },
   mediaLibrary: {
     titleImage: '이미지 선택',
@@ -139,6 +140,7 @@ export const ko: ServicesTranslations = {
     bulkPurged: '서비스가 영구적으로 삭제되었습니다',
     offlinePhotoSkipped:
       '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
+    translationApplied: '번역 제안이 적용되었습니다 — 저장하기 전에 검토하세요.',
   },
   validation: {
     required: '필수 필드',
