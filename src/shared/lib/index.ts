@@ -12,6 +12,7 @@ export {
 export { useMounted } from './use-mounted'
 export { useNetworkStatus } from './useNetworkStatus'
 export { useSessionSync } from './useSessionSync'
+export { useTranslationSuggestion } from './useTranslationSuggestion'
 export { hasPermission, useHasPermission } from './permissions'
 export * from './animations'
 export { requiredLabel } from './requiredLabel'

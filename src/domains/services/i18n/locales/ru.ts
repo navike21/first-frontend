@@ -115,6 +115,7 @@ export const ru: ServicesTranslations = {
     back: 'Назад',
     next: 'Далее',
     optional: '(необязательно)',
+    suggestTranslation: 'Предложить перевод',
   },
   mediaLibrary: {
     titleImage: 'Выбрать изображение',
@@ -138,6 +139,8 @@ export const ru: ServicesTranslations = {
     bulkPurged: 'Услуги удалены навсегда',
     offlinePhotoSkipped:
       'Изображения не сохраняются офлайн; добавьте их при восстановлении связи.',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

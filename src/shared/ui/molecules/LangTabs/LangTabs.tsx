@@ -13,8 +13,9 @@ export const LangTabs = ({
   hasContent,
   hasError,
   onChange,
+  extra,
 }: LangTabsProps) => (
-  <div className="flex flex-wrap gap-1.5">
+  <div className="flex flex-wrap items-center gap-1.5">
     {SUPPORTED_LANGUAGES.map((lang) => {
       const isActive = lang === editingLanguage
       const filled = hasContent(lang)
@@ -46,5 +47,6 @@ export const LangTabs = ({
         </button>
       )
     })}
+    {extra}
   </div>
 )

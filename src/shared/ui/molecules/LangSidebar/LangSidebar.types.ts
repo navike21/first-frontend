@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Language } from '@/shared/i18n'
 
 export interface LangSidebarProps {
@@ -7,4 +8,7 @@ export interface LangSidebarProps {
   hasError: (lang: Language) => boolean
   label: string
   onChange: (lang: Language) => void
+  /** Optional trailing action (e.g. an AI-translate trigger) rendered below
+   * the language list — additive, existing consumers are unaffected. */
+  extra?: ReactNode
 }

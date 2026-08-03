@@ -15,6 +15,7 @@ export const LangSidebar = ({
   hasError,
   label,
   onChange,
+  extra,
 }: LangSidebarProps) => (
   <div className="flex flex-col gap-1">
     <span className="text-muted mb-1 text-xs font-medium tracking-wide uppercase">
@@ -57,5 +58,6 @@ export const LangSidebar = ({
         </button>
       )
     })}
+    {extra}
   </div>
 )

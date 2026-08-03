@@ -110,6 +110,7 @@ export interface ServicesTranslations {
     back: string
     next: string
     optional: string
+    suggestTranslation: string
   }
   mediaLibrary: {
     titleImage: string
@@ -132,6 +133,7 @@ export interface ServicesTranslations {
     bulkRestored: string
     bulkPurged: string
     offlinePhotoSkipped: string
+    translationApplied: string
   }
   validation: {
     required: string

@@ -140,6 +140,10 @@ export {
 export { LangSidebar, type LangSidebarProps } from './molecules/LangSidebar'
 export { LangTabs, type LangTabsProps } from './molecules/LangTabs'
 export {
+  TranslateSuggestButton,
+  type TranslateSuggestButtonProps,
+} from './molecules/TranslateSuggestButton'
+export {
   HexColorInput,
   type HexColorInputProps,
 } from './molecules/HexColorInput'
