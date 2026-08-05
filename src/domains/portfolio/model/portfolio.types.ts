@@ -17,7 +17,7 @@ export interface PortfolioMetric {
 
 export interface Portfolio {
   id: string
-  slug: string
+  slug: PortfolioLocalizedString
   name: PortfolioLocalizedString
   shortDescription: PortfolioLocalizedString
   description: PortfolioLocalizedString

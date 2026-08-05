@@ -45,7 +45,10 @@ export const CategoryDetailModal = ({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailField label={t.table.colSlug} value={category.slug} />
+            <DetailField
+              label={t.table.colSlug}
+              value={category.slug[language] || category.slug.en}
+            />
             <DetailField label={t.form.parent} value={parentName} />
             <DetailField label={t.form.order} value={String(category.order)} />
           </div>

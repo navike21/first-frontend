@@ -29,7 +29,10 @@ export const TagDetailModal = ({ tag, onClose }: TagDetailModalProps) => {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailField label={t.table.colSlug} value={tag.slug} />
+            <DetailField
+              label={t.table.colSlug}
+              value={tag.slug[language] || tag.slug.en}
+            />
             <DetailField label={t.form.order} value={String(tag.order)} />
           </div>
         </div>

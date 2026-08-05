@@ -40,6 +40,7 @@ export const PortfolioDetailModal = ({
   const name = item.name[viewLang] || item.name.en
   const shortDesc = item.shortDescription[viewLang] || item.shortDescription.en
   const desc = item.description[viewLang] || item.description.en
+  const slug = item.slug[viewLang] || item.slug.en
 
   const hasContent = (lang: Language) =>
     !!(item.name[lang]?.trim() || item.shortDescription[lang]?.trim())
@@ -120,7 +121,7 @@ export const PortfolioDetailModal = ({
 
         {/* Data grid */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <DetailField label={t.form.slug} value={item.slug || undefined} />
+          <DetailField label={t.form.slug} value={slug || undefined} />
           <DetailField
             label={t.form.startDate}
             value={formatDate(item.startDate)}

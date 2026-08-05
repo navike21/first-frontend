@@ -18,9 +18,20 @@ export function createCategorySchema(v: V, primaryLang: Language = 'en') {
     ])
   ) as unknown as Record<Language, z.ZodTypeAny>
 
+  const slugLangField = z
+    .string()
+    .trim()
+    .regex(slugRegex, v.slugInvalid)
+    .optional()
+    .or(z.literal(''))
+
   return z.object({
     name: z.object(langFields),
-    slug: z.string().trim().min(1, v.required).regex(slugRegex, v.slugInvalid),
+    slug: z.object(
+      Object.fromEntries(
+        SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
+      ) as Record<Language, typeof slugLangField>
+    ),
     parentId: z.string().trim().uuid().optional().or(z.literal('')),
     order: z.coerce.number().int().min(0).default(0),
     isActive: z.boolean().default(true),
@@ -31,7 +42,7 @@ export type CategoryFormLocalized = Record<Language, string>
 
 export interface CategoryFormData {
   name: CategoryFormLocalized
-  slug: string
+  slug: CategoryFormLocalized
   parentId?: string
   order: number
   isActive: boolean
@@ -39,7 +50,7 @@ export interface CategoryFormData {
 
 export interface CreateCategoryPayload {
   name: CategoryLocalizedString
-  slug: string
+  slug: CategoryLocalizedString
   parentId?: string
   order: number
   isActive: boolean
@@ -58,7 +69,7 @@ export function toCategoryPayload(
 ): CreateCategoryPayload {
   return {
     name: fillLocalized(data.name),
-    slug: data.slug,
+    slug: fillLocalized(data.slug),
     parentId: data.parentId || undefined,
     order: data.order,
     isActive: data.isActive,

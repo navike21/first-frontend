@@ -18,9 +18,20 @@ export function createTagSchema(v: V, primaryLang: Language = 'en') {
     ])
   ) as unknown as Record<Language, z.ZodTypeAny>
 
+  const slugLangField = z
+    .string()
+    .trim()
+    .regex(slugRegex, v.slugInvalid)
+    .optional()
+    .or(z.literal(''))
+
   return z.object({
     name: z.object(langFields),
-    slug: z.string().trim().min(1, v.required).regex(slugRegex, v.slugInvalid),
+    slug: z.object(
+      Object.fromEntries(
+        SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
+      ) as Record<Language, typeof slugLangField>
+    ),
     order: z.coerce.number().int().min(0).default(0),
     isActive: z.boolean().default(true),
   })
@@ -30,14 +41,14 @@ export type TagFormLocalized = Record<Language, string>
 
 export interface TagFormData {
   name: TagFormLocalized
-  slug: string
+  slug: TagFormLocalized
   order: number
   isActive: boolean
 }
 
 export interface CreateTagPayload {
   name: TagLocalizedString
-  slug: string
+  slug: TagLocalizedString
   order: number
   isActive: boolean
 }
@@ -53,7 +64,7 @@ function fillLocalized(
 export function toTagPayload(data: TagFormData): CreateTagPayload {
   return {
     name: fillLocalized(data.name),
-    slug: data.slug,
+    slug: fillLocalized(data.slug),
     order: data.order,
     isActive: data.isActive,
   }

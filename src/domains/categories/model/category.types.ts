@@ -5,7 +5,7 @@ export type CategoryLocalizedString = Record<Language, string>
 export interface Category {
   id: string
   name: CategoryLocalizedString
-  slug: string
+  slug: CategoryLocalizedString
   parentId?: string | null
   order: number
   isActive: boolean

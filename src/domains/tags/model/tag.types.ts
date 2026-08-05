@@ -5,7 +5,7 @@ export type TagLocalizedString = Record<Language, string>
 export interface Tag {
   id: string
   name: TagLocalizedString
-  slug: string
+  slug: TagLocalizedString
   order: number
   isActive: boolean
   createdAt?: string
