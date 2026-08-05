@@ -79,6 +79,7 @@ export const ru: TagTranslations = {
     isActive: 'Активен',
     save: 'Сохранить изменения',
     create: 'Создать тег',
+    suggestTranslation: 'Предложить перевод',
     cancel: 'Отмена',
   },
   toasts: {
@@ -90,6 +91,8 @@ export const ru: TagTranslations = {
     bulkDeleted: 'Теги удалены',
     bulkRestored: 'Теги восстановлены',
     bulkPurged: 'Теги удалены навсегда',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

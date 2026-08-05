@@ -74,6 +74,7 @@ export const zh: TagTranslations = {
     isActive: '启用',
     save: '保存更改',
     create: '创建标签',
+    suggestTranslation: '建议翻译',
     cancel: '取消',
   },
   toasts: {
@@ -85,6 +86,7 @@ export const zh: TagTranslations = {
     bulkDeleted: '标签已删除',
     bulkRestored: '标签已恢复',
     bulkPurged: '标签已永久删除',
+    translationApplied: '已应用翻译建议 — 保存前请检查。',
   },
   validation: {
     required: '必填项',

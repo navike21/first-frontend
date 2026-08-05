@@ -72,6 +72,7 @@ export interface TagTranslations {
     save: string
     create: string
     cancel: string
+    suggestTranslation: string
   }
   toasts: {
     created: string
@@ -82,6 +83,7 @@ export interface TagTranslations {
     bulkDeleted: string
     bulkRestored: string
     bulkPurged: string
+    translationApplied: string
   }
   validation: {
     required: string

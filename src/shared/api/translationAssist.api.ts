@@ -12,6 +12,9 @@ export type TranslationDomain =
   | 'portfolio'
   | 'collaborators'
   | 'forms'
+  | 'categories'
+  | 'tags'
+  | 'page-builder'
 
 export interface SuggestTranslationParams<TFields extends Record<string, string>> {
   domain: TranslationDomain

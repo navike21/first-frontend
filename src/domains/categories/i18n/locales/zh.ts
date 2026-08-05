@@ -80,6 +80,7 @@ export const zh: CategoryTranslations = {
     create: '创建分类',
     cancel: '取消',
     optional: '（可选）',
+    suggestTranslation: '建议翻译',
   },
   toasts: {
     created: '分类已创建',
@@ -90,6 +91,7 @@ export const zh: CategoryTranslations = {
     bulkDeleted: '分类已删除',
     bulkRestored: '分类已恢复',
     bulkPurged: '分类已永久删除',
+    translationApplied: '已应用翻译建议 — 保存前请检查。',
   },
   validation: {
     required: '必填项',

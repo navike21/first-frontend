@@ -77,6 +77,7 @@ export interface CategoryTranslations {
     create: string
     cancel: string
     optional: string
+    suggestTranslation: string
   }
   toasts: {
     created: string
@@ -87,6 +88,7 @@ export interface CategoryTranslations {
     bulkDeleted: string
     bulkRestored: string
     bulkPurged: string
+    translationApplied: string
   }
   validation: {
     required: string

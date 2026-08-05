@@ -80,6 +80,7 @@ export const ko: TagTranslations = {
     isActive: '활성',
     save: '변경 사항 저장',
     create: '태그 생성',
+    suggestTranslation: '번역 제안',
     cancel: '취소',
   },
   toasts: {
@@ -91,6 +92,7 @@ export const ko: TagTranslations = {
     bulkDeleted: '태그가 삭제되었습니다',
     bulkRestored: '태그가 복원되었습니다',
     bulkPurged: '태그가 영구적으로 삭제되었습니다',
+    translationApplied: '번역 제안이 적용되었습니다 — 저장하기 전에 검토하세요.',
   },
   validation: {
     required: '필수 항목',
