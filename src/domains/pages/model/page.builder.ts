@@ -1,4 +1,5 @@
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
+import type { Language } from '@/shared/i18n'
 import type {
   BackgroundBreakpoint,
   BackgroundConfig,
@@ -1111,4 +1112,184 @@ async function resolveElementRichTextImages(
     return { ...element, items }
   }
   return element
+}
+
+// Keys mirror where each value lives: `elementId` alone for single-field
+// elements (one translatable field each), `elementId:itemId:field` for
+// array-item elements with a stable `id` (accordion/testimonials/stats),
+// and `elementId:index:alt` for gallery images (BuilderGalleryImage has no
+// `id` of its own). `slider` has no translatable text and is skipped.
+function fieldsFromElement(
+  element: BuilderElement,
+  language: Language,
+  fields: Record<string, string>
+): void {
+  const add = (key: string, localized: PageLocalizedString) => {
+    const value = localized[language]
+    if (value?.trim()) fields[key] = value
+  }
+
+  if (element.type === 'text') add(element.id, element.html)
+  else if (element.type === 'image') add(element.id, element.alt)
+  else if (element.type === 'button') add(element.id, element.label)
+  else if (element.type === 'video' || element.type === 'map')
+    add(element.id, element.caption)
+  else if (element.type === 'gallery')
+    element.images.forEach((image, index) =>
+      add(`${element.id}:${index}:alt`, image.alt)
+    )
+  else if (element.type === 'accordion')
+    element.items.forEach((item) => {
+      add(`${element.id}:${item.id}:question`, item.question)
+      add(`${element.id}:${item.id}:answer`, item.answer)
+    })
+  else if (element.type === 'testimonials')
+    element.items.forEach((item) => {
+      add(`${element.id}:${item.id}:role`, item.role)
+      add(`${element.id}:${item.id}:quote`, item.quote)
+    })
+  else if (element.type === 'stats')
+    element.items.forEach((item) => add(`${element.id}:${item.id}:label`, item.label))
+}
+
+/**
+ * Vuelca el texto traducible completo de una página en un único mapa plano, para
+ * mandarlo de un solo golpe al dominio `page-builder` del endpoint de
+ * sugerencia de traducción por IA — mismo principio de "un batch, no un call
+ * por campo" que el resto del módulo de traducción. Solo incluye valores no
+ * vacíos en `language` (no tiene sentido pedirle a la IA que traduzca texto
+ * vacío); las claves se usan tal cual para aplicar la respuesta de vuelta en
+ * el mismo lugar exacto (ver `applyTranslatedFields`).
+ */
+export function extractTranslatableFields(
+  sections: BuilderSection[],
+  language: Language
+): Record<string, string> {
+  const fields: Record<string, string> = {}
+  for (const section of sections) {
+    if (!isColumnsSection(section)) continue
+    for (const column of section.content.columns ?? []) {
+      for (const element of column.elements) {
+        fieldsFromElement(element, language, fields)
+      }
+    }
+  }
+  return fields
+}
+
+function withLocalized(
+  localized: PageLocalizedString,
+  language: Language,
+  value: string | undefined
+): PageLocalizedString {
+  return value === undefined ? localized : { ...localized, [language]: value }
+}
+
+// Recorrido simétrico a `fieldsFromElement` — mismas claves, en el mismo
+// orden de tipos — así una traducción aplicada siempre cae en el campo del
+// que salió. Un valor ausente en `fields` (nunca se mandó, o el modelo no lo
+// devolvió) deja ese campo intacto.
+function applyFieldsToElement(
+  element: BuilderElement,
+  language: Language,
+  fields: Record<string, string>
+): BuilderElement {
+  if (element.type === 'text') {
+    return { ...element, html: withLocalized(element.html, language, fields[element.id]) }
+  }
+  if (element.type === 'image') {
+    return { ...element, alt: withLocalized(element.alt, language, fields[element.id]) }
+  }
+  if (element.type === 'button') {
+    return { ...element, label: withLocalized(element.label, language, fields[element.id]) }
+  }
+  if (element.type === 'video' || element.type === 'map') {
+    return {
+      ...element,
+      caption: withLocalized(element.caption, language, fields[element.id]),
+    }
+  }
+  if (element.type === 'gallery') {
+    return {
+      ...element,
+      images: element.images.map((image, index) => ({
+        ...image,
+        alt: withLocalized(
+          image.alt,
+          language,
+          fields[`${element.id}:${index}:alt`]
+        ),
+      })),
+    }
+  }
+  if (element.type === 'accordion') {
+    return {
+      ...element,
+      items: element.items.map((item) => ({
+        ...item,
+        question: withLocalized(
+          item.question,
+          language,
+          fields[`${element.id}:${item.id}:question`]
+        ),
+        answer: withLocalized(
+          item.answer,
+          language,
+          fields[`${element.id}:${item.id}:answer`]
+        ),
+      })),
+    }
+  }
+  if (element.type === 'testimonials') {
+    return {
+      ...element,
+      items: element.items.map((item) => ({
+        ...item,
+        role: withLocalized(
+          item.role,
+          language,
+          fields[`${element.id}:${item.id}:role`]
+        ),
+        quote: withLocalized(
+          item.quote,
+          language,
+          fields[`${element.id}:${item.id}:quote`]
+        ),
+      })),
+    }
+  }
+  if (element.type === 'stats') {
+    return {
+      ...element,
+      items: element.items.map((item) => ({
+        ...item,
+        label: withLocalized(
+          item.label,
+          language,
+          fields[`${element.id}:${item.id}:label`]
+        ),
+      })),
+    }
+  }
+  return element
+}
+
+/** Aplica de vuelta el resultado de `suggestTranslation` (dominio
+ * `page-builder`) en la ranura `language` de cada campo — nunca toca otros
+ * idiomas ni campos no traducibles (url/variant/rating/value). Igual que el
+ * resto del módulo de traducción, esto solo deja un borrador editable en el
+ * draft en memoria; el usuario sigue guardando con el botón normal. */
+export function applyTranslatedFields(
+  sections: BuilderSection[],
+  language: Language,
+  fields: Record<string, string>
+): BuilderSection[] {
+  return sections.map((s) => {
+    if (!isColumnsSection(s)) return s
+    const columns = (s.content.columns ?? []).map((c) => ({
+      ...c,
+      elements: c.elements.map((e) => applyFieldsToElement(e, language, fields)),
+    }))
+    return { ...s, content: { ...s.content, columns } }
+  })
 }

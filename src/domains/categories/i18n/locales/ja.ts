@@ -85,6 +85,7 @@ export const ja: CategoryTranslations = {
     create: 'カテゴリーを作成',
     cancel: 'キャンセル',
     optional: '（任意）',
+    suggestTranslation: '翻訳を提案',
   },
   toasts: {
     created: 'カテゴリーが作成されました',
@@ -95,6 +96,7 @@ export const ja: CategoryTranslations = {
     bulkDeleted: 'カテゴリーが削除されました',
     bulkRestored: 'カテゴリーが復元されました',
     bulkPurged: 'カテゴリーが完全に削除されました',
+    translationApplied: '翻訳の提案を適用しました — 保存前に内容を確認してください。',
   },
   validation: {
     required: '必須項目',

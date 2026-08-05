@@ -86,6 +86,7 @@ export const ko: CategoryTranslations = {
     create: '카테고리 생성',
     cancel: '취소',
     optional: '(선택)',
+    suggestTranslation: '번역 제안',
   },
   toasts: {
     created: '카테고리가 생성되었습니다',
@@ -96,6 +97,7 @@ export const ko: CategoryTranslations = {
     bulkDeleted: '카테고리가 삭제되었습니다',
     bulkRestored: '카테고리가 복원되었습니다',
     bulkPurged: '카테고리가 영구적으로 삭제되었습니다',
+    translationApplied: '번역 제안이 적용되었습니다 — 저장하기 전에 검토하세요.',
   },
   validation: {
     required: '필수 항목',

@@ -79,6 +79,7 @@ export const ja: TagTranslations = {
     isActive: '有効',
     save: '変更を保存',
     create: 'タグを作成',
+    suggestTranslation: '翻訳を提案',
     cancel: 'キャンセル',
   },
   toasts: {
@@ -90,6 +91,7 @@ export const ja: TagTranslations = {
     bulkDeleted: 'タグが削除されました',
     bulkRestored: 'タグが復元されました',
     bulkPurged: 'タグが完全に削除されました',
+    translationApplied: '翻訳の提案を適用しました — 保存前に内容を確認してください。',
   },
   validation: {
     required: '必須項目',

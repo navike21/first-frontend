@@ -1,7 +1,14 @@
 import { useMemo, useState } from 'react'
 import { useParams } from '@tanstack/react-router'
-import { PageContent, Spinner, Button, Modal } from '@/shared/ui'
+import {
+  PageContent,
+  Spinner,
+  Button,
+  Modal,
+  TranslateSuggestButton,
+} from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
+import { useTranslationSuggestion } from '@/shared/lib'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
 import {
@@ -47,6 +54,8 @@ import {
   replaceTestimonialAvatarUrl,
   setVideoFile,
   resolveSectionsRichTextImages,
+  extractTranslatableFields,
+  applyTranslatedFields,
 } from '../model/page.builder'
 import { computeTranslationProgress } from '../model/pageTranslationProgress'
 import type {
@@ -234,6 +243,9 @@ export const PageBuilderPage = () => {
   )
   const [uploading, setUploading] = useState(false)
   const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
+  const translation = useTranslationSuggestion<Record<string, string>>(
+    'page-builder'
+  )
 
   const progress = useMemo(
     () => computeTranslationProgress(draft ?? [], SUPPORTED_LANGUAGES),
@@ -560,6 +572,43 @@ export const PageBuilderPage = () => {
   const name = item.title[language] || item.title.en
   const saving = uploading || replaceSections.isPending
 
+  // AI translation suggestion for the page's own content (text/image alt/
+  // button label/FAQ/testimonials/stats/video+map captions) — separate from
+  // the metadata translate button on the Edit page (title/SEO). A single
+  // button for the whole canvas, not one per element: the builder already
+  // has one global `reviewLanguage` for everything on the page (see
+  // `PageTranslationProgress` above), so translating "the page, into the
+  // language I'm currently reviewing" in one batched call matches that same
+  // model instead of introducing a new per-element one.
+  const canTranslate =
+    reviewLanguage !== language &&
+    Object.keys(extractTranslatableFields(draft, language)).length > 0
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: reviewLanguage,
+        fields: extractTranslatableFields(draft, language),
+      },
+      {
+        onSuccess: (result) => {
+          patch((sections) =>
+            applyTranslatedFields(sections, reviewLanguage, result.fields)
+          )
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
+
   return (
     <PageContent
       title={t.page.builderTitle}
@@ -580,6 +629,7 @@ export const PageBuilderPage = () => {
           reviewLanguage={reviewLanguage}
           onReviewLanguageChange={setReviewLanguage}
           nativeLanguage={language}
+          extra={translateButton}
         />
       </div>
 

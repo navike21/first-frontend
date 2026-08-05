@@ -86,6 +86,7 @@ export const ru: CategoryTranslations = {
     create: 'Создать категорию',
     cancel: 'Отмена',
     optional: '(необязательно)',
+    suggestTranslation: 'Предложить перевод',
   },
   toasts: {
     created: 'Категория создана',
@@ -96,6 +97,8 @@ export const ru: CategoryTranslations = {
     bulkDeleted: 'Категории удалены',
     bulkRestored: 'Категории восстановлены',
     bulkPurged: 'Категории удалены навсегда',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

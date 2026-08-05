@@ -85,6 +85,7 @@ export const fr: CategoryTranslations = {
     create: 'Créer la catégorie',
     cancel: 'Annuler',
     optional: '(facultatif)',
+    suggestTranslation: 'Suggérer une traduction',
   },
   toasts: {
     created: 'Catégorie créée',
@@ -95,6 +96,8 @@ export const fr: CategoryTranslations = {
     bulkDeleted: 'Catégories supprimées',
     bulkRestored: 'Catégories restaurées',
     bulkPurged: 'Catégories supprimées définitivement',
+    translationApplied:
+      'Suggestion de traduction appliquée — vérifiez avant d’enregistrer.',
   },
   validation: {
     required: 'Champ obligatoire',

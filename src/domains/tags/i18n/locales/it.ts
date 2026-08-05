@@ -79,6 +79,7 @@ export const it: TagTranslations = {
     isActive: 'Attivo',
     save: 'Salva modifiche',
     create: 'Crea tag',
+    suggestTranslation: 'Suggerisci traduzione',
     cancel: 'Annulla',
   },
   toasts: {
@@ -90,6 +91,8 @@ export const it: TagTranslations = {
     bulkDeleted: 'Tag eliminati',
     bulkRestored: 'Tag ripristinati',
     bulkPurged: 'Tag eliminati definitivamente',
+    translationApplied:
+      'Suggerimento di traduzione applicato — verifica prima di salvare.',
   },
   validation: {
     required: 'Campo obbligatorio',

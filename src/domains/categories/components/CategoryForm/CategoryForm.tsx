@@ -12,8 +12,10 @@ import {
   SectionLabel,
   LangTabs,
   LangBadge,
+  TranslateSuggestButton,
 } from '@/shared/ui'
-import { requiredLabel } from '@/shared/lib'
+import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -164,6 +166,40 @@ export const CategoryForm = ({
     !!(errors.name as LangErrors)?.[lang]
   const nameError = (errors.name as LangErrors)?.[editingLanguage]?.message
 
+  // AI translation suggestion — same criteria as Portfolio/Services: source
+  // is always the editor's own current UI language, never a fixed one; no
+  // button at all (not just disabled) when there's nothing to translate
+  // from, or when viewing the source language's own tab.
+  const translation = useTranslationSuggestion<{ name: string }>('categories')
+  const canTranslate = editingLanguage !== language && hasContent(language)
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: editingLanguage,
+        fields: { name: nameValues?.[language] ?? '' },
+      },
+      {
+        onSuccess: (result) => {
+          setValue(`name.${editingLanguage}`, result.fields.name, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          })
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
+
   const availableParents = (categoriesData ?? []).filter(
     (c) =>
       !categoryId || !isDescendantOrSelf(c.id, categoryId, categoriesData ?? [])
@@ -190,6 +226,7 @@ export const CategoryForm = ({
               hasContent={hasContent}
               hasError={hasError}
               onChange={setEditingLanguage}
+              extra={translateButton}
             />
           </div>
           <InputField

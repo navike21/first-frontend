@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import type { ReactNode } from 'react'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
@@ -10,6 +11,11 @@ export interface PageTranslationProgressProps {
   onReviewLanguageChange: (lang: Language) => void
   /** Idioma actual del propio admin — solo para la marca ★, mismo patrón que `userLanguage` en `PageForm`. */
   nativeLanguage: Language
+  /** Mismo slot `extra` que `LangTabs`/`LangSidebar` — aquí aloja el botón
+   * "Sugerir traducción" del builder (un solo botón para la página entera,
+   * no uno por elemento, ya que este componente ya centraliza el único
+   * idioma de revisión del lienzo completo). */
+  extra?: ReactNode
 }
 
 /** Porcentaje traducido de un idioma; una página sin texto/imagen todavía no tiene nada que traducir. */
@@ -34,6 +40,7 @@ export const PageTranslationProgress = ({
   reviewLanguage,
   onReviewLanguageChange,
   nativeLanguage,
+  extra,
 }: PageTranslationProgressProps) => {
   const { t } = usePagesTranslation()
 
@@ -45,9 +52,12 @@ export const PageTranslationProgress = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-muted text-xs font-semibold tracking-wide uppercase">
-        {t.builder.translationProgress.heading}
-      </span>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="text-muted text-xs font-semibold tracking-wide uppercase">
+          {t.builder.translationProgress.heading}
+        </span>
+        {extra}
+      </div>
       <div className="flex flex-wrap gap-2">
         {SUPPORTED_LANGUAGES.map((lang) => {
           const percent = percentFor(progress[lang])

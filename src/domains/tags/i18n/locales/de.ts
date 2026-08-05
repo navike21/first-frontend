@@ -80,6 +80,7 @@ export const de: TagTranslations = {
     isActive: 'Aktiv',
     save: 'Änderungen speichern',
     create: 'Tag erstellen',
+    suggestTranslation: 'Übersetzung vorschlagen',
     cancel: 'Abbrechen',
   },
   toasts: {
@@ -91,6 +92,8 @@ export const de: TagTranslations = {
     bulkDeleted: 'Tags gelöscht',
     bulkRestored: 'Tags wiederhergestellt',
     bulkPurged: 'Tags endgültig gelöscht',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern überprüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

@@ -86,6 +86,7 @@ export const de: CategoryTranslations = {
     create: 'Kategorie erstellen',
     cancel: 'Abbrechen',
     optional: '(optional)',
+    suggestTranslation: 'Übersetzung vorschlagen',
   },
   toasts: {
     created: 'Kategorie erstellt',
@@ -96,6 +97,8 @@ export const de: CategoryTranslations = {
     bulkDeleted: 'Kategorien gelöscht',
     bulkRestored: 'Kategorien wiederhergestellt',
     bulkPurged: 'Kategorien endgültig gelöscht',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern überprüfen.',
   },
   validation: {
     required: 'Pflichtfeld',
