@@ -26,8 +26,10 @@ import {
   SectionLabel,
   LangSidebar,
   LangTabs,
+  TranslateSuggestButton,
 } from '@/shared/ui'
-import { requiredLabel } from '@/shared/lib'
+import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import type { Language } from '@/shared/i18n'
 import { useFormsTranslation } from '../../i18n'
@@ -124,6 +126,54 @@ export const FormEditor = ({
       fieldsValue.map((f, i) => (i === index ? resetFieldForType(f, type) : f))
     )
 
+  // AI translation suggestion — the source is always the editor's own
+  // current UI language (`language`, never a fixed one), the target is
+  // whichever tab they're currently viewing. No button at all (not just
+  // disabled) when there's nothing to translate from, or when viewing the
+  // source language's own tab.
+  const translation = useTranslationSuggestion<{
+    title: string
+    description: string
+    successMessage: string
+  }>('forms')
+  const canTranslate =
+    editing !== language && !!titleValue?.[language]?.trim()
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: editing,
+        fields: {
+          title: titleValue?.[language] ?? '',
+          description: descriptionValue?.[language] ?? '',
+          successMessage: successMessageValue?.[language] ?? '',
+        },
+      },
+      {
+        onSuccess: (result) => {
+          setValue('title', { ...titleValue, [editing]: result.fields.title })
+          setValue('description', {
+            ...descriptionValue,
+            [editing]: result.fields.description,
+          })
+          setValue('successMessage', {
+            ...successMessageValue,
+            [editing]: result.fields.successMessage,
+          })
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
@@ -144,6 +194,7 @@ export const FormEditor = ({
           hasContent={(lang) => !!titleValue?.[lang]?.trim()}
           hasError={(lang) => !!errors.title?.[lang]}
           onChange={setEditing}
+          extra={translateButton}
         />
       </div>
       <div className="flex flex-col gap-6 lg:flex-row">
@@ -155,6 +206,7 @@ export const FormEditor = ({
             hasContent={(lang) => !!titleValue?.[lang]?.trim()}
             hasError={(lang) => !!errors.title?.[lang]}
             onChange={setEditing}
+            extra={translateButton}
           />
         </div>
 

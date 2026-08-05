@@ -138,6 +138,7 @@ export const ja: FormsTranslations = {
     save: '変更を保存',
     create: 'フォームを作成',
     cancel: 'キャンセル',
+    suggestTranslation: '翻訳を提案',
   },
   submissionDetail: {
     title: '送信内容の詳細',
@@ -156,6 +157,7 @@ export const ja: FormsTranslations = {
     bulkRestored: 'フォームを復元しました',
     bulkPurged: 'フォームを完全に削除しました',
     markedRead: '既読にしました',
+    translationApplied: '翻訳の提案を適用しました — 保存前に内容を確認してください。',
   },
   validation: {
     required: '必須項目です',

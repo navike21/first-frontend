@@ -129,6 +129,7 @@ export interface FormsTranslations {
     save: string
     create: string
     cancel: string
+    suggestTranslation: string
   }
   submissionDetail: {
     title: string
@@ -147,6 +148,7 @@ export interface FormsTranslations {
     bulkRestored: string
     bulkPurged: string
     markedRead: string
+    translationApplied: string
   }
   validation: {
     required: string

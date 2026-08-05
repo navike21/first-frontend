@@ -119,6 +119,7 @@ export const fr: PageTranslations = {
     back: 'Retour',
     next: 'Suivant',
     optional: '(facultatif)',
+    suggestTranslation: 'Suggérer une traduction',
     createdBy: 'Créé par',
     updatedBy: 'Dernière mise à jour par',
     unknownUser: 'Inconnu',
@@ -155,6 +156,8 @@ export const fr: PageTranslations = {
     bulkPurged: 'Pages supprimées définitivement',
     offlinePhotoSkipped:
       'Les images ne sont pas enregistrées hors ligne ; ajoutez-les à la reconnexion.',
+    translationApplied:
+      "Suggestion de traduction appliquée — vérifiez avant d'enregistrer.",
   },
   validation: {
     required: 'Champ obligatoire',

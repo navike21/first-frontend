@@ -139,6 +139,7 @@ export const it: FormsTranslations = {
     save: 'Salva modifiche',
     create: 'Crea modulo',
     cancel: 'Annulla',
+    suggestTranslation: 'Suggerisci traduzione',
   },
   submissionDetail: {
     title: 'Dettagli della risposta',
@@ -157,6 +158,8 @@ export const it: FormsTranslations = {
     bulkRestored: 'Moduli ripristinati',
     bulkPurged: 'Moduli eliminati definitivamente',
     markedRead: 'Segnato come letto',
+    translationApplied:
+      'Suggerimento di traduzione applicato — verifica prima di salvare.',
   },
   validation: {
     required: 'Campo obbligatorio',

@@ -119,6 +119,7 @@ export const en: PageTranslations = {
     back: 'Back',
     next: 'Next',
     optional: '(optional)',
+    suggestTranslation: 'Suggest translation',
     createdBy: 'Created by',
     updatedBy: 'Last updated by',
     unknownUser: 'Unknown',
@@ -155,6 +156,8 @@ export const en: PageTranslations = {
     bulkPurged: 'Pages permanently deleted',
     offlinePhotoSkipped:
       'Images are not saved offline; add them when you reconnect.',
+    translationApplied:
+      'Translation suggestion applied — review before saving.',
   },
   validation: {
     required: 'Required field',

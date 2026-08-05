@@ -140,6 +140,7 @@ export const fr: FormsTranslations = {
     save: 'Enregistrer les modifications',
     create: 'Créer le formulaire',
     cancel: 'Annuler',
+    suggestTranslation: 'Suggérer une traduction',
   },
   submissionDetail: {
     title: 'Détails de la réponse',
@@ -158,6 +159,8 @@ export const fr: FormsTranslations = {
     bulkRestored: 'Formulaires restaurés',
     bulkPurged: 'Formulaires supprimés définitivement',
     markedRead: 'Marqué comme lu',
+    translationApplied:
+      "Suggestion de traduction appliquée — vérifiez avant d'enregistrer.",
   },
   validation: {
     required: 'Champ obligatoire',

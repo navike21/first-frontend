@@ -100,6 +100,7 @@ export const de: CollaboratorTranslations = {
     create: 'Mitarbeiter erstellen',
     cancel: 'Abbrechen',
     optional: '(optional)',
+    suggestTranslation: 'Übersetzung vorschlagen',
   },
   mediaLibrary: {
     titleImage: 'Bild auswählen',
@@ -123,6 +124,8 @@ export const de: CollaboratorTranslations = {
     bulkPurged: 'Mitarbeiter endgültig gelöscht',
     offlinePhotoSkipped:
       'Bilder werden offline nicht gespeichert; fügen Sie es bei erneuter Verbindung hinzu.',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern prüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

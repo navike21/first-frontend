@@ -121,6 +121,7 @@ export const de: PortfolioTranslations = {
     back: 'Zurück',
     next: 'Weiter',
     optional: '(optional)',
+    suggestTranslation: 'Übersetzung vorschlagen',
   },
   mediaLibrary: {
     titleImage: 'Bild auswählen',
@@ -147,6 +148,8 @@ export const de: PortfolioTranslations = {
     bulkPurged: 'Projekte endgültig gelöscht',
     offlinePhotoSkipped:
       'Bilder werden offline nicht gespeichert; fügen Sie sie bei erneuter Verbindung hinzu.',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern prüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

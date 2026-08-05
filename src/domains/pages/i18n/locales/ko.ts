@@ -120,6 +120,7 @@ export const ko: PageTranslations = {
     back: '뒤로',
     next: '다음',
     optional: '(선택)',
+    suggestTranslation: '번역 제안',
     createdBy: '생성자',
     updatedBy: '최종 업데이트',
     unknownUser: '알 수 없음',
@@ -156,6 +157,7 @@ export const ko: PageTranslations = {
     bulkPurged: '페이지가 영구적으로 삭제되었습니다',
     offlinePhotoSkipped:
       '이미지는 오프라인에서 저장되지 않습니다. 다시 연결되면 추가하세요.',
+    translationApplied: '번역 제안이 적용되었습니다 — 저장하기 전에 검토하세요.',
   },
   validation: {
     required: '필수 항목',

@@ -139,6 +139,7 @@ export const en: FormsTranslations = {
     save: 'Save changes',
     create: 'Create form',
     cancel: 'Cancel',
+    suggestTranslation: 'Suggest translation',
   },
   submissionDetail: {
     title: 'Submission details',
@@ -157,6 +158,8 @@ export const en: FormsTranslations = {
     bulkRestored: 'Forms restored',
     bulkPurged: 'Forms permanently deleted',
     markedRead: 'Marked as read',
+    translationApplied:
+      'Translation suggestion applied — review before saving.',
   },
   validation: {
     required: 'Required field',

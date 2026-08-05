@@ -119,6 +119,7 @@ export const pt: PageTranslations = {
     back: 'Voltar',
     next: 'Próximo',
     optional: '(opcional)',
+    suggestTranslation: 'Sugerir tradução',
     createdBy: 'Criado por',
     updatedBy: 'Última atualização por',
     unknownUser: 'Desconhecido',
@@ -155,6 +156,8 @@ export const pt: PageTranslations = {
     bulkPurged: 'Páginas excluídas permanentemente',
     offlinePhotoSkipped:
       'As imagens não são guardadas sem ligação; adicione-as ao reconectar.',
+    translationApplied:
+      'Sugestão de tradução aplicada — revise antes de guardar.',
   },
   validation: {
     required: 'Campo obrigatório',

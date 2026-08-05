@@ -13,8 +13,10 @@ import {
   FormGrid,
   SectionLabel,
   LangTabs,
+  TranslateSuggestButton,
 } from '@/shared/ui'
-import { requiredLabel } from '@/shared/lib'
+import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { useConfigData } from '@/shared/api/config'
 import type { StorageFile } from '@/shared/api/storage'
@@ -126,6 +128,43 @@ export const CollaboratorForm = ({
     !!(errors.bio as LangErrors)?.[lang]
 
   const bioError = (errors.bio as LangErrors)?.[editingLanguage]?.message
+
+  // AI translation suggestion — the source is always the editor's own
+  // current UI language (`language`, never a fixed one), the target is
+  // whichever tab they're currently viewing. No button at all (not just
+  // disabled) when there's nothing to translate from, or when viewing the
+  // source language's own tab.
+  const translation = useTranslationSuggestion<{ bio: string }>(
+    'collaborators'
+  )
+  const canTranslate = editingLanguage !== language && hasContent(language)
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: editingLanguage,
+        fields: { bio: bioValues?.[language] ?? '' },
+      },
+      {
+        onSuccess: (result) => {
+          setValue(`bio.${editingLanguage}`, result.fields.bio, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          })
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
 
   const roleOptions = (configData?.collaboratorRoles ?? []).map((o) => ({
     value: o.value,
@@ -317,6 +356,7 @@ export const CollaboratorForm = ({
               hasContent={hasContent}
               hasError={hasError}
               onChange={setEditingLanguage}
+              extra={translateButton}
             />
           </div>
           <RichTextArea

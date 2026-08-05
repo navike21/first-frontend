@@ -13,10 +13,12 @@ import {
   LangSidebar,
   LangTabs,
   LangBadge,
+  TranslateSuggestButton,
   type WizardStep,
 } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
-import { requiredLabel } from '@/shared/lib'
+import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
@@ -301,6 +303,64 @@ export const PageForm = ({
   const titleError = (errors.title as LangErrors)?.[editingLanguage]?.message
   const slugError = (errors.slug as LangErrors)?.[editingLanguage]?.message
 
+  // AI translation suggestion — the source is always the editor's own
+  // current UI language (`language`, never a fixed one), the target is
+  // whichever tab they're currently viewing. No button at all (not just
+  // disabled) when there's nothing to translate from, or when viewing the
+  // source language's own tab. `description` is part of the shared
+  // translation-assist contract for Pages (matches the backend's own Page
+  // model) but has no field in this form yet — the page's body content is
+  // managed by the future page builder — so it's always sent/received blank.
+  const translation = useTranslationSuggestion<{
+    title: string
+    description: string
+    metaTitle: string
+    metaDescription: string
+  }>('pages')
+  const canTranslate = editingLanguage !== language && hasContent(language)
+  const handleSuggestTranslation = () => {
+    translation.mutate(
+      {
+        sourceLanguage: language,
+        targetLanguage: editingLanguage,
+        fields: {
+          title: titleValues?.[language] ?? '',
+          description: '',
+          metaTitle: seoMetaTitleValues?.[language] ?? '',
+          metaDescription: seoMetaDescValues?.[language] ?? '',
+        },
+      },
+      {
+        onSuccess: (result) => {
+          setValue(`title.${editingLanguage}`, result.fields.title, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+          })
+          setValue(
+            `seoMetaTitle.${editingLanguage}`,
+            result.fields.metaTitle,
+            { shouldValidate: true, shouldDirty: true, shouldTouch: true }
+          )
+          setValue(
+            `seoMetaDescription.${editingLanguage}`,
+            result.fields.metaDescription,
+            { shouldValidate: true, shouldDirty: true, shouldTouch: true }
+          )
+          notify.info(t.toasts.translationApplied)
+        },
+        onError: (error) => notify.queryError(error),
+      }
+    )
+  }
+  const translateButton = canTranslate ? (
+    <TranslateSuggestButton
+      label={t.form.suggestTranslation}
+      loading={translation.isPending}
+      onClick={handleSuggestTranslation}
+    />
+  ) : undefined
+
   const stepHasError = (step: StepId) =>
     STEP_FIELDS[step].some((f) => f in errors)
 
@@ -388,6 +448,7 @@ export const PageForm = ({
           hasContent={hasContent}
           hasError={hasError}
           onChange={setEditingLanguage}
+          extra={translateButton}
         />
       </div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
@@ -721,6 +782,7 @@ export const PageForm = ({
             hasError={hasError}
             label={t.form.tabTranslations}
             onChange={setEditingLanguage}
+            extra={translateButton}
           />
         </div>
       </div>

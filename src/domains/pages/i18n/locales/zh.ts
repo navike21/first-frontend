@@ -113,6 +113,7 @@ export const zh: PageTranslations = {
     back: '返回',
     next: '下一步',
     optional: '（可选）',
+    suggestTranslation: '建议翻译',
     createdBy: '创建者',
     updatedBy: '最后更新者',
     unknownUser: '未知',
@@ -147,6 +148,7 @@ export const zh: PageTranslations = {
     bulkRestored: '页面已恢复',
     bulkPurged: '页面已永久删除',
     offlinePhotoSkipped: '图片不会离线保存；重新连接后请添加。',
+    translationApplied: '已应用翻译建议 — 保存前请检查。',
   },
   validation: {
     required: '必填项',

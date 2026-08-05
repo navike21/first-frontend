@@ -139,6 +139,7 @@ export const pt: FormsTranslations = {
     save: 'Salvar alterações',
     create: 'Criar formulário',
     cancel: 'Cancelar',
+    suggestTranslation: 'Sugerir tradução',
   },
   submissionDetail: {
     title: 'Detalhes da resposta',
@@ -157,6 +158,8 @@ export const pt: FormsTranslations = {
     bulkRestored: 'Formulários restaurados',
     bulkPurged: 'Formulários excluídos permanentemente',
     markedRead: 'Marcado como lido',
+    translationApplied:
+      'Sugestão de tradução aplicada — revise antes de guardar.',
   },
   validation: {
     required: 'Campo obrigatório',

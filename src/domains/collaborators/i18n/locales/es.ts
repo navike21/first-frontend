@@ -99,6 +99,7 @@ export const es: CollaboratorTranslations = {
     create: 'Crear colaborador',
     cancel: 'Cancelar',
     optional: '(opcional)',
+    suggestTranslation: 'Sugerir traducción',
   },
   mediaLibrary: {
     titleImage: 'Elegir imagen',
@@ -122,6 +123,8 @@ export const es: CollaboratorTranslations = {
     bulkPurged: 'Colaboradores eliminados definitivamente',
     offlinePhotoSkipped:
       'La imagen no se guarda sin conexión; añádela al reconectar.',
+    translationApplied:
+      'Sugerencia de traducción aplicada — revísala antes de guardar.',
   },
   validation: {
     required: 'Campo obligatorio',

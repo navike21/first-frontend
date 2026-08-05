@@ -6,7 +6,12 @@ import {
 import { useSessionStore } from '@/shared/model'
 import type { Language } from '@/shared/types/languages'
 
-export type TranslationDomain = 'services'
+export type TranslationDomain =
+  | 'services'
+  | 'pages'
+  | 'portfolio'
+  | 'collaborators'
+  | 'forms'
 
 export interface SuggestTranslationParams<TFields extends Record<string, string>> {
   domain: TranslationDomain
