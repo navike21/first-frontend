@@ -63,7 +63,7 @@ export const CategoriesTrashPage = () => {
       id: 'slug',
       header: t.table.colSlug,
       cellClassName: 'text-secondary',
-      cell: (category) => category.slug,
+      cell: (category) => category.slug[language] || category.slug.en,
     },
     {
       id: 'status',

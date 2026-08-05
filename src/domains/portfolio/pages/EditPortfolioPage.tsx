@@ -3,8 +3,6 @@ import { notify } from '@/shared/lib/notify'
 import { onQueuedOrFieldErrors } from '@/shared/lib'
 import { PageContent, Spinner } from '@/shared/ui'
 import { navPaths } from '@/shared/router'
-import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
-import type { Language } from '@/shared/i18n'
 import { PortfolioForm } from '../components/PortfolioForm'
 import { usePortfolioById, useUpdatePortfolio } from '../api/portfolio.queries'
 import { usePortfolioTranslation } from '../i18n'
@@ -15,18 +13,9 @@ import type {
 } from '../model/portfolio.schema'
 import type { Portfolio } from '../model/portfolio.types'
 
-const EMPTY_LANGS = Object.fromEntries(
-  SUPPORTED_LANGUAGES.map((l) => [l, ''])
-) as Record<Language, string>
-
 function toFormValues(item: Portfolio): Partial<PortfolioFormData> {
-  const existingSlug = typeof item.slug === 'string' ? item.slug : ''
-  const slugByLang =
-    typeof item.slug === 'object'
-      ? (item.slug as Record<Language, string>)
-      : { ...EMPTY_LANGS, en: existingSlug }
   return {
-    slug: slugByLang,
+    slug: item.slug,
     name: item.name,
     shortDescription: item.shortDescription,
     description: item.description,
@@ -61,7 +50,7 @@ export const EditPortfolioPage = () => {
   ) => {
     updatePortfolio.mutate(
       {
-        data: toPortfolioPayload(data, language),
+        data: toPortfolioPayload(data),
         cover,
         removeCover,
         galleryFiles,

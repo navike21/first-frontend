@@ -10,6 +10,7 @@ import {
   FormGrid,
   SectionLabel,
   LangTabs,
+  LangBadge,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -79,7 +80,7 @@ export const TagForm = ({
     mode: 'onTouched',
     defaultValues: {
       name: { ...emptyLocalized },
-      slug: '',
+      slug: { ...emptyLocalized },
       order: 0,
       isActive: true,
       ...initialValues,
@@ -91,34 +92,43 @@ export const TagForm = ({
   }, [submitError, setError])
 
   const nameValues = useWatch({ control, name: 'name' })
-  const slugValue = useWatch({ control, name: 'slug' })
+  const slugValues = useWatch({ control, name: 'slug' })
   const isActiveValue = useWatch({ control, name: 'isActive' })
 
-  // Slug auto-suggested from the name in the user's own UI language (mirrors
-  // services/portfolio), detaching once the user edits the slug by hand.
-  const detachedRef = useRef(!!initialValues?.slug?.trim())
-  const currentNameValue = nameValues?.[language] ?? ''
+  // Per-language slug detach — mirrors services/portfolio: tracks which
+  // languages the user has manually edited the slug for, so name changes
+  // stop auto-filling the slug only for that language.
+  const detachedRef = useRef<Set<Language>>(
+    new Set(
+      SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim())
+    )
+  )
+  const currentNameValue = nameValues?.[editingLanguage] ?? ''
 
   useEffect(() => {
-    if (detachedRef.current) return
-    setValue('slug', slugify(currentNameValue), {
+    if (detachedRef.current.has(editingLanguage)) return
+    setValue(`slug.${editingLanguage}`, slugify(currentNameValue), {
       shouldValidate: false,
       shouldDirty: false,
       shouldTouch: false,
     })
-  }, [currentNameValue, setValue])
+  }, [currentNameValue, editingLanguage, setValue])
 
   const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleaned = e.target.value
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '')
       .replace(/-+/g, '-')
-    setValue('slug', cleaned, {
+    setValue(`slug.${editingLanguage}`, cleaned, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
     })
-    detachedRef.current = !!cleaned
+    if (cleaned) {
+      detachedRef.current.add(editingLanguage)
+    } else {
+      detachedRef.current.delete(editingLanguage)
+    }
   }
 
   const hasContent = (lang: Language): boolean => !!nameValues?.[lang]?.trim()
@@ -151,13 +161,24 @@ export const TagForm = ({
         </div>
 
         <FormGrid>
-          <InputField
-            label={requiredLabel(t.form.slug)}
-            variant={errors.slug ? 'error' : undefined}
-            errorMessage={errors.slug?.message}
-            value={slugValue ?? ''}
-            onChange={handleSlugChange}
-          />
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <SectionLabel>{requiredLabel(t.form.slug)}</SectionLabel>
+              <LangBadge lang={editingLanguage} />
+            </div>
+            <InputField
+              variant={
+                (errors.slug as LangErrors)?.[editingLanguage]
+                  ? 'error'
+                  : undefined
+              }
+              errorMessage={
+                (errors.slug as LangErrors)?.[editingLanguage]?.message
+              }
+              value={slugValues?.[editingLanguage] ?? ''}
+              onChange={handleSlugChange}
+            />
+          </div>
           <InputNumber label={t.form.order} min={0} {...register('order')} />
         </FormGrid>
 

@@ -27,7 +27,7 @@ export const CreatePortfolioPage = () => {
   ) => {
     createPortfolio.mutate(
       {
-        data: toPortfolioPayload(data, language),
+        data: toPortfolioPayload(data),
         cover,
         galleryFiles,
         coverLibraryUrl,

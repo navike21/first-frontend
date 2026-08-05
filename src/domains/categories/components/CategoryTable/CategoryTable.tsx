@@ -63,7 +63,7 @@ export const CategoryTable = ({
       id: 'slug',
       header: t.table.colSlug,
       cellClassName: 'text-secondary',
-      cell: (category) => category.slug,
+      cell: (category) => category.slug[language] || category.slug.en,
     },
     {
       id: 'parent',

@@ -79,7 +79,7 @@ export type GalleryOrderToken =
   { type: 'existing'; url: string } | { type: 'new'; index: number }
 
 export interface CreatePortfolioPayload {
-  slug?: string
+  slug: PortfolioLocalizedString
   name: PortfolioLocalizedString
   shortDescription: PortfolioLocalizedString
   description: PortfolioLocalizedString
@@ -104,13 +104,10 @@ function fillLocalized(
 }
 
 export function toPortfolioPayload(
-  data: PortfolioFormData,
-  primaryLang: Language = 'en'
+  data: PortfolioFormData
 ): CreatePortfolioPayload {
-  const slug =
-    data.slug[primaryLang]?.trim() || data.slug.en?.trim() || undefined
   return {
-    slug,
+    slug: fillLocalized(data.slug),
     name: fillLocalized(data.name),
     shortDescription: fillLocalized(data.shortDescription),
     description: fillLocalized(data.description),
