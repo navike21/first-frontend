@@ -119,6 +119,7 @@ export const ja: PageTranslations = {
     back: '戻る',
     next: '次へ',
     optional: '（任意）',
+    suggestTranslation: '翻訳を提案',
     createdBy: '作成者',
     updatedBy: '最終更新者',
     unknownUser: '不明',
@@ -155,6 +156,7 @@ export const ja: PageTranslations = {
     bulkPurged: 'ページが完全に削除されました',
     offlinePhotoSkipped:
       '画像はオフラインでは保存されません。再接続時に追加してください。',
+    translationApplied: '翻訳の提案を適用しました — 保存前に内容を確認してください。',
   },
   validation: {
     required: '必須項目',

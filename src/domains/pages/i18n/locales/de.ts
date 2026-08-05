@@ -120,6 +120,7 @@ export const de: PageTranslations = {
     back: 'Zurück',
     next: 'Weiter',
     optional: '(optional)',
+    suggestTranslation: 'Übersetzung vorschlagen',
     createdBy: 'Erstellt von',
     updatedBy: 'Zuletzt aktualisiert von',
     unknownUser: 'Unbekannt',
@@ -156,6 +157,8 @@ export const de: PageTranslations = {
     bulkPurged: 'Seiten endgültig gelöscht',
     offlinePhotoSkipped:
       'Bilder werden offline nicht gespeichert; fügen Sie sie bei erneuter Verbindung hinzu.',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern prüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

@@ -119,6 +119,7 @@ export const ru: PageTranslations = {
     back: 'Назад',
     next: 'Далее',
     optional: '(необязательно)',
+    suggestTranslation: 'Предложить перевод',
     createdBy: 'Создано',
     updatedBy: 'Последнее обновление',
     unknownUser: 'Неизвестно',
@@ -155,6 +156,8 @@ export const ru: PageTranslations = {
     bulkPurged: 'Страницы удалены навсегда',
     offlinePhotoSkipped:
       'Изображения не сохраняются офлайн; добавьте их при восстановлении связи.',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

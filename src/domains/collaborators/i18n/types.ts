@@ -89,6 +89,7 @@ export interface CollaboratorTranslations {
     create: string
     cancel: string
     optional: string
+    suggestTranslation: string
   }
   mediaLibrary: {
     titleImage: string
@@ -111,6 +112,7 @@ export interface CollaboratorTranslations {
     bulkRestored: string
     bulkPurged: string
     offlinePhotoSkipped: string
+    translationApplied: string
   }
   validation: {
     required: string

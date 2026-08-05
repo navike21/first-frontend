@@ -98,6 +98,7 @@ export const ru: CollaboratorTranslations = {
     create: 'Создать сотрудника',
     cancel: 'Отмена',
     optional: '(необязательно)',
+    suggestTranslation: 'Предложить перевод',
   },
   mediaLibrary: {
     titleImage: 'Выбрать изображение',
@@ -121,6 +122,8 @@ export const ru: CollaboratorTranslations = {
     bulkPurged: 'Сотрудники удалены навсегда',
     offlinePhotoSkipped:
       'Изображения не сохраняются офлайн; добавьте его при восстановлении связи.',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

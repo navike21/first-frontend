@@ -139,6 +139,7 @@ export const ko: FormsTranslations = {
     save: '변경 사항 저장',
     create: '양식 만들기',
     cancel: '취소',
+    suggestTranslation: '번역 제안',
   },
   submissionDetail: {
     title: '응답 상세',
@@ -157,6 +158,7 @@ export const ko: FormsTranslations = {
     bulkRestored: '양식이 복원되었습니다',
     bulkPurged: '양식이 영구적으로 삭제되었습니다',
     markedRead: '읽음으로 표시되었습니다',
+    translationApplied: '번역 제안이 적용되었습니다 — 저장하기 전에 검토하세요.',
   },
   validation: {
     required: '필수 항목입니다',

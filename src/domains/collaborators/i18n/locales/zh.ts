@@ -93,6 +93,7 @@ export const zh: CollaboratorTranslations = {
     create: '创建合作者',
     cancel: '取消',
     optional: '（可选）',
+    suggestTranslation: '建议翻译',
   },
   mediaLibrary: {
     titleImage: '选择图片',
@@ -115,6 +116,7 @@ export const zh: CollaboratorTranslations = {
     bulkRestored: '合作者已恢复',
     bulkPurged: '合作者已永久删除',
     offlinePhotoSkipped: '图片不会离线保存；重新连接后请添加。',
+    translationApplied: '已应用翻译建议 — 保存前请检查。',
   },
   validation: {
     required: '必填项',

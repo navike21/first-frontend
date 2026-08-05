@@ -140,6 +140,7 @@ export const de: FormsTranslations = {
     save: 'Änderungen speichern',
     create: 'Formular erstellen',
     cancel: 'Abbrechen',
+    suggestTranslation: 'Übersetzung vorschlagen',
   },
   submissionDetail: {
     title: 'Details der Einsendung',
@@ -158,6 +159,8 @@ export const de: FormsTranslations = {
     bulkRestored: 'Formulare wiederhergestellt',
     bulkPurged: 'Formulare endgültig gelöscht',
     markedRead: 'Als gelesen markiert',
+    translationApplied:
+      'Übersetzungsvorschlag angewendet — vor dem Speichern prüfen.',
   },
   validation: {
     required: 'Pflichtfeld',

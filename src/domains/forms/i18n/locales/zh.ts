@@ -135,6 +135,7 @@ export const zh: FormsTranslations = {
     save: '保存更改',
     create: '创建表单',
     cancel: '取消',
+    suggestTranslation: '建议翻译',
   },
   submissionDetail: {
     title: '提交详情',
@@ -153,6 +154,7 @@ export const zh: FormsTranslations = {
     bulkRestored: '表单已恢复',
     bulkPurged: '表单已永久删除',
     markedRead: '已标记为已读',
+    translationApplied: '已应用翻译建议 — 保存前请检查。',
   },
   validation: {
     required: '必填项',

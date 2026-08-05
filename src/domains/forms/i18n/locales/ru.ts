@@ -139,6 +139,7 @@ export const ru: FormsTranslations = {
     save: 'Сохранить изменения',
     create: 'Создать форму',
     cancel: 'Отмена',
+    suggestTranslation: 'Предложить перевод',
   },
   submissionDetail: {
     title: 'Детали заявки',
@@ -157,6 +158,8 @@ export const ru: FormsTranslations = {
     bulkRestored: 'Формы восстановлены',
     bulkPurged: 'Формы удалены навсегда',
     markedRead: 'Отмечено как прочитанное',
+    translationApplied:
+      'Предложенный перевод применён — проверьте его перед сохранением.',
   },
   validation: {
     required: 'Обязательное поле',

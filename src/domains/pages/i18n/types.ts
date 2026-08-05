@@ -111,6 +111,7 @@ export interface PageTranslations {
     back: string
     next: string
     optional: string
+    suggestTranslation: string
     createdBy: string
     updatedBy: string
     unknownUser: string
@@ -145,6 +146,7 @@ export interface PageTranslations {
     bulkRestored: string
     bulkPurged: string
     offlinePhotoSkipped: string
+    translationApplied: string
   }
   validation: {
     required: string

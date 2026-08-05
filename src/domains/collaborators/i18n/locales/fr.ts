@@ -98,6 +98,7 @@ export const fr: CollaboratorTranslations = {
     create: 'Créer le collaborateur',
     cancel: 'Annuler',
     optional: '(facultatif)',
+    suggestTranslation: 'Suggérer une traduction',
   },
   mediaLibrary: {
     titleImage: 'Choisir une image',
@@ -121,6 +122,8 @@ export const fr: CollaboratorTranslations = {
     bulkPurged: 'Collaborateurs supprimés définitivement',
     offlinePhotoSkipped:
       'Les images ne sont pas enregistrées hors ligne ; ajoutez-la à la reconnexion.',
+    translationApplied:
+      "Suggestion de traduction appliquée — vérifiez avant d'enregistrer.",
   },
   validation: {
     required: 'Champ obligatoire',
