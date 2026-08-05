@@ -236,6 +236,7 @@ export const ko: PageTranslations = {
       partial: '진행 중',
       empty: '시작 안 함',
     },
+    addElement: '요소 추가',
     addText: '텍스트',
     addImage: '이미지',
     addSlider: '슬라이더',

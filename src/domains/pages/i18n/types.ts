@@ -225,6 +225,7 @@ export interface PageTranslations {
       partial: string
       empty: string
     }
+    addElement: string
     addText: string
     addImage: string
     addSlider: string

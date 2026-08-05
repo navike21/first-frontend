@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import clsx from 'clsx'
-import { IconButton, Tooltip } from '@/shared/ui'
+import { ActionMenu, type ActionMenuItem } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
@@ -94,6 +94,59 @@ export const ColumnZone = ({
     id: `col:${sectionId}:${column.id}`,
     data: { kind: 'column', sectionId, columnId: column.id },
   })
+
+  const addElementItems: ActionMenuItem[] = [
+    { id: 'text', label: t.builder.addText, icon: 'RiText', onClick: onAddText },
+    {
+      id: 'image',
+      label: t.builder.addImage,
+      icon: 'RiImageAddLine',
+      onClick: onAddImage,
+    },
+    {
+      id: 'slider',
+      label: t.builder.addSlider,
+      icon: 'RiCarouselView',
+      onClick: onAddSlider,
+    },
+    {
+      id: 'button',
+      label: t.builder.addButton,
+      icon: 'RiCursorLine',
+      onClick: onAddButton,
+    },
+    {
+      id: 'gallery',
+      label: t.builder.addGallery,
+      icon: 'RiGalleryLine',
+      onClick: onAddGallery,
+    },
+    {
+      id: 'accordion',
+      label: t.builder.addAccordion,
+      icon: 'RiQuestionAnswerLine',
+      onClick: onAddAccordion,
+    },
+    {
+      id: 'testimonials',
+      label: t.builder.addTestimonials,
+      icon: 'RiDoubleQuotesL',
+      onClick: onAddTestimonials,
+    },
+    {
+      id: 'stats',
+      label: t.builder.addStats,
+      icon: 'RiBarChartBoxLine',
+      onClick: onAddStats,
+    },
+    {
+      id: 'video',
+      label: t.builder.addVideo,
+      icon: 'RiVideoLine',
+      onClick: onAddVideo,
+    },
+    { id: 'map', label: t.builder.addMap, icon: 'RiMapPin2Line', onClick: onAddMap },
+  ]
 
   return (
     <div
@@ -261,101 +314,13 @@ export const ColumnZone = ({
         })}
       </SortableContext>
 
-      <div className="mt-auto flex items-center justify-center gap-1 pt-1">
-        <Tooltip heading={t.builder.addText} position="top" size="small">
-          <IconButton
-            icon="RiText"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addText}
-            onClick={onAddText}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addImage} position="top" size="small">
-          <IconButton
-            icon="RiImageAddLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addImage}
-            onClick={onAddImage}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addSlider} position="top" size="small">
-          <IconButton
-            icon="RiCarouselView"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addSlider}
-            onClick={onAddSlider}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addButton} position="top" size="small">
-          <IconButton
-            icon="RiCursorLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addButton}
-            onClick={onAddButton}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addGallery} position="top" size="small">
-          <IconButton
-            icon="RiGalleryLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addGallery}
-            onClick={onAddGallery}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addAccordion} position="top" size="small">
-          <IconButton
-            icon="RiQuestionAnswerLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addAccordion}
-            onClick={onAddAccordion}
-          />
-        </Tooltip>
-        <Tooltip
-          heading={t.builder.addTestimonials}
-          position="top"
-          size="small"
-        >
-          <IconButton
-            icon="RiDoubleQuotesL"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addTestimonials}
-            onClick={onAddTestimonials}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addStats} position="top" size="small">
-          <IconButton
-            icon="RiBarChartBoxLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addStats}
-            onClick={onAddStats}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addVideo} position="top" size="small">
-          <IconButton
-            icon="RiVideoLine"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addVideo}
-            onClick={onAddVideo}
-          />
-        </Tooltip>
-        <Tooltip heading={t.builder.addMap} position="top" size="small">
-          <IconButton
-            icon="RiMapPin2Line"
-            variant="text"
-            size="small"
-            aria-label={t.builder.addMap}
-            onClick={onAddMap}
-          />
-        </Tooltip>
+      <div className="mt-auto pt-1">
+        <ActionMenu
+          wide
+          triggerIcon="RiAddLine"
+          triggerLabel={t.builder.addElement}
+          items={addElementItems}
+        />
       </div>
     </div>
   )

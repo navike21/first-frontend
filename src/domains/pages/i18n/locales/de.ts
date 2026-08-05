@@ -238,6 +238,7 @@ export const de: PageTranslations = {
       partial: 'in Bearbeitung',
       empty: 'nicht begonnen',
     },
+    addElement: 'Element hinzufügen',
     addText: 'Text',
     addImage: 'Bild',
     addSlider: 'Slider',
