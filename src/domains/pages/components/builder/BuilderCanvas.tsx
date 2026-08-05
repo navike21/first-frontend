@@ -277,7 +277,7 @@ const PaletteCard = ({
         if (e.key === 'Enter' || e.key === ' ') handleActivate()
       }}
       className={clsx(
-        'border-border bg-surface flex cursor-grab flex-col gap-2 rounded-xl border p-3 text-left transition-opacity active:cursor-grabbing',
+        'border-border bg-surface flex touch-none cursor-grab flex-col gap-2 rounded-xl border p-3 text-left transition-opacity active:cursor-grabbing',
         isDragging && 'opacity-40'
       )}
     >
