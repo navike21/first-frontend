@@ -236,6 +236,7 @@ export const en: PageTranslations = {
       partial: 'in progress',
       empty: 'not started',
     },
+    addElement: 'Add element',
     addText: 'Text',
     addImage: 'Image',
     addSlider: 'Slider',

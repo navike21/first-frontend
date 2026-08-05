@@ -236,6 +236,7 @@ export const ja: PageTranslations = {
       partial: '進行中',
       empty: '未着手',
     },
+    addElement: '要素を追加',
     addText: 'テキスト',
     addImage: '画像',
     addSlider: 'スライダー',

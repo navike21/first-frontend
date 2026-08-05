@@ -237,6 +237,7 @@ export const ru: PageTranslations = {
       partial: 'в процессе',
       empty: 'не начато',
     },
+    addElement: 'Добавить элемент',
     addText: 'Текст',
     addImage: 'Изображение',
     addSlider: 'Слайдер',

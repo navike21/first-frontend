@@ -238,6 +238,7 @@ export const it: PageTranslations = {
       partial: 'in corso',
       empty: 'non iniziato',
     },
+    addElement: 'Aggiungi elemento',
     addText: 'Testo',
     addImage: 'Immagine',
     addSlider: 'Slider',

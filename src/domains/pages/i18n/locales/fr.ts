@@ -239,6 +239,7 @@ export const fr: PageTranslations = {
       partial: 'en cours',
       empty: 'non commencé',
     },
+    addElement: 'Ajouter un élément',
     addText: 'Texte',
     addImage: 'Image',
     addSlider: 'Diaporama',

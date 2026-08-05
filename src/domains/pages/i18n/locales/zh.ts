@@ -227,6 +227,7 @@ export const zh: PageTranslations = {
       partial: '进行中',
       empty: '未开始',
     },
+    addElement: '添加元素',
     addText: '文本',
     addImage: '图片',
     addSlider: '滑动组件',
