@@ -20,7 +20,7 @@ export const SortableItemActions = ({
       <button
         type="button"
         aria-label={dragLabel}
-        className="text-muted hover:text-foreground cursor-grab rounded p-0.5 active:cursor-grabbing"
+        className="text-muted hover:text-foreground touch-none cursor-grab rounded p-0.5 active:cursor-grabbing"
         {...attributes}
         {...listeners}
       >

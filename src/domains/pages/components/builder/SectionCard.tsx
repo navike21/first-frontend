@@ -161,7 +161,7 @@ export const SectionCard = ({
         <button
           type="button"
           aria-label={t.builder.dragSection}
-          className="text-muted hover:text-foreground cursor-grab rounded p-1 active:cursor-grabbing"
+          className="text-muted hover:text-foreground touch-none cursor-grab rounded p-1 active:cursor-grabbing"
           {...attributes}
           {...listeners}
         >
