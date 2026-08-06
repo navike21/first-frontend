@@ -176,7 +176,7 @@ a `shared/types`).
 | `forms` | Formularios públicos configurables por campos (contacto, cotización, postulación…) + bandeja de respuestas |
 | `categories` / `tags` | Taxonomía compartida para contenido |
 | `media` | Biblioteca de archivos (imágenes/video), subida directa a storage |
-| `site-config` | Configuración global de presentación del sitio (header/footer/social/mapas) |
+| `site-config` | Configuración global de presentación del sitio (header/footer/social/mapas) + alcance de idiomas de contenido (`contentLanguages`, independiente del idioma de interfaz de First) |
 | `app-settings` | Configuración de organización (marca, notificaciones, apariencia) |
 | `audit-log` | Visor del registro de auditoría (solo lectura) |
 | `errors` | Páginas 403/404 |
@@ -184,7 +184,9 @@ a `shared/types`).
 Cada dominio con contenido traducible sigue el mismo patrón de idioma:
 `LangSidebar` (formularios con varios campos traducibles) o `LangTabs`
 (formularios de un solo campo) — ambos en `shared/ui`, nunca reimplementados
-por dominio.
+por dominio. Cuántas de las 10 pestañas de idioma aparecen realmente lo decide
+`site-config.contentLanguages` (alcance de idiomas de contenido, configurable
+por negocio) — no el idioma de interfaz del editor.
 
 ## Constructor de páginas
 

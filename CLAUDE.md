@@ -1085,6 +1085,55 @@ cambiando de idioma con el selector real y leyendo
 `document.documentElement.lang` en consola — ambas direcciones (es→en,
 en→es) sincronizan correctamente.
 
+## Alcance de idiomas de CONTENIDO (`site-config.contentLanguages`) — independiente del idioma de UI de First
+
+Concepto nuevo, separado del idioma de interfaz por-usuario (`Language`,
+`SUPPORTED_LANGUAGES`, el selector de idioma normal de First): un negocio puede
+restringir a un subconjunto (`contentLanguages`, en `site-config`) qué idiomas usa para
+su CONTENIDO (Services/Pages/Portfolio/Categories/Tags/Collaborators/Forms, y a futuro
+Ecommerce) — un editor puede seguir usando el panel de First en cualquier idioma aunque
+el negocio solo publique contenido en, por ejemplo, es/en. (Ver `first-backend/CLAUDE.md`
+para el permiso delegable `site-config:languages` y la autorización condicional del
+`PATCH`.) La idea de multi-negocio/white-label (First School, First Logistics como
+productos separados) es un hito futuro explícitamente distinto — no confundir.
+
+- **`useContentLanguages()`** (`domains/site-config`) envuelve `useSiteConfig()`
+  (cacheado por React Query) y cae a `SUPPORTED_LANGUAGES` (el arreglo constante en sí,
+  no una copia) mientras carga o si la query falla — nunca deja un formulario sin
+  ninguna pestaña de idioma. **Debe devolver un arreglo referencialmente estable** entre
+  renders (constante o cacheado) — ver el gotcha de `useScopedEditingLanguage` abajo.
+- **`LangTabs`/`LangSidebar`** (`shared/ui/molecules`) reciben `languages: readonly
+  Language[]` como prop requerida (ya no importan `SUPPORTED_LANGUAGES` directo).
+  `PageTranslationProgress.tsx` (Page Builder) tiene la misma prop.
+- **`useScopedEditingLanguage(languages, userLanguage)`** (`shared/lib`, nuevo): hook
+  compartido que resuelve `editingLanguage`/`defaultLanguage` para los 7 formularios de
+  contenido + Page Builder — reemplaza el `useState<Language>(language)` +
+  `useEffect` de corrección que cada formulario tenía inline (violaba
+  `react-hooks/set-state-in-effect` y, en 2 formularios, el límite de
+  `sonarjs/cognitive-complexity`). Usa el patrón oficial de React "ajustar estado
+  durante el render" (comparar `languages !== prevLanguages` en el cuerpo del
+  componente, no en un efecto) en vez de `useEffect`.
+  - **Gotcha (ya resuelto, no reintroducir):** el `languages` que se le pasa debe ser
+    **referencialmente estable** entre renders a menos que el alcance realmente cambie
+    — un caller que reconstruye el arreglo en cada render (`['es','en']` como literal
+    inline) hace que `languages !== prevLanguages` sea siempre `true`, lo que dispara
+    `setPrevLanguages` en cada render, entrando en loop infinito ("Too many
+    re-renders"). Ocurrió una vez en un test (`useScopedEditingLanguage.test.ts`) al
+    pasar un arreglo literal dentro del callback de `renderHook`, nunca en producción
+    real (donde `useContentLanguages()` ya garantiza estabilidad).
+  - `defaultLanguage` (no `language`) es el que se le pasa como `primaryLang` a cada
+    `create<Dominio>Schema(...)` — así el idioma "requerido" del formulario nunca cae
+    fuera del alcance configurado, aunque el editor use la interfaz de First en un
+    idioma que ese negocio no usa para su contenido.
+- **Panel `ContentLanguagesConfigPanel`** (`domains/site-config/components`, pestaña
+  "Idiomas" de `SiteConfigPage`): checkboxes de los 10 idiomas, deshabilita el último
+  marcado (no se puede dejar el arreglo vacío desde la UI).
+- **Gate de guardado condicional en `SiteConfigPage.tsx`**: mismo criterio que el
+  backend — el botón "Guardar" se habilita si el usuario tiene `site-config:update`/
+  `manage`, o si el **único** cambio pendiente es en la pestaña de Idiomas y tiene
+  `site-config:languages`/`manage` (`useHasPermission`, no el wrapper declarativo
+  `<Can>`, porque la condición depende de **cuál** sección está sucia).
+
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
 - `README.md` — qué es el proyecto y cómo levantarlo.
