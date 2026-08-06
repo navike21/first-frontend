@@ -121,6 +121,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '页面',
     ru: 'Страницы',
   },
+  blog: {
+    es: 'Blog',
+    en: 'Blog',
+    de: 'Blog',
+    fr: 'Blog',
+    pt: 'Blog',
+    it: 'Blog',
+    ja: 'ブログ',
+    ko: '블로그',
+    zh: '博客',
+    ru: 'Блог',
+  },
   collaborators: {
     es: 'Colaboradores',
     en: 'Collaborators',
@@ -340,6 +352,13 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           href: navPaths.pages(lang),
           icon: 'RiFileTextLine',
           permissions: CAN.pagesView,
+        },
+        {
+          id: 'blog',
+          label: MENU_LABELS.blog[lang],
+          href: navPaths.blog(lang),
+          icon: 'RiArticleLine',
+          permissions: CAN.blogView,
         },
         {
           id: 'categories',
