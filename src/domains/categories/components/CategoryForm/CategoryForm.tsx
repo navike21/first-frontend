@@ -224,18 +224,20 @@ export const CategoryForm = ({
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <SectionLabel>{t.form.tabTranslations}</SectionLabel>
-            <LangTabs
-              languages={languages}
-              editingLanguage={editingLanguage}
-              userLanguage={language}
-              hasContent={hasContent}
-              hasError={hasError}
-              onChange={setEditingLanguage}
-              extra={translateButton}
-            />
-          </div>
+          {languages.length > 1 && (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SectionLabel>{t.form.tabTranslations}</SectionLabel>
+              <LangTabs
+                languages={languages}
+                editingLanguage={editingLanguage}
+                userLanguage={language}
+                hasContent={hasContent}
+                hasError={hasError}
+                onChange={setEditingLanguage}
+                extra={translateButton}
+              />
+            </div>
+          )}
           <InputField
             label={requiredLabel(t.form.name)}
             variant={nameError ? 'error' : undefined}
