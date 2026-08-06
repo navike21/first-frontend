@@ -48,6 +48,7 @@ export interface TestimonialsElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderTestimonialsElement>) => void
   /** `url` es la misma blob preview ya insertada en items[i].avatarUrl —
    * mismo contrato que onPickGalleryFile. */
@@ -182,6 +183,7 @@ export const TestimonialsElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onPickAvatarFile,
   onRemoveAvatarFile,
@@ -304,6 +306,7 @@ export const TestimonialsElementCard = ({
       >
         <div className="flex flex-col gap-4">
           <LangChips
+            languages={languages}
             editing={editing}
             userLanguage={language}
             values={langChipValues}

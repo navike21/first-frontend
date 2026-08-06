@@ -28,6 +28,7 @@ import { SectionSettingsModal } from './SectionSettingsModal'
 export interface SectionCardProps {
   section: BuilderSection
   language: Language
+  languages: readonly Language[]
   /** true mientras se arrastra un elemento en cualquier parte del lienzo. */
   elementDragActive: boolean
   onChooseColumns: (count: BuilderColumnsCount) => void
@@ -94,6 +95,7 @@ const COLUMN_OPTIONS = Array.from(
 export const SectionCard = ({
   section,
   language,
+  languages,
   elementDragActive,
   onChooseColumns,
   onColumnsChange,
@@ -270,6 +272,7 @@ export const SectionCard = ({
               sectionId={section.sectionId}
               column={column}
               language={language}
+              languages={languages}
               elementDragActive={elementDragActive}
               onAddText={() => onAddText(column.id)}
               onAddImage={() => onAddImage(column.id)}

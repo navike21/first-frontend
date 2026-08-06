@@ -12,6 +12,7 @@ export interface TextElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderTextElement>) => void
   onDelete: () => void
 }
@@ -24,6 +25,7 @@ export const TextElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onDelete,
 }: TextElementCardProps) => {
@@ -78,6 +80,7 @@ export const TextElementCard = ({
       >
         <div className="flex flex-col gap-3">
           <LangChips
+            languages={languages}
             editing={editing}
             userLanguage={language}
             values={element.html}

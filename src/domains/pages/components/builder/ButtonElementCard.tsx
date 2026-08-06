@@ -12,6 +12,7 @@ export interface ButtonElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderButtonElement>) => void
   onDelete: () => void
 }
@@ -27,6 +28,7 @@ export const ButtonElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onDelete,
 }: ButtonElementCardProps) => {
@@ -115,6 +117,7 @@ export const ButtonElementCard = ({
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <LangChips
+              languages={languages}
               editing={editing}
               userLanguage={language}
               values={element.label}
