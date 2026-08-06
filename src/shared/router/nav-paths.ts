@@ -151,6 +151,22 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.pages[l_]}/${ROUTE_SLUGS.pageTrash[l_]}`
   },
+  blog: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.blog[l_]}`
+  },
+  blogCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.blog[l_]}/${ROUTE_SLUGS.blogCreate[l_]}`
+  },
+  blogEdit: (postId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.blog[l_]}/${ROUTE_SLUGS.blogEdit[l_]}/${postId}`
+  },
+  blogTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.blog[l_]}/${ROUTE_SLUGS.blogTrash[l_]}`
+  },
   categories: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.categories[l_]}`
