@@ -624,16 +624,18 @@ export const PageBuilderPage = () => {
         },
       ]}
     >
-      <div className="mb-4">
-        <PageTranslationProgress
-          languages={languages}
-          progress={progress}
-          reviewLanguage={reviewLanguage}
-          onReviewLanguageChange={setReviewLanguage}
-          nativeLanguage={language}
-          extra={translateButton}
-        />
-      </div>
+      {languages.length > 1 && (
+        <div className="mb-4">
+          <PageTranslationProgress
+            languages={languages}
+            progress={progress}
+            reviewLanguage={reviewLanguage}
+            onReviewLanguageChange={setReviewLanguage}
+            nativeLanguage={language}
+            extra={translateButton}
+          />
+        </div>
+      )}
 
       <div className="mb-4 flex items-center justify-end gap-3">
         {dirty && (

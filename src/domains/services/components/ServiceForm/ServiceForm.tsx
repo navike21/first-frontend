@@ -343,17 +343,19 @@ export const ServiceForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="mb-4 lg:hidden">
-        <LangTabs
-          languages={languages}
-          editingLanguage={editingLanguage}
-          userLanguage={language}
-          hasContent={hasContent}
-          hasError={hasError}
-          onChange={setEditingLanguage}
-          extra={translateButton}
-        />
-      </div>
+      {languages.length > 1 && (
+        <div className="mb-4 lg:hidden">
+          <LangTabs
+            languages={languages}
+            editingLanguage={editingLanguage}
+            userLanguage={language}
+            hasContent={hasContent}
+            hasError={hasError}
+            onChange={setEditingLanguage}
+            extra={translateButton}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {/* ── Main form (Wizard) ─────────────────────────────────── */}
         <div className="border-border bg-surface min-w-0 flex-1 rounded-xl border p-8">
@@ -569,18 +571,20 @@ export const ServiceForm = ({
         </div>
 
         {/* ── Language sidebar ──────────────────────────────────── */}
-        <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
-          <LangSidebar
-            languages={languages}
-            editingLanguage={editingLanguage}
-            userLanguage={language}
-            hasContent={hasContent}
-            hasError={hasError}
-            label={t.form.tabTranslations}
-            onChange={setEditingLanguage}
-            extra={translateButton}
-          />
-        </div>
+        {languages.length > 1 && (
+          <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
+            <LangSidebar
+              languages={languages}
+              editingLanguage={editingLanguage}
+              userLanguage={language}
+              hasContent={hasContent}
+              hasError={hasError}
+              label={t.form.tabTranslations}
+              onChange={setEditingLanguage}
+              extra={translateButton}
+            />
+          </div>
+        )}
       </div>
     </form>
   )

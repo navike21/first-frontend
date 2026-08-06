@@ -196,30 +196,34 @@ export const FormEditor = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="mb-4 lg:hidden">
-        <LangTabs
-          languages={languages}
-          editingLanguage={editing}
-          userLanguage={language}
-          hasContent={(lang) => !!titleValue?.[lang]?.trim()}
-          hasError={(lang) => !!errors.title?.[lang]}
-          onChange={setEditing}
-          extra={translateButton}
-        />
-      </div>
-      <div className="flex flex-col gap-6 lg:flex-row">
-        <div className="hidden lg:block">
-          <LangSidebar
+      {languages.length > 1 && (
+        <div className="mb-4 lg:hidden">
+          <LangTabs
             languages={languages}
             editingLanguage={editing}
             userLanguage={language}
-            label={t.form.sectionGeneral}
             hasContent={(lang) => !!titleValue?.[lang]?.trim()}
             hasError={(lang) => !!errors.title?.[lang]}
             onChange={setEditing}
             extra={translateButton}
           />
         </div>
+      )}
+      <div className="flex flex-col gap-6 lg:flex-row">
+        {languages.length > 1 && (
+          <div className="hidden lg:block">
+            <LangSidebar
+              languages={languages}
+              editingLanguage={editing}
+              userLanguage={language}
+              label={t.form.sectionGeneral}
+              hasContent={(lang) => !!titleValue?.[lang]?.trim()}
+              hasError={(lang) => !!errors.title?.[lang]}
+              onChange={setEditing}
+              extra={translateButton}
+            />
+          </div>
+        )}
 
         <div className="flex flex-1 flex-col gap-6">
           <div className="border-border bg-surface rounded-xl border p-6">

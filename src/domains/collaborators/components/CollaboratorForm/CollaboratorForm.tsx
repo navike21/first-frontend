@@ -355,18 +355,20 @@ export const CollaboratorForm = ({
 
         {/* Bio — localized, with a compact language switcher */}
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <SectionLabel>{t.form.tabTranslations}</SectionLabel>
-            <LangTabs
-              languages={languages}
-              editingLanguage={editingLanguage}
-              userLanguage={language}
-              hasContent={hasContent}
-              hasError={hasError}
-              onChange={setEditingLanguage}
-              extra={translateButton}
-            />
-          </div>
+          {languages.length > 1 && (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SectionLabel>{t.form.tabTranslations}</SectionLabel>
+              <LangTabs
+                languages={languages}
+                editingLanguage={editingLanguage}
+                userLanguage={language}
+                hasContent={hasContent}
+                hasError={hasError}
+                onChange={setEditingLanguage}
+                extra={translateButton}
+              />
+            </div>
+          )}
           <RichTextArea
             label={requiredLabel(t.form.bio)}
             variant={bioError ? 'error' : 'default'}

@@ -448,17 +448,19 @@ export const PageForm = ({
       {/* Mobile: compact language tabs up front — LangSidebar below is
           lg:sticky, always reachable on desktop, but on mobile it renders
           after the whole form and got lost behind a full-page scroll. */}
-      <div className="mb-4 lg:hidden">
-        <LangTabs
-          languages={languages}
-          editingLanguage={editingLanguage}
-          userLanguage={language}
-          hasContent={hasContent}
-          hasError={hasError}
-          onChange={setEditingLanguage}
-          extra={translateButton}
-        />
-      </div>
+      {languages.length > 1 && (
+        <div className="mb-4 lg:hidden">
+          <LangTabs
+            languages={languages}
+            editingLanguage={editingLanguage}
+            userLanguage={language}
+            hasContent={hasContent}
+            hasError={hasError}
+            onChange={setEditingLanguage}
+            extra={translateButton}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="border-border bg-surface min-w-0 flex-1 rounded-xl border p-8">
           <Wizard
@@ -782,18 +784,20 @@ export const PageForm = ({
           />
         </Modal>
 
-        <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
-          <LangSidebar
-            languages={languages}
-            editingLanguage={editingLanguage}
-            userLanguage={language}
-            hasContent={hasContent}
-            hasError={hasError}
-            label={t.form.tabTranslations}
-            onChange={setEditingLanguage}
-            extra={translateButton}
-          />
-        </div>
+        {languages.length > 1 && (
+          <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
+            <LangSidebar
+              languages={languages}
+              editingLanguage={editingLanguage}
+              userLanguage={language}
+              hasContent={hasContent}
+              hasError={hasError}
+              label={t.form.tabTranslations}
+              onChange={setEditingLanguage}
+              extra={translateButton}
+            />
+          </div>
+        )}
       </div>
     </form>
   )
