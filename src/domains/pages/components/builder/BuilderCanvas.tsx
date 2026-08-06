@@ -55,6 +55,7 @@ interface DragData {
 export interface BuilderCanvasProps {
   sections: BuilderSection[]
   language: Language
+  languages: readonly Language[]
   /** Sin índice (clic en la paleta) añade al final. */
   onAddSection: (atIndex?: number) => void
   onSectionMove: (activeId: string, overId: string) => void
@@ -427,6 +428,7 @@ const BuilderCanvasBody = (props: BuilderCanvasBodyProps) => {
                 <SectionCard
                   section={section}
                   language={props.language}
+                  languages={props.languages}
                   elementDragActive={props.elementDragging}
                   onChooseColumns={(count) =>
                     props.onChooseColumns(section.sectionId, count)

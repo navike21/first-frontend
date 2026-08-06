@@ -657,6 +657,7 @@ export const PageBuilderPage = () => {
       <BuilderCanvas
         sections={draft}
         language={reviewLanguage}
+        languages={languages}
         onAddSection={handleAddSection}
         onSectionMove={(activeId, overId) =>
           patch((s) => moveSection(s, activeId, overId))

@@ -18,6 +18,7 @@ export interface MapElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderMapElement>) => void
   onDelete: () => void
 }
@@ -36,6 +37,7 @@ export const MapElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onDelete,
 }: MapElementCardProps) => {
@@ -113,6 +115,7 @@ export const MapElementCard = ({
           </div>
           <div className="flex flex-col gap-2">
             <LangChips
+              languages={languages}
               editing={editing}
               userLanguage={language}
               values={element.caption}

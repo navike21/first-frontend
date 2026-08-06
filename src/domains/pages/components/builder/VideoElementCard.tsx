@@ -28,6 +28,7 @@ export interface VideoElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderVideoElement>) => void
   /** `url` es la misma blob preview ya fijada en el elemento — así el padre
    * sabe cuál reemplazar cuando la subida real termine (mismo patrón que el
@@ -44,6 +45,7 @@ export const VideoElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onPickFile,
   onRemoveFile,
@@ -239,6 +241,7 @@ export const VideoElementCard = ({
 
           <div className="flex flex-col gap-2">
             <LangChips
+              languages={languages}
               editing={editing}
               userLanguage={language}
               values={element.caption}

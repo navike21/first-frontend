@@ -34,6 +34,7 @@ export interface StatsElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderStatsElement>) => void
   onDelete: () => void
 }
@@ -113,6 +114,7 @@ export const StatsElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onDelete,
 }: StatsElementCardProps) => {
@@ -208,6 +210,7 @@ export const StatsElementCard = ({
       >
         <div className="flex flex-col gap-4">
           <LangChips
+            languages={languages}
             editing={editing}
             userLanguage={language}
             values={langChipValues}

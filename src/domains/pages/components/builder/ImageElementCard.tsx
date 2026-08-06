@@ -23,6 +23,7 @@ export interface ImageElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderImageElement>) => void
   onPickFile: (file: File) => void
   onSelectLibrary: (file: StorageFile) => void
@@ -40,6 +41,7 @@ export const ImageElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onPickFile,
   onSelectLibrary,
@@ -192,6 +194,7 @@ export const ImageElementCard = ({
             />
             <div className="flex flex-col gap-2">
               <LangChips
+                languages={languages}
                 editing={editing}
                 userLanguage={language}
                 values={element.alt}

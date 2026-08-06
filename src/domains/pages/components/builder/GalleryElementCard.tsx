@@ -51,6 +51,7 @@ export interface GalleryElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderGalleryElement>) => void
   /** `url` es la misma blob preview ya insertada en `images` — así el padre
    * sabe exactamente cuál reemplazar cuando la subida real termine. */
@@ -70,6 +71,7 @@ export const GalleryElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onPickFile,
   onRemoveImage,
@@ -293,6 +295,7 @@ export const GalleryElementCard = ({
           </div>
 
           <LangChips
+            languages={languages}
             editing={editing}
             userLanguage={language}
             values={langChipValues}

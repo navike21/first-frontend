@@ -41,6 +41,7 @@ export interface AccordionElementCardProps {
   sectionId: string
   columnId: string
   language: Language
+  languages: readonly Language[]
   onChange: (patch: Partial<BuilderAccordionElement>) => void
   onDelete: () => void
 }
@@ -134,6 +135,7 @@ export const AccordionElementCard = ({
   sectionId,
   columnId,
   language,
+  languages,
   onChange,
   onDelete,
 }: AccordionElementCardProps) => {
@@ -228,6 +230,7 @@ export const AccordionElementCard = ({
       >
         <div className="flex flex-col gap-4">
           <LangChips
+            languages={languages}
             editing={editing}
             userLanguage={language}
             values={langChipValues}

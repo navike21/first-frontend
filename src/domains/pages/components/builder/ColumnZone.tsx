@@ -21,6 +21,7 @@ export interface ColumnZoneProps {
   sectionId: string
   column: BuilderColumn
   language: Language
+  languages: readonly Language[]
   /** true mientras se arrastra un elemento en cualquier parte del lienzo. */
   elementDragActive: boolean
   onAddText: () => void
@@ -65,6 +66,7 @@ export const ColumnZone = ({
   sectionId,
   column,
   language,
+  languages,
   elementDragActive,
   onAddText,
   onAddImage,
@@ -172,6 +174,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -185,6 +188,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickFile={(file) => onPickFile(element.id, file)}
                 onSelectLibrary={(file) =>
@@ -218,6 +222,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -231,6 +236,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickFile={(url, file) =>
                   onPickGalleryFile(element.id, url, file)
@@ -248,6 +254,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -261,6 +268,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickAvatarFile={(url, file) =>
                   onPickTestimonialAvatarFile(element.id, url, file)
@@ -278,6 +286,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onDelete={() => onElementDelete(element.id)}
               />
@@ -291,6 +300,7 @@ export const ColumnZone = ({
                 sectionId={sectionId}
                 columnId={column.id}
                 language={language}
+                languages={languages}
                 onChange={(patch) => onElementChange(element.id, patch)}
                 onPickFile={(url, file) =>
                   onPickVideoFile(element.id, url, file)
@@ -307,6 +317,7 @@ export const ColumnZone = ({
               sectionId={sectionId}
               columnId={column.id}
               language={language}
+              languages={languages}
               onChange={(patch) => onElementChange(element.id, patch)}
               onDelete={() => onElementDelete(element.id)}
             />
