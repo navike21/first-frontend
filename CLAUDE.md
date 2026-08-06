@@ -1133,6 +1133,30 @@ productos separados) es un hito futuro explícitamente distinto — no confundir
   `manage`, o si el **único** cambio pendiente es en la pestaña de Idiomas y tiene
   `site-config:languages`/`manage` (`useHasPermission`, no el wrapper declarativo
   `<Can>`, porque la condición depende de **cuál** sección está sucia).
+- **La sección "Traducciones"/"Progreso de traducción" se oculta por completo si el
+  alcance queda en un solo idioma** (`languages.length <= 1`) — nada entre qué cambiar.
+  Aplicado envolviendo el bloque en cada uno de los 7 formularios + `PageBuilderPage.tsx`
+  (`{languages.length > 1 && (...)}`), **no** dentro de `LangTabs`/`LangSidebar` mismos
+  (son átomos de `shared/ui`, se mantienen "tontos"/reusables — la regla de negocio vive
+  en cada caller).
+- **Gotcha real (ya resuelto, no reintroducir): los widgets del Page Builder quedaron
+  fuera del rollout original** — `LangChips` (`domains/pages/components/builder`, el
+  selector de idioma compacto dentro del modal de cada widget: Texto/Imagen/Botón/
+  Galería/Preguntas/Testimonios/Estadísticas/Video/Mapa) seguía importando
+  `SUPPORTED_LANGUAGES` directo y mostrando los 10 idiomas sin importar el alcance
+  configurado — solo el idioma de revisión del lienzo (`PageTranslationProgress`) y el
+  formulario de metadatos (`PageForm`) habían quedado bien alcanzados en la entrega
+  original. Arreglado agregando una prop `languages` que se pasa por toda la cadena ya
+  existente (`PageBuilderPage` → `BuilderCanvas` → `SectionCard` → `ColumnZone` → cada
+  `*ElementCard` → `LangChips`, mismo camino que ya seguía `language`).
+  `SliderElementCard` no usa `LangChips` (no tiene captions por idioma) — sin cambios.
+  Los `SUPPORTED_LANGUAGES.map(...)` que arman un `PageLocalizedString` vacío (10 claves)
+  en Accordion/Gallery/Stats/Testimonials **no se tocan** — es la forma del dato, no la
+  UI, y el backend sigue exigiendo las 10 claves siempre. A diferencia de
+  `LangTabs`/`LangSidebar`, **`LangChips` sí oculta el "si son 1 idioma" internamente**
+  (`if (languages.length <= 1) return null`) en vez de en cada caller — es privado al
+  Page Builder (no un átomo de `shared/ui` con otros consumidores), y sus 9 call sites
+  quieren la misma regla sin excepción, así que no hay riesgo de inconsistencia.
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
