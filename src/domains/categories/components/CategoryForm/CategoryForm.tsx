@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -14,11 +14,16 @@ import {
   LangBadge,
   TranslateSuggestButton,
 } from '@/shared/ui'
-import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import {
+  requiredLabel,
+  useTranslationSuggestion,
+  useScopedEditingLanguage,
+} from '@/shared/lib'
 import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
+import { useContentLanguages } from '@/domains/site-config'
 import { useCategoriesTranslation } from '../../i18n'
 import { useCategoriesForPicker } from '../../api/categories.queries'
 import { createCategorySchema } from '../../model/category.schema'
@@ -79,13 +84,14 @@ export const CategoryForm = ({
   onSubmit,
 }: CategoryFormProps) => {
   const { t, language } = useCategoriesTranslation()
+  const { languages } = useContentLanguages()
+  const { editingLanguage, setEditingLanguage, defaultLanguage } =
+    useScopedEditingLanguage(languages, language)
   const schema = useMemo(
-    () => createCategorySchema(t.validation, language),
-    [t.validation, language]
+    () => createCategorySchema(t.validation, defaultLanguage),
+    [t.validation, defaultLanguage]
   )
   const { data: categoriesData } = useCategoriesForPicker()
-
-  const [editingLanguage, setEditingLanguage] = useState<Language>(language)
 
   const emptyLocalized = useMemo(
     () =>
@@ -221,6 +227,7 @@ export const CategoryForm = ({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <SectionLabel>{t.form.tabTranslations}</SectionLabel>
             <LangTabs
+              languages={languages}
               editingLanguage={editingLanguage}
               userLanguage={language}
               hasContent={hasContent}

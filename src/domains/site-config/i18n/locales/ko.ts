@@ -12,6 +12,7 @@ export const ko: SiteConfigTranslations = {
     content: '콘텐츠',
     social: '소셜 네트워크',
     maps: '지도',
+    languages: '언어',
   },
   social: {
     hint: '단일 정보 출처: 이 URL들은 공개 사이트의 모든 섹션에서 사용됩니다. 사용하지 않는 네트워크는 비워 두세요.',
@@ -23,6 +24,10 @@ export const ko: SiteConfigTranslations = {
       google: 'Google 지도',
       osm: 'OpenStreetMap',
     },
+  },
+  languages: {
+    hint: '이 비즈니스가 콘텐츠(페이지, 서비스, 포트폴리오 등)를 게시할 언어를 선택하세요 — First 자체에 사용하는 언어와는 무관합니다.',
+    minimumHint: '최소 하나의 언어는 선택된 상태로 유지되어야 합니다.',
   },
   actions: {
     save: '변경 사항 저장',

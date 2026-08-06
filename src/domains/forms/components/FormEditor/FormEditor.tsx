@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -28,10 +28,14 @@ import {
   LangTabs,
   TranslateSuggestButton,
 } from '@/shared/ui'
-import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import {
+  requiredLabel,
+  useTranslationSuggestion,
+  useScopedEditingLanguage,
+} from '@/shared/lib'
 import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
-import type { Language } from '@/shared/i18n'
+import { useContentLanguages } from '@/domains/site-config'
 import { useFormsTranslation } from '../../i18n'
 import { createFormSchema } from '../../model/form.schema'
 import type { FormFormData, FormFormField } from '../../model/form.schema'
@@ -61,11 +65,16 @@ export const FormEditor = ({
   onSubmit,
 }: FormEditorProps) => {
   const { t, language } = useFormsTranslation()
+  const { languages } = useContentLanguages()
+  const {
+    editingLanguage: editing,
+    setEditingLanguage: setEditing,
+    defaultLanguage,
+  } = useScopedEditingLanguage(languages, language)
   const schema = useMemo(
-    () => createFormSchema(t.validation, language),
-    [t.validation, language]
+    () => createFormSchema(t.validation, defaultLanguage),
+    [t.validation, defaultLanguage]
   )
-  const [editing, setEditing] = useState<Language>(language)
 
   const {
     register,
@@ -189,6 +198,7 @@ export const FormEditor = ({
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="mb-4 lg:hidden">
         <LangTabs
+          languages={languages}
           editingLanguage={editing}
           userLanguage={language}
           hasContent={(lang) => !!titleValue?.[lang]?.trim()}
@@ -200,6 +210,7 @@ export const FormEditor = ({
       <div className="flex flex-col gap-6 lg:flex-row">
         <div className="hidden lg:block">
           <LangSidebar
+            languages={languages}
             editingLanguage={editing}
             userLanguage={language}
             label={t.form.sectionGeneral}

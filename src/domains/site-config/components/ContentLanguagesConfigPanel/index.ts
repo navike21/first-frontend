@@ -1,0 +1,1 @@
+export { ContentLanguagesConfigPanel } from './ContentLanguagesConfigPanel'

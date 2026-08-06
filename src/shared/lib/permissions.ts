@@ -122,6 +122,13 @@ export const CAN = {
   mediaTrash: ['storage:purge', 'storage:manage'],
   auditLogsView: ['audit-logs:read', 'audit-logs:manage'],
   appSettingsView: ['app-settings:read', 'app-settings:manage'],
-  siteConfigView: ['site-config:read', 'site-config:manage'],
+  // 'site-config:languages' included so a role delegated ONLY the
+  // content-language scope can still open the settings page.
+  siteConfigView: [
+    'site-config:read',
+    'site-config:manage',
+    'site-config:languages',
+  ],
   siteConfigUpdate: ['site-config:update', 'site-config:manage'],
+  siteConfigLanguagesUpdate: ['site-config:languages', 'site-config:manage'],
 } as const

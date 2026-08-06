@@ -12,6 +12,7 @@ export const ru: SiteConfigTranslations = {
     content: 'Контент',
     social: 'Соцсети',
     maps: 'Карты',
+    languages: 'Языки',
   },
   social: {
     hint: 'Единый источник истины: эти URL используются во всех разделах публичного сайта. Неиспользуемые сети оставьте пустыми.',
@@ -23,6 +24,10 @@ export const ru: SiteConfigTranslations = {
       google: 'Google Maps',
       osm: 'OpenStreetMap',
     },
+  },
+  languages: {
+    hint: 'Выберите, на каких языках этот бизнес публикует свой контент (страницы, услуги, портфолио и т.д.) — независимо от языка, который вы используете в самом First.',
+    minimumHint: 'Должен остаться выбранным хотя бы один язык.',
   },
   actions: {
     save: 'Сохранить изменения',

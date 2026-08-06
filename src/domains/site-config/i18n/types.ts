@@ -15,6 +15,7 @@ export interface SiteConfigTranslations {
     content: string
     social: string
     maps: string
+    languages: string
   }
   social: {
     hint: string
@@ -23,6 +24,10 @@ export interface SiteConfigTranslations {
     hint: string
     providerLabel: string
     providers: Record<MapProvider, string>
+  }
+  languages: {
+    hint: string
+    minimumHint: string
   }
   actions: {
     save: string

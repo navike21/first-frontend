@@ -8,7 +8,7 @@ import {
   TranslateSuggestButton,
 } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
-import { useTranslationSuggestion } from '@/shared/lib'
+import { useTranslationSuggestion, useScopedEditingLanguage } from '@/shared/lib'
 import { captureVideoFrame } from '@/shared/lib/captureVideoFrame'
 import { navPaths } from '@/shared/router'
 import {
@@ -18,8 +18,7 @@ import {
   attachVideoCoverWithRetry,
 } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
-import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
-import type { Language } from '@/shared/i18n'
+import { useContentLanguages } from '@/domains/site-config'
 import { usePage, useReplaceSections } from '../api/pages.queries'
 import { usePagesTranslation } from '../i18n'
 import {
@@ -242,14 +241,16 @@ export const PageBuilderPage = () => {
     null
   )
   const [uploading, setUploading] = useState(false)
-  const [reviewLanguage, setReviewLanguage] = useState<Language>(language)
+  const { languages } = useContentLanguages()
+  const { editingLanguage: reviewLanguage, setEditingLanguage: setReviewLanguage } =
+    useScopedEditingLanguage(languages, language)
   const translation = useTranslationSuggestion<Record<string, string>>(
     'page-builder'
   )
 
   const progress = useMemo(
-    () => computeTranslationProgress(draft ?? [], SUPPORTED_LANGUAGES),
-    [draft]
+    () => computeTranslationProgress(draft ?? [], languages),
+    [draft, languages]
   )
 
   // Adopta datos frescos del servidor durante el render (carga inicial y
@@ -625,6 +626,7 @@ export const PageBuilderPage = () => {
     >
       <div className="mb-4">
         <PageTranslationProgress
+          languages={languages}
           progress={progress}
           reviewLanguage={reviewLanguage}
           onReviewLanguageChange={setReviewLanguage}

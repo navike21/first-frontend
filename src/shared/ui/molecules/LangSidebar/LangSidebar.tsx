@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
+import { NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import { langDotClass } from '@/shared/lib'
 import { LangBadge } from '../../atoms/LangBadge'
 import type { LangSidebarProps } from './LangSidebar.types'
@@ -9,6 +9,7 @@ import type { LangSidebarProps } from './LangSidebar.types'
  * (error/completo/vacío). Ver también `LangTabs` para la variante compacta
  * de un solo campo. */
 export const LangSidebar = ({
+  languages,
   editingLanguage,
   userLanguage,
   hasContent,
@@ -21,7 +22,7 @@ export const LangSidebar = ({
     <span className="text-muted mb-1 text-xs font-medium tracking-wide uppercase">
       {label}
     </span>
-    {SUPPORTED_LANGUAGES.map((lang) => {
+    {languages.map((lang) => {
       const isActive = lang === editingLanguage
       const isUser = lang === userLanguage
       const filled = hasContent(lang)

@@ -1,11 +1,15 @@
 import clsx from 'clsx'
 import type { ReactNode } from 'react'
-import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
+import { NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
 import { usePagesTranslation } from '../../i18n'
 import type { LanguageProgress } from '../../model/pageTranslationProgress'
 
 export interface PageTranslationProgressProps {
+  /** Qué idiomas mostrar — normalmente el alcance de idiomas de contenido
+   * configurado del negocio (`useContentLanguages()`), el mismo que se le
+   * pasó a `computeTranslationProgress` para construir `progress`. */
+  languages: readonly Language[]
   progress: Record<Language, LanguageProgress>
   reviewLanguage: Language
   onReviewLanguageChange: (lang: Language) => void
@@ -36,6 +40,7 @@ const dotClass = (percent: number): string => {
  * idioma quedan visibles de inmediato, listos para completarse.
  */
 export const PageTranslationProgress = ({
+  languages,
   progress,
   reviewLanguage,
   onReviewLanguageChange,
@@ -59,7 +64,7 @@ export const PageTranslationProgress = ({
         {extra}
       </div>
       <div className="flex flex-wrap gap-2">
-        {SUPPORTED_LANGUAGES.map((lang) => {
+        {languages.map((lang) => {
           const percent = percentFor(progress[lang])
           const active = lang === reviewLanguage
           return (

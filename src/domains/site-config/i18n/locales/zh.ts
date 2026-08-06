@@ -11,6 +11,7 @@ export const zh: SiteConfigTranslations = {
     content: '内容',
     social: '社交网络',
     maps: '地图',
+    languages: '语言',
   },
   social: {
     hint: '唯一真实来源：这些 URL 将用于公开网站的所有区域。不使用的网络请留空。',
@@ -22,6 +23,10 @@ export const zh: SiteConfigTranslations = {
       google: 'Google 地图',
       osm: 'OpenStreetMap',
     },
+  },
+  languages: {
+    hint: '选择该企业发布内容（页面、服务、作品集等）所使用的语言 — 与你在 First 本身使用的语言无关。',
+    minimumHint: '至少需要保留一种已选语言。',
   },
   actions: {
     save: '保存更改',

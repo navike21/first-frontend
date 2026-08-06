@@ -5,3 +5,4 @@ export type {
   FooterConfig,
   LayoutConfig,
 } from './model/site-config.types'
+export { useContentLanguages } from './api/site-config.queries'
