@@ -23,11 +23,16 @@ import {
 import { uploadEditorImage, resolveRichTextImages } from '@/shared/api/storage'
 import type { StorageFile } from '@/shared/api/storage'
 import { useConfigData } from '@/shared/api/config'
-import { requiredLabel, useTranslationSuggestion } from '@/shared/lib'
+import {
+  requiredLabel,
+  useTranslationSuggestion,
+  useScopedEditingLanguage,
+} from '@/shared/lib'
 import { notify } from '@/shared/lib/notify'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
 import { SUPPORTED_LANGUAGES, NATIVE_LANGUAGE_NAMES } from '@/shared/i18n'
 import type { Language } from '@/shared/i18n'
+import { useContentLanguages } from '@/domains/site-config'
 import { usePortfolioTranslation } from '../../i18n'
 import {
   useServicesForPortfolioPicker,
@@ -135,16 +140,18 @@ export const PortfolioForm = ({
   onSubmit,
 }: PortfolioFormProps) => {
   const { t, language } = usePortfolioTranslation()
+  const { languages } = useContentLanguages()
+  const { editingLanguage, setEditingLanguage, defaultLanguage } =
+    useScopedEditingLanguage(languages, language)
   const schema = useMemo(
-    () => createPortfolioSchema(t.validation, language),
-    [t.validation, language]
+    () => createPortfolioSchema(t.validation, defaultLanguage),
+    [t.validation, defaultLanguage]
   )
 
   const { data: servicesData } = useServicesForPortfolioPicker()
   const { data: clientsData } = useClientsForPortfolioPicker()
   const { data: configData } = useConfigData(['technologies'], language)
 
-  const [editingLanguage, setEditingLanguage] = useState<Language>(language)
   const [pendingCover, setPendingCover] = useState<File | null>(null)
   const [removeCover, setRemoveCover] = useState(false)
   const [coverLibraryUrl, setCoverLibraryUrl] = useState<string | null>(null)
@@ -453,7 +460,7 @@ export const PortfolioForm = ({
       }
       const nameErrs = formErrors.name as LangErrors | undefined
       if (nameErrs) {
-        const errLang = SUPPORTED_LANGUAGES.find((l) => nameErrs[l])
+        const errLang = languages.find((l) => nameErrs[l])
         if (errLang) setEditingLanguage(errLang)
       }
     }
@@ -463,6 +470,7 @@ export const PortfolioForm = ({
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="mb-4 lg:hidden">
         <LangTabs
+          languages={languages}
           editingLanguage={editingLanguage}
           userLanguage={language}
           hasContent={hasContent}
@@ -754,6 +762,7 @@ export const PortfolioForm = ({
         {/* ── Language sidebar ──────────────────────────────────── */}
         <div className="border-border bg-surface hidden rounded-xl border p-4 lg:sticky lg:top-4 lg:block lg:w-52 lg:shrink-0">
           <LangSidebar
+            languages={languages}
             editingLanguage={editingLanguage}
             userLanguage={language}
             hasContent={hasContent}

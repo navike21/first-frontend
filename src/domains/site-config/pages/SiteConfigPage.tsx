@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { PageContent, Tabs, Button, Spinner, Can } from '@/shared/ui'
+import { PageContent, Tabs, Button, Spinner } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
-import { CAN } from '@/shared/lib/permissions'
+import { CAN, useHasPermission } from '@/shared/lib/permissions'
+import type { Language } from '@/shared/i18n'
 import { useSiteConfigTranslation } from '../i18n'
 import { useSiteConfig, useUpdateSiteConfig } from '../api/site-config.queries'
 import { normalizeSiteConfig } from '../model/site-config.types'
@@ -19,8 +20,9 @@ import { FooterConfigPanel } from '../components/FooterConfigPanel'
 import { ContentConfigPanel } from '../components/ContentConfigPanel'
 import { SocialConfigPanel } from '../components/SocialConfigPanel'
 import { MapsConfigPanel } from '../components/MapsConfigPanel'
+import { ContentLanguagesConfigPanel } from '../components/ContentLanguagesConfigPanel'
 
-type TabId = 'header' | 'footer' | 'content' | 'social' | 'maps'
+type TabId = 'header' | 'footer' | 'content' | 'social' | 'maps' | 'languages'
 
 const sameJson = (a: unknown, b: unknown) =>
   JSON.stringify(a) === JSON.stringify(b)
@@ -54,6 +56,8 @@ export const SiteConfigPage = () => {
     setDraft((d) => (d ? { ...d, social: { ...d.social, ...patch } } : d))
   const patchMaps = (patch: Partial<MapsConfig>) =>
     setDraft((d) => (d ? { ...d, maps: { ...d.maps, ...patch } } : d))
+  const patchContentLanguages = (next: Language[]) =>
+    setDraft((d) => (d ? { ...d, contentLanguages: next } : d))
 
   const dirtyHeader =
     !!draft && !!serverNorm && !sameJson(draft.header, serverNorm.header)
@@ -65,8 +69,33 @@ export const SiteConfigPage = () => {
     !!draft && !!serverNorm && !sameJson(draft.social, serverNorm.social)
   const dirtyMaps =
     !!draft && !!serverNorm && !sameJson(draft.maps, serverNorm.maps)
+  const dirtyContentLanguages =
+    !!draft &&
+    !!serverNorm &&
+    !sameJson(draft.contentLanguages, serverNorm.contentLanguages)
   const dirty =
-    dirtyHeader || dirtyFooter || dirtyLayout || dirtySocial || dirtyMaps
+    dirtyHeader ||
+    dirtyFooter ||
+    dirtyLayout ||
+    dirtySocial ||
+    dirtyMaps ||
+    dirtyContentLanguages
+
+  // Saving header/footer/layout/social/maps needs the general
+  // site-config:update permission; a request touching ONLY contentLanguages
+  // also accepts the narrower, delegatable site-config:languages permission
+  // — same split the backend enforces (authorizeSiteConfigUpdate).
+  const canUpdateGeneral = useHasPermission(...CAN.siteConfigUpdate)
+  const canUpdateLanguages = useHasPermission(...CAN.siteConfigLanguagesUpdate)
+  const onlyContentLanguagesDirty =
+    dirtyContentLanguages &&
+    !dirtyHeader &&
+    !dirtyFooter &&
+    !dirtyLayout &&
+    !dirtySocial &&
+    !dirtyMaps
+  const canSave =
+    canUpdateGeneral || (canUpdateLanguages && onlyContentLanguagesDirty)
 
   const handleSave = () => {
     if (!draft) return
@@ -76,6 +105,9 @@ export const SiteConfigPage = () => {
       ...(dirtyLayout && { layout: draft.layout }),
       ...(dirtySocial && { social: draft.social }),
       ...(dirtyMaps && { maps: draft.maps }),
+      ...(dirtyContentLanguages && {
+        contentLanguages: draft.contentLanguages,
+      }),
     }
     updateConfig.mutate(payload, {
       onSuccess: () => notify.success(t.actions.saved),
@@ -88,6 +120,7 @@ export const SiteConfigPage = () => {
     { id: 'content', label: t.tabs.content },
     { id: 'social', label: t.tabs.social },
     { id: 'maps', label: t.tabs.maps },
+    { id: 'languages', label: t.tabs.languages },
   ]
 
   if (isLoading || !draft) {
@@ -134,8 +167,14 @@ export const SiteConfigPage = () => {
         {activeTab === 'maps' && (
           <MapsConfigPanel value={draft.maps} onChange={patchMaps} />
         )}
+        {activeTab === 'languages' && (
+          <ContentLanguagesConfigPanel
+            value={draft.contentLanguages}
+            onChange={patchContentLanguages}
+          />
+        )}
 
-        <Can anyOf={CAN.siteConfigUpdate}>
+        {canSave && (
           <div className="border-border flex items-center justify-end gap-3 border-t pt-4">
             {dirty && (
               <span className="text-xs text-amber-500">
@@ -151,7 +190,7 @@ export const SiteConfigPage = () => {
               {t.actions.save}
             </Button>
           </div>
-        </Can>
+        )}
       </div>
     </PageContent>
   )

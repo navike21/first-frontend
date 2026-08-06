@@ -12,6 +12,7 @@ export const ja: SiteConfigTranslations = {
     content: 'コンテンツ',
     social: 'ソーシャルメディア',
     maps: '地図',
+    languages: '言語',
   },
   social: {
     hint: '単一の信頼できる情報源：これらのURLは公開サイトのすべてのセクションで使用されます。使用しないものは空欄のままにしてください。',
@@ -23,6 +24,10 @@ export const ja: SiteConfigTranslations = {
       google: 'Google マップ',
       osm: 'OpenStreetMap',
     },
+  },
+  languages: {
+    hint: 'このビジネスがコンテンツ（ページ・サービス・ポートフォリオなど）を公開する言語を選択してください — First自体で使用する言語とは独立しています。',
+    minimumHint: '少なくとも1つの言語を選択したままにする必要があります。',
   },
   actions: {
     save: '変更を保存',

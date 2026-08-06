@@ -12,6 +12,7 @@ export const pt: SiteConfigTranslations = {
     content: 'Conteúdo',
     social: 'Redes sociais',
     maps: 'Mapas',
+    languages: 'Idiomas',
   },
   social: {
     hint: 'Fonte única da verdade: estas URLs alimentam todas as seções do site público. Deixe em branco as redes que não usar.',
@@ -23,6 +24,10 @@ export const pt: SiteConfigTranslations = {
       google: 'Google Maps',
       osm: 'OpenStreetMap',
     },
+  },
+  languages: {
+    hint: 'Escolha em quais idiomas esta empresa publica seu conteúdo (páginas, serviços, portfólio, etc.) — independente do idioma que você usa no próprio First.',
+    minimumHint: 'Pelo menos um idioma deve permanecer selecionado.',
   },
   actions: {
     save: 'Salvar alterações',

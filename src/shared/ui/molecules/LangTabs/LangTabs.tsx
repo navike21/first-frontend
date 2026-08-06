@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
 import { langDotClass } from '@/shared/lib'
 import type { LangTabsProps } from './LangTabs.types'
 
@@ -8,6 +7,7 @@ import type { LangTabsProps } from './LangTabs.types'
  * (error/completo/vacío). Ver también `LangSidebar` para la variante con
  * badge y nombre completo, usada cuando hay varios campos traducibles. */
 export const LangTabs = ({
+  languages,
   editingLanguage,
   userLanguage,
   hasContent,
@@ -16,7 +16,7 @@ export const LangTabs = ({
   extra,
 }: LangTabsProps) => (
   <div className="flex flex-wrap items-center gap-1.5">
-    {SUPPORTED_LANGUAGES.map((lang) => {
+    {languages.map((lang) => {
       const isActive = lang === editingLanguage
       const filled = hasContent(lang)
       const error = hasError(lang)

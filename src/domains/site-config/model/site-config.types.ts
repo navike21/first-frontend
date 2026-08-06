@@ -86,6 +86,11 @@ export interface SiteConfigData {
   layout: LayoutConfig
   social: SocialConfig
   maps: MapsConfig
+  /** Subconjunto de SUPPORTED_LANGUAGES que este negocio usa realmente para su
+   * contenido público (Pages/Services/Portfolio/Categories/Tags/
+   * Collaborators/Forms) — independiente del idioma de interfaz de First,
+   * que sigue siendo libre por usuario. */
+  contentLanguages: Language[]
 }
 
 export type SiteConfigUpdatePayload = Partial<SiteConfigData>
@@ -131,6 +136,7 @@ export function siteConfigFallback(): SiteConfigData {
     layout: { contentWidth: 'boxed', boxedMaxWidth: 1200 },
     social: emptySocial(),
     maps: { provider: 'google' },
+    contentLanguages: [...SUPPORTED_LANGUAGES],
   }
 }
 
@@ -153,5 +159,10 @@ export function normalizeSiteConfig(
     layout: { ...base.layout, ...input?.layout } as SiteConfigData['layout'],
     social: { ...base.social, ...input?.social } as SocialConfig,
     maps: { ...base.maps, ...input?.maps } as SiteConfigData['maps'],
+    // Replaced whole, not merged — it's a set of chosen languages, not an
+    // object with sub-fields to fill in individually.
+    contentLanguages:
+      (input?.contentLanguages as Language[] | undefined) ??
+      base.contentLanguages,
   }
 }

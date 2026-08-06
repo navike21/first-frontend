@@ -2,6 +2,10 @@ import type { ReactNode } from 'react'
 import type { Language } from '@/shared/i18n'
 
 export interface LangSidebarProps {
+  /** Which languages to render — normally the business's configured content-
+   * language scope (`useContentLanguages()`), not necessarily every language
+   * First's own UI supports. */
+  languages: readonly Language[]
   editingLanguage: Language
   userLanguage: Language
   hasContent: (lang: Language) => boolean
