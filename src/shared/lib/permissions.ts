@@ -137,4 +137,48 @@ export const CAN = {
   ],
   siteConfigUpdate: ['site-config:update', 'site-config:manage'],
   siteConfigLanguagesUpdate: ['site-config:languages', 'site-config:manage'],
+  // ─── Ecommerce ────────────────────────────────────────────────────────────
+  ecommerceSettingsView: [
+    'ecommerce-settings:read',
+    'ecommerce-settings:manage',
+  ],
+  ecommerceSettingsUpdate: [
+    'ecommerce-settings:update',
+    'ecommerce-settings:manage',
+  ],
+  productCategoriesView: [
+    'product-categories:read',
+    'product-categories:manage',
+  ],
+  productCategoriesCreate: [
+    'product-categories:create',
+    'product-categories:manage',
+  ],
+  productCategoriesUpdate: [
+    'product-categories:update',
+    'product-categories:manage',
+  ],
+  productCategoriesDelete: [
+    'product-categories:delete',
+    'product-categories:manage',
+  ],
+  productCategoriesPurge: ['product-categories:purge'],
+  productCategoriesTrash: [
+    'product-categories:purge',
+    'product-categories:manage',
+  ],
+  customersView: ['customers:read', 'customers:manage'],
+  customersCreate: ['customers:create', 'customers:manage'],
+  customersUpdate: ['customers:update', 'customers:manage'],
+  customersDelete: ['customers:delete', 'customers:manage'],
+  customersPurge: ['customers:purge'],
+  customersTrash: ['customers:purge', 'customers:manage'],
+  // Inventory covers both Location CRUD and Stock adjust/read under one
+  // resource (matches the backend: no separate `stock:*` permission).
+  inventoryView: ['inventory:read', 'inventory:manage'],
+  inventoryCreate: ['inventory:create', 'inventory:manage'],
+  inventoryUpdate: ['inventory:update', 'inventory:manage'],
+  inventoryDelete: ['inventory:delete', 'inventory:manage'],
+  inventoryPurge: ['inventory:purge'],
+  inventoryTrash: ['inventory:purge', 'inventory:manage'],
 } as const

@@ -1,0 +1,105 @@
+import type { ProductCategoryTranslations } from '../types'
+
+export const en: ProductCategoryTranslations = {
+  page: {
+    listTitle: 'Product categories',
+    listDescription:
+      'Manage the categories used to organize the product catalog',
+    createTitle: 'New product category',
+    createDescription: 'Register a new product category',
+    editTitle: 'Edit product category',
+    editDescription: (name) => `Update ${name}`,
+    trashTitle: 'Product categories trash',
+    trashDescription:
+      'Product categories that have been moved to trash. Restore or permanently delete them.',
+    trashEmpty: 'No product categories in trash',
+    trashEmptyDescription:
+      'When product categories are deleted, they will appear here.',
+  },
+  table: {
+    noResults: 'No product categories found',
+    colName: 'Name',
+    colSlug: 'Slug',
+    colParent: 'Parent',
+    colStatus: 'Status',
+    colActions: 'Actions',
+    editCategory: 'Edit category',
+    deleteCategory: 'Delete category',
+    viewCategory: 'View details',
+    restoreCategory: 'Restore',
+    purgeCategory: 'Delete permanently',
+    prevPage: 'Previous',
+    nextPage: 'Next',
+    totalCount: (count) => `Total: ${count}`,
+    deletedAt: 'Deleted',
+    selectAll: 'Select all',
+    selectRow: 'Select row',
+  },
+  filters: {
+    searchLabel: 'Search',
+    searchPlaceholder: 'Search by name…',
+    statusLabel: 'Status',
+    statusAll: 'All',
+    statusActive: 'Active',
+    statusInactive: 'Inactive',
+  },
+  status: {
+    active: 'Active',
+    inactive: 'Inactive',
+  },
+  actions: {
+    newCategory: 'New category',
+    viewTrash: 'View trash',
+    cancel: 'Cancel',
+    selectedCount: (count) => `${count} selected`,
+    clearSelection: 'Clear selection',
+    bulkDelete: 'Delete',
+    bulkRestore: 'Restore',
+    bulkPurge: 'Delete permanently',
+    deleteTitle: 'Delete category',
+    deleteDescription: (name) =>
+      `Are you sure you want to delete ${name}? You can restore it from the trash.`,
+    confirmDelete: 'Delete',
+    bulkDeleteDescription: (count) =>
+      `Delete ${count} categories? You can restore them from the trash.`,
+    restoreTitle: 'Restore category',
+    restoreDescription: (name) => `Restore ${name} to the active list?`,
+    confirmRestore: 'Restore',
+    bulkRestoreDescription: (count) =>
+      `Restore ${count} categories to the active list?`,
+    purgeTitle: 'Delete permanently',
+    purgeDescription: (name) =>
+      `This will permanently delete ${name}. This action cannot be undone.`,
+    confirmPurge: 'Delete',
+    bulkPurgeDescription: (count) =>
+      `This will permanently delete ${count} categories. This action is IRREVERSIBLE.`,
+  },
+  form: {
+    tabTranslations: 'Translations',
+    name: 'Name',
+    slug: 'Slug',
+    parent: 'Parent category',
+    noParent: 'No parent (top-level)',
+    order: 'Order',
+    isActive: 'Active',
+    select: 'Select…',
+    save: 'Save changes',
+    create: 'Create category',
+    cancel: 'Cancel',
+    optional: '(optional)',
+  },
+  toasts: {
+    created: 'Product category created',
+    updated: 'Product category updated',
+    deleted: 'Product category deleted',
+    restored: 'Product category restored',
+    purged: 'Product category permanently deleted',
+    bulkDeleted: 'Product categories deleted',
+    bulkRestored: 'Product categories restored',
+    bulkPurged: 'Product categories permanently deleted',
+  },
+  validation: {
+    required: 'Required field',
+    slugInvalid: 'Only lowercase letters, numbers and dashes are allowed',
+  },
+}
