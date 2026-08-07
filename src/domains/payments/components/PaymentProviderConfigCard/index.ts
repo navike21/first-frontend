@@ -1,0 +1,1 @@
+export { PaymentProviderConfigCard } from './PaymentProviderConfigCard'

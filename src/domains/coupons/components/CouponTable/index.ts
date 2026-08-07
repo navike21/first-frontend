@@ -1,0 +1,1 @@
+export { CouponTable } from './CouponTable'

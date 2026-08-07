@@ -30,6 +30,9 @@ import { allProductCategoriesRouteTrees } from './routes/productCategories.route
 import { allProductsRouteTrees } from './routes/products.route'
 import { allCustomersRouteTrees } from './routes/customers.route'
 import { allInventoryRouteTrees } from './routes/inventory.route'
+import { allCouponsRouteTrees } from './routes/coupons.route'
+import { allShippingRouteTrees } from './routes/shipping.route'
+import { allPaymentsRouteTrees } from './routes/payments.route'
 import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
@@ -87,6 +90,9 @@ const routeTree = rootRoute.addChildren([
       ...allProductsRouteTrees,
       ...allCustomersRouteTrees,
       ...allInventoryRouteTrees,
+      ...allCouponsRouteTrees,
+      ...allShippingRouteTrees,
+      ...allPaymentsRouteTrees,
       ...allProfileRouteTrees,
     ]),
     ...allForbiddenRouteTrees,

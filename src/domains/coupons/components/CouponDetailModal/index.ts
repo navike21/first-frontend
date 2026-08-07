@@ -1,0 +1,1 @@
+export { CouponDetailModal } from './CouponDetailModal'
