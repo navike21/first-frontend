@@ -187,4 +187,27 @@ export const CAN = {
   productsDelete: ['products:delete', 'products:manage'],
   productsPurge: ['products:purge'],
   productsTrash: ['products:purge', 'products:manage'],
+  couponsView: ['coupons:read', 'coupons:manage'],
+  couponsCreate: ['coupons:create', 'coupons:manage'],
+  couponsUpdate: ['coupons:update', 'coupons:manage'],
+  couponsDelete: ['coupons:delete', 'coupons:manage'],
+  couponsPurge: ['coupons:purge'],
+  couponsTrash: ['coupons:purge', 'coupons:manage'],
+  shippingView: ['shipping:read', 'shipping:manage'],
+  shippingCreate: ['shipping:create', 'shipping:manage'],
+  shippingUpdate: ['shipping:update', 'shipping:manage'],
+  shippingDelete: ['shipping:delete', 'shipping:manage'],
+  shippingPurge: ['shipping:purge'],
+  shippingTrash: ['shipping:purge', 'shipping:manage'],
+  // Payments covers both provider-config (read/update only, no create/purge —
+  // the provider set is fixed by the backend registry) and
+  // CustomerPaymentMethod full CRUD, under one `payments:*` resource.
+  paymentProviderConfigView: ['payments:read', 'payments:manage'],
+  paymentProviderConfigUpdate: ['payments:update', 'payments:manage'],
+  paymentMethodsView: ['payments:read', 'payments:manage'],
+  paymentMethodsCreate: ['payments:create', 'payments:manage'],
+  paymentMethodsUpdate: ['payments:update', 'payments:manage'],
+  paymentMethodsDelete: ['payments:delete', 'payments:manage'],
+  paymentMethodsPurge: ['payments:purge'],
+  paymentMethodsTrash: ['payments:purge', 'payments:manage'],
 } as const

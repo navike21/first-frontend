@@ -1,0 +1,1 @@
+export { ShippingRuleTable } from './ShippingRuleTable'

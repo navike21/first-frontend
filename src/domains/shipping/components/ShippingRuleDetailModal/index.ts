@@ -1,0 +1,1 @@
+export { ShippingRuleDetailModal } from './ShippingRuleDetailModal'

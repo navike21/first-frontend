@@ -348,4 +348,56 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.products[l_]}/${ROUTE_SLUGS.productTrash[l_]}`
   },
+  coupons: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.coupons[l_]}`
+  },
+  couponCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.coupons[l_]}/${ROUTE_SLUGS.couponCreate[l_]}`
+  },
+  couponEdit: (couponId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.coupons[l_]}/${ROUTE_SLUGS.couponEdit[l_]}/${couponId}`
+  },
+  couponTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.coupons[l_]}/${ROUTE_SLUGS.couponTrash[l_]}`
+  },
+  shippingRules: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.shippingRules[l_]}`
+  },
+  shippingRuleCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.shippingRules[l_]}/${ROUTE_SLUGS.shippingRuleCreate[l_]}`
+  },
+  shippingRuleEdit: (ruleId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.shippingRules[l_]}/${ROUTE_SLUGS.shippingRuleEdit[l_]}/${ruleId}`
+  },
+  shippingRuleTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.shippingRules[l_]}/${ROUTE_SLUGS.shippingRuleTrash[l_]}`
+  },
+  paymentMethods: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}`
+  },
+  paymentMethodCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodCreate[l_]}`
+  },
+  paymentMethodEdit: (methodId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodEdit[l_]}/${methodId}`
+  },
+  paymentMethodTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodTrash[l_]}`
+  },
+  paymentProviderConfig: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.paymentProviderConfig[l_]}`
+  },
 } as const
