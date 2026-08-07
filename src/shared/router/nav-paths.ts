@@ -275,4 +275,61 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.profile[l_]}`
   },
+  // ─── Ecommerce (Milestone A) ───────────────────────────────────────────────
+  ecommerceSettings: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.ecommerceSettings[l_]}`
+  },
+  productCategories: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productCategories[l_]}`
+  },
+  productCategoryCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productCategories[l_]}/${ROUTE_SLUGS.productCategoryCreate[l_]}`
+  },
+  productCategoryEdit: (categoryId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productCategories[l_]}/${ROUTE_SLUGS.productCategoryEdit[l_]}/${categoryId}`
+  },
+  productCategoryTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productCategories[l_]}/${ROUTE_SLUGS.productCategoryTrash[l_]}`
+  },
+  customers: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.customers[l_]}`
+  },
+  customerCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.customers[l_]}/${ROUTE_SLUGS.customerCreate[l_]}`
+  },
+  customerEdit: (customerId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.customers[l_]}/${ROUTE_SLUGS.customerEdit[l_]}/${customerId}`
+  },
+  customerTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.customers[l_]}/${ROUTE_SLUGS.customerTrash[l_]}`
+  },
+  locations: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.locations[l_]}`
+  },
+  locationCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.locations[l_]}/${ROUTE_SLUGS.locationCreate[l_]}`
+  },
+  locationEdit: (locationId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.locations[l_]}/${ROUTE_SLUGS.locationEdit[l_]}/${locationId}`
+  },
+  locationTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.locations[l_]}/${ROUTE_SLUGS.locationTrash[l_]}`
+  },
+  inventoryStock: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.inventoryStock[l_]}`
+  },
 } as const

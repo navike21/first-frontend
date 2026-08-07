@@ -1,0 +1,5 @@
+export { LocationsPage } from './pages/LocationsPage'
+export { CreateLocationPage } from './pages/CreateLocationPage'
+export { EditLocationPage } from './pages/EditLocationPage'
+export { LocationsTrashPage } from './pages/LocationsTrashPage'
+export { InventoryStockPage } from './pages/InventoryStockPage'

@@ -1,0 +1,105 @@
+import type { ProductCategoryTranslations } from '../types'
+
+export const es: ProductCategoryTranslations = {
+  page: {
+    listTitle: 'Categorías de producto',
+    listDescription:
+      'Gestiona las categorías usadas para organizar el catálogo de productos',
+    createTitle: 'Nueva categoría de producto',
+    createDescription: 'Registrar una nueva categoría de producto',
+    editTitle: 'Editar categoría de producto',
+    editDescription: (name) => `Actualizar ${name}`,
+    trashTitle: 'Papelera de categorías de producto',
+    trashDescription:
+      'Categorías de producto que han sido movidas a la papelera. Restáuralas o elimínalas permanentemente.',
+    trashEmpty: 'No hay categorías de producto en la papelera',
+    trashEmptyDescription:
+      'Cuando se eliminen categorías de producto, aparecerán aquí.',
+  },
+  table: {
+    noResults: 'No se encontraron categorías de producto',
+    colName: 'Nombre',
+    colSlug: 'Slug',
+    colParent: 'Padre',
+    colStatus: 'Estado',
+    colActions: 'Acciones',
+    editCategory: 'Editar categoría',
+    deleteCategory: 'Eliminar categoría',
+    viewCategory: 'Ver detalles',
+    restoreCategory: 'Restaurar',
+    purgeCategory: 'Eliminar permanentemente',
+    prevPage: 'Anterior',
+    nextPage: 'Siguiente',
+    totalCount: (count) => `Total: ${count}`,
+    deletedAt: 'Eliminado',
+    selectAll: 'Seleccionar todo',
+    selectRow: 'Seleccionar fila',
+  },
+  filters: {
+    searchLabel: 'Buscar',
+    searchPlaceholder: 'Buscar por nombre…',
+    statusLabel: 'Estado',
+    statusAll: 'Todas',
+    statusActive: 'Activas',
+    statusInactive: 'Inactivas',
+  },
+  status: {
+    active: 'Activa',
+    inactive: 'Inactiva',
+  },
+  actions: {
+    newCategory: 'Nueva categoría',
+    viewTrash: 'Ver papelera',
+    cancel: 'Cancelar',
+    selectedCount: (count) => `${count} seleccionadas`,
+    clearSelection: 'Quitar selección',
+    bulkDelete: 'Eliminar',
+    bulkRestore: 'Restaurar',
+    bulkPurge: 'Eliminar permanentemente',
+    deleteTitle: 'Eliminar categoría',
+    deleteDescription: (name) =>
+      `¿Seguro que deseas eliminar ${name}? Podrás restaurarla desde la papelera.`,
+    confirmDelete: 'Eliminar',
+    bulkDeleteDescription: (count) =>
+      `¿Eliminar ${count} categorías? Podrás restaurarlas desde la papelera.`,
+    restoreTitle: 'Restaurar categoría',
+    restoreDescription: (name) => `¿Restaurar ${name} en la lista de activas?`,
+    confirmRestore: 'Restaurar',
+    bulkRestoreDescription: (count) =>
+      `¿Restaurar ${count} categorías en la lista de activas?`,
+    purgeTitle: 'Eliminar permanentemente',
+    purgeDescription: (name) =>
+      `Esto eliminará permanentemente ${name}. Esta acción es IRREVERSIBLE.`,
+    confirmPurge: 'Eliminar',
+    bulkPurgeDescription: (count) =>
+      `Esto eliminará permanentemente ${count} categorías. Esta acción es IRREVERSIBLE.`,
+  },
+  form: {
+    tabTranslations: 'Traducciones',
+    name: 'Nombre',
+    slug: 'Slug',
+    parent: 'Categoría padre',
+    noParent: 'Sin padre (nivel superior)',
+    order: 'Orden',
+    isActive: 'Activa',
+    select: 'Seleccionar…',
+    save: 'Guardar cambios',
+    create: 'Crear categoría',
+    cancel: 'Cancelar',
+    optional: '(opcional)',
+  },
+  toasts: {
+    created: 'Categoría de producto creada',
+    updated: 'Categoría de producto actualizada',
+    deleted: 'Categoría de producto eliminada',
+    restored: 'Categoría de producto restaurada',
+    purged: 'Categoría de producto eliminada permanentemente',
+    bulkDeleted: 'Categorías de producto eliminadas',
+    bulkRestored: 'Categorías de producto restauradas',
+    bulkPurged: 'Categorías de producto eliminadas permanentemente',
+  },
+  validation: {
+    required: 'Campo obligatorio',
+    slugInvalid: 'Solo se permiten minúsculas, números y guiones',
+  },
+}

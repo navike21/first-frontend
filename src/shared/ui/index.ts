@@ -65,6 +65,7 @@ export {
 } from './molecules/InputField'
 export { InputNumber, type InputNumberProps } from './molecules/InputNumber'
 export { InputPhone, type InputPhoneProps } from './molecules/InputPhone'
+export { PriceInput, type PriceInputProps } from './molecules/PriceInput'
 export {
   TextArea,
   type TextAreaProps,
@@ -101,6 +102,12 @@ export {
   type SelectVariant,
   type SelectTexts,
 } from './molecules/Select'
+export {
+  FilterBar,
+  type FilterBarProps,
+  type FilterBarSearch,
+  type FilterBarFilter,
+} from './molecules/FilterBar'
 export { Modal, type ModalProps, type ModalSize } from './molecules/Modal'
 export {
   DataTable,

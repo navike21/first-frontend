@@ -25,6 +25,10 @@ import { allFormsRouteTrees } from './routes/forms.route'
 import { allAuditLogsRouteTrees } from './routes/auditLogs.route'
 import { allAppSettingsRouteTrees } from './routes/appSettings.route'
 import { allSiteConfigRouteTrees } from './routes/siteConfig.route'
+import { allEcommerceSettingsRouteTrees } from './routes/ecommerceSettings.route'
+import { allProductCategoriesRouteTrees } from './routes/productCategories.route'
+import { allCustomersRouteTrees } from './routes/customers.route'
+import { allInventoryRouteTrees } from './routes/inventory.route'
 import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
@@ -77,6 +81,10 @@ const routeTree = rootRoute.addChildren([
       ...allAuditLogsRouteTrees,
       ...allAppSettingsRouteTrees,
       ...allSiteConfigRouteTrees,
+      ...allEcommerceSettingsRouteTrees,
+      ...allProductCategoriesRouteTrees,
+      ...allCustomersRouteTrees,
+      ...allInventoryRouteTrees,
       ...allProfileRouteTrees,
     ]),
     ...allForbiddenRouteTrees,
