@@ -181,4 +181,10 @@ export const CAN = {
   inventoryDelete: ['inventory:delete', 'inventory:manage'],
   inventoryPurge: ['inventory:purge'],
   inventoryTrash: ['inventory:purge', 'inventory:manage'],
+  productsView: ['products:read', 'products:manage'],
+  productsCreate: ['products:create', 'products:manage'],
+  productsUpdate: ['products:update', 'products:manage'],
+  productsDelete: ['products:delete', 'products:manage'],
+  productsPurge: ['products:purge'],
+  productsTrash: ['products:purge', 'products:manage'],
 } as const

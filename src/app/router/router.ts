@@ -27,6 +27,7 @@ import { allAppSettingsRouteTrees } from './routes/appSettings.route'
 import { allSiteConfigRouteTrees } from './routes/siteConfig.route'
 import { allEcommerceSettingsRouteTrees } from './routes/ecommerceSettings.route'
 import { allProductCategoriesRouteTrees } from './routes/productCategories.route'
+import { allProductsRouteTrees } from './routes/products.route'
 import { allCustomersRouteTrees } from './routes/customers.route'
 import { allInventoryRouteTrees } from './routes/inventory.route'
 import { allProfileRouteTrees } from './routes/profile.route'
@@ -83,6 +84,7 @@ const routeTree = rootRoute.addChildren([
       ...allSiteConfigRouteTrees,
       ...allEcommerceSettingsRouteTrees,
       ...allProductCategoriesRouteTrees,
+      ...allProductsRouteTrees,
       ...allCustomersRouteTrees,
       ...allInventoryRouteTrees,
       ...allProfileRouteTrees,

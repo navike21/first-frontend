@@ -332,4 +332,20 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.inventoryStock[l_]}`
   },
+  products: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.products[l_]}`
+  },
+  productCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.products[l_]}/${ROUTE_SLUGS.productCreate[l_]}`
+  },
+  productEdit: (productId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.products[l_]}/${ROUTE_SLUGS.productEdit[l_]}/${productId}`
+  },
+  productTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.products[l_]}/${ROUTE_SLUGS.productTrash[l_]}`
+  },
 } as const
