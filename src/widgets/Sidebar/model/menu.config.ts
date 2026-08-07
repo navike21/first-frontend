@@ -349,6 +349,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '设置',
     ru: 'Настройки',
   },
+  products: {
+    es: 'Productos',
+    en: 'Products',
+    de: 'Produkte',
+    fr: 'Produits',
+    pt: 'Produtos',
+    it: 'Prodotti',
+    ja: '商品',
+    ko: '상품',
+    zh: '产品',
+    ru: 'Продукты',
+  },
 }
 
 export function getMenuTitle(lang: Language): string {
@@ -404,6 +416,13 @@ export function getMenuConfig(lang: Language): MenuItem[] {
       label: MENU_LABELS.ecommerce[lang],
       icon: 'RiShoppingBag3Line',
       children: [
+        {
+          id: 'products',
+          label: MENU_LABELS.products[lang],
+          href: navPaths.products(lang),
+          icon: 'RiPriceTag3Line',
+          permissions: CAN.productsView,
+        },
         {
           id: 'productCategories',
           label: MENU_LABELS.productCategories[lang],
