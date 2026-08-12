@@ -34,6 +34,7 @@ import { allCouponsRouteTrees } from './routes/coupons.route'
 import { allShippingRouteTrees } from './routes/shipping.route'
 import { allPaymentsRouteTrees } from './routes/payments.route'
 import { allOrdersRouteTrees } from './routes/orders.route'
+import { allProductReviewsRouteTrees } from './routes/productReviews.route'
 import { allProfileRouteTrees } from './routes/profile.route'
 import { allForbiddenRouteTrees } from './routes/forbidden.route'
 import { allNotFoundRouteTrees } from './routes/not-found.route'
@@ -95,6 +96,7 @@ const routeTree = rootRoute.addChildren([
       ...allShippingRouteTrees,
       ...allPaymentsRouteTrees,
       ...allOrdersRouteTrees,
+      ...allProductReviewsRouteTrees,
       ...allProfileRouteTrees,
     ]),
     ...allForbiddenRouteTrees,

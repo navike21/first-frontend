@@ -216,4 +216,11 @@ export const CAN = {
   ordersDelete: ['orders:delete', 'orders:manage'],
   ordersPurge: ['orders:purge'],
   ordersTrash: ['orders:purge', 'orders:manage'],
+  // No productReviewsCreate — reviews are never admin-authored (same
+  // precedent as forms-submissions above).
+  productReviewsView: ['product-reviews:read', 'product-reviews:manage'],
+  productReviewsUpdate: ['product-reviews:update', 'product-reviews:manage'],
+  productReviewsDelete: ['product-reviews:delete', 'product-reviews:manage'],
+  productReviewsPurge: ['product-reviews:purge'],
+  productReviewsTrash: ['product-reviews:purge', 'product-reviews:manage'],
 } as const

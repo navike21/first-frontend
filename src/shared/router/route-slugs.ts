@@ -1154,6 +1154,30 @@ export const ROUTE_SLUGS = {
     zh: 'lajitong',
     ru: 'korzina',
   },
+  productReviews: {
+    es: 'resenas',
+    en: 'reviews',
+    de: 'bewertungen',
+    fr: 'avis',
+    pt: 'avaliacoes',
+    it: 'recensioni',
+    ja: 'rebyu',
+    ko: 'ribyu',
+    zh: 'pingjia',
+    ru: 'otzyvy',
+  },
+  productReviewTrash: {
+    es: 'papelera',
+    en: 'trash',
+    de: 'papierkorb',
+    fr: 'corbeille',
+    pt: 'lixeira',
+    it: 'cestino',
+    ja: 'gomibako',
+    ko: 'hujiji',
+    zh: 'lajitong',
+    ru: 'korzina',
+  },
 } as const satisfies Record<string, Record<Language, string>>
 
 export type RouteModule = keyof typeof ROUTE_SLUGS
