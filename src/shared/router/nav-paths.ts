@@ -400,4 +400,20 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.paymentProviderConfig[l_]}`
   },
+  orders: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.orders[l_]}`
+  },
+  orderCreate: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.orders[l_]}/${ROUTE_SLUGS.orderCreate[l_]}`
+  },
+  orderDetail: (orderId: string, l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.orders[l_]}/${orderId}`
+  },
+  orderTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.orders[l_]}/${ROUTE_SLUGS.orderTrash[l_]}`
+  },
 } as const

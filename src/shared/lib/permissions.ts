@@ -210,4 +210,10 @@ export const CAN = {
   paymentMethodsDelete: ['payments:delete', 'payments:manage'],
   paymentMethodsPurge: ['payments:purge'],
   paymentMethodsTrash: ['payments:purge', 'payments:manage'],
+  ordersView: ['orders:read', 'orders:manage'],
+  ordersCreate: ['orders:create', 'orders:manage'],
+  ordersUpdate: ['orders:update', 'orders:manage'],
+  ordersDelete: ['orders:delete', 'orders:manage'],
+  ordersPurge: ['orders:purge'],
+  ordersTrash: ['orders:purge', 'orders:manage'],
 } as const
