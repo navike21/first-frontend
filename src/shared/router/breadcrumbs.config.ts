@@ -1156,6 +1156,30 @@ const MODULE_LABELS: Record<RouteModule, Record<Language, string>> = {
     zh: '回收站',
     ru: 'Корзина',
   },
+  productReviews: {
+    es: 'Reseñas',
+    en: 'Reviews',
+    de: 'Bewertungen',
+    fr: 'Avis',
+    pt: 'Avaliações',
+    it: 'Recensioni',
+    ja: 'レビュー',
+    ko: '리뷰',
+    zh: '评价',
+    ru: 'Отзывы',
+  },
+  productReviewTrash: {
+    es: 'Papelera',
+    en: 'Trash',
+    de: 'Papierkorb',
+    fr: 'Corbeille',
+    pt: 'Lixeira',
+    it: 'Cestino',
+    ja: 'ゴミ箱',
+    ko: '휴지통',
+    zh: '回收站',
+    ru: 'Корзина',
+  },
 }
 
 const HOME_LABELS: Record<Language, string> = {

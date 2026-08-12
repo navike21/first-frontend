@@ -1,0 +1,92 @@
+import type { ProductReviewTranslations } from '../types'
+
+export const pt: ProductReviewTranslations = {
+  page: {
+    listTitle: 'Avaliações de produto',
+    listDescription: 'Modere as avaliações enviadas pelos clientes sobre seus produtos',
+    trashTitle: 'Lixeira de avaliações',
+    trashDescription:
+      'Avaliações movidas para a lixeira. Restaure-as ou exclua-as permanentemente.',
+    trashEmpty: 'Nenhuma avaliação na lixeira',
+    trashEmptyDescription: 'As avaliações excluídas aparecerão aqui.',
+  },
+  table: {
+    noResults: 'Nenhuma avaliação encontrada',
+    colProduct: 'Produto',
+    colReviewer: 'Autor',
+    colRating: 'Avaliação',
+    colStatus: 'Status',
+    colDate: 'Data',
+    colActions: 'Ações',
+    viewReview: 'Ver avaliação',
+    approveReview: 'Aprovar',
+    rejectReview: 'Rejeitar',
+    deleteReview: 'Excluir avaliação',
+    restoreReview: 'Restaurar',
+    purgeReview: 'Excluir permanentemente',
+    prevPage: 'Anterior',
+    nextPage: 'Próximo',
+    totalCount: (count) => `Total: ${count}`,
+    deletedAt: 'Excluído',
+    selectAll: 'Selecionar tudo',
+    selectRow: 'Selecionar linha',
+  },
+  filters: {
+    searchLabel: 'Buscar',
+    searchPlaceholder: 'Buscar por comentário, título ou nome…',
+    statusLabel: 'Status',
+    statusAll: 'Todos',
+  },
+  status: {
+    pending: 'Pendente',
+    approved: 'Aprovada',
+    rejected: 'Rejeitada',
+  },
+  actions: {
+    viewTrash: 'Ver lixeira',
+    cancel: 'Cancelar',
+    selectedCount: (count) => `${count} selecionados`,
+    clearSelection: 'Limpar seleção',
+    bulkDelete: 'Excluir',
+    bulkRestore: 'Restaurar',
+    bulkPurge: 'Excluir permanentemente',
+    deleteTitle: 'Excluir avaliação',
+    deleteDescription: (reviewer) =>
+      `Tem certeza de que deseja excluir a avaliação de ${reviewer}? Você pode restaurá-la da lixeira.`,
+    confirmDelete: 'Excluir',
+    bulkDeleteDescription: (count) =>
+      `Excluir ${count} avaliações? Você pode restaurá-las da lixeira.`,
+    restoreTitle: 'Restaurar avaliação',
+    restoreDescription: (reviewer) =>
+      `Restaurar a avaliação de ${reviewer} para a lista ativa?`,
+    confirmRestore: 'Restaurar',
+    bulkRestoreDescription: (count) => `Restaurar ${count} avaliações para a lista ativa?`,
+    purgeTitle: 'Excluir permanentemente',
+    purgeDescription: (reviewer) =>
+      `Isso excluirá permanentemente a avaliação de ${reviewer}. Esta ação é IRREVERSÍVEL.`,
+    confirmPurge: 'Excluir',
+    bulkPurgeDescription: (count) =>
+      `Isso excluirá ${count} avaliações permanentemente. Esta ação é IRREVERSÍVEL.`,
+  },
+  detail: {
+    title: 'Detalhes da avaliação',
+    product: 'Produto',
+    reviewer: 'Autor',
+    email: 'E-mail',
+    rating: 'Avaliação',
+    comment: 'Comentário',
+    status: 'Status',
+    submittedAt: 'Enviada',
+    close: 'Fechar',
+  },
+  toasts: {
+    approved: 'Avaliação aprovada',
+    rejected: 'Avaliação rejeitada',
+    deleted: 'Avaliação excluída',
+    restored: 'Avaliação restaurada',
+    purged: 'Avaliação excluída permanentemente',
+    bulkDeleted: 'Avaliações excluídas',
+    bulkRestored: 'Avaliações restauradas',
+    bulkPurged: 'Avaliações excluídas permanentemente',
+  },
+}

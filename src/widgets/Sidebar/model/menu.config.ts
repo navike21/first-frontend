@@ -421,6 +421,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '订单',
     ru: 'Заказы',
   },
+  productReviews: {
+    es: 'Reseñas',
+    en: 'Reviews',
+    de: 'Bewertungen',
+    fr: 'Avis',
+    pt: 'Avaliações',
+    it: 'Recensioni',
+    ja: 'レビュー',
+    ko: '리뷰',
+    zh: '评价',
+    ru: 'Отзывы',
+  },
 }
 
 export function getMenuTitle(lang: Language): string {
@@ -531,6 +543,13 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           href: navPaths.shippingRules(lang),
           icon: 'RiTruckLine',
           permissions: CAN.shippingView,
+        },
+        {
+          id: 'productReviews',
+          label: MENU_LABELS.productReviews[lang],
+          href: navPaths.productReviews(lang),
+          icon: 'RiStarLine',
+          permissions: CAN.productReviewsView,
         },
         {
           id: 'paymentMethods',

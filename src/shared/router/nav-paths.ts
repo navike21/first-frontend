@@ -416,4 +416,12 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.orders[l_]}/${ROUTE_SLUGS.orderTrash[l_]}`
   },
+  productReviews: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productReviews[l_]}`
+  },
+  productReviewTrash: (l?: Language) => {
+    const l_ = lang(l)
+    return `/${l_}/${ROUTE_SLUGS.productReviews[l_]}/${ROUTE_SLUGS.productReviewTrash[l_]}`
+  },
 } as const

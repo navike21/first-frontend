@@ -1,0 +1,1 @@
+export { ProductReviewDetailModal } from './ProductReviewDetailModal'
