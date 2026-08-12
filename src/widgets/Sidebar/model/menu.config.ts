@@ -409,6 +409,18 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '支付服务商',
     ru: 'Платёжные провайдеры',
   },
+  orders: {
+    es: 'Pedidos',
+    en: 'Orders',
+    de: 'Bestellungen',
+    fr: 'Commandes',
+    pt: 'Pedidos',
+    it: 'Ordini',
+    ja: '注文',
+    ko: '주문',
+    zh: '订单',
+    ru: 'Заказы',
+  },
 }
 
 export function getMenuTitle(lang: Language): string {
@@ -498,6 +510,13 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           href: navPaths.inventoryStock(lang),
           icon: 'RiStackLine',
           permissions: CAN.inventoryView,
+        },
+        {
+          id: 'orders',
+          label: MENU_LABELS.orders[lang],
+          href: navPaths.orders(lang),
+          icon: 'RiShoppingCart2Line',
+          permissions: CAN.ordersView,
         },
         {
           id: 'coupons',
