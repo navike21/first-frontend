@@ -16,16 +16,9 @@ export function fromMoney(money?: Money): string {
   return (money.amount / 100).toFixed(2)
 }
 
-export function parseProvincesText(text: string): string[] {
-  return text
-    .split(',')
-    .map((v) => v.trim())
-    .filter(Boolean)
-}
-
 const zoneSchema = z.object({
   region: z.string().trim(),
-  provincesText: z.string().trim(),
+  provinces: z.array(z.string()).default([]),
 })
 
 export function createShippingRuleSchema(v: V) {
@@ -73,7 +66,7 @@ export interface ShippingRuleFormData {
   type: ShippingRuleType
   amount: string
   freeOverAmount?: string
-  zones: { region: string; provincesText: string }[]
+  zones: { region: string; provinces: string[] }[]
   isActive: boolean
   order?: string
 }
@@ -102,13 +95,10 @@ export function toShippingRulePayload(
         : undefined,
     zones:
       data.type === 'by_zone'
-        ? data.zones.map((zone) => {
-            const provinces = parseProvincesText(zone.provincesText)
-            return {
-              region: zone.region.trim(),
-              provinces: provinces.length > 0 ? provinces : undefined,
-            }
-          })
+        ? data.zones.map((zone) => ({
+            region: zone.region.trim(),
+            provinces: zone.provinces.length > 0 ? zone.provinces : undefined,
+          }))
         : [],
     isActive: data.isActive,
     order: data.order ? Number.parseInt(data.order, 10) : 0,

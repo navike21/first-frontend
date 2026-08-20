@@ -22,7 +22,7 @@ function toFormValues(rule: ShippingRule): Partial<ShippingRuleFormData> {
     freeOverAmount: fromMoney(rule.freeOverAmount),
     zones: rule.zones.map((zone) => ({
       region: zone.region,
-      provincesText: (zone.provinces ?? []).join(', '),
+      provinces: zone.provinces ?? [],
     })),
     isActive: rule.isActive,
     order: String(rule.order),

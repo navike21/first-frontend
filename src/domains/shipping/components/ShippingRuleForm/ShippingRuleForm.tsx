@@ -75,6 +75,7 @@ export const ShippingRuleForm = ({
 
   const typeValue = useWatch({ control, name: 'type' })
   const isActiveValue = useWatch({ control, name: 'isActive' })
+  const zonesValue = useWatch({ control, name: 'zones' })
 
   const typeOptions = [
     { value: 'flat', label: t.type.flat },
@@ -143,7 +144,7 @@ export const ShippingRuleForm = ({
                 type="button"
                 variant="secondary"
                 size="small"
-                onClick={() => appendZone({ region: '', provincesText: '' })}
+                onClick={() => appendZone({ region: '', provinces: [] })}
               >
                 {t.form.addZone}
               </Button>
@@ -157,7 +158,23 @@ export const ShippingRuleForm = ({
                   <ShippingZoneRow
                     key={field.id}
                     index={index}
-                    register={register}
+                    region={zonesValue?.[index]?.region ?? ''}
+                    provinces={zonesValue?.[index]?.provinces ?? []}
+                    lang={language}
+                    onRegionChange={(region) =>
+                      setValue(`zones.${index}.region`, region, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      })
+                    }
+                    onProvincesChange={(provinces) =>
+                      setValue(`zones.${index}.provinces`, provinces, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      })
+                    }
                     onRemove={() => removeZone(index)}
                   />
                 ))}

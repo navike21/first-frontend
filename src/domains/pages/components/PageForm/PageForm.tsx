@@ -14,6 +14,7 @@ import {
   LangTabs,
   LangBadge,
   TranslateSuggestButton,
+  DateTimeField,
   type WizardStep,
 } from '@/shared/ui'
 import type { StorageFile } from '@/shared/api/storage'
@@ -716,14 +717,14 @@ export const PageForm = ({
                 }
               />
               {statusValue === 'scheduled' && (
-                <InputField
-                  type="datetime-local"
+                <DateTimeField
                   label={requiredLabel(t.form.scheduledAt)}
+                  lang={language}
                   variant={errors.scheduledAt ? 'error' : undefined}
                   errorMessage={errors.scheduledAt?.message}
                   value={scheduledAtValue ?? ''}
-                  onChange={(e) =>
-                    setValue('scheduledAt', e.target.value, {
+                  onChange={(value) =>
+                    setValue('scheduledAt', value, {
                       shouldValidate: true,
                       shouldDirty: true,
                       shouldTouch: true,

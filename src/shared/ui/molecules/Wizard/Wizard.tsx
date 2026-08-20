@@ -89,6 +89,13 @@ export const Wizard = ({
   const activeStep = steps[index]
   const activeState = stepStateAt(activeStep, index, index, reachedIndex)
 
+  // Past ~5 steps, per-step labels squeezed into flex-1 columns overlap their
+  // neighbors on laptop-width screens (verified: 7-step form, 1280px wide —
+  // labels visibly bled into each other). Above that count, drop per-step
+  // labels everywhere (not just <sm:) and rely on the compact "active step
+  // label + counter" line instead — same pattern already used on mobile.
+  const manySteps = steps.length > 5
+
   return (
     <div className="flex flex-col gap-6">
       <ol className="flex items-start">
@@ -135,22 +142,24 @@ export const Wizard = ({
                 />
               </div>
 
-              {/* Desktop: label below each dot */}
-              <span
-                className={clsx(
-                  'mt-2 hidden px-1 text-sm font-medium sm:block',
-                  TITLE_BY_STATE[state]
-                )}
-              >
-                {step.label}
-                {step.optional && optionalLabel && (
-                  <span className="text-muted ml-1 text-xs font-normal">
-                    {optionalLabel}
-                  </span>
-                )}
-              </span>
-              {step.description && (
-                <span className="text-muted hidden px-1 text-xs sm:block">
+              {/* Desktop: label below each dot (hidden for many-step wizards — see manySteps) */}
+              {!manySteps && (
+                <span
+                  className={clsx(
+                    'mt-2 hidden w-full truncate px-1 text-sm font-medium sm:block',
+                    TITLE_BY_STATE[state]
+                  )}
+                >
+                  {step.label}
+                  {step.optional && optionalLabel && (
+                    <span className="text-muted ml-1 text-xs font-normal">
+                      {optionalLabel}
+                    </span>
+                  )}
+                </span>
+              )}
+              {!manySteps && step.description && (
+                <span className="text-muted hidden w-full truncate px-1 text-xs sm:block">
                   {step.description}
                 </span>
               )}
@@ -159,8 +168,15 @@ export const Wizard = ({
         })}
       </ol>
 
-      {/* Mobile: active step label + counter below the dots row */}
-      <div className="flex items-center justify-between sm:hidden">
+      {/* Active step label + counter below the dots row — always for
+          many-step wizards, mobile-only otherwise (desktop shows per-step
+          labels instead in that case, see above). */}
+      <div
+        className={clsx(
+          'flex items-center justify-between',
+          !manySteps && 'sm:hidden'
+        )}
+      >
         <span
           className={clsx('text-sm font-medium', TITLE_BY_STATE[activeState])}
         >

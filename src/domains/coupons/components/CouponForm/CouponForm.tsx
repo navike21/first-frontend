@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   FormGrid,
   SectionLabel,
+  DateTimeField,
 } from '@/shared/ui'
 import { requiredLabel } from '@/shared/lib'
 import { applyServerFieldErrors } from '@/shared/lib/serverFormErrors'
@@ -85,6 +86,8 @@ export const CouponForm = ({
   const targetIdsValue = useWatch({ control, name: 'targetIds' })
   const isStackableValue = useWatch({ control, name: 'isStackable' })
   const statusValue = useWatch({ control, name: 'status' })
+  const startsAtValue = useWatch({ control, name: 'startsAt' })
+  const expiresAtValue = useWatch({ control, name: 'expiresAt' })
 
   const typeOptions = [
     { value: 'percentage', label: t.type.percentage },
@@ -184,17 +187,31 @@ export const CouponForm = ({
         </FormGrid>
 
         <FormGrid>
-          <InputField
-            type="datetime-local"
+          <DateTimeField
             label={t.form.startsAt}
-            {...register('startsAt')}
+            lang={language}
+            value={startsAtValue}
+            onChange={(value) =>
+              setValue('startsAt', value, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              })
+            }
           />
-          <InputField
-            type="datetime-local"
+          <DateTimeField
             label={t.form.expiresAt}
+            lang={language}
+            value={expiresAtValue}
             variant={errors.expiresAt ? 'error' : undefined}
             errorMessage={errors.expiresAt?.message}
-            {...register('expiresAt')}
+            onChange={(value) =>
+              setValue('expiresAt', value, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              })
+            }
           />
         </FormGrid>
 

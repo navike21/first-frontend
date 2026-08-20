@@ -14,10 +14,13 @@ export const Chip = ({
   deleteButtonProps,
 }: Readonly<ChipProps>) => {
   return (
-    <motion.span
+    // Plain span, not motion.span: Chip has no click/tap behavior of its own
+    // (only the separate delete button does) — whileHover/whileTap here used
+    // to make every static status chip in the app scale like a button AND
+    // implicitly keyboard-focusable (Framer Motion adds tabIndex=0 for
+    // whileTap), with no visible focus style — a silent dead focus stop.
+    <span
       data-testid="chip"
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
       className={clsx(
         className,
         // El manual no lleva ring/borde en ningún chip — solo relleno plano.
@@ -91,6 +94,6 @@ export const Chip = ({
           />
         </motion.button>
       )}
-    </motion.span>
+    </span>
   )
 }
