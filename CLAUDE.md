@@ -1196,6 +1196,23 @@ a propósito — sin tienda pública, se prueban vía API. Construido en 6 miles
   `isActive=true` y verificado en vivo (request 200 con el filtro correcto). Si el
   filtro de `products` vuelve a cambiar, **grepear los tres pickers** — no asumir que
   actualizar `domains/products` alcanza.
+- ⚠️ **Corrección 2026-08-21 (no reintroducir): `domains/payments` perdió por completo
+  la gestión de "Métodos de pago"** (tarjetas guardadas por cliente — formulario con
+  Cliente/Proveedor/Token/Marca/Últimos 4/Vencimiento). Mismo patrón que el resto de
+  esta sección: guardar una tarjeta es algo que hace el **cliente** en la web pública
+  (con el SDK JS real del proveedor), nunca el staff desde el admin — el formulario no
+  tenía ningún flujo de tokenización real detrás. Eliminados
+  `PaymentMethodForm`/`PaymentMethodTable`/`PaymentMethodDetailModal`, las 4 páginas
+  (list/create/edit/trash), los hooks `paymentMethods.api`/`.queries`, y toda la entrada
+  de sidebar/rutas/breadcrumbs/permisos (`CAN.paymentMethods*`) asociada. **Queda
+  intacto** `PaymentProviderConfigCard`/`PaymentProviderConfigPage` (config de
+  Culqi/MercadoPago/Stripe/Manual — eso sí es admin legítimo) bajo "Proveedores de
+  pago". Ver `first-backend/CLAUDE.md` para el lado del backend.
+- **`getCurrencyOptions(lang)`** (`shared/lib/formatCurrency.ts`): lista completa de
+  códigos ISO 4217 vía `Intl.supportedValuesOf('currency')` (no hardcodeada) +
+  `Intl.DisplayNames` para el nombre localizado — para cualquier `Select` de moneda
+  (ej. `ecommerce-settings.currency`, antes un `InputField` de texto libre que
+  permitía tipear un código inválido).
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.

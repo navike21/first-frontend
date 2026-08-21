@@ -1,1 +1,0 @@
-export { PaymentMethodForm } from './PaymentMethodForm'

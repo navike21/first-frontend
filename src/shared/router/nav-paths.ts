@@ -380,22 +380,6 @@ export const navPaths = {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.shippingRules[l_]}/${ROUTE_SLUGS.shippingRuleTrash[l_]}`
   },
-  paymentMethods: (l?: Language) => {
-    const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}`
-  },
-  paymentMethodCreate: (l?: Language) => {
-    const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodCreate[l_]}`
-  },
-  paymentMethodEdit: (methodId: string, l?: Language) => {
-    const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodEdit[l_]}/${methodId}`
-  },
-  paymentMethodTrash: (l?: Language) => {
-    const l_ = lang(l)
-    return `/${l_}/${ROUTE_SLUGS.paymentMethods[l_]}/${ROUTE_SLUGS.paymentMethodTrash[l_]}`
-  },
   paymentProviderConfig: (l?: Language) => {
     const l_ = lang(l)
     return `/${l_}/${ROUTE_SLUGS.paymentProviderConfig[l_]}`

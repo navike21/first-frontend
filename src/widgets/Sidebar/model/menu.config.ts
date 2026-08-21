@@ -385,18 +385,6 @@ const MENU_LABELS: Record<string, Record<Language, string>> = {
     zh: '配送',
     ru: 'Доставка',
   },
-  paymentMethods: {
-    es: 'Métodos de pago',
-    en: 'Payment Methods',
-    de: 'Zahlungsmethoden',
-    fr: 'Moyens de paiement',
-    pt: 'Métodos de pagamento',
-    it: 'Metodi di pagamento',
-    ja: '支払い方法',
-    ko: '결제 수단',
-    zh: '支付方式',
-    ru: 'Способы оплаты',
-  },
   paymentProviderConfig: {
     es: 'Proveedores de pago',
     en: 'Payment Providers',
@@ -550,13 +538,6 @@ export function getMenuConfig(lang: Language): MenuItem[] {
           href: navPaths.productReviews(lang),
           icon: 'RiStarLine',
           permissions: CAN.productReviewsView,
-        },
-        {
-          id: 'paymentMethods',
-          label: MENU_LABELS.paymentMethods[lang],
-          href: navPaths.paymentMethods(lang),
-          icon: 'RiBankCardLine',
-          permissions: CAN.paymentMethodsView,
         },
         {
           id: 'paymentProviderConfig',

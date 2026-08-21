@@ -15,32 +15,3 @@ export interface PaymentProviderConfig {
   isDefault: boolean
   config: Record<string, string>
 }
-
-export interface PaymentMethod {
-  id: string
-  customerId: string
-  provider: PaymentProviderKey
-  providerToken: string
-  brand: string
-  last4: string
-  expiryMonth: number
-  expiryYear: number
-  isDefault: boolean
-  createdAt?: string
-  updatedAt?: string
-  deletedAt?: string | null
-}
-
-export interface PaymentMethodListParams {
-  page?: number
-  limit?: number
-  customerId?: string
-  provider?: PaymentProviderKey
-}
-
-export interface PaymentMethodPaginationMeta {
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}

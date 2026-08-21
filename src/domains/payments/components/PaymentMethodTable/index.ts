@@ -1,1 +1,0 @@
-export { PaymentMethodTable } from './PaymentMethodTable'

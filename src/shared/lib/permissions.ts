@@ -199,17 +199,11 @@ export const CAN = {
   shippingDelete: ['shipping:delete', 'shipping:manage'],
   shippingPurge: ['shipping:purge'],
   shippingTrash: ['shipping:purge', 'shipping:manage'],
-  // Payments covers both provider-config (read/update only, no create/purge —
-  // the provider set is fixed by the backend registry) and
-  // CustomerPaymentMethod full CRUD, under one `payments:*` resource.
+  // Provider-config only (read/update — the provider set is fixed by the
+  // backend registry, no create/purge). Saved customer payment methods are
+  // never admin-managed here, see first-backend/CLAUDE.md's Ecommerce section.
   paymentProviderConfigView: ['payments:read', 'payments:manage'],
   paymentProviderConfigUpdate: ['payments:update', 'payments:manage'],
-  paymentMethodsView: ['payments:read', 'payments:manage'],
-  paymentMethodsCreate: ['payments:create', 'payments:manage'],
-  paymentMethodsUpdate: ['payments:update', 'payments:manage'],
-  paymentMethodsDelete: ['payments:delete', 'payments:manage'],
-  paymentMethodsPurge: ['payments:purge'],
-  paymentMethodsTrash: ['payments:purge', 'payments:manage'],
   ordersView: ['orders:read', 'orders:manage'],
   ordersCreate: ['orders:create', 'orders:manage'],
   ordersUpdate: ['orders:update', 'orders:manage'],

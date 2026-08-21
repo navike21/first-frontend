@@ -1,5 +1,1 @@
-export { PaymentMethodsPage } from './pages/PaymentMethodsPage'
-export { CreatePaymentMethodPage } from './pages/CreatePaymentMethodPage'
-export { EditPaymentMethodPage } from './pages/EditPaymentMethodPage'
-export { PaymentMethodsTrashPage } from './pages/PaymentMethodsTrashPage'
 export { PaymentProviderConfigPage } from './pages/PaymentProviderConfigPage'
