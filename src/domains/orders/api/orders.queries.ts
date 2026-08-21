@@ -137,7 +137,7 @@ export const useProductsForOrderPicker = () =>
     queryKey: ['products', 'picker-for-orders'],
     queryFn: () =>
       request<ApiResponse<OrderProductPickerItem[]>>({
-        api: '/products/admin?limit=100&status=active',
+        api: '/products/admin?limit=100&isActive=true',
         method: 'GET',
       }),
     select: (res) => res.data ?? [],
