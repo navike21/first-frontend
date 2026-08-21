@@ -90,6 +90,14 @@ nuevo. Limpiar también el service worker/cache del navegador de prueba
 (`navigator.serviceWorker.getRegistrations()` + `caches.keys()`) al
 reverificar, ya que un bundle viejo puede quedar cacheado ahí también.
 
+**Confirmado de nuevo el 2026-08-21 (dos pushes directos a `main`, sin PR, en la misma
+sesión):** `first-frontend-rose.vercel.app` (Production) sí se auto-actualizó las dos
+veces — parece ser el alias confiable de este repo — pero
+`first-frontend-git-test-navike21.vercel.app` (Test) quedó desalineado **ambas** veces
+pese al sync explícito `main`→`test`. Verificar el alias de Test es un paso obligado
+después de *cada* push a `test`, no una excepción puntual — no asumir que porque
+Production siguió bien esta vez, Test también lo hizo.
+
 - `pnpm vitest run` — suite completa.
 - `pnpm build` — vite build.
 
@@ -1157,6 +1165,37 @@ productos separados) es un hito futuro explícitamente distinto — no confundir
   (`if (languages.length <= 1) return null`) en vez de en cada caller — es privado al
   Page Builder (no un átomo de `shared/ui` con otros consumidores), y sus 9 call sites
   quieren la misma regla sin excepción, así que no hay riesgo de inconsistencia.
+
+## Ecommerce (10 dominios) — gestión interna, sin tienda pública todavía
+
+`domains/product-categories`, `customers`, `inventory`, `products`, `coupons`,
+`shipping`, `payments`, `orders`, `product-reviews`, `ecommerce-settings` — mismo
+domain-sliced que el resto. `cart`/`wishlist` (backend) **no tienen dominio frontend**
+a propósito — sin tienda pública, se prueban vía API. Construido en 6 milestones
+(A–F, ver `first-backend/CLAUDE.md` para el detalle del módulo completo).
+
+- **`isActive: boolean`, no `status`** — mismo Switch en el form / Chip Activo-Inactivo
+  en tabla / filtro Todos-Activos-Inactivos que `domains/categories`
+  (`CategoryForm`/`CategoryTable`). `products` es la única entidad de Ecommerce que
+  llevó un `status: draft|active|archived` de tipo Portfolio hasta 2026-08-21 (sin
+  storefront público que gatear) — corregido: `ProductForm` ya no tiene paso de SEO ni
+  campo de slug (wizard pasó de 7 a 6 pasos), y su Select de estado se reemplazó por el
+  mismo Switch `isActive` del resto. `ecommerce-settings` perdió el campo/sección de
+  `checkoutPolicies` (texto de términos para un checkout público que no existe).
+- ⚠️ **Gotcha real (parcialmente resuelto, revisar si se vuelve a tocar el filtro de
+  `products`):** varios dominios consumen `GET /products/admin` **directo**, con su
+  propio hook y su propia query string a mano, en vez de reusar
+  `domains/products/api/products.api.ts::productsApi.listAdmin` (que sí tipa sus
+  params) — `domains/orders/api/orders.queries.ts::useProductsForOrderPicker`,
+  `domains/coupons/api/coupons.queries.ts` y
+  `domains/product-reviews/api/productReviews.queries.ts` cada uno arma su propio
+  picker. Al migrar `products.status` → `isActive`, el picker de `orders` se quedó con
+  `?status=active` hardcodeado — el backend ignora query params desconocidos en
+  silencio, así que esto no tiraba error, solo devolvía **todos** los productos
+  (activos e inactivos) al constructor de pedidos, sin ningún aviso. Corregido a
+  `isActive=true` y verificado en vivo (request 200 con el filtro correcto). Si el
+  filtro de `products` vuelve a cambiar, **grepear los tres pickers** — no asumir que
+  actualizar `domains/products` alcanza.
 
 ## Documentación relacionada
 - `first-backend/CLAUDE.md` — convenciones del backend.
