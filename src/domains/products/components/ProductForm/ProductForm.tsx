@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useForm,
   useFieldArray,
@@ -34,11 +34,7 @@ import {
   useProductCategoriesForPicker,
   useTagsForProductPicker,
 } from '../../api/products.queries'
-import {
-  createProductSchema,
-  parseValuesText,
-  PRODUCT_STATUS_VALUES,
-} from '../../model/product.schema'
+import { createProductSchema, parseValuesText } from '../../model/product.schema'
 import type {
   ProductFormData,
   ProductVariantFormData,
@@ -72,18 +68,6 @@ function deriveGalleryPayload(items: GalleryItem[]): {
     return { type: 'new', index: galleryFiles.length - 1 }
   })
   return { galleryFiles, galleryOrder, existingGalleryUrls }
-}
-
-function slugify(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/\p{Mn}/gu, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
 }
 
 function cartesianProduct(valueLists: string[][]): string[][] {
@@ -144,16 +128,14 @@ type StepId =
   | 'content'
   | 'pricing'
   | 'organization'
-  | 'seo'
   | 'images'
   | 'inventory'
 
 const STEP_FIELDS: Record<StepId, (keyof ProductFormData)[]> = {
-  general: ['name', 'slug', 'sku'],
+  general: ['name', 'sku'],
   content: ['shortDescription', 'description'],
   pricing: ['price', 'compareAtPrice', 'hasVariants', 'variantOptions', 'variants'],
-  organization: ['categoryIds', 'tagIds', 'status'],
-  seo: ['seoMetaTitle', 'seoMetaDescription', 'seoKeywords', 'seoOgImage'],
+  organization: ['categoryIds', 'tagIds', 'isActive'],
   images: [],
   inventory: [],
 }
@@ -209,7 +191,6 @@ export const ProductForm = ({
     resolver: zodResolver(schema) as Resolver<ProductFormData>,
     mode: 'onTouched',
     defaultValues: {
-      slug: { ...emptyLocalized },
       name: { ...emptyLocalized },
       shortDescription: { ...emptyLocalized },
       description: { ...emptyLocalized },
@@ -218,11 +199,7 @@ export const ProductForm = ({
       compareAtPrice: '',
       categoryIds: [],
       tagIds: [],
-      status: 'draft',
-      seoMetaTitle: { ...emptyLocalized },
-      seoMetaDescription: { ...emptyLocalized },
-      seoKeywords: { ...emptyLocalized },
-      seoOgImage: '',
+      isActive: true,
       hasVariants: false,
       variantOptions: [],
       variants: [],
@@ -249,51 +226,13 @@ export const ProductForm = ({
   const nameValues = useWatch({ control, name: 'name' })
   const sdValues = useWatch({ control, name: 'shortDescription' })
   const descValues = useWatch({ control, name: 'description' })
-  const slugValues = useWatch({ control, name: 'slug' })
   const priceValue = useWatch({ control, name: 'price' })
   const categoryIdsValue = useWatch({ control, name: 'categoryIds' })
   const tagIdsValue = useWatch({ control, name: 'tagIds' })
-  const statusValue = useWatch({ control, name: 'status' })
+  const isActiveValue = useWatch({ control, name: 'isActive' })
   const hasVariantsValue = useWatch({ control, name: 'hasVariants' })
   const variantOptionsValue = useWatch({ control, name: 'variantOptions' })
   const variantsValue = useWatch({ control, name: 'variants' })
-
-  // Per-language slug detach — mirrors portfolio: the effect keeps the slug
-  // synced to the name until the user types into the slug field themselves
-  // (or the initial data already carried a real slug for that language).
-  const detachedRef = useRef<Set<Language>>(
-    new Set(
-      SUPPORTED_LANGUAGES.filter((l) => !!initialValues?.slug?.[l]?.trim())
-    )
-  )
-
-  const currentNameValue = nameValues?.[editingLanguage] ?? ''
-
-  useEffect(() => {
-    if (detachedRef.current.has(editingLanguage)) return
-    setValue(`slug.${editingLanguage}`, slugify(currentNameValue), {
-      shouldValidate: false,
-      shouldDirty: false,
-      shouldTouch: false,
-    })
-  }, [currentNameValue, editingLanguage, setValue])
-
-  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = e.target.value
-      .toLowerCase()
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-')
-    setValue(`slug.${editingLanguage}`, cleaned, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    })
-    if (cleaned) {
-      detachedRef.current.add(editingLanguage)
-    } else {
-      detachedRef.current.delete(editingLanguage)
-    }
-  }
 
   const categoryOptions = useMemo(
     () =>
@@ -312,11 +251,6 @@ export const ProductForm = ({
       })),
     [tagsData, language]
   )
-
-  const statusOptions = PRODUCT_STATUS_VALUES.map((s) => ({
-    value: s,
-    label: t.status[s],
-  }))
 
   type LangErrors = Record<Language, { message?: string } | undefined>
 
@@ -372,12 +306,6 @@ export const ProductForm = ({
       optional: true,
       error: stepHasError('organization'),
     },
-    {
-      id: 'seo',
-      label: t.form.sectionSeo,
-      optional: true,
-      error: stepHasError('seo'),
-    },
     { id: 'images', label: t.form.sectionImages, optional: true },
     { id: 'inventory', label: t.form.sectionInventory, optional: true },
   ]
@@ -412,7 +340,6 @@ export const ProductForm = ({
         'content',
         'pricing',
         'organization',
-        'seo',
       ] as StepId[]) {
         if (STEP_FIELDS[step].some((f) => f in formErrors)) {
           setActiveStep(step)
@@ -476,25 +403,6 @@ export const ProductForm = ({
                   variant={nameError ? 'error' : undefined}
                   errorMessage={nameError}
                   {...register(`name.${editingLanguage}`)}
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <SectionLabel>{t.form.slug}</SectionLabel>
-                  <LangBadge lang={editingLanguage} />
-                </div>
-                <InputField
-                  helperText={t.form.slugHint}
-                  variant={
-                    (errors.slug as LangErrors)?.[editingLanguage]
-                      ? 'error'
-                      : undefined
-                  }
-                  errorMessage={
-                    (errors.slug as LangErrors)?.[editingLanguage]?.message
-                  }
-                  value={slugValues?.[editingLanguage] ?? ''}
-                  onChange={handleSlugChange}
                 />
               </div>
               <InputField
@@ -687,60 +595,21 @@ export const ProductForm = ({
                   })
                 }}
               />
-              <Select
-                label={t.form.status}
-                options={statusOptions}
-                value={statusValue}
-                lang={language}
+              <Switch
+                label={t.form.isActive}
+                checked={isActiveValue}
                 onChange={(e) =>
-                  setValue('status', e.target.value as typeof statusValue, {
+                  setValue('isActive', e.target.checked, {
                     shouldValidate: true,
                     shouldDirty: true,
                     shouldTouch: true,
                   })
                 }
+                disabled={isSubmitting}
               />
             </div>
 
-            {/* Step 5 — SEO */}
-            <div
-              hidden={activeStep !== 'seo'}
-              className="animate-tab-fade flex flex-col gap-6"
-            >
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <SectionLabel>{t.form.metaTitle}</SectionLabel>
-                  <LangBadge lang={editingLanguage} />
-                </div>
-                <InputField
-                  {...register(`seoMetaTitle.${editingLanguage}`)}
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <SectionLabel>{t.form.metaDescription}</SectionLabel>
-                  <LangBadge lang={editingLanguage} />
-                </div>
-                <InputField
-                  {...register(`seoMetaDescription.${editingLanguage}`)}
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <SectionLabel>{t.form.keywords}</SectionLabel>
-                  <LangBadge lang={editingLanguage} />
-                </div>
-                <InputField {...register(`seoKeywords.${editingLanguage}`)} />
-              </div>
-              <InputField
-                label={t.form.ogImage}
-                variant={errors.seoOgImage ? 'error' : undefined}
-                errorMessage={errors.seoOgImage?.message}
-                {...register('seoOgImage')}
-              />
-            </div>
-
-            {/* Step 6 — Images */}
+            {/* Step 5 — Images */}
             <div hidden={activeStep !== 'images'} className="animate-tab-fade">
               <div className="flex flex-col gap-3">
                 <SectionLabel>{t.form.gallery}</SectionLabel>
@@ -759,7 +628,7 @@ export const ProductForm = ({
               </div>
             </div>
 
-            {/* Step 7 — Inventory (edit-mode only) */}
+            {/* Step 6 — Inventory (edit-mode only) */}
             <div hidden={activeStep !== 'inventory'} className="animate-tab-fade">
               {mode === 'create' || !productId ? (
                 <p className="text-secondary text-sm">

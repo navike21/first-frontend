@@ -15,9 +15,6 @@ export interface EcommerceSettingsTranslations {
     address: string
     addressNumber: string
     addressInterior: string
-    sectionCheckoutPolicies: string
-    checkoutPoliciesHint: string
-    checkoutPolicies: string
     save: string
   }
   toasts: {

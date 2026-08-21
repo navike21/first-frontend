@@ -1,25 +1,19 @@
 import { useEffect, useMemo } from 'react'
-import { useForm, useWatch, type Resolver } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   PageContent,
   InputField,
   InputNumber,
-  TextArea,
   Button,
   ButtonGroup,
   FormGrid,
   SectionLabel,
   LocationSelect,
-  LangTabs,
   Spinner,
 } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
 import { onQueuedOr } from '@/shared/lib'
-import { useScopedEditingLanguage } from '@/shared/lib'
-import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
-import type { Language } from '@/shared/i18n'
-import { useContentLanguages } from '@/domains/site-config'
 import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import {
   useEcommerceSettings,
@@ -34,11 +28,6 @@ import type { EcommerceSettingsFormData } from '../model/ecommerceSettings.schem
 
 export const EcommerceSettingsPage = () => {
   const { t, language } = useEcommerceSettingsTranslation()
-  const { languages } = useContentLanguages()
-  const { editingLanguage, setEditingLanguage } = useScopedEditingLanguage(
-    languages,
-    language
-  )
   const { data: settings, isLoading } = useEcommerceSettings()
   const updateSettings = useUpdateEcommerceSettings()
   const canUpdate = useHasPermission(...CAN.ecommerceSettingsUpdate)
@@ -48,19 +37,9 @@ export const EcommerceSettingsPage = () => {
     [t.validation]
   )
 
-  const emptyLocalized = useMemo(
-    () =>
-      Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l, ''])) as Record<
-        Language,
-        string
-      >,
-    []
-  )
-
   const {
     register,
     handleSubmit,
-    setValue,
     control,
     reset,
     formState: { errors },
@@ -78,7 +57,6 @@ export const EcommerceSettingsPage = () => {
       address: '',
       addressNumber: '',
       addressInterior: '',
-      checkoutPolicies: { ...emptyLocalized },
     },
   })
 
@@ -95,17 +73,8 @@ export const EcommerceSettingsPage = () => {
       address: settings.storeOriginAddress.address ?? '',
       addressNumber: settings.storeOriginAddress.addressNumber ?? '',
       addressInterior: settings.storeOriginAddress.addressInterior ?? '',
-      checkoutPolicies: { ...emptyLocalized, ...settings.checkoutPolicies },
     })
-  }, [settings, reset, emptyLocalized])
-
-  const checkoutPoliciesValues = useWatch({
-    control,
-    name: 'checkoutPolicies',
-  })
-
-  const hasContent = (lang: Language): boolean =>
-    !!checkoutPoliciesValues?.[lang]?.trim()
+  }, [settings, reset])
 
   const submit = handleSubmit((data) => {
     updateSettings.mutate(toEcommerceSettingsPayload(data), {
@@ -188,37 +157,6 @@ export const EcommerceSettingsPage = () => {
                 {...register('addressInterior')}
               />
             </FormGrid>
-          </div>
-
-          <div className="border-border bg-surface flex flex-col gap-4 rounded-xl border p-6">
-            <div className="flex flex-col gap-1">
-              <SectionLabel>{t.form.sectionCheckoutPolicies}</SectionLabel>
-              <p className="text-secondary text-sm">
-                {t.form.checkoutPoliciesHint}
-              </p>
-            </div>
-            {languages.length > 1 && (
-              <LangTabs
-                languages={languages}
-                editingLanguage={editingLanguage}
-                userLanguage={language}
-                hasContent={hasContent}
-                hasError={() => false}
-                onChange={setEditingLanguage}
-              />
-            )}
-            <TextArea
-              label={t.form.checkoutPolicies}
-              rows={6}
-              value={checkoutPoliciesValues?.[editingLanguage] ?? ''}
-              onChange={(e) =>
-                setValue(
-                  `checkoutPolicies.${editingLanguage}`,
-                  e.target.value,
-                  { shouldDirty: true }
-                )
-              }
-            />
           </div>
 
           {canUpdate && (

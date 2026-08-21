@@ -17,13 +17,7 @@ import { formatCurrency } from '@/shared/lib/formatCurrency'
 import { navPaths } from '@/shared/router'
 import { useProductsTrashPage } from './ProductsTrashPage.hooks'
 import { ProductDetailModal } from '../components/ProductDetailModal'
-import type { Product, ProductStatus } from '../model/product.types'
-
-const STATUS_VARIANT: Record<ProductStatus, 'success' | 'default' | 'warning'> = {
-  active: 'success',
-  draft: 'default',
-  archived: 'warning',
-}
+import type { Product } from '../model/product.types'
 
 export const ProductsTrashPage = () => {
   const {
@@ -83,8 +77,8 @@ export const ProductsTrashPage = () => {
       id: 'status',
       header: t.table.colStatus,
       cell: (product) => (
-        <Chip size="small" variant={STATUS_VARIANT[product.status]}>
-          {t.status[product.status]}
+        <Chip size="small" variant={product.isActive ? 'success' : 'default'}>
+          {product.isActive ? t.status.active : t.status.inactive}
         </Chip>
       ),
     },

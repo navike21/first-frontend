@@ -1,18 +1,10 @@
 import type { Language } from '@/shared/i18n'
 
-export type ProductStatus = 'draft' | 'active' | 'archived'
 export type ProductLocalizedString = Record<Language, string>
 
 export interface Money {
   amount: number
   currency: string
-}
-
-export interface ProductSeo {
-  metaTitle?: ProductLocalizedString
-  metaDescription?: ProductLocalizedString
-  keywords?: ProductLocalizedString
-  ogImage?: string
 }
 
 export interface ProductVariantOption {
@@ -31,7 +23,6 @@ export interface ProductVariant {
 
 export interface Product {
   id: string
-  slug: ProductLocalizedString
   name: ProductLocalizedString
   shortDescription?: ProductLocalizedString
   description?: ProductLocalizedString
@@ -41,8 +32,7 @@ export interface Product {
   categoryIds: string[]
   tagIds: string[]
   gallery: string[]
-  status: ProductStatus
-  seo?: ProductSeo
+  isActive: boolean
   hasVariants: boolean
   variantOptions: ProductVariantOption[]
   variants: ProductVariant[]
@@ -55,7 +45,7 @@ export interface ProductListParams {
   page?: number
   limit?: number
   search?: string
-  status?: ProductStatus
+  isActive?: boolean
   categoryId?: string
   tagId?: string
 }

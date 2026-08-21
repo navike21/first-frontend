@@ -35,14 +35,12 @@ export interface ProductTranslations {
     searchPlaceholder: string
     statusLabel: string
     statusAll: string
-    statusDraft: string
     statusActive: string
-    statusArchived: string
+    statusInactive: string
   }
   status: {
-    draft: string
     active: string
-    archived: string
+    inactive: string
   }
   actions: {
     newProduct: string
@@ -72,12 +70,9 @@ export interface ProductTranslations {
     sectionContent: string
     sectionPricing: string
     sectionOrganization: string
-    sectionSeo: string
     sectionImages: string
     sectionInventory: string
     name: string
-    slug: string
-    slugHint: string
     sku: string
     shortDescription: string
     description: string
@@ -95,15 +90,12 @@ export interface ProductTranslations {
     variantSku: string
     variantPrice: string
     variantCompareAtPrice: string
+    variantImageUrl: string
     removeVariant: string
     noVariantsYet: string
     categoryIds: string
     tagIds: string
-    status: string
-    metaTitle: string
-    metaDescription: string
-    keywords: string
-    ogImage: string
+    isActive: string
     gallery: string
     galleryUploadLabel: string
     galleryDragLabel: string
@@ -151,8 +143,6 @@ export interface ProductTranslations {
   }
   validation: {
     required: string
-    slugInvalid: string
-    urlInvalid: string
     variantsRequired: string
   }
 }

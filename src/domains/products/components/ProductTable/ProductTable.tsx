@@ -9,7 +9,7 @@ import {
 import { formatCurrency } from '@/shared/lib/formatCurrency'
 import { CAN } from '@/shared/lib/permissions'
 import { useProductTranslation } from '../../i18n'
-import type { Product, ProductStatus } from '../../model/product.types'
+import type { Product } from '../../model/product.types'
 
 interface ProductTableProps {
   products: Product[]
@@ -24,12 +24,6 @@ interface ProductTableProps {
   onDelete: (product: Product) => void
   selectedIds?: string[]
   onSelectionChange?: (ids: string[]) => void
-}
-
-const STATUS_VARIANT: Record<ProductStatus, 'success' | 'default' | 'warning'> = {
-  active: 'success',
-  draft: 'default',
-  archived: 'warning',
 }
 
 export const ProductTable = ({
@@ -75,8 +69,8 @@ export const ProductTable = ({
       id: 'status',
       header: t.table.colStatus,
       cell: (product) => (
-        <Chip size="small" variant={STATUS_VARIANT[product.status]}>
-          {t.status[product.status]}
+        <Chip size="small" variant={product.isActive ? 'success' : 'default'}>
+          {product.isActive ? t.status.active : t.status.inactive}
         </Chip>
       ),
     },

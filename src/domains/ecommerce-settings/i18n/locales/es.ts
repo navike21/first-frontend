@@ -19,10 +19,6 @@ export const es: EcommerceSettingsTranslations = {
     address: 'Dirección',
     addressNumber: 'Número',
     addressInterior: 'Interior/Depto.',
-    sectionCheckoutPolicies: 'Políticas de checkout',
-    checkoutPoliciesHint:
-      'Texto de términos/devoluciones, listo para cuando exista un checkout público.',
-    checkoutPolicies: 'Texto de políticas',
     save: 'Guardar cambios',
   },
   toasts: {

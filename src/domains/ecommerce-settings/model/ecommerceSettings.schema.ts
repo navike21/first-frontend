@@ -1,16 +1,10 @@
 import { z } from 'zod'
 import type { EcommerceSettingsTranslations } from '../i18n/types'
-import { SUPPORTED_LANGUAGES } from '@/shared/i18n'
-import type { Language } from '@/shared/i18n'
-import type {
-  EcommerceLocalizedString,
-  EcommerceSettingsAddress,
-} from './ecommerceSettings.types'
+import type { EcommerceSettingsAddress } from './ecommerceSettings.types'
 
 type V = EcommerceSettingsTranslations['validation']
 
 const optional = z.string().trim().optional().or(z.literal(''))
-const optionalLocalized = z.string().trim().optional().or(z.literal(''))
 
 export function createEcommerceSettingsSchema(v: V) {
   return z.object({
@@ -28,11 +22,6 @@ export function createEcommerceSettingsSchema(v: V) {
     address: optional,
     addressNumber: optional,
     addressInterior: optional,
-    checkoutPolicies: z.object(
-      Object.fromEntries(
-        SUPPORTED_LANGUAGES.map((l) => [l, optionalLocalized])
-      ) as Record<Language, typeof optionalLocalized>
-    ),
   })
 }
 
@@ -44,7 +33,6 @@ export interface EcommerceSettingsUpdatePayload {
   currency: string
   taxPercentage: number
   storeOriginAddress: EcommerceSettingsAddress
-  checkoutPolicies: EcommerceLocalizedString
 }
 
 function stripEmpty<T extends Record<string, unknown>>(obj: T): T {
@@ -59,7 +47,6 @@ export function toEcommerceSettingsPayload(
   const {
     currency,
     taxPercentage,
-    checkoutPolicies,
     country,
     ubigeoCode,
     region,
@@ -83,8 +70,5 @@ export function toEcommerceSettingsPayload(
       addressNumber,
       addressInterior,
     }),
-    checkoutPolicies: Object.fromEntries(
-      SUPPORTED_LANGUAGES.map((l) => [l, checkoutPolicies[l]?.trim() ?? ''])
-    ) as EcommerceLocalizedString,
   }
 }

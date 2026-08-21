@@ -18,10 +18,6 @@ export const en: EcommerceSettingsTranslations = {
     address: 'Address',
     addressNumber: 'Number',
     addressInterior: 'Interior/Apt.',
-    sectionCheckoutPolicies: 'Checkout policies',
-    checkoutPoliciesHint:
-      'Terms/return policy text, ready for when a public checkout exists.',
-    checkoutPolicies: 'Policy text',
     save: 'Save changes',
   },
   toasts: {

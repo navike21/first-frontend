@@ -16,7 +16,6 @@ import type { Product } from '../model/product.types'
 
 function toFormValues(item: Product): Partial<ProductFormData> {
   return {
-    slug: item.slug,
     name: item.name,
     shortDescription: item.shortDescription ?? undefined,
     description: item.description ?? undefined,
@@ -27,11 +26,7 @@ function toFormValues(item: Product): Partial<ProductFormData> {
       : undefined,
     categoryIds: item.categoryIds,
     tagIds: item.tagIds,
-    status: item.status,
-    seoMetaTitle: item.seo?.metaTitle ?? undefined,
-    seoMetaDescription: item.seo?.metaDescription ?? undefined,
-    seoKeywords: item.seo?.keywords ?? undefined,
-    seoOgImage: item.seo?.ogImage ?? '',
+    isActive: item.isActive,
     hasVariants: item.hasVariants,
     variantOptions: item.variantOptions.map((o) => ({
       name: o.name,

@@ -6,15 +6,7 @@ import type { ProductLocalizedString, Money } from './product.types'
 
 type V = ProductTranslations['validation']
 
-export const PRODUCT_STATUS_VALUES = ['draft', 'active', 'archived'] as const
-
 const opt = z.string().trim().optional().or(z.literal(''))
-const slugLangField = z
-  .string()
-  .trim()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-  .optional()
-  .or(z.literal(''))
 
 const priceField = z
   .string()
@@ -55,11 +47,6 @@ export function createProductSchema(v: V, primaryLang: Language = 'en') {
 
   return z
     .object({
-      slug: z.object(
-        Object.fromEntries(
-          SUPPORTED_LANGUAGES.map((l) => [l, slugLangField])
-        ) as Record<Language, typeof slugLangField>
-      ),
       name: z.object(nameFields),
       shortDescription: emptyLocalizedSchema(),
       description: emptyLocalizedSchema(),
@@ -68,11 +55,7 @@ export function createProductSchema(v: V, primaryLang: Language = 'en') {
       compareAtPrice: optPriceField,
       categoryIds: z.array(z.string()).default([]),
       tagIds: z.array(z.string()).default([]),
-      status: z.enum(PRODUCT_STATUS_VALUES).default('draft'),
-      seoMetaTitle: emptyLocalizedSchema(),
-      seoMetaDescription: emptyLocalizedSchema(),
-      seoKeywords: emptyLocalizedSchema(),
-      seoOgImage: z.string().url(v.urlInvalid).optional().or(z.literal('')),
+      isActive: z.boolean().default(true),
       hasVariants: z.boolean().default(false),
       variantOptions: z.array(variantOptionSchema).default([]),
       variants: z.array(variantSchema).default([]),
@@ -102,7 +85,6 @@ export interface ProductVariantFormData {
 }
 
 export interface ProductFormData {
-  slug: ProductFormLocalized
   name: ProductFormLocalized
   shortDescription: ProductFormLocalized
   description: ProductFormLocalized
@@ -111,11 +93,7 @@ export interface ProductFormData {
   compareAtPrice?: string
   categoryIds: string[]
   tagIds: string[]
-  status: (typeof PRODUCT_STATUS_VALUES)[number]
-  seoMetaTitle: ProductFormLocalized
-  seoMetaDescription: ProductFormLocalized
-  seoKeywords: ProductFormLocalized
-  seoOgImage?: string
+  isActive: boolean
   hasVariants: boolean
   variantOptions: ProductVariantOptionFormData[]
   variants: ProductVariantFormData[]
@@ -126,7 +104,6 @@ export type GalleryOrderToken =
   | { type: 'new'; index: number }
 
 export interface CreateProductPayload {
-  slug: ProductLocalizedString
   name: ProductLocalizedString
   shortDescription: ProductLocalizedString
   description: ProductLocalizedString
@@ -136,13 +113,7 @@ export interface CreateProductPayload {
   categoryIds: string[]
   tagIds: string[]
   gallery: string[]
-  status: (typeof PRODUCT_STATUS_VALUES)[number]
-  seo: {
-    metaTitle: ProductLocalizedString
-    metaDescription: ProductLocalizedString
-    keywords: ProductLocalizedString
-    ogImage?: string
-  }
+  isActive: boolean
   hasVariants: boolean
   variantOptions: { name: ProductLocalizedString; values: string[] }[]
   variants: {
@@ -193,7 +164,6 @@ export function toProductPayload(
   currency: string
 ): Omit<CreateProductPayload, 'gallery'> {
   return {
-    slug: fillLocalized(data.slug),
     name: fillLocalized(data.name),
     shortDescription: fillLocalized(data.shortDescription),
     description: fillLocalized(data.description),
@@ -204,13 +174,7 @@ export function toProductPayload(
       : undefined,
     categoryIds: data.categoryIds,
     tagIds: data.tagIds,
-    status: data.status,
-    seo: {
-      metaTitle: fillLocalized(data.seoMetaTitle),
-      metaDescription: fillLocalized(data.seoMetaDescription),
-      keywords: fillLocalized(data.seoKeywords),
-      ogImage: data.seoOgImage?.trim() || undefined,
-    },
+    isActive: data.isActive,
     hasVariants: data.hasVariants,
     variantOptions: data.hasVariants
       ? data.variantOptions.map((o) => ({

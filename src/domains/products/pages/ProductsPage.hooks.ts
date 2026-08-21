@@ -13,11 +13,13 @@ import type {
   Product,
   ProductListParams,
   ProductPaginationMeta,
-  ProductStatus,
 } from '../model/product.types'
 
-function statusValueFor(status?: ProductStatus): 'all' | ProductStatus {
-  return status ?? 'all'
+function statusValueFor(
+  isActive: boolean | undefined
+): 'all' | 'active' | 'inactive' {
+  if (isActive === undefined) return 'all'
+  return isActive ? 'active' : 'inactive'
 }
 
 export function useProductsPage() {
@@ -88,7 +90,7 @@ export function useProductsPage() {
     setParams((p) => ({
       ...p,
       page: 1,
-      status: value === 'all' ? undefined : (value as ProductStatus),
+      isActive: value === 'all' ? undefined : value === 'active',
     }))
     clearSelection()
   }
@@ -100,12 +102,11 @@ export function useProductsPage() {
 
   const statusOptions = [
     { value: 'all', label: t.filters.statusAll },
-    { value: 'draft', label: t.filters.statusDraft },
     { value: 'active', label: t.filters.statusActive },
-    { value: 'archived', label: t.filters.statusArchived },
+    { value: 'inactive', label: t.filters.statusInactive },
   ]
 
-  const statusValue = statusValueFor(params.status)
+  const statusValue = statusValueFor(params.isActive)
 
   return {
     t,

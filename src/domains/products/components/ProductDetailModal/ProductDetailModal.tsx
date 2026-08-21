@@ -1,17 +1,11 @@
 import { Modal, Chip, DetailField } from '@/shared/ui'
 import { formatCurrency } from '@/shared/lib/formatCurrency'
 import { useProductTranslation } from '../../i18n'
-import type { Product, ProductStatus } from '../../model/product.types'
+import type { Product } from '../../model/product.types'
 
 interface ProductDetailModalProps {
   product: Product | null
   onClose: () => void
-}
-
-const STATUS_VARIANT: Record<ProductStatus, 'success' | 'default' | 'warning'> = {
-  active: 'success',
-  draft: 'default',
-  archived: 'warning',
 }
 
 export const ProductDetailModal = ({
@@ -34,8 +28,8 @@ export const ProductDetailModal = ({
               <span className="text-foreground text-base font-bold">
                 {product.name[language] || product.name.en}
               </span>
-              <Chip size="x-small" variant={STATUS_VARIANT[product.status]}>
-                {t.status[product.status]}
+              <Chip size="x-small" variant={product.isActive ? 'success' : 'default'}>
+                {product.isActive ? t.status.active : t.status.inactive}
               </Chip>
             </div>
           </div>

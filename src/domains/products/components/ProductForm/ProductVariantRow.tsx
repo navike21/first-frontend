@@ -68,7 +68,7 @@ export const ProductVariantRow = ({
           {...register(`variants.${index}.compareAtPrice`)}
         />
         <InputField
-          label={t.form.ogImage}
+          label={t.form.variantImageUrl}
           {...register(`variants.${index}.imageUrl`)}
         />
       </FormGrid>
