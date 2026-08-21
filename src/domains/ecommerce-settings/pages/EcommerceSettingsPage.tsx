@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react'
-import { useForm, type Resolver } from 'react-hook-form'
+import { useForm, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   PageContent,
   InputField,
   InputNumber,
+  Select,
   Button,
   ButtonGroup,
   FormGrid,
@@ -13,7 +14,7 @@ import {
   Spinner,
 } from '@/shared/ui'
 import { notify } from '@/shared/lib/notify'
-import { onQueuedOr } from '@/shared/lib'
+import { onQueuedOr, getCurrencyOptions } from '@/shared/lib'
 import { useHasPermission, CAN } from '@/shared/lib/permissions'
 import {
   useEcommerceSettings,
@@ -37,10 +38,13 @@ export const EcommerceSettingsPage = () => {
     [t.validation]
   )
 
+  const currencyOptions = useMemo(() => getCurrencyOptions(language), [language])
+
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<EcommerceSettingsFormData>({
@@ -76,6 +80,8 @@ export const EcommerceSettingsPage = () => {
     })
   }, [settings, reset])
 
+  const currencyValue = useWatch({ control, name: 'currency' })
+
   const submit = handleSubmit((data) => {
     updateSettings.mutate(toEcommerceSettingsPayload(data), {
       onSuccess: () => notify.success(t.toasts.updated),
@@ -100,12 +106,21 @@ export const EcommerceSettingsPage = () => {
           <div className="border-border bg-surface flex flex-col gap-6 rounded-xl border p-6">
             <SectionLabel>{t.form.sectionGeneral}</SectionLabel>
             <FormGrid>
-              <InputField
+              <Select
                 label={t.form.currency}
+                options={currencyOptions}
+                value={currencyValue ?? ''}
+                lang={language}
+                search
                 variant={errors.currency ? 'error' : undefined}
                 errorMessage={errors.currency?.message}
-                maxLength={3}
-                {...register('currency')}
+                onChange={(e) =>
+                  setValue('currency', e.target.value, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                }
               />
               <InputNumber
                 label={t.form.taxPercentage}

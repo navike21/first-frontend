@@ -44,3 +44,21 @@ export function currencySymbol(currency: string, lang: Language): string {
   }).formatToParts(0)
   return parts.find((part) => part.type === 'currency')?.value ?? currency
 }
+
+/**
+ * All real ISO 4217 currency codes (via `Intl.supportedValuesOf`, the
+ * platform's own up-to-date list — no hardcoded/hand-maintained set), each
+ * labeled with its localized name — for a `Select` so a free-typed code can
+ * never be a typo/invalid currency (e.g. `ecommerce-settings.currency`).
+ */
+export function getCurrencyOptions(
+  lang: Language
+): { value: string; label: string }[] {
+  const displayNames = new Intl.DisplayNames([CURRENCY_LOCALES[lang]], {
+    type: 'currency',
+  })
+  return Intl.supportedValuesOf('currency').map((code) => ({
+    value: code,
+    label: `${code} — ${displayNames.of(code) ?? code}`,
+  }))
+}

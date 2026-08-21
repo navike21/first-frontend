@@ -5,7 +5,11 @@ export { captureVideoFrame, drawVideoFrameToBlob } from './captureVideoFrame'
 export { formatDate } from './formatDate'
 export { formatDateTime } from './formatDateTime'
 export { splitDateTimeLocal, joinDateTimeLocal } from './dateTimeLocal'
-export { formatCurrency, currencySymbol } from './formatCurrency'
+export {
+  formatCurrency,
+  currencySymbol,
+  getCurrencyOptions,
+} from './formatCurrency'
 export {
   isOfflineQueued,
   onQueuedOr,
